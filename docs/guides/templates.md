@@ -160,6 +160,26 @@ Generic kinds, with the `data` each takes (zod schemas sit beside each kind and 
 
 Every kind also takes `title`. `x` is a number (minutes from STARTEX, hours) or an ISO 8601 date-time string, never a mix. `options` can set `width` and `height` in CSS pixels (200 to 2000); kinds that size to their content (`status_board`, `table`, `annotated_timeline`, `gauge`) use the width and work out the height.
 
+**Earth science kinds** (`src/main/render/figures/geo/`, shown by the `geo_figure` template of the Earth science toolkits pack). Map kinds are schematic: an equirectangular projection with a frame, corner coordinates, a scale bar and a legend, no tiles, and only the layers the data carries. Intensities are drawn with the published Modified Mercalli colors and always carry the Roman numeral; areas carry fill patterns and names.
+
+| Kind                     | Data                                                                                                                                                   |
+| ------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `shakemap_intensity`     | `grid{west, south, east, north, cols, rows, values[]}` (intensity per cell, north row first), `epicenter`, `places[{name, lon, lat, mmi}]`, `faults[]` |
+| `dyfi_map`               | `reports[{lon, lat, mmi, responses, place}]`, `epicenter`                                                                                              |
+| `epicenter_map`          | `mainshock{lon, lat, magnitude}`, `events[{lon, lat, magnitude}]`, `faults[]`, `places[]`                                                              |
+| `ash_advisory_map`       | `volcano`, `areas[{kind: observed or forecast6/12/18, ring[], levels, validAt}]`, `airports[]`, `colorCode`                                            |
+| `lahar_travel_map`       | `source`, `path[{lon, lat, minutes}]`, `communities[{name, lon, lat, minutes}]`, `hazardZone[]`                                                        |
+| `tsunami_travel_map`     | `source`, `isochrones[{minutes, radiusKm or points[]}]`, `places[{name, lon, lat, minutes}]`                                                           |
+| `inundation_zones`       | `zones[{name, level: low to extreme, ring[], note}]`, `shelters[]`, `places[]`                                                                         |
+| `debris_flow_hazard_map` | `basins[{name, hazard: low, moderate or high, ring[]}]`, `roads[{points[], closed}]`, `burn[]`, `places[]`                                             |
+| `seismogram`             | `station`, `sampleRateHz`, `samples[]`, `picks[{phase, seconds}]`, `unit`, `citation`                                                                  |
+| `aftershock_plot`        | `mainshockMagnitude`, `events[{t, magnitude}]`, `xUnit` (hours or days): time-magnitude scatter with cumulative count                                  |
+| `eew_timeline`           | `origin`, `places[{name, distanceKm, alertSec, shakingSec}]`: states which places had no warning                                                       |
+| `monitoring_series`      | `panels[{label, unit, points[{x, y}]}]` (up to 4 stacked on one time axis), `annotations[]`                                                            |
+| `gauge_record`           | `station`, `observed[]`, `predicted[]`, `arrivals[{x, label}]`, `unit`                                                                                 |
+
+The format checks the toolkits name in `lintRules` (magnitude and intensity labels, alert level and color code pairs, early warning timing limits, tsunami message levels and local or distant timing, aftershock wording, debris-flow rainfall wording) are pure functions in `src/shared/toolkits/geo-lint.ts`; `runGeoLint(text, ruleIds)` runs the ones a toolkit lists.
+
 **In an inject's fields.** Put each figure under `fields.figures.<name>` as `{ kind, data, options? }`. The `figure` inject type (a heading, the figure `main`, its data table) renders a figure as the whole inject: PNG for decks, and a PDF page because it is a paper type, so it embeds in packets like any template. Its seven preview variants are one sample per kind, which is how the goldens cover every kind; the variant does not change how your data is drawn.
 
 **In a template.** The context gains `figures`, computed in main beside `derived` (`computeFigures` in `figures/index.ts`):

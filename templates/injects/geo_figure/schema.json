@@ -1,0 +1,74 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Earth science figure (map or chart)",
+  "description": "A map or chart for an earthquake, volcano, tsunami or landslide exercise, drawn by the app from data (never an image): seismogram, aftershock plot, early warning timeline, volcano monitoring series, tide gauge record, ShakeMap, Did You Feel It map, epicenter map, ash advisory map, lahar and tsunami travel-time maps, inundation zones and the debris-flow hazard map. Each carries a text summary and a data table.",
+  "type": "object",
+  "required": ["figures"],
+  "additionalProperties": false,
+  "properties": {
+    "heading": {
+      "type": "string",
+      "description": "Heading above the figure",
+      "examples": ["ShakeMap"]
+    },
+    "source": {
+      "type": "string",
+      "description": "Where the data come from",
+      "examples": ["Exercise data, simulated"],
+      "x-translate": false
+    },
+    "hideTable": {
+      "type": "boolean",
+      "description": "Leave out the data table beside the figure"
+    },
+    "figures": {
+      "type": "object",
+      "description": "The figure to draw as { main: { kind, data } }.",
+      "required": ["main"],
+      "additionalProperties": false,
+      "properties": {
+        "main": {
+          "type": "object",
+          "required": ["kind", "data"],
+          "additionalProperties": false,
+          "properties": {
+            "kind": {
+              "type": "string",
+              "enum": [
+                "seismogram",
+                "aftershock_plot",
+                "eew_timeline",
+                "monitoring_series",
+                "gauge_record",
+                "shakemap_intensity",
+                "dyfi_map",
+                "epicenter_map",
+                "ash_advisory_map",
+                "lahar_travel_map",
+                "tsunami_travel_map",
+                "inundation_zones",
+                "debris_flow_hazard_map"
+              ]
+            },
+            "data": {
+              "type": "object",
+              "description": "Data for the kind"
+            },
+            "options": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "width": {
+                  "type": "number"
+                },
+                "height": {
+                  "type": "number"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
