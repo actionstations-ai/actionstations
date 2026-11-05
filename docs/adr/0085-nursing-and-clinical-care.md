@@ -25,3 +25,9 @@ Nurses play in every hospital exercise, and nursing programs teach with unfoldin
 - `lintRules` names **field lint rules**, a registry in `src/main/toolkits/field-lint.ts` whose issues join the content issues of the inject text stage (one repair round, then a warning). Rules read one inject type's fields; the clinical rules live in `src/main/toolkits/clinical/lint.ts` and the pure arithmetic in `src/shared/clinical/`. A field adds its module to `lint-rules.ts`.
 - Arithmetic a template cannot do (on-duty counts and shortfall in the staffing grid) is a derived value (ADR-0046).
 - The dose check lists a few common drugs with a generous single-dose ceiling and their routes; it is a guard against invented doses, not a drug reference. START is the rule for triage tags; SALT is checked for contradictions only.
+
+## Amendment (#889): figures and the early warning score
+
+- Seven figure kinds live in `src/main/render/figures/clinical_care/` (`vitals_monitor`, `vitals_flowsheet`, `early_warning_score`, `lab_trend`, `staffing_vs_demand`, `unit_census`, `evacuation_progress`). Each returns a summary that states the values and a data table; alarm states, flags and trigger levels are words (ALARM HIGH, H, L, CRITICAL, Trigger level: HIGH) as well as symbols. They draw simulated trends only and say so on the figure.
+- They are shown through the pack template `clinical_figure`, whose schema lists these kinds (the built-in `figure` template lists the generic ones), with one golden per kind.
+- The early warning score is a configuration (`EwsConfig`: parameters with bands or categories, trigger levels with responses, a required source line) in `src/shared/clinical/ews.ts`. The bundled neutral score is this app's own and says it is not a published score; a figure's data may carry another configuration. A named published score (NEWS2, a pediatric score) is not bundled until its reproduction terms are confirmed.

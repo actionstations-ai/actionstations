@@ -14,6 +14,7 @@ import { FigureOutput, registerFigureKind, renderFigure } from './registry'
 import { statusBoardKind } from './status-board'
 import { tableKind } from './table'
 import { timeSeriesKind } from './time-series'
+import './clinical_care'
 
 registerFigureKind(timeSeriesKind)
 registerFigureKind(barKind)

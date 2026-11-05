@@ -1,0 +1,65 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Clinical figure",
+  "description": "A bedside monitor, vital-signs flowsheet, early warning score chart, lab trend, staffing against demand chart, unit bed board or evacuation progress chart, drawn from data. Simulated patient, exercise content.",
+  "type": "object",
+  "required": ["figures"],
+  "properties": {
+    "heading": {
+      "type": "string",
+      "description": "Heading above the figure"
+    },
+    "source": {
+      "type": "string",
+      "description": "Where the numbers come from, for example 'Simulated trajectory: sepsis'"
+    },
+    "hideTable": {
+      "type": "boolean",
+      "description": "Leave out the data table beside the figure"
+    },
+    "figures": {
+      "type": "object",
+      "description": "The figure to draw, as { main: { kind, data } }. Kinds: vitals_monitor, vitals_flowsheet, early_warning_score, lab_trend, staffing_vs_demand, unit_census, evacuation_progress.",
+      "required": ["main"],
+      "properties": {
+        "main": {
+          "type": "object",
+          "required": ["kind", "data"],
+          "properties": {
+            "kind": {
+              "type": "string",
+              "enum": [
+                "vitals_monitor",
+                "vitals_flowsheet",
+                "early_warning_score",
+                "lab_trend",
+                "staffing_vs_demand",
+                "unit_census",
+                "evacuation_progress"
+              ]
+            },
+            "data": {
+              "type": "object",
+              "description": "Data for the kind (docs/guides/templates.md, Clinical figures)"
+            },
+            "options": {
+              "type": "object",
+              "properties": {
+                "width": {
+                  "type": "number"
+                },
+                "height": {
+                  "type": "number"
+                }
+              },
+              "additionalProperties": false
+            }
+          },
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}
