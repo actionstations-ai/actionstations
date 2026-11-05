@@ -74,4 +74,4 @@ A registered entity must test its incident response plan at least annually and r
 
 ## Reference library
 
-A reference library carries the select agent regulations (42 CFR part 73, 2025 edition). The Biosafety in Microbiological and Biomedical Laboratories manual, the NIH Guidelines, the draft NIH biosafety policy and the Federal Select Agent Program's incident response guidance are listed as links, because their licenses were not verified or the files could not be copied.
+A reference library carries the select agent regulations (42 CFR part 73, 2025 edition), the Federal Select Agent Program's incident response plan guidance, Biosafety in Microbiological and Biomedical Laboratories (6th edition) and the NIH Guidelines for Research Involving Recombinant or Synthetic Nucleic Acid Molecules. The draft NIH biosafety policy is linked because it may still change, and the select agent theft, loss or release form (Form 3) is linked because it is a web form.

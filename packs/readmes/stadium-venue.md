@@ -17,9 +17,9 @@ Included with Action Stations and enabled by default. Turn it off on the Packs s
 
 ## Further reading (not bundled)
 
-- NCS4 best practices (spectator sports safety): https://ncs4.usm.edu/
-- NFPA 101 _Life Safety Code_, NFPA 1, NFPA 3000: https://www.nfpa.org/
-- IAVM venue safety and security resources: https://www.iavm.org/
-- PCI DSS: https://www.pcisecuritystandards.org/
+- NCS4 best practices (spectator sports safety, free after an account registration): https://ncs4.usm.edu/
+- NFPA 101 _Life Safety Code_, NFPA 1, NFPA 3000 (free to read online after a login, no download): https://www.nfpa.org/
+- IAVM venue safety and security resources (members): https://www.iavm.org/
+- PCI DSS (download after accepting the PCI SSC license agreement): https://www.pcisecuritystandards.org/
 
 Facts were checked against public sources on 2026-10-24. Check the current rules before relying on them.

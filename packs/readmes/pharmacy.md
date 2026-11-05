@@ -16,15 +16,13 @@ Every patient, organization, drug record, lot and registration number in an exer
 
 ## Further reading (not bundled)
 
-- ASHP guidelines on managing drug product shortages: https://www.ashp.org/
-- USP general chapters on compounding (797 and 800): https://www.usp.org/
+- USP general chapters on compounding (797 and 800, sold by subscription): https://www.usp.org/
 - FDA drug shortages: https://www.fda.gov/drugs/drug-safety-and-availability/drug-shortages
-- CDC Vaccine Storage and Handling Toolkit: https://www.cdc.gov/vaccines/hcp/storage-handling/index.html
 - DEA Diversion Control Division: https://www.deadiversion.usdoj.gov/
 
 ## Reference library
 
-The separate **Pharmacy reference library** pack carries documents whose public-domain status was checked: the CFR text of 42 CFR 482.25 (hospital pharmaceutical services) and 21 CFR 1301.76 (theft or loss of controlled substances), CMS Appendix Z and the FEMA guidance on healthcare facilities and power outages. The CDC Vaccine Storage and Handling Toolkit is linked, not bundled: cdc.gov refuses scripted downloads, so the file could not be pinned by hash. FDA pages, ASPR TRACIE documents, ASHP guidelines, USP chapters and Joint Commission standards are linked or named and not bundled; the library README lists each with the reason.
+The separate **Pharmacy reference library** pack carries documents whose public-domain status was checked: the CFR text of 42 CFR 482.25 (hospital pharmaceutical services) and 21 CFR 1301.76 (theft or loss of controlled substances), CMS Appendix Z and the FEMA guidance on healthcare facilities and power outages. It also carries the CDC Vaccine Storage and Handling Toolkit (July 2026), the ASPR TRACIE crisis standards of care considerations for pharmaceutical and supply shortages, and the ASHP Guidelines on Managing Drug Product Shortages (under ASHP's terms, stated in its entry). FDA recall pages, USP chapters and Joint Commission standards are linked; the library README lists each with the reason.
 
 ## Replaying FDA shortage records
 

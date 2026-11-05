@@ -63,7 +63,7 @@ Tick the **Hospital annual exercise: pharmacy and drug supply** program exercise
 
 ## Reference documents
 
-The separate **Pharmacy reference library** pack holds documents whose public-domain status was checked: the federal regulation text for hospital pharmaceutical services (42 CFR 482.25) and for theft or loss of controlled substances (21 CFR 1301.76), CMS Appendix Z and the FEMA guidance on healthcare facilities and power outages. The CDC vaccine storage and handling toolkit is linked and not bundled, because its site refuses automated downloads. ASHP guidelines, USP chapters, ASPR TRACIE documents and Joint Commission standards are named or linked, not bundled.
+The separate **Pharmacy reference library** pack holds the federal regulation text for hospital pharmaceutical services (42 CFR 482.25) and for theft or loss of controlled substances (21 CFR 1301.76), CMS Appendix Z, the FEMA guidance on healthcare facilities and power outages, the CDC Vaccine Storage and Handling Toolkit, the ASPR TRACIE crisis standards of care considerations for pharmaceutical and supply shortages, and the ASHP Guidelines on Managing Drug Product Shortages, which carries ASHP's own terms. FDA recall pages, USP chapters and Joint Commission standards are linked: they are web pages or sold by subscription.
 
 ## Limits
 

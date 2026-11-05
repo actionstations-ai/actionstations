@@ -22,10 +22,9 @@ Facts below were checked on 2026-10-24. Reporting rules are mostly state law and
 - A clinic that is a HIPAA covered component has the breach-notification clock described in the `healthcare` pack.
 - CIRCIA is not in force.
 
-## Copyrighted references (not bundled)
+## Further reading (not bundled)
 
-- NACCHO (Project Public Health Ready, MCM resources): https://www.naccho.org/
 - ASTHO preparedness resources: https://www.astho.org/
-- CSTE notifiable conditions list: https://www.cste.org/
-- PHAB accreditation standards: https://phaboard.org/
-- WHO PHEOC framework and handbook: https://www.who.int/
+- CSTE notifiable conditions list (web database): https://www.cste.org/
+
+The separate **Public health reference library** pack carries the CDC preparedness capabilities and CERC modules, the ASPR TRACIE health care coalition response plan template, the WHO Framework for a Public Health Emergency Operations Centre, the PHAB Standards & Measures for Initial Accreditation (2026) and the NACCHO Project Public Health Ready criteria (version 11). Documents that are not US federal works carry their publisher's terms, stated in each entry; the library README lists every document and link.

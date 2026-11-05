@@ -50,7 +50,7 @@ Both are fetched once, after you agree and see the size, and then used offline. 
 
 ## Reference documents
 
-The pack's library holds the federal crisis counseling program application instructions. The shelter field guide, the functional needs support guidance, the psychological first aid field guide, the school reunification publication and child welfare disaster planning pages are linked, not bundled, because their terms are not confirmed or they are copyrighted. The Standard Reunification Method and Red Cross shelter training are named and linked, never copied.
+The pack's library holds the federal crisis counseling program application instructions, the Shelter Field Guide (FEMA P-785), the FEMA guidance on functional needs support services in general population shelters, the Psychological First Aid Field Operations Guide and the Standard Reunification Method. The field guide, the psychological first aid guide and the reunification method carry their publishers' terms, which each entry states. The school reunification publication, the child welfare disaster planning pages and the Mass Care annex are linked because no file could be downloaded, and Red Cross shelter training is handed out in courses, so it is linked.
 
 ## What it does not do
 

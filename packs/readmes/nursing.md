@@ -16,10 +16,9 @@ Every patient, hospital and facility in an exercise is fictional. The pack is fo
 
 ## Further reading (not bundled)
 
-- NCSBN Clinical Judgment Measurement Model and simulation guidelines: https://www.ncsbn.org/
-- INACSL Healthcare Simulation Standards of Best Practice: https://www.inacsl.org/
-- AHRQ TeamSTEPPS and CANDOR: https://www.ahrq.gov/
+- NCSBN Clinical Judgment Measurement Model (web pages): https://www.ncsbn.org/14798.htm
+- INACSL Healthcare Simulation Standards of Best Practice (journal articles): https://www.inacsl.org/
 
 ## Reference library
 
-The separate **Nursing reference library** pack carries documents whose public-domain status was checked: the AHRQ TeamSTEPPS pocket guide (SBAR, handoffs, briefs and debriefs), CMS Appendix Z and the FEMA guidance on healthcare facilities and power outages. ASPR TRACIE documents, the AHRQ evacuation decision guide (archived copies only), the CDC isolation precautions guideline, CANDOR and anything from NCSBN, INACSL or a published early warning score are linked and not bundled; the library README lists each with the reason.
+The separate **Nursing reference library** pack carries the AHRQ TeamSTEPPS pocket guide (SBAR, handoffs, briefs and debriefs), the AHRQ CANDOR implementation guide with its disclosure checklist and case scenarios, the ASPR TRACIE collections on evacuation and sheltering, mass casualty triage and patient movement, the NCSBN simulation guidelines, the Royal College of Physicians NEWS2 report and scoring chart, CMS Appendix Z and the FEMA guidance on healthcare facilities and power outages. Documents that are not US federal works carry their publisher's terms, stated in each entry. The AHRQ evacuation decision guide (archived copies only), the CDC isolation precautions guideline, the NCSBN Clinical Judgment Measurement Model and the INACSL standards are linked; the library README lists each with the reason.

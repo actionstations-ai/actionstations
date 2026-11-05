@@ -62,7 +62,7 @@ Two regulation entries give the recall scenarios real clocks in Settings, under 
 
 ## Reference library
 
-An optional library pack holds the final rule on traceability records and the recall regulations, each public domain and pinned by hash. The FDA's Food Traceability List and recall background pages, and FEMA's Community Lifelines, are linked rather than bundled.
+An optional library pack holds the final rule on traceability records, the recall regulations and the FEMA Community Lifelines Implementation Toolkit, each public domain and pinned by hash. The FDA's Food Traceability List and recall background pages are web pages FDA updates, so they are linked rather than bundled.
 
 ## Limits
 

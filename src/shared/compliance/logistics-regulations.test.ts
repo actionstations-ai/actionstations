@@ -88,6 +88,7 @@ describe('logistics library', () => {
     expect(manifest.libraries['logistics-library']?.domain).toBe('supply_chain')
     expect(docs.map((d) => d.slug).sort()).toEqual([
       'cfr-title-21-part-7-recalls',
+      'fema-community-lifelines-toolkit',
       'fsma-204-traceability-final-rule',
     ])
     for (const d of docs) {
@@ -95,7 +96,7 @@ describe('logistics library', () => {
       expect(d.size).toBeGreaterThan(0)
       expect(d.license).toBe('LicenseRef-US-Government-Work')
       expect(d.basis).toMatch(/17 U\.S\.C\./)
-      expect(new URL(d.url).host).toBe('www.govinfo.gov')
+      expect(['www.govinfo.gov', 'www.fema.gov']).toContain(new URL(d.url).host)
     }
   })
 

@@ -19,7 +19,7 @@ Included with Action Stations and enabled by default. Turn it off on the Packs s
 
 ## Further reading (not bundled)
 
-- ANSI/CTA-2063-A (serial numbers) and ASTM F3411 (Remote ID): https://www.cta.tech/ , https://www.astm.org/
+- ANSI/CTA-2063-A (serial numbers, through a CTA shop account) and ASTM F3411 (Remote ID, sold): https://www.cta.tech/ , https://www.astm.org/
 - AUVSI policy papers: https://www.auvsi.org/
 
 Facts were checked against public sources on 2026-10-24. The SAFER SKIES rule is an interim final rule; check its current status before relying on it.

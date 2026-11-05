@@ -29,3 +29,5 @@ Facts below were checked on 2026-10-24 against eCFR (point-in-time 2026-10-01) f
 - ATIS, 3GPP and ETSI standards (for example ETSI TS 103 994), as linked from CISA advisory AA25-239A: https://www.cisa.gov/news-events/cybersecurity-advisories/aa25-239a
 - ISO 22301 business continuity management, ISO
 - Lumen Black Lotus Labs report on a 2024 rural ISP router-bricking event (vendor publication)
+
+The separate **Telecommunications reference library** pack carries advisory AA25-239A, the joint hardening guidance for communications infrastructure, the ESF #2 Communications Annex and the CSRIC IV Working Group 4 cybersecurity best practices report, with the communications SSP, FCC outage reports, NIST guides and CTEPs; its README lists every document and link.

@@ -101,13 +101,16 @@ describe('space weather library', () => {
     links: { pack: string; title: string; reason: string }[]
   }
   const lib = manifest.documents.filter((d) => d.pack === 'space-weather-library')
-  it('bundles only pinned US government works and explains every link', () => {
+  it("bundles pinned documents, federal or under their publisher's terms, and explains every link", () => {
     expect(manifest.libraries['space-weather-library']?.domain).toBe('space_weather')
     expect(lib.length).toBeGreaterThan(0)
     for (const d of lib) {
-      expect(d.license).toBe('LicenseRef-US-Government-Work')
+      expect(['LicenseRef-US-Government-Work', 'LicenseRef-Publisher-Terms']).toContain(d.license)
       expect(d.sha256, d.slug).toMatch(/^[0-9a-f]{64}$/)
     }
+    expect(
+      lib.filter((d) => d.license === 'LicenseRef-Publisher-Terms').map((d) => d.slug),
+    ).toEqual(['jhuapl-space-weather-ttx-2024-summary', 'nerc-eop-010-1', 'nerc-tpl-007-4'])
     const links = manifest.links.filter((l) => l.pack === 'space-weather-library')
     expect(links.length).toBeGreaterThan(0)
     for (const l of links) expect(l.reason.length, l.title).toBeGreaterThan(10)

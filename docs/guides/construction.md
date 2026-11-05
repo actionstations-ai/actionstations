@@ -74,7 +74,7 @@ The ethics case (an engineer finds a deficiency and the owner wants to keep work
 
 ## Reference library
 
-The toolkit names a catalog of public documents: the OSHA reporting rule, the excavation and crane standards (29 CFR 1926, Subparts P and CC) and the OSHA scaffold guide. Documents that are not public domain are linked, not bundled: the evaluation forms and placards of the Applied Technology Council, the engineering societies' codes of ethics and the evaluator field guide of the International Code Council.
+The toolkit names a catalog of reference documents: the OSHA reporting rule, the excavation and crane standards (29 CFR 1926, Subparts P and CC), the OSHA trenching and scaffold guides, FEMA P-2055 on post-disaster building safety evaluation, and the NSPE and ASCE codes of ethics, which carry the societies' own terms. The evaluation forms and placards of the Applied Technology Council and the evaluator field guide of the International Code Council are sold, so they are linked.
 
 ## Limits
 

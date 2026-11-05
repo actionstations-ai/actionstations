@@ -107,7 +107,7 @@ describe('pharmacy reference library', () => {
     }[]
   }
 
-  it('lists each document the toolkit names, pinned and public domain', () => {
+  it('lists each document the toolkit names, pinned, with its license', () => {
     expect(manifest.libraries['pharmacy-library']?.domain).toBe('pharmacy')
     expect(toolkit.documents.length).toBeGreaterThanOrEqual(4)
     for (const ref of toolkit.documents) {
@@ -116,7 +116,16 @@ describe('pharmacy reference library', () => {
       expect(doc, ref.documentId).toBeDefined()
       expect([doc!.pack, ...(doc!.alsoIn ?? [])], ref.documentId).toContain('pharmacy-library')
       expect(doc!.sha256, ref.documentId).toMatch(/^[0-9a-f]{64}$/)
-      expect(doc!.license).toBe('LicenseRef-US-Government-Work')
+      expect(['LicenseRef-US-Government-Work', 'LicenseRef-Publisher-Terms']).toContain(
+        doc!.license,
+      )
     }
+    // only the ASHP guidelines carry their publisher's terms
+    expect(
+      toolkit.documents
+        .map((r) => manifest.documents.find((d) => d.slug === r.documentId)!)
+        .filter((d) => d.license === 'LicenseRef-Publisher-Terms')
+        .map((d) => d.slug),
+    ).toEqual(['ashp-managing-drug-product-shortages'])
   })
 })
