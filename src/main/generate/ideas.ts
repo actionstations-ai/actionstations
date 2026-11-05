@@ -3,7 +3,7 @@
 // snapshotted in scenarios/<id>/idea.json, so resumes and re-runs see it as the designer chose
 // it even after the next ideate run rewrites ideas.json.
 import { z } from 'zod'
-import { threatFamily } from '@shared/domains'
+import { profileThreatFamilies } from '@shared/domains'
 import {
   GroundingResult,
   ScenarioIdea,
@@ -182,7 +182,7 @@ export async function generateIdeas(
       project: projectVars(project),
       domain: domainVars(profile),
       // The families the domain can exercise, spelled out for the ideas to spread across.
-      threatFamilies: profile.threatFamilies.map((id) => threatVars(threatFamily(id))),
+      threatFamilies: profileThreatFamilies(profile).map((f) => threatVars(f)),
       brief: req.brief,
       count: req.count,
       taxonomy: taxonomyVarsFor(profile),

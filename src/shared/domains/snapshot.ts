@@ -85,6 +85,7 @@ const FIELD_LABELS: Record<keyof DomainProfile, string> = {
   sceneAnchors: 'Image scene settings',
   injectTypes: 'Preferred inject types',
   threatFamilies: 'Threat families',
+  addedThreatFamilies: 'Added threat families',
   noiseExamples: 'Noise examples',
   pressureExamples: 'Pressure examples',
   rolePatterns: 'Role patterns',

@@ -119,7 +119,7 @@ The app's pack reader validates content with the same code the app uses for its 
 
 - **templates**: `meta.json` with `TemplateMeta` (its `type` equals the folder name), `schema.json` compiles as JSON Schema and follows the regex rule (also applied to user and project templates at load: field validation runs Ajv on model output in the main process, so a backtracking regex could stall the app): no `patternProperties`, no `format`, and each `pattern` anchored with `^`, made of single-character atoms (literal, escape such as `\d` `\w` `\s`, class `[…]`, `.`) with at most one variable repeat (`?` `*` `+` `{n,}` `{n,m}`, counts up to 1000; other atoms single or fixed `{n}`), no groups, alternation, back-references or look-arounds, at most 200 characters — the shape every built-in pattern has, `preview.json` with `TemplatePreview`, and the template HTML/CSS checks below. A template whose type is not in the built-in taxonomy needs a `taxonomy` block in `meta.json` (`category`, `render`, `defaultDelivery`, optional `domains`, `paper`; schema `TemplateTaxonomy`).
 - **prompts**: frontmatter is YAML (a `---js` or other non-YAML engine is refused), parsed with `PromptFrontmatter`; `name` equals the file stem and names a prompt the app ships.
-- **domains**: `DomainProfile`; the id is not a built-in id or alias; `threatFamilies` use the built-in families; every regex the profile carries passes the domain regex rule (the same rule the facts editor applies to a project's fact categories), since the app compiles them in the main process and runs them over every document and generated row. The rule covers each fact category's `noun` and `genericNoun` (at most 200 characters), `context` and custom `pattern` (at most 400), each of `rolePatterns.public` / `technical` / `security` / `operations` and `agencyPattern` (at most 400). Each must compile as a JavaScript regex and must not match empty text; it may use alternation, `(?:…)`, character classes, escapes such as `\b` `\d`, and repeats with counts up to 100; it may not use back-references, named groups or group modifiers, repeat a group that itself repeats or alternates with `*` `+` `{n,}` or `{n,m}` (`(?:a+)+`, `(?:a|aa)*`), or have more than two open-ended repeats (`*` `+` `{n,}`) in one source (use bounded `{0,30}` instead). Capturing groups and look-arounds are refused everywhere except in a custom `pattern`, which needs at least one capturing group (group 1 is the identifier) and may use `(?=…)` `(?!…)` `(?<=…)` `(?<!…)`. A category also needs a `noun` or a `pattern`, and a `genericNoun` needs a `context`. Problems name the field, e.g. `domains/heritage_rail.json: factCategories.2.pattern: sidings: The pattern cannot be used: …`.
+- **domains**: `DomainProfile`; the id is not a built-in id or alias; `threatFamilies` name built-in families or families the domain adds in `addedThreatFamilies` (see [Adding threat families](#adding-threat-families)); every regex the profile carries passes the domain regex rule (the same rule the facts editor applies to a project's fact categories), since the app compiles them in the main process and runs them over every document and generated row. The rule covers each fact category's `noun` and `genericNoun` (at most 200 characters), `context` and custom `pattern` (at most 400), each of `rolePatterns.public` / `technical` / `security` / `operations` and `agencyPattern` (at most 400). Each must compile as a JavaScript regex and must not match empty text; it may use alternation, `(?:…)`, character classes, escapes such as `\b` `\d`, and repeats with counts up to 100; it may not use back-references, named groups or group modifiers, repeat a group that itself repeats or alternates with `*` `+` `{n,}` or `{n,m}` (`(?:a+)+`, `(?:a|aa)*`), or have more than two open-ended repeats (`*` `+` `{n,}`) in one source (use bounded `{0,30}` instead). Capturing groups and look-arounds are refused everywhere except in a custom `pattern`, which needs at least one capturing group (group 1 is the identifier) and may use `(?=…)` `(?!…)` `(?<=…)` `(?<!…)`. A category also needs a `noun` or a `pattern`, and a `genericNoun` needs a `context`. Problems name the field, e.g. `domains/heritage_rail.json: factCategories.2.pattern: sidings: The pattern cannot be used: …`.
 - **workflows**: the workflow parses as ComfyUI API format, the sidecar as `WorkflowSidecar`; node classes outside ComfyUI core are listed in the review as "needs custom nodes".
 - **examples**: `ExampleManifest` (`fictional: true`, `id` equals the folder name), `project/project.json` as `Project`; `domainProfile` is built-in or provided by the same pack.
 - **regulations** (format 2): `Regulation`, `id` equals the file name. Every clock term's `from` names a trigger of the same regulation or `clock:<id>` of a clock listed **before** it, so clocks never form a cycle. Every `controls` entry (`<frameworkId>:<controlId>`) resolves to a framework in the same pack or one included with the app. Lists and strings are capped; source URLs are http(s).
@@ -305,6 +305,46 @@ In a project, regulations and frameworks resolve like domain profiles: the proje
 **Older apps.** An app that knows only format 1 refuses a version-2 pack with "This pack needs a newer version of the app (pack format 2)", and its catalog view hides entries whose `formatVersion` it cannot read. Packs without regulations or frameworks stay version 1 and keep installing in older apps: the app writes `formatVersion: 1` for them and leaves the format-2 `contents` keys out.
 
 The bundled regulations and frameworks live in `packs/regulations/` and `packs/frameworks/` and belong to the core pack. No bundled record may have a `verifiedOn` date 12 months old or more, so each release re-checks the deadlines against their sources. NIST CSF 2.0 is converted from the NIST CPRT export (once per CSF revision).
+
+## Adding threat families
+
+A threat family is the kind of incident an exercise is about: it carries the phase arc, the decision-point, clue and hurdle vocabulary, the lint rules and the keywords that pick it from a brief. The eight built-in families (`cyber`, `cyber_physical`, `physical_security`, `uas_drone`, `insider`, `natural_hazard`, `infrastructure_failure`, `mass_gathering`) are data compiled into the app; a pack can add more.
+
+A domain adds families in `addedThreatFamilies`, an array of `ThreatFamily` objects (at most 20), and lists their ids in its `threatFamilies` (the first is the default; a family the domain adds but does not list is offered after the listed ones):
+
+```json
+{
+  "id": "river_basin",
+  "threatFamilies": ["river_flood", "cyber"],
+  "addedThreatFamilies": [
+    {
+      "id": "river_flood",
+      "label": "River flood",
+      "description": "A river rises past its banks and the plant, the road and the shelter flood in turn.",
+      "keywords": ["river flood", "levee", "inundation"],
+      "phaseArc": [{ "title": "Rising water", "goal": "…", "beats": ["…"] }],
+      "decisionPointExamples": [
+        "open the spillway and flood the lower town, or hold and risk the levee"
+      ],
+      "clueKinds": "a gauge reading, a seepage report",
+      "hurdleKinds": "a road under water, a pump without fuel",
+      "keyCoordination": "the county emergency manager and the river forecast center",
+      "lint": { "clueRequired": false, "clueRole": "operations" },
+      "purposeMix": { "CLUE": 30, "PRESSURE": 20, "NOISE": 10 },
+      "promptGuidance": "Gauge readings arrive late and disagree with each other."
+    }
+  ]
+}
+```
+
+Fields are those of the built-in families (the `ThreatFamily` schema). `purposeMix` (relative weight per inject purpose tag) and `promptGuidance` (a few sentences, at most 2000 characters) are optional and are added to the phase-plan and MSEL prompts when present. Other pack contents that carry families (toolkits) hand them to the same registry through `setThreatFamilySource`.
+
+Rules the reader and the app enforce:
+
+- The id matches `^[a-z][a-z0-9_]{0,63}$`, is unique within the pack, and is **not a built-in id**: a pack cannot change how an existing family behaves (the reader refuses it).
+- Two enabled packs may not provide the same family id. The pack that would clash installs disabled, with the reason naming the other pack, like a domain id clash.
+- A project keeps the families its domain snapshot carries, so a project whose pack was removed still resolves, lints and prompts with the family; a stored family id nothing provides falls back to the domain's default.
+- The family picker on Generate lists the domain's families, including the added ones; a family a pack adds is never offered to domains that do not list it.
 
 ## Credit and endorsements
 

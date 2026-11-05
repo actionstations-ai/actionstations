@@ -2,11 +2,15 @@
 // the MSEL follows, the decision-point and clue vocabulary and the lint rules. The arc is
 // still four phases by default (docs/04 §3), but its goals and beats come from the family: a
 // drone incident is not "manual mode", a flood is not "forensics".
-import { THREAT_FAMILY_IDS, type ThreatFamily, type ThreatFamilyId } from './schema'
+import type { ThreatFamily } from './schema'
 
 const LE_COORDINATION =
   'law enforcement|police|sheriff|FAA|airspace|air traffic|FBI|counter-UAS|counter UAS|C-UAS|Remote ID|federal partners|jurisdiction'
 
+/**
+ * The families compiled into the app (their ids are THREAT_FAMILY_IDS). Data only: lookups,
+ * keyword inference and the families packs add live in threat-registry.ts.
+ */
 export const THREAT_FAMILIES: readonly ThreatFamily[] = [
   {
     id: 'cyber',
@@ -621,36 +625,3 @@ export const THREAT_FAMILIES: readonly ThreatFamily[] = [
     lint: { clueRequired: false, clueRole: 'security' },
   },
 ]
-
-const byId = new Map(THREAT_FAMILIES.map((t) => [t.id, t]))
-
-export function threatFamily(id: ThreatFamilyId): ThreatFamily {
-  const t = byId.get(id)
-  if (!t) throw new Error(`Unknown threat family ${id}`)
-  return t
-}
-
-export const isThreatFamilyId = (v: unknown): v is ThreatFamilyId =>
-  typeof v === 'string' && (THREAT_FAMILY_IDS as readonly string[]).includes(v)
-
-/**
- * The threat family a free text (a brief, an idea's title/hook/threat) describes, chosen among
- * `allowed` by keyword hits; `fallback` when nothing matches. Deterministic, no model call.
- */
-export function inferThreatFamily(
-  text: string,
-  allowed: readonly ThreatFamilyId[],
-  fallback: ThreatFamilyId,
-): ThreatFamilyId {
-  const t = text.toLowerCase().replace(/\s+/g, ' ')
-  const hit = (k: string): boolean =>
-    new RegExp(`\\b${k.trim().replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}\\b`).test(t)
-  let best: { id: ThreatFamilyId; score: number } | undefined
-  for (const id of allowed) {
-    const fam = byId.get(id)
-    if (!fam) continue
-    const score = fam.keywords.reduce((n, k) => n + (hit(k) ? 1 : 0), 0)
-    if (score > 0 && (!best || score > best.score)) best = { id, score }
-  }
-  return best?.id ?? fallback
-}

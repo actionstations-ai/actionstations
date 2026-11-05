@@ -4,6 +4,7 @@
 import type { Project, Scenario, ScenarioBrief, ScenarioIdea } from '@shared/schemas'
 import {
   chooseThreatFamily,
+  profileThreatFamilies,
   resolveProfile,
   resolveThreat,
   type DomainProfile,
@@ -72,7 +73,7 @@ export function briefWithThreat(
     ...brief.constraints,
   ].join('\n')
   const threatFamily: ThreatFamilyId =
-    idea?.threatFamily && profile.threatFamilies.includes(idea.threatFamily)
+    idea?.threatFamily && profileThreatFamilies(profile).some((f) => f.id === idea.threatFamily)
       ? idea.threatFamily
       : chooseThreatFamily(profile, text)
   return { ...brief, threatFamily }
@@ -104,8 +105,17 @@ export function domainVars(profile: DomainProfile) {
     noiseExamples: profile.noiseExamples,
     pressureExamples: profile.pressureExamples,
     factCategories: profile.factCategories.map((c) => c.label),
-    threatFamilies: profile.threatFamilies,
+    threatFamilies: profileThreatFamilies(profile).map((f) => f.id),
   }
+}
+
+/** "CLUE 30, NOISE 10": the weights of a purpose mix, largest first. */
+export function purposeMixText(mix: Record<string, number | undefined>): string {
+  return Object.entries(mix)
+    .filter((e): e is [string, number] => (e[1] ?? 0) > 0)
+    .sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]))
+    .map(([tag, weight]) => `${tag} ${weight}`)
+    .join(', ')
 }
 
 /** `threat` for the prompts: the family's arc and vocabulary. */
@@ -122,6 +132,9 @@ export function threatVars(threat: ThreatFamily) {
     technicalClue: threat.lint.clueRequired,
     clueRole: threat.lint.clueRole,
     decisionMustMention: threat.lint.decisionMustMention?.description ?? '',
+    // Only families a pack added carry these; the built-ins render exactly as before (#655).
+    ...(threat.purposeMix ? { purposeMixText: purposeMixText(threat.purposeMix) } : {}),
+    ...(threat.promptGuidance ? { promptGuidance: threat.promptGuidance } : {}),
   }
 }
 

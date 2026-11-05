@@ -2,7 +2,7 @@
 // capabilities table, participant roles, the exercise schedule, participants, communications
 // and acronyms, and HSEEP's standard assumptions and artificialities. Exercise details come only
 // from scenario.conduct; a blank detail is '' here and prints as a fill-in line.
-import { threatFamily } from '@shared/domains/threats'
+import { findThreatFamily } from '@shared/domains/threat-registry'
 import { seededAcronyms, sortedAcronyms } from '@shared/hseep'
 import type { Phase, Scenario } from '@shared/schemas'
 import { goalSummary, wallClockAt, DEFAULT_START_WALL_CLOCK } from '../../generate/mappers'
@@ -61,14 +61,7 @@ export const siteText = (model: ExportModel): string =>
 /** The kind of incident, at the level a player may read (never the inject detail). */
 export function threatOrHazard(s: Scenario): string {
   const family = s.brief.threatFamily
-  let label = ''
-  if (family) {
-    try {
-      label = threatFamily(family).label
-    } catch {
-      label = ''
-    }
-  }
+  const label = findThreatFamily(family)?.label ?? ''
   const theme = s.overview?.theme.trim() ?? ''
   return [label, theme].filter(Boolean).join(': ')
 }

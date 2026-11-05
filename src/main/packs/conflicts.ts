@@ -4,7 +4,13 @@
 // conflict: they are always looked up together with their pack id. There is no hidden ordering
 // between packs: the pack that would conflict stays disabled, and the reason names the pack in
 // the way.
-import { builtinByKey, bundledEntryByKey, domainKey, type DomainProfile } from '@shared/domains'
+import {
+  THREAT_FAMILY_IDS,
+  builtinByKey,
+  bundledEntryByKey,
+  domainKey,
+  type DomainProfile,
+} from '@shared/domains'
 import { BUNDLED_MAP, CORE_PACK_ID, isBundledPackId } from './bundled-map'
 import type { PackKind, PackManifest } from '@shared/schemas/pack'
 
@@ -32,6 +38,12 @@ const domainKeys = (p: DomainProfile): string[] => [
   ...new Set([p.id, ...p.aliases].map((k) => domainKey(k)).filter(Boolean)),
 ]
 
+/** The conflict id for a threat family a domain adds (#655): shown as `domains "threat family x"`. */
+const familyConflictId = (id: string): string => `threat family ${id}`
+
+const addedFamilyIds = (domains: readonly DomainProfile[]): string[] =>
+  domains.flatMap((d) => (d.addedThreatFamilies ?? []).map((f) => f.id))
+
 const CORE_NAME = BUNDLED_MAP.packs.find((p) => p.id === CORE_PACK_ID)?.name ?? CORE_PACK_ID
 
 /**
@@ -52,6 +64,14 @@ export function builtinDomainConflicts(subject: ConflictSubject): PackConflict[]
         packName: entry?.packName ?? CORE_NAME,
       })
     }
+  for (const id of addedFamilyIds(subject.domains))
+    if ((THREAT_FAMILY_IDS as readonly string[]).includes(id))
+      out.push({
+        kind: 'domains',
+        id: familyConflictId(id),
+        packId: CORE_PACK_ID,
+        packName: CORE_NAME,
+      })
   return out
 }
 
@@ -74,6 +94,9 @@ export function findConflicts(
       for (const key of domainKeys(d))
         if (theirKeys.has(key) && !out.some((c) => c.kind === 'domains' && c.id === key))
           out.push({ kind: 'domains', id: key, ...at })
+    const theirFamilies = new Set(addedFamilyIds(other.domains))
+    for (const id of addedFamilyIds(subject.domains))
+      if (theirFamilies.has(id)) out.push({ kind: 'domains', id: familyConflictId(id), ...at })
   }
   return out
 }

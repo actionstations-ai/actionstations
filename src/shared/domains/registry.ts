@@ -9,6 +9,7 @@
 // only the compiled-in generic profile answers.
 import { GENERIC_PROFILE, domainKey } from './builtins'
 import { DomainProfile } from './schema'
+import { setThreatFamilySource, type PackThreatFamilies } from './threat-registry'
 
 /** Where a listed profile comes from: a pack included with the app, or an installed pack. */
 export type ProfileSource =
@@ -46,6 +47,13 @@ const keysOf = (p: DomainProfile): string[] => [
 
 /** The compiled-in generic keys stay reserved even before (or without) the core pack. */
 const genericKeys = new Set(keysOf(GENERIC_PROFILE))
+
+/** The families the domains of these entries add, per pack (#655). */
+function familiesOf(entries: readonly PackProfileEntry[]): PackThreatFamilies[] {
+  return entries
+    .filter((e) => e.profile.addedThreatFamilies?.length)
+    .map((e) => ({ packId: e.packId, families: e.profile.addedThreatFamilies! }))
+}
 
 function notify(): void {
   revision++
@@ -109,12 +117,14 @@ export function registerBundledProfiles(entries: readonly BundledProfileEntry[])
       if (other && other !== entry) throw clash(entry, key, other)
       next.set(key, entry)
     }
+  setThreatFamilySource('bundled-domains', familiesOf(parsed))
   bundledEntries = parsed
   bundledKeys = next
   const kept = packEntries.filter((e) => keysOf(e.profile).every((k) => !bundledByKey(k)))
   if (kept.length !== packEntries.length) {
     packEntries = kept
     packKeys = packKeyMap(kept)
+    setThreatFamilySource('domains', familiesOf(kept))
   }
   notify()
 }
@@ -123,10 +133,12 @@ export function registerBundledProfiles(entries: readonly BundledProfileEntry[])
  * Replace the set of installed pack profiles. Throws (and keeps the previous set) when a pack
  * profile reuses a bundled id or alias, or two pack profiles share an id or alias: a pack may
  * not silently change how existing projects extract facts and lint (ADR-0018, ADR-0020).
+ * Also throws when a profile's added threat family reuses a built-in id or another pack's (#655).
  */
 export function registerPackProfiles(entries: readonly PackProfileEntry[]): void {
   const parsed = entries.map((e) => ({ ...e, profile: DomainProfile.parse(e.profile) }))
   const next = packKeyMap(parsed)
+  setThreatFamilySource('domains', familiesOf(parsed))
   packEntries = parsed
   packKeys = next
   notify()

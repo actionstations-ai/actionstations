@@ -6,7 +6,9 @@
 // decision-point and clue vocabulary and the lint rules for one kind of incident.
 // Pure data + zod: no Node imports, so the renderer can show profiles too.
 import { z } from 'zod'
+import { PurposeTag } from '../taxonomy'
 
+/** The ids of the families compiled into the app (threats.ts); packs may not reuse them (#655). */
 export const THREAT_FAMILY_IDS = [
   'cyber',
   'physical_security',
@@ -17,7 +19,12 @@ export const THREAT_FAMILY_IDS = [
   'infrastructure_failure',
   'mass_gathering',
 ] as const
-export const ThreatFamilyId = z.enum(THREAT_FAMILY_IDS)
+/**
+ * A threat family id: one of the built-in ids, or the id of a family a pack added (#655,
+ * ThreatFamily below). Whether an id names a registered family is the registry's question
+ * (threat-registry.ts), so a stored id from a removed pack still parses.
+ */
+export const ThreatFamilyId = z.string().regex(/^[a-z][a-z0-9_]{0,63}$/)
 export type ThreatFamilyId = z.infer<typeof ThreatFamilyId>
 
 /**
@@ -85,6 +92,14 @@ export const ThreatFamily = z.object({
   hurdleKinds: z.string(),
   /** The outside party players most need to coordinate with (SimCell scripts, decision point). */
   keyCoordination: z.string(),
+  /**
+   * The inject purpose mix this family implies: relative weight per purpose tag (a family
+   * heavy on CLUE rows, light on NOISE). Optional; the built-in families state theirs in
+   * `decisionPointExamples`, `clueKinds` and the lint rules instead. Shown to the model when set.
+   */
+  purposeMix: z.partialRecord(PurposeTag, z.number().int().min(0).max(100)).optional(),
+  /** Extra guidance for the model for this kind of incident (a few sentences). Optional. */
+  promptGuidance: z.string().max(2000).optional(),
   lint: z.object({
     /** Every phase needs a CLUE or TECH_HURDLE aimed at the clue role. */
     clueRequired: z.boolean(),
@@ -95,6 +110,33 @@ export const ThreatFamily = z.object({
   }),
 })
 export type ThreatFamily = z.infer<typeof ThreatFamily>
+
+/**
+ * The families a pack content item adds (domain `addedThreatFamilies`, toolkit families): ids
+ * unique within the list, none of them a built-in id (a pack may not change how an existing
+ * family behaves; collisions between packs are the registry's check).
+ */
+export const AddedThreatFamilies = z
+  .array(ThreatFamily)
+  .max(20)
+  .superRefine((families, ctx) => {
+    const seen = new Set<string>()
+    families.forEach((f, i) => {
+      if ((THREAT_FAMILY_IDS as readonly string[]).includes(f.id))
+        ctx.addIssue({
+          code: 'custom',
+          path: [i, 'id'],
+          message: `Threat family "${f.id}" is built in and cannot be redefined`,
+        })
+      if (seen.has(f.id))
+        ctx.addIssue({
+          code: 'custom',
+          path: [i, 'id'],
+          message: `Duplicate threat family "${f.id}"`,
+        })
+      seen.add(f.id)
+    })
+  })
 
 export const RoleTemplate = z.object({
   key: z.string(),
@@ -159,6 +201,8 @@ export const DomainProfile = z.object({
   injectTypes: z.array(z.string()),
   /** Threat families this domain can exercise; the first is the default. */
   threatFamilies: z.array(ThreatFamilyId).min(1),
+  /** Threat families this domain adds (any domain may then list their ids), #655. */
+  addedThreatFamilies: AddedThreatFamilies.optional(),
   /** Unrelated distractions typical of the domain (NOISE injects). */
   noiseExamples: z.array(z.string()),
   /** Public / stakeholder pressure typical of the domain (PRESSURE / MISINFORMATION injects). */
@@ -186,7 +230,11 @@ export type DomainProfile = z.infer<typeof DomainProfile>
  * Per-project overrides stored in project.json: every field but id is optional and, when
  * present, replaces the built-in value (arrays replace, they do not merge).
  */
-export const DomainProfileOverrides = DomainProfile.omit({ id: true, aliases: true })
+export const DomainProfileOverrides = DomainProfile.omit({
+  id: true,
+  aliases: true,
+  addedThreatFamilies: true,
+})
   .extend({
     // Without their defaults: zod fills a default even under .partial(), and an absent field
     // stored as [] / {} would replace the profile's categories and role patterns (#180).

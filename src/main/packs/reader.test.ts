@@ -248,6 +248,24 @@ describe('readPack: content checks', () => {
     expect(out).toMatch(/"transit" is a built-in domain id or alias/)
   })
 
+  it('reads a pack domain that adds a threat family, and refuses one that redefines a built-in', async () => {
+    const { threatFamily } = await import('@shared/domains')
+    const family = { ...threatFamily('natural_hazard'), id: 'river_flood', label: 'River flood' }
+    const withFamilies = (families: unknown[]) => (t: Record<string, string | Buffer>) => {
+      t['domains/heritage_rail.json'] = JSON.stringify({
+        ...JSON.parse(t['domains/heritage_rail.json'] as string),
+        threatFamilies: ['river_flood'],
+        addedThreatFamilies: families,
+      })
+    }
+    const tree = validPackTree()
+    withFamilies([family])(tree)
+    const read = await readOk(await buildPack(tree))
+    expect(read.items.some((i) => i.kind === 'domains' && i.id === 'heritage_rail')).toBe(true)
+    const bad = await problemsFor(withFamilies([{ ...family, id: 'cyber' }]))
+    expect(bad).toMatch(/built in and cannot be redefined/)
+  })
+
   it('accepts its own domain while that pack domain is registered (reinstall, update)', async () => {
     const buf = await buildPack()
     const profile = JSON.parse(validPackTree()['domains/heritage_rail.json'] as string)
