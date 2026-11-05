@@ -2,7 +2,7 @@
 // Facilitate screen, or paper EEGs typed up afterwards, stored beside the scenario as
 // scenarios/<id>/evaluation.json. Live-play observations (#416) arrive in the session log; the
 // AAR (#419) reads both through one record builder.
-import { EvaluationRecord, type Observation } from '@shared/schemas'
+import { EvaluationRecord, type MetricResult, type Observation } from '@shared/schemas'
 import { nowIso } from '../lib/ids'
 import { readJsonOr, safeJoin, writeJsonAtomic } from '../lib/fs'
 import { requireScenarioDir } from '../scenario/store'
@@ -74,4 +74,21 @@ export function removeObservation(
     ...record,
     observations: record.observations.filter((o) => o.id !== observationId),
   }))
+}
+
+/**
+ * Store field metric results with the session record (spec 0448 FR-12): a result replaces the
+ * stored one for the same metric and session, so a recompute never piles up copies.
+ */
+export function saveMetricResults(
+  root: string,
+  scenarioId: string,
+  results: MetricResult[],
+): Promise<EvaluationRecord> {
+  return updateEvaluation(root, scenarioId, (record) => {
+    const same = (a: MetricResult, b: MetricResult) =>
+      a.metricId === b.metricId && a.sessionId === b.sessionId
+    const kept = (record.metricResults ?? []).filter((old) => !results.some((r) => same(old, r)))
+    return { ...record, metricResults: [...kept, ...results] }
+  })
 }
