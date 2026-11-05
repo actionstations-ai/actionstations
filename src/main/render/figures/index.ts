@@ -33,6 +33,7 @@ registerFigureKind(annotatedTimelineKind)
 import './flood'
 // Field kinds register themselves when imported (AI incidents).
 import './ai'
+import './justice'
 
 export {
   FigureOutput,

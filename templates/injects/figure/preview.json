@@ -1060,6 +1060,294 @@
           }
         }
       }
+    },
+    "justice_unit_status": {
+      "fields": {
+        "heading": "Unit status, Marston Central High School",
+        "source": "Marston County dispatch, 14:35",
+        "figures": {
+          "main": {
+            "kind": "justice_unit_status",
+            "data": {
+              "title": "Unit status",
+              "asOf": "14:35",
+              "units": [
+                {
+                  "unit": "Unit 12",
+                  "agency": "Marston PD",
+                  "status": "on_scene",
+                  "location": "North building",
+                  "since": "14:08"
+                },
+                {
+                  "unit": "Unit 15",
+                  "agency": "Marston PD",
+                  "status": "on_scene",
+                  "location": "Main office lot",
+                  "since": "14:10"
+                },
+                {
+                  "unit": "Deputy 31",
+                  "agency": "County SO",
+                  "status": "en_route",
+                  "location": "From Highway 9",
+                  "since": "14:30"
+                },
+                {
+                  "unit": "Medic 4",
+                  "agency": "County EMS",
+                  "status": "staged",
+                  "location": "South lot",
+                  "since": "14:21"
+                },
+                {
+                  "unit": "Engine 2",
+                  "agency": "County Fire",
+                  "status": "staged",
+                  "location": "South lot",
+                  "since": "14:19"
+                },
+                {
+                  "unit": "Unit 20",
+                  "agency": "Marston PD",
+                  "status": "out_of_service",
+                  "location": "Shop",
+                  "since": "13:00"
+                }
+              ]
+            }
+          }
+        }
+      }
+    },
+    "justice_incident_timeline": {
+      "fields": {
+        "heading": "Incident timeline, first hour",
+        "source": "Command post log",
+        "figures": {
+          "main": {
+            "kind": "justice_incident_timeline",
+            "data": {
+              "title": "First hour: command and communication",
+              "events": [
+                {
+                  "minute": 0,
+                  "label": "First report to dispatch",
+                  "lane": "Command"
+                },
+                {
+                  "minute": 4,
+                  "label": "First unit on scene",
+                  "lane": "Agencies"
+                },
+                {
+                  "minute": 9,
+                  "label": "Incident commander named",
+                  "lane": "Command"
+                },
+                {
+                  "minute": 14,
+                  "label": "Command post staffed",
+                  "lane": "Command"
+                },
+                {
+                  "minute": 17,
+                  "label": "Fire and EMS join unified command",
+                  "lane": "Agencies"
+                },
+                {
+                  "minute": 22,
+                  "label": "Mutual aid requested",
+                  "lane": "Agencies"
+                },
+                {
+                  "minute": 31,
+                  "label": "First public statement",
+                  "lane": "Public information"
+                },
+                {
+                  "minute": 48,
+                  "label": "Reunification site open",
+                  "lane": "Families"
+                }
+              ]
+            }
+          }
+        }
+      }
+    },
+    "justice_jail_population": {
+      "fields": {
+        "heading": "Population and count, Marston County Detention Center",
+        "source": "Control room, 15:20",
+        "figures": {
+          "main": {
+            "kind": "justice_jail_population",
+            "data": {
+              "title": "Count status by housing area",
+              "asOf": "15:20",
+              "areas": [
+                {
+                  "area": "Housing Unit 1",
+                  "capacity": 64,
+                  "expected": 58,
+                  "counted": 58,
+                  "countStatus": "clear"
+                },
+                {
+                  "area": "Housing Unit 2",
+                  "capacity": 64,
+                  "expected": 60,
+                  "counted": 60,
+                  "countStatus": "clear"
+                },
+                {
+                  "area": "Housing Unit 3",
+                  "capacity": 40,
+                  "expected": 34,
+                  "counted": 34,
+                  "countStatus": "clear"
+                },
+                {
+                  "area": "Housing Unit 4",
+                  "capacity": 70,
+                  "expected": 64,
+                  "counted": 62,
+                  "countStatus": "not_clear",
+                  "note": "two on the movement log"
+                },
+                {
+                  "area": "Medical",
+                  "capacity": 8,
+                  "expected": 9,
+                  "countStatus": "pending",
+                  "note": "over capacity by one"
+                }
+              ]
+            }
+          }
+        }
+      }
+    },
+    "justice_court_continuity": {
+      "fields": {
+        "heading": "Court continuity, 30 hours into the outage",
+        "source": "Court administrator, October 29",
+        "figures": {
+          "main": {
+            "kind": "justice_court_continuity",
+            "data": {
+              "title": "Essential functions against recovery time objectives",
+              "asOf": "October 29, 14:00",
+              "elapsedHours": 30,
+              "functions": [
+                {
+                  "function": "Emergency protective orders",
+                  "rtoHours": 4,
+                  "status": "restored",
+                  "restoredAtHours": 3
+                },
+                {
+                  "function": "In-custody hearings",
+                  "rtoHours": 24,
+                  "status": "degraded",
+                  "dependsOn": "video link"
+                },
+                {
+                  "function": "Case management system",
+                  "rtoHours": 48,
+                  "status": "down",
+                  "dependsOn": "network restore"
+                },
+                {
+                  "function": "E-filing",
+                  "rtoHours": 72,
+                  "status": "down",
+                  "dependsOn": "case management system"
+                },
+                {
+                  "function": "Public website",
+                  "rtoHours": 12,
+                  "status": "restored",
+                  "restoredAtHours": 16
+                }
+              ]
+            }
+          }
+        }
+      }
+    },
+    "justice_court_recovery": {
+      "fields": {
+        "heading": "Court function recovery",
+        "source": "Court administrator, October 31",
+        "figures": {
+          "main": {
+            "kind": "justice_court_recovery",
+            "data": {
+              "title": "When each function was down",
+              "functions": [
+                {
+                  "function": "Protective orders",
+                  "downFromHours": 0,
+                  "restoredAtHours": 3
+                },
+                {
+                  "function": "Public website",
+                  "downFromHours": 0,
+                  "restoredAtHours": 16
+                },
+                {
+                  "function": "Case management",
+                  "downFromHours": 0,
+                  "restoredAtHours": 52
+                },
+                {
+                  "function": "E-filing",
+                  "downFromHours": 0,
+                  "restoredAtHours": 60
+                }
+              ]
+            }
+          }
+        }
+      }
+    },
+    "justice_filings_backlog": {
+      "fields": {
+        "heading": "Filings waiting for entry",
+        "source": "Clerk of court, October 31",
+        "figures": {
+          "main": {
+            "kind": "justice_filings_backlog",
+            "data": {
+              "title": "Paper filings waiting for entry",
+              "days": [
+                {
+                  "label": "Oct 29",
+                  "backlog": 41
+                },
+                {
+                  "label": "Oct 30",
+                  "backlog": 96
+                },
+                {
+                  "label": "Oct 31",
+                  "backlog": 138
+                },
+                {
+                  "label": "Nov 1",
+                  "backlog": 150
+                },
+                {
+                  "label": "Nov 2",
+                  "backlog": 87
+                }
+              ]
+            }
+          }
+        }
+      }
     }
   }
 }
