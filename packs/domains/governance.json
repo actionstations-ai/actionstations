@@ -1,0 +1,745 @@
+{
+  "id": "governance",
+  "label": "Corporate governance, risk and business continuity",
+  "description": "The people who decide for a whole organization when something goes wrong: the board and its audit or risk committee, the executive team, general counsel and the disclosure committee, risk and compliance, and the business continuity manager. Three variants share one profile and differ in roles: a public company executive team and board (materiality, disclosure and board oversight), a business continuity and resilience program (functions, recovery time objectives and recovery order) and an academic case for business and law programs (roles, a facilitator and a scored debrief). Plans and doctrine: the crisis management plan and call tree, the disclosure controls and procedures, the business impact analysis, SEC Form 8-K Item 1.05 and the staff interpretations, the NYDFS Cybersecurity Regulation, and the FFIEC business continuity booklet for banks. The company, its people, advisers and any ticker in an exercise are fictional. Exercise aid, not legal advice.",
+  "aliases": [
+    "board",
+    "board_of_directors",
+    "audit_committee",
+    "risk_committee",
+    "executive_team",
+    "c_suite",
+    "general_counsel",
+    "legal_department",
+    "risk_management",
+    "compliance",
+    "enterprise_risk",
+    "erm",
+    "business_continuity",
+    "bcm",
+    "operational_resilience",
+    "crisis_management_team",
+    "cmt",
+    "disclosure_committee",
+    "investor_relations",
+    "corporate_governance",
+    "public_company",
+    "business_school",
+    "law_school"
+  ],
+  "vocabulary": {
+    "facility": "the company (its head office, sites, systems and suppliers)",
+    "public": "shareholders, investors, customers and employees",
+    "frontline": "function owners, the business continuity team, the security team, the legal department and the finance close team",
+    "operationsCenter": "the crisis management team room, the board portal and the disclosure committee"
+  },
+  "factCategories": [
+    {
+      "id": "functions",
+      "label": "Critical functions",
+      "noun": "Business Functions?|Critical Functions?|Functions?",
+      "idShape": "alnum",
+      "lint": false,
+      "complete": false
+    },
+    {
+      "id": "sites",
+      "label": "Sites",
+      "noun": "Sites?|Locations?|Data Centers?",
+      "idShape": "alnum",
+      "lint": false,
+      "complete": false
+    }
+  ],
+  "systems": {
+    "it": [
+      "enterprise risk register and GRC platform",
+      "business impact analysis tool or spreadsheet",
+      "crisis management plan and call tree",
+      "mass notification",
+      "board portal for secure materials",
+      "document management and legal hold",
+      "disclosure controls and procedures",
+      "EDGAR filing agent",
+      "insurance policy and claims portal",
+      "ERP and finance close",
+      "data center and cloud regions",
+      "SaaS providers and payment processors"
+    ],
+    "ot": []
+  },
+  "roles": [
+    {
+      "key": "chair",
+      "name": "Board Chair / Lead Independent Director",
+      "abbreviation": "CHAIR",
+      "team": "Board",
+      "description": "Convenes the board, approves extraordinary actions and decides what the board must hear and when."
+    },
+    {
+      "key": "audit",
+      "name": "Audit or Risk Committee Chair",
+      "abbreviation": "AUDIT",
+      "team": "Board",
+      "description": "Oversees cyber and continuity risk, receives incident reports and reviews disclosure."
+    },
+    {
+      "key": "ceo",
+      "name": "Chief Executive Officer",
+      "abbreviation": "CEO",
+      "team": "Executive team",
+      "description": "Declares a crisis; approves a ransom decision, public statements and regulator contact; activates succession."
+    },
+    {
+      "key": "cfo",
+      "name": "Chief Financial Officer",
+      "abbreviation": "CFO",
+      "team": "Executive team",
+      "description": "Owns the financial impact estimate for materiality, liquidity and insurance, and certifies filings."
+    },
+    {
+      "key": "gc",
+      "name": "General Counsel",
+      "abbreviation": "GC",
+      "team": "Legal and disclosure",
+      "description": "Advises on materiality, directs outside counsel and forensics for privilege, drafts disclosure and issues the legal hold."
+    },
+    {
+      "key": "disc",
+      "name": "Disclosure Committee Chair",
+      "abbreviation": "DISC",
+      "team": "Legal and disclosure",
+      "description": "Runs the materiality determination process, drafts and approves the filing."
+    },
+    {
+      "key": "ciso",
+      "name": "Chief Information Security Officer",
+      "abbreviation": "CISO",
+      "team": "Security and risk",
+      "description": "Reports facts on scope and impact, escalates to the executive team and leads containment."
+    },
+    {
+      "key": "cro",
+      "name": "Chief Risk Officer",
+      "abbreviation": "CRO",
+      "team": "Security and risk",
+      "description": "Holds risk appetite and impact tolerances and links the incident to the enterprise risk register."
+    },
+    {
+      "key": "cco",
+      "name": "Chief Compliance Officer",
+      "abbreviation": "CCO",
+      "team": "Legal and disclosure",
+      "description": "Tracks regulatory notice obligations and clocks and holds the regulator relationships."
+    },
+    {
+      "key": "ia",
+      "name": "Internal Audit Head",
+      "abbreviation": "IA",
+      "team": "Security and risk",
+      "description": "Gives an independent view of the response and later reviews the controls."
+    },
+    {
+      "key": "bcm",
+      "name": "Business Continuity Manager",
+      "abbreviation": "BCM",
+      "team": "Resilience",
+      "description": "Activates continuity plans, owns the business impact analysis and tracks recovery against recovery time objectives."
+    },
+    {
+      "key": "ops",
+      "name": "Chief Operating Officer / Function Owner",
+      "abbreviation": "COO",
+      "team": "Resilience",
+      "description": "Owns a critical function, reports its recovery status and decides recovery order with the BCM."
+    },
+    {
+      "key": "ir",
+      "name": "Investor Relations / Chief Communications Officer",
+      "abbreviation": "IR",
+      "team": "Communications",
+      "description": "Owns investor, analyst, employee and press messaging and keeps it consistent with the filing."
+    },
+    {
+      "key": "outside",
+      "name": "Outside Counsel / Forensic Firm",
+      "abbreviation": "OUT",
+      "team": "External advisers",
+      "description": "Runs the privileged investigation; advises on ransom negotiation and sanctions screening."
+    },
+    {
+      "key": "instructor",
+      "name": "Case Facilitator / Instructor",
+      "abbreviation": "INSTR",
+      "team": "Academic case",
+      "description": "Academic variant. Plays the outside world, sets the clock and leads the debrief."
+    }
+  ],
+  "outsideParties": [
+    "the SEC",
+    "other regulators (state, sector and international)",
+    "law enforcement (FBI, CISA, Secret Service)",
+    "the cyber insurer and broker",
+    "the external auditor",
+    "key customers and suppliers",
+    "the stock exchange",
+    "shareholders and analysts",
+    "the press",
+    "outside counsel and the forensic firm",
+    "the company bank"
+  ],
+  "mediaChannels": [
+    "the investor relations page and press releases",
+    "Form 8-K filings",
+    "earnings calls and analyst calls",
+    "reporters and trade press",
+    "employee all-hands and intranet",
+    "customer notices and the status page",
+    "social media",
+    "the board portal"
+  ],
+  "sceneAnchors": {
+    "public": "a corporate lobby: a reception desk, a muted wall display with the company's blank logo plate, visitors in business clothes, daylight from a glass front",
+    "control": "a boardroom: a long table with water glasses and printed binders, a wall display showing a blank slide, leather chairs, a conference phone in the center",
+    "exterior": "outside a head office tower: a plain plaza with planters, a revolving door, a few people with phones and lanyards, overcast sky"
+  },
+  "injectTypes": [
+    "memo",
+    "email",
+    "email_forward",
+    "phone_call",
+    "text_message",
+    "chat_transcript",
+    "regulatory_report_form",
+    "regulatory_notice",
+    "official_letter",
+    "press_release",
+    "media_inquiry_phone_slip",
+    "tweet",
+    "news_article",
+    "security_advisory",
+    "breach_notification_letter",
+    "ransom_note",
+    "leak_site_post",
+    "helpdesk_ticket",
+    "service_status_page",
+    "status_board",
+    "downtime_notice",
+    "sitrep",
+    "simcell_script",
+    "time_jump_card"
+  ],
+  "threatFamilies": [
+    "gov_cyber_disclosure",
+    "gov_ransom_decision",
+    "gov_continuity_loss",
+    "gov_supplier_cloud_outage",
+    "gov_key_person_succession",
+    "gov_confidential_information",
+    "cyber",
+    "insider"
+  ],
+  "addedThreatFamilies": [
+    {
+      "id": "gov_cyber_disclosure",
+      "label": "Cyber incident disclosure decision",
+      "description": "Ransomware or data theft with extortion reaches the executive team; facts arrive in pieces and change, and the team must decide whether and when the incident is material, tell the board, and file with the SEC and other regulators on the clock.",
+      "keywords": [
+        "material cyber incident",
+        "materiality",
+        "disclosure",
+        "form 8-k",
+        "item 1.05",
+        "ransomware",
+        "data theft",
+        "extortion",
+        "disclosure committee",
+        "sec filing",
+        "board notification"
+      ],
+      "phaseArc": [
+        {
+          "title": "Detection and first facts",
+          "goal": "The CISO reports an incident with incomplete, partly wrong facts; the disclosure clock is not yet running but the duty to decide is.",
+          "beats": [
+            "The CISO briefs the general counsel with scope still unknown",
+            "Outside counsel is engaged to direct the forensic firm so the work is privileged",
+            "A manager asks whether to wait for the full investigation before telling anyone senior"
+          ]
+        },
+        {
+          "title": "Scope and materiality determination",
+          "goal": "Facts sharpen and the financial estimate becomes a range; the team must decide without waiting for certainty.",
+          "beats": [
+            "The CFO gives an impact range that widens, then narrows",
+            "A committee member proposes to delay the meeting until Monday",
+            "Counsel reminds the team that investigation may continue after the determination",
+            "Time jump: the call is made, recorded and timed"
+          ]
+        },
+        {
+          "title": "Board, filing and notices",
+          "goal": "The board is informed and approves the extraordinary steps; the filing, regulator notices and insurer notice go out in the right order.",
+          "beats": [
+            "The board chair asks what directors need to see and when",
+            "A draft Item 1.05 filing and a press statement differ on the number of affected records",
+            "A regulator notice clock runs on a different trigger than the SEC clock",
+            "An Attorney General delay request arrives and the team must read what it does and does not change"
+          ]
+        },
+        {
+          "title": "Investors and review",
+          "goal": "Investors, analysts, customers and employees react; the company keeps its messages consistent and reviews the decisions.",
+          "beats": [
+            "An analyst call and the filing say different things",
+            "Employees get a message that contradicts the press release",
+            "A decision log review shows one decision with no recorded basis"
+          ]
+        }
+      ],
+      "decisionPointExamples": [
+        "call the incident material now on the facts known, or wait a day for a firmer number and risk a call that looks delayed",
+        "file an Item 1.05 8-K, or an Item 8.01 8-K that does not claim materiality, and defend the choice",
+        "notify the full board tonight, or brief the audit committee chair first and the board in the morning"
+      ],
+      "clueKinds": "a scope update from the CISO, a financial estimate range from the CFO, a counsel note on privilege, a staff interpretation that bears on the facts",
+      "hurdleKinds": "a facts update that reverses an earlier one, a director who cannot be reached, a forensic report not yet privileged, a filing agent cut-off",
+      "keyCoordination": "general counsel, the disclosure committee, the audit committee chair and outside counsel",
+      "purposeMix": {
+        "PRESSURE": 25,
+        "CLUE": 25,
+        "NOISE": 10
+      },
+      "promptGuidance": "The company, its people, advisers, counterparties and any ticker are fictional. A draft carries the line 'Exercise aid, not legal advice.' Facts arrive late and change; early reports can be wrong. Never state that the investigation must finish before a materiality call. Item 1.05 drafts state the nature, scope and timing of the incident and its material or reasonably likely impact. Item 8.01 drafts do not claim materiality.",
+      "lint": {
+        "clueRequired": false,
+        "clueRole": "operations",
+        "decisionMustMention": {
+          "pattern": "material|disclos|counsel|board|8-K|filing|determin|committee",
+          "description": "the decision point involves materiality, disclosure, counsel, the board or a filing"
+        }
+      }
+    },
+    {
+      "id": "gov_ransom_decision",
+      "label": "Ransom payment decision",
+      "description": "An extortion demand lands during an incident; the CEO, counsel, insurer and board weigh payment against alternatives, with sanctions screening, law enforcement contact and the disclosure duty that payment does not remove.",
+      "keywords": [
+        "ransom payment",
+        "ransom demand",
+        "extortion demand",
+        "sanctions screening",
+        "cyber insurance",
+        "negotiator",
+        "decryption key",
+        "pay the ransom",
+        "law enforcement contact"
+      ],
+      "phaseArc": [
+        {
+          "title": "The demand",
+          "goal": "A demand arrives with a deadline and a threat to publish data; the team first decides who may know and who decides.",
+          "beats": [
+            "A ransom note carries a seven-day countdown",
+            "The insurer asks for notice before any contact with the actor",
+            "A director hears of the demand from the press"
+          ]
+        },
+        {
+          "title": "Options and screening",
+          "goal": "Counsel, the insurer and the forensic firm lay out alternatives, restore options and the sanctions risk of paying.",
+          "beats": [
+            "A negotiator reports the actor may be on a sanctions list",
+            "The BCM says restoring from backups would take longer than the business can bear",
+            "The CFO states a payment band against liquidity"
+          ]
+        },
+        {
+          "title": "The decision",
+          "goal": "The CEO and board decide, and record who decided, on what information and what was considered.",
+          "beats": [
+            "The board meets with counsel present to preserve privilege",
+            "A director dissents and asks that the dissent be recorded",
+            "Law enforcement asks for a short delay before any payment"
+          ]
+        },
+        {
+          "title": "After the decision",
+          "goal": "Payment or not, the duty to decide on materiality and to notify regulators remains; the team documents the basis and tells regulators and the insurer.",
+          "beats": [
+            "A regulator expects notice of an extortion payment within its own window",
+            "The decryption tool fails on part of the data",
+            "The post-incident review asks why the decision log lacks the sanctions step"
+          ]
+        }
+      ],
+      "decisionPointExamples": [
+        "authorize a payment inside the insurer-approved band, or refuse and restore from backups for a longer outage",
+        "tell law enforcement before the negotiator makes first contact, or after",
+        "pay and treat the incident as closed, or recognize that payment does not end the duty to decide on materiality"
+      ],
+      "clueKinds": "a sanctions screening result, an insurer coverage position, a negotiator proof-of-decryption test, a backup restore time estimate",
+      "hurdleKinds": "a payment platform that is closed over the weekend, a sanctions screening result still pending, a director conflict of interest, an actor who raises the price",
+      "keyCoordination": "outside counsel, the insurer and broker, law enforcement and the forensic firm",
+      "purposeMix": {
+        "PRESSURE": 30,
+        "CLUE": 20,
+        "NOISE": 10
+      },
+      "promptGuidance": "The company, its people, advisers, counterparties and any ticker are fictional. A draft carries the line 'Exercise aid, not legal advice.' Never name a real ransomware group or a real wallet address. The sanctions screen and the insurer position are recorded in the decision paper before a payment decision. Payment size is one factor in materiality, and insurance reimbursement does not by itself make an incident immaterial.",
+      "lint": {
+        "clueRequired": false,
+        "clueRole": "operations",
+        "decisionMustMention": {
+          "pattern": "ransom|pay|sanction|insurer|counsel|law enforcement|board",
+          "description": "the decision point involves payment, sanctions screening, the insurer, counsel or law enforcement"
+        }
+      }
+    },
+    {
+      "id": "gov_continuity_loss",
+      "label": "Site or system loss against recovery objectives",
+      "description": "A site, data center or key system is lost and the continuity team activates plans and tracks each critical function against its recovery time objective from the business impact analysis.",
+      "keywords": [
+        "business continuity",
+        "site loss",
+        "recovery time objective",
+        "rto",
+        "business impact analysis",
+        "bia",
+        "continuity plan",
+        "failover",
+        "alternate site",
+        "critical function",
+        "data center loss"
+      ],
+      "phaseArc": [
+        {
+          "title": "Loss and activation",
+          "goal": "The loss is declared and the continuity plan is activated; the BCM and function owners decide scope.",
+          "beats": [
+            "A fire, flood or power failure takes a site offline",
+            "The call tree reaches some managers and not others",
+            "A function owner asks to be recovered first"
+          ]
+        },
+        {
+          "title": "Recovery order",
+          "goal": "Dependencies decide the recovery order; the BIA and the real dependencies disagree in one place.",
+          "beats": [
+            "A payments function depends on a system ranked lower in the BIA",
+            "The alternate site has seats for half the staff",
+            "Time jump: four hours in, the tracker shows two functions past their RTO"
+          ]
+        },
+        {
+          "title": "Communications and obligations",
+          "goal": "Customers, employees, regulators and the board learn of the outage; contractual and regulatory obligations start to bite.",
+          "beats": [
+            "A key customer cites a service level clause",
+            "The board asks if the plan worked",
+            "A regulator asks about operational resilience"
+          ]
+        },
+        {
+          "title": "Return and review",
+          "goal": "Functions return to normal; the team compares actual recovery with the objectives and decides what changes.",
+          "beats": [
+            "Failback needs a data reconciliation nobody planned for",
+            "The review finds a function whose RTO was never realistic",
+            "The plan owner is asked to retest in ninety days"
+          ]
+        }
+      ],
+      "decisionPointExamples": [
+        "recover the revenue function first, or the regulatory reporting function that has the nearer deadline",
+        "declare a disaster and move to the alternate site, or wait for a repair estimate",
+        "stretch an RTO with the customer, or invoke the contract and accept the dispute"
+      ],
+      "clueKinds": "a dependency list from the BIA, a recovery estimate from IT, a backup restore test result, a supplier status notice",
+      "hurdleKinds": "a restore that takes twice the estimate, an alternate site with too few seats, a dependency missing from the BIA, a vendor that cannot be reached",
+      "keyCoordination": "the business continuity manager, function owners, IT recovery and key customers",
+      "purposeMix": {
+        "PRESSURE": 25,
+        "CLUE": 20,
+        "TECH_HURDLE": 20,
+        "NOISE": 10
+      },
+      "promptGuidance": "The company, its people, advisers, counterparties and any ticker are fictional. A draft carries the line 'Exercise aid, not legal advice.' Each function has an RTO and a recovery point from the BIA; recovery claims are checked against elapsed exercise time. Status uses words (not started, in progress, recovered, past RTO).",
+      "lint": {
+        "clueRequired": false,
+        "clueRole": "technical",
+        "decisionMustMention": {
+          "pattern": "RTO|recover|continuity|alternate|function|BIA|failover|restore",
+          "description": "the decision point involves recovery objectives, the continuity plan, an alternate site or function recovery"
+        }
+      }
+    },
+    {
+      "id": "gov_supplier_cloud_outage",
+      "label": "Supplier or cloud provider outage",
+      "description": "A critical supplier, payment processor or cloud region fails; the company cannot fix it, so the work is dependency mapping, workarounds, customer commitments and what to tell the board and investors.",
+      "keywords": [
+        "supplier failure",
+        "cloud outage",
+        "cloud region",
+        "third-party",
+        "vendor outage",
+        "dependency",
+        "payment processor",
+        "saas outage",
+        "concentration risk",
+        "single point of failure"
+      ],
+      "phaseArc": [
+        {
+          "title": "Outage and attribution",
+          "goal": "The first signals are customer complaints; the provider status page is vague.",
+          "beats": [
+            "Support tickets spike before the provider acknowledges anything",
+            "The provider status page says investigating",
+            "A function owner assumes the outage is internal"
+          ]
+        },
+        {
+          "title": "Dependency map",
+          "goal": "The team finds which functions depend on the provider, including ones nobody listed.",
+          "beats": [
+            "A finance close process turns out to use the same region",
+            "The BIA lists the provider but not its sub-provider",
+            "The contract has no right to audit"
+          ]
+        },
+        {
+          "title": "Workarounds and commitments",
+          "goal": "Manual workarounds protect the most critical functions while customer and regulatory commitments are weighed.",
+          "beats": [
+            "A manual process works at one tenth of normal volume",
+            "A customer asks for credit and a root-cause report",
+            "A regulator expects notice of a material third-party outage"
+          ]
+        },
+        {
+          "title": "Provider recovery and review",
+          "goal": "The provider recovers; the company decides what to change about concentration and exit planning.",
+          "beats": [
+            "The provider post-incident report differs from what the company saw",
+            "The board asks about concentration risk",
+            "Procurement is asked to price a second provider"
+          ]
+        }
+      ],
+      "decisionPointExamples": [
+        "move critical workloads to a second provider mid-outage, or hold and wait for the first to recover",
+        "tell customers the cause is a supplier, or avoid naming it and risk a mismatch with the supplier statement",
+        "file a disclosure about a third-party outage, or document why it is not material"
+      ],
+      "clueKinds": "a provider status update, a dependency list from procurement, a contract clause on service levels, a customer escalation",
+      "hurdleKinds": "a provider with no named contact, a workaround that needs credentials held by the provider, a second provider with no capacity, a contract exit clause with a long notice period",
+      "keyCoordination": "the provider, key customers, procurement and the business continuity manager",
+      "purposeMix": {
+        "PRESSURE": 25,
+        "CLUE": 20,
+        "TECH_HURDLE": 15,
+        "NOISE": 10
+      },
+      "promptGuidance": "The company, its people, advisers, counterparties and any ticker are fictional. A draft carries the line 'Exercise aid, not legal advice.' The provider's own status page is the only source of its recovery time; do not invent a root cause the provider has not stated. Dependencies are named by function, system, supplier and site.",
+      "lint": {
+        "clueRequired": false,
+        "clueRole": "technical",
+        "decisionMustMention": {
+          "pattern": "provider|supplier|vendor|cloud|dependency|workaround|contract|customer",
+          "description": "the decision point involves the provider, a workaround, a contract or customer commitments"
+        }
+      }
+    },
+    {
+      "id": "gov_key_person_succession",
+      "label": "Executive succession and key-person loss",
+      "description": "The CEO or CFO is suddenly unavailable; the board and the executive team work the chain of authority, delegations, signing power, disclosure duties and what to tell employees, investors and the press.",
+      "keywords": [
+        "succession",
+        "executive succession",
+        "ceo unavailable",
+        "key person",
+        "delegation of authority",
+        "authority matrix",
+        "interim ceo",
+        "incapacity",
+        "chain of authority"
+      ],
+      "phaseArc": [
+        {
+          "title": "The event",
+          "goal": "The board chair learns that an executive cannot serve; who knows and who decides is unclear.",
+          "beats": [
+            "The news arrives through a family call, not a company channel",
+            "The general counsel asks what the bylaws say about interim authority",
+            "A banker asks who can now sign"
+          ]
+        },
+        {
+          "title": "Authority",
+          "goal": "The board names an interim leader and confirms delegations; some documents still need a signature that nobody holds.",
+          "beats": [
+            "The authority matrix is out of date",
+            "A wire needs two signatories and one is gone",
+            "An officer certification is due this week"
+          ]
+        },
+        {
+          "title": "Disclosure and messages",
+          "goal": "The company decides what it must disclose and when, and keeps employee, customer and investor messages consistent.",
+          "beats": [
+            "A Form 8-K item on a departure or appointment is considered",
+            "Employees hear from social media first",
+            "The press asks about health and counsel limits the answer"
+          ]
+        },
+        {
+          "title": "Stabilize and review",
+          "goal": "The board confirms the permanent plan and reviews succession planning.",
+          "beats": [
+            "A director proposes a permanent search",
+            "The audit committee asks about key-person insurance",
+            "The review finds the delegation list was never tested"
+          ]
+        }
+      ],
+      "decisionPointExamples": [
+        "name an interim CEO tonight, or wait for the full board and risk a leadership gap",
+        "disclose the event now, or after confirming facts with the family and counsel",
+        "delegate signing authority narrowly to named officers, or broadly to keep operations moving"
+      ],
+      "clueKinds": "a bylaw clause, an authority matrix row, a banking resolution, a counsel note on disclosure items",
+      "hurdleKinds": "a quorum problem, a signing authority nobody holds, a bank that wants a notarized resolution, a rumor ahead of the announcement",
+      "keyCoordination": "the board chair, general counsel and the company bank",
+      "purposeMix": {
+        "PRESSURE": 25,
+        "CLUE": 20,
+        "NOISE": 10
+      },
+      "promptGuidance": "The company, its people, advisers, counterparties and any ticker are fictional. A draft carries the line 'Exercise aid, not legal advice.' Health details of the fictional executive are never specific; the exercise concerns authority and disclosure, not the condition.",
+      "lint": {
+        "clueRequired": false,
+        "clueRole": "operations",
+        "decisionMustMention": {
+          "pattern": "authority|delegat|succession|interim|board|sign|disclos",
+          "description": "the decision point involves authority, delegation, succession, the board or disclosure"
+        }
+      }
+    },
+    {
+      "id": "gov_confidential_information",
+      "label": "Insider threat, deal leak or regulatory investigation",
+      "description": "Confidential information escapes or a regulator asks for it: an insider copies sensitive files, a pending acquisition leaks, or a subpoena or inquiry arrives and the company must preserve documents and protect privilege.",
+      "keywords": [
+        "insider threat",
+        "leak",
+        "m&a leak",
+        "merger",
+        "acquisition",
+        "subpoena",
+        "regulatory investigation",
+        "legal hold",
+        "privilege",
+        "whistleblower",
+        "inquiry letter",
+        "selective disclosure"
+      ],
+      "phaseArc": [
+        {
+          "title": "Signal",
+          "goal": "A leak, an unusual download or a regulator letter surfaces; the first decision is who needs to know.",
+          "beats": [
+            "A reporter asks about a deal that only six people know",
+            "Security flags a large download by a departing employee",
+            "A subpoena summary reaches the general counsel on a Friday"
+          ]
+        },
+        {
+          "title": "Preserve and protect",
+          "goal": "Counsel issues a legal hold and privilege reminder; the team decides how much to investigate before involving authorities.",
+          "beats": [
+            "The IT team auto-deletes email after thirty days",
+            "A manager forwards a privileged memo to a vendor",
+            "An executive wants to confront the employee directly"
+          ]
+        },
+        {
+          "title": "Disclosure and obligations",
+          "goal": "Securities, employment and regulatory duties meet: whether and how to disclose, who may trade, and what to tell a regulator.",
+          "beats": [
+            "Trading is frozen for insiders",
+            "A selective disclosure question comes from an analyst",
+            "A regulator asks for documents within a short window"
+          ]
+        },
+        {
+          "title": "Resolve and review",
+          "goal": "The matter is contained or escalated; the board hears the outcome and the lessons.",
+          "beats": [
+            "The employee is separated and access is reviewed",
+            "The deal timeline moves",
+            "The audit committee asks whether controls would have caught it"
+          ]
+        }
+      ],
+      "decisionPointExamples": [
+        "issue a legal hold now to a wide group, or narrow to avoid spreading the news",
+        "tell the deal counterparty about the leak, or hold until the facts are firm",
+        "cooperate fully and early with the regulator, or negotiate scope first"
+      ],
+      "clueKinds": "a download log, a counsel note on privilege, a timeline of who knew the deal, a regulator letter with a response date",
+      "hurdleKinds": "an auto-delete policy not yet suspended, a custodian on leave, a privileged document already forwarded, a deadline set before counsel can review",
+      "keyCoordination": "general counsel, outside counsel, human resources and the regulator",
+      "purposeMix": {
+        "PRESSURE": 25,
+        "CLUE": 25,
+        "NOISE": 10
+      },
+      "promptGuidance": "The company, its people, advisers, counterparties and any ticker are fictional. A draft carries the line 'Exercise aid, not legal advice.' Names of employees, deals and regulators' staff are fictional. The exercise stays at the level of preservation, privilege, disclosure and governance decisions; it contains no technique for exfiltration.",
+      "lint": {
+        "clueRequired": false,
+        "clueRole": "security",
+        "decisionMustMention": {
+          "pattern": "hold|privilege|counsel|regulator|subpoena|trading|disclos|investigat",
+          "description": "the decision point involves a legal hold, privilege, counsel, a regulator, trading or disclosure"
+        }
+      }
+    }
+  ],
+  "noiseExamples": [
+    "a shareholder asking about the dividend date",
+    "a vendor invoice query unrelated to the incident",
+    "a request to reschedule a routine committee meeting",
+    "a recruiter call for an executive",
+    "an employee question about benefits enrollment"
+  ],
+  "pressureExamples": [
+    "a filing agent cut-off at 5:30 p.m. Eastern",
+    "a director asking why they heard of it from the press",
+    "an analyst asking for a call before the market opens",
+    "an insurer asking for notice before any contact with the actor",
+    "a regulator giving a short response window",
+    "a key customer threatening to invoke a service level clause"
+  ],
+  "rolePatterns": {
+    "public": "ir|instr",
+    "technical": "ciso|ops|bcm",
+    "security": "gc|outside|cco|disc",
+    "operations": "ceo|cfo|chair|audit|cro|ia"
+  },
+  "agencyPattern": "SEC|EDGAR|NYDFS|FFIEC|FINRA|PCAOB|CISA|FBI|OFAC|NYSE|Nasdaq",
+  "coreCapabilities": [
+    "operational_coordination",
+    "planning",
+    "public_information_and_warning",
+    "operational_communications",
+    "situational_assessment",
+    "economic_recovery"
+  ],
+  "regulations": ["sec_8k_105"],
+  "frameworks": ["nist_csf_2"],
+  "suggestedToolkits": ["media_environment"]
+}
