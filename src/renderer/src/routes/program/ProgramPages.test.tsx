@@ -113,6 +113,58 @@ describe('Program overview', () => {
   })
 })
 
+describe('PREP cycles on the overview', () => {
+  const prepSnapshot = {
+    formatVersion: 1,
+    projectId: 'p1',
+    name: 'Harlan Spur Pipeline',
+    orgName: '',
+    orgType: 'energy',
+    takenAt: '2026-01-01T00:00:00.000Z',
+    reachable: true,
+    documents: [],
+    scenarios: [
+      {
+        scenarioId: 's1',
+        title: 'Annual IMT tabletop',
+        status: 'ready',
+        coreCapabilities: [],
+        planSections: [],
+        aarPresent: false,
+        prep: {
+          exerciseKind: 'imt_tabletop',
+          planType: 'pipeline',
+          planHolder: 'Harlan Spur Pipeline Company',
+          date: '2026-03-10',
+          cycleStart: '2026-01-01',
+          components: ['notifications', 'containment'],
+          notApplicable: [],
+          worstCaseDischarge: true,
+          countermeasuresInPlan: ['dispersant'],
+          countermeasuresExercised: [],
+        },
+      },
+    ],
+  }
+
+  it('shows coverage of the core components, the worst case discharge and open countermeasures', async () => {
+    ttx({ 'program:snapshots': () => [prepSnapshot] as never })
+    renderAt('/program', '/program', ProgramPage)
+    const region = await screen.findByRole('region', { name: 'PREP exercise cycles' })
+    expect(within(region).getByText(/2 of 15 core components covered/)).toBeTruthy()
+    expect(within(region).getByText(/A worst case discharge scenario was exercised/)).toBeTruthy()
+    expect(within(region).getByText(/not yet exercised: dispersant/)).toBeTruthy()
+    expect(within(region).getByRole('table')).toBeTruthy()
+  })
+
+  it('is not shown when no linked project has a PREP exercise', async () => {
+    ttx()
+    renderAt('/program', '/program', ProgramPage)
+    await screen.findByText('Overdue')
+    expect(screen.queryByText('PREP exercise cycles')).toBeNull()
+  })
+})
+
 describe('Corrective actions table', () => {
   it('is a table with sortable headers that announce their order', async () => {
     ttx()

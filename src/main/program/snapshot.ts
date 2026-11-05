@@ -17,7 +17,11 @@ import {
 } from '@shared/schemas'
 import { FacilitatorState } from '@shared/ipc/facilitator'
 import { LiveSession } from '@shared/schemas/live'
+import { conductOf } from '@shared/schemas/scenario'
+import { defaultPlanType } from '@shared/prep'
+import type { SnapshotPrep } from '@shared/prep/program'
 import { assembleRecord } from '../aar/record'
+import { scenarioComponents } from '../exercises/prep-components'
 import { readLiveLog } from '../aar/sources/live-log'
 import { listDrills } from '../drill/store'
 import { microDrillSummaries } from '../microdrill/program'
@@ -144,6 +148,25 @@ export async function observationsOf(
   }
 }
 
+/** The PREP exercise facts the program's cycle view needs; absent when the scenario is not PREP. */
+export async function prepOf(root: string, scenario: Scenario): Promise<SnapshotPrep | undefined> {
+  const conduct = conductOf(scenario)
+  const prep = conduct.prep
+  if (!prep) return undefined
+  return {
+    exerciseKind: prep.exerciseKind,
+    planType: prep.planType ?? defaultPlanType(prep.exerciseKind),
+    planHolder: prep.planHolder,
+    date: conduct.dates[0] ?? '',
+    ...(prep.cycleStart ? { cycleStart: prep.cycleStart } : {}),
+    components: await scenarioComponents(root, scenario),
+    notApplicable: prep.notApplicable,
+    worstCaseDischarge: prep.worstCaseDischarge,
+    countermeasuresInPlan: prep.countermeasuresInPlan,
+    countermeasuresExercised: prep.countermeasuresExercised,
+  }
+}
+
 async function snapshotScenario(
   root: string,
   id: string,
@@ -168,6 +191,7 @@ async function snapshotScenario(
     ...scenario.evaluation.eegs.map((e) => e.capability),
   ])
   const exercisedAt = await exercisedAtOf(dir)
+  const prep = await prepOf(root, scenario)
   return {
     scenarioId: scenario.id,
     title: scenario.title,
@@ -178,6 +202,7 @@ async function snapshotScenario(
     planSections: planSectionsOf(scenario, shaOf),
     ...(observations.length ? { ratings: countRatings(observations) } : {}),
     aarPresent: await exists(join(dir, 'aar.json')),
+    ...(prep ? { prep } : {}),
     ...(drillRunsOf(drills, id) ? { drillRuns: drillRunsOf(drills, id)! } : {}),
   }
 }
