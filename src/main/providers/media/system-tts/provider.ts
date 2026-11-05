@@ -19,6 +19,7 @@ import type {
   MediaOutput,
   MediaProgress,
   MediaProvider,
+  VoiceInfo,
 } from '../../types'
 import { findEngine, systemDetectEnv, type DetectEnv, type FoundEngine } from './detect'
 import { isEngineId, isSafeVoice, speakableText } from './engines'
@@ -95,7 +96,11 @@ export class SystemVoiceProvider implements MediaProvider {
   }
 
   /** Installed voice names (cached per instance); empty when the engine cannot list them. */
-  async listVoices(signal?: AbortSignal): Promise<string[]> {
+  async listVoices(signal?: AbortSignal): Promise<VoiceInfo[]> {
+    return (await this.voiceNames(signal)).map((name) => ({ id: name, label: name }))
+  }
+
+  async voiceNames(signal?: AbortSignal): Promise<string[]> {
     this.voices ??= (async () => {
       const { engine, path } = this.requireEngine()
       try {
@@ -165,7 +170,7 @@ export class SystemVoiceProvider implements MediaProvider {
     const out = new Map<string, string>()
     const unmapped = speakers.filter((s) => !configured[s])
     let pool: string[] = []
-    if (unmapped.length > 1) pool = found.engine.speakerPool(await this.listVoices(signal), base)
+    if (unmapped.length > 1) pool = found.engine.speakerPool(await this.voiceNames(signal), base)
     else if (base) pool = [base]
     for (const s of speakers) {
       const v = configured[s] ?? pool[unmapped.indexOf(s) % Math.max(pool.length, 1)]

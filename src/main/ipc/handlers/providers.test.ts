@@ -504,3 +504,47 @@ describe('providers:pull-model', () => {
     ).rejects.toMatchObject({ code: 'VALIDATION' })
   })
 })
+
+describe('ElevenLabs through the Providers channels', () => {
+  const eleven = () =>
+    call<{ id: string }>('providers:upsert', {
+      config: { kind: 'elevenlabs', label: 'ElevenLabs', baseUrl: 'https://api.elevenlabs.io' },
+      apiKey: 'xi-test-key-0000000000',
+    })
+  const voices = {
+    voices: [{ voice_id: 'v1', name: 'Rachel', description: 'Calm', category: 'premade' }],
+  }
+
+  it('lists voices and tests the connection with the free voices call only', async () => {
+    const { id } = await eleven()
+    const calls = stubFetch(() => chunkedResponse(JSON.stringify(voices)))
+    expect(await call('providers:list-voices', { id })).toEqual([
+      { id: 'v1', label: 'Rachel', description: 'Calm' },
+    ])
+    expect(await call('providers:test', { id })).toMatchObject({ ok: true })
+    expect(calls.every((c) => c.method === 'GET' && c.url.endsWith('/v1/voices'))).toBe(true)
+  })
+
+  it('lists speech models through providers:models', async () => {
+    const { id } = await eleven()
+    const model = { model_id: 'm1', name: 'M1', can_do_text_to_speech: true }
+    stubFetch([chunkedResponse(JSON.stringify([model]))])
+    const models = await call<{ id: string }[]>('providers:models', { id })
+    expect(models.map((m) => m.id)).toEqual(['m1'])
+  })
+
+  it('says why voices could not be loaded, without the key', async () => {
+    const { id } = await eleven()
+    stubFetch(() =>
+      chunkedResponse(JSON.stringify({ detail: { status: 'invalid_api_key', message: 'bad' } }), {
+        status: 401,
+      }),
+    )
+    await expect(call('providers:list-voices', { id })).rejects.toThrow(/rejected the API key/)
+  })
+
+  it('returns no voices for a provider that has none to list', async () => {
+    const { id } = await addMock()
+    expect(await call('providers:list-voices', { id })).toEqual([])
+  })
+})

@@ -58,6 +58,38 @@ export function concatWav(clips: Uint8Array[], gapSec = 0.35): Uint8Array {
   return out.toBuffer()
 }
 
+/** Wrap raw little-endian 16-bit mono PCM (ElevenLabs `pcm_*` output) as a WAV file. */
+export function pcmToWav(pcm: Uint8Array, sampleRate: number): Uint8Array {
+  if (pcm.length < 2) throw new AppError('PROVIDER', 'The service returned empty audio')
+  const samples = new Int16Array(Math.floor(pcm.length / 2))
+  const view = new DataView(pcm.buffer, pcm.byteOffset, samples.length * 2)
+  for (let i = 0; i < samples.length; i++) samples[i] = view.getInt16(i * 2, true)
+  const out = new WaveFile()
+  out.fromScratch(1, sampleRate, '16', samples)
+  return out.toBuffer()
+}
+
+/** Lay a quiet effect track under a voice WAV (mono): looped or cut to the voice length. */
+export function mixUnder(voice: Uint8Array, effect: Uint8Array, gain = 0.3): Uint8Array {
+  const v = load(voice)
+  const e = load(effect)
+  const { sampleRate, numChannels } = v.fmt as WavFmt
+  if (v.bitDepth !== '16') v.toBitDepth('16')
+  if (e.bitDepth !== '16') e.toBitDepth('16')
+  if ((e.fmt as WavFmt).sampleRate !== sampleRate) e.toSampleRate(sampleRate)
+  const vs = v.getSamples(true, Int16Array) as unknown as Int16Array
+  const es = e.getSamples(true, Int16Array) as unknown as Int16Array
+  if (!es.length) return voice
+  const mixed = new Int16Array(vs.length)
+  for (let i = 0; i < vs.length; i++) {
+    const sum = vs[i]! + Math.round(es[i % es.length]! * gain)
+    mixed[i] = Math.max(-32768, Math.min(32767, sum))
+  }
+  const out = new WaveFile()
+  out.fromScratch(numChannels, sampleRate, '16', mixed)
+  return out.toBuffer()
+}
+
 /** A short silent WAV, used by tests and fixtures. */
 export function silentWav(seconds: number, sampleRate = 24_000): Uint8Array {
   const out = new WaveFile()

@@ -24,6 +24,7 @@ export const ProviderKind = z.enum([
   'ollama',
   'comfyui',
   'fal',
+  'elevenlabs',
   'system-tts',
   'template',
   'local-whisper',

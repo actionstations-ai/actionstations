@@ -36,8 +36,11 @@ function HealthBadge({ provider }: { provider: ProviderViewT }) {
 
 function TestResult({
   result,
+  plain,
 }: {
   result: { ok: boolean; sample?: string; latencyMs: number; error?: string }
+  /** The sample is a status line, not a model reply. */
+  plain?: boolean
 }) {
   return (
     <p
@@ -47,7 +50,9 @@ function TestResult({
       role="status"
     >
       {result.ok
-        ? `Replied “${result.sample ?? ''}” in ${Math.round(result.latencyMs)} ms`
+        ? plain
+          ? `${result.sample ?? 'Connected'} (${Math.round(result.latencyMs)} ms)`
+          : `Replied “${result.sample ?? ''}” in ${Math.round(result.latencyMs)} ms`
         : `Test failed after ${Math.round(result.latencyMs)} ms. ${errorText(result.error ?? 'No reply.')}`}
     </p>
   )
@@ -157,7 +162,7 @@ export function ProviderCard(props: {
         Enabled
       </label>
       {p.kind === 'ollama' && p.enabled && <PullModel providerId={p.id} />}
-      {test.data && <TestResult result={test.data} />}
+      {test.data && <TestResult result={test.data} plain={p.kind === 'elevenlabs'} />}
       <div className="row provider-card__actions">
         <Button
           size="sm"

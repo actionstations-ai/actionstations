@@ -6,12 +6,13 @@
 import type { ProviderConfig } from './schemas/provider'
 
 /** Kinds that always call a vendor's cloud API, whatever the base URL says. */
-const ALWAYS_REMOTE = new Set<ProviderConfig['kind']>(['anthropic', 'fal'])
+const ALWAYS_REMOTE = new Set<ProviderConfig['kind']>(['anthropic', 'fal', 'elevenlabs'])
 
 /** The host an adapter talks to when no base URL is stored. */
 const DEFAULT_HOSTS: Partial<Record<ProviderConfig['kind'], string>> = {
   anthropic: 'api.anthropic.com',
   fal: 'queue.fal.run',
+  elevenlabs: 'api.elevenlabs.io',
 }
 
 /** `127.0.0.0/8`, `::1` and `localhost` (with or without brackets / a trailing dot). */

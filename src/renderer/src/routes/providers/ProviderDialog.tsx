@@ -11,6 +11,7 @@ import { AdvancedSection } from './AdvancedSection'
 import { VideoInputsSection } from './VideoInputsSection'
 import { applyInputDrafts, inputErrors, type InputDrafts } from './video-inputs-options'
 import { advancedErrors, advancedFrom, applyAdvanced, type AdvancedDraft } from './advanced-options'
+import { VoicesSection } from './VoicesSection'
 import {
   KIND_LABELS,
   PRESETS,
@@ -40,6 +41,30 @@ interface Draft {
   /** Video model input mappings edited in this form (fal.ai), by model id. */
   inputDrafts: InputDrafts
   modelPlaceholder: string | undefined
+  /** Speaker → voice id and the voice for any other speaker (ElevenLabs, OpenAI speech). */
+  voices: Record<string, string>
+  voice: string
+  /** ElevenLabs: lay the brief's sound note under the voice. */
+  soundEffects: boolean
+  /** ElevenLabs PCM sample rate; 24 kHz for plans without 44.1 kHz audio. */
+  sampleRate: string
+}
+
+const VOICE_KINDS: ProviderKind[] = ['elevenlabs', 'openai-compatible']
+const isOpenAiHost = (baseUrl: string): boolean =>
+  /^https:\/\/api\.openai\.com(\/|$)/.test(baseUrl.trim())
+
+function voiceDraft(options: Record<string, unknown> | undefined) {
+  const o = options ?? {}
+  const voices: Record<string, string> = {}
+  if (o.voices && typeof o.voices === 'object')
+    for (const [k, v] of Object.entries(o.voices)) if (typeof v === 'string' && v) voices[k] = v
+  return {
+    voices,
+    voice: typeof o.voice === 'string' ? o.voice : '',
+    soundEffects: o.soundEffects === true,
+    sampleRate: o.sampleRate === 24000 ? '24000' : '44100',
+  }
 }
 
 function draftFrom(existing: ProviderViewT | undefined): Draft {
@@ -57,6 +82,7 @@ function draftFrom(existing: ProviderViewT | undefined): Draft {
       advanced: advancedFrom(existing.options),
       inputDrafts: {},
       modelPlaceholder: undefined,
+      ...voiceDraft(existing.options),
     }
   const p = PRESETS[0]!
   return {
@@ -64,6 +90,7 @@ function draftFrom(existing: ProviderViewT | undefined): Draft {
     enabled: true,
     apiKey: undefined,
     localHost: undefined,
+    ...voiceDraft(undefined),
   }
 }
 
@@ -121,9 +148,31 @@ function parsedBaseUrl(raw: string): string | undefined {
   }
 }
 
+/** The voice choices a draft stores; empty choices are left out. */
+function voiceOptions(draft: Draft): Record<string, unknown> {
+  if (!VOICE_KINDS.includes(draft.kind)) return {}
+  const out: Record<string, unknown> = {}
+  if (Object.keys(draft.voices).length) out.voices = draft.voices
+  if (draft.voice) out.voice = draft.voice
+  if (draft.kind === 'elevenlabs') {
+    if (draft.soundEffects) out.soundEffects = true
+    if (draft.sampleRate === '24000') out.sampleRate = 24000
+  }
+  return out
+}
+
 /** Options with the network choice: 'local' when ticked on a LAN host, else 'remote'. */
 function optionsFor(draft: Draft): Record<string, unknown> {
-  const { network: _old, localHost: _host, ...rest } = draft.baseOptions
+  const {
+    network: _old,
+    localHost: _host,
+    voices: _voices,
+    voice: _voice,
+    soundEffects: _fx,
+    sampleRate: _rate,
+    ...kept
+  } = draft.baseOptions
+  const rest: Record<string, unknown> = { ...kept, ...voiceOptions(draft) }
   const baseUrl = parsedBaseUrl(draft.baseUrl)
   const config = { kind: draft.kind, ...(baseUrl ? { baseUrl } : {}) }
   const withAdvanced = (o: Record<string, unknown>) => {
@@ -249,13 +298,16 @@ function DefaultModelField(props: {
   set: SetDraft
 }) {
   const isSystemVoice = props.draft.kind === 'system-tts'
+  const isEleven = props.draft.kind === 'elevenlabs'
   return (
     <Field
       label={isSystemVoice ? 'Default voice' : 'Default model'}
       hint={
         isSystemVoice
           ? 'Optional, e.g. Samantha (macOS) or en-gb (espeak). Each speaker gets its own voice.'
-          : 'Used when a task does not name a model.'
+          : isEleven
+            ? 'A speech model; eleven_multilingual_v2 when left empty.'
+            : 'Used when a task does not name a model.'
       }
     >
       {({ id, describedBy }) => (
@@ -268,7 +320,9 @@ function DefaultModelField(props: {
           placeholder={
             isSystemVoice
               ? 'System default'
-              : (props.draft.modelPlaceholder ?? 'e.g. qwen3-30b-a3b-2507')
+              : isEleven
+                ? 'eleven_multilingual_v2'
+                : (props.draft.modelPlaceholder ?? 'e.g. qwen3-30b-a3b-2507')
           }
           onChange={(v) => props.set({ defaultModel: v })}
         />
@@ -300,6 +354,42 @@ function NetworkField(props: { draft: Draft; set: SetDraft }) {
   )
 }
 
+function ElevenLabsOptions(props: { draft: Draft; set: SetDraft }) {
+  return (
+    <div className="stack" style={{ gap: 'var(--space-2)' }}>
+      <Field
+        label="Audio quality"
+        hint="Use 24 kHz if your ElevenLabs plan does not include 44.1 kHz audio."
+      >
+        {({ id, describedBy }) => (
+          <select
+            id={id}
+            className="select"
+            value={props.draft.sampleRate}
+            aria-describedby={describedBy}
+            onChange={(e) => props.set({ sampleRate: e.target.value })}
+          >
+            <option value="44100">44.1 kHz (Pro plan and above)</option>
+            <option value="24000">24 kHz</option>
+          </select>
+        )}
+      </Field>
+      <label className="row">
+        <input
+          type="checkbox"
+          checked={props.draft.soundEffects}
+          aria-describedby="elevenlabs-fx-hint"
+          onChange={(e) => props.set({ soundEffects: e.target.checked })}
+        />
+        Add sound effects when an inject has a sound note
+      </label>
+      <span id="elevenlabs-fx-hint" className="field__hint">
+        Off by default. The sound note is sent to ElevenLabs and uses extra credits.
+      </span>
+    </div>
+  )
+}
+
 function ProviderForm(props: { existing?: ProviderViewT; onDone: () => void }) {
   const { existing } = props
   const [draft, setDraft] = useState<Draft>(() => draftFrom(existing))
@@ -322,11 +412,22 @@ function ProviderForm(props: { existing?: ProviderViewT; onDone: () => void }) {
       {!existing && <PresetField draft={draft} preset={preset} set={set} />}
       {existing && <p className="muted">Type: {KIND_LABELS[draft.kind]}</p>}
       <NameField draft={draft} errors={errors} set={set} />
-      {draft.kind !== 'system-tts' && (
+      {draft.kind !== 'system-tts' && draft.kind !== 'elevenlabs' && (
         <BaseUrlField draft={draft} preset={preset} errors={errors} set={set} />
       )}
-      {draft.kind !== 'system-tts' && <NetworkField draft={draft} set={set} />}
+      {draft.kind !== 'system-tts' && draft.kind !== 'elevenlabs' && (
+        <NetworkField draft={draft} set={set} />
+      )}
       <DefaultModelField draft={draft} existing={existing} set={set} />
+      {draft.kind === 'elevenlabs' && <ElevenLabsOptions draft={draft} set={set} />}
+      {(draft.kind === 'elevenlabs' ||
+        (draft.kind === 'openai-compatible' && isOpenAiHost(draft.baseUrl))) && (
+        <VoicesSection
+          providerId={existing?.id}
+          value={{ voices: draft.voices, voice: draft.voice }}
+          onChange={(v) => set(v)}
+        />
+      )}
       {showKey && (
         <ApiKeyField
           hasKey={hasKey}

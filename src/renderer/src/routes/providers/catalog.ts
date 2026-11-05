@@ -77,6 +77,7 @@ export const KIND_LABELS: Record<ProviderKind, string> = {
   ollama: 'Ollama',
   comfyui: 'ComfyUI',
   fal: 'fal.ai',
+  elevenlabs: 'ElevenLabs',
   'system-tts': 'System voice',
   template: 'Template',
   'local-whisper': 'Built-in Whisper',
@@ -177,6 +178,16 @@ export const PRESETS: Preset[] = [
     modelPlaceholder: 'e.g. fal-ai/flux/schnell',
   },
   {
+    id: 'elevenlabs',
+    label: 'ElevenLabs',
+    kind: 'elevenlabs',
+    baseUrl: 'https://api.elevenlabs.io',
+    usesKey: true,
+    keyRequired: true,
+    baseUrlEditable: false,
+    hint: 'Cloud voices. The text of each voice line is sent to ElevenLabs and billed to your account.',
+  },
+  {
     id: 'system-tts',
     label: 'System voice',
     kind: 'system-tts',
@@ -190,14 +201,14 @@ export const PRESETS: Preset[] = [
 
 /** Kinds that run on this computer without a server address. */
 export const kindUsesBaseUrl = (kind: ProviderKind): boolean =>
-  kind !== 'anthropic' && kind !== 'mock' && kind !== 'system-tts'
+  kind !== 'anthropic' && kind !== 'mock' && kind !== 'system-tts' && kind !== 'elevenlabs'
 
 /** Whether an existing provider of this kind shows the key field. */
 export const kindUsesKey = (kind: ProviderKind): boolean =>
-  kind === 'anthropic' || kind === 'openai-compatible' || kind === 'fal'
+  kind === 'anthropic' || kind === 'openai-compatible' || kind === 'fal' || kind === 'elevenlabs'
 
 export const kindRequiresKey = (kind: ProviderKind): boolean =>
-  kind === 'anthropic' || kind === 'fal'
+  kind === 'anthropic' || kind === 'fal' || kind === 'elevenlabs'
 
 /** Default model for a detected service: never an embedding model while a chat model exists. */
 export function pickDefaultModel(s: {
