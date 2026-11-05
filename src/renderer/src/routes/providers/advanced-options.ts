@@ -7,6 +7,8 @@ export interface AdvancedDraft {
   mediaUsdPerCall: string
   apiVersion: string
   jsonMode: string
+  imageModel: string
+  ttsModel: string
 }
 
 export const JSON_MODE_CHOICES = [
@@ -17,7 +19,7 @@ export const JSON_MODE_CHOICES = [
 ] as const
 
 const NUMBER_KEYS = ['inputUsdPerMTok', 'outputUsdPerMTok', 'mediaUsdPerCall'] as const
-const TEXT_KEYS = ['apiVersion', 'jsonMode'] as const
+const TEXT_KEYS = ['apiVersion', 'jsonMode', 'imageModel', 'ttsModel'] as const
 
 const asText = (v: unknown): string =>
   typeof v === 'number' && Number.isFinite(v) ? String(v) : typeof v === 'string' ? v : ''
@@ -30,6 +32,8 @@ export function advancedFrom(options: Record<string, unknown> | undefined): Adva
     mediaUsdPerCall: asText(o.mediaUsdPerCall),
     apiVersion: asText(o.apiVersion),
     jsonMode: asText(o.jsonMode),
+    imageModel: asText(o.imageModel),
+    ttsModel: asText(o.ttsModel),
   }
 }
 

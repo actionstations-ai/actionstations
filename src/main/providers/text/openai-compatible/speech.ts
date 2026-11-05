@@ -183,8 +183,12 @@ export class OpenAiCompatibleSpeechProvider implements MediaProvider {
     const voice = this.voiceFor(line.speaker)
     if (voice) body.voice = voice
     const style = line.voiceStyle?.trim() || (isVoiceDesign(model) ? NEUTRAL_VOICE : '')
-    // OpenAI names the field `instructions`; mlx-audio reads `instruct`. Send both.
-    if (style) Object.assign(body, { instructions: style, instruct: style })
+    // OpenAI names the field `instructions`; mlx-audio reads `instruct`. A hosted preset gets
+    // only the documented field, a local server both.
+    if (style) {
+      body.instructions = style
+      if (!stringOption(this.config, 'preset')) body.instruct = style
+    }
     return this.post(body, line.speaker, signal)
   }
 

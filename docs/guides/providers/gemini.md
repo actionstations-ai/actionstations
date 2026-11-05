@@ -18,6 +18,16 @@ Create a key in [Google AI Studio](https://aistudio.google.com) under **Get API 
 
 Gemini can also index your documents for search. In **Routing**, give the **Embeddings** row the Gemini provider and the model `gemini-embedding-001`, then choose **Configured provider** under **Settings → Embeddings**. Your document text is sent to Google while it is indexed. Changing the embedding provider means the index must be rebuilt: use **Rebuild index** on the project's Documents page.
 
+## Images
+
+Gemini can draw the photographic scene images for injects. Text-bearing media such as posts, tickets, emails and boards are always drawn from templates, so their text stays exact.
+
+1. Edit the Gemini provider, open **Advanced** and enter an **Image model**, for example `gemini-2.5-flash-image`. Check Google's model list for the current names.
+2. In **Routing**, give the **Image** row the Gemini provider. The model you choose on that row is used instead of the one in **Advanced**.
+3. Optionally set **Price per image, voice or video call** in **Advanced**, so the app can estimate the cost of a batch.
+
+Each image prompt is shown for approval and redacted before it is sent, and the app asks you to confirm a batch of paid images before it starts. Google's endpoint ignores some settings, such as the exact picture size, so images may come back in a different shape than the scene asked for. If Google's safety filters block a prompt, the app says so; reword the image prompt and try again.
+
 ## How the key is stored
 
 The key is encrypted with the operating system's keychain and kept only on this computer. It is never written to the settings file, a project folder or a log, and it is sent only to Google's Gemini host. After saving, the form shows only that a key is set, with **Replace** and **Remove**.

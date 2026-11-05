@@ -522,6 +522,15 @@ async function inputImage(
   return { digest, images }
 }
 
+/** The model a media job runs on: the routed one, the provider's image or speech model, else its default. */
+function mediaModel(config: ProviderConfig, job: MediaJob): string {
+  const named = job.kind === 'image' ? 'imageModel' : job.kind === 'audio' ? 'ttsModel' : ''
+  const fromOptions = named ? config.options[named] : undefined
+  if (job.model) return job.model
+  if (typeof fromOptions === 'string' && fromOptions) return fromOptions
+  return config.defaultModel ?? ''
+}
+
 class GuardedMediaProvider implements MediaProvider {
   constructor(
     private readonly inner: MediaProvider,
@@ -555,7 +564,7 @@ class GuardedMediaProvider implements MediaProvider {
     const { body, parts } = redactBrief(raw, (t) => redactText(t, enabled, ctx, registry))
     const { digest, images } = await inputImage(job.inputImagePath)
     const host = providerHost(this.config)
-    const model = job.model ?? this.config.defaultModel ?? ''
+    const model = mediaModel(this.config, job)
     const hash = mediaHash(this.config, host, model, body, digest)
     const manifest = buildManifest({
       ...base(this.config, host, 'media', job.kind, model, settings, hash, at),
@@ -577,7 +586,7 @@ class GuardedMediaProvider implements MediaProvider {
       this.prepare(job, at),
     )
     const { digest } = await inputImage(prepared.body.inputImagePath)
-    const model = job.model ?? this.config.defaultModel ?? ''
+    const model = mediaModel(this.config, job)
     const host = providerHost(this.config)
     assertApproved(approvedHash, mediaHash(this.config, host, model, prepared.body, digest))
     await this.deps.log(

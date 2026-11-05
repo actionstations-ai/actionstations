@@ -1,7 +1,7 @@
 // Task → provider + model table. Global scope edits settings.defaultRouting; project scope
 // shows the inherited global value per task and lets the user override it.
 import { useState } from 'react'
-import type { ProviderKind, ProviderRef, ProviderRouting, ProviderTask } from '@shared/schemas'
+import type { ProviderRef, ProviderRouting, ProviderTask } from '@shared/schemas'
 import { Button } from '../../components/ui'
 import { CloudMarker } from '../../components/privacy/CloudMarker'
 import { useIpcQuery } from '../../lib/query'
@@ -36,13 +36,13 @@ function describeRef(ref: ProviderRef | undefined, providers: ProviderViewT[]): 
 function ProviderSelect(props: {
   info: TaskInfo
   providers: ProviderViewT[]
-  /** Provider kinds main says can serve this task (adapter capabilities); undefined while loading. */
-  supported: ProviderKind[] | undefined
+  /** Providers main says can serve this task (adapter capabilities); undefined while loading. */
+  supported: string[] | undefined
   value: string
   onChange: (id: string) => void
 }) {
   const options = props.providers.filter(
-    (p) => p.id === props.value || (p.enabled && !!props.supported?.includes(p.kind)),
+    (p) => p.id === props.value || (p.enabled && !!props.supported?.includes(p.id)),
   )
   return (
     <select
@@ -91,7 +91,7 @@ function EmbeddingNote() {
 function RoutingRow(props: {
   info: TaskInfo
   providers: ProviderViewT[]
-  supported: ProviderKind[] | undefined
+  supported: string[] | undefined
   value: ProviderRef | undefined
   onChange: (ref: ProviderRef | undefined) => void
   /** Project scope only. */
@@ -214,7 +214,7 @@ export function RoutingTable(props: {
                 key={info.task}
                 info={info}
                 providers={props.providers}
-                supported={support.data?.[info.task]?.kinds}
+                supported={support.data?.[info.task]?.providerIds}
                 value={draft[info.task]}
                 onChange={(ref) => setRow(info.task, ref)}
                 {...(props.scope === 'project'

@@ -60,3 +60,48 @@ describe('OpenAiCompatibleSpeechProvider model', () => {
     expect(await modelSent({})).toBe('default-tts')
   })
 })
+
+describe('OpenAiCompatibleSpeechProvider on a hosted service', () => {
+  const hosted = {
+    ...config,
+    baseUrl: 'https://api.openai.com/v1',
+    defaultModel: 'gpt-chat',
+    options: { preset: 'openai', ttsModel: 'tts-model', voices: { A: 'alloy' } },
+  } as unknown as ProviderConfig
+
+  async function bodySent(over: Partial<MediaJob> = {}): Promise<Record<string, unknown>> {
+    const wav = encodeWav({ samples: new Float32Array(2400), sampleRate: 24000 })
+    const bodies: Record<string, unknown>[] = []
+    vi.stubGlobal(
+      'fetch',
+      vi.fn(async (_url: string, init?: RequestInit) => {
+        bodies.push(JSON.parse(String(init?.body)) as Record<string, unknown>)
+        return new Response(wav, { status: 200, headers: { 'content-type': 'audio/wav' } })
+      }),
+    )
+    const outDir = mkdtempSync(join(tmpdir(), 'speech-test-'))
+    dirs.push(outDir)
+    await new OpenAiCompatibleSpeechProvider(hosted, 'sk-test-0000000000').generate({
+      kind: 'audio',
+      injectId: 'i1',
+      brief: { paths: ['tts'], voiceLines: [{ speaker: 'A', voiceStyle: 'calm', text: 'Hello.' }] },
+      outDir,
+      ...over,
+    })
+    return bodies[0]!
+  }
+
+  it('speaks with options.ttsModel, not the chat model', async () => {
+    expect((await bodySent()).model).toBe('tts-model')
+  })
+
+  it('lets the routed audio model win over options.ttsModel', async () => {
+    expect((await bodySent({ model: 'routed-tts' })).model).toBe('routed-tts')
+  })
+
+  it('sends the documented instructions field only, the per-speaker voice, and wav', async () => {
+    const body = await bodySent()
+    expect(body).toMatchObject({ voice: 'alloy', instructions: 'calm', response_format: 'wav' })
+    expect(body).not.toHaveProperty('instruct')
+  })
+})

@@ -61,12 +61,24 @@ export function providerError(
   status: number,
   body: string,
   secret?: string,
+  retryAfterSec?: number,
 ): AppError {
   const text = redactSecrets(vendorErrorText(body), secret).slice(0, MAX_ERROR_TEXT)
   const hint = status === 401 || status === 403 ? ' (check the API key)' : ''
   return new AppError('PROVIDER', `${vendor} HTTP ${status}${hint}: ${text || 'no details'}`, {
     status,
+    ...(retryAfterSec !== undefined ? { retryAfterSec } : {}),
   })
+}
+
+/** Seconds from a Retry-After header (delta or date), when it has one. */
+function retryAfterSeconds(res: Response): number | undefined {
+  const ra = res.headers.get('retry-after')
+  if (!ra) return undefined
+  const secs = Number(ra)
+  if (Number.isFinite(secs)) return Math.max(0, Math.round(secs))
+  const at = Date.parse(ra)
+  return Number.isFinite(at) ? Math.max(0, Math.round((at - Date.now()) / 1000)) : undefined
 }
 
 /** Delay to wait before the next attempt, honoring retry-after / retry-after-ms. */
@@ -220,7 +232,7 @@ export async function request(url: string, req: HttpRequest): Promise<Response> 
     if (res.ok) return res
     const text = await res.text().catch(() => '')
     if (!isRetryable(res.status, req) || attempt >= retries)
-      throw providerError(req.vendor, res.status, text, req.secret)
+      throw providerError(req.vendor, res.status, text, req.secret, retryAfterSeconds(res))
     await sleep(retryDelayMs(res, attempt, base), req.signal)
   }
 }

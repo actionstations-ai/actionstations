@@ -18,6 +18,22 @@ Create a key in the [OpenAI platform](https://platform.openai.com) under **API k
 
 OpenAI can also index your documents for search. In **Routing**, give the **Embeddings** row the OpenAI provider and the model `text-embedding-3-small`, then choose **Configured provider** under **Settings → Embeddings**. Your document text is sent to OpenAI while it is indexed. Changing the embedding provider means the index must be rebuilt: use **Rebuild index** on the project's Documents page.
 
+## Images
+
+OpenAI can draw the photographic scene images for injects. Text-bearing media such as posts, tickets, emails and boards are always drawn from templates, so their text stays exact.
+
+1. Edit the OpenAI provider, open **Advanced** and enter an **Image model**, for example `gpt-image-1`. Check OpenAI's model list for the current names.
+2. In **Routing**, give the **Image** row the OpenAI provider. The model you choose on that row is used instead of the one in **Advanced**.
+3. Optionally set **Price per image, voice or video call** in **Advanced**, so the app can estimate the cost of a batch.
+
+Each image prompt is shown for approval and redacted like any other request before it is sent. The image is saved in the project; it is 1536 by 1024 pixels for scene images and 1024 by 1536 for portraits, because those are the sizes OpenAI offers. Before a batch of paid images starts, the app tells you how many calls it will make and asks you to confirm.
+
+If OpenAI refuses a prompt because of its content rules, the app says so; reword the image prompt and try again.
+
+## Voices
+
+OpenAI can also speak audio injects. Enter a **Speech model** in **Advanced** (or choose one on the **Audio** row in **Routing**) so the same provider can write text and speak. OpenAI's current speech models shut down on January 6, 2027; check OpenAI's model list for their replacement before then. Each speaker role can use its own voice. The app asks for WAV audio and passes the voice description from the scenario as OpenAI's speaking instructions.
+
 ## How the key is stored
 
 The key is encrypted with the operating system's keychain and kept only on this computer. It is never written to the settings file, a project folder or a log, and it is sent only to OpenAI. After saving, the form shows only that a key is set, with **Replace** and **Remove**.

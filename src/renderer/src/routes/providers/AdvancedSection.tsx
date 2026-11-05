@@ -31,6 +31,28 @@ function PriceField(props: {
   )
 }
 
+function ModelField(props: {
+  field: 'imageModel' | 'ttsModel'
+  label: string
+  hint: string
+  draft: AdvancedDraft
+  set: SetAdvanced
+}) {
+  return (
+    <Field label={props.label} hint={props.hint}>
+      {({ id, describedBy }) => (
+        <input
+          id={id}
+          className="input mono"
+          value={props.draft[props.field]}
+          aria-describedby={describedBy}
+          onChange={(e) => props.set({ [props.field]: e.target.value })}
+        />
+      )}
+    </Field>
+  )
+}
+
 /** Collapsible so the common case (a preset and a key) stays short. */
 export function AdvancedSection(props: {
   value: AdvancedDraft
@@ -38,6 +60,8 @@ export function AdvancedSection(props: {
   onChange: SetAdvanced
   /** Show the Azure api-version field. */
   showApiVersion: boolean
+  /** The hosted preset's id, when the provider has one. */
+  preset?: string | undefined
 }) {
   const [open, setOpen] = useState(
     () => Object.values(props.value).some((v) => v !== '') || Object.keys(props.errors).length > 0,
@@ -100,6 +124,26 @@ export function AdvancedSection(props: {
               />
             )}
           </Field>
+        )}
+        <ModelField
+          field="imageModel"
+          label="Image model"
+          hint="The model that draws photographic images, such as gpt-image-1 for OpenAI. Leave empty to use the model chosen in Routing."
+          draft={value}
+          set={onChange}
+        />
+        <ModelField
+          field="ttsModel"
+          label="Speech model"
+          hint="The model that voices audio injects. Leave empty to use the model chosen in Routing, or the default model."
+          draft={value}
+          set={onChange}
+        />
+        {props.preset === 'openai' && (
+          <p className="muted" role="note">
+            OpenAI’s current speech models shut down on January 6, 2027. Check OpenAI’s model list
+            for their replacement before then.
+          </p>
         )}
         <Field
           label="JSON mode"
