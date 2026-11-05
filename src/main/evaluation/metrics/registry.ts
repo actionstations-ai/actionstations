@@ -33,6 +33,7 @@ import { destinationFit } from './destination-fit'
 import { holdingStatementTime } from './holding-statement-time'
 import { messageConsistency, type FactStatement, type KeyFact } from './message-consistency'
 import { protectiveActionDistance } from './protective-action-distance'
+import { protectionCoverage } from './protection-coverage'
 import { reporterHandling } from './reporter-handling'
 import { statementAccuracy, type StatementCheck } from './statement-accuracy'
 import { thresholdTiming } from './threshold-timing'
@@ -66,6 +67,7 @@ export const BUILTIN_METRIC_IDS = [
   'destination_fit',
   'protective_action_distance',
   'accountability',
+  'protection_coverage',
 ] as const
 
 interface Entry {
@@ -98,6 +100,7 @@ registerMetric(messageConsistency, (b) => ({
   facts: b.facts ?? [],
   statements: b.statements ?? [],
 }))
+registerMetric(protectionCoverage, (b) => ({ series: b.series ?? [], decisions: b.decisions ?? [] }))
 // The media environment's metrics (events and decisions, except accuracy: checked claims).
 const eventsAndDecisions = (b: MetricInputBag) => ({
   events: b.events ?? [],

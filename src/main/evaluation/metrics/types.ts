@@ -1,7 +1,7 @@
 // The metric contract (spec 0448 FR-12): an id, a zod config schema and a pure compute function
 // whose result shows the inputs it used. Metrics are app code; a toolkit only names them and
 // supplies configuration.
-import type { z } from 'zod'
+import { z } from 'zod'
 import type { MetricResult } from '@shared/schemas/metrics'
 
 export type MetricOutput = Omit<MetricResult, 'computedAt' | 'sessionId'>
@@ -42,3 +42,17 @@ const norm = (s: string): string => s.trim().toLowerCase()
 export function sameArea(a: string | undefined, b: string | undefined): boolean {
   return a === undefined || b === undefined || norm(a) === norm(b)
 }
+
+/**
+ * A list setting that a toolkit can supply: a toolkit's metric config holds only strings,
+ * numbers and booleans, so a list is also accepted as one comma-separated string.
+ */
+export const stringList = z.union([
+  z.array(z.string()),
+  z.string().transform((s) =>
+    s
+      .split(',')
+      .map((x) => x.trim())
+      .filter(Boolean),
+  ),
+])
