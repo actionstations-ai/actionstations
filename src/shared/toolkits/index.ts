@@ -1,4 +1,5 @@
 export * from './schema'
 export * from './compose'
 export * from './evaluation'
+export * from './drill-record'
 export * from './geo-lint'

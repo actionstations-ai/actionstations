@@ -27,13 +27,23 @@ const alarmGenerator: SimulatedGenerator<z.output<typeof AlarmParams>> = {
   generate(p) {
     const run = runAlarm(p)
     const times = run.points.map((x) => x.time)
-    const events = run.events.map((e, i) => ({
-      id: `${e.kind}-${i + 1}`,
-      time: e.time,
-      area: p.unit,
-      kind: e.kind,
-      attrs: { unit: p.unit, failure: p.failure },
-    }))
+    const events: { id: string; time: string; area: string; kind: string; attrs: object }[] =
+      run.events.map((e, i) => ({
+        id: `${e.kind}-${i + 1}`,
+        time: e.time,
+        area: p.unit,
+        kind: e.kind,
+        attrs: { unit: p.unit, failure: p.failure },
+      }))
+    const alarm = run.events.find((e) => e.kind === 'alarm_sounded')
+    if (alarm)
+      events.push({
+        id: 'incident-discovered',
+        time: alarm.time,
+        area: p.unit,
+        kind: 'incident_discovered',
+        attrs: { unit: p.unit, failure: p.failure },
+      })
     const atRisk = run.limitReachedAt ?? run.points[run.points.length - 1]!.time
     return [
       {
@@ -125,9 +135,18 @@ const inventoryGenerator: SimulatedGenerator<z.output<typeof InventoryParams>> =
         id: 'lab-inventory-events',
         label: 'Inventory discrepancies and their causes, simulated (facilitator only)',
         kind: 'features',
-        data: metricFile(
-          'events',
-          run.rows
+        data: metricFile('events', [
+          ...(run.rows.some((r) => r.cause)
+            ? [
+                {
+                  id: 'incident-discovered',
+                  time: run.countedAt,
+                  kind: 'incident_discovered',
+                  attrs: {},
+                },
+              ]
+            : []),
+          ...run.rows
             .filter((r) => r.cause)
             .map((r) => ({
               id: r.item,
@@ -140,7 +159,7 @@ const inventoryGenerator: SimulatedGenerator<z.output<typeof InventoryParams>> =
                 explanation: r.cause ? CAUSE_TEXT[r.cause] : '',
               },
             })),
-        ),
+        ]),
       },
     ] satisfies GeneratedDataset[]
   },
@@ -217,6 +236,27 @@ const followupGenerator: SimulatedGenerator<z.output<typeof FollowupParams>> = {
   generate(p) {
     const contacts = runFollowup(p)
     return [
+      {
+        id: 'lab-exposure-events',
+        label: 'Exposure report events, simulated (for scoring)',
+        kind: 'features',
+        data: metricFile('events', [
+          {
+            id: 'incident-discovered',
+            time: p.eventAt,
+            area: p.room,
+            kind: 'incident_discovered',
+            attrs: {},
+          },
+          {
+            id: 'exposure-reported',
+            time: p.listedAt,
+            area: p.room,
+            kind: 'exposure_reported',
+            attrs: {},
+          },
+        ]),
+      },
       {
         id: 'lab-exposure-contact-events',
         label: 'Exposure follow-up listing events, simulated (for scoring)',
