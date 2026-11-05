@@ -35,6 +35,7 @@ import { installToolkitDecisionForms } from './toolkits/decision-forms'
 import { registerEpidemiologyToolkit } from './toolkits/epidemiology/register'
 import { registerAiIncidentsToolkit } from './toolkits/ai/register'
 import { registerJusticeToolkit } from './toolkits/justice/register'
+import { registerLabSafetyToolkit } from './toolkits/lab_safety/register'
 import { registerSpillConnectors } from './toolkits/connectors/spill'
 import { toolProcesses } from './setup/processes'
 import { checkMapCatalogAtStartup } from './maps/auto-check'
@@ -232,6 +233,7 @@ void app.whenReady().then(async () => {
   registerEpidemiologyToolkit()
   registerAiIncidentsToolkit()
   registerJusticeToolkit()
+  registerLabSafetyToolkit()
   const devIcon = app.isPackaged ? undefined : devIconPath()
   if (devIcon && process.platform === 'darwin') app.dock?.setIcon(devIcon)
   if (!app.isPackaged) console.log(`[providers] adapters: ${listAdapterKinds().join(', ')}`)

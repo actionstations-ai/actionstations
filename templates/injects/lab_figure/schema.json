@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "title": "Laboratory figure (board, trend or table)",
-  "description": "A board, trend or table for a laboratory incident exercise, drawn by the app from data (never an image): the notification clock board with its status words and symbols. Each carries a text summary and a data table. All data are exercise data.",
+  "description": "A board, trend or table for a laboratory incident exercise, drawn by the app from data (never an image): the notification clock board, the freezer temperature and alarm trend, the inventory reconciliation with the discrepancy flagged, the sample loss register and the access log extract. Each carries a text summary and a data table. All data are exercise data.",
   "type": "object",
   "required": ["figures"],
   "additionalProperties": false,
@@ -34,7 +34,13 @@
           "properties": {
             "kind": {
               "type": "string",
-              "enum": ["lab_notification_clock_board"]
+              "enum": [
+                "lab_notification_clock_board",
+                "lab_temperature_alarm_trend",
+                "lab_inventory_reconciliation",
+                "lab_sample_loss_register",
+                "lab_access_log"
+              ]
             },
             "data": {
               "type": "object",
