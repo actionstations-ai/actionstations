@@ -1,0 +1,40 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "METAR / SPECI observations",
+  "description": "Surface observations as raw METAR and SPECI text, one line per report. The raw text must follow the METAR format; times are UTC. Exercise product: the template adds an exercise banner. Real NWS office, center and station identifiers; the county, places and people are fictional.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["station", "reports"],
+  "properties": {
+    "station": {
+      "type": "string",
+      "description": "Station id and name",
+      "examples": ["KILN Wilmington Air Park, OH"],
+      "maxLength": 80
+    },
+    "reports": {
+      "type": "array",
+      "description": "Raw METAR or SPECI lines, oldest first. Each follows the METAR format exactly",
+      "maxItems": 12,
+      "items": {
+        "type": "string",
+        "description": "One line or paragraph",
+        "examples": [
+          "KILN 211853Z 24012G22KT 3SM +TSRA BKN025CB 24/22 A2992 RMK AO2 TSB45 SLP128 P0042 T02440222"
+        ],
+        "x-translate": false
+      },
+      "examples": [
+        [
+          "KILN 211853Z 24012G22KT 3SM +TSRA BKN025CB 24/22 A2992 RMK AO2 TSB45 SLP128 P0042 T02440222"
+        ]
+      ]
+    },
+    "note": {
+      "type": "string",
+      "description": "Optional note under the observations (decoded summary)",
+      "examples": ["Thunderstorm with heavy rain began at 1845Z; ceiling 2,500 feet."],
+      "maxLength": 300
+    }
+  }
+}

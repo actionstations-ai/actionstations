@@ -1,0 +1,83 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Hazardous weather outlook (NWS)",
+  "description": "An NWS hazardous weather outlook with Day One, Days Two to Seven and a spotter information statement. Exercise product: the template adds an exercise banner. Real NWS office, center and station identifiers; the county, places and people are fictional.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["title", "office", "issued", "sections"],
+  "properties": {
+    "wmoHeader": {
+      "type": "string",
+      "description": "WMO heading: TTAAii CCCC DDHHMM (UTC)",
+      "examples": ["FLUS43 KILN 211000"],
+      "x-translate": false
+    },
+    "awipsId": {
+      "type": "string",
+      "description": "AWIPS product id",
+      "examples": ["HWOILN"],
+      "x-translate": false
+    },
+    "title": {
+      "type": "string",
+      "description": "Product title",
+      "examples": ["Hazardous Weather Outlook"]
+    },
+    "office": {
+      "type": "string",
+      "description": "Issuing office",
+      "examples": ["National Weather Service Wilmington OH"]
+    },
+    "issued": {
+      "type": "string",
+      "description": "Issuance line",
+      "examples": ["600 AM EDT Wed Oct 21 2026"]
+    },
+    "sections": {
+      "type": "array",
+      "description": "Sections with a heading and text",
+      "maxItems": 12,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["heading", "text"],
+        "properties": {
+          "heading": {
+            "type": "string",
+            "description": "Section heading as in the product (SYNOPSIS, NEAR TERM...)",
+            "examples": ["DAY ONE...TODAY AND TONIGHT"]
+          },
+          "text": {
+            "type": "string",
+            "description": "Section text",
+            "examples": [
+              "Thunderstorms are expected this afternoon and evening. Some storms will be severe with damaging winds, large hail and a tornado or two possible."
+            ]
+          }
+        }
+      },
+      "examples": [
+        [
+          {
+            "heading": "DAY ONE...TODAY AND TONIGHT",
+            "text": "Thunderstorms are expected this afternoon and evening. Some storms will be severe with damaging winds, large hail and a tornado or two possible."
+          },
+          {
+            "heading": "DAYS TWO THROUGH SEVEN...THURSDAY THROUGH TUESDAY",
+            "text": "No hazardous weather is expected."
+          },
+          {
+            "heading": "SPOTTER INFORMATION STATEMENT",
+            "text": "Spotter activation will be needed this afternoon and evening. Please report severe weather to the National Weather Service."
+          }
+        ]
+      ]
+    },
+    "forecaster": {
+      "type": "string",
+      "description": "Forecaster surname or initials",
+      "examples": ["Kowalski"],
+      "maxLength": 40
+    }
+  }
+}

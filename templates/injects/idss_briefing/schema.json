@@ -1,0 +1,116 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Decision support briefing (one page)",
+  "description": "A one-page impact-based decision support briefing: bottom line, timing, impacts, confidence and the decisions the partner faces. Exercise product: the template adds an exercise banner. Real NWS office, center and station identifiers; the county, places and people are fictional.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["audience", "issued", "bottomLine", "timeline", "impacts", "confidence"],
+  "properties": {
+    "audience": {
+      "type": "string",
+      "description": "Who the briefing is for",
+      "examples": ["Haldane County Emergency Management"],
+      "maxLength": 100
+    },
+    "issued": {
+      "type": "string",
+      "description": "Issued line",
+      "examples": ["Issued 1:30 PM EDT Wed Oct 21 2026 by Kowalski, NWS Wilmington OH"]
+    },
+    "bottomLine": {
+      "type": "string",
+      "description": "Bottom line up front",
+      "examples": [
+        "A line of severe thunderstorms will cross Haldane County between 3 PM and 8 PM today. Damaging winds and a few tornadoes are the primary threats."
+      ],
+      "maxLength": 400
+    },
+    "timeline": {
+      "type": "array",
+      "description": "Timing (up to 6)",
+      "maxItems": 6,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["time", "event"],
+        "properties": {
+          "time": {
+            "type": "string",
+            "description": "Time",
+            "examples": ["3:00 PM"]
+          },
+          "event": {
+            "type": "string",
+            "description": "What happens",
+            "examples": ["First storms enter the west end of the county"]
+          }
+        }
+      },
+      "examples": [
+        [
+          {
+            "time": "3:00 PM",
+            "event": "First storms enter the west end of the county"
+          }
+        ]
+      ]
+    },
+    "impacts": {
+      "type": "array",
+      "description": "Impacts to expect (up to 5)",
+      "maxItems": 5,
+      "items": {
+        "type": "string",
+        "description": "One line or paragraph",
+        "examples": ["Damaging winds to 70 mph: trees and power lines down, outages likely"]
+      },
+      "examples": [["Damaging winds to 70 mph: trees and power lines down, outages likely"]]
+    },
+    "confidence": {
+      "type": "string",
+      "description": "Confidence statement",
+      "examples": [
+        "High confidence in timing. Medium confidence in tornado potential; a watch is likely."
+      ],
+      "maxLength": 300
+    },
+    "decisionPoints": {
+      "type": "array",
+      "description": "Decisions the partner will face (up to 4)",
+      "maxItems": 4,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["decision", "when"],
+        "properties": {
+          "decision": {
+            "type": "string",
+            "description": "Decision",
+            "examples": ["Whether to open the shelter at the fairgrounds"]
+          },
+          "when": {
+            "type": "string",
+            "description": "By when",
+            "examples": ["By 2:30 PM"]
+          }
+        }
+      },
+      "examples": [
+        [
+          {
+            "decision": "Whether to open the shelter at the fairgrounds",
+            "when": "By 2:30 PM"
+          }
+        ]
+      ]
+    },
+    "nextBriefing": {
+      "type": "string",
+      "description": "Next briefing and contact",
+      "examples": [
+        "Next briefing 4:00 PM on the partner call; ILN duty phone is in the partner directory."
+      ],
+      "maxLength": 200
+    }
+  }
+}

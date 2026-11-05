@@ -1,0 +1,95 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "SPC watch (tornado or severe thunderstorm)",
+  "description": "An SPC watch text. The watch box map is a separate figure inject. Always an exercise product. Exercise product: the template adds an exercise banner. Real NWS office, center and station identifiers; the county, places and people are fictional.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "watchType",
+    "number",
+    "office",
+    "issued",
+    "area",
+    "effective",
+    "primaryThreats",
+    "summary",
+    "forecaster"
+  ],
+  "properties": {
+    "wmoHeader": {
+      "type": "string",
+      "description": "WMO heading: TTAAii CCCC DDHHMM (UTC)",
+      "examples": ["WWUS30 KWNS 211900"],
+      "x-translate": false
+    },
+    "awipsId": {
+      "type": "string",
+      "description": "AWIPS product id",
+      "examples": ["SEL5"],
+      "x-translate": false
+    },
+    "watchType": {
+      "type": "string",
+      "description": "Watch type",
+      "enum": ["Tornado Watch", "Severe Thunderstorm Watch"],
+      "examples": ["Tornado Watch"]
+    },
+    "number": {
+      "type": "string",
+      "description": "Watch number",
+      "examples": ["456"],
+      "maxLength": 4,
+      "x-translate": false
+    },
+    "office": {
+      "type": "string",
+      "description": "Issuing office line",
+      "examples": ["NWS Storm Prediction Center Norman OK"]
+    },
+    "issued": {
+      "type": "string",
+      "description": "Issuance line",
+      "examples": ["300 PM CDT Wed Oct 21 2026"]
+    },
+    "area": {
+      "type": "string",
+      "description": "Areas the watch covers",
+      "examples": ["portions of southwest Ohio, northern Kentucky"]
+    },
+    "effective": {
+      "type": "string",
+      "description": "Effective period",
+      "examples": ["this Wednesday afternoon and evening from 300 PM until 900 PM EDT"]
+    },
+    "primaryThreats": {
+      "type": "array",
+      "description": "Primary threats (bullets)",
+      "maxItems": 6,
+      "items": {
+        "type": "string",
+        "description": "One line or paragraph",
+        "examples": ["A few tornadoes and a couple of intense tornadoes possible"]
+      },
+      "examples": [
+        [
+          "A few tornadoes and a couple of intense tornadoes possible",
+          "Scattered large hail and isolated very large hail events to 2 inches in diameter possible",
+          "Scattered damaging wind gusts to 70 mph possible"
+        ]
+      ]
+    },
+    "summary": {
+      "type": "string",
+      "description": "SUMMARY paragraph",
+      "examples": [
+        "Scattered thunderstorms will develop this afternoon along a cold front and move east. A few storms may become supercells."
+      ]
+    },
+    "forecaster": {
+      "type": "string",
+      "description": "Forecaster surname",
+      "examples": ["Smith"],
+      "maxLength": 40
+    }
+  }
+}

@@ -1,0 +1,49 @@
+<div class="wx">
+  <header class="nws">
+    <div>
+      <div class="agency">NOAA / National Hurricane Center</div>
+      <div class="tag">Miami, Florida</div>
+    </div>
+    <div class="ex">EXERCISE</div>
+  </header>
+  <div class="crumb">Products › Public Advisory</div>
+  <div class="product">
+    {{#if fields.wmoHeader}}
+    <div class="ln">{{fields.wmoHeader}}</div>
+    {{/if}} {{#if fields.awipsId}}
+    <div class="ln">{{fields.awipsId}}</div>
+    {{/if}}
+    <div class="gap"></div>
+    <div class="ln">BULLETIN</div>
+    {{#if fields.stormTitle}}
+    <div class="ln">{{fields.stormTitle}}</div>
+    {{/if}} {{#if fields.office}}
+    <div class="ln">{{fields.office}}</div>
+    {{/if}} {{#if fields.issued}}
+    <div class="ln">{{fields.issued}}</div>
+    {{/if}}
+    <div class="gap"></div>
+    {{#each fields.headlines}}
+    <div class="ln">{{this}}</div>
+    {{/each}}
+    <div class="gap"></div>
+    <div class="ln">SUMMARY OF 400 PM CDT...2100 UTC...INFORMATION</div>
+    <div class="ln">----------------------------------------------</div>
+    {{#each fields.summaryInfo}}
+    <div class="kv"><b>{{upper label}}...</b>{{value}}</div>
+    {{/each}}
+    <div class="gap"></div>
+    {{#each fields.sections}}
+    <div class="ln">.{{upper heading}}...</div>
+    <div class="p">{{text}}</div>
+    <div class="gap"></div>
+    {{/each}} {{#if fields.nextAdvisory}}
+    <div class="ln">{{fields.nextAdvisory}}</div>
+    {{/if}}
+    <div class="gap"></div>
+    <div class="ln">$$</div>
+    {{#if fields.forecaster}}
+    <div class="ln">{{fields.forecaster}}</div>
+    {{/if}}
+  </div>
+</div>

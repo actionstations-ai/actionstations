@@ -1,0 +1,60 @@
+<div class="wx">
+  <header class="nws">
+    <div>
+      <div class="agency">National Weather Service</div>
+      <div class="tag">Wilmington, Ohio</div>
+    </div>
+    <div class="ex">EXERCISE</div>
+  </header>
+  <div class="crumb">Text Products › Local Storm Report</div>
+  <div class="product">
+    {{#if fields.wmoHeader}}
+    <div class="ln">{{fields.wmoHeader}}</div>
+    {{/if}} {{#if fields.awipsId}}
+    <div class="ln">{{fields.awipsId}}</div>
+    {{/if}}
+    <div class="gap"></div>
+    <div class="ln">Preliminary Local Storm Report...Summary</div>
+    {{#if fields.office}}
+    <div class="ln">{{fields.office}}</div>
+    {{/if}} {{#if fields.issued}}
+    <div class="ln">{{fields.issued}}</div>
+    {{/if}}
+    <div class="gap"></div>
+    <table class="lsr">
+      <thead>
+        <tr>
+          <th>Time</th>
+          <th>Event</th>
+          <th>Magnitude</th>
+          <th>Location</th>
+          <th>County</th>
+          <th>St</th>
+          <th>Source</th>
+        </tr>
+      </thead>
+      <tbody>
+        {{#each fields.reports}}
+        <tr>
+          <td>{{time}}</td>
+          <td>{{event}}</td>
+          <td>{{magnitude}}</td>
+          <td>{{location}}</td>
+          <td>{{county}}</td>
+          <td>{{state}}</td>
+          <td>{{source}}</td>
+        </tr>
+        <tr class="rem">
+          <td colspan="7">{{remarks}}</td>
+        </tr>
+        {{/each}}
+      </tbody>
+    </table>
+    <div class="gap"></div>
+    <div class="ln">&amp;&amp;</div>
+    <div class="gap"></div>
+    {{#if fields.forecaster}}
+    <div class="ln">{{fields.forecaster}}</div>
+    {{/if}}
+  </div>
+</div>

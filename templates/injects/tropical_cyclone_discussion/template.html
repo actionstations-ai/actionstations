@@ -1,0 +1,49 @@
+<div class="wx">
+  <header class="nws">
+    <div>
+      <div class="agency">NOAA / National Hurricane Center</div>
+      <div class="tag">Miami, Florida</div>
+    </div>
+    <div class="ex">EXERCISE</div>
+  </header>
+  <div class="crumb">Products › Forecast Discussion</div>
+  <div class="product">
+    {{#if fields.wmoHeader}}
+    <div class="ln">{{fields.wmoHeader}}</div>
+    {{/if}} {{#if fields.awipsId}}
+    <div class="ln">{{fields.awipsId}}</div>
+    {{/if}}
+    <div class="gap"></div>
+    {{#if fields.title}}
+    <div class="ln">{{fields.title}}</div>
+    {{/if}} {{#if fields.office}}
+    <div class="ln">{{fields.office}}</div>
+    {{/if}} {{#if fields.issued}}
+    <div class="ln">{{fields.issued}}</div>
+    {{/if}}
+    <div class="gap"></div>
+    {{#each fields.sections}}
+    <div class="ln">.{{upper heading}}...</div>
+    <div class="p">{{text}}</div>
+    <div class="gap"></div>
+    {{/each}} {{#if fields.forecastTable}}
+    <div class="ln">FORECAST POSITIONS AND MAX WINDS</div>
+    <table class="lsr">
+      <tbody>
+        {{#each fields.forecastTable}}
+        <tr>
+          <td>{{time}}</td>
+          <td>{{position}}</td>
+          <td>{{wind}}</td>
+        </tr>
+        {{/each}}
+      </tbody>
+    </table>
+    {{/if}}
+    <div class="gap"></div>
+    <div class="ln">$$</div>
+    {{#if fields.forecaster}}
+    <div class="ln">{{fields.forecaster}}</div>
+    {{/if}}
+  </div>
+</div>

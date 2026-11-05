@@ -1,0 +1,19 @@
+<div class="wx">
+  <header class="nws">
+    <div>
+      <div class="agency">Aviation Weather</div>
+      <div class="tag">Advisories</div>
+    </div>
+    <div class="ex">EXERCISE</div>
+  </header>
+  <div class="crumb">Advisories › SIGMET</div>
+  <div class="product">
+    {{#if fields.wmoHeader}}
+    <div class="ln">{{fields.wmoHeader}}</div>
+    {{/if}} {{#if fields.awipsId}}
+    <div class="ln">{{fields.awipsId}}</div>
+    {{/if}} {{#each fields.lines}}
+    <div class="ln">{{this}}</div>
+    {{/each}}
+  </div>
+</div>

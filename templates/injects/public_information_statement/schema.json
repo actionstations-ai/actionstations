@@ -1,0 +1,105 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Public information statement (damage survey)",
+  "description": "A Public Information Statement carrying a storm damage survey (rating, path, injuries). Preliminary; ratings are never final in the first statement. Exercise product: the template adds an exercise banner. Real NWS office, center and station identifiers; the county, places and people are fictional.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["office", "issued", "subject", "intro", "details"],
+  "properties": {
+    "wmoHeader": {
+      "type": "string",
+      "description": "WMO heading: TTAAii CCCC DDHHMM (UTC)",
+      "examples": ["NOUS43 KILN 220230"],
+      "x-translate": false
+    },
+    "awipsId": {
+      "type": "string",
+      "description": "AWIPS product id",
+      "examples": ["PNSILN"],
+      "x-translate": false
+    },
+    "office": {
+      "type": "string",
+      "description": "Issuing office",
+      "examples": ["National Weather Service Wilmington OH"]
+    },
+    "issued": {
+      "type": "string",
+      "description": "Issuance line",
+      "examples": ["1030 PM EDT Wed Oct 21 2026"]
+    },
+    "subject": {
+      "type": "string",
+      "description": "Subject line, starting with ...",
+      "examples": ["...NWS Damage Survey for 10/21/26 Tornado Event..."]
+    },
+    "intro": {
+      "type": "array",
+      "description": "Opening paragraphs",
+      "maxItems": 3,
+      "items": {
+        "type": "string",
+        "description": "One line or paragraph",
+        "examples": [
+          "A National Weather Service damage survey team found damage consistent with a tornado near Milford in Haldane County this afternoon."
+        ]
+      },
+      "examples": [
+        [
+          "A National Weather Service damage survey team found damage consistent with a tornado near Milford in Haldane County this afternoon."
+        ]
+      ]
+    },
+    "details": {
+      "type": "array",
+      "description": "Event details as label/value lines (up to 12)",
+      "maxItems": 12,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["label", "value"],
+        "properties": {
+          "label": {
+            "type": "string",
+            "description": "Label",
+            "examples": ["Rating"]
+          },
+          "value": {
+            "type": "string",
+            "description": "Value",
+            "examples": ["EF1"]
+          }
+        }
+      },
+      "examples": [
+        [
+          {
+            "label": "Rating",
+            "value": "EF1"
+          },
+          {
+            "label": "Estimated peak wind",
+            "value": "95 mph"
+          }
+        ]
+      ]
+    },
+    "closing": {
+      "type": "array",
+      "description": "Closing paragraphs",
+      "maxItems": 3,
+      "items": {
+        "type": "string",
+        "description": "One line or paragraph",
+        "examples": ["This information is preliminary and may be updated as the survey continues."]
+      },
+      "examples": [["This information is preliminary and may be updated as the survey continues."]]
+    },
+    "forecaster": {
+      "type": "string",
+      "description": "Forecaster surname",
+      "examples": ["Kowalski"],
+      "maxLength": 40
+    }
+  }
+}

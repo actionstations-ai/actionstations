@@ -118,5 +118,30 @@
       "A real past event keeps its real dates and places; do not mix its storm reports with invented ones without saying so.",
       "Warnings have limited lead time and false alarms; do not give a perfect forecast. Include a missed or late warning when the objectives call for it."
     ]
-  }
+  },
+  "injectTypes": [
+    "nws_weather_warning",
+    "cap_alert",
+    "eas_broadcast",
+    "convective_outlook",
+    "mesoscale_discussion",
+    "spc_watch",
+    "local_storm_report",
+    "public_information_statement",
+    "area_forecast_discussion",
+    "hazardous_weather_outlook",
+    "tropical_cyclone_discussion",
+    "excessive_rainfall_outlook",
+    "fire_weather_forecast",
+    "tropical_cyclone_advisory",
+    "tropical_cyclone_local_statement",
+    "storm_surge_warning",
+    "red_flag_warning",
+    "metar_report",
+    "taf_forecast",
+    "sigmet_advisory",
+    "weather_partner_chat",
+    "idss_briefing"
+  ],
+  "lintRules": ["metar_syntax", "taf_syntax", "latlon_polygon", "product_header", "vtec_syntax"]
 }

@@ -1,0 +1,115 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Local storm report (NWS)",
+  "description": "A Local Storm Report as an NWS office sends it: one entry per report with time, event, magnitude, location, county, source and remarks. Exercise product: the template adds an exercise banner. Real NWS office, center and station identifiers; the county, places and people are fictional.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["office", "issued", "reports"],
+  "properties": {
+    "wmoHeader": {
+      "type": "string",
+      "description": "WMO heading: TTAAii CCCC DDHHMM (UTC)",
+      "examples": ["NWUS53 KILN 212025"],
+      "x-translate": false
+    },
+    "awipsId": {
+      "type": "string",
+      "description": "AWIPS product id",
+      "examples": ["LSRILN"],
+      "x-translate": false
+    },
+    "office": {
+      "type": "string",
+      "description": "Issuing office",
+      "examples": ["National Weather Service Wilmington OH"]
+    },
+    "issued": {
+      "type": "string",
+      "description": "Issuance line",
+      "examples": ["425 PM EDT Wed Oct 21 2026"]
+    },
+    "reports": {
+      "type": "array",
+      "description": "Reports (up to 8)",
+      "maxItems": 8,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "time",
+          "event",
+          "magnitude",
+          "location",
+          "county",
+          "state",
+          "source",
+          "remarks"
+        ],
+        "properties": {
+          "time": {
+            "type": "string",
+            "description": "Report time local",
+            "examples": ["0328 PM"]
+          },
+          "event": {
+            "type": "string",
+            "description": "Event type, upper case",
+            "examples": ["TORNADO"]
+          },
+          "magnitude": {
+            "type": "string",
+            "description": "Magnitude or empty string",
+            "examples": ["EF-U"]
+          },
+          "location": {
+            "type": "string",
+            "description": "Location with distance and direction",
+            "examples": ["2 N MILFORD"]
+          },
+          "county": {
+            "type": "string",
+            "description": "County",
+            "examples": ["HALDANE"]
+          },
+          "state": {
+            "type": "string",
+            "description": "State",
+            "examples": ["OH"]
+          },
+          "source": {
+            "type": "string",
+            "description": "Source",
+            "examples": ["TRAINED SPOTTER"]
+          },
+          "remarks": {
+            "type": "string",
+            "description": "Remarks",
+            "examples": [
+              "Spotter reported a tornado on the ground moving northeast. Trees down on County Road 12."
+            ]
+          }
+        }
+      },
+      "examples": [
+        [
+          {
+            "time": "0328 PM",
+            "event": "TORNADO",
+            "magnitude": "EF-U",
+            "location": "2 N MILFORD",
+            "county": "HALDANE",
+            "state": "OH",
+            "source": "TRAINED SPOTTER",
+            "remarks": "Spotter reported a tornado on the ground moving northeast. Trees down on County Road 12."
+          }
+        ]
+      ]
+    },
+    "forecaster": {
+      "type": "string",
+      "description": "Forecaster surname",
+      "examples": ["Kowalski"],
+      "maxLength": 40
+    }
+  }
+}

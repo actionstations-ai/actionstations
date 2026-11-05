@@ -1,0 +1,109 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "SPC convective outlook (Day 1-3)",
+  "description": "A Storm Prediction Center convective outlook text product (Day 1 to 3). The map is a separate figure inject. Always an exercise product. Exercise product: the template adds an exercise banner. Real NWS office, center and station identifiers; the county, places and people are fictional.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "productName",
+    "office",
+    "issued",
+    "valid",
+    "forecaster",
+    "riskHeadline",
+    "summary",
+    "areaDiscussions"
+  ],
+  "properties": {
+    "wmoHeader": {
+      "type": "string",
+      "description": "WMO heading: TTAAii CCCC DDHHMM (UTC)",
+      "examples": ["ACUS01 KWNS 211630"],
+      "x-translate": false
+    },
+    "awipsId": {
+      "type": "string",
+      "description": "AWIPS product id",
+      "examples": ["SWODY1"],
+      "x-translate": false
+    },
+    "productName": {
+      "type": "string",
+      "description": "Product name",
+      "examples": ["Day 1 Convective Outlook"],
+      "maxLength": 60
+    },
+    "office": {
+      "type": "string",
+      "description": "Issuing office line",
+      "examples": ["NWS Storm Prediction Center Norman OK"]
+    },
+    "issued": {
+      "type": "string",
+      "description": "Issuance line (local time of the center)",
+      "examples": ["1130 AM CDT Wed Oct 21 2026"]
+    },
+    "valid": {
+      "type": "string",
+      "description": "Valid period line",
+      "examples": ["Valid 211630Z - 221200Z"]
+    },
+    "forecaster": {
+      "type": "string",
+      "description": "Forecaster surname or initials, with the two dots prefix",
+      "examples": ["Smith"]
+    },
+    "riskHeadline": {
+      "type": "string",
+      "description": "The risk statement line, upper case, starting with ...THERE IS",
+      "examples": [
+        "...THERE IS AN ENHANCED RISK OF SEVERE THUNDERSTORMS THIS AFTERNOON AND EVENING ACROSS THE MIDDLE OHIO VALLEY..."
+      ]
+    },
+    "summary": {
+      "type": "string",
+      "description": "SUMMARY paragraph",
+      "examples": [
+        "Severe thunderstorms capable of damaging winds, large hail and a few tornadoes are expected from the Ohio Valley into the central Appalachians this afternoon and evening."
+      ]
+    },
+    "areaDiscussions": {
+      "type": "array",
+      "description": "Discussion sections by area (up to 4)",
+      "maxItems": 4,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["heading", "text"],
+        "properties": {
+          "heading": {
+            "type": "string",
+            "description": "Area heading as in the product",
+            "examples": ["Middle Ohio Valley"]
+          },
+          "text": {
+            "type": "string",
+            "description": "Discussion paragraph",
+            "examples": [
+              "A cold front will move east into a warm, moist airmass. Surface dewpoints in the mid 60s and steep midlevel lapse rates will support MLCAPE near 2000 J/kg. Strong deep-layer shear favors supercells."
+            ]
+          }
+        }
+      },
+      "examples": [
+        [
+          {
+            "heading": "Middle Ohio Valley",
+            "text": "A cold front will move east into a warm, moist airmass. Surface dewpoints in the mid 60s will support MLCAPE near 2000 J/kg. Strong shear favors supercells."
+          }
+        ]
+      ]
+    },
+    "categoryTable": {
+      "type": "string",
+      "description": "Optional risk category and probability lines",
+      "examples": ["ENH: tornado 5%, wind 30%, hail 15%"],
+      "maxLength": 200
+    }
+  }
+}

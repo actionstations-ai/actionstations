@@ -1,0 +1,35 @@
+<div class="wx">
+  <header class="nws">
+    <div>
+      <div class="agency">National Weather Service</div>
+      <div class="tag">Wilmington, Ohio</div>
+    </div>
+    <div class="ex">EXERCISE</div>
+  </header>
+  <div class="crumb">Text Products › Hazardous Weather Outlook</div>
+  <div class="product">
+    {{#if fields.wmoHeader}}
+    <div class="ln">{{fields.wmoHeader}}</div>
+    {{/if}} {{#if fields.awipsId}}
+    <div class="ln">{{fields.awipsId}}</div>
+    {{/if}}
+    <div class="gap"></div>
+    {{#if fields.title}}
+    <div class="ln">{{fields.title}}</div>
+    {{/if}} {{#if fields.office}}
+    <div class="ln">{{fields.office}}</div>
+    {{/if}} {{#if fields.issued}}
+    <div class="ln">{{fields.issued}}</div>
+    {{/if}}
+    <div class="gap"></div>
+    {{#each fields.sections}}
+    <div class="ln">.{{upper heading}}...</div>
+    <div class="p">{{text}}</div>
+    <div class="gap"></div>
+    {{/each}}
+    <div class="ln">$$</div>
+    {{#if fields.forecaster}}
+    <div class="ln">{{fields.forecaster}}</div>
+    {{/if}}
+  </div>
+</div>

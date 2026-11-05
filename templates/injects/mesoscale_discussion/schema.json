@@ -1,0 +1,117 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "SPC mesoscale discussion",
+  "description": "A Storm Prediction Center mesoscale discussion. Always an exercise product; it precedes a watch in its area. Exercise product: the template adds an exercise banner. Real NWS office, center and station identifiers; the county, places and people are fictional.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "number",
+    "office",
+    "issued",
+    "areasAffected",
+    "concerning",
+    "valid",
+    "watchProbability",
+    "summary",
+    "discussion",
+    "forecaster"
+  ],
+  "properties": {
+    "number": {
+      "type": "string",
+      "description": "Discussion number, four digits",
+      "examples": ["0456"],
+      "maxLength": 4,
+      "x-translate": false
+    },
+    "office": {
+      "type": "string",
+      "description": "Issuing office line",
+      "examples": ["NWS Storm Prediction Center Norman OK"]
+    },
+    "issued": {
+      "type": "string",
+      "description": "Issuance line",
+      "examples": ["0310 PM CDT Wed Oct 21 2026"]
+    },
+    "areasAffected": {
+      "type": "string",
+      "description": "Areas affected line",
+      "examples": ["Southwest Ohio into northern Kentucky"]
+    },
+    "concerning": {
+      "type": "string",
+      "description": "Concerning line",
+      "examples": ["Severe potential...Watch likely"]
+    },
+    "valid": {
+      "type": "string",
+      "description": "Valid line",
+      "examples": ["211910Z - 212045Z"]
+    },
+    "watchProbability": {
+      "type": "string",
+      "description": "Probability of watch issuance",
+      "examples": ["80 percent"],
+      "maxLength": 20
+    },
+    "summary": {
+      "type": "string",
+      "description": "SUMMARY paragraph",
+      "examples": [
+        "Thunderstorms are expected to intensify over the next hour. Damaging winds and a tornado or two are possible and a tornado watch will likely be issued."
+      ]
+    },
+    "discussion": {
+      "type": "array",
+      "description": "DISCUSSION paragraphs (1 to 4)",
+      "maxItems": 4,
+      "items": {
+        "type": "string",
+        "description": "One line or paragraph",
+        "examples": [
+          "Cumulus is deepening along a surface boundary draped across southwest Ohio. MLCAPE is near 1800 J/kg with 40 kt of effective shear, supporting organized storms as the cap erodes."
+        ]
+      },
+      "examples": [
+        [
+          "Cumulus is deepening along a surface boundary draped across southwest Ohio. MLCAPE is near 1800 J/kg with 40 kt of effective shear, supporting organized storms as the cap erodes."
+        ]
+      ]
+    },
+    "forecaster": {
+      "type": "string",
+      "description": "Forecaster surname",
+      "examples": ["Smith"],
+      "maxLength": 40
+    },
+    "attn": {
+      "type": "string",
+      "description": "ATTN...WFO... line",
+      "examples": ["ATTN...WFO...ILN...CVG..."],
+      "maxLength": 100,
+      "x-translate": false
+    },
+    "latLon": {
+      "type": "string",
+      "description": "LAT...LON polygon line",
+      "examples": ["LAT...LON 3965 8445 3925 8385 3890 8400 3905 8470"],
+      "maxLength": 200,
+      "x-translate": false
+    },
+    "peakWind": {
+      "type": "string",
+      "description": "Most probable peak wind gust",
+      "examples": ["MOST PROBABLE PEAK WIND GUST...60-70 MPH"],
+      "maxLength": 80,
+      "x-translate": false
+    },
+    "peakHail": {
+      "type": "string",
+      "description": "Most probable peak hail size",
+      "examples": ["MOST PROBABLE PEAK HAIL SIZE...UP TO 1.75 IN"],
+      "maxLength": 80,
+      "x-translate": false
+    }
+  }
+}
