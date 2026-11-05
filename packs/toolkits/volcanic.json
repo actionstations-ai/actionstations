@@ -36,7 +36,8 @@
     "vona",
     "volcano_alert_badge",
     "volcanic_ash_advisory",
-    "lahar_warning"
+    "lahar_warning",
+    "geo_figure"
   ],
   "figureKinds": [
     "monitoring_series",
@@ -68,12 +69,20 @@
     {
       "id": "threshold_timing",
       "label": "Lahar evacuation before arrival",
-      "config": { "actionKind": "order_evacuation", "threshold": 1, "clearanceMin": 20 }
+      "config": {
+        "actionKind": "order_evacuation",
+        "threshold": 1,
+        "clearanceMin": 20
+      }
     },
     {
       "id": "decision_timing",
       "label": "Alert level change against eruption onset",
-      "config": { "leadWindowMin": 360, "graceWindowMin": 0, "matchArea": false }
+      "config": {
+        "leadWindowMin": 360,
+        "graceWindowMin": 0,
+        "matchArea": false
+      }
     },
     {
       "id": "message_consistency",
@@ -101,7 +110,12 @@
           "required": true,
           "choices": ["Green", "Yellow", "Orange", "Red"]
         },
-        { "id": "time", "label": "Time", "kind": "time", "required": true }
+        {
+          "id": "time",
+          "label": "Time",
+          "kind": "time",
+          "required": true
+        }
       ]
     },
     {
@@ -109,8 +123,18 @@
       "label": "Order an evacuation",
       "description": "Order the evacuation of a hazard zone (lahar, ashfall, pyroclastic flow).",
       "fields": [
-        { "id": "zone", "label": "Zone", "kind": "area", "required": true },
-        { "id": "time", "label": "Time ordered", "kind": "time", "required": true }
+        {
+          "id": "zone",
+          "label": "Zone",
+          "kind": "area",
+          "required": true
+        },
+        {
+          "id": "time",
+          "label": "Time ordered",
+          "kind": "time",
+          "required": true
+        }
       ]
     },
     {
@@ -118,9 +142,23 @@
       "label": "Issue an aviation or public ash statement",
       "description": "A notice for aviation or the public about an ash cloud.",
       "fields": [
-        { "id": "audience", "label": "Audience", "kind": "text" },
-        { "id": "key_message", "label": "Key message", "kind": "text", "required": true },
-        { "id": "time", "label": "Time", "kind": "time", "required": true }
+        {
+          "id": "audience",
+          "label": "Audience",
+          "kind": "text"
+        },
+        {
+          "id": "key_message",
+          "label": "Key message",
+          "kind": "text",
+          "required": true
+        },
+        {
+          "id": "time",
+          "label": "Time",
+          "kind": "time",
+          "required": true
+        }
       ]
     }
   ],

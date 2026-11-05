@@ -34,7 +34,8 @@
     "debris_flow_assessment",
     "rainfall_threshold_guidance",
     "hazard_road_closure",
-    "ground_failure_summary"
+    "ground_failure_summary",
+    "geo_figure"
   ],
   "figureKinds": ["debris_flow_hazard_map", "time_series", "status_board"],
   "connectors": ["landslide-assessments", "quaternary-faults", "comcat"],
@@ -59,7 +60,11 @@
     {
       "id": "threshold_timing",
       "label": "Closure or evacuation before the rainfall threshold is crossed",
-      "config": { "actionKind": "close_road", "threshold": 1, "clearanceMin": 60 }
+      "config": {
+        "actionKind": "close_road",
+        "threshold": 1,
+        "clearanceMin": 60
+      }
     },
     {
       "id": "message_consistency",
@@ -73,9 +78,23 @@
       "label": "Close a road, bridge or rail line",
       "description": "Close a route below a burn area or near an unstable slope.",
       "fields": [
-        { "id": "route", "label": "Road, bridge or line", "kind": "text", "required": true },
-        { "id": "area", "label": "Area", "kind": "area" },
-        { "id": "time", "label": "Time", "kind": "time", "required": true }
+        {
+          "id": "route",
+          "label": "Road, bridge or line",
+          "kind": "text",
+          "required": true
+        },
+        {
+          "id": "area",
+          "label": "Area",
+          "kind": "area"
+        },
+        {
+          "id": "time",
+          "label": "Time",
+          "kind": "time",
+          "required": true
+        }
       ]
     },
     {
@@ -83,8 +102,18 @@
       "label": "Order an evacuation",
       "description": "Order the evacuation of homes below a burn area or an unstable slope.",
       "fields": [
-        { "id": "zone", "label": "Zone", "kind": "area", "required": true },
-        { "id": "time", "label": "Time ordered", "kind": "time", "required": true }
+        {
+          "id": "zone",
+          "label": "Zone",
+          "kind": "area",
+          "required": true
+        },
+        {
+          "id": "time",
+          "label": "Time ordered",
+          "kind": "time",
+          "required": true
+        }
       ]
     },
     {
@@ -92,8 +121,18 @@
       "label": "Re-open a route",
       "description": "Re-open a cleared route before or after the next storm.",
       "fields": [
-        { "id": "route", "label": "Road, bridge or line", "kind": "text", "required": true },
-        { "id": "time", "label": "Time", "kind": "time", "required": true }
+        {
+          "id": "route",
+          "label": "Road, bridge or line",
+          "kind": "text",
+          "required": true
+        },
+        {
+          "id": "time",
+          "label": "Time",
+          "kind": "time",
+          "required": true
+        }
       ]
     }
   ],

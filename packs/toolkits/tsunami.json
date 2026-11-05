@@ -32,7 +32,7 @@
       "commercial_facilities"
     ]
   },
-  "injectTypes": ["tsunami_message", "tsunami_threat_message"],
+  "injectTypes": ["tsunami_message", "tsunami_threat_message", "geo_figure"],
   "figureKinds": ["tsunami_travel_map", "inundation_zones", "gauge_record", "time_series"],
   "connectors": ["tsunami-events", "coops-tides", "ndbc-dart", "comcat"],
   "outsideParties": [
@@ -57,12 +57,20 @@
     {
       "id": "threshold_timing",
       "label": "Evacuation complete before the first wave",
-      "config": { "actionKind": "order_evacuation", "threshold": 1, "clearanceMin": 15 }
+      "config": {
+        "actionKind": "order_evacuation",
+        "threshold": 1,
+        "clearanceMin": 15
+      }
     },
     {
       "id": "decision_timing",
       "label": "Message upgrade or cancellation against observed waves",
-      "config": { "leadWindowMin": 120, "graceWindowMin": 10, "matchArea": true }
+      "config": {
+        "leadWindowMin": 120,
+        "graceWindowMin": 10,
+        "matchArea": true
+      }
     },
     {
       "id": "message_consistency",
@@ -89,8 +97,18 @@
             "Cancellation"
           ]
         },
-        { "id": "area", "label": "Areas", "kind": "area", "required": true },
-        { "id": "time", "label": "Time", "kind": "time", "required": true }
+        {
+          "id": "area",
+          "label": "Areas",
+          "kind": "area",
+          "required": true
+        },
+        {
+          "id": "time",
+          "label": "Time",
+          "kind": "time",
+          "required": true
+        }
       ]
     },
     {
@@ -98,8 +116,18 @@
       "label": "Order an evacuation",
       "description": "Order the evacuation of a tsunami hazard zone.",
       "fields": [
-        { "id": "zone", "label": "Zone", "kind": "area", "required": true },
-        { "id": "time", "label": "Time ordered", "kind": "time", "required": true }
+        {
+          "id": "zone",
+          "label": "Zone",
+          "kind": "area",
+          "required": true
+        },
+        {
+          "id": "time",
+          "label": "Time ordered",
+          "kind": "time",
+          "required": true
+        }
       ]
     },
     {
@@ -119,7 +147,12 @@
             "No action"
           ]
         },
-        { "id": "time", "label": "Time", "kind": "time", "required": true }
+        {
+          "id": "time",
+          "label": "Time",
+          "kind": "time",
+          "required": true
+        }
       ]
     }
   ],
