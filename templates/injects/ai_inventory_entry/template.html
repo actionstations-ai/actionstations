@@ -1,0 +1,88 @@
+<section class="page">
+  <p class="marking">{{default fields.marking "EXERCISE · EXERCISE · EXERCISE"}}</p>
+  <header class="head">
+    <div>
+      <div class="org">{{fields.organization}}</div>
+      {{#if fields.entryId}}
+      <div class="sub">{{fields.entryId}}</div>
+      {{/if}}
+    </div>
+    <div class="doc-title">AI system inventory entry</div>
+  </header>
+  <h1>{{fields.systemName}}</h1>
+  <p>
+    Risk class: <span class="tier">{{fields.riskClass}}</span> · Status:
+    <strong>{{fields.status}}</strong>
+  </p>
+  <table class="kv">
+    <tbody>
+      {{#if fields.purpose}}
+      <tr>
+        <th>Purpose</th>
+        <td>{{fields.purpose}}</td>
+      </tr>
+      {{/if}} {{#if fields.owner}}
+      <tr>
+        <th>Owner</th>
+        <td>{{fields.owner}}</td>
+      </tr>
+      {{/if}} {{#if fields.vendor}}
+      <tr>
+        <th>Vendor</th>
+        <td>{{fields.vendor}}</td>
+      </tr>
+      {{/if}} {{#if fields.riskBasis}}
+      <tr>
+        <th>Why this class</th>
+        <td>{{fields.riskBasis}}</td>
+      </tr>
+      {{/if}} {{#if fields.intendedUsers}}
+      <tr>
+        <th>Intended users</th>
+        <td>{{fields.intendedUsers}}</td>
+      </tr>
+      {{/if}} {{#if fields.modelVersion}}
+      <tr>
+        <th>Version in use</th>
+        <td>{{fields.modelVersion}}</td>
+      </tr>
+      {{/if}} {{#if fields.deployedOn}}
+      <tr>
+        <th>Deployed</th>
+        <td>{{fields.deployedOn}}</td>
+      </tr>
+      {{/if}} {{#if fields.humanOversight}}
+      <tr>
+        <th>Human oversight</th>
+        <td>{{fields.humanOversight}}</td>
+      </tr>
+      {{/if}} {{#if fields.lastEvaluation}}
+      <tr>
+        <th>Last evaluation</th>
+        <td>{{fields.lastEvaluation}}</td>
+      </tr>
+      {{/if}} {{#if fields.monitoring}}
+      <tr>
+        <th>Monitoring</th>
+        <td>{{fields.monitoring}}</td>
+      </tr>
+      {{/if}}
+    </tbody>
+  </table>
+  {{#if fields.dataClasses}}
+  <h2>Data it sees</h2>
+  <ul>
+    {{#each fields.dataClasses}}
+    <li>{{this}}</li>
+    {{/each}}
+  </ul>
+  {{/if}} {{#if fields.notes}}
+  <div class="callout">{{fields.notes}}</div>
+  {{/if}}
+  <div class="spacer"></div>
+  <div class="foot">
+    <span>Inventory entry {{fields.entryId}}</span
+    ><span>Exercise material. All people, banks, vendors and systems are fictional.</span>
+  </div>
+  <p class="marking">{{default fields.marking "EXERCISE · EXERCISE · EXERCISE"}}</p>
+</section>

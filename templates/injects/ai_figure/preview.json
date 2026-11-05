@@ -1,0 +1,549 @@
+{
+  "variant": "ai_eval_series",
+  "fields": {
+    "heading": "Customer assistant evaluation",
+    "source": "Simulated weekly sample. Not a real system.",
+    "figures": {
+      "main": {
+        "kind": "ai_eval_series",
+        "data": {
+          "title": "Customer assistant: harmful-output rate by day",
+          "metric": "Harmful-output rate on the daily sample",
+          "points": [
+            {
+              "x": 0,
+              "y": 0.63
+            },
+            {
+              "x": 1,
+              "y": 0.29
+            },
+            {
+              "x": 2,
+              "y": 0.14
+            },
+            {
+              "x": 3,
+              "y": 0.4
+            },
+            {
+              "x": 4,
+              "y": 0.61
+            },
+            {
+              "x": 5,
+              "y": 0.59
+            },
+            {
+              "x": 6,
+              "y": 0.83
+            },
+            {
+              "x": 7,
+              "y": 0.5
+            },
+            {
+              "x": 8,
+              "y": 0.57
+            },
+            {
+              "x": 9,
+              "y": 0.57
+            },
+            {
+              "x": 10,
+              "y": 1.01
+            },
+            {
+              "x": 11,
+              "y": 0.64
+            },
+            {
+              "x": 12,
+              "y": 0.89
+            },
+            {
+              "x": 13,
+              "y": 0.91
+            },
+            {
+              "x": 14,
+              "y": 1.69
+            },
+            {
+              "x": 15,
+              "y": 1.98
+            },
+            {
+              "x": 16,
+              "y": 3.09
+            },
+            {
+              "x": 17,
+              "y": 3.18
+            },
+            {
+              "x": 18,
+              "y": 4.5
+            },
+            {
+              "x": 19,
+              "y": 4.35
+            },
+            {
+              "x": 20,
+              "y": 4.3
+            },
+            {
+              "x": 21,
+              "y": 4.35
+            },
+            {
+              "x": 22,
+              "y": 3.99
+            },
+            {
+              "x": 23,
+              "y": 4.27
+            },
+            {
+              "x": 24,
+              "y": 4.45
+            },
+            {
+              "x": 25,
+              "y": 4.15
+            },
+            {
+              "x": 26,
+              "y": 4.46
+            },
+            {
+              "x": 27,
+              "y": 4.39
+            },
+            {
+              "x": 28,
+              "y": 4.17
+            },
+            {
+              "x": 29,
+              "y": 4.21
+            }
+          ],
+          "threshold": {
+            "value": 2,
+            "label": "Review threshold"
+          },
+          "changepoint": {
+            "x": 14,
+            "label": "Model update deployed"
+          },
+          "simulated": true
+        }
+      }
+    }
+  },
+  "variants": {
+    "ai_moderation_queue": {
+      "fields": {
+        "heading": "Moderation queue volume",
+        "source": "Simulated queue. Not a real platform.",
+        "figures": {
+          "main": {
+            "kind": "ai_moderation_queue",
+            "data": {
+              "title": "Moderation queue during the spread of the clip",
+              "hours": [
+                {
+                  "hour": 0,
+                  "received": 116,
+                  "reviewed": 116,
+                  "backlog": 0
+                },
+                {
+                  "hour": 1,
+                  "received": 102,
+                  "reviewed": 102,
+                  "backlog": 0
+                },
+                {
+                  "hour": 2,
+                  "received": 116,
+                  "reviewed": 116,
+                  "backlog": 0
+                },
+                {
+                  "hour": 3,
+                  "received": 111,
+                  "reviewed": 111,
+                  "backlog": 0
+                },
+                {
+                  "hour": 4,
+                  "received": 126,
+                  "reviewed": 126,
+                  "backlog": 0
+                },
+                {
+                  "hour": 5,
+                  "received": 122,
+                  "reviewed": 122,
+                  "backlog": 0
+                },
+                {
+                  "hour": 6,
+                  "received": 128,
+                  "reviewed": 128,
+                  "backlog": 0
+                },
+                {
+                  "hour": 7,
+                  "received": 128,
+                  "reviewed": 128,
+                  "backlog": 0
+                },
+                {
+                  "hour": 8,
+                  "received": 339,
+                  "reviewed": 150,
+                  "backlog": 189
+                },
+                {
+                  "hour": 9,
+                  "received": 368,
+                  "reviewed": 150,
+                  "backlog": 407
+                },
+                {
+                  "hour": 10,
+                  "received": 374,
+                  "reviewed": 150,
+                  "backlog": 631
+                },
+                {
+                  "hour": 11,
+                  "received": 386,
+                  "reviewed": 150,
+                  "backlog": 867
+                },
+                {
+                  "hour": 12,
+                  "received": 465,
+                  "reviewed": 150,
+                  "backlog": 1182
+                },
+                {
+                  "hour": 13,
+                  "received": 330,
+                  "reviewed": 150,
+                  "backlog": 1362
+                },
+                {
+                  "hour": 14,
+                  "received": 120,
+                  "reviewed": 150,
+                  "backlog": 1332
+                },
+                {
+                  "hour": 15,
+                  "received": 111,
+                  "reviewed": 150,
+                  "backlog": 1293
+                },
+                {
+                  "hour": 16,
+                  "received": 91,
+                  "reviewed": 150,
+                  "backlog": 1234
+                },
+                {
+                  "hour": 17,
+                  "received": 144,
+                  "reviewed": 150,
+                  "backlog": 1228
+                },
+                {
+                  "hour": 18,
+                  "received": 121,
+                  "reviewed": 150,
+                  "backlog": 1199
+                },
+                {
+                  "hour": 19,
+                  "received": 166,
+                  "reviewed": 150,
+                  "backlog": 1215
+                },
+                {
+                  "hour": 20,
+                  "received": 147,
+                  "reviewed": 150,
+                  "backlog": 1212
+                },
+                {
+                  "hour": 21,
+                  "received": 125,
+                  "reviewed": 150,
+                  "backlog": 1187
+                },
+                {
+                  "hour": 22,
+                  "received": 130,
+                  "reviewed": 150,
+                  "backlog": 1167
+                },
+                {
+                  "hour": 23,
+                  "received": 127,
+                  "reviewed": 150,
+                  "backlog": 1144
+                }
+              ],
+              "simulated": true
+            }
+          }
+        }
+      }
+    },
+    "ai_detector_scores": {
+      "fields": {
+        "heading": "Detector scores",
+        "source": "Simulated detector. Not a real product.",
+        "figures": {
+          "main": {
+            "kind": "ai_detector_scores",
+            "data": {
+              "title": "Detector scores for authentic and synthetic video",
+              "bins": [
+                {
+                  "from": 0,
+                  "to": 0.1,
+                  "authentic": 46,
+                  "synthetic": 2
+                },
+                {
+                  "from": 0.1,
+                  "to": 0.2,
+                  "authentic": 61,
+                  "synthetic": 0
+                },
+                {
+                  "from": 0.2,
+                  "to": 0.3,
+                  "authentic": 88,
+                  "synthetic": 2
+                },
+                {
+                  "from": 0.3,
+                  "to": 0.4,
+                  "authentic": 93,
+                  "synthetic": 9
+                },
+                {
+                  "from": 0.4,
+                  "to": 0.5,
+                  "authentic": 71,
+                  "synthetic": 19
+                },
+                {
+                  "from": 0.5,
+                  "to": 0.6,
+                  "authentic": 32,
+                  "synthetic": 37
+                },
+                {
+                  "from": 0.6,
+                  "to": 0.7,
+                  "authentic": 8,
+                  "synthetic": 41
+                },
+                {
+                  "from": 0.7,
+                  "to": 0.8,
+                  "authentic": 0,
+                  "synthetic": 48
+                },
+                {
+                  "from": 0.8,
+                  "to": 0.9,
+                  "authentic": 1,
+                  "synthetic": 32
+                },
+                {
+                  "from": 0.9,
+                  "to": 1,
+                  "authentic": 0,
+                  "synthetic": 10
+                }
+              ],
+              "threshold": 0.5,
+              "reported": {
+                "score": 0.54,
+                "uncertainty": 0.12,
+                "label": "Item under review"
+              },
+              "simulated": true
+            }
+          }
+        }
+      }
+    },
+    "ai_payment_timeline": {
+      "fields": {
+        "heading": "Transfers requested on the video call",
+        "source": "Simulated payments. All banks and accounts are fictional.",
+        "figures": {
+          "main": {
+            "kind": "ai_payment_timeline",
+            "data": {
+              "title": "Transfers requested on the video call",
+              "currency": "USD",
+              "events": [
+                {
+                  "minute": 0,
+                  "step": "instruction",
+                  "amount": 480000,
+                  "detail": "Transfer 1 requested"
+                },
+                {
+                  "minute": 14,
+                  "step": "approval",
+                  "amount": 480000,
+                  "detail": "Transfer 1 approved"
+                },
+                {
+                  "minute": 20,
+                  "step": "release",
+                  "amount": 480000,
+                  "detail": "Transfer 1 released"
+                },
+                {
+                  "minute": 39,
+                  "step": "instruction",
+                  "amount": 480000,
+                  "detail": "Transfer 2 requested"
+                },
+                {
+                  "minute": 45,
+                  "step": "approval",
+                  "amount": 480000,
+                  "detail": "Transfer 2 approved"
+                },
+                {
+                  "minute": 59,
+                  "step": "release",
+                  "amount": 480000,
+                  "detail": "Transfer 2 released"
+                },
+                {
+                  "minute": 84,
+                  "step": "instruction",
+                  "amount": 480000,
+                  "detail": "Transfer 3 requested"
+                },
+                {
+                  "minute": 90,
+                  "step": "approval",
+                  "amount": 480000,
+                  "detail": "Transfer 3 approved"
+                },
+                {
+                  "minute": 110,
+                  "step": "release",
+                  "amount": 480000,
+                  "detail": "Transfer 3 released"
+                },
+                {
+                  "minute": 140,
+                  "step": "settled",
+                  "amount": 480000,
+                  "detail": "Transfer 1 settled at the beneficiary bank"
+                },
+                {
+                  "minute": 179,
+                  "step": "settled",
+                  "amount": 480000,
+                  "detail": "Transfer 2 settled at the beneficiary bank"
+                },
+                {
+                  "minute": 190,
+                  "step": "discovery",
+                  "amount": 0,
+                  "detail": "The impersonated executive says they never asked"
+                },
+                {
+                  "minute": 204,
+                  "step": "hold_requested",
+                  "amount": 0,
+                  "detail": "Hold requested at the bank"
+                },
+                {
+                  "minute": 216,
+                  "step": "recall_sent",
+                  "amount": 0,
+                  "detail": "Recall request sent"
+                },
+                {
+                  "minute": 230,
+                  "step": "settled",
+                  "amount": 480000,
+                  "detail": "Transfer 3 settled at the beneficiary bank"
+                }
+              ],
+              "simulated": true
+            }
+          }
+        }
+      }
+    },
+    "ai_inventory_table": {
+      "fields": {
+        "heading": "AI system inventory",
+        "source": "Fictional inventory for the exercise.",
+        "figures": {
+          "main": {
+            "kind": "ai_inventory_table",
+            "data": {
+              "title": "AI system inventory (excerpt)",
+              "systems": [
+                {
+                  "name": "Harbor Assist",
+                  "purpose": "Customer-facing assistant for account questions",
+                  "riskClass": "limited",
+                  "owner": "Digital Products",
+                  "vendor": "Northgate Models",
+                  "status": "live"
+                },
+                {
+                  "name": "CreditLens",
+                  "purpose": "Scores consumer loan applications",
+                  "riskClass": "high",
+                  "owner": "Credit Risk",
+                  "vendor": "In-house",
+                  "status": "paused"
+                },
+                {
+                  "name": "Doc Summarizer",
+                  "purpose": "Summarizes internal documents for staff",
+                  "riskClass": "minimal",
+                  "owner": "IT Services",
+                  "vendor": "Northgate Models",
+                  "status": "pilot"
+                },
+                {
+                  "name": "Clip Check",
+                  "purpose": "Flags suspected synthetic video for review",
+                  "riskClass": "unclassified",
+                  "owner": "Trust and Safety",
+                  "vendor": "In-house",
+                  "status": "live"
+                }
+              ]
+            }
+          }
+        }
+      }
+    }
+  }
+}

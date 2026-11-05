@@ -1,0 +1,21 @@
+{
+  "fields": {
+    "organization": "Harborline Credit Union",
+    "entryId": "INV-014",
+    "systemName": "Harbor Assist",
+    "purpose": "Answers customer questions about accounts and cards in the mobile app.",
+    "owner": "Digital Products, Ines Calder",
+    "vendor": "Northgate Models (fictional)",
+    "riskClass": "Limited",
+    "riskBasis": "Customer-facing chatbot; users must be told they are talking to an AI system. Not used for credit decisions.",
+    "intendedUsers": "Retail customers over 18",
+    "dataClasses": ["Account balances", "Card status", "Support chat history"],
+    "modelVersion": "model 4.2 / prompt 18",
+    "deployedOn": "October 28, 2026",
+    "humanOversight": "Support agents review flagged sessions daily; a kill switch sits with the model owner.",
+    "lastEvaluation": "October 21, 2026; harmful-output rate 0.6 percent on the weekly sample",
+    "monitoring": "Daily sample of 400 sessions scored by a classifier; alert at 2 percent.",
+    "status": "Live",
+    "notes": "Paused for advice answers on November 3 pending review."
+  }
+}

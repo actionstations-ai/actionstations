@@ -1,0 +1,173 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Bank payment recall request",
+  "description": "A request from a company to its bank to hold and recall payments obtained by fraud (for example after a deepfaked executive on a video call). Lists each payment, the reason, when the fraud was discovered and a callback contact. All account and bank identifiers are fictional test values (TEST- prefix).",
+  "type": "object",
+  "required": [
+    "company",
+    "bank",
+    "payments",
+    "reason",
+    "discoveredAt",
+    "requestedAction",
+    "sentAt"
+  ],
+  "properties": {
+    "marking": {
+      "type": "string",
+      "description": "Exercise marking",
+      "examples": ["EXERCISE · EXERCISE · EXERCISE"],
+      "x-translate": false
+    },
+    "company": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "Requesting company",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Company (fictional)",
+          "examples": ["Redfern Logistics"],
+          "x-translate": false
+        },
+        "account": {
+          "type": "string",
+          "description": "Originating account (test value)",
+          "examples": ["TEST-20481177"],
+          "x-translate": false
+        }
+      },
+      "required": ["name", "account"]
+    },
+    "bank": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "Bank addressed",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Bank (fictional)",
+          "examples": ["Meridian Commercial Bank"],
+          "x-translate": false
+        },
+        "desk": {
+          "type": "string",
+          "description": "Desk",
+          "examples": ["Fraud and recalls desk"],
+          "x-translate": false
+        }
+      },
+      "required": ["name"]
+    },
+    "caseRef": {
+      "type": "string",
+      "description": "Our reference",
+      "examples": ["FR-2026-017"],
+      "x-translate": false
+    },
+    "payments": {
+      "type": "array",
+      "description": "Payments to recall",
+      "maxItems": 8,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "description": "Payments to recall entry",
+        "properties": {
+          "date": {
+            "type": "string",
+            "description": "Date",
+            "examples": ["Nov 4"],
+            "x-translate": false
+          },
+          "amount": {
+            "type": "string",
+            "description": "Amount with currency",
+            "examples": ["480,000.00 USD"],
+            "x-translate": false
+          },
+          "beneficiary": {
+            "type": "string",
+            "description": "Beneficiary name (fictional)",
+            "examples": ["Lakeview Trading Co."],
+            "x-translate": false
+          },
+          "account": {
+            "type": "string",
+            "description": "Beneficiary account (test value)",
+            "examples": ["TEST-77310045"],
+            "x-translate": false
+          },
+          "beneficiaryBank": {
+            "type": "string",
+            "description": "Beneficiary bank (fictional)",
+            "examples": ["Orchard Savings Bank"],
+            "x-translate": false
+          },
+          "status": {
+            "type": "string",
+            "description": "Status as far as we know",
+            "examples": ["Settled"],
+            "x-translate": false
+          }
+        },
+        "required": ["date", "amount", "beneficiary", "account"]
+      },
+      "examples": [
+        [
+          {
+            "date": "Nov 4",
+            "amount": "480,000.00 USD",
+            "beneficiary": "Lakeview Trading Co.",
+            "account": "TEST-77310045",
+            "beneficiaryBank": "Orchard Savings Bank",
+            "status": "Released, settlement unknown"
+          }
+        ]
+      ]
+    },
+    "reason": {
+      "type": "string",
+      "description": "Reason for the request",
+      "examples": [
+        "Three transfers were authorized after a video call in which a person who appeared to be our chief financial officer gave instructions. The officer confirms they never made the call."
+      ]
+    },
+    "discoveredAt": {
+      "type": "string",
+      "description": "Discovered",
+      "examples": ["November 4, 2026, 3:10 p.m."],
+      "x-translate": false
+    },
+    "requestedAction": {
+      "type": "string",
+      "description": "Requested action",
+      "examples": [
+        "Hold any funds not yet settled, send a recall request to the beneficiary banks and freeze the beneficiary accounts under your procedures."
+      ]
+    },
+    "callback": {
+      "type": "string",
+      "description": "Callback contact (known number)",
+      "examples": ["Treasury lead Sam Okafor, number on file in your records"],
+      "x-translate": false
+    },
+    "reported": {
+      "type": "array",
+      "description": "Other reports made",
+      "maxItems": 8,
+      "items": {
+        "type": "string",
+        "description": "Entry"
+      },
+      "examples": [["Law enforcement internet crime report filed 3:55 p.m."]]
+    },
+    "sentAt": {
+      "type": "string",
+      "description": "Sent",
+      "examples": ["November 4, 2026, 3:22 p.m."],
+      "x-translate": false
+    }
+  },
+  "additionalProperties": false
+}

@@ -1,0 +1,42 @@
+<section class="page">
+  <p class="marking">{{default fields.marking "EXERCISE · EXERCISE · EXERCISE"}}</p>
+  <header class="head">
+    <div>
+      <div class="org">{{fields.customer}}</div>
+      {{#if fields.reference}}
+      <div class="sub">{{fields.reference}}</div>
+      {{/if}}
+    </div>
+    <div class="doc-title">Vendor questionnaire</div>
+  </header>
+  <p style="margin-top: 8px">
+    To: <strong>{{fields.vendor}}</strong>{{#if fields.dueAt}} · Answers due {{fields.dueAt}}{{/if}}
+  </p>
+  {{#each fields.sections}}
+  <h2>{{this.heading}}</h2>
+  <table>
+    <thead>
+      <tr>
+        <th style="width: 38%">Question</th>
+        <th>Vendor answer</th>
+        <th style="width: 14%">Status</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each this.questions}}
+      <tr>
+        <td>{{this.question}}</td>
+        <td>{{this.answer}}</td>
+        <td><strong>{{this.status}}</strong></td>
+      </tr>
+      {{/each}}
+    </tbody>
+  </table>
+  {{/each}}
+  <div class="spacer"></div>
+  <div class="foot">
+    <span>Sent {{fields.sentAt}}</span
+    ><span>Exercise material. All people, banks, vendors and systems are fictional.</span>
+  </div>
+  <p class="marking">{{default fields.marking "EXERCISE · EXERCISE · EXERCISE"}}</p>
+</section>

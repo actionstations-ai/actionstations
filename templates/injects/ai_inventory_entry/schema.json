@@ -1,0 +1,120 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "AI system inventory entry",
+  "description": "One entry of an AI system inventory: purpose, owner, vendor, risk class, data, oversight, the last evaluation and monitoring, and status. Fictional organization and system.",
+  "type": "object",
+  "required": ["organization", "entryId", "systemName", "purpose", "owner", "riskClass", "status"],
+  "properties": {
+    "marking": {
+      "type": "string",
+      "description": "Exercise marking",
+      "examples": ["EXERCISE · EXERCISE · EXERCISE"],
+      "x-translate": false
+    },
+    "organization": {
+      "type": "string",
+      "description": "Organization",
+      "examples": ["Harborline Credit Union"],
+      "x-translate": false
+    },
+    "entryId": {
+      "type": "string",
+      "description": "Inventory number",
+      "examples": ["INV-014"],
+      "x-translate": false
+    },
+    "systemName": {
+      "type": "string",
+      "description": "System name",
+      "examples": ["Harbor Assist"],
+      "x-translate": false
+    },
+    "purpose": {
+      "type": "string",
+      "description": "Purpose",
+      "examples": ["Answers customer questions about accounts and cards in the mobile app."]
+    },
+    "owner": {
+      "type": "string",
+      "description": "Owning team and person",
+      "examples": ["Digital Products, Ines Calder"],
+      "x-translate": false
+    },
+    "vendor": {
+      "type": "string",
+      "description": "Model or platform vendor",
+      "examples": ["Northgate Models (fictional)"],
+      "x-translate": false
+    },
+    "riskClass": {
+      "type": "string",
+      "description": "Risk class",
+      "examples": ["Limited"],
+      "enum": ["Prohibited", "High", "Limited", "Minimal", "Unclassified"]
+    },
+    "riskBasis": {
+      "type": "string",
+      "description": "Why that class",
+      "examples": [
+        "Customer-facing chatbot; users must be told they are talking to an AI system. Not used for credit decisions."
+      ]
+    },
+    "intendedUsers": {
+      "type": "string",
+      "description": "Intended users",
+      "examples": ["Retail customers over 18"]
+    },
+    "dataClasses": {
+      "type": "array",
+      "description": "Data it sees",
+      "maxItems": 8,
+      "items": {
+        "type": "string",
+        "description": "Entry"
+      },
+      "examples": [["Account balances", "Card status", "Support chat history"]]
+    },
+    "modelVersion": {
+      "type": "string",
+      "description": "Model and prompt version in use",
+      "examples": ["model 4.2 / prompt 18"],
+      "x-translate": false
+    },
+    "deployedOn": {
+      "type": "string",
+      "description": "Deployed",
+      "examples": ["October 28, 2026"],
+      "x-translate": false
+    },
+    "humanOversight": {
+      "type": "string",
+      "description": "Human oversight",
+      "examples": [
+        "Support agents review flagged sessions daily; a kill switch sits with the model owner."
+      ]
+    },
+    "lastEvaluation": {
+      "type": "string",
+      "description": "Last evaluation",
+      "examples": ["October 21, 2026; harmful-output rate 0.6 percent on the weekly sample"],
+      "x-translate": false
+    },
+    "monitoring": {
+      "type": "string",
+      "description": "Monitoring",
+      "examples": ["Daily sample of 400 sessions scored by a classifier; alert at 2 percent."]
+    },
+    "status": {
+      "type": "string",
+      "description": "Status",
+      "examples": ["Live"],
+      "enum": ["Live", "Pilot", "Paused", "Retired"]
+    },
+    "notes": {
+      "type": "string",
+      "description": "Notes",
+      "examples": ["Paused for advice answers on November 3 pending review."]
+    }
+  },
+  "additionalProperties": false
+}

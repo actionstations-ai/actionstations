@@ -1,0 +1,112 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "AI vendor incident notice",
+  "description": "A notice from an AI model, data or tooling vendor to its customers about an incident at the vendor. Real vendor notices are short and incomplete: it states what is known and what is not, what data may be affected and what customers should do. Fictional vendor and customer.",
+  "type": "object",
+  "required": ["vendor", "noticeId", "subject", "whatHappened", "sentAt"],
+  "properties": {
+    "marking": {
+      "type": "string",
+      "description": "Exercise marking",
+      "examples": ["EXERCISE · EXERCISE · EXERCISE"],
+      "x-translate": false
+    },
+    "vendor": {
+      "type": "string",
+      "description": "Vendor (fictional)",
+      "examples": ["Northgate Models"],
+      "x-translate": false
+    },
+    "noticeId": {
+      "type": "string",
+      "description": "Notice number",
+      "examples": ["NG-SEC-2026-031"],
+      "x-translate": false
+    },
+    "customer": {
+      "type": "string",
+      "description": "Customer addressed",
+      "examples": ["Customer security contact, Harborline Credit Union"],
+      "x-translate": false
+    },
+    "subject": {
+      "type": "string",
+      "description": "Subject",
+      "examples": ["Security incident affecting some API customers"]
+    },
+    "whatHappened": {
+      "type": "string",
+      "description": "What happened",
+      "examples": [
+        "On November 2 we detected unauthorized access to a storage system that holds API request logs. We have contained the access."
+      ]
+    },
+    "affected": {
+      "type": "array",
+      "description": "Data that may be affected",
+      "maxItems": 8,
+      "items": {
+        "type": "string",
+        "description": "Entry"
+      },
+      "examples": [
+        [
+          "API request logs for some customers between October 20 and November 2",
+          "Prompts and uploaded documents sent through the API in that period"
+        ]
+      ]
+    },
+    "unknown": {
+      "type": "string",
+      "description": "What we do not know yet",
+      "examples": [
+        "We have not confirmed which customers are affected. We expect to know by November 7."
+      ]
+    },
+    "vendorActions": {
+      "type": "array",
+      "description": "What we are doing",
+      "maxItems": 8,
+      "items": {
+        "type": "string",
+        "description": "Entry"
+      },
+      "examples": [
+        [
+          "Rotated all internal keys",
+          "Engaged an outside forensic firm",
+          "Notified law enforcement"
+        ]
+      ]
+    },
+    "customerActions": {
+      "type": "array",
+      "description": "What we recommend you do",
+      "maxItems": 8,
+      "items": {
+        "type": "string",
+        "description": "Entry"
+      },
+      "examples": [
+        [
+          "Rotate your API keys",
+          "Review your usage logs for the period",
+          "Check what you sent through the API"
+        ]
+      ]
+    },
+    "contact": {
+      "type": "string",
+      "description": "Contact",
+      "examples": ["security@northgate.example"],
+      "x-translate": false
+    },
+    "sentAt": {
+      "type": "string",
+      "description": "Sent",
+      "examples": ["November 3, 2026, 8:05 p.m."],
+      "x-translate": false
+    }
+  },
+  "additionalProperties": false
+}

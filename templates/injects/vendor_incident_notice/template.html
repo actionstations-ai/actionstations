@@ -1,0 +1,50 @@
+<section class="page">
+  <p class="marking">{{default fields.marking "EXERCISE · EXERCISE · EXERCISE"}}</p>
+  <header class="head">
+    <div>
+      <div class="org">{{fields.vendor}}</div>
+      {{#if fields.noticeId}}
+      <div class="sub">{{fields.noticeId}}</div>
+      {{/if}}
+    </div>
+    <div class="doc-title">Vendor incident notice</div>
+  </header>
+  {{#if fields.customer}}
+  <p style="margin-top: 8px">To: {{fields.customer}}</p>
+  {{/if}}
+  <h1>{{fields.subject}}</h1>
+  <h2>What happened</h2>
+  <p>{{fields.whatHappened}}</p>
+  {{#if fields.affected}}
+  <h2>Data that may be affected</h2>
+  <ul>
+    {{#each fields.affected}}
+    <li>{{this}}</li>
+    {{/each}}
+  </ul>
+  {{/if}} {{#if fields.unknown}}
+  <div class="callout"><strong>What we do not know yet:</strong> {{fields.unknown}}</div>
+  {{/if}} {{#if fields.vendorActions}}
+  <h2>What we are doing</h2>
+  <ul>
+    {{#each fields.vendorActions}}
+    <li>{{this}}</li>
+    {{/each}}
+  </ul>
+  {{/if}} {{#if fields.customerActions}}
+  <h2>What we recommend you do</h2>
+  <ul>
+    {{#each fields.customerActions}}
+    <li>{{this}}</li>
+    {{/each}}
+  </ul>
+  {{/if}} {{#if fields.contact}}
+  <p style="margin-top: 12px">Contact: {{fields.contact}}</p>
+  {{/if}}
+  <div class="spacer"></div>
+  <div class="foot">
+    <span>Sent {{fields.sentAt}}</span
+    ><span>Exercise material. All people, banks, vendors and systems are fictional.</span>
+  </div>
+  <p class="marking">{{default fields.marking "EXERCISE · EXERCISE · EXERCISE"}}</p>
+</section>

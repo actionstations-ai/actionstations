@@ -1,0 +1,128 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Platform takedown request",
+  "description": "A request to a platform trust and safety team to remove or label synthetic media that impersonates a fictional person or the organization, with the evidence, the policy basis and a contact. Never names a real person or links to a real site; addresses use .example.",
+  "type": "object",
+  "required": ["from", "platform", "content", "requestedAction", "evidence", "sentAt"],
+  "properties": {
+    "marking": {
+      "type": "string",
+      "description": "Exercise marking",
+      "examples": ["EXERCISE · EXERCISE · EXERCISE"],
+      "x-translate": false
+    },
+    "from": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "Requesting organization",
+      "properties": {
+        "organization": {
+          "type": "string",
+          "description": "Organization",
+          "examples": ["Redfern Logistics (fictional)"],
+          "x-translate": false
+        },
+        "contact": {
+          "type": "string",
+          "description": "Contact",
+          "examples": ["Trust desk: Owen Pike, trust@redfern.example"],
+          "x-translate": false
+        }
+      },
+      "required": ["organization"]
+    },
+    "platform": {
+      "type": "string",
+      "description": "Platform and team (fictional)",
+      "examples": ["ClipShare Trust and Safety"],
+      "x-translate": false
+    },
+    "caseRef": {
+      "type": "string",
+      "description": "Our reference",
+      "examples": ["TD-2026-004"],
+      "x-translate": false
+    },
+    "content": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "The content",
+      "properties": {
+        "location": {
+          "type": "string",
+          "description": "Where it is (fictional address)",
+          "examples": ["clipshare.example/v/8f3k2"],
+          "x-translate": false
+        },
+        "description": {
+          "type": "string",
+          "description": "What it shows",
+          "examples": [
+            "A 40-second video of a person presented as our spokesperson announcing a product recall that did not happen."
+          ]
+        },
+        "postedBy": {
+          "type": "string",
+          "description": "Posted by",
+          "examples": ["Account @redfern_news_live, created five days ago"],
+          "x-translate": false
+        },
+        "reach": {
+          "type": "string",
+          "description": "Reach so far",
+          "examples": ["212,000 views, 9,400 shares in six hours"],
+          "x-translate": false
+        }
+      },
+      "required": ["location", "description"]
+    },
+    "impersonated": {
+      "type": "string",
+      "description": "Who is impersonated (fictional)",
+      "examples": ["Dana Whitlock, spokesperson of Redfern Logistics"],
+      "x-translate": false
+    },
+    "policyBasis": {
+      "type": "string",
+      "description": "Policy basis",
+      "examples": [
+        "Synthetic media of a person without disclosure; impersonation of an organization."
+      ]
+    },
+    "requestedAction": {
+      "type": "string",
+      "description": "Requested action",
+      "examples": ["Remove"],
+      "enum": ["Remove", "Label as manipulated", "Restrict reach", "Preserve evidence only"]
+    },
+    "evidence": {
+      "type": "array",
+      "description": "Why we say it is synthetic",
+      "maxItems": 8,
+      "items": {
+        "type": "string",
+        "description": "Entry"
+      },
+      "examples": [
+        [
+          "The spokesperson was at a conference on the date shown and has signed a statement.",
+          "The clip carries no content credentials (which proves nothing alone).",
+          "A detector scored it 0.88 plus or minus 0.07 (a detector can be wrong).",
+          "The official channel has posted no such announcement."
+        ]
+      ]
+    },
+    "urgency": {
+      "type": "string",
+      "description": "Why it is urgent",
+      "examples": ["The clip is being reported as news and may move customers or markets."]
+    },
+    "sentAt": {
+      "type": "string",
+      "description": "Sent",
+      "examples": ["November 4, 2026, 2:15 p.m."],
+      "x-translate": false
+    }
+  },
+  "additionalProperties": false
+}
