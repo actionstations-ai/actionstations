@@ -9,6 +9,7 @@ import { toolkitKnowledge, ToolkitSchema, type Toolkit } from '@shared/toolkits'
 import { TemplateMeta } from '../../render/templates'
 import { unknownCapabilityWarnings } from '../capabilities'
 import { fieldLintIssues } from '../lint-rules'
+import { registerHumanServicesToolkit } from './register'
 import {
   lint988Routing,
   lintCrisisCounselingDurations,
@@ -19,6 +20,7 @@ import {
 const ROOT = join(__dirname, '../../../..')
 const read = (p: string) => JSON.parse(readFileSync(join(ROOT, p), 'utf8'))
 const load = (id: string): Toolkit => ToolkitSchema.parse(read(`packs/toolkits/${id}.json`))
+registerHumanServicesToolkit()
 const IDS = ['behavioral_safeguards', 'crisis_line', 'mass_care', 'reunification_child_welfare']
 const toolkits = IDS.map(load)
 
@@ -128,5 +130,51 @@ describe('release identity check', () => {
   it('runs through the registered rule on a release log', () => {
     const issues = fieldLintIssues('hs_release_log', { entries: [{ idChecked: 'none' }] })
     expect(issues.map((i) => i.path)).toEqual(['fields.entries'])
+  })
+})
+
+describe('reuse by other domains', () => {
+  const domains = readdirSync(join(ROOT, 'packs/domains')).filter((f) => f.endsWith('.json'))
+  const suggested = (id: string): string[] =>
+    read(`packs/domains/${id}.json`).suggestedToolkits ?? []
+
+  it('lists every domain that suggests one of the toolkits in that toolkit applies-to list', () => {
+    for (const file of domains) {
+      const id = file.replace(/\.json$/, '')
+      for (const t of toolkits)
+        if (suggested(id).includes(t.id))
+          expect(t.appliesTo.domains, `${t.id} for ${id}`).toContain(id)
+    }
+  })
+
+  it('suggests the shelter toolkit to municipal and public health, reunification to schools and campuses, and the crisis line to 911 centers', () => {
+    expect(suggested('municipal')).toContain('mass_care')
+    expect(suggested('public_health')).toContain('mass_care')
+    expect(suggested('k12_schools')).toContain('reunification_child_welfare')
+    expect(suggested('campus')).toContain('reunification_child_welfare')
+    expect(suggested('stadium_venue')).toContain('reunification_child_welfare')
+    expect(suggested('emergency_communications')).toContain('crisis_line')
+  })
+
+  it('gives the domains their added roles and 988 interplay', () => {
+    const roles = (id: string): string[] =>
+      read(`packs/domains/${id}.json`).roles.map((r: { key: string }) => r.key)
+    expect(roles('municipal')).toContain('hs_mcb')
+    expect(roles('k12_schools')).toEqual(expect.arrayContaining(['hs_rsc', 'hs_rel']))
+    expect(roles('campus')).toEqual(expect.arrayContaining(['hs_rsc', 'hs_rel']))
+    expect(roles('emergency_communications')).toContain('hs_cll')
+  })
+})
+
+describe('library documents', () => {
+  it('names a document that the manifest pins with a verified licence', () => {
+    const manifest = read('packs/documents/manifest.json')
+    for (const ref of toolkits.flatMap((t) => t.documents)) {
+      const doc = manifest.documents.find((d: { slug: string }) => d.slug === ref.documentId)
+      expect(doc, ref.documentId).toBeDefined()
+      expect(doc.pack).toBe('human-services-library')
+      expect(doc.sha256).toMatch(/^[0-9a-f]{64}$/)
+      expect(doc.license).toBe('LicenseRef-US-Government-Work')
+    }
   })
 })

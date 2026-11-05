@@ -41,6 +41,7 @@ import { registerPharmacyToolkit } from './toolkits/pharmacy/register'
 import { registerLogisticsToolkit } from './toolkits/logistics/register'
 import { registerSpaceWeatherToolkit } from './toolkits/space_weather/register'
 import { registerGovernanceToolkit } from './toolkits/governance/register'
+import { registerHumanServicesToolkit } from './toolkits/human-services/register'
 import { registerSpillConnectors } from './toolkits/connectors/spill'
 import { toolProcesses } from './setup/processes'
 import { checkMapCatalogAtStartup } from './maps/auto-check'
@@ -244,6 +245,7 @@ void app.whenReady().then(async () => {
   registerLogisticsToolkit()
   registerSpaceWeatherToolkit()
   registerGovernanceToolkit()
+  registerHumanServicesToolkit()
   const devIcon = app.isPackaged ? undefined : devIconPath()
   if (devIcon && process.platform === 'darwin') app.dock?.setIcon(devIcon)
   if (!app.isPackaged) console.log(`[providers] adapters: ${listAdapterKinds().join(', ')}`)

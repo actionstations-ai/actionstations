@@ -31,6 +31,9 @@ const { runReunification } = await import('./simulate/reunification')
 const { runDisplaced } = await import('./simulate/displaced')
 const { NEED_LABEL } = await import('./simulate/shelter')
 await import('./register-generators')
+const { registerHumanServicesToolkit } = await import('./register')
+registerHumanServicesToolkit()
+registerHumanServicesToolkit()
 
 const load = (id: string) =>
   ToolkitSchema.parse(JSON.parse(readFileSync(resolve(`packs/toolkits/${id}.json`), 'utf8')))
