@@ -1323,7 +1323,16 @@
       "name": "Clinical systems toolkit",
       "summary": "Shared toolkit for exercises that involve an EHR, downtime procedures, interfaces and patient identity: knowledge, decision forms and evaluation measures.",
       "tags": ["clinical", "ehr", "toolkit"],
-      "contents": { "toolkits": ["clinical_systems"] }
+      "contents": {
+        "templates": [
+          "breach_risk_worksheet",
+          "downtime_census",
+          "downtime_form",
+          "ehr_screen",
+          "recovery_readiness_checklist"
+        ],
+        "toolkits": ["clinical_systems"]
+      }
     },
     {
       "id": "ai.actionstations.health-informatics",

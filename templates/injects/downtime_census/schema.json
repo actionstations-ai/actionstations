@@ -1,0 +1,64 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Downtime census and bed board report",
+  "description": "The printed unit census that downtime procedures rely on: one row per bed with a patient label, age and sex, acuity, isolation and attending, plus totals. It states the time its data is current as of and which system printed it. All patients are synthetic.",
+  "type": "object",
+  "required": ["unit", "asOf", "printedBy", "rows"],
+  "additionalProperties": false,
+  "properties": {
+    "org": {
+      "type": "string",
+      "description": "Facility name. Falls back to brand.aliases.org.",
+      "examples": ["Riverbend Regional Medical Center"]
+    },
+    "reportName": { "type": "string", "examples": ["Unit Census — Downtime Report"] },
+    "unit": { "type": "string", "x-translate": false, "examples": ["4 West Medical-Surgical"] },
+    "asOf": {
+      "type": "string",
+      "description": "Time the data is current as of. Anything entered later is not shown.",
+      "x-translate": false,
+      "examples": ["10/21/2026 06:30"]
+    },
+    "printedAt": { "type": "string", "x-translate": false, "examples": ["10/21/2026 07:10"] },
+    "printedBy": {
+      "type": "string",
+      "description": "The printing system or person.",
+      "examples": ["Downtime report server RPT-02, scheduled run"]
+    },
+    "rows": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 20,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["bed"],
+        "properties": {
+          "bed": { "type": "string", "x-translate": false, "examples": ["412-A"] },
+          "patient": {
+            "type": "string",
+            "description": "Synthetic name; empty for an open bed.",
+            "x-translate": false,
+            "examples": ["TESTPATIENT, Alder"]
+          },
+          "mrn": { "type": "string", "x-translate": false, "examples": ["00482913"] },
+          "ageSex": { "type": "string", "x-translate": false, "examples": ["75 M"] },
+          "acuity": { "type": "string", "examples": ["3"] },
+          "isolation": { "type": "string", "examples": ["Contact"] },
+          "attending": { "type": "string", "x-translate": false, "examples": ["Dr. Vance"] },
+          "note": { "type": "string", "examples": ["Fall risk"] }
+        }
+      }
+    },
+    "totals": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "census": { "type": "integer" },
+        "capacity": { "type": "integer" },
+        "admitsPending": { "type": "integer" },
+        "dischargesPending": { "type": "integer" }
+      }
+    }
+  }
+}

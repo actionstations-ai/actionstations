@@ -1,0 +1,183 @@
+/* EHR screen, 1280 px wide. State colours: normal blue-grey, degraded amber, read-only red-brown;
+   the state is also a word in the banner, so colour is never the only cue. */
+.ehr {
+  --bar: #1f3a52;
+  --accent: #1f5f8b;
+  --tint: #e8f0f6;
+  width: 1280px;
+  font-family: 'Inter', sans-serif;
+  font-size: 15px;
+  color: #17212b;
+  background: #fff;
+}
+.ehr.state-degraded {
+  --accent: #8a5a00;
+  --tint: #fff3d6;
+}
+.ehr.state-read_only {
+  --accent: #8e1b1b;
+  --tint: #fbe6e4;
+}
+.title {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 10px 20px;
+  background: var(--bar);
+  color: #fff;
+}
+.mark {
+  width: 26px;
+  height: 26px;
+}
+h1 {
+  margin: 0;
+  font-size: 19px;
+  font-weight: 700;
+}
+.site {
+  font-size: 13px;
+  opacity: 0.85;
+}
+.spacer {
+  flex: 1;
+}
+.user,
+.clock {
+  font-size: 13px;
+  font-variant-numeric: tabular-nums;
+}
+.banner {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 10px 20px;
+  background: var(--tint);
+  border-bottom: 3px solid var(--accent);
+  color: #17212b;
+}
+.badge {
+  padding: 3px 12px;
+  background: var(--accent);
+  color: #fff;
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+}
+.msg {
+  font-size: 15px;
+  font-weight: 600;
+}
+.patient {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 6px 22px;
+  padding: 9px 20px;
+  background: #f1f4f7;
+  border-bottom: 1px solid #c6ced6;
+  font-size: 14px;
+}
+.pname {
+  font-size: 18px;
+}
+.allergy {
+  font-weight: 700;
+  color: #8e1b1b;
+}
+.pt-alert {
+  padding: 1px 8px;
+  border: 1.5px solid #17212b;
+  font-weight: 700;
+}
+.tabs {
+  display: flex;
+  gap: 4px;
+  padding: 8px 20px 0;
+  border-bottom: 1px solid #c6ced6;
+  background: #fafbfc;
+}
+.tabs span {
+  padding: 6px 16px;
+  font-size: 13px;
+  color: #44505c;
+  border: 1px solid transparent;
+  border-bottom: 0;
+}
+.tabs .on {
+  background: #fff;
+  border-color: #c6ced6;
+  color: #17212b;
+  font-weight: 700;
+}
+.body {
+  padding: 14px 20px 8px;
+}
+h2 {
+  margin: 0 0 10px;
+  font-size: 17px;
+}
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+  font-variant-numeric: tabular-nums;
+}
+th {
+  padding: 7px 10px;
+  text-align: left;
+  background: #e2e8ee;
+  border-bottom: 2px solid #8794a1;
+  font-size: 12.5px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+td {
+  padding: 7px 10px;
+  border-bottom: 1px solid #d3dae1;
+  vertical-align: top;
+}
+.flagcell {
+  width: 110px;
+}
+.flag {
+  display: inline-block;
+  padding: 1px 8px;
+  border: 1.5px solid #17212b;
+  font-size: 11.5px;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+}
+.flag-critical {
+  background: #8e1b1b;
+  border-color: #8e1b1b;
+  color: #fff;
+}
+.flag-abnormal {
+  background: #fff3d6;
+  border-color: #8a5a00;
+}
+.flag-held {
+  background: #fff;
+  border-style: dashed;
+}
+.row-critical td {
+  background: #fbe6e4;
+  font-weight: 600;
+}
+.foot {
+  padding: 8px 20px 10px;
+  font-size: 13px;
+  color: #44505c;
+  border-top: 1px solid #c6ced6;
+}
+.exercise {
+  margin: 0;
+  padding: 6px 20px;
+  background: #17212b;
+  color: #fff;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-align: center;
+}

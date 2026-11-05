@@ -1,0 +1,104 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "EHR screen",
+  "description": "A vendor-neutral electronic health record screen, 1280 px wide: title bar, a state banner (normal, degraded or read-only, always in words), the patient banner, and one table (a patient list, results review, medication administration record or order entry). All patients are synthetic.",
+  "type": "object",
+  "required": ["view", "state", "columns", "rows"],
+  "additionalProperties": false,
+  "properties": {
+    "system": {
+      "type": "string",
+      "description": "Name of the clinical record system shown in the title bar. Use a generic name, not a vendor product.",
+      "examples": ["Clinical Record"]
+    },
+    "site": {
+      "type": "string",
+      "description": "Facility and environment. Falls back to brand.aliases.org.",
+      "examples": ["Riverbend Regional Medical Center — Production"]
+    },
+    "user": {
+      "type": "string",
+      "description": "Logged-in user and role.",
+      "x-translate": false,
+      "examples": ["M. Okafor, RN — 4 West"]
+    },
+    "clock": {
+      "type": "string",
+      "description": "Date and time the screen shows.",
+      "x-translate": false,
+      "examples": ["2026-10-21 14:12"]
+    },
+    "view": {
+      "type": "string",
+      "enum": ["patient_list", "results_review", "mar", "order_entry"],
+      "description": "Which screen: the unit patient list, results review, medication administration record (MAR) or order entry."
+    },
+    "state": {
+      "type": "string",
+      "enum": ["normal", "degraded", "read_only"],
+      "description": "normal: all functions work. degraded: slow, some functions disabled. read_only: a copy of recent data that cannot be changed."
+    },
+    "stateMessage": {
+      "type": "string",
+      "description": "The banner text for a degraded or read-only state, including the data-age time for read-only. Omit for normal.",
+      "examples": [
+        "READ-ONLY — data current as of 14:05. Orders and documentation cannot be entered. Use downtime forms."
+      ]
+    },
+    "patient": {
+      "type": "object",
+      "description": "The patient banner. Omit for the patient list view. Every value is synthetic.",
+      "additionalProperties": false,
+      "required": ["name", "mrn"],
+      "properties": {
+        "name": { "type": "string", "x-translate": false, "examples": ["TESTPATIENT, Alder"] },
+        "mrn": { "type": "string", "x-translate": false, "examples": ["MRN 00482913"] },
+        "dob": { "type": "string", "x-translate": false, "examples": ["03/14/1951 (75 y) M"] },
+        "location": { "type": "string", "x-translate": false, "examples": ["4W-412-A"] },
+        "allergies": { "type": "string", "examples": ["Allergies: penicillin (rash)"] },
+        "alert": { "type": "string", "examples": ["Fall risk"] }
+      }
+    },
+    "title": {
+      "type": "string",
+      "description": "Heading of the table.",
+      "examples": ["Results Review — last 24 hours"]
+    },
+    "columns": {
+      "type": "array",
+      "description": "Column headings (2 to 8).",
+      "minItems": 2,
+      "maxItems": 8,
+      "items": { "type": "string" }
+    },
+    "rows": {
+      "type": "array",
+      "description": "Table rows (up to 14).",
+      "minItems": 1,
+      "maxItems": 14,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["cells"],
+        "properties": {
+          "cells": {
+            "type": "array",
+            "description": "One text value per column.",
+            "maxItems": 8,
+            "items": { "type": "string" }
+          },
+          "flag": {
+            "type": "string",
+            "enum": ["", "abnormal", "critical", "held"],
+            "description": "Row flag, shown in words: abnormal, critical or held (not yet released)."
+          }
+        }
+      }
+    },
+    "footer": {
+      "type": "string",
+      "description": "Status line at the bottom.",
+      "examples": ["Last refresh 14:12 · 3 results held for validation"]
+    }
+  }
+}

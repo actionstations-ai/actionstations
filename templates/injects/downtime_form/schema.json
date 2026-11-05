@@ -1,0 +1,71 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Downtime paper form",
+  "description": "A pre-printed paper form used while the record system is down: a title and form number, a patient label box (blank or filled with a synthetic patient), optional labeled fields, a ruled table with some handwritten sample rows and blank lines, and a line saying the form is entered into the record after recovery. Covers order sheets, requisitions, nursing flowsheets and registration forms.",
+  "type": "object",
+  "required": ["formTitle", "formNumber"],
+  "additionalProperties": false,
+  "properties": {
+    "org": {
+      "type": "string",
+      "description": "Facility. Falls back to brand.aliases.org.",
+      "examples": ["Riverbend Regional Medical Center"]
+    },
+    "formTitle": { "type": "string", "examples": ["Downtime Physician Order Sheet"] },
+    "formNumber": {
+      "type": "string",
+      "description": "Form id and version.",
+      "x-translate": false,
+      "examples": ["DT-ORD-01 rev. 7"]
+    },
+    "patient": {
+      "type": "object",
+      "description": "Patient label contents. Omit to print an empty label box. Synthetic only.",
+      "additionalProperties": false,
+      "properties": {
+        "name": { "type": "string", "x-translate": false, "examples": ["TESTPATIENT, Alder"] },
+        "mrn": { "type": "string", "x-translate": false, "examples": ["00482913"] },
+        "dob": { "type": "string", "x-translate": false, "examples": ["03/14/1951"] },
+        "allergies": { "type": "string", "examples": ["Penicillin (rash)"] }
+      }
+    },
+    "fields": {
+      "type": "array",
+      "description": "Labeled boxes above the table (for example registration items). Value empty for a blank box.",
+      "maxItems": 14,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["label"],
+        "properties": {
+          "label": { "type": "string" },
+          "value": { "type": "string", "x-translate": false }
+        }
+      }
+    },
+    "columns": {
+      "type": "array",
+      "description": "Table column headings (up to 8).",
+      "maxItems": 8,
+      "items": { "type": "string" }
+    },
+    "filledRows": {
+      "type": "array",
+      "description": "Handwritten sample rows, one value per column (up to 8).",
+      "maxItems": 8,
+      "items": { "type": "array", "maxItems": 8, "items": { "type": "string" } }
+    },
+    "blankRows": {
+      "type": "integer",
+      "description": "Number of empty ruled rows after the filled ones (0 to 20).",
+      "minimum": 0,
+      "maximum": 20
+    },
+    "instructions": {
+      "type": "array",
+      "description": "Short numbered instructions printed on the form.",
+      "maxItems": 8,
+      "items": { "type": "string" }
+    }
+  }
+}

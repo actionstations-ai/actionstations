@@ -1,0 +1,61 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Breach risk assessment worksheet",
+  "description": "A worksheet for the HIPAA breach risk assessment (45 CFR 164.402): the incident, the four factors with a finding and a rating each, a conclusion, and the notification clocks. An exercise aid; the privacy officer decides. Nothing here is legal advice.",
+  "type": "object",
+  "required": ["incidentId", "summary", "factors", "conclusion"],
+  "additionalProperties": false,
+  "properties": {
+    "org": { "type": "string", "examples": ["Riverbend Regional Medical Center"] },
+    "incidentId": { "type": "string", "x-translate": false, "examples": ["PRV-2026-031"] },
+    "discoveredAt": {
+      "type": "string",
+      "description": "Date and time of discovery; the notification clocks start here.",
+      "x-translate": false,
+      "examples": ["10/21/2026 09:40"]
+    },
+    "summary": {
+      "type": "string",
+      "description": "What happened, in two or three sentences.",
+      "examples": [
+        "An employee opened the records of 14 patients with no treatment relationship. The audit log shows the access over three weeks."
+      ]
+    },
+    "factors": {
+      "type": "array",
+      "description": "The four factors in order: nature and extent of the PHI; the unauthorized person; whether the PHI was actually acquired or viewed; the extent the risk has been mitigated.",
+      "minItems": 4,
+      "maxItems": 4,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["finding", "rating"],
+        "properties": {
+          "finding": { "type": "string" },
+          "rating": { "type": "string", "enum": ["low", "moderate", "high"] }
+        }
+      }
+    },
+    "conclusion": {
+      "type": "string",
+      "enum": [
+        "Low probability of compromise demonstrated",
+        "Low probability of compromise not demonstrated: treat as a breach and notify"
+      ]
+    },
+    "clocks": {
+      "type": "array",
+      "maxItems": 6,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["label", "due"],
+        "properties": {
+          "label": { "type": "string" },
+          "due": { "type": "string", "x-translate": false }
+        }
+      }
+    },
+    "preparedBy": { "type": "string", "x-translate": false, "examples": ["Chief Privacy Officer"] }
+  }
+}

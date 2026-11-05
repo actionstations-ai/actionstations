@@ -1,0 +1,56 @@
+{
+  "variant": "normal",
+  "fields": {
+    "system": "Clinical Record",
+    "site": "Riverbend Regional Medical Center — Production",
+    "user": "M. Okafor, RN — 4 West",
+    "clock": "2026-10-21 14:12",
+    "view": "results_review",
+    "state": "normal",
+    "stateMessage": "All functions available.",
+    "patient": {
+      "name": "TESTPATIENT, Alder",
+      "mrn": "MRN 00482913",
+      "dob": "03/14/1951 (75 y) M",
+      "location": "4W-412-A",
+      "allergies": "Allergies: penicillin (rash)",
+      "alert": "Fall risk"
+    },
+    "title": "Results review — last 24 hours",
+    "columns": ["Collected", "Test", "Result", "Reference", "Status"],
+    "rows": [
+      {
+        "cells": ["10/21 13:40", "Potassium", "6.3 mmol/L", "3.5 – 5.1", "Final"],
+        "flag": "critical"
+      },
+      {
+        "cells": ["10/21 13:40", "Creatinine", "1.9 mg/dL", "0.7 – 1.3", "Final"],
+        "flag": "abnormal"
+      },
+      { "cells": ["10/21 13:40", "Sodium", "138 mmol/L", "135 – 145", "Final"] },
+      {
+        "cells": ["10/21 06:15", "Hemoglobin", "10.8 g/dL", "13.5 – 17.5", "Final"],
+        "flag": "abnormal"
+      },
+      { "cells": ["10/21 06:15", "White blood cells", "7.4 x10^9/L", "4.0 – 11.0", "Final"] },
+      { "cells": ["10/20 22:30", "Troponin", "Pending", "—", "In process"], "flag": "held" }
+    ],
+    "footer": "Last refresh 14:12 · 1 result held for validation"
+  },
+  "variants": {
+    "degraded": {
+      "fields": {
+        "state": "degraded",
+        "stateMessage": "DEGRADED — slow response; result filing and order entry are disabled. Use downtime forms for new orders.",
+        "footer": "Last refresh 14:12 · screen may be out of date"
+      }
+    },
+    "read_only": {
+      "fields": {
+        "state": "read_only",
+        "stateMessage": "READ-ONLY — data current as of 14:05. Orders and documentation cannot be entered. Use downtime forms.",
+        "footer": "Business continuity viewer · data current as of 14:05 · results after this time are not shown"
+      }
+    }
+  }
+}
