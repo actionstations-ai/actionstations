@@ -178,6 +178,18 @@ Every kind also takes `title`. `x` is a number (minutes from STARTEX, hours) or 
 | `monitoring_series`      | `panels[{label, unit, points[{x, y}]}]` (up to 4 stacked on one time axis), `annotations[]`                                                            |
 | `gauge_record`           | `station`, `observed[]`, `predicted[]`, `arrivals[{x, label}]`, `unit`                                                                                 |
 
+**Human services kinds** (`src/main/render/figures/hs/`, shown by the `figure` template). Counts are plain numbers, a state is always a word as well as a symbol, and every kind says in its summary that the numbers are simulated when they are.
+
+| Kind                    | Data                                                                                                                                               |
+| ----------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `hs_contact_series`     | `measure` (volume or answer_rate), `types[{name: Calls, Texts or Chats, points[{x, y}]}]`, `targets[{value, label}]`, `origin`                     |
+| `hs_queue_board`        | `rows[{type, waiting, longestWaitSec, answerRatePct, staffOn, state: normal, watch or critical}]`, `asOf`                                          |
+| `hs_staffing_coverage`  | `intervals[{startMin, onFloor, needed}]`, `basis` (how needed was set)                                                                             |
+| `hs_shelter_dashboard`  | `sites[{name, population, capacity, status}]`, `needs[{category, open, met}]`, `supplies[{item, state: ok, low or out, detail}]`                   |
+| `hs_shelter_map`        | `shelters[{name, lon, lat, status, population, capacity}]`, optional `overlay{label, origin, areas[{name, lon, lat, count}]}`: schematic, no tiles |
+| `hs_reunification_flow` | `onRoster`, `points[{minute, arrived, verified, released, exceptions}]` (cumulative, each count within the one before)                             |
+| `hs_displaced_tracker`  | `counts[{placement, located, contacted, placed, unknown}]`, `asOf`                                                                                 |
+
 The format checks the toolkits name in `lintRules` (magnitude and intensity labels, alert level and color code pairs, early warning timing limits, tsunami message levels and local or distant timing, aftershock wording, debris-flow rainfall wording) are pure functions in `src/shared/toolkits/geo-lint.ts`; `runGeoLint(text, ruleIds)` runs the ones a toolkit lists.
 
 **In an inject's fields.** Put each figure under `fields.figures.<name>` as `{ kind, data, options? }`. The `figure` inject type (a heading, the figure `main`, its data table) renders a figure as the whole inject: PNG for decks, and a PDF page because it is a paper type, so it embeds in packets like any template. Its seven preview variants are one sample per kind, which is how the goldens cover every kind; the variant does not change how your data is drawn.
