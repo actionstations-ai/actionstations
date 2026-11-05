@@ -1,0 +1,93 @@
+<section class="page">
+  <p class="marking">
+    {{default fields.marking "EXERCISE · FICTIONAL ORGANIZATION AND RECORDS · NOT FOR CLINICAL
+    USE"}}
+  </p>
+  <header class="head">
+    <div>
+      <div class="org">{{fields.organization}}</div>
+      <h1 class="title">Controlled substance report</h1>
+    </div>
+    <div class="sub">{{fields.reportNumber}}<br />{{fields.period}}</div>
+  </header>
+  <p class="warn">
+    CONFIDENTIAL EXERCISE RECORD. Fictional people, presumed innocent. A pattern in data is not
+    proof of diversion.
+  </p>
+  <table class="kv">
+    <tr>
+      <th scope="row">Scope</th>
+      <td>{{fields.scope}}</td>
+    </tr>
+    <tr>
+      <th scope="row">Prepared by</th>
+      <td>{{fields.preparedBy}}</td>
+    </tr>
+    <tr>
+      <th scope="row">Case status</th>
+      <td><strong>{{fields.status}}</strong></td>
+    </tr>
+  </table>
+  <h2>Users compared with peers</h2>
+  <table class="grid">
+    <caption class="sr-only">
+      Controlled substance removals by user against the peer median
+    </caption>
+    <thead>
+      <tr>
+        <th scope="col">User</th>
+        <th scope="col">Removals</th>
+        <th scope="col">Peer median</th>
+        <th scope="col">Overrides</th>
+        <th scope="col">Wastes</th>
+        <th scope="col">Discrepancies</th>
+        <th scope="col">Flag</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each fields.users}}
+      <tr>
+        <th scope="row" class="mono">{{this.user}}</th>
+        <td class="num">{{this.transactions}}</td>
+        <td class="num">{{this.peerMedian}}</td>
+        <td class="num">{{this.overrides}}</td>
+        <td class="num">{{this.wastes}}</td>
+        <td class="num">{{this.discrepancies}}</td>
+        <td>
+          <span class="tag {{#if (eq this.flag 'Outside peers')}}st-review{{else}}st-pass{{/if}}"
+            >{{this.flag}}</span
+          >
+        </td>
+      </tr>
+      {{/each}}
+    </tbody>
+  </table>
+  <h2>Observations</h2>
+  <ul class="list">
+    {{#each fields.observations}}
+    <li>{{this}}</li>
+    {{/each}}
+  </ul>
+  {{#if fields.innocentExplanations.length}}
+  <h2>Innocent explanations considered</h2>
+  <ul class="list">
+    {{#each fields.innocentExplanations}}
+    <li>{{this}}</li>
+    {{/each}}
+  </ul>
+  {{/if}} {{#if fields.nextSteps.length}}
+  <h2>Next steps</h2>
+  <ol class="steps">
+    {{#each fields.nextSteps}}
+    <li>{{this}}</li>
+    {{/each}}
+  </ol>
+  {{/if}}
+
+  <footer class="foot">
+    <span
+      >DEA Field Division notice: within one business day of discovery of a theft or loss. Form 106:
+      electronically, within 45 days.</span
+    ><span>Exercise record</span>
+  </footer>
+</section>

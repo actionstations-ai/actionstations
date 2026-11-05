@@ -1,0 +1,80 @@
+<section class="page">
+  <p class="marking">
+    {{default fields.marking "EXERCISE · FICTIONAL ORGANIZATION AND RECORDS · NOT FOR CLINICAL
+    USE"}}
+  </p>
+  <header class="head">
+    <div>
+      <div class="org">{{fields.organization}}</div>
+      <h1 class="title">Shortage assessment</h1>
+    </div>
+    <div class="sub">{{fields.date}}<br />{{fields.preparedBy}}</div>
+  </header>
+  <table class="kv">
+    <tr>
+      <th scope="row">Drug</th>
+      <td>{{fields.drug}}</td>
+    </tr>
+  </table>
+  <h2>Operational assessment</h2>
+  <table class="kv">
+    <tr>
+      <th scope="row">On hand</th>
+      <td class="mono">{{fields.operational.onHand}} containers</td>
+    </tr>
+    <tr>
+      <th scope="row">Usage per day</th>
+      <td class="mono">{{fields.operational.usagePerDay}}</td>
+    </tr>
+    <tr>
+      <th scope="row">Days on hand</th>
+      <td class="mono">{{fields.operational.daysOnHand}}</td>
+    </tr>
+    {{#if fields.operational.onOrder}}
+    <tr>
+      <th scope="row">On order</th>
+      <td>{{fields.operational.onOrder}}</td>
+    </tr>
+    {{/if}} {{#if fields.operational.supplier}}
+    <tr>
+      <th scope="row">Supplier</th>
+      <td>{{fields.operational.supplier}}</td>
+    </tr>
+    {{/if}} {{#if fields.operational.duration}}
+    <tr>
+      <th scope="row">Duration</th>
+      <td>{{fields.operational.duration}}</td>
+    </tr>
+    {{/if}}
+  </table>
+  <h2>Therapeutic assessment</h2>
+  <table class="grid">
+    <thead>
+      <tr>
+        <th scope="col">Patient group</th>
+        <th scope="col">Dependence</th>
+        <th scope="col">Alternatives</th>
+        <th scope="col">Main risk of a change</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each fields.therapeutic.groups}}
+      <tr>
+        <th scope="row">{{this.group}}</th>
+        <td>{{this.dependence}}</td>
+        <td>{{this.alternatives}}</td>
+        <td>{{this.risk}}</td>
+      </tr>
+      {{/each}}
+    </tbody>
+  </table>
+  {{#if fields.recommendation}}
+  <h2>Recommendation</h2>
+  <p class="note">{{fields.recommendation}}</p>
+  {{/if}}
+
+  <footer class="foot">
+    <span>Days on hand = on hand / usage per day. Durations are estimates.</span
+    ><span>Exercise record</span>
+  </footer>
+</section>

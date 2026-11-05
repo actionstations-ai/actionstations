@@ -1,0 +1,112 @@
+<section class="page">
+  <p class="marking">
+    {{default fields.marking "EXERCISE · FICTIONAL ORGANIZATION AND RECORDS · NOT FOR CLINICAL
+    USE"}}
+  </p>
+  <header class="head">
+    <div>
+      <div class="org">{{fields.organization}}</div>
+      <h1 class="title">Temperature excursion report</h1>
+    </div>
+    <div class="sub">{{fields.reportNumber}}<br />{{fields.unit}}</div>
+  </header>
+  <table class="kv">
+    <tr>
+      <th scope="row">Found</th>
+      <td class="mono">{{fields.discoveredAt}}{{#if fields.foundBy}}, {{fields.foundBy}}{{/if}}</td>
+    </tr>
+    <tr>
+      <th scope="row">Labeled range</th>
+      <td class="mono">{{fields.rangeLabel}}</td>
+    </tr>
+    <tr>
+      <th scope="row">Minimum / maximum</th>
+      <td class="mono">{{fields.minC}} °C / {{fields.maxC}} °C</td>
+    </tr>
+    <tr>
+      <th scope="row">Time outside range</th>
+      <td class="mono">{{fields.minutesOutside}} minutes</td>
+    </tr>
+    {{#if fields.cause}}
+    <tr>
+      <th scope="row">Cause</th>
+      <td>{{fields.cause}}</td>
+    </tr>
+    {{/if}}
+  </table>
+  <h2>Timeline</h2>
+  <table class="grid">
+    <thead>
+      <tr>
+        <th scope="col">Time</th>
+        <th scope="col">Event</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each fields.timeline}}
+      <tr>
+        <th scope="row" class="mono">{{this.time}}</th>
+        <td>{{this.event}}</td>
+      </tr>
+      {{/each}}
+    </tbody>
+  </table>
+  <h2>Product and viability decision</h2>
+  <table class="grid">
+    <thead>
+      <tr>
+        <th scope="col">Product</th>
+        <th scope="col">Lot</th>
+        <th scope="col">Doses</th>
+        <th scope="col">Decision</th>
+        <th scope="col">Basis</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each fields.products}}
+      <tr>
+        <th scope="row">{{this.product}}</th>
+        <td class="mono">{{this.lot}}</td>
+        <td class="num">{{this.doses}}</td>
+        <td>
+          <span
+            class="tag {{#if (eq this.decision 'Do not use')}}st-do-not-use{{else if (eq this.decision 'Viable')}}st-viable{{else}}st-held{{/if}}"
+            >{{this.decision}}</span
+          >
+        </td>
+        <td>{{this.basis}}</td>
+      </tr>
+      {{/each}}
+    </tbody>
+  </table>
+  <table class="kv">
+    {{#if fields.decidedBy}}
+    <tr>
+      <th scope="row">Decided by</th>
+      <td>{{fields.decidedBy}}</td>
+    </tr>
+    {{/if}} {{#if fields.patientsAffected}}
+    <tr>
+      <th scope="row">Patients</th>
+      <td>{{fields.patientsAffected}}</td>
+    </tr>
+    {{/if}} {{#if fields.notified}}
+    <tr>
+      <th scope="row">Notified</th>
+      <td>{{fields.notified}}</td>
+    </tr>
+    {{/if}} {{#if fields.corrective}}
+    <tr>
+      <th scope="row">Corrective action</th>
+      <td>{{fields.corrective}}</td>
+    </tr>
+    {{/if}}
+  </table>
+
+  <footer class="foot">
+    <span
+      >Viability answers are scenario content from a fictional product table or a manufacturer; they
+      are not guidance.</span
+    ><span>Exercise record</span>
+  </footer>
+</section>

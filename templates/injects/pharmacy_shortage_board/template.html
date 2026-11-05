@@ -1,0 +1,55 @@
+<section class="board">
+  <p class="marking">
+    {{default fields.marking "EXERCISE · FICTIONAL ORGANIZATION AND RECORDS · NOT FOR CLINICAL
+    USE"}}
+  </p>
+  <header class="head">
+    <div>
+      <div class="org">{{fields.organization}}</div>
+      <h1 class="title">Drug shortage board</h1>
+    </div>
+    <div class="sub">
+      As of {{fields.asOf}}{{#if fields.preparedBy}}<br />{{fields.preparedBy}}{{/if}}
+    </div>
+  </header>
+  <table class="grid" style="margin-top: 10px">
+    <caption class="sr-only">
+      Drugs in shortage with days on hand, estimated recovery and status
+    </caption>
+    <thead>
+      <tr>
+        <th scope="col">Drug and presentation</th>
+        <th scope="col">NDC</th>
+        <th scope="col">On hand</th>
+        <th scope="col">Use / day</th>
+        <th scope="col">Days on hand</th>
+        <th scope="col">Estimated recovery</th>
+        <th scope="col">Status</th>
+        <th scope="col">Allocation</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each fields.rows}}
+      <tr>
+        <th scope="row">{{this.drug}}<br /><span class="mono">{{this.presentation}}</span></th>
+        <td class="mono" style="white-space: nowrap">{{this.ndc}}</td>
+        <td class="num">{{this.onHand}}</td>
+        <td class="num">{{this.usagePerDay}}</td>
+        <td class="num">{{this.daysOnHand}}</td>
+        <td>{{this.recovery}}</td>
+        <td><span class="tag st-{{lower this.status}}">{{this.status}}</span></td>
+        <td>{{this.tier}}</td>
+      </tr>
+      {{/each}}
+    </tbody>
+  </table>
+  {{#if fields.note}}
+  <p class="note">{{fields.note}}</p>
+  {{/if}}
+  <footer class="foot">
+    <span
+      >{{fields.sourceNote}} A recovery date is an estimate. Shortage records are history, not the
+      current state of supply.</span
+    ><span>Exercise record</span>
+  </footer>
+</section>

@@ -1,0 +1,130 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Theft or loss notice and DEA Form 106 worksheet",
+  "description": "A notice of theft or loss of controlled substances to the DEA Field Division, with a worksheet of the data a Form 106 asks for (not the form itself). The Field Division notice is due within one business day of discovery and the Form 106 electronically within 45 days of discovery (21 CFR 1301.76(b)). Registration numbers are fictional.",
+  "required": [
+    "organization",
+    "registrant",
+    "discoveredOn",
+    "noticeDueBy",
+    "form106DueBy",
+    "substances"
+  ],
+  "properties": {
+    "marking": {
+      "type": "string",
+      "description": "Exercise marking printed above the form",
+      "examples": ["EXERCISE · FICTIONAL ORGANIZATION AND RECORDS · NOT FOR CLINICAL USE"]
+    },
+    "organization": {
+      "type": "string",
+      "description": "Organization name (fictional)",
+      "examples": ["Harbor Point Health pharmacy (fictional)"]
+    },
+    "registrant": {
+      "type": "string",
+      "description": "Registrant name (fictional)",
+      "examples": ["Harbor Point Health pharmacy (fictional)"]
+    },
+    "registration": {
+      "type": "string",
+      "description": "Registration number (fictional)",
+      "examples": ["XX0000000"],
+      "x-translate": false
+    },
+    "discoveredOn": {
+      "type": "string",
+      "description": "Date of discovery, YYYY-MM-DD",
+      "examples": ["2026-11-05"],
+      "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+      "x-translate": false
+    },
+    "noticeDueBy": {
+      "type": "string",
+      "description": "Field Division notice due by, YYYY-MM-DD (one business day after discovery)",
+      "examples": ["2026-11-06"],
+      "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+      "x-translate": false
+    },
+    "noticeSentAt": {
+      "type": "string",
+      "description": "When the written notice was sent",
+      "examples": ["2026-11-05 16:20"]
+    },
+    "form106DueBy": {
+      "type": "string",
+      "description": "Form 106 due by, YYYY-MM-DD (45 days after discovery)",
+      "examples": ["2026-12-20"],
+      "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+      "x-translate": false
+    },
+    "substances": {
+      "type": "array",
+      "description": "Substances lost (1-8)",
+      "maxItems": 8,
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "properties": {
+          "drug": {
+            "type": "string",
+            "description": "Drug",
+            "examples": ["Hydromorphone injection"]
+          },
+          "strength": {
+            "type": "string",
+            "description": "Strength and form",
+            "examples": ["2 mg/mL, 1 mL vial"]
+          },
+          "ndc": {
+            "type": "string",
+            "description": "NDC (fictional)",
+            "examples": ["99998-0810-01"],
+            "x-translate": false
+          },
+          "quantity": {
+            "type": "integer",
+            "minimum": 0,
+            "description": "Quantity lost"
+          },
+          "unit": {
+            "type": "string",
+            "description": "Unit of the quantity",
+            "examples": ["vials"]
+          }
+        },
+        "additionalProperties": false,
+        "required": ["drug", "quantity", "unit"]
+      }
+    },
+    "circumstances": {
+      "type": "string",
+      "description": "Circumstances of the loss",
+      "examples": [
+        "Cabinet counts and waste records for 5 West do not reconcile for three weeks; the cause is under investigation."
+      ]
+    },
+    "significanceFactors": {
+      "type": "array",
+      "description": "Factors considered (0-8)",
+      "maxItems": 8,
+      "items": {
+        "type": "string",
+        "description": "One factor",
+        "examples": ["Quantity is 4 times the usual monthly variance for this cabinet."]
+      }
+    },
+    "reportedBy": {
+      "type": "string",
+      "description": "Reported by (role)",
+      "examples": ["Director of Pharmacy"]
+    },
+    "otherNotified": {
+      "type": "string",
+      "description": "Others notified",
+      "examples": ["State board of pharmacy, hospital security, risk management"]
+    }
+  },
+  "type": "object",
+  "additionalProperties": false
+}

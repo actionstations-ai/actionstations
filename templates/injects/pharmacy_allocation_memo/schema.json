@@ -1,0 +1,140 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Allocation and restriction memo",
+  "description": "A memo that sets how a short drug is allocated and restricted, with the therapeutic interchange table and the emergency approval by the Pharmacy and Therapeutics committee.",
+  "required": ["organization", "subject", "from", "to", "date", "tiers"],
+  "properties": {
+    "marking": {
+      "type": "string",
+      "description": "Exercise marking printed above the form",
+      "examples": ["EXERCISE · FICTIONAL ORGANIZATION AND RECORDS · NOT FOR CLINICAL USE"]
+    },
+    "organization": {
+      "type": "string",
+      "description": "Organization name (fictional)",
+      "examples": ["Harbor Point Health pharmacy (fictional)"]
+    },
+    "memoNumber": {
+      "type": "string",
+      "description": "Memo number",
+      "examples": ["PHARM-2026-114"],
+      "x-translate": false
+    },
+    "from": {
+      "type": "string",
+      "description": "From (role)",
+      "examples": ["Director of Pharmacy"]
+    },
+    "to": {
+      "type": "string",
+      "description": "To (roles or distribution)",
+      "examples": ["All nursing units, anesthesia, the operating rooms, medical staff"]
+    },
+    "date": {
+      "type": "string",
+      "description": "Date",
+      "examples": ["11/05/2026"]
+    },
+    "subject": {
+      "type": "string",
+      "description": "Subject",
+      "examples": ["Sodium chloride 0.9% 1,000 mL bags: allocation and restriction"]
+    },
+    "rule": {
+      "type": "string",
+      "description": "The rule in one or two sentences",
+      "examples": [
+        "Until further notice, 1,000 mL saline bags are issued at 50 percent of the prior week usage by tier. Use the alternatives below where the table allows."
+      ]
+    },
+    "tiers": {
+      "type": "array",
+      "description": "Allocation tiers (1-5)",
+      "maxItems": 5,
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "properties": {
+          "tier": {
+            "type": "string",
+            "description": "Tier",
+            "examples": ["Tier 1"]
+          },
+          "who": {
+            "type": "string",
+            "description": "Who is in it",
+            "examples": ["Operating rooms, dialysis, pediatric ICU"]
+          },
+          "percent": {
+            "type": "integer",
+            "minimum": 0,
+            "description": "Percent of prior use issued",
+            "maximum": 100
+          },
+          "note": {
+            "type": "string",
+            "description": "Condition or note",
+            "examples": ["Full issue; review daily"]
+          }
+        },
+        "additionalProperties": false,
+        "required": ["tier", "who", "percent"]
+      }
+    },
+    "interchange": {
+      "type": "array",
+      "description": "Therapeutic interchange table (0-8)",
+      "maxItems": 8,
+      "items": {
+        "type": "object",
+        "properties": {
+          "current": {
+            "type": "string",
+            "description": "Current product",
+            "examples": ["Sodium chloride 0.9% 1,000 mL"]
+          },
+          "alternative": {
+            "type": "string",
+            "description": "Approved alternative",
+            "examples": ["Lactated Ringer 1,000 mL"]
+          },
+          "conditions": {
+            "type": "string",
+            "description": "Conditions and exclusions",
+            "examples": ["Not for patients on the exclusion list; pharmacist checks the order"]
+          }
+        },
+        "additionalProperties": false,
+        "required": ["current", "alternative"]
+      }
+    },
+    "approval": {
+      "type": "object",
+      "properties": {
+        "approvedBy": {
+          "type": "string",
+          "description": "Approved by (committee and role)",
+          "examples": ["P&T chair, emergency approval"]
+        },
+        "approvedOn": {
+          "type": "string",
+          "description": "Date and time",
+          "examples": ["11/05/2026 07:30"]
+        },
+        "expires": {
+          "type": "string",
+          "description": "Review or expiry",
+          "examples": ["Reviewed every 48 hours"]
+        }
+      },
+      "additionalProperties": false
+    },
+    "contact": {
+      "type": "string",
+      "description": "Questions to",
+      "examples": ["Pharmacy operations desk, ext. 4410"]
+    }
+  },
+  "type": "object",
+  "additionalProperties": false
+}

@@ -1,0 +1,55 @@
+{
+  "fields": {
+    "organization": "Harbor Point Health pharmacy (fictional)",
+    "memoNumber": "PHARM-2026-114",
+    "from": "Director of Pharmacy",
+    "to": "All nursing units, anesthesia, the operating rooms, medical staff",
+    "date": "11/05/2026",
+    "subject": "Sodium chloride 0.9% 1,000 mL bags: allocation and restriction",
+    "rule": "Until further notice, 1,000 mL saline bags are issued at 50 percent of the prior week usage by tier. Use the alternatives below where the table allows.",
+    "tiers": [
+      {
+        "tier": "Tier 1",
+        "who": "Operating rooms, dialysis, pediatric ICU",
+        "percent": 100,
+        "note": "Full issue; review daily"
+      },
+      {
+        "tier": "Tier 2",
+        "who": "Emergency department, adult ICU",
+        "percent": 60,
+        "note": "Review daily"
+      },
+      {
+        "tier": "Tier 3",
+        "who": "Medical-surgical units",
+        "percent": 40,
+        "note": "Use alternatives where the table allows"
+      },
+      {
+        "tier": "Tier 4",
+        "who": "Outpatient infusion and clinics",
+        "percent": 25,
+        "note": "Reschedule non-urgent infusions"
+      }
+    ],
+    "interchange": [
+      {
+        "current": "Sodium chloride 0.9% 1,000 mL",
+        "alternative": "Lactated Ringer 1,000 mL",
+        "conditions": "Not for patients on the exclusion list; the pharmacist checks the order"
+      },
+      {
+        "current": "Saline line flush 10 mL",
+        "alternative": "Prefilled syringe from the central stock",
+        "conditions": "Dialysis keeps bags"
+      }
+    ],
+    "approval": {
+      "approvedBy": "P&T chair, emergency approval",
+      "approvedOn": "11/05/2026 07:30",
+      "expires": "Reviewed every 48 hours"
+    },
+    "contact": "Pharmacy operations desk, ext. 4410"
+  }
+}

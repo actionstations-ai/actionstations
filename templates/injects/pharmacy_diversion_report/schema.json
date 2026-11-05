@@ -1,0 +1,128 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Controlled substance discrepancy and diversion report",
+  "description": "A diversion analytics report: users compared with their peers on transactions, overrides, wastes and discrepancies over a period, the observations, the innocent explanations considered and the next steps. People are fictional and presumed innocent.",
+  "required": ["organization", "period", "users", "observations"],
+  "properties": {
+    "marking": {
+      "type": "string",
+      "description": "Exercise marking printed above the form",
+      "examples": ["EXERCISE · FICTIONAL ORGANIZATION AND RECORDS · NOT FOR CLINICAL USE"]
+    },
+    "organization": {
+      "type": "string",
+      "description": "Organization name (fictional)",
+      "examples": ["Harbor Point Health pharmacy (fictional)"]
+    },
+    "reportNumber": {
+      "type": "string",
+      "description": "Report number",
+      "examples": ["DIV-2026-09"],
+      "x-translate": false
+    },
+    "period": {
+      "type": "string",
+      "description": "Period reviewed",
+      "examples": ["10/06/2026 to 11/05/2026"]
+    },
+    "scope": {
+      "type": "string",
+      "description": "Units and cabinets reviewed",
+      "examples": ["5 West cabinets A and B; opioid and benzodiazepine items"]
+    },
+    "preparedBy": {
+      "type": "string",
+      "description": "Prepared by (role)",
+      "examples": ["Controlled substance diversion specialist"]
+    },
+    "users": {
+      "type": "array",
+      "description": "One row per user shown (2-10), with the peer median",
+      "maxItems": 10,
+      "minItems": 2,
+      "items": {
+        "type": "object",
+        "properties": {
+          "user": {
+            "type": "string",
+            "description": "User code (fictional)",
+            "examples": ["RN-4471"],
+            "x-translate": false
+          },
+          "transactions": {
+            "type": "integer",
+            "minimum": 0,
+            "description": "Controlled substance removals"
+          },
+          "peerMedian": {
+            "type": "integer",
+            "minimum": 0,
+            "description": "Median removals for peers on the same unit and shifts"
+          },
+          "overrides": {
+            "type": "integer",
+            "minimum": 0,
+            "description": "Overrides"
+          },
+          "wastes": {
+            "type": "integer",
+            "minimum": 0,
+            "description": "Wasted doses"
+          },
+          "discrepancies": {
+            "type": "integer",
+            "minimum": 0,
+            "description": "Unresolved discrepancies"
+          },
+          "flag": {
+            "type": "string",
+            "description": "Flag",
+            "enum": ["Outside peers", "Within peers"]
+          }
+        },
+        "additionalProperties": false,
+        "required": ["user", "transactions", "peerMedian", "flag"]
+      }
+    },
+    "observations": {
+      "type": "array",
+      "description": "Observations (1-8)",
+      "maxItems": 8,
+      "minItems": 1,
+      "items": {
+        "type": "string",
+        "description": "One observation",
+        "examples": ["RN-4471 removes 2.4 times the peer median and has 9 overrides."]
+      }
+    },
+    "innocentExplanations": {
+      "type": "array",
+      "description": "Innocent explanations considered (0-6)",
+      "maxItems": 6,
+      "items": {
+        "type": "string",
+        "description": "One explanation",
+        "examples": [
+          "Floated to the oncology unit for two weeks, which explains part of the volume."
+        ]
+      }
+    },
+    "status": {
+      "type": "string",
+      "description": "Case status",
+      "enum": ["Reviewing data", "Investigation open", "Reported", "Closed"]
+    },
+    "nextSteps": {
+      "type": "array",
+      "description": "Next steps (0-8)",
+      "maxItems": 8,
+      "items": {
+        "type": "string",
+        "description": "One step",
+        "examples": ["Review the waste witness records for the 14 wastes."]
+      }
+    }
+  },
+  "type": "object",
+  "additionalProperties": false
+}

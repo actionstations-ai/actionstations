@@ -1,0 +1,86 @@
+<section class="page">
+  <p class="marking">
+    {{default fields.marking "EXERCISE · FICTIONAL ORGANIZATION AND RECORDS · NOT FOR CLINICAL
+    USE"}}
+  </p>
+  <header class="head">
+    <div>
+      <div class="org">{{fields.organization}}</div>
+      <h1 class="title">Recall notice and response log</h1>
+    </div>
+    <div class="sub">{{fields.noticeNumber}}<br />{{fields.issuedOn}}</div>
+  </header>
+  <table class="kv">
+    <tr>
+      <th scope="row">Issued by</th>
+      <td>{{fields.issuedBy}}</td>
+    </tr>
+    <tr>
+      <th scope="row">Product</th>
+      <td>{{fields.product}}</td>
+    </tr>
+    <tr>
+      <th scope="row">NDC</th>
+      <td class="mono">{{fields.ndc}}</td>
+    </tr>
+    <tr>
+      <th scope="row">Class stated</th>
+      <td>{{fields.recallClass}}</td>
+    </tr>
+    <tr>
+      <th scope="row">Reason</th>
+      <td>{{fields.reason}}</td>
+    </tr>
+    <tr>
+      <th scope="row">Action requested</th>
+      <td>{{fields.action}}</td>
+    </tr>
+    {{#if fields.responseDue}}
+    <tr>
+      <th scope="row">Response due</th>
+      <td class="mono">{{fields.responseDue}}</td>
+    </tr>
+    {{/if}}
+  </table>
+  <h2>Response log by lot</h2>
+  <table class="grid">
+    <caption class="sr-only">
+      Units received, dispensed, on hand, returned and quarantined for each recalled lot
+    </caption>
+    <thead>
+      <tr>
+        <th scope="col">Lot</th>
+        <th scope="col">Expires</th>
+        <th scope="col">Received</th>
+        <th scope="col">Dispensed</th>
+        <th scope="col">On hand</th>
+        <th scope="col">Returned</th>
+        <th scope="col">Quarantined</th>
+        <th scope="col">Where</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each fields.lots}}
+      <tr>
+        <th scope="row" class="mono">{{this.lot}}</th>
+        <td class="mono">{{this.expiration}}</td>
+        <td class="num">{{this.received}}</td>
+        <td class="num">{{this.dispensed}}</td>
+        <td class="num">{{this.onHand}}</td>
+        <td class="num">{{this.returned}}</td>
+        <td class="num">{{this.quarantined}}</td>
+        <td>{{this.where}}</td>
+      </tr>
+      {{/each}}
+    </tbody>
+  </table>
+  <p class="note">
+    Patients to contact: <strong>{{fields.patientsToContact}}</strong>. Received = dispensed + on
+    hand + returned for every lot.
+  </p>
+
+  <footer class="foot">
+    <span>Lot numbers and NDCs are fictional unless quoted from a dated FDA record.</span
+    ><span>Exercise record</span>
+  </footer>
+</section>

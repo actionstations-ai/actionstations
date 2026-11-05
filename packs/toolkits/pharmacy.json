@@ -1,0 +1,171 @@
+{
+  "id": "pharmacy",
+  "name": "Pharmacy and drug supply",
+  "description": "Drug supply and pharmacy operations for exercises: shortage and allocation boards driven by one days-on-hand model, substitution safety checks, dispensing and verification queues, claims and e-prescribing outage workarounds, cold chain temperature logs and excursion reports, controlled substance discrepancy and loss reports, recall notices and compounding records. Real FDA shortage records can be replayed as dated history. Exercise content, never clinical or legal guidance; every patient, drug record, lot and registration number is fictional unless a dated FDA record is quoted.",
+  "appliesTo": {
+    "keywords": [
+      "pharmacy",
+      "pharmacist",
+      "drug shortage",
+      "shortage",
+      "allocation",
+      "substitution",
+      "formulary",
+      "wholesaler",
+      "compounding",
+      "sterile compounding",
+      "cold chain",
+      "vaccine storage",
+      "freezer failure",
+      "temperature excursion",
+      "controlled substance",
+      "diversion",
+      "dispensing cabinet",
+      "recall",
+      "claims switch",
+      "e-prescribing",
+      "iv fluid",
+      "beyond-use date"
+    ],
+    "domains": [
+      "pharmacy",
+      "healthcare",
+      "nursing",
+      "health_informatics",
+      "public_health",
+      "epidemiology",
+      "ems_fire"
+    ]
+  },
+  "injectTypes": [
+    "pharmacy_shortage_board",
+    "pharmacy_shortage_assessment",
+    "pharmacy_allocation_memo",
+    "pharmacy_substitution_checklist",
+    "pharmacy_queue_report",
+    "pharmacy_outage_notice",
+    "pharmacy_temperature_log",
+    "pharmacy_excursion_report",
+    "pharmacy_diversion_report",
+    "pharmacy_loss_notice",
+    "pharmacy_recall_notice",
+    "pharmacy_compounding_record",
+    "pharmacy_patient_letter"
+  ],
+  "figureKinds": [],
+  "connectors": [],
+  "outsideParties": [
+    "Wholesaler allocation desk",
+    "Manufacturer customer service",
+    "FDA drug shortage staff",
+    "DEA Field Division office",
+    "State board of pharmacy inspector",
+    "State immunization program",
+    "Claims switch help desk",
+    "Pharmacy benefit manager help line",
+    "Neighboring hospital pharmacy (loan of product)",
+    "Poison control center",
+    "Prescriber or physician advisor",
+    "Patient or caregiver on the phone"
+  ],
+  "advisorRoles": [
+    {
+      "key": "shortage_clinical_advisor",
+      "name": "Clinical pharmacist advisor",
+      "abbreviation": "CPA",
+      "team": "Advisors",
+      "description": "Answers questions about which patients depend on the drug and what alternatives the scenario allows, within the scenario table."
+    },
+    {
+      "key": "wholesaler_rep",
+      "name": "Wholesaler or manufacturer representative",
+      "abbreviation": "Whs",
+      "team": "Advisors",
+      "description": "Plays the supplier: allocation quantities, delivery dates and a recovery estimate that can move."
+    },
+    {
+      "key": "dea_investigator",
+      "name": "DEA diversion investigator",
+      "abbreviation": "DEA",
+      "team": "Advisors",
+      "description": "Takes the Field Division notice and asks about quantities, dates of discovery and individuals."
+    },
+    {
+      "key": "immunization_program_staff",
+      "name": "Immunization program staff",
+      "abbreviation": "IZ",
+      "team": "Advisors",
+      "description": "Gives viability guidance from the scenario product table and takes the excursion report."
+    },
+    {
+      "key": "claims_help_desk",
+      "name": "Claims switch help desk",
+      "abbreviation": "Sw",
+      "team": "Advisors",
+      "description": "Answers outage calls with a status that changes: investigating, identified, monitoring."
+    }
+  ],
+  "documents": [],
+  "metrics": [],
+  "decisionForms": [],
+  "knowledge": {
+    "glossary": [
+      {
+        "term": "Days on hand",
+        "definition": "On-hand quantity divided by usage per day. It changes when usage or an allocation changes."
+      },
+      {
+        "term": "Allocation",
+        "definition": "A supplier or internal limit on how much of a short drug each buyer or unit gets, often a percentage of past use."
+      },
+      {
+        "term": "Therapeutic interchange",
+        "definition": "An approved swap to another drug or presentation, with a safety check on concentration, dose, device and labeling."
+      },
+      {
+        "term": "NDC",
+        "definition": "National Drug Code: labeler, product and package, written 10 digits in 4-4-2, 5-3-2 or 5-4-1 and 11 digits as 5-4-2."
+      },
+      {
+        "term": "Excursion",
+        "definition": "Any storage reading outside the labeled range; exposed product is labeled do not use and held until a viability decision."
+      },
+      {
+        "term": "Beyond-use date",
+        "definition": "The date after which a compounded preparation is not used."
+      },
+      {
+        "term": "Form 106",
+        "definition": "DEA report of theft or loss of controlled substances, filed electronically within 45 days of discovery."
+      }
+    ],
+    "productConventions": [
+      "A drug line states drug, strength, presentation, NDC (fictional), lot and expiration.",
+      "Temperatures show Celsius and Fahrenheit that agree: 2 to 8 C is 36 to 46 F; -50 to -15 C is -58 to 5 F.",
+      "An excursion report states the minimum, the maximum and the time outside the range.",
+      "A shortage record recovery date is an estimate; write \"estimated\" and keep the record date.",
+      "Notice timing: DEA Field Division notice within one business day of discovery; Form 106 within 45 days."
+    ],
+    "realismRules": [
+      "Never invent doses or drug interactions beyond what the scenario author supplied; keep any dose plausible.",
+      "Days on hand equals on-hand divided by usage per day; an allocation percentage lowers usage the pharmacy can serve.",
+      "Substitution tables state units and concentrations the same way in every row (mg/mL or mg per container, never mixed).",
+      "Quantities received, dispensed, on hand and returned add up per lot.",
+      "Real manufacturer names appear only as dated quotes of an FDA record; the exercising organization is fictional.",
+      "A shortage or recall record is history, not the current state of supply, and is never used for medical decisions."
+    ]
+  },
+  "lintRules": [
+    "pharmacy_ndc_format",
+    "pharmacy_temperature_pair",
+    "pharmacy_days_on_hand",
+    "pharmacy_excursion_stats",
+    "pharmacy_queue_status",
+    "pharmacy_substitution_units",
+    "pharmacy_dose_plausibility",
+    "pharmacy_lot_balance",
+    "pharmacy_notice_timing"
+  ],
+  "capabilities": [],
+  "exerciseTags": []
+}

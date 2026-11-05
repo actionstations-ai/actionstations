@@ -1,0 +1,37 @@
+<section class="page letter">
+  <p class="marking">
+    {{default fields.marking "EXERCISE · FICTIONAL ORGANIZATION AND RECORDS · NOT FOR CLINICAL
+    USE"}}
+  </p>
+  <header class="head">
+    <div>
+      <div class="org">{{fields.organization}}</div>
+      <div>{{fields.address}}</div>
+    </div>
+    <div class="sub">{{fields.date}}{{#if fields.form}}<br />{{fields.form}}{{/if}}</div>
+  </header>
+  <p>{{fields.salutation}}</p>
+  <h2 style="font-size: 14px">{{fields.subject}}</h2>
+  {{#each fields.body}}
+  <p>{{this}}</p>
+  {{/each}}
+  <h2>What you can do</h2>
+  <ol class="steps">
+    {{#each fields.whatToDo}}
+    <li>{{this}}</li>
+    {{/each}}
+  </ol>
+  {{#if fields.pharmacyActions}}
+  <h2>What we are doing</h2>
+  <p>{{fields.pharmacyActions}}</p>
+  {{/if}}
+  <p class="note">
+    Questions? Call <strong>{{fields.phone}}</strong>{{#if fields.hours}} ({{fields.hours}}){{/if}}.
+  </p>
+  <p>Sincerely,<br />{{fields.signer}}</p>
+
+  <footer class="foot">
+    <span>Plain-language notice. Fictional pharmacy and fictional lots.</span
+    ><span>Exercise record</span>
+  </footer>
+</section>

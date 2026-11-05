@@ -1,0 +1,123 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Cold chain temperature log and data logger report",
+  "description": "A data logger report for one refrigerator or freezer: the labeled range in Celsius and Fahrenheit, the minimum and maximum, the time outside the range, the readings and the calibration of the probe.",
+  "required": [
+    "organization",
+    "unit",
+    "rangeLabel",
+    "rangeLowC",
+    "rangeHighC",
+    "minC",
+    "maxC",
+    "minutesOutside",
+    "readings"
+  ],
+  "properties": {
+    "marking": {
+      "type": "string",
+      "description": "Exercise marking printed above the form",
+      "examples": ["EXERCISE · FICTIONAL ORGANIZATION AND RECORDS · NOT FOR CLINICAL USE"]
+    },
+    "organization": {
+      "type": "string",
+      "description": "Organization name (fictional)",
+      "examples": ["Eastbrook County Clinic (fictional)"]
+    },
+    "unit": {
+      "type": "string",
+      "description": "Storage unit",
+      "examples": ["Refrigerator R-2"],
+      "x-translate": false
+    },
+    "location": {
+      "type": "string",
+      "description": "Where the unit is",
+      "examples": ["Vaccine room, first floor"]
+    },
+    "product": {
+      "type": "string",
+      "description": "What it holds",
+      "examples": ["Routine pediatric vaccines (fictional product list)"]
+    },
+    "period": {
+      "type": "string",
+      "description": "Period covered",
+      "examples": ["11/08/2026 18:00 to 11/09/2026 06:00"]
+    },
+    "rangeLabel": {
+      "type": "string",
+      "description": "Labeled range in both scales, matching the numbers below",
+      "examples": ["2 to 8 °C (36 to 46 °F)"]
+    },
+    "rangeLowC": {
+      "type": "number",
+      "description": "Low end of the labeled range in Celsius"
+    },
+    "rangeHighC": {
+      "type": "number",
+      "description": "High end of the labeled range in Celsius"
+    },
+    "minC": {
+      "type": "number",
+      "description": "Lowest reading in Celsius"
+    },
+    "maxC": {
+      "type": "number",
+      "description": "Highest reading in Celsius"
+    },
+    "minutesOutside": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Minutes outside the range"
+    },
+    "probe": {
+      "type": "string",
+      "description": "Probe and logger",
+      "examples": ["Buffered probe, logger L-2204"]
+    },
+    "calibration": {
+      "type": "string",
+      "description": "Calibration certificate and expiry",
+      "examples": ["Certificate C-7781, expires 03/2027"]
+    },
+    "readings": {
+      "type": "array",
+      "description": "Readings (2-24)",
+      "maxItems": 24,
+      "minItems": 2,
+      "items": {
+        "type": "object",
+        "properties": {
+          "time": {
+            "type": "string",
+            "description": "Time of the reading",
+            "examples": ["02:10"]
+          },
+          "tempC": {
+            "type": "number",
+            "description": "Temperature in degrees Celsius"
+          },
+          "tempF": {
+            "type": "number",
+            "description": "Temperature in degrees Fahrenheit"
+          },
+          "state": {
+            "type": "string",
+            "description": "In range or not",
+            "enum": ["In range", "Out of range"]
+          }
+        },
+        "additionalProperties": false,
+        "required": ["time", "tempC", "state"]
+      }
+    },
+    "note": {
+      "type": "string",
+      "description": "Note",
+      "examples": ["Alarm sounded at 02:40; first contact did not answer."]
+    }
+  },
+  "type": "object",
+  "additionalProperties": false
+}

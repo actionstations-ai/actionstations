@@ -1,0 +1,127 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Substitution safety checklist",
+  "description": "The medication safety check of one proposed substitution: concentration, dose, device, labeling and look-alike risk, each with a result, then a decision and who is told. Concentrations are stated in the same unit on both sides.",
+  "required": ["organization", "current", "alternative", "checks", "decision"],
+  "properties": {
+    "marking": {
+      "type": "string",
+      "description": "Exercise marking printed above the form",
+      "examples": ["EXERCISE · FICTIONAL ORGANIZATION AND RECORDS · NOT FOR CLINICAL USE"]
+    },
+    "organization": {
+      "type": "string",
+      "description": "Organization name (fictional)",
+      "examples": ["Harbor Point Health pharmacy (fictional)"]
+    },
+    "date": {
+      "type": "string",
+      "description": "Date",
+      "examples": ["11/05/2026"]
+    },
+    "current": {
+      "type": "string",
+      "description": "Product in short supply",
+      "examples": ["Sodium chloride 0.9% injection, 1,000 mL bag"]
+    },
+    "alternative": {
+      "type": "string",
+      "description": "Proposed substitute",
+      "examples": ["Lactated Ringer injection, 1,000 mL bag"]
+    },
+    "proposedUse": {
+      "type": "string",
+      "description": "Where it would be used",
+      "examples": ["Maintenance fluid on medical-surgical units"]
+    },
+    "proposedDose": {
+      "type": "object",
+      "properties": {
+        "drug": {
+          "type": "string",
+          "description": "Drug the dose is for, if a dose is stated",
+          "examples": ["Heparin"]
+        },
+        "dose": {
+          "type": "string",
+          "description": "Dose as written",
+          "examples": ["5,000 units"]
+        },
+        "route": {
+          "type": "string",
+          "description": "Route",
+          "examples": ["Subcutaneous"]
+        }
+      },
+      "additionalProperties": false
+    },
+    "checks": {
+      "type": "array",
+      "description": "One row per check (1-8)",
+      "maxItems": 8,
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "properties": {
+          "item": {
+            "type": "string",
+            "description": "Check",
+            "enum": [
+              "Concentration",
+              "Dose",
+              "Device",
+              "Labeling",
+              "Look-alike risk",
+              "Compatibility",
+              "Build change"
+            ]
+          },
+          "from": {
+            "type": "string",
+            "description": "The current product",
+            "examples": ["154 mEq/L sodium"]
+          },
+          "to": {
+            "type": "string",
+            "description": "The substitute",
+            "examples": ["130 mEq/L sodium"]
+          },
+          "result": {
+            "type": "string",
+            "description": "Result",
+            "enum": ["Pass", "Review", "Fail"]
+          },
+          "note": {
+            "type": "string",
+            "description": "What the check found",
+            "examples": ["Lower sodium; pharmacist checks the order for hyponatremia risk."]
+          }
+        },
+        "additionalProperties": false,
+        "required": ["item", "result"]
+      }
+    },
+    "decision": {
+      "type": "string",
+      "description": "Decision",
+      "enum": ["Approved", "Approved with conditions", "Not approved"]
+    },
+    "conditions": {
+      "type": "string",
+      "description": "Conditions on the approval",
+      "examples": ["Order set built; pharmacist verifies each order."]
+    },
+    "informed": {
+      "type": "string",
+      "description": "Who is told",
+      "examples": ["Nursing educators, anesthesia, pharmacy informatics"]
+    },
+    "reviewer": {
+      "type": "string",
+      "description": "Reviewed by (role)",
+      "examples": ["Medication safety officer"]
+    }
+  },
+  "type": "object",
+  "additionalProperties": false
+}

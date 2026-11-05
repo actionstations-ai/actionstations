@@ -1,0 +1,95 @@
+<section class="page">
+  <p class="marking">
+    {{default fields.marking "EXERCISE · FICTIONAL ORGANIZATION AND RECORDS · NOT FOR CLINICAL
+    USE"}}
+  </p>
+  <header class="head">
+    <div>
+      <div class="org">{{fields.organization}}</div>
+      <h1 class="title">Memo: allocation and restriction</h1>
+    </div>
+    <div class="sub">{{fields.memoNumber}}<br />{{fields.date}}</div>
+  </header>
+  <table class="kv">
+    <tr>
+      <th scope="row">From</th>
+      <td>{{fields.from}}</td>
+    </tr>
+    <tr>
+      <th scope="row">To</th>
+      <td>{{fields.to}}</td>
+    </tr>
+    <tr>
+      <th scope="row">Subject</th>
+      <td><strong>{{fields.subject}}</strong></td>
+    </tr>
+  </table>
+  {{#if fields.rule}}
+  <p class="warn">{{fields.rule}}</p>
+  {{/if}}
+  <h2>Allocation by tier</h2>
+  <table class="grid">
+    <thead>
+      <tr>
+        <th scope="col">Tier</th>
+        <th scope="col">Who</th>
+        <th scope="col">Percent of prior use</th>
+        <th scope="col">Note</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each fields.tiers}}
+      <tr>
+        <th scope="row">{{this.tier}}</th>
+        <td>{{this.who}}</td>
+        <td class="num">{{this.percent}}%</td>
+        <td>{{this.note}}</td>
+      </tr>
+      {{/each}}
+    </tbody>
+  </table>
+  {{#if fields.interchange.length}}
+  <h2>Therapeutic interchange</h2>
+  <table class="grid">
+    <thead>
+      <tr>
+        <th scope="col">Current product</th>
+        <th scope="col">Approved alternative</th>
+        <th scope="col">Conditions</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each fields.interchange}}
+      <tr>
+        <th scope="row">{{this.current}}</th>
+        <td>{{this.alternative}}</td>
+        <td>{{this.conditions}}</td>
+      </tr>
+      {{/each}}
+    </tbody>
+  </table>
+  {{/if}} {{#if fields.approval}}
+  <h2>Emergency approval</h2>
+  <table class="kv">
+    <tr>
+      <th scope="row">Approved by</th>
+      <td>{{fields.approval.approvedBy}}</td>
+    </tr>
+    <tr>
+      <th scope="row">Date and time</th>
+      <td class="mono">{{fields.approval.approvedOn}}</td>
+    </tr>
+    <tr>
+      <th scope="row">Review</th>
+      <td>{{fields.approval.expires}}</td>
+    </tr>
+  </table>
+  {{/if}} {{#if fields.contact}}
+  <p class="note">Questions: {{fields.contact}}</p>
+  {{/if}}
+
+  <footer class="foot">
+    <span>Exercise content. Allocation percentages are the scenario author choice.</span
+    ><span>Exercise record</span>
+  </footer>
+</section>

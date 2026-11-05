@@ -1,0 +1,65 @@
+{
+  "fields": {
+    "organization": "Eastbrook County Clinic (fictional)",
+    "reportNumber": "EXC-2026-07",
+    "unit": "Refrigerator R-2",
+    "discoveredAt": "11/09/2026 06:05",
+    "foundBy": "Clinic manager",
+    "rangeLabel": "2 to 8 °C (36 to 46 °F)",
+    "rangeLowC": 2,
+    "rangeHighC": 8,
+    "minC": 4.1,
+    "maxC": 11.6,
+    "minutesOutside": 205,
+    "cause": "Tripped breaker; the unit was on a circuit shared with a space heater.",
+    "timeline": [
+      {
+        "time": "02:40",
+        "event": "Alarm sounded; the first contact did not answer."
+      },
+      {
+        "time": "04:30",
+        "event": "Peak reading 11.6 °C (52.9 °F)."
+      },
+      {
+        "time": "06:05",
+        "event": "Clinic manager found the breaker tripped and reset it."
+      },
+      {
+        "time": "06:20",
+        "event": "Product labeled do not use and moved to the hospital pharmacy unit."
+      },
+      {
+        "time": "08:10",
+        "event": "Immunization program reached; viability answer requested."
+      }
+    ],
+    "products": [
+      {
+        "product": "Pediatric vaccine A (fictional)",
+        "lot": "EX-A-4410",
+        "doses": 60,
+        "decision": "Viable",
+        "basis": "Scenario product table: usable after a documented excursion under 12 °C for under six hours."
+      },
+      {
+        "product": "Pediatric vaccine B (fictional)",
+        "lot": "EX-B-1187",
+        "doses": 40,
+        "decision": "Do not use",
+        "basis": "Scenario product table: not usable above 8 °C; manufacturer line asked."
+      },
+      {
+        "product": "Adult vaccine C (fictional)",
+        "lot": "EX-C-9021",
+        "doses": 25,
+        "decision": "Held",
+        "basis": "Waiting for the manufacturer answer."
+      }
+    ],
+    "decidedBy": "Vaccine coordinator with the immunization program",
+    "patientsAffected": "14 doses given between 02:40 and 06:05; recontact list prepared",
+    "notified": "State immunization program, vaccine manufacturer line, clinic medical director",
+    "corrective": "Dedicated circuit, generator transfer switch and a call tree with two named contacts."
+  }
+}
