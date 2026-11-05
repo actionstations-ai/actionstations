@@ -8,6 +8,8 @@ as `#NN`. Releasing: rename `[Unreleased]` to the new version with the release d
 
 ## [Unreleased]
 
+## [0.7.2] - 2026-11-05
+
 ### Added
 
 - **PHEP exercise objectives and capabilities, and field critical tasks in the evaluation guides** (#842): tagging a scenario with a PHEP exercise now brings the framework's objectives into the scenario (on generation, after the objectives step, or with **Add to scenario objectives** in the exercise details), and the After-Action Report adds a table mapping each PHEP capability the exercise names to the Core Capabilities it covers with the rating each received. The toolkits' critical tasks per Core Capability now reach the evaluation guide step as reference data; the model uses one where a cited plan section supports it. Any program tag can do the same by naming its capability framework.
