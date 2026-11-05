@@ -52,7 +52,11 @@ describe('packs/documents/manifest.json', () => {
   it('parses, and every document has a public-domain license and basis', () => {
     expect(m.documents.length).toBeGreaterThan(100)
     for (const d of m.documents) {
-      expect(['LicenseRef-US-Government-Work', 'CC0-1.0']).toContain(d.license)
+      expect(
+        d.pack === 'core'
+          ? ['LicenseRef-US-Government-Work', 'CC0-1.0']
+          : ['LicenseRef-US-Government-Work', 'CC0-1.0', 'LicenseRef-Publisher-Terms'],
+      ).toContain(d.license)
       expect(d.basis.length).toBeGreaterThan(10)
       expect(new URL(d.url).protocol).toBe('https:')
     }
@@ -115,8 +119,15 @@ describe('DocumentsManifest schema', () => {
     ).toEqual([])
   })
 
-  it('refuses licenses other than US government work or CC0', () => {
+  it('refuses licenses other than US government work, CC0 or publisher terms', () => {
     expect(issues(manifest([doc({ license: 'CC-BY-4.0' as never })]))).not.toEqual([])
+  })
+
+  it('accepts publisher terms in a library but not in core (#1101)', () => {
+    expect(issues(manifest([doc({ license: 'LicenseRef-Publisher-Terms' })]))).toEqual([])
+    expect(
+      issues(manifest([doc({ pack: 'core', license: 'LicenseRef-Publisher-Terms' })])),
+    ).toContain('a core document must be LicenseRef-US-Government-Work or CC0-1.0')
   })
 
   it('refuses a file name that is not <slug>.<ext> or not a document format', () => {

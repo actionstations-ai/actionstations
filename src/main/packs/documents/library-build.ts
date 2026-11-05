@@ -42,6 +42,22 @@ const byPath = (a: string, b: string): number => (a < b ? -1 : a > b ? 1 : 0)
 
 export const LIBRARY_LICENSE = 'LicenseRef-US-Government-Work'
 
+const PUBLISHER_TERMS = 'LicenseRef-Publisher-Terms'
+
+/** The pack license: its documents' licenses joined with AND (US government work if empty). */
+export function libraryLicense(docs: readonly Pick<ManifestDocument, 'license'>[]): string {
+  const all = [...new Set(docs.map((d) => d.license))].sort(byPath)
+  return all.length ? all.join(' AND ') : LIBRARY_LICENSE
+}
+
+const allFederal = (docs: readonly Pick<ManifestDocument, 'license'>[]): boolean =>
+  !docs.some((d) => d.license === PUBLISHER_TERMS)
+
+const FEDERAL_NOTE =
+  'Every document here is a work of the United States federal government (17 U.S.C. §105) and is in the public domain in the United States.'
+const MIXED_NOTE =
+  "Documents marked LicenseRef-US-Government-Work are works of the United States federal government (17 U.S.C. §105). Documents marked LicenseRef-Publisher-Terms are published under their publisher's own terms, which the document and its entry in pack.json state."
+
 /** One document's files for a pack, or why it is missing. */
 interface Loaded {
   doc: ManifestDocument
@@ -108,7 +124,7 @@ export function libraryReadme(
     '',
     summary,
     '',
-    'Every document here is a work of the United States federal government (17 U.S.C. §105) and is in the public domain in the United States. Each entry in pack.json names its publisher and source URL. The documents are reference material: they name real agencies, and some name real companies or places, which exercises should use as background only, never as the exercising organization.',
+    `${allFederal(loaded.map((l) => l.doc)) ? FEDERAL_NOTE : MIXED_NOTE} Each entry in pack.json names its publisher and source URL. The documents are reference material: they name real agencies, and some name real companies or places, which exercises should use as background only, never as the exercising organization.`,
     '',
     `## Documents (${loaded.length})`,
     '',
@@ -117,7 +133,7 @@ export function libraryReadme(
     ...(notes.length ? ['### Notes', '', ...notes.map((n) => `- ${n}`), ''] : []),
     `## Related references (links only, ${links.length})`,
     '',
-    'Not in the pack: copyrighted, co-authored with non-federal or non-US bodies, too large, drafts, or web pages and tools. Follow the link for the current version.',
+    'Not in the pack: each reference states why (no fixed file to download, a web page, tool, database or service, sold or behind a login, or too large). Follow the link for the current version.',
     '',
     ...linkRows(links),
     '',
@@ -207,16 +223,16 @@ function libraryManifest(
   appVersion: string,
 ): Buffer {
   const info = m.libraries[pack]!
+  const loadedDocs = docs.map((d) => ({ license: d.license as ManifestDocument['license'] }))
   const manifest = {
     formatVersion: 1,
     id: documentPackId(pack),
     name: info.name,
     version: info.version,
     summary: info.summary,
-    description:
-      'Public-domain reference documents (US federal works) for this domain, pinned by sha256. Catalog-only: not included with the app. The README lists every document with its publisher, date and source, and the related references that are links only.',
+    description: `${allFederal(loadedDocs) ? 'Public-domain reference documents (US federal works)' : "Reference documents (US federal works and documents under their publishers' terms)"} for this domain, pinned by sha256. Catalog-only: not included with the app. The README lists every document with its publisher, date and source, and the related references that are links only.`,
     author: BUNDLED_MAP.author,
-    license: LIBRARY_LICENSE,
+    license: libraryLicense(loadedDocs),
     ...(BUNDLED_MAP.homepage ? { homepage: BUNDLED_MAP.homepage } : {}),
     minAppVersion: packMinAppVersion(appVersion),
     domains: [info.domain],
@@ -249,7 +265,7 @@ async function buildOne(
       title: x.doc.title,
       publisher: x.doc.publisher,
       url: x.doc.url,
-      reason: `Public domain, not in this build (${x.why}); download it from the link`,
+      reason: `Not in this build (${x.why}); download it from the link`,
     })),
     ...linksOf(m, a.pack),
   ]
