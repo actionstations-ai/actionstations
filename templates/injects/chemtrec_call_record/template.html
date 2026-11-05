@@ -1,0 +1,67 @@
+<article class="sheet">
+  <p class="marking">{{default fields.marking "EXERCISE - NOT A REAL INCIDENT"}}</p>
+  <header class="top">
+    <div>
+      <p class="org">{{fields.agency}}</p>
+      <h1>Chemical Emergency Call Record</h1>
+      <p class="sub">Call to a chemical emergency information line (fictional).</p>
+    </div>
+    <p class="inc"><span>Incident</span>{{fields.incidentName}}</p>
+  </header>
+  <dl class="facts" style="--cols: 4">
+    <div>
+      <dt>Call time</dt>
+      <dd>{{fields.callTime}}</dd>
+    </div>
+    <div>
+      <dt>Caller</dt>
+      <dd>{{fields.caller}}</dd>
+    </div>
+    <div class="wide">
+      <dt>Information line specialist</dt>
+      <dd>{{fields.specialist}}</dd>
+    </div>
+    <div>
+      <dt>Callback number</dt>
+      <dd>{{fields.callbackNumber}}</dd>
+    </div>
+  </dl>
+  <div class="body">
+    <section class="tbl">
+      <h2>Information exchanged</h2>
+      <table>
+        <thead>
+          <tr>
+            <th scope="col">Topic</th>
+            <th scope="col">Reported by caller</th>
+            <th scope="col">Advised by specialist</th>
+          </tr>
+        </thead>
+        <tbody>
+          {{#each fields.items}}
+          <tr>
+            <td>{{this.topic}}</td>
+            <td>{{this.reported}}</td>
+            <td>{{this.advised}}</td>
+          </tr>
+          {{/each}} {{#times 2}}
+          <tr class="blank">
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+          {{/times}}
+        </tbody>
+      </table>
+    </section>
+    {{#if fields.followUp}}
+    <section class="note">
+      <h2>Follow-up promised</h2>
+      <p>{{nl2br fields.followUp}}</p>
+    </section>
+    {{/if}}
+  </div>
+  <footer class="foot">
+    <span>Exercise material. Not clinical or hazmat guidance for a real incident.</span>
+  </footer>
+</article>

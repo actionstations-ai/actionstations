@@ -1,0 +1,90 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Multi-agency protective action recommendation",
+  "description": "A recommendation passed from the hazmat group to the incident commander and on to the county and the facility: the recommended action, the areas, who agrees, who disagrees and the decision. Distances are entered by the author or invented for a fictional material, and the source field says which.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["preparedBy", "agencies"],
+  "properties": {
+    "agency": {
+      "type": "string",
+      "description": "Agency or unit that keeps this record.",
+      "examples": ["Rook County Fire Department, Hazmat 1"]
+    },
+    "incidentName": {
+      "type": "string",
+      "description": "Incident name as command announced it.",
+      "examples": ["Tank car leak at Harlan Spur"]
+    },
+    "marking": {
+      "type": "string",
+      "description": "Exercise marking printed at the top and bottom. Defaults to the standard exercise marking.",
+      "examples": ["EXERCISE - NOT A REAL INCIDENT"]
+    },
+    "preparedBy": {
+      "type": "string",
+      "description": "Name and unit.",
+      "examples": ["Hazmat 1 / Vega"],
+      "x-translate": false
+    },
+    "asOf": {
+      "type": "string",
+      "description": "24-hour time.",
+      "examples": ["11:20"],
+      "x-translate": false
+    },
+    "windNow": {
+      "type": "string",
+      "description": "Direction and speed with source.",
+      "examples": ["West at 8 mph (command post sensor)"]
+    },
+    "agencies": {
+      "type": "array",
+      "description": "One row per agency.",
+      "minItems": 1,
+      "maxItems": 8,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["agency"],
+        "properties": {
+          "agency": {
+            "type": "string",
+            "description": "Agency or party.",
+            "examples": ["Hazmat group"]
+          },
+          "recommends": {
+            "type": "string",
+            "description": "Recommended action.",
+            "enum": ["Shelter in place", "Evacuate", "Isolate only", "No change"],
+            "examples": ["Evacuate"]
+          },
+          "area": {
+            "type": "string",
+            "description": "Area in words.",
+            "examples": ["Elm Street Elementary and homes west of Harlan Road"]
+          },
+          "concern": {
+            "type": "string",
+            "description": "Main concern.",
+            "examples": ["Wind shifted toward the school"]
+          }
+        }
+      }
+    },
+    "decision": {
+      "type": "string",
+      "description": "What the incident commander decided, with the time.",
+      "examples": [
+        "Incident commander kept shelter in place and ordered buses staged on the east side at 11:24."
+      ]
+    },
+    "distanceSource": {
+      "type": "string",
+      "description": "Where the distances came from.",
+      "examples": [
+        "Invented exercise distance for a fictional material. Players use their own guidebook for real decisions."
+      ]
+    }
+  }
+}

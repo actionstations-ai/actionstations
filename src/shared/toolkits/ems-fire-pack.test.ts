@@ -7,7 +7,7 @@ import { DomainProfile, mergeThreatFamilies } from '../domains'
 import { ToolkitSchema, toolkitKnowledge, suggestToolkits } from './index'
 
 const readJson = (rel: string): unknown => JSON.parse(readFileSync(resolve(rel), 'utf8'))
-const TOOLKIT_IDS = ['mci_triage'] as const
+const TOOLKIT_IDS = ['mci_triage', 'hazmat', 'dispatch'] as const
 
 describe('ems_fire domain profile', () => {
   const profile = DomainProfile.parse(readJson('packs/domains/ems_fire.json'))
@@ -80,5 +80,27 @@ describe('mci_triage', () => {
 
   it('states that the exercise does not pick a triage method', () => {
     expect(toolkit.knowledge.realismRules.join(' ')).toMatch(/START, SALT or the local method/)
+  })
+})
+
+describe('hazmat toolkit and the Emergency Response Guidebook', () => {
+  const toolkit = ToolkitSchema.parse(readJson('packs/toolkits/hazmat.json'))
+
+  it('ships no guidebook content and says where distances come from', () => {
+    const all = JSON.stringify(toolkit)
+    expect(toolkit.knowledge.realismRules.join(' ')).toMatch(
+      /Never ship or invent Emergency Response Guidebook/,
+    )
+    expect(all).not.toMatch(/Table 1|Table 3|large spill/i)
+    const form = toolkit.decisionForms.find((f) => f.id === 'set_protective_actions')
+    expect(form?.fields.find((f) => f.id === 'distance_source')?.required).toBe(true)
+  })
+
+  it('shows no real UN number with distances in any bundled preview', () => {
+    for (const type of ['protective_action_order', 'protective_action_recommendation']) {
+      const preview = readFileSync(resolve(`templates/injects/${type}/preview.json`), 'utf8')
+      expect(preview).not.toMatch(/UN ?\d{4}/)
+      expect(preview).toMatch(/invented|fictional/i)
+    }
   })
 })

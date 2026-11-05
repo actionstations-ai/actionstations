@@ -1,0 +1,71 @@
+<article class="sheet">
+  <p class="marking">{{default fields.marking "EXERCISE - NOT A REAL INCIDENT"}}</p>
+  <header class="top">
+    <div>
+      <p class="org">{{fields.agency}}</p>
+      <h1>Protective Action Recommendation</h1>
+      <p class="sub">What each agency recommends and what was decided.</p>
+    </div>
+    <p class="inc"><span>Incident</span>{{fields.incidentName}}</p>
+  </header>
+  <dl class="facts" style="--cols: 4">
+    <div>
+      <dt>Prepared by</dt>
+      <dd>{{fields.preparedBy}}</dd>
+    </div>
+    <div>
+      <dt>As of</dt>
+      <dd>{{fields.asOf}}</dd>
+    </div>
+    <div class="wide">
+      <dt>Wind now</dt>
+      <dd>{{fields.windNow}}</dd>
+    </div>
+  </dl>
+  <div class="body">
+    <section class="tbl">
+      <h2>Positions</h2>
+      <table>
+        <thead>
+          <tr>
+            <th scope="col">Agency</th>
+            <th scope="col">Recommends</th>
+            <th scope="col">Area</th>
+            <th scope="col">Concern</th>
+          </tr>
+        </thead>
+        <tbody>
+          {{#each fields.agencies}}
+          <tr>
+            <td>{{this.agency}}</td>
+            <td>{{this.recommends}}</td>
+            <td>{{this.area}}</td>
+            <td>{{this.concern}}</td>
+          </tr>
+          {{/each}} {{#times 1}}
+          <tr class="blank">
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+          {{/times}}
+        </tbody>
+      </table>
+    </section>
+    {{#if fields.decision}}
+    <section class="note">
+      <h2>Decision</h2>
+      <p>{{nl2br fields.decision}}</p>
+    </section>
+    {{/if}} {{#if fields.distanceSource}}
+    <section class="note">
+      <h2>Source of the distances</h2>
+      <p>{{nl2br fields.distanceSource}}</p>
+    </section>
+    {{/if}}
+  </div>
+  <footer class="foot">
+    <span>Exercise material. Not clinical or hazmat guidance for a real incident.</span>
+  </footer>
+</article>

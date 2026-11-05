@@ -1,0 +1,85 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Station alerting and tone-out text",
+  "description": "Station alerting text for a tone-out: the stations toned, the units, the incident, the address and the words dispatch speaks. Printed as the station printer shows it.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["tonedAt", "units"],
+  "properties": {
+    "agency": {
+      "type": "string",
+      "description": "Agency or unit that keeps this record.",
+      "examples": ["Rook County Dispatch"]
+    },
+    "incidentName": {
+      "type": "string",
+      "description": "Incident name as command announced it.",
+      "examples": ["Route 9 school bus collision"]
+    },
+    "marking": {
+      "type": "string",
+      "description": "Exercise marking printed at the top and bottom. Defaults to the standard exercise marking.",
+      "examples": ["EXERCISE - NOT A REAL INCIDENT"]
+    },
+    "tonedAt": {
+      "type": "string",
+      "description": "24-hour time.",
+      "examples": ["10:12"],
+      "x-translate": false
+    },
+    "incidentNumber": {
+      "type": "string",
+      "description": "CAD number.",
+      "examples": ["CAD 26-104417"],
+      "x-translate": false
+    },
+    "callType": {
+      "type": "string",
+      "description": "Call type.",
+      "examples": ["MVC with entrapment"]
+    },
+    "address": {
+      "type": "string",
+      "description": "Address.",
+      "examples": ["Route 9 at Harlan Road"]
+    },
+    "units": {
+      "type": "array",
+      "description": "Units and stations toned.",
+      "minItems": 1,
+      "maxItems": 8,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["unit"],
+        "properties": {
+          "unit": {
+            "type": "string",
+            "description": "Unit.",
+            "examples": ["Engine 7"],
+            "x-translate": false
+          },
+          "station": {
+            "type": "string",
+            "description": "Station.",
+            "examples": ["Station 7"],
+            "x-translate": false
+          },
+          "channel": {
+            "type": "string",
+            "description": "Response channel.",
+            "examples": ["Command 1"],
+            "x-translate": false
+          }
+        }
+      }
+    },
+    "spoken": {
+      "type": "string",
+      "description": "The words spoken after the tone.",
+      "examples": [
+        "Engine 7, Medic 4, Rescue 3, motor vehicle collision, school bus on its side, Route 9 at Harlan Road, multiple patients reported. Time out, 10:12."
+      ]
+    }
+  }
+}

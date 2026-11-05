@@ -1,0 +1,61 @@
+<article class="sheet">
+  <p class="marking">{{default fields.marking "EXERCISE - NOT A REAL INCIDENT"}}</p>
+  <header class="top">
+    <div>
+      <p class="org">{{fields.agency}}</p>
+      <h1>Station Alert</h1>
+      <p class="sub">What the station sees and hears when it is toned out.</p>
+    </div>
+    <p class="inc"><span>Incident</span>{{fields.incidentName}}</p>
+  </header>
+  <dl class="facts" style="--cols: 4">
+    <div>
+      <dt>Toned at</dt>
+      <dd>{{fields.tonedAt}}</dd>
+    </div>
+    <div>
+      <dt>Incident</dt>
+      <dd>{{fields.incidentNumber}}</dd>
+    </div>
+    <div>
+      <dt>Call type</dt>
+      <dd>{{fields.callType}}</dd>
+    </div>
+    <div class="wide">
+      <dt>Address</dt>
+      <dd>{{fields.address}}</dd>
+    </div>
+  </dl>
+  <div class="body">
+    <section class="tbl">
+      <h2>Units toned</h2>
+      <table>
+        <thead>
+          <tr>
+            <th scope="col">Unit</th>
+            <th scope="col">Station</th>
+            <th scope="col">Channel</th>
+          </tr>
+        </thead>
+        <tbody>
+          {{#each fields.units}}
+          <tr>
+            <td>{{this.unit}}</td>
+            <td>{{this.station}}</td>
+            <td>{{this.channel}}</td>
+          </tr>
+          {{/each}}
+        </tbody>
+      </table>
+    </section>
+    {{#if fields.spoken}}
+    <section class="note">
+      <h2>Dispatcher announcement</h2>
+      <p>{{nl2br fields.spoken}}</p>
+    </section>
+    {{/if}}
+  </div>
+  <footer class="foot">
+    <span>Exercise material. Not clinical or hazmat guidance for a real incident.</span>
+  </footer>
+</article>

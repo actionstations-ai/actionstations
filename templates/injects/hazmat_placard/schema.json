@@ -1,0 +1,54 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Hazardous materials placard",
+  "description": "A transport placard as a responder sees it on a tank car or truck: a diamond in the hazard class color with the class number, a hazard word and the four-digit UN number. The class number and the hazard word are always printed, so the placard reads without color. This is an exercise representation, not a regulatory placard.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["hazardClass", "unNumber"],
+  "properties": {
+    "hazardClass": {
+      "type": "string",
+      "description": "DOT hazard class or division.",
+      "enum": [
+        "1",
+        "2.1",
+        "2.2",
+        "2.3",
+        "3",
+        "4.1",
+        "4.2",
+        "4.3",
+        "5.1",
+        "5.2",
+        "6.1",
+        "7",
+        "8",
+        "9"
+      ]
+    },
+    "unNumber": {
+      "type": "string",
+      "description": "Four-digit UN or NA identification number shown on the placard or orange panel.",
+      "pattern": "^[0-9]{4}$",
+      "examples": ["1789"],
+      "x-translate": false
+    },
+    "hazardWord": {
+      "type": "string",
+      "description": "Hazard word printed on the placard, such as CORROSIVE or FLAMMABLE.",
+      "examples": ["CORROSIVE"]
+    },
+    "caption": {
+      "type": "string",
+      "description": "Where the placard was seen, for the inject.",
+      "examples": [
+        "Placard on the east side of the tank car, photographed by the first engine company"
+      ]
+    },
+    "marking": {
+      "type": "string",
+      "description": "Exercise marking under the placard.",
+      "examples": ["EXERCISE - NOT A REGULATORY PLACARD"]
+    }
+  }
+}

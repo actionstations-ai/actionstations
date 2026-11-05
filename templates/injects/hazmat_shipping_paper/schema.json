@@ -1,0 +1,110 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Hazardous materials shipping paper",
+  "description": "A shipping paper for a hazardous load as the carrier keeps it: shipper, carrier, the hazardous materials description lines (UN number, proper shipping name, hazard class, packing group, quantity), the emergency response telephone number and a note on where the paper is carried. The guide number is optional and is typed by the author from their own copy of the guidebook.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["shipper", "carrier", "lines"],
+  "properties": {
+    "agency": {
+      "type": "string",
+      "description": "Agency or unit that keeps this record.",
+      "examples": ["Harlan Valley Railroad (fictional)"]
+    },
+    "incidentName": {
+      "type": "string",
+      "description": "Incident name as command announced it.",
+      "examples": ["Tank car leak at Harlan Spur"]
+    },
+    "marking": {
+      "type": "string",
+      "description": "Exercise marking printed at the top and bottom. Defaults to the standard exercise marking.",
+      "examples": ["EXERCISE - NOT A REAL INCIDENT"]
+    },
+    "shipper": {
+      "type": "string",
+      "description": "Fictional shipper.",
+      "examples": ["Westmark Chemical Supply (fictional)"]
+    },
+    "carrier": {
+      "type": "string",
+      "description": "Fictional carrier or railroad.",
+      "examples": ["Harlan Valley Railroad (fictional)"]
+    },
+    "documentNumber": {
+      "type": "string",
+      "description": "Bill of lading or waybill number.",
+      "examples": ["WB-204117"],
+      "x-translate": false
+    },
+    "shipDate": {
+      "type": "string",
+      "description": "Date shipped.",
+      "examples": ["10/21/2026"],
+      "x-translate": false
+    },
+    "emergencyPhone": {
+      "type": "string",
+      "description": "A fictional 555 number.",
+      "examples": ["555-0142"],
+      "x-translate": false
+    },
+    "carriedIn": {
+      "type": "string",
+      "description": "Where the paper is kept, such as the cab pouch or the conductor's bag.",
+      "examples": ["Conductor's bag, lead locomotive"]
+    },
+    "lines": {
+      "type": "array",
+      "description": "One row per hazardous material.",
+      "minItems": 1,
+      "maxItems": 6,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["unNumber", "name"],
+        "properties": {
+          "unNumber": {
+            "type": "string",
+            "description": "UN or NA number with prefix.",
+            "examples": ["UN1789"],
+            "x-translate": false
+          },
+          "name": {
+            "type": "string",
+            "description": "Proper shipping name as written on the paper.",
+            "examples": ["Hydrochloric acid"]
+          },
+          "hazardClass": {
+            "type": "string",
+            "description": "Hazard class.",
+            "examples": ["8"],
+            "x-translate": false
+          },
+          "packingGroup": {
+            "type": "string",
+            "description": "Packing group (I, II or III) or blank.",
+            "examples": ["II"],
+            "x-translate": false
+          },
+          "quantity": {
+            "type": "string",
+            "description": "Quantity and container.",
+            "examples": ["1 tank car, 20,000 gal"]
+          },
+          "guide": {
+            "type": "string",
+            "description": "Guide number typed from the author's own copy of the guidebook; leave blank otherwise.",
+            "examples": [""],
+            "x-translate": false
+          }
+        }
+      }
+    },
+    "notes": {
+      "type": "string",
+      "description": "Remarks such as inhalation hazard marks, residue or reportable quantity.",
+      "examples": ["Residue: last contained hydrochloric acid."]
+    }
+  }
+}

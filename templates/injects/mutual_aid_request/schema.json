@@ -1,0 +1,101 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Mutual aid request",
+  "description": "A mutual aid request message from one agency to another: what is needed, where to report, who authorized it and the hazards. Decision level only.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["requestedAt", "requestingAgency", "resources"],
+  "properties": {
+    "agency": {
+      "type": "string",
+      "description": "Agency or unit that keeps this record.",
+      "examples": ["Rook County Fire Department"]
+    },
+    "incidentName": {
+      "type": "string",
+      "description": "Incident name as command announced it.",
+      "examples": ["Route 9 school bus collision"]
+    },
+    "marking": {
+      "type": "string",
+      "description": "Exercise marking printed at the top and bottom. Defaults to the standard exercise marking.",
+      "examples": ["EXERCISE - NOT A REAL INCIDENT"]
+    },
+    "requestedAt": {
+      "type": "string",
+      "description": "24-hour time.",
+      "examples": ["10:27"],
+      "x-translate": false
+    },
+    "requestingAgency": {
+      "type": "string",
+      "description": "Agency.",
+      "examples": ["Rook County EMS"]
+    },
+    "requestedFrom": {
+      "type": "string",
+      "description": "Agency or dispatch center asked.",
+      "examples": ["Lakeshore County Dispatch"]
+    },
+    "authorizedBy": {
+      "type": "string",
+      "description": "Name and title.",
+      "examples": ["Battalion 2 / Chief Pruitt"],
+      "x-translate": false
+    },
+    "agreement": {
+      "type": "string",
+      "description": "Mutual aid agreement or compact in effect.",
+      "examples": ["Regional mutual aid compact"]
+    },
+    "resources": {
+      "type": "array",
+      "description": "One row per resource type.",
+      "minItems": 1,
+      "maxItems": 8,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["type", "quantity"],
+        "properties": {
+          "type": {
+            "type": "string",
+            "description": "Resource type.",
+            "examples": ["ALS ambulance"]
+          },
+          "quantity": {
+            "type": "integer",
+            "description": "Quantity.",
+            "examples": [3],
+            "x-translate": false
+          },
+          "reportTo": {
+            "type": "string",
+            "description": "Staging or contact.",
+            "examples": ["Staging, church lot on Route 9"]
+          },
+          "needBy": {
+            "type": "string",
+            "description": "24-hour time.",
+            "examples": ["11:15"],
+            "x-translate": false
+          }
+        }
+      }
+    },
+    "situation": {
+      "type": "string",
+      "description": "What is happening, in a few lines.",
+      "examples": [
+        "School bus collision with about 28 patients. MCI declared at 10:20. Local ALS units committed."
+      ]
+    },
+    "hazards": {
+      "type": "string",
+      "description": "Hazards, routes and radio channel.",
+      "examples": [
+        "Approach from the east on Route 9; the west approach is blocked. Radio: Command 1 for command, Tactical 2 for transport."
+      ]
+    }
+  }
+}

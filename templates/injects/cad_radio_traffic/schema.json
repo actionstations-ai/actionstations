@@ -1,0 +1,98 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Radio traffic log (dispatch, command and tactical)",
+  "description": "A transcript of radio traffic across dispatch, command and tactical channels during an incident, with emergency traffic (such as a mayday) marked in words. Use the exact words spoken, in time order.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["traffic"],
+  "properties": {
+    "agency": {
+      "type": "string",
+      "description": "Agency or unit that keeps this record.",
+      "examples": ["Rook County Dispatch"]
+    },
+    "incidentName": {
+      "type": "string",
+      "description": "Incident name as command announced it.",
+      "examples": ["Warehouse fire, 400 Mill Street"]
+    },
+    "marking": {
+      "type": "string",
+      "description": "Exercise marking printed at the top and bottom. Defaults to the standard exercise marking.",
+      "examples": ["EXERCISE - NOT A REAL INCIDENT"]
+    },
+    "preparedBy": {
+      "type": "string",
+      "description": "Name.",
+      "examples": ["Dispatcher Cole"],
+      "x-translate": false
+    },
+    "from": {
+      "type": "string",
+      "description": "First time in the log, 24-hour.",
+      "examples": ["14:02:10"],
+      "x-translate": false
+    },
+    "to": {
+      "type": "string",
+      "description": "Last time in the log, 24-hour.",
+      "examples": ["14:21:55"],
+      "x-translate": false
+    },
+    "traffic": {
+      "type": "array",
+      "description": "One row per transmission.",
+      "minItems": 1,
+      "maxItems": 16,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["time", "channel", "from", "message"],
+        "properties": {
+          "time": {
+            "type": "string",
+            "description": "24-hour time.",
+            "examples": ["14:02:10"],
+            "x-translate": false
+          },
+          "channel": {
+            "type": "string",
+            "description": "Channel name.",
+            "examples": ["Dispatch"],
+            "x-translate": false
+          },
+          "from": {
+            "type": "string",
+            "description": "Calling unit.",
+            "examples": ["Dispatch"],
+            "x-translate": false
+          },
+          "to": {
+            "type": "string",
+            "description": "Called unit.",
+            "examples": ["Engine 5"],
+            "x-translate": false
+          },
+          "flag": {
+            "type": "string",
+            "description": "Routine, priority or emergency traffic.",
+            "enum": ["Routine", "Priority", "Emergency"],
+            "examples": ["Routine"]
+          },
+          "message": {
+            "type": "string",
+            "description": "The words spoken.",
+            "examples": [
+              "Engine 5, Ladder 2, Battalion 1, structure fire, 400 Mill Street, caller reports smoke from the roof."
+            ]
+          }
+        }
+      }
+    },
+    "notes": {
+      "type": "string",
+      "description": "Channels that were busy or traffic that was missed.",
+      "examples": ["Tactical 1 carried both the mayday and routine hose requests for two minutes."]
+    }
+  }
+}

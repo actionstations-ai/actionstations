@@ -1,0 +1,73 @@
+<article class="sheet screen">
+  <p class="marking">{{default fields.marking "EXERCISE - NOT A REAL INCIDENT"}}</p>
+  <header class="top">
+    <div>
+      <p class="org">{{fields.agency}}</p>
+      <h1>Incident Detail</h1>
+      <p class="sub">Responders' view of the dispatch record. Simulated; not a real CAD.</p>
+    </div>
+    <p class="inc"><span>Incident</span>{{fields.incidentName}}</p>
+  </header>
+  <dl class="facts" style="--cols: 6">
+    <div>
+      <dt>Incident</dt>
+      <dd>{{fields.incidentNumber}}</dd>
+    </div>
+    <div>
+      <dt>Call type</dt>
+      <dd>{{fields.callType}}</dd>
+    </div>
+    <div>
+      <dt>Priority</dt>
+      <dd>{{fields.priority}}</dd>
+    </div>
+    <div class="wide">
+      <dt>Location</dt>
+      <dd>{{fields.location}}</dd>
+    </div>
+    <div>
+      <dt>Call received</dt>
+      <dd>{{fields.received}}</dd>
+    </div>
+  </dl>
+  <div class="body">
+    <section class="tbl">
+      <h2>Units</h2>
+      <table>
+        <thead>
+          <tr>
+            <th scope="col">Unit</th>
+            <th scope="col">Disp</th>
+            <th scope="col">En rte</th>
+            <th scope="col">On scn</th>
+            <th scope="col">Pt cont</th>
+            <th scope="col">Trnsp</th>
+            <th scope="col">At hosp</th>
+          </tr>
+        </thead>
+        <tbody>
+          {{#each fields.units}}
+          <tr>
+            <td>{{this.unit}}</td>
+            <td class="num">{{this.dispatched}}</td>
+            <td class="num">{{this.enRoute}}</td>
+            <td class="num">{{this.onScene}}</td>
+            <td class="num">{{this.patientContact}}</td>
+            <td class="num">{{this.transporting}}</td>
+            <td class="num">{{this.atHospital}}</td>
+          </tr>
+          {{/each}}
+        </tbody>
+      </table>
+    </section>
+    {{#if fields.remarks}}
+    <section class="note">
+      <h2>Remarks</h2>
+      <p>{{nl2br fields.remarks}}</p>
+    </section>
+    {{/if}}
+  </div>
+  <footer class="foot">
+    <span>Simulated CAD view for an exercise. Not a real dispatch record.</span>
+  </footer>
+</article>

@@ -1,0 +1,79 @@
+<article class="sheet">
+  <p class="marking">{{default fields.marking "EXERCISE - NOT A REAL INCIDENT"}}</p>
+  <header class="top">
+    <div>
+      <p class="org">{{fields.agency}}</p>
+      <h1>Mutual Aid Request</h1>
+      <p class="sub">Request for resources from another agency.</p>
+    </div>
+    <p class="inc"><span>Incident</span>{{fields.incidentName}}</p>
+  </header>
+  <dl class="facts" style="--cols: 4">
+    <div>
+      <dt>Requested at</dt>
+      <dd>{{fields.requestedAt}}</dd>
+    </div>
+    <div class="wide">
+      <dt>Requesting agency</dt>
+      <dd>{{fields.requestingAgency}}</dd>
+    </div>
+    <div class="wide">
+      <dt>Requested from</dt>
+      <dd>{{fields.requestedFrom}}</dd>
+    </div>
+    <div>
+      <dt>Authorized by</dt>
+      <dd>{{fields.authorizedBy}}</dd>
+    </div>
+    <div>
+      <dt>Agreement</dt>
+      <dd>{{fields.agreement}}</dd>
+    </div>
+  </dl>
+  <div class="body">
+    <section class="tbl">
+      <h2>Resources requested</h2>
+      <table>
+        <thead>
+          <tr>
+            <th scope="col">Resource</th>
+            <th scope="col">Qty</th>
+            <th scope="col">Report to</th>
+            <th scope="col">Needed by</th>
+          </tr>
+        </thead>
+        <tbody>
+          {{#each fields.resources}}
+          <tr>
+            <td>{{this.type}}</td>
+            <td class="num">{{this.quantity}}</td>
+            <td>{{this.reportTo}}</td>
+            <td class="num">{{this.needBy}}</td>
+          </tr>
+          {{/each}} {{#times 1}}
+          <tr class="blank">
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+          {{/times}}
+        </tbody>
+      </table>
+    </section>
+    {{#if fields.situation}}
+    <section class="note">
+      <h2>Situation</h2>
+      <p>{{nl2br fields.situation}}</p>
+    </section>
+    {{/if}} {{#if fields.hazards}}
+    <section class="note">
+      <h2>Hazards and access</h2>
+      <p>{{nl2br fields.hazards}}</p>
+    </section>
+    {{/if}}
+  </div>
+  <footer class="foot">
+    <span>Exercise material. Not clinical or hazmat guidance for a real incident.</span>
+  </footer>
+</article>

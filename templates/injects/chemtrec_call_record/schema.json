@@ -1,0 +1,81 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Chemical emergency call record",
+  "description": "Record of a call from the incident to a fictional 24-hour chemical emergency information line: what was reported, what the specialist said and what was promised. The specialist and company are fictional.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["callTime", "items"],
+  "properties": {
+    "agency": {
+      "type": "string",
+      "description": "Agency or unit that keeps this record.",
+      "examples": ["Rook County Fire Department, Hazmat 1"]
+    },
+    "incidentName": {
+      "type": "string",
+      "description": "Incident name as command announced it.",
+      "examples": ["Tank car leak at Harlan Spur"]
+    },
+    "marking": {
+      "type": "string",
+      "description": "Exercise marking printed at the top and bottom. Defaults to the standard exercise marking.",
+      "examples": ["EXERCISE - NOT A REAL INCIDENT"]
+    },
+    "callTime": {
+      "type": "string",
+      "description": "24-hour time.",
+      "examples": ["10:58"],
+      "x-translate": false
+    },
+    "caller": {
+      "type": "string",
+      "description": "Name and unit.",
+      "examples": ["Hazmat 1 / Vega"],
+      "x-translate": false
+    },
+    "specialist": {
+      "type": "string",
+      "description": "Fictional name and employer.",
+      "examples": ["S. Whitfield, Northgate Emergency Information (fictional)"]
+    },
+    "callbackNumber": {
+      "type": "string",
+      "description": "A fictional 555 number.",
+      "examples": ["555-0177"],
+      "x-translate": false
+    },
+    "items": {
+      "type": "array",
+      "description": "One row per item.",
+      "minItems": 1,
+      "maxItems": 10,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["topic"],
+        "properties": {
+          "topic": {
+            "type": "string",
+            "description": "What it is about.",
+            "examples": ["Product identification"]
+          },
+          "reported": {
+            "type": "string",
+            "description": "What the caller said.",
+            "examples": ["Placard 8, UN1789, 20,000 gallons"]
+          },
+          "advised": {
+            "type": "string",
+            "description": "What the specialist said, at the decision level.",
+            "examples": ["Confirmed product name; will contact the shipper"]
+          }
+        }
+      }
+    },
+    "followUp": {
+      "type": "string",
+      "description": "Calls or documents promised, with times.",
+      "examples": ["Shipper representative to call the command post by 11:30."]
+    }
+  }
+}

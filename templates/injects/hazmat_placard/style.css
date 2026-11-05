@@ -1,0 +1,129 @@
+/* Placard as an SVG diamond, 520 x 600. Class number and word are text; color is the DOT class convention. */
+figure,
+p {
+  margin: 0;
+}
+.wrap {
+  width: 520px;
+  height: 600px;
+  padding: 24px 30px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  font-family: 'Roboto', 'Inter', sans-serif;
+  color: #111;
+  background: #fff;
+}
+.placard {
+  width: 440px;
+  height: 440px;
+}
+.placard .face {
+  fill: #ffffff;
+  stroke: #111;
+  stroke-width: 4;
+}
+.placard .lower,
+.placard .upper {
+  fill: none;
+}
+.placard .inner {
+  fill: none;
+  stroke: #111;
+  stroke-width: 3;
+}
+.placard .panel {
+  fill: #f26b1d;
+  stroke: #111;
+  stroke-width: 3;
+}
+.placard .un {
+  font-family: 'JetBrains Mono', monospace;
+  font-weight: 700;
+  font-size: 40px;
+  fill: #111;
+}
+.placard .word {
+  font-family: 'Roboto Condensed', sans-serif;
+  font-weight: 700;
+  font-size: 34px;
+  fill: #111;
+}
+.placard .cls {
+  font-family: 'Roboto', sans-serif;
+  font-weight: 700;
+  font-size: 56px;
+  fill: #111;
+}
+.placard[data-c='1'] .face {
+  fill: #f26b1d;
+}
+.placard[data-c='2.1'] .face,
+.placard[data-c='3'] .face {
+  fill: #d3202b;
+}
+.placard[data-c='2.1'] .word,
+.placard[data-c='2.1'] .cls,
+.placard[data-c='3'] .word,
+.placard[data-c='3'] .cls,
+.placard[data-c='2.2'] .word,
+.placard[data-c='2.2'] .cls,
+.placard[data-c='4.3'] .word,
+.placard[data-c='4.3'] .cls,
+.placard[data-c='1'] .word,
+.placard[data-c='1'] .cls {
+  fill: #fff;
+}
+.placard[data-c='2.2'] .face {
+  fill: #1f8a4c;
+}
+.placard[data-c='4.3'] .face {
+  fill: #1f5fbf;
+}
+.placard[data-c='4.1'] .face {
+  fill: url(#stripes41);
+}
+.placard[data-c='4.2'] .lower {
+  fill: #d3202b;
+}
+.placard[data-c='5.1'] .face {
+  fill: #f6d32d;
+}
+.placard[data-c='5.2'] .face {
+  fill: #f6d32d;
+}
+.placard[data-c='5.2'] .lower {
+  fill: #d3202b;
+}
+.placard[data-c='7'] .upper {
+  fill: #f6d32d;
+}
+.placard[data-c='8'] .lower {
+  fill: #111;
+}
+.placard[data-c='8'] .cls {
+  fill: #fff;
+}
+.placard[data-c='9'] .upper {
+  fill: url(#stripes9);
+}
+figcaption {
+  text-align: center;
+}
+.cap {
+  font-size: 13px;
+  color: #444;
+}
+.read {
+  font-size: 16px;
+  font-weight: 700;
+  margin-top: 4px;
+}
+.mark {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  color: #9b1c14;
+  margin-top: 6px;
+}
