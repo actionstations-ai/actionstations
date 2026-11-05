@@ -1,0 +1,790 @@
+{
+  "id": "health_informatics",
+  "label": "Health informatics and clinical IT",
+  "description": "The clinical IT desk of a hospital or health system: CIO, CMIO, CNIO, EHR and interface analysts, health information management and clinical engineering, and the informatics programs that train them. It is the same organization as the healthcare profile seen from the systems side: the exercise stays inside the hospital incident command, the failure is a clinical system, and the decisions are about downtime procedures, restore order, data integrity and reconciliation. Plans: the CMS emergency preparedness exercises (42 CFR 482.15(d)), Joint Commission EM.16.01.01 and the HIPAA Security Rule contingency plan (45 CFR 164.308(a)(7)). Use together with healthcare for a full hospital exercise. All patients, people and organizations in exercises are fictional.",
+  "aliases": [
+    "clinical_informatics",
+    "health_it",
+    "clinical_it",
+    "ehr_team",
+    "cmio_office",
+    "clinical_applications",
+    "him",
+    "health_information_management",
+    "biomedical_informatics",
+    "cnio",
+    "ehr_downtime",
+    "informatics_program"
+  ],
+  "vocabulary": {
+    "facility": "the hospital campus and its clinical systems",
+    "public": "patients, families and visitors",
+    "frontline": "unit clerks, charge nurses, registration staff, laboratory and pharmacy technologists, EHR analysts, interface analysts, biomedical technicians",
+    "operationsCenter": "the downtime command post and the Hospital Command Center (HCC)"
+  },
+  "factCategories": [
+    {
+      "id": "units",
+      "label": "Units / wards",
+      "noun": "Wards?|Nursing Units?|Care Units?",
+      "genericNoun": "Units?",
+      "context": "patient|nurs|\\bbeds?\\b|ward|clinical|census|\\bICU\\b|med-?surg|telemetry|downtime|inpatient",
+      "idShape": "alnum",
+      "lint": true,
+      "complete": true
+    },
+    {
+      "id": "interfaces",
+      "label": "Interfaces / feeds",
+      "noun": "Interfaces?|Feeds?|Channels?",
+      "genericNoun": "Links?",
+      "context": "interface|HL7|FHIR|engine|queue|message|feed|lab|pharmacy|radiology",
+      "idShape": "alnum",
+      "lint": true,
+      "complete": true
+    },
+    {
+      "id": "downtime_workstations",
+      "label": "Downtime workstations / printers",
+      "noun": "Downtime (?:Workstations?|Printers?|PCs?)",
+      "idShape": "alnum",
+      "lint": false,
+      "complete": false
+    }
+  ],
+  "systems": {
+    "it": [
+      "electronic health record (EHR) and read-only business continuity viewer",
+      "registration, ADT and master patient index",
+      "computerized order entry (CPOE) and results review",
+      "electronic medication administration record (eMAR) with barcode scanning",
+      "clinical decision support rules",
+      "laboratory information system",
+      "radiology information system and PACS",
+      "pharmacy system and dispensing cabinets",
+      "interface engine (HL7 v2 and FHIR)",
+      "bed management and patient flow board",
+      "patient portal and telehealth platform",
+      "downtime report and label printing",
+      "identity and single sign-on",
+      "email",
+      "helpdesk / ITSM",
+      "SIEM"
+    ],
+    "ot": [
+      "networked infusion pumps and drug libraries",
+      "bedside monitors and central stations",
+      "networked imaging modalities",
+      "laboratory analyzers",
+      "nurse-call and paging",
+      "pneumatic tube system"
+    ]
+  },
+  "roles": [
+    {
+      "key": "cio",
+      "name": "Chief Information Officer",
+      "abbreviation": "CIO",
+      "team": "Team A: Command and IT leadership",
+      "description": "Declares downtime, sets the restore sequence, escalates to vendors and owns spending authority."
+    },
+    {
+      "key": "cmio",
+      "name": "Chief Medical Information Officer",
+      "abbreviation": "CMIO",
+      "team": "Team B: Clinical IT",
+      "description": "Decides which clinical workflows are unsafe on paper, signs off order-set and alert changes and approves return to normal."
+    },
+    {
+      "key": "cnio",
+      "name": "Chief Nursing Information Officer",
+      "abbreviation": "CNIO",
+      "team": "Team B: Clinical IT",
+      "description": "Owns nursing downtime workflows, medication administration safeguards and unit readiness for paper and recovery."
+    },
+    {
+      "key": "dtc",
+      "name": "Downtime Coordinator (EHR Command Lead)",
+      "abbreviation": "DTC",
+      "team": "Team B: Clinical IT",
+      "description": "Runs the downtime command post: prints and distributes forms, tracks unit status and schedules back-entry."
+    },
+    {
+      "key": "ehr_analyst",
+      "name": "Clinical Informaticist / EHR Analyst",
+      "abbreviation": "CIA",
+      "team": "Team B: Clinical IT",
+      "description": "Produces report-based downtime data, fixes build issues and validates systems after recovery."
+    },
+    {
+      "key": "interface",
+      "name": "Interface / Integration Analyst",
+      "abbreviation": "INT",
+      "team": "Team C: Infrastructure",
+      "description": "Handles queues, replays or discards messages and sets the interface restart order."
+    },
+    {
+      "key": "ciso",
+      "name": "Chief Information Security Officer",
+      "abbreviation": "CISO",
+      "team": "Team D: Security",
+      "description": "Owns containment, isolation, forensics and which systems may reconnect."
+    },
+    {
+      "key": "him",
+      "name": "Health Information Management Director",
+      "abbreviation": "HIM",
+      "team": "Team E: Records",
+      "description": "Owns the legal record: paper scanning and indexing, release of information and record integrity."
+    },
+    {
+      "key": "biomed",
+      "name": "Director of Clinical Engineering",
+      "abbreviation": "CE",
+      "team": "Team F: Clinical Engineering",
+      "description": "Owns device isolation, manual alternatives and vendor patch windows."
+    },
+    {
+      "key": "dept_liaison",
+      "name": "Laboratory, Radiology and Pharmacy IT Liaison",
+      "abbreviation": "DEPT",
+      "team": "Team G: Departments",
+      "description": "Runs manual result reporting, critical result call-backs and dispensing cabinet override."
+    },
+    {
+      "key": "registration",
+      "name": "Patient Access / Registration Manager",
+      "abbreviation": "REG",
+      "team": "Team G: Departments",
+      "description": "Runs downtime registration, allocates record numbers and prevents duplicates."
+    },
+    {
+      "key": "privacy",
+      "name": "Chief Privacy Officer",
+      "abbreviation": "CPO",
+      "team": "Team H: Compliance",
+      "description": "Runs the breach risk assessment and the notification clocks."
+    },
+    {
+      "key": "aoc",
+      "name": "Administrator on Call (House Supervisor)",
+      "abbreviation": "AOC",
+      "team": "Team A: Command and IT leadership",
+      "description": "Makes operational decisions at night: diversion, resource moves and escalation to the command center."
+    },
+    {
+      "key": "pso",
+      "name": "Patient Safety Officer",
+      "abbreviation": "PSO",
+      "team": "Team H: Compliance",
+      "description": "Collects event reports during downtime, captures near misses and leads the post-recovery safety review."
+    },
+    {
+      "key": "pio",
+      "name": "Public Information Officer",
+      "abbreviation": "PIO",
+      "team": "Team I: Public Information",
+      "description": "Owns patient and family messaging about the outage, the patient-portal banner and the press."
+    },
+    {
+      "key": "faculty",
+      "name": "Faculty Facilitator (Informatics Program Lab)",
+      "abbreviation": "FAC",
+      "team": "Lab: Informatics program",
+      "description": "Facilitates the lab exercise, plays the vendor and the SimCell and runs the debrief."
+    },
+    {
+      "key": "student_analyst",
+      "name": "Student Analyst (Informatics Program Lab)",
+      "abbreviation": "STU",
+      "team": "Lab: Informatics program",
+      "description": "Plays an EHR or interface analyst on a synthetic hospital with no access to real systems."
+    }
+  ],
+  "outsideParties": [
+    "the EHR vendor and cloud host",
+    "the interface engine vendor",
+    "medical-device manufacturers",
+    "the managed security provider and incident response firm",
+    "the cyber insurer and breach counsel",
+    "the claims clearinghouse",
+    "the regional health information exchange",
+    "public health reporting systems",
+    "the state survey agency",
+    "HHS Office for Civil Rights",
+    "FBI and CISA",
+    "the healthcare coalition and neighboring hospitals",
+    "patients and families",
+    "local media"
+  ],
+  "mediaChannels": [
+    "a patient-family post on Facebook",
+    "a nurse's anonymous Reddit post",
+    "the local TV assignment desk",
+    "a health reporter's email",
+    "the hospital's own patient-portal banner",
+    "a clinician posting a screenshot of a downtime form",
+    "a patient-portal outage notice",
+    "a vendor status page"
+  ],
+  "sceneAnchors": {
+    "public": "inside a hospital emergency department waiting area: rows of chairs, families waiting, a registration desk, dark wall-mounted monitors, bright even lighting",
+    "control": "inside a hospital command center: a conference room with a whiteboard, laptops and phones on the table, staff in scrubs and lanyards wearing colored vests",
+    "exterior": "a hospital ambulance bay: two ambulances with doors open, sliding glass doors, paramedics with a stretcher, overcast daylight"
+  },
+  "injectTypes": [
+    "phone_call",
+    "helpdesk_ticket",
+    "error_dialog",
+    "system_log",
+    "siem_alert",
+    "status_board",
+    "memo",
+    "email",
+    "email_forward",
+    "downtime_notice",
+    "hl7_interface_monitor",
+    "lab_result_report",
+    "service_status_page",
+    "regulatory_notice",
+    "breach_notification_letter",
+    "sitrep",
+    "pa_announcement",
+    "media_inquiry_phone_slip",
+    "facebook_post",
+    "official_letter",
+    "regulatory_report_form",
+    "text_message",
+    "chat_transcript"
+  ],
+  "threatFamilies": [
+    "ehr_downtime",
+    "interface_failure",
+    "identity_overlay",
+    "clinical_alert_fault",
+    "device_network_loss",
+    "clinical_third_party_failure",
+    "cyber",
+    "insider",
+    "infrastructure_failure"
+  ],
+  "addedThreatFamilies": [
+    {
+      "id": "ehr_downtime",
+      "label": "EHR downtime (planned or unplanned)",
+      "description": "The electronic health record is unavailable or read-only for hours or days. The question is not only how to restore it but how to keep care safe on paper, in what order to bring systems back, and how to reconcile what was written on paper.",
+      "keywords": [
+        "ehr down",
+        "ehr downtime",
+        "downtime",
+        "read-only",
+        "business continuity access",
+        "bca viewer",
+        "paper chart",
+        "paper workflow",
+        "go-live",
+        "upgrade window",
+        "system unavailable",
+        "unplanned outage",
+        "planned outage",
+        "electronic health record"
+      ],
+      "phaseArc": [
+        {
+          "title": "Detect and declare",
+          "goal": "Ambiguity: slow screens and failed logins become a decision to declare downtime, and someone must say which systems and for how long.",
+          "beats": [
+            "A unit clerk reports that the patient list will not load",
+            "A helpdesk spike with a mix of real and unrelated tickets",
+            "The vendor status page is green while the hospital sees errors",
+            "The downtime coordinator asks for a formal declaration"
+          ]
+        },
+        {
+          "title": "Paper workflows",
+          "goal": "Units switch to downtime procedures; the first hour shows which forms, reports and labels are missing or stale.",
+          "beats": [
+            "Printed downtime reports are hours old (the as-of time matters)",
+            "A unit cannot find its order sheets or patient labels",
+            "A critical result is phoned, not mailed, and the call-back is missed",
+            "Registration allocates record numbers by hand"
+          ]
+        },
+        {
+          "title": "Sustain and decide",
+          "goal": "Shifts two and three: paper backlog grows, workarounds drift, and leaders must choose the restore order.",
+          "beats": [
+            "Laboratory and pharmacy manual workarounds diverge",
+            "The restore sequence is argued: EHR first, or interfaces first",
+            "A clinical leader asks which results can be trusted",
+            "Staffing for back-entry competes with patient care"
+          ]
+        },
+        {
+          "title": "Restore and reconcile",
+          "goal": "Systems return in stages; results and orders queue; paper is back-entered and discrepancies surface.",
+          "beats": [
+            "The interface queue replays and a result lands on the wrong patient",
+            "Two units disagree on what was already given",
+            "A duplicate record is created during back-entry",
+            "The facilitator closes reconciliation and the return to normal is declared"
+          ]
+        }
+      ],
+      "decisionPointExamples": [
+        "declare downtime now with partial information, or wait for the vendor estimate",
+        "bring the EHR up read-only now, or hold until interfaces are verified",
+        "release queued results immediately, or hold them until validated",
+        "extend paper procedures another shift, or restore with known gaps"
+      ],
+      "clueKinds": "a vendor status note, an error-rate graph, a helpdesk ticket cluster, a failed interface heartbeat, a login error text",
+      "hurdleKinds": "a downtime report that is hours old, a printer out of label stock, a read-only viewer that lags the live system, an interface queue that replays duplicates, a backlog of paper to back-enter",
+      "keyCoordination": "the EHR vendor and the hospital command center (HICS)",
+      "purposeMix": {
+        "CORE_NARRATIVE": 30,
+        "TECH_HURDLE": 20,
+        "DECISION_POINT": 15,
+        "OPERATIONAL_FRICTION": 15,
+        "PRESSURE": 10,
+        "NOISE": 10
+      },
+      "promptGuidance": "Keep clinical content plausible and marked as exercise content. Every downtime report carries its as-of time and the printing system; read-only viewers show their data age; critical results are phoned.",
+      "lint": {
+        "clueRequired": true,
+        "clueRole": "operations"
+      }
+    },
+    {
+      "id": "interface_failure",
+      "label": "Interface failure or message loss",
+      "description": "An interface engine or a feed stops, delays, duplicates or corrupts messages between the EHR and the lab, pharmacy, radiology, devices or outside parties. Orders and results may be missing without anyone noticing.",
+      "keywords": [
+        "interface engine",
+        "interface down",
+        "hl7",
+        "fhir",
+        "message queue",
+        "queue depth",
+        "results missing",
+        "orders not received",
+        "duplicate messages",
+        "feed failure",
+        "adt feed",
+        "lab interface",
+        "dropped messages",
+        "replay",
+        "error queue"
+      ],
+      "phaseArc": [
+        {
+          "title": "A quiet gap",
+          "goal": "Ambiguity: results that should have arrived have not, and each department sees only its own symptom.",
+          "beats": [
+            "A physician asks why morning labs are not back",
+            "The lab says it sent them; the EHR shows nothing",
+            "A queue depth number is climbing on an interface dashboard",
+            "An analyst sees a connection reset in the engine log"
+          ]
+        },
+        {
+          "title": "Size the loss",
+          "goal": "The team finds which feeds and message classes are affected and how many orders and results are at risk.",
+          "beats": [
+            "The error queue holds mixed message types",
+            "A pharmacy order was received twice",
+            "A radiology report is stuck behind a malformed message",
+            "A decision: hold, replay or discard a message class"
+          ]
+        },
+        {
+          "title": "Safe workaround",
+          "goal": "Manual result reporting starts while the interface is repaired, and each repair choice trades speed for safety.",
+          "beats": [
+            "Critical results are phoned from the lab",
+            "A vendor patch is offered with a restart window",
+            "Replaying the queue would reorder results",
+            "A nurse questions a result with a time stamp from yesterday"
+          ]
+        },
+        {
+          "title": "Replay and verify",
+          "goal": "The queue drains; the team checks that nothing was lost, duplicated or attached to the wrong patient.",
+          "beats": [
+            "A count of sent versus received does not match",
+            "A duplicate order surfaces after replay",
+            "The team signs off per feed",
+            "A safety event report is filed"
+          ]
+        }
+      ],
+      "decisionPointExamples": [
+        "replay the full error queue now and risk duplicates and reordering, or triage by message class and delay results",
+        "discard a corrupted message class and record the orders at risk, or hold it for the vendor",
+        "restart the engine in business hours, or wait for the overnight window"
+      ],
+      "clueKinds": "an engine log line, a queue depth trend, a message control id gap, a heartbeat that stopped, a counts-do-not-match report",
+      "hurdleKinds": "a malformed message that blocks the queue, a vendor that needs a ticket and a signed request, a replay that reorders results, a restart that drops in-flight messages",
+      "keyCoordination": "the interface engine vendor and the laboratory, pharmacy and radiology leads",
+      "purposeMix": {
+        "CORE_NARRATIVE": 30,
+        "CLUE": 20,
+        "TECH_HURDLE": 20,
+        "DECISION_POINT": 10,
+        "PRESSURE": 10,
+        "NOISE": 10
+      },
+      "promptGuidance": "Raw HL7 v2 and FHIR content must be syntactically valid and match its decoded view. Use synthetic patients only.",
+      "lint": {
+        "clueRequired": true,
+        "clueRole": "technical"
+      }
+    },
+    {
+      "id": "identity_overlay",
+      "label": "Patient identity overlay or duplicate",
+      "description": "Two patients share a record, or one patient has two, after a merge, a registration error or a downtime allocation. Results, allergies and medications may sit in the wrong chart.",
+      "keywords": [
+        "identity overlay",
+        "overlay",
+        "duplicate record",
+        "duplicate patient",
+        "mrn",
+        "medical record number",
+        "master patient index",
+        "mpi",
+        "merge",
+        "unmerge",
+        "wrong patient",
+        "wrong chart",
+        "patient identity",
+        "registration error"
+      ],
+      "phaseArc": [
+        {
+          "title": "A mismatch",
+          "goal": "Ambiguity: a clinician notices a result or allergy that does not fit the patient in front of them.",
+          "beats": [
+            "A nurse sees an allergy that the patient denies",
+            "A result belongs to a different age and sex",
+            "Registration reports two patients with one record number",
+            "A tip arrives through the patient safety hotline"
+          ]
+        },
+        {
+          "title": "Scope the overlay",
+          "goal": "The team finds how many charts and what content are affected, and what to freeze.",
+          "beats": [
+            "A merge tool log shows a recent bulk merge",
+            "Documentation was entered on both patients",
+            "Orders were released for the wrong patient",
+            "A decision to hold results until validated"
+          ]
+        },
+        {
+          "title": "Contain and correct",
+          "goal": "Corrections must be sequenced; an unmerge is risky and the legal record must stay intact.",
+          "beats": [
+            "HIM asks how to preserve the legal record",
+            "A physician demands immediate unmerge",
+            "Downstream systems have already received the wrong identity",
+            "A patient is told something that was wrong"
+          ]
+        },
+        {
+          "title": "Verify and notify",
+          "goal": "The team verifies downstream systems, files safety reports and decides who must be notified, including the privacy office.",
+          "beats": [
+            "A disclosure to the wrong patient triggers a breach assessment",
+            "A report to the patient safety organization is drafted",
+            "The post-event safety review is scheduled"
+          ]
+        }
+      ],
+      "decisionPointExamples": [
+        "unmerge now with a chance of further errors, or freeze the charts and work on paper",
+        "notify the affected patients immediately, or finish the assessment first",
+        "hold all results for the two patients until validated, or release with a warning banner"
+      ],
+      "clueKinds": "a merge log, an audit trail entry, two registration times, a demographic mismatch, a duplicate-record report",
+      "hurdleKinds": "downstream systems that kept the wrong identity, a merge that cannot be reversed in one step, a legal record that must not be altered",
+      "keyCoordination": "the health information management director and the patient safety officer",
+      "purposeMix": {
+        "CORE_NARRATIVE": 30,
+        "CLUE": 20,
+        "DECISION_POINT": 15,
+        "TECH_HURDLE": 15,
+        "PRESSURE": 10,
+        "NOISE": 10
+      },
+      "promptGuidance": "The four-factor breach risk assessment applies when PHI reached the wrong person. All names, record numbers and dates are fictional.",
+      "lint": {
+        "clueRequired": true,
+        "clueRole": "operations"
+      }
+    },
+    {
+      "id": "clinical_alert_fault",
+      "label": "Clinical decision support firing wrongly",
+      "description": "After a build change or update, alerts fire for the wrong patients, fire constantly, or stop firing. Clinicians either override everything or lose a safety net.",
+      "keywords": [
+        "clinical decision support",
+        "cds",
+        "alert fatigue",
+        "wrong alerts",
+        "drug interaction alert",
+        "order set",
+        "build change",
+        "override",
+        "alert storm",
+        "sepsis alert",
+        "best practice advisory",
+        "rules engine"
+      ],
+      "phaseArc": [
+        {
+          "title": "First complaints",
+          "goal": "Ambiguity: scattered clinician complaints about alerts, none of them conclusive.",
+          "beats": [
+            "A pharmacist reports alerts for the wrong allergy class",
+            "An override rate chart is unusually high",
+            "A clinician asks to turn alerts off",
+            "An analyst finds a build change from last night"
+          ]
+        },
+        {
+          "title": "Is it unsafe",
+          "goal": "Informatics and clinical leaders decide whether to disable, roll back or keep the alerts.",
+          "beats": [
+            "A near miss is reported",
+            "The CMIO is asked for a clinical sign-off",
+            "A rollback needs a change window",
+            "Unit leaders hear conflicting messages"
+          ]
+        },
+        {
+          "title": "Roll back and communicate",
+          "goal": "The rollback and the message to clinicians are sequenced, with monitoring in between.",
+          "beats": [
+            "A rollback restores some but not all rules",
+            "A message goes to clinicians with unclear scope",
+            "Pharmacy asks for a manual double check"
+          ]
+        },
+        {
+          "title": "Review",
+          "goal": "The team reviews exposure, files safety events and sets change-control improvements.",
+          "beats": [
+            "A list of affected patients is produced",
+            "The change control gap is named",
+            "A committee review is scheduled"
+          ]
+        }
+      ],
+      "decisionPointExamples": [
+        "disable the alert class now and lose a safety net, or keep it on and accept alert fatigue",
+        "roll back overnight with limited staff, or wait for the change window",
+        "notify all clinicians now with partial scope, or wait for the full scope"
+      ],
+      "clueKinds": "a change ticket, an override report, an alert log, a rule version number, a build migration note",
+      "hurdleKinds": "a rollback that restores only some rules, a change window nobody can staff, conflicting messages from two leaders",
+      "keyCoordination": "the CMIO, pharmacy informatics and the EHR vendor",
+      "purposeMix": {
+        "CORE_NARRATIVE": 30,
+        "CLUE": 20,
+        "DECISION_POINT": 15,
+        "TECH_HURDLE": 10,
+        "PRESSURE": 15,
+        "NOISE": 10
+      },
+      "promptGuidance": "Clinical content is plausible but not a clinical reference; keep it marked as exercise content.",
+      "lint": {
+        "clueRequired": true,
+        "clueRole": "operations"
+      }
+    },
+    {
+      "id": "device_network_loss",
+      "label": "Device network loss or vulnerability",
+      "description": "Networked medical devices (infusion pumps, monitors, central stations, imaging) lose their network, or a vulnerability forces isolation. Manual alternatives and device inventories decide the outcome.",
+      "keywords": [
+        "infusion pump",
+        "smart pump",
+        "drug library",
+        "central station",
+        "telemetry loss",
+        "biomed",
+        "clinical engineering",
+        "device vulnerability",
+        "networked medical device",
+        "device isolation",
+        "monitor network",
+        "device safety communication"
+      ],
+      "phaseArc": [
+        {
+          "title": "Signals",
+          "goal": "Ambiguity: alarms or telemetry gaps on one unit, and a vendor or regulator notice.",
+          "beats": [
+            "Central station shows a unit offline",
+            "A pump drug library update fails on a unit",
+            "A manufacturer advisory arrives by email",
+            "Biomed cannot match the advisory to the inventory"
+          ]
+        },
+        {
+          "title": "Isolate or not",
+          "goal": "Isolation protects the network and removes a capability; clinical leaders weigh manual alternatives.",
+          "beats": [
+            "Biomed proposes isolating a device class",
+            "Nurses are asked to monitor manually",
+            "A unit lacks spare equipment",
+            "A vendor offers a patch window"
+          ]
+        },
+        {
+          "title": "Sustain",
+          "goal": "Manual monitoring, staffing and patching go on together.",
+          "beats": [
+            "A near miss at a pump",
+            "Vendor support asks for remote access",
+            "Staffing is stretched"
+          ]
+        },
+        {
+          "title": "Restore and verify",
+          "goal": "Devices return in order and are verified.",
+          "beats": ["A device fails verification", "The safety review begins"]
+        }
+      ],
+      "decisionPointExamples": [
+        "isolate the device class and run manual monitoring, or keep it connected and accept the vulnerability window",
+        "accept the vendor remote access for the patch, or refuse and wait for onsite support"
+      ],
+      "clueKinds": "a device inventory mismatch, a vendor advisory, a network scan result, a central station log",
+      "hurdleKinds": "devices missing from the inventory, a patch that needs a reboot, a vendor that wants remote access",
+      "keyCoordination": "the clinical engineering director and the device manufacturer",
+      "purposeMix": {
+        "CORE_NARRATIVE": 30,
+        "CLUE": 15,
+        "TECH_HURDLE": 20,
+        "DECISION_POINT": 15,
+        "PRESSURE": 10,
+        "NOISE": 10
+      },
+      "promptGuidance": "Device names are generic; no manufacturer branding. Safety communications are from the exercise, not a regulator.",
+      "lint": {
+        "clueRequired": true,
+        "clueRole": "technical"
+      }
+    },
+    {
+      "id": "clinical_third_party_failure",
+      "label": "Clinical third-party or hosted service failure",
+      "description": "A cloud EHR host, claims clearinghouse, telehealth platform, hosted lab or a security-agent update fails or is breached, and the hospital cannot fix it itself.",
+      "keywords": [
+        "cloud ehr",
+        "clearinghouse",
+        "telehealth",
+        "telemedicine",
+        "video visit",
+        "hosted",
+        "vendor outage",
+        "third party",
+        "business associate",
+        "security agent update",
+        "endpoint update",
+        "patient portal outage"
+      ],
+      "phaseArc": [
+        {
+          "title": "Vendor silence",
+          "goal": "Ambiguity: the hospital sees the failure before the vendor acknowledges it.",
+          "beats": [
+            "Video visits fail to connect",
+            "The vendor status page is silent",
+            "Claims are rejected by the clearinghouse",
+            "Patients call the portal helpline"
+          ]
+        },
+        {
+          "title": "Dependence",
+          "goal": "The team finds what depends on the vendor and what has no workaround.",
+          "beats": [
+            "A list of dependent workflows is drafted",
+            "The contract has no recovery time commitment",
+            "A business associate notice is considered"
+          ]
+        },
+        {
+          "title": "Workaround and message",
+          "goal": "Manual workarounds begin and messages go to patients and partners.",
+          "beats": [
+            "A phone-based visit workaround is set up",
+            "A patient message is drafted",
+            "Counsel asks about notification duties"
+          ]
+        },
+        {
+          "title": "Return and review",
+          "goal": "Service returns; backlogs are processed and the vendor review begins.",
+          "beats": ["A backlog of claims or visits", "The vendor review is scheduled"]
+        }
+      ],
+      "decisionPointExamples": [
+        "move patients to phone visits or cancel them",
+        "notify patients now, or wait for the vendor facts",
+        "invoke the contract escalation or stay quiet to avoid public attention"
+      ],
+      "clueKinds": "a vendor status note, an error code, a claims rejection report, a service level report",
+      "hurdleKinds": "a vendor with no recovery commitment, a backlog that exceeds capacity, a contract clause that blocks escalation",
+      "keyCoordination": "the vendor, the compliance office and counsel",
+      "purposeMix": {
+        "CORE_NARRATIVE": 30,
+        "PRESSURE": 20,
+        "TECH_HURDLE": 15,
+        "DECISION_POINT": 15,
+        "CLUE": 10,
+        "NOISE": 10
+      },
+      "promptGuidance": "Name no real vendor. Third-party breach duties follow the business associate chain; counsel decides.",
+      "lint": {
+        "clueRequired": true,
+        "clueRole": "operations"
+      }
+    }
+  ],
+  "noiseExamples": [
+    "a printer out of label stock on a unit unrelated to the failure",
+    "a password reset request from a visiting physician",
+    "a cafeteria point-of-sale terminal down",
+    "a badge printer out of cards",
+    "a request to update a clinician photo in the directory"
+  ],
+  "pressureExamples": [
+    "a surgeon demanding the OR schedule be restored",
+    "a charge nurse asking if she can stop double charting on paper",
+    "a lab director asking which results can be trusted",
+    "counsel asking when the 60-day notification clock started",
+    "a reporter asking whether patient records were exposed",
+    "the state survey agency asking for a status report"
+  ],
+  "rolePatterns": {
+    "technical": "ciso|cio|interface|integration|informaticist|analyst|ehr|biomed|clinical engineering|downtime coordinator",
+    "operations": "cmio|cnio|aoc|house supervisor|nursing|clinical|registration|him|patient safety",
+    "security": "ciso|privacy|security",
+    "public": "public information|pio"
+  },
+  "agencyPattern": "CMS|HHS|ASPR|OCR|ONC|ASTP|Joint Commission|state department of health|FDA|CISA",
+  "coreCapabilities": [
+    "operational_communications",
+    "operational_coordination",
+    "situational_assessment",
+    "public_information_and_warning",
+    "cybersecurity",
+    "logistics_and_supply_chain_management",
+    "health_and_social_services"
+  ],
+  "regulations": ["hipaa_breach"],
+  "frameworks": ["nist_csf_2"],
+  "suggestedToolkits": ["clinical_systems"]
+}

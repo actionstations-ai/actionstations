@@ -1,0 +1,310 @@
+{
+  "id": "clinical_systems",
+  "name": "Clinical systems",
+  "description": "The records and messaging systems of a care organization: EHR screens in normal, degraded and read-only states, downtime reports and paper forms, interface status and HL7 and FHIR message views, results backlogs and reconciliation worklists. Used by health informatics, healthcare, nursing and pharmacy exercises. Every patient is synthetic.",
+  "appliesTo": {
+    "keywords": [
+      "ehr",
+      "electronic health record",
+      "downtime",
+      "ehr downtime",
+      "paper chart",
+      "read-only",
+      "interface engine",
+      "hl7",
+      "fhir",
+      "results backlog",
+      "reconciliation",
+      "back-entry",
+      "patient identity",
+      "duplicate record",
+      "overlay",
+      "clinical decision support",
+      "medical record number",
+      "patient portal",
+      "telehealth",
+      "clearinghouse"
+    ],
+    "domains": ["health_informatics", "healthcare", "public_health", "nursing", "pharmacy"]
+  },
+  "injectTypes": ["downtime_notice", "hl7_interface_monitor", "lab_result_report", "status_board"],
+  "figureKinds": [
+    "interface_status_dashboard",
+    "message_queue_series",
+    "unit_status_board",
+    "results_backlog",
+    "reconciliation_progress",
+    "downtime_timeline",
+    "time_series",
+    "status_board",
+    "table"
+  ],
+  "connectors": [],
+  "outsideParties": [
+    "the EHR vendor's support desk",
+    "the interface engine vendor",
+    "the laboratory, radiology and pharmacy system vendors",
+    "the regional health information exchange",
+    "the claims clearinghouse",
+    "the state immunization and lab reporting systems"
+  ],
+  "advisorRoles": [
+    {
+      "key": "clinical_informatics_liaison",
+      "name": "Clinical informatics liaison",
+      "abbreviation": "CIL",
+      "team": "Advisors",
+      "description": "Explains what the EHR, the downtime tools and the interfaces can and cannot do, and which workflows have a paper fallback."
+    },
+    {
+      "key": "interface_liaison",
+      "name": "Interface analyst liaison",
+      "abbreviation": "INT",
+      "team": "Advisors",
+      "description": "Reads the interface queues and says what replaying, holding or discarding a message class would do to orders and results."
+    },
+    {
+      "key": "him_liaison",
+      "name": "Health information management liaison",
+      "abbreviation": "HIM",
+      "team": "Advisors",
+      "description": "Speaks for the legal record: what paper must be kept, how back-entry is indexed and what a merge or unmerge does to the record."
+    }
+  ],
+  "documents": [],
+  "metrics": [
+    {
+      "id": "time_to_downtime_procedures",
+      "label": "Declaration to all units on downtime procedures",
+      "config": { "unit": "minutes", "target": 60 }
+    },
+    {
+      "id": "safe_care_losses",
+      "label": "Orders and results lost, delayed or duplicated",
+      "config": { "countBy": "message_class" }
+    },
+    {
+      "id": "critical_result_communication",
+      "label": "Critical results communicated within target",
+      "config": { "targetMinutes": 60 }
+    },
+    {
+      "id": "reconciliation_progress",
+      "label": "Reconciliation time and percent complete",
+      "config": { "unit": "minutes" }
+    },
+    {
+      "id": "duplicate_records_created",
+      "label": "Duplicate records created",
+      "config": {}
+    },
+    {
+      "id": "restore_order_score",
+      "label": "Restore order against the clinician priority list",
+      "config": { "method": "rank_correlation" }
+    },
+    {
+      "id": "notification_clocks_met",
+      "label": "Notification clocks met",
+      "config": { "regulation": "hipaa_breach" }
+    }
+  ],
+  "decisionForms": [
+    {
+      "id": "declare_downtime",
+      "label": "Declare downtime",
+      "description": "Declare planned or unplanned downtime of one or more clinical systems and say who is told.",
+      "fields": [
+        { "id": "systems", "label": "Systems affected", "kind": "text", "required": true },
+        {
+          "id": "kind",
+          "label": "Planned or unplanned",
+          "kind": "choice",
+          "required": true,
+          "choices": ["Planned", "Unplanned"]
+        },
+        { "id": "expected_hours", "label": "Expected duration (hours)", "kind": "number" },
+        { "id": "told", "label": "Who is told", "kind": "text", "required": true },
+        { "id": "time", "label": "Time of declaration", "kind": "time", "required": true }
+      ]
+    },
+    {
+      "id": "set_restore_order",
+      "label": "Set restore order",
+      "description": "Rank the systems and interfaces in the order they come back, with the reason for the sequence.",
+      "fields": [
+        {
+          "id": "ranking",
+          "label": "Systems and interfaces, first to last",
+          "kind": "text",
+          "required": true
+        },
+        { "id": "reason", "label": "Reason", "kind": "text", "required": true },
+        { "id": "time", "label": "Time", "kind": "time", "required": true }
+      ]
+    },
+    {
+      "id": "message_disposition",
+      "label": "Hold, replay or discard a message class",
+      "description": "Decide what happens to the queued messages of one class (for example results from the laboratory feed).",
+      "fields": [
+        { "id": "feed", "label": "Interface or feed", "kind": "text", "required": true },
+        { "id": "message_class", "label": "Message class", "kind": "text", "required": true },
+        {
+          "id": "action",
+          "label": "Action",
+          "kind": "choice",
+          "required": true,
+          "choices": ["Hold", "Replay", "Discard"]
+        },
+        { "id": "orders_at_risk", "label": "Orders or results at risk", "kind": "number" },
+        { "id": "time", "label": "Time", "kind": "time", "required": true }
+      ]
+    },
+    {
+      "id": "result_release",
+      "label": "Release or hold results",
+      "description": "Release queued results to the chart now, or hold them until they are validated.",
+      "fields": [
+        {
+          "id": "action",
+          "label": "Action",
+          "kind": "choice",
+          "required": true,
+          "choices": ["Release now", "Hold until validated"]
+        },
+        { "id": "scope", "label": "Which results", "kind": "text", "required": true },
+        { "id": "reason", "label": "Reason", "kind": "text" },
+        { "id": "time", "label": "Time", "kind": "time", "required": true }
+      ]
+    },
+    {
+      "id": "record_merge",
+      "label": "Open a duplicate or overlay merge",
+      "description": "Start a merge or unmerge for two patient records, or freeze them.",
+      "fields": [
+        {
+          "id": "action",
+          "label": "Action",
+          "kind": "choice",
+          "required": true,
+          "choices": ["Merge", "Unmerge", "Freeze both charts"]
+        },
+        { "id": "records", "label": "Record numbers", "kind": "text", "required": true },
+        { "id": "time", "label": "Time", "kind": "time", "required": true }
+      ]
+    },
+    {
+      "id": "isolate_devices",
+      "label": "Isolate devices",
+      "description": "Take a class of networked devices off the network and name the manual alternative.",
+      "fields": [
+        { "id": "device_class", "label": "Device class", "kind": "text", "required": true },
+        { "id": "units", "label": "Units", "kind": "text" },
+        {
+          "id": "manual_alternative",
+          "label": "Manual alternative",
+          "kind": "text",
+          "required": true
+        },
+        { "id": "time", "label": "Time", "kind": "time", "required": true }
+      ]
+    },
+    {
+      "id": "notify",
+      "label": "Notify",
+      "description": "Tell a person, team or outside party what has happened.",
+      "fields": [
+        { "id": "who", "label": "Who", "kind": "text", "required": true },
+        { "id": "what", "label": "What is said", "kind": "text", "required": true },
+        { "id": "time", "label": "Time", "kind": "time", "required": true }
+      ]
+    },
+    {
+      "id": "return_to_normal",
+      "label": "Return to normal",
+      "description": "End downtime procedures for one or more systems and say what is still open.",
+      "fields": [
+        { "id": "systems", "label": "Systems", "kind": "text", "required": true },
+        { "id": "open_items", "label": "Open items", "kind": "text" },
+        { "id": "time", "label": "Time", "kind": "time", "required": true }
+      ]
+    }
+  ],
+  "knowledge": {
+    "glossary": [
+      {
+        "term": "Downtime",
+        "definition": "A period when a clinical system is unavailable, planned (an upgrade window) or unplanned (a failure or attack). Care continues on downtime procedures."
+      },
+      {
+        "term": "Read-only viewer",
+        "definition": "A business continuity access (BCA) copy of recent chart data that clinicians can look at but not change. It shows the time its data is current as of."
+      },
+      {
+        "term": "Downtime report",
+        "definition": "A printed or file report (census, medication lists, allergies, upcoming orders) produced on a schedule so units have recent data when the live system is down. It is only as current as its as-of time."
+      },
+      {
+        "term": "Back-entry",
+        "definition": "Entering what was written on paper during downtime into the system after recovery. The legal record rules decide what paper is kept."
+      },
+      {
+        "term": "Reconciliation",
+        "definition": "Comparing paper, system and department records after recovery to find orders, results and documentation that are missing, duplicated or attached to the wrong patient."
+      },
+      {
+        "term": "Interface engine",
+        "definition": "Software that routes messages (HL7 v2 and FHIR) between the EHR, laboratory, radiology, pharmacy, devices, billing and outside parties, with queues and an error queue."
+      },
+      {
+        "term": "ADT",
+        "definition": "Admit, discharge, transfer: the HL7 v2 message family that tells other systems where a patient is (A01 admit, A03 discharge, A08 update)."
+      },
+      {
+        "term": "ORM and ORU",
+        "definition": "HL7 v2 message types for an order (ORM) and for an observation result (ORU)."
+      },
+      {
+        "term": "MRN",
+        "definition": "Medical record number: the identifier a facility assigns to a patient. Duplicate or overlaid MRNs are an identity problem, not a typing problem."
+      },
+      {
+        "term": "Overlay",
+        "definition": "Two different patients sharing one record. It is more dangerous than a duplicate (one patient, two records) because results and allergies land in the wrong chart."
+      },
+      {
+        "term": "CDS",
+        "definition": "Clinical decision support: alerts and order-set logic inside the EHR. A wrong rule can fire for the wrong patients or stop firing."
+      },
+      {
+        "term": "HICS",
+        "definition": "Hospital Incident Command System: the command structure a hospital uses for emergencies. Downtime often runs inside a HICS activation."
+      }
+    ],
+    "productConventions": [
+      "Every downtime report states its as-of time and the system that printed it. A report with no as-of time is not realistic.",
+      "A read-only viewer shows a data-age stamp such as 'Data current as of 14:05'.",
+      "Paper downtime forms carry the patient label area, a form version and a line saying the form is entered into the EHR after recovery.",
+      "Critical results are phoned to a licensed caregiver with read-back and logged; they are never only emailed or posted.",
+      "An EHR screen mock shows its state plainly: normal, degraded (slow, some functions disabled) or read-only, in words and not color alone.",
+      "HL7 v2 messages use pipe-delimited segments (MSH, PID, PV1, ORC, OBR, OBX) with the field separator in MSH-1 and encoding characters in MSH-2; the decoded view must match the raw text field for field.",
+      "FHIR resources are JSON objects with a resourceType and an id; a Patient, Observation or ServiceRequest example must have the elements it claims.",
+      "Interface dashboards list each feed with direction, status in words, queue depth and last message time.",
+      "Status colors are always paired with words and an icon: green OK, amber degraded, red down.",
+      "Exercise products carry a visible exercise marker; all patients, record numbers and dates are fictional."
+    ],
+    "realismRules": [
+      "Never use a real person's data. Names, record numbers, birth dates and addresses are invented, and a record number follows the format stated in the scenario's facts.",
+      "A downtime report printed at 02:00 cannot show a result that came back at 03:30.",
+      "The interface queue grows at arrival rate minus drain rate. A queue that drains while the feed is down is wrong.",
+      "A restore that brings the EHR up before the laboratory interface increases the results backlog; a replay can reorder results, and a result may attach to the wrong patient if identity was changed during downtime.",
+      "Registration during downtime allocates record numbers from a reserved block; duplicates after recovery are expected and counted.",
+      "Clinical content is plausible, marked as exercise content and not a clinical reference. Do not give dosing or treatment advice.",
+      "A hospital's compliance office, not the exercise, decides whether an exercise satisfies a regulatory requirement. Say 'may support', never 'satisfies'.",
+      "HIPAA breach notification to individuals is without unreasonable delay and no later than 60 calendar days after discovery. State timing requirements with the retrieval date.",
+      "Name no real health system, hospital or EHR product as the exercising organization or as the failing vendor."
+    ]
+  },
+  "lintRules": ["hl7v2_syntax", "fhir_shape"]
+}

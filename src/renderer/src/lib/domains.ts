@@ -51,6 +51,7 @@ export const PROFILE_GROUP_IDS: readonly { label: string; ids: readonly string[]
     label: 'Public and community',
     ids: [
       'healthcare',
+      'health_informatics',
       'public_health',
       'epidemiology',
       'campus',

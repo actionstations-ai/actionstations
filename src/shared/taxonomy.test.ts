@@ -104,7 +104,10 @@ describe('second domain template batch and profile inject types (#331)', () => {
   it('tags the single-domain types and leaves the cross-domain ones for every domain', () => {
     expect(injectTypeInfo('track_bulletin')?.domains).toEqual(['freight_rail'])
     expect(injectTypeInfo('msib_cotp_order')?.domains).toEqual(['port_maritime'])
-    expect(injectTypeInfo('hl7_interface_monitor')?.domains).toEqual(['healthcare'])
+    expect(injectTypeInfo('hl7_interface_monitor')?.domains).toEqual([
+      'healthcare',
+      'health_informatics',
+    ])
     expect(injectTypeInfo('gcs_telemetry_screen')?.domains).toEqual(['unmanned_systems'])
     expect(injectTypeInfo('election_results_page')?.domains).toEqual(['elections'])
     const generic = injectTypesForDomain('generic').map((t) => t.id)
