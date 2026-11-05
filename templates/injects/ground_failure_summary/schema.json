@@ -1,0 +1,72 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Ground failure summary",
+  "description": "A USGS-style ground failure summary for an earthquake: the likelihood class for landslides and for liquefaction (little to none, minor, moderate, major, or the survey's alert colors), the area and population exposed, and the caution that the models describe regions, not single sites.",
+  "type": "object",
+  "required": ["title", "version", "landslide", "liquefaction"],
+  "additionalProperties": false,
+  "properties": {
+    "issuer": {
+      "type": "string",
+      "description": "Issuing center",
+      "examples": ["Regional Earthquake Information Center"]
+    },
+    "title": {
+      "type": "string",
+      "description": "Event title",
+      "examples": ["M 6.8 - 14 km SW of Haldane, Westport"],
+      "x-translate": false
+    },
+    "version": {
+      "type": "string",
+      "description": "Version and time",
+      "examples": ["Version 2 · 2026-11-05 15:10 UTC"],
+      "x-translate": false
+    },
+    "landslide": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["level"],
+      "properties": {
+        "level": {
+          "type": "string",
+          "description": "Landslide alert level",
+          "examples": ["yellow"],
+          "enum": ["green", "yellow", "orange", "red"]
+        },
+        "exposure": {
+          "type": "string",
+          "description": "Area and population exposed",
+          "examples": ["About 310 sq km of moderate likelihood; 12,000 people"],
+          "x-translate": false
+        }
+      }
+    },
+    "liquefaction": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["level"],
+      "properties": {
+        "level": {
+          "type": "string",
+          "description": "Liquefaction alert level",
+          "examples": ["orange"],
+          "enum": ["green", "yellow", "orange", "red"]
+        },
+        "exposure": {
+          "type": "string",
+          "description": "Area and population exposed",
+          "examples": ["About 95 sq km of high likelihood along the river delta; 48,000 people"],
+          "x-translate": false
+        }
+      }
+    },
+    "caution": {
+      "type": "string",
+      "description": "Caution",
+      "examples": [
+        "These are regional models. They do not say whether a particular building or slope will fail."
+      ]
+    }
+  }
+}

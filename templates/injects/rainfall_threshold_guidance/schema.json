@@ -1,0 +1,71 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Rainfall threshold guidance",
+  "description": "Guidance for a burned area from the geological survey and the weather service: the rainfall intensity thresholds (for example 15-, 30- and 60-minute totals in millimeters) above which debris flows are likely, the current forecast against them, and the suggested level of action. Debris flows follow short intense rain, not daily totals.",
+  "type": "object",
+  "required": ["fire", "issued", "thresholds", "forecast"],
+  "additionalProperties": false,
+  "properties": {
+    "issuer": {
+      "type": "string",
+      "description": "Issuing offices",
+      "examples": ["Regional Geologic Hazards Team and the Weather Forecast Office"]
+    },
+    "fire": {
+      "type": "string",
+      "description": "Burn area",
+      "examples": ["Cedar Ridge Fire burn area"],
+      "x-translate": false
+    },
+    "issued": {
+      "type": "string",
+      "description": "Issue time",
+      "examples": ["2026-11-05 14:00 PST"],
+      "x-translate": false
+    },
+    "thresholds": {
+      "type": "array",
+      "description": "Thresholds by duration (up to 4)",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["duration", "amount"],
+        "properties": {
+          "duration": {
+            "type": "string",
+            "description": "Rainfall duration",
+            "examples": ["15 minutes"],
+            "x-translate": false
+          },
+          "amount": {
+            "type": "string",
+            "description": "Threshold amount",
+            "examples": ["6 mm"],
+            "x-translate": false
+          },
+          "meaning": {
+            "type": "string",
+            "description": "What crossing it means",
+            "examples": ["Debris flows likely in the most susceptible basins"]
+          }
+        }
+      },
+      "minItems": 1,
+      "maxItems": 4
+    },
+    "forecast": {
+      "type": "string",
+      "description": "Forecast against the thresholds",
+      "examples": [
+        "A band of heavy showers is expected between 6 PM and 10 PM with peak 15-minute amounts of 5 to 9 mm. The 15-minute threshold may be exceeded."
+      ]
+    },
+    "suggestion": {
+      "type": "string",
+      "description": "Suggested level of action",
+      "examples": [
+        "Consider closing roads below the burn area from 5 PM and preparing evacuation of the lowest homes."
+      ]
+    }
+  }
+}

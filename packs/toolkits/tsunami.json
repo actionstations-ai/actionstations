@@ -1,0 +1,162 @@
+{
+  "id": "tsunami",
+  "name": "Tsunamis",
+  "description": "Tsunami messages and decisions for local sources (minutes to the first wave) and distant sources (hours): warning, advisory, watch and information statement messages, international threat messages, evacuation timing and cancellation. For warning centers, coastal counties, ports and harbors.",
+  "appliesTo": {
+    "keywords": [
+      "tsunami",
+      "tsunami warning",
+      "tsunami watch",
+      "tsunami advisory",
+      "tidal wave",
+      "inundation zone",
+      "tide gauge",
+      "dart buoy",
+      "coastal evacuation",
+      "wave arrival",
+      "storm surge and tsunami"
+    ],
+    "domains": [
+      "geoscience",
+      "port_maritime",
+      "municipal",
+      "k12_schools",
+      "campus",
+      "healthcare",
+      "stadium_venue",
+      "energy_utility",
+      "water_utility",
+      "transit",
+      "airport",
+      "emergency_communications",
+      "commercial_facilities"
+    ]
+  },
+  "injectTypes": ["tsunami_message", "tsunami_threat_message"],
+  "figureKinds": ["tsunami_travel_map", "inundation_zones", "gauge_record", "time_series"],
+  "connectors": ["tsunami-events", "coops-tides", "ndbc-dart", "comcat"],
+  "outsideParties": [
+    "the NOAA tsunami warning center",
+    "the National Weather Service forecast office (dissemination)",
+    "the Coast Guard and the harbor master",
+    "county emergency management and the sheriff",
+    "the port authority and ferry operators",
+    "schools, hospitals and campgrounds in the inundation zone"
+  ],
+  "advisorRoles": [
+    {
+      "key": "tsunami_duty_scientist",
+      "name": "Tsunami Warning Duty Scientist (advisor)",
+      "abbreviation": "TSU",
+      "team": "Advisors",
+      "description": "Explains message levels, arrival times and the evidence behind an upgrade or cancellation."
+    }
+  ],
+  "documents": [],
+  "metrics": [
+    {
+      "id": "threshold_timing",
+      "label": "Evacuation complete before the first wave",
+      "config": { "actionKind": "order_evacuation", "threshold": 1, "clearanceMin": 15 }
+    },
+    {
+      "id": "decision_timing",
+      "label": "Message upgrade or cancellation against observed waves",
+      "config": { "leadWindowMin": 120, "graceWindowMin": 10, "matchArea": true }
+    },
+    {
+      "id": "message_consistency",
+      "label": "Agreement on message level and arrival times",
+      "config": {}
+    }
+  ],
+  "decisionForms": [
+    {
+      "id": "issue_tsunami_message",
+      "label": "Issue, upgrade or cancel a tsunami message",
+      "description": "The warning center's message level and areas.",
+      "fields": [
+        {
+          "id": "level",
+          "label": "Message",
+          "kind": "choice",
+          "required": true,
+          "choices": [
+            "Tsunami Warning",
+            "Tsunami Advisory",
+            "Tsunami Watch",
+            "Tsunami Information Statement",
+            "Cancellation"
+          ]
+        },
+        { "id": "area", "label": "Areas", "kind": "area", "required": true },
+        { "id": "time", "label": "Time", "kind": "time", "required": true }
+      ]
+    },
+    {
+      "id": "order_evacuation",
+      "label": "Order an evacuation",
+      "description": "Order the evacuation of a tsunami hazard zone.",
+      "fields": [
+        { "id": "zone", "label": "Zone", "kind": "area", "required": true },
+        { "id": "time", "label": "Time ordered", "kind": "time", "required": true }
+      ]
+    },
+    {
+      "id": "port_action",
+      "label": "Port and harbor action",
+      "description": "Move vessels to deep water, close the port or hold vessels at the dock.",
+      "fields": [
+        {
+          "id": "action",
+          "label": "Action",
+          "kind": "choice",
+          "required": true,
+          "choices": [
+            "Move vessels to deep water",
+            "Hold vessels in port",
+            "Close the port",
+            "No action"
+          ]
+        },
+        { "id": "time", "label": "Time", "kind": "time", "required": true }
+      ]
+    }
+  ],
+  "knowledge": {
+    "glossary": [
+      {
+        "term": "Tsunami Warning",
+        "definition": "Highest level: widespread flooding expected, take action now. Can be sent as a Wireless Emergency Alert."
+      },
+      {
+        "term": "Tsunami Advisory",
+        "definition": "Strong currents and waves dangerous to people in or near the water are expected; stay out of the water and away from beaches and harbors."
+      },
+      {
+        "term": "Tsunami Watch",
+        "definition": "A possible tsunami for an area, issued early for a distant event; be ready. Not sent as a Wireless Emergency Alert."
+      },
+      {
+        "term": "Tsunami Information Statement",
+        "definition": "No action needed: an earthquake occurred with no threat expected, or an update."
+      },
+      {
+        "term": "DART / tide gauge",
+        "definition": "Deep-ocean pressure buoys and coastal gauges give observed wave heights that confirm or cancel a message."
+      }
+    ],
+    "productConventions": [
+      "Messages carry a number, issue time with zone, areas, a short evaluation, preliminary earthquake parameters, arrival times and the next update.",
+      "Local sources give minutes to first arrival; distant sources give hours. A distant source usually starts as a Watch, then upgrades or cancels as observations arrive.",
+      "International threat messages list coasts with threat categories and UTC arrival times."
+    ],
+    "realismRules": [
+      "For a nearby source, people should move on feeling long or strong shaking, without waiting for a message. The first message may reach people after the first wave.",
+      "Preliminary magnitude changes; do not state wave heights before gauge or buoy observations.",
+      "Later waves can be larger than the first. The local all clear belongs to local officials, not the warning center.",
+      "A Watch is never sent as a Wireless Emergency Alert."
+    ]
+  },
+  "lintRules": ["tsunami_message_levels", "tsunami_local_distant_timing"]
+}

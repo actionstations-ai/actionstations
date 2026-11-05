@@ -1,0 +1,54 @@
+<div class="gx">
+  <div class="gx-ex">{{t 'Exercise product'}}</div>
+  <header class="gx-head">
+    <div class="gx-org">{{fields.center}}</div>
+    <h1>{{fields.messageNumber}}</h1>
+    <div class="gx-sub">{{fields.issued}}</div>
+  </header>
+  <div class="gx-body">
+    <div class="lv" data-lv="{{fields.level}}">
+      {{fields.level}}{{#if (eq fields.level "Tsunami Cancellation")}}{{else if (eq fields.level
+      "Tsunami Information Statement")}} · {{t 'no action required'}}{{else}} · {{t 'in
+      effect'}}{{/if}}
+    </div>
+    <div class="gx-h2">{{t 'Areas'}}</div>
+    <ul>
+      {{#each fields.areas}}
+      <li>{{this}}</li>
+      {{/each}}
+    </ul>
+    <div class="gx-h2">{{t 'Evaluation'}}</div>
+    <p>{{fields.evaluation}}</p>
+    {{#if fields.quake}}
+    <p><b>{{t 'Preliminary earthquake parameters'}}:</b> {{fields.quake}}</p>
+    {{/if}} {{#if fields.arrivals.length}}
+    <div class="gx-h2">{{t 'Estimated first wave arrival'}}</div>
+    <table class="gx-table">
+      <thead>
+        <tr>
+          <th scope="col">{{t 'Place'}}</th>
+          <th scope="col">{{t 'Time'}}</th>
+        </tr>
+      </thead>
+      <tbody>
+        {{#each fields.arrivals}}
+        <tr>
+          <th scope="row">{{place}}</th>
+          <td>{{time}}</td>
+        </tr>
+        {{/each}}
+      </tbody>
+    </table>
+    {{/if}} {{#if fields.actions}}
+    <div class="gx-h2">{{t 'Recommended actions'}}</div>
+    <p>{{fields.actions}}</p>
+    {{/if}} {{#if fields.nextUpdate}}
+    <p><b>{{t 'Next update'}}:</b> {{fields.nextUpdate}}</p>
+    {{/if}} {{#if fields.wirelessAlertSent}}
+    <p><b>{{t 'Also sent as a Wireless Emergency Alert'}}</b></p>
+    {{/if}}
+  </div>
+  <div class="gx-foot">
+    {{default fields.footer "Exercise product. Not an official tsunami message."}}
+  </div>
+</div>

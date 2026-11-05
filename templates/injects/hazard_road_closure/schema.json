@@ -1,0 +1,56 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Road closure notice",
+  "description": "A transportation department notice closing a road, bridge or rail line for a natural hazard (debris-flow forecast, landslide, earthquake damage): the route and limits, the reason, the start time, the detour, who is exempt and when it will be reviewed.",
+  "type": "object",
+  "required": ["agency", "route", "reason", "effective"],
+  "additionalProperties": false,
+  "properties": {
+    "agency": {
+      "type": "string",
+      "description": "Issuing department",
+      "examples": ["Westport County Department of Transportation"]
+    },
+    "route": {
+      "type": "string",
+      "description": "Route and limits",
+      "examples": ["State Route 12 from milepost 14 to milepost 22 (both directions)"],
+      "x-translate": false
+    },
+    "reason": {
+      "type": "string",
+      "description": "Reason for closure",
+      "examples": [
+        "Forecast heavy rain over the Cedar Ridge Fire burn area. Debris flows are likely and can cross the road with little warning."
+      ]
+    },
+    "effective": {
+      "type": "string",
+      "description": "Effective time",
+      "examples": ["Closed at 5:00 PM PST Thursday, November 5"],
+      "x-translate": false
+    },
+    "detour": {
+      "type": "string",
+      "description": "Detour",
+      "examples": ["Use State Route 101 north to County Road 4."]
+    },
+    "exemptions": {
+      "type": "string",
+      "description": "Exemptions",
+      "examples": ["Emergency vehicles only."]
+    },
+    "review": {
+      "type": "string",
+      "description": "When it will be reviewed",
+      "examples": ["Reviewed at 6:00 AM Friday after the storm passes and crews inspect the road."],
+      "x-translate": false
+    },
+    "contact": {
+      "type": "string",
+      "description": "Information line",
+      "examples": ["511 or 555-0148"],
+      "x-translate": false
+    }
+  }
+}

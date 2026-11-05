@@ -1,0 +1,31 @@
+<div class="gx">
+  <div class="gx-ex">{{t 'Exercise product'}}</div>
+  <header class="gx-head">
+    <div class="gx-org">{{fields.agency}}</div>
+    <h1>{{t 'Road closure'}}</h1>
+  </header>
+  <div class="gx-body">
+    <div class="cl">{{t 'Closed'}}: {{fields.route}}</div>
+    <dl class="gx-kv">
+      <dt>{{t 'Effective'}}</dt>
+      <dd>{{fields.effective}}</dd>
+      {{#if fields.detour}}
+      <dt>{{t 'Detour'}}</dt>
+      <dd>{{fields.detour}}</dd>
+      {{/if}} {{#if fields.exemptions}}
+      <dt>{{t 'Exemptions'}}</dt>
+      <dd>{{fields.exemptions}}</dd>
+      {{/if}} {{#if fields.review}}
+      <dt>{{t 'Review'}}</dt>
+      <dd>{{fields.review}}</dd>
+      {{/if}} {{#if fields.contact}}
+      <dt>{{t 'Information'}}</dt>
+      <dd>{{fields.contact}}</dd>
+      {{/if}}
+    </dl>
+    <p><b>{{t 'Why'}}:</b> {{fields.reason}}</p>
+  </div>
+  <div class="gx-foot">
+    {{default fields.footer "Exercise product. Not an official hazard assessment or closure."}}
+  </div>
+</div>

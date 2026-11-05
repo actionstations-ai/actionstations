@@ -1,0 +1,36 @@
+<div class="gx">
+  <div class="gx-ex">{{t 'Exercise product'}}</div>
+  <header class="gx-head">
+    <div class="gx-org">{{fields.center}}</div>
+    <h1>{{fields.messageNumber}}</h1>
+    <div class="gx-sub">{{fields.issued}}</div>
+  </header>
+  <div class="gx-body">
+    <p><b>{{t 'Earthquake'}}:</b> {{fields.quake}}</p>
+    <p>{{fields.evaluation}}</p>
+    <table class="gx-table">
+      <thead>
+        <tr>
+          <th scope="col">{{t 'Coast'}}</th>
+          <th scope="col">{{t 'Threat'}}</th>
+          <th scope="col">{{t 'Estimated first arrival'}}</th>
+        </tr>
+      </thead>
+      <tbody>
+        {{#each fields.coasts}}
+        <tr>
+          <th scope="row">{{place}}</th>
+          <td>{{threat}}</td>
+          <td>{{default arrival "–"}}</td>
+        </tr>
+        {{/each}}
+      </tbody>
+    </table>
+    {{#if fields.note}}
+    <p>{{fields.note}}</p>
+    {{/if}}
+  </div>
+  <div class="gx-foot">
+    {{default fields.footer "Exercise product. Not an official tsunami message."}}
+  </div>
+</div>

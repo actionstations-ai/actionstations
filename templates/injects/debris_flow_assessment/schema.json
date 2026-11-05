@@ -1,0 +1,78 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Post-fire debris-flow hazard assessment summary",
+  "description": "A post-wildfire debris-flow hazard assessment summary in the style of a geological survey: the burn area, the fire and its containment, the storm intensities assessed (for example 15-minute rainfall rates), and for each the percent of drainage basins with a high likelihood of a debris flow and the expected volume class. It states that the map is for planning and is not a forecast of a flow on a given day.",
+  "type": "object",
+  "required": ["fire", "issued", "area", "storms", "summary"],
+  "additionalProperties": false,
+  "properties": {
+    "issuer": {
+      "type": "string",
+      "description": "Issuing survey",
+      "examples": ["Regional Geologic Hazards Team"]
+    },
+    "fire": {
+      "type": "string",
+      "description": "Fire name",
+      "examples": ["Cedar Ridge Fire"],
+      "x-translate": false
+    },
+    "issued": {
+      "type": "string",
+      "description": "Assessment date",
+      "examples": ["November 3, 2026"],
+      "x-translate": false
+    },
+    "area": {
+      "type": "string",
+      "description": "Burned area and basins assessed",
+      "examples": ["38,400 acres burned; 214 drainage basins and 62 road segments assessed"],
+      "x-translate": false
+    },
+    "storms": {
+      "type": "array",
+      "description": "Storm scenarios assessed (up to 4)",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["rate", "likelihood"],
+        "properties": {
+          "rate": {
+            "type": "string",
+            "description": "Design storm rainfall rate",
+            "examples": ["24 mm per hour (15-minute peak intensity)"],
+            "x-translate": false
+          },
+          "likelihood": {
+            "type": "string",
+            "description": "Basins with high likelihood of a debris flow",
+            "examples": ["48%"],
+            "x-translate": false
+          },
+          "volume": {
+            "type": "string",
+            "description": "Typical volume class",
+            "examples": ["Medium (1,000 to 10,000 cubic meters)"],
+            "x-translate": false
+          }
+        }
+      },
+      "minItems": 1,
+      "maxItems": 4
+    },
+    "summary": {
+      "type": "string",
+      "description": "Plain-language summary",
+      "examples": [
+        "Debris flows could be triggered by short, intense rain over the burned area. Basins above the highway and the town of Haldane have the highest hazard."
+      ]
+    },
+    "caution": {
+      "type": "string",
+      "description": "Caution",
+      "examples": [
+        "The hazard map is guidance for planning. It does not forecast a debris flow on any given day."
+      ]
+    }
+  }
+}
