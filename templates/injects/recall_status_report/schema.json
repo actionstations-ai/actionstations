@@ -1,0 +1,142 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Recall status report",
+  "description": "A periodic recall status report to the regulator: counts of consignees notified and responding, product accounted for, effectiveness check level and open items. Product counts reconcile: distributed equals recovered plus outstanding.",
+  "type": "object",
+  "required": [
+    "company",
+    "reportNumber",
+    "asOf",
+    "recallClass",
+    "consignees",
+    "product",
+    "effectivenessLevel"
+  ],
+  "properties": {
+    "marking": {
+      "type": "string",
+      "description": "Exercise marking",
+      "examples": ["EXERCISE · EXERCISE · EXERCISE"]
+    },
+    "company": {
+      "type": "string",
+      "description": "Recalling firm",
+      "examples": ["Westmarch Fresh Distribution"],
+      "x-translate": false
+    },
+    "reportNumber": {
+      "type": "string",
+      "description": "Report number",
+      "examples": ["2"],
+      "x-translate": false
+    },
+    "asOf": {
+      "type": "string",
+      "description": "As-of date",
+      "examples": ["November 19, 2026"]
+    },
+    "recallClass": {
+      "type": "string",
+      "enum": ["Class I", "Class II", "Class III", "Not classified yet"],
+      "description": "Class",
+      "examples": ["Class I"]
+    },
+    "recallReference": {
+      "type": "string",
+      "description": "Recall number",
+      "examples": ["Z-0000-2027"],
+      "x-translate": false
+    },
+    "consignees": {
+      "type": "object",
+      "description": "Consignee counts",
+      "properties": {
+        "total": {
+          "type": "number",
+          "description": "Total direct accounts",
+          "examples": [42]
+        },
+        "notified": {
+          "type": "number",
+          "description": "Notified",
+          "examples": [42]
+        },
+        "responded": {
+          "type": "number",
+          "description": "Responded",
+          "examples": [37]
+        },
+        "withProduct": {
+          "type": "number",
+          "description": "Reporting product on hand",
+          "examples": [19]
+        }
+      },
+      "required": ["total", "notified", "responded"],
+      "additionalProperties": false
+    },
+    "product": {
+      "type": "object",
+      "description": "Product accounting in one unit",
+      "properties": {
+        "unit": {
+          "type": "string",
+          "description": "Unit",
+          "examples": ["cases"]
+        },
+        "distributed": {
+          "type": "number",
+          "description": "Distributed",
+          "examples": [6200]
+        },
+        "recovered": {
+          "type": "number",
+          "description": "Recovered",
+          "examples": [5100]
+        },
+        "outstanding": {
+          "type": "number",
+          "description": "Outstanding",
+          "examples": [1100]
+        }
+      },
+      "required": ["unit", "distributed", "recovered", "outstanding"],
+      "additionalProperties": false
+    },
+    "effectivenessLevel": {
+      "type": "string",
+      "enum": ["A", "B", "C", "D", "E"],
+      "description": "Effectiveness check level",
+      "examples": ["A"]
+    },
+    "checksCompleted": {
+      "type": "string",
+      "description": "Checks completed so far",
+      "examples": ["42 of 42 accounts contacted; 37 responded in writing."]
+    },
+    "openItems": {
+      "type": "array",
+      "description": "Open items",
+      "items": {
+        "type": "string"
+      },
+      "examples": [
+        [
+          "Five accounts have not replied; calls placed twice.",
+          "Retail stores report 6 units sold to consumers before the hold."
+        ]
+      ]
+    },
+    "nextReportDue": {
+      "type": "string",
+      "description": "Next report due",
+      "examples": ["December 3, 2026"]
+    },
+    "signature": {
+      "type": "string",
+      "description": "Signer and title",
+      "examples": ["Priya Venkataraman, Recall Coordinator"]
+    }
+  },
+  "additionalProperties": false
+}

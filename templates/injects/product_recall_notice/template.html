@@ -1,0 +1,59 @@
+<section class="page">
+  <p class="marking">{{default fields.marking "EXERCISE · EXERCISE · EXERCISE"}}</p>
+  <header class="head">
+    <div>
+      <div class="agency">{{fields.company}}</div>
+    </div>
+    <div class="doc-title">Product recall</div>
+  </header>
+  {{#if fields.recallClass}}
+  <p><span class="tier">{{fields.recallClass}}</span></p>
+  {{/if}}
+  <h1>{{fields.headline}}</h1>
+  {{#if fields.summary}}
+  <p class="summary">{{fields.summary}}</p>
+  {{/if}}
+  <h2>Products</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Product</th>
+        <th>Lot codes</th>
+        <th>Dates</th>
+        <th>UPC</th>
+        <th>Sold</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each fields.products}}
+      <tr>
+        <td>{{this.name}}</td>
+        <td class="mono">{{this.lots}}</td>
+        <td>{{this.bestBy}}</td>
+        <td class="mono">{{this.upc}}</td>
+        <td>{{this.distributed}}</td>
+      </tr>
+      {{/each}}
+    </tbody>
+  </table>
+  <h2>Why</h2>
+  <p>{{fields.reason}}</p>
+  <h2>Health hazard</h2>
+  <p>{{fields.hazard}}</p>
+  {{#if fields.illnesses}}
+  <p>{{fields.illnesses}}</p>
+  {{/if}}
+  <h2>What to do</h2>
+  <ul>
+    {{#each fields.consumerActions}}
+    <li>{{this}}</li>
+    {{/each}}
+  </ul>
+  <p class="contact">Questions: <strong>{{fields.contact}}</strong></p>
+  <div class="spacer"></div>
+  <div class="foot">
+    <span>Recall notice · issued {{fields.issuedAt}}</span
+    ><span>Exercise material. All companies, people and places are fictional.</span>
+  </div>
+  <p class="marking">{{default fields.marking "EXERCISE · EXERCISE · EXERCISE"}}</p>
+</section>

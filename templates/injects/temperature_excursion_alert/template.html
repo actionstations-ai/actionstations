@@ -1,0 +1,42 @@
+<div class="gx">
+  <div class="gx-ex">{{t 'Exercise product'}}</div>
+  <header class="gx-head">
+    <div class="gx-org">{{fields.org}} · {{fields.location}}</div>
+    <h1>{{t 'Temperature excursion'}}: {{fields.unit}}</h1>
+    <div class="gx-sub">
+      {{#if fields.alertId}}{{fields.alertId}} · {{/if}}{{fields.excursionStart}}
+    </div>
+  </header>
+  <div class="gx-body">
+    <dl class="gx-kv">
+      {{#if fields.product}}
+      <dt>{{t 'Product'}}</dt>
+      <dd>{{fields.product}}</dd>
+      {{/if}}
+      <dt>{{t 'Allowed range'}}</dt>
+      <dd>{{fields.limitLow}} to {{fields.limitHigh}} {{fields.unitOfMeasure}}</dd>
+      <dt>{{t 'Left range at'}}</dt>
+      <dd>{{fields.excursionStart}}</dd>
+      <dt>{{t 'Back in range at'}}</dt>
+      <dd>
+        {{#if fields.excursionEnd}}{{fields.excursionEnd}}{{else}}{{t 'Still out of range'}}{{/if}}
+      </dd>
+      <dt>{{t 'Peak reading'}}</dt>
+      <dd>{{fields.peak}} {{fields.unitOfMeasure}}</dd>
+      {{#if fields.currentReading}}
+      <dt>{{t 'Current reading'}}</dt>
+      <dd>{{fields.currentReading}} {{fields.unitOfMeasure}}</dd>
+      {{/if}} {{#if fields.minutesOutOfRange}}
+      <dt>{{t 'Minutes out of range'}}</dt>
+      <dd>{{fields.minutesOutOfRange}}</dd>
+      {{/if}}
+    </dl>
+    <div class="gx-h2">{{t 'Lots in the unit'}}</div>
+    <p class="gx-mono">{{#each fields.lots}}{{this}} {{/each}}</p>
+    {{#if fields.action}}
+    <div class="gx-h2">{{t 'Action'}}</div>
+    <p>{{fields.action}}</p>
+    {{/if}}
+  </div>
+  <div class="gx-foot">{{t 'Exercise product. Readings are simulated.'}}</div>
+</div>

@@ -1,0 +1,78 @@
+<section class="page">
+  <p class="marking">{{default fields.marking "EXERCISE · EXERCISE · EXERCISE"}}</p>
+  <header class="head">
+    <div>
+      <div class="agency">{{fields.company}}</div>
+    </div>
+    <div class="doc-title">Recall status report</div>
+  </header>
+  <dl class="kv">
+    <dt>Report</dt>
+    <dd>No. {{fields.reportNumber}}, as of {{fields.asOf}}</dd>
+    <dt>Class</dt>
+    <dd>{{fields.recallClass}}</dd>
+    {{#if fields.recallReference}}
+    <dt>Recall number</dt>
+    <dd class="mono">{{fields.recallReference}}</dd>
+    {{/if}}
+    <dt>Effectiveness checks</dt>
+    <dd>
+      Level {{fields.effectivenessLevel}}{{#if fields.checksCompleted}}:
+      {{fields.checksCompleted}}{{/if}}
+    </dd>
+  </dl>
+  <h2>Consignees</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Total</th>
+        <th>Notified</th>
+        <th>Responded</th>
+        <th>Product on hand</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>{{fields.consignees.total}}</td>
+        <td>{{fields.consignees.notified}}</td>
+        <td>{{fields.consignees.responded}}</td>
+        <td>{{fields.consignees.withProduct}}</td>
+      </tr>
+    </tbody>
+  </table>
+  <h2>Product accounted for ({{fields.product.unit}})</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Distributed</th>
+        <th>Recovered</th>
+        <th>Outstanding</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>{{fields.product.distributed}}</td>
+        <td>{{fields.product.recovered}}</td>
+        <td>{{fields.product.outstanding}}</td>
+      </tr>
+    </tbody>
+  </table>
+  {{#if fields.openItems}}
+  <h2>Open items</h2>
+  <ul>
+    {{#each fields.openItems}}
+    <li>{{this}}</li>
+    {{/each}}
+  </ul>
+  {{/if}} {{#if fields.nextReportDue}}
+  <p class="contact">Next report due: <strong>{{fields.nextReportDue}}</strong></p>
+  {{/if}} {{#if fields.signature}}
+  <p class="contact">{{fields.signature}}</p>
+  {{/if}}
+  <div class="spacer"></div>
+  <div class="foot">
+    <span>Recall status report no. {{fields.reportNumber}}</span
+    ><span>Exercise material. All companies, people and places are fictional.</span>
+  </div>
+  <p class="marking">{{default fields.marking "EXERCISE · EXERCISE · EXERCISE"}}</p>
+</section>

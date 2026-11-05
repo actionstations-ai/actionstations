@@ -1,0 +1,80 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Customer complaint and adverse event log",
+  "description": "A log of customer complaints and reported adverse events for a product, with lot code, severity and status.",
+  "type": "object",
+  "required": ["org", "title", "asOf", "entries"],
+  "properties": {
+    "org": {
+      "type": "string",
+      "description": "Company",
+      "examples": ["Westmarch Fresh Distribution"],
+      "x-translate": false
+    },
+    "title": {
+      "type": "string",
+      "description": "Log title",
+      "examples": ["Complaint and adverse event log"]
+    },
+    "asOf": {
+      "type": "string",
+      "description": "As-of date and time",
+      "examples": ["2026-11-05 10:00"]
+    },
+    "entries": {
+      "type": "array",
+      "description": "One row per complaint",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Entry number",
+            "examples": ["C-1042"],
+            "x-translate": false
+          },
+          "received": {
+            "type": "string",
+            "description": "Received",
+            "examples": ["2026-11-04 16:20"]
+          },
+          "source": {
+            "type": "string",
+            "description": "Who reported",
+            "examples": ["Retail store 118"]
+          },
+          "product": {
+            "type": "string",
+            "description": "Product",
+            "examples": ["Spring mix 5 oz"]
+          },
+          "lot": {
+            "type": "string",
+            "description": "Lot code, or unknown",
+            "examples": ["MLW-261104-A"],
+            "x-translate": false
+          },
+          "complaint": {
+            "type": "string",
+            "description": "What was reported",
+            "examples": ["Customer reports illness after eating the product."]
+          },
+          "severity": {
+            "type": "string",
+            "enum": ["high", "medium", "low"],
+            "description": "Severity",
+            "examples": ["high"]
+          },
+          "status": {
+            "type": "string",
+            "description": "Status",
+            "examples": ["Open, quality reviewing"]
+          }
+        },
+        "required": ["id", "received", "complaint", "severity"],
+        "additionalProperties": false
+      }
+    }
+  },
+  "additionalProperties": false
+}

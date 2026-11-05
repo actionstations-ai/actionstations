@@ -1,0 +1,129 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Product recall notice",
+  "description": "A public recall notice from a company: the products and lot codes, the reason, the hazard, what consumers should do and how to reach the company. Lot codes and dates are exact.",
+  "type": "object",
+  "required": [
+    "company",
+    "headline",
+    "reason",
+    "hazard",
+    "products",
+    "consumerActions",
+    "contact",
+    "issuedAt"
+  ],
+  "properties": {
+    "marking": {
+      "type": "string",
+      "description": "Exercise marking",
+      "examples": ["EXERCISE · EXERCISE · EXERCISE"]
+    },
+    "company": {
+      "type": "string",
+      "description": "Recalling company",
+      "examples": ["Westmarch Fresh Distribution"],
+      "x-translate": false
+    },
+    "headline": {
+      "type": "string",
+      "description": "Headline",
+      "examples": ["Westmarch Fresh recalls spring mix because of possible Listeria monocytogenes"]
+    },
+    "recallClass": {
+      "type": "string",
+      "enum": ["Class I", "Class II", "Class III", "Not classified yet"],
+      "description": "FDA class if known",
+      "examples": ["Not classified yet"]
+    },
+    "summary": {
+      "type": "string",
+      "description": "Opening paragraph",
+      "examples": [
+        "Westmarch Fresh Distribution is recalling the packages listed below after a routine test of one lot was positive."
+      ]
+    },
+    "reason": {
+      "type": "string",
+      "description": "Why the product is recalled",
+      "examples": [
+        "A routine sample from lot MLW-261104-A tested positive for Listeria monocytogenes."
+      ]
+    },
+    "hazard": {
+      "type": "string",
+      "description": "Health hazard in plain words",
+      "examples": [
+        "Listeria monocytogenes can cause serious infections in young children, frail or elderly people and others with weakened immune systems."
+      ]
+    },
+    "products": {
+      "type": "array",
+      "description": "Each affected product",
+      "items": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Product name and size",
+            "examples": ["Spring mix, 5 oz clamshell"]
+          },
+          "lots": {
+            "type": "string",
+            "description": "Lot codes",
+            "examples": ["MLW-261104-A, MLW-261104-B"],
+            "x-translate": false
+          },
+          "bestBy": {
+            "type": "string",
+            "description": "Use-by or best-by dates",
+            "examples": ["Nov 12 to Nov 14, 2026"]
+          },
+          "upc": {
+            "type": "string",
+            "description": "UPC",
+            "examples": ["0 00000 12345 6"],
+            "x-translate": false
+          },
+          "distributed": {
+            "type": "string",
+            "description": "Where sold",
+            "examples": ["Retail stores in four states"]
+          }
+        },
+        "required": ["name", "lots"],
+        "additionalProperties": false
+      }
+    },
+    "consumerActions": {
+      "type": "array",
+      "description": "What consumers should do",
+      "items": {
+        "type": "string"
+      },
+      "examples": [
+        [
+          "Do not eat the product. Throw it away or return it for a refund.",
+          "Wash surfaces and containers that touched it."
+        ]
+      ]
+    },
+    "illnesses": {
+      "type": "string",
+      "description": "Illness reports, or none",
+      "examples": ["No illnesses have been reported to date."]
+    },
+    "contact": {
+      "type": "string",
+      "description": "Phone, hours and web",
+      "examples": ["(555) 010-9920, weekdays 8 a.m. to 6 p.m. Eastern, westmarch.example/recall"],
+      "x-translate": false
+    },
+    "issuedAt": {
+      "type": "string",
+      "description": "Date and time issued",
+      "examples": ["November 5, 2026, 4:30 p.m."]
+    }
+  },
+  "additionalProperties": false
+}

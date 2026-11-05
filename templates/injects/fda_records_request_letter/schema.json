@@ -1,0 +1,105 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Regulator request for traceability records",
+  "description": "A written request from a food regulator for traceability records for named foods and lots, with the time the records are due (24 hours, or a reasonable time the regulator agrees to) and the format asked for (an electronic sortable spreadsheet).",
+  "type": "object",
+  "required": [
+    "agency",
+    "firm",
+    "requestedAt",
+    "dueBy",
+    "foods",
+    "recordsRequested",
+    "format",
+    "contact"
+  ],
+  "properties": {
+    "marking": {
+      "type": "string",
+      "description": "Exercise marking",
+      "examples": ["EXERCISE · EXERCISE · EXERCISE"]
+    },
+    "agency": {
+      "type": "string",
+      "description": "Regulator office",
+      "examples": ["Food Safety Division, Midland District Office"],
+      "x-translate": false
+    },
+    "firm": {
+      "type": "string",
+      "description": "Firm addressed",
+      "examples": ["Westmarch Fresh Distribution"],
+      "x-translate": false
+    },
+    "requestedAt": {
+      "type": "string",
+      "description": "Date and time of the request",
+      "examples": ["November 5, 2026, 5:10 p.m. Eastern"]
+    },
+    "dueBy": {
+      "type": "string",
+      "description": "Records due by",
+      "examples": ["November 6, 2026, 5:10 p.m. Eastern (24 hours)"]
+    },
+    "reason": {
+      "type": "string",
+      "description": "Why records are requested",
+      "examples": [
+        "A state laboratory result links a case cluster to leafy greens packed by your firm."
+      ]
+    },
+    "foods": {
+      "type": "array",
+      "description": "Foods and lots",
+      "items": {
+        "type": "object",
+        "properties": {
+          "food": {
+            "type": "string",
+            "description": "Food",
+            "examples": ["Spring mix"]
+          },
+          "lots": {
+            "type": "string",
+            "description": "Traceability lot codes",
+            "examples": ["MLW-261104-A, MLW-261104-B"],
+            "x-translate": false
+          }
+        },
+        "required": ["food"],
+        "additionalProperties": false
+      }
+    },
+    "recordsRequested": {
+      "type": "array",
+      "description": "Records requested",
+      "items": {
+        "type": "string"
+      },
+      "examples": [
+        [
+          "Shipping records for the lots above with the traceability lot code, quantity and unit of measure, product description, location description of the ship-to, ship date and reference document.",
+          "Receiving and transformation records for the same lots.",
+          "Your food traceability plan."
+        ]
+      ]
+    },
+    "format": {
+      "type": "string",
+      "description": "Format asked for",
+      "examples": ["An electronic sortable spreadsheet."]
+    },
+    "contact": {
+      "type": "string",
+      "description": "Contact",
+      "examples": ["Investigator R. Calloway, (555) 010-7788, rcalloway@regulator.example"],
+      "x-translate": false
+    },
+    "signature": {
+      "type": "string",
+      "description": "Signer and title",
+      "examples": ["Marcus Ellery, Supervisory Investigator"]
+    }
+  },
+  "additionalProperties": false
+}

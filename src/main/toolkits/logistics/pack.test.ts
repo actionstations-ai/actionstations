@@ -1,9 +1,12 @@
 // The bundled supply chain domain and logistics toolkit (#795): both parse, the knowledge fits
 // the prompt cap uncut, the threat families have arcs, the decisions convert to live forms, and
 // the domain, toolkit and media environment toolkit agree.
-import { readFileSync } from 'node:fs'
+import { existsSync, readFileSync } from 'node:fs'
 import { join } from 'node:path'
+import Ajv2020 from 'ajv/dist/2020.js'
 import { describe, expect, it, vi } from 'vitest'
+import { TemplateMeta } from '../../render/templates'
+import { LOGISTICS_LINT_RULES } from './lint'
 import { toolkitKnowledge, ToolkitSchema } from '@shared/toolkits'
 import { DomainProfile } from '@shared/domains/schema'
 import { liveFormsOf } from '../decision-forms'
@@ -14,6 +17,41 @@ const ROOT = join(__dirname, '../../../..')
 const read = (p: string) => JSON.parse(readFileSync(join(ROOT, p), 'utf8'))
 const toolkit = ToolkitSchema.parse(read('packs/toolkits/logistics.json'))
 const domain = DomainProfile.parse(read('packs/domains/supply_chain.json'))
+
+const OWN_TEMPLATES = [
+  'supplier_status_board',
+  'supply_disruption_notice',
+  'temperature_excursion_alert',
+  'customer_complaint_log',
+  'product_recall_notice',
+  'recall_consignee_letter',
+  'recall_status_report',
+  'fda_records_request_letter',
+]
+
+describe('logistics templates', () => {
+  it.each(OWN_TEMPLATES)(
+    '%s has a valid meta, a schema its preview satisfies and a golden',
+    (id) => {
+      const dir = join(ROOT, 'templates/injects', id)
+      for (const f of ['template.html', 'style.css', 'schema.json', 'preview.json', 'meta.json'])
+        expect(existsSync(join(dir, f)), `${id}/${f}`).toBe(true)
+      const meta = TemplateMeta.parse(JSON.parse(readFileSync(join(dir, 'meta.json'), 'utf8')))
+      expect(meta.type).toBe(id)
+      expect(meta.taxonomy).toBeDefined()
+      expect(existsSync(join(dir, '__golden__/default.png'))).toBe(true)
+      const schema = JSON.parse(readFileSync(join(dir, 'schema.json'), 'utf8'))
+      const preview = JSON.parse(readFileSync(join(dir, 'preview.json'), 'utf8'))
+      const validate = new Ajv2020({ strict: false, allErrors: true }).compile(schema)
+      expect(validate(preview.fields), JSON.stringify(validate.errors)).toBe(true)
+      expect(toolkit.injectTypes).toContain(id)
+    },
+  )
+
+  it('names the lint rules the app ships', () => {
+    expect([...toolkit.lintRules].sort()).toEqual([...LOGISTICS_LINT_RULES].sort())
+  })
+})
 
 describe('logistics toolkit file', () => {
   it('fits the knowledge cap without cutting a line', () => {
