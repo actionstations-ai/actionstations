@@ -135,6 +135,43 @@
       ]
     },
     {
+      "id": "report_triage_complete",
+      "label": "Report triage complete",
+      "description": "The Triage Unit Leader reports that every patient has been categorized, with the counts by priority.",
+      "fields": [
+        {
+          "id": "time",
+          "label": "Time",
+          "kind": "time",
+          "required": true
+        },
+        {
+          "id": "immediate",
+          "label": "Immediate",
+          "kind": "number",
+          "required": true
+        },
+        {
+          "id": "delayed",
+          "label": "Delayed",
+          "kind": "number",
+          "required": true
+        },
+        {
+          "id": "minor",
+          "label": "Minor",
+          "kind": "number",
+          "required": true
+        },
+        {
+          "id": "expectant",
+          "label": "Expectant",
+          "kind": "number",
+          "required": true
+        }
+      ]
+    },
+    {
       "id": "assign_patient_destination",
       "label": "Assign a patient to a destination",
       "description": "Send a tagged patient to a hospital by a stated mode, with the reason.",
@@ -304,5 +341,23 @@
     ]
   },
   "lintRules": [],
-  "figureKinds": ["triage_counts", "patient_tracking_board", "hospital_capacity_board"]
+  "figureKinds": ["triage_counts", "patient_tracking_board", "hospital_capacity_board"],
+  "metrics": [
+    {
+      "id": "triage_completion",
+      "label": "Time to triage complete",
+      "groundTruth": "mci-ground-truth",
+      "config": {}
+    },
+    {
+      "id": "destination_fit",
+      "label": "Patients to appropriate hospitals",
+      "groundTruth": "mci-ground-truth",
+      "config": {}
+    },
+    {
+      "id": "message_consistency",
+      "label": "Casualty counts across command, the PIO and hospitals"
+    }
+  ]
 }

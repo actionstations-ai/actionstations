@@ -94,6 +94,7 @@ describe('structured decisions (spec 0456 FR-10)', () => {
         'declare_mayday',
         'declare_mci',
         'issue_public_statement',
+        'report_triage_complete',
         'request_mutual_aid',
         'set_hospital_status',
         'set_ppe_and_entry',

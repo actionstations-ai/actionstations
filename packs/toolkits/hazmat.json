@@ -216,5 +216,15 @@
     ]
   },
   "lintRules": ["erg_distance_untabled"],
-  "figureKinds": ["protective_action_zone"]
+  "figureKinds": ["protective_action_zone"],
+  "metrics": [
+    {
+      "id": "protective_action_distance",
+      "label": "Protective action distance and timing",
+      "groundTruth": "release-ground-truth",
+      "config": {
+        "tolerancePercent": 10
+      }
+    }
+  ]
 }

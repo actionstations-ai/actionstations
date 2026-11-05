@@ -281,6 +281,7 @@ describe('registered generators', () => {
       'mci-triage-counts',
       'mci-timeline',
       'mci-hospital-load',
+      'mci-ground-truth',
     ])
     expect(
       m.datasets.every((d) => d.provenance.origin === 'simulated' && !d.provenance.retrieved),
@@ -292,6 +293,7 @@ describe('registered generators', () => {
       'release-zones',
       'release-wind',
       'release-exposure',
+      'release-ground-truth',
     ])
     const file = join(root, 'scenarios', 'scn-2', 'case', 'release-zones.geojson')
     expect(JSON.parse(readFileSync(file, 'utf8')).type).toBe('FeatureCollection')
@@ -302,5 +304,37 @@ describe('registered generators', () => {
       { startTime: '2026-10-21T10:00:00Z' },
       { maxMbPerScenario: 50 },
     )
+  })
+})
+
+describe('ground truth for the metrics', () => {
+  it('reads back as events and scores the simulated best choices as fully appropriate', async () => {
+    await import('./generators')
+    const { runGenerator } = await import('../../case-data/generators')
+    const { readGroundTruth } = await import('../../evaluation/metrics/inputs')
+    const { runMetric } = await import('../../evaluation/metrics/registry')
+    const root = mkdtempSync(join(tmpdir(), 'ems-truth-'))
+    await runGenerator(root, 'scn-1', 'mci-casualties', base, { maxMbPerScenario: 50 })
+    const events = await readGroundTruth(
+      join(root, 'scenarios', 'scn-1', 'case'),
+      'mci-ground-truth.geojson',
+    )
+    expect(events.filter((e) => e.kind === 'patient')).toHaveLength(28)
+    expect(events.filter((e) => e.kind === 'hospital')).toHaveLength(3)
+    const decisions = events
+      .filter((e) => e.kind === 'patient')
+      .map((e) => ({
+        id: e.id,
+        time: e.time,
+        kind: 'assign_patient_destination',
+        fields: { tag_number: e.attrs.tag, hospital: e.attrs.best },
+      }))
+    const r = runMetric({ id: 'destination_fit', config: {} }, { events, decisions })
+    expect(r.summary.find((x) => x.label === 'Share sent to a capable hospital')?.value).toBe(
+      '1.000',
+    )
+    expect(
+      r.summary.find((x) => x.label === 'Hospitals sent more than their stated limit')?.value,
+    ).toBe('none')
   })
 })
