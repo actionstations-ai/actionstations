@@ -16,7 +16,14 @@ import {
   markCornerstone,
   saveEducationRecord,
 } from '../../casestudy/education'
+import {
+  classStageResults,
+  classStepProfile,
+  prepareClassStage,
+} from '../../casestudy/class-session'
 import { exportDocument } from '../../casestudy/export'
+import { openSurvey } from '../../live/session'
+import { minResponsesSetting } from '../../surveys/results'
 import { advance, playView, startRun, submitAnswer } from '../../casestudy/run'
 import { listRuns } from '../../casestudy/store'
 import { newId } from '../../lib/ids'
@@ -120,4 +127,34 @@ export default defineHandlers({
       ...(runId ? { runId } : {}),
       ...(program ? { program } : {}),
     }),
+
+  'casestudy:class-open': async ({
+    projectPath,
+    scenarioId,
+    caseId,
+    stageId,
+    targets,
+    durationSec,
+  }) => {
+    const root = await requireProject(projectPath)
+    const { surveyId } = await prepareClassStage(root, scenarioId, caseId, stageId)
+    return openSurvey(root, scenarioId, surveyId, {
+      ...(targets ? { targets } : {}),
+      ...(durationSec ? { durationSec } : {}),
+    })
+  },
+
+  'casestudy:class-results': async ({ projectPath, scenarioId, caseId, stageId, reveal }) =>
+    classStageResults(await requireProject(projectPath), scenarioId, caseId, stageId, {
+      minResponses: await minResponsesSetting(),
+      reveal,
+    }),
+
+  'casestudy:class-profile': async ({ projectPath, scenarioId, caseId }) =>
+    classStepProfile(
+      await requireProject(projectPath),
+      scenarioId,
+      caseId,
+      await minResponsesSetting(),
+    ),
 })

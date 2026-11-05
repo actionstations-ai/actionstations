@@ -1,8 +1,7 @@
 // The clinical case data generators (spec 0452 FR-7, spec 0448 FR-10): a named trajectory as
-// simulated vitals and lab series, labeled simulated by the framework. Importing this module
-// registers them.
+// simulated vitals and lab series, labeled simulated by the framework. register.ts registers it.
 import { z } from 'zod'
-import { registerGenerator, type GeneratedDataset } from '../../case-data/generators'
+import type { GeneratedDataset, SimulatedGenerator } from '../../case-data/generators'
 import { generatePatient } from './patient'
 import { ACTIONS, TRAJECTORY_KINDS, generateTrajectory } from './trajectory'
 
@@ -44,9 +43,9 @@ export function clinicalTrajectoryDatasets(p: Params): GeneratedDataset[] {
   ]
 }
 
-registerGenerator({
+export const clinicalTrajectoryGenerator: SimulatedGenerator<Params> = {
   id: 'clinical-trajectory',
   label: 'Simulated patient trajectory (clinical care toolkit)',
   params: Params,
   generate: clinicalTrajectoryDatasets,
-})
+}

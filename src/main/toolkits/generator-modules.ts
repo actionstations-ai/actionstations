@@ -1,6 +1,6 @@
-// Every simulated data generator a field ships. A field adds its module here (one import line) so
-// its generators are registered wherever case data is generated.
-import './clinical/generators'
+// Every simulated data generator a field ships through a side-effect import. A field adds its
+// module here (one import line); fields that register from a function called at startup
+// (src/main/index.ts, such as the clinical care toolkit) do not need a line.
 import './epidemiology/register-generators'
 import './ems/generators'
 import './spill/generators'

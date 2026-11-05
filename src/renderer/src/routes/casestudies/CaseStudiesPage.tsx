@@ -12,6 +12,7 @@ import { call } from '../../lib/api'
 import { errorText } from '../../lib/errors'
 import { useIpcQuery } from '../../lib/query'
 import { fromProjectKey } from '../../state/project'
+import { ClassSession } from './ClassSession'
 import { EducationPanel } from './EducationPanel'
 import { PlayerView } from './PlayerView'
 import './casestudies.css'
@@ -181,6 +182,7 @@ function CaseCard(props: {
   item: CaseStudyListItem
   projectPath: string
   onPlay: (preview: boolean) => void
+  onClass: () => void
 }) {
   const { item, projectPath } = props
   const [reviewer, setReviewer] = useState('')
@@ -249,6 +251,9 @@ function CaseCard(props: {
         >
           Play
         </Button>
+        <Button disabled={item.status !== 'reviewed'} onClick={props.onClass}>
+          Run with a class…
+        </Button>
         {item.status !== 'reviewed' && (
           <Button onClick={() => props.onPlay(true)}>Preview as the author</Button>
         )}
@@ -302,9 +307,11 @@ export default function CaseStudiesPage() {
   const [search, setSearch] = useSearchParams()
   const caseId = search.get('case') ?? ''
   const runId = search.get('run') ?? ''
+  const classId = search.get('class') ?? ''
   const preview = search.get('preview') === '1'
   const list = useIpcQuery('casestudy:list', { projectPath })
   const back = () => setSearch({})
+  if (classId) return <ClassSession projectPath={projectPath} caseId={classId} onClose={back} />
   if (caseId)
     return (
       <PlayerView
@@ -343,6 +350,7 @@ export default function CaseStudiesPage() {
                 item={item}
                 projectPath={projectPath}
                 onPlay={(p) => setSearch({ case: item.id, ...(p ? { preview: '1' } : {}) })}
+                onClass={() => setSearch({ class: item.id })}
               />
             ))}
           </ul>
