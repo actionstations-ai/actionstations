@@ -12,6 +12,7 @@
 //   documents  packs/documents/<pack>/<slug>/<file>   (<pack> = id without ai.actionstations.)
 //   regulations packs/regulations/<id>.json             (#426; the pack is format 2 then)
 //   frameworks packs/frameworks/<id>.json
+//   toolkits   packs/toolkits/<id>.json
 //   README.md  packs/readmes/<pack>.md                 (optional; the pack's root README.md)
 //
 // Strict: every item on disk is mapped to exactly one pack, every mapped item exists, workflows
@@ -46,7 +47,7 @@ export interface AssembledFile {
 
 /** pack.json without files[] (the build hashes them; source mode hashes on demand). */
 export interface AssembledManifest {
-  /** 2 when the pack carries regulations or frameworks, else 1 (packFormatVersionFor). */
+  /** The oldest pack format that holds the contents (packFormatVersionFor). */
   formatVersion: number
   id: string
   name: string
@@ -152,6 +153,7 @@ export function itemsOnDisk(root: string): Record<PackKind, string[]> {
     documents,
     regulations: listFiles(join(root, 'packs', 'regulations'), '.json'),
     frameworks: listFiles(join(root, 'packs', 'frameworks'), '.json'),
+    toolkits: listFiles(join(root, 'packs', 'toolkits'), '.json'),
   }
 }
 
@@ -194,6 +196,7 @@ function itemFiles(
     }
     case 'regulations':
     case 'frameworks':
+    case 'toolkits':
       return flat([[`${kind}/${id}.json`, join(root, 'packs', kind, `${id}.json`)]])
   }
 }

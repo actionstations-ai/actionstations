@@ -71,6 +71,7 @@ export const BundledPackSpec = z.strictObject({
     examples: Ids(/^[a-z0-9][a-z0-9_-]{0,63}$/),
     regulations: Ids(/^[a-z][a-z0-9_]{0,63}$/),
     frameworks: Ids(/^[a-z][a-z0-9_]{0,63}$/),
+    toolkits: Ids(/^[a-z][a-z0-9_]{0,63}$/),
   }),
   documents: z.array(BundledDocument).default([]),
 })

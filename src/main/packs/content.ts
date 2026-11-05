@@ -23,6 +23,7 @@ import {
   type PackProblem,
 } from '@shared/schemas/pack'
 import { INJECT_TYPE_IDS } from '@shared/taxonomy'
+import { ToolkitSchema } from '@shared/toolkits'
 import { WorkflowSidecar } from '../comfy/sidecar'
 import { optionalNodes, parseApiWorkflow, requiredNodes } from '../comfy/workflow'
 import { toAppError } from '../lib/errors'
@@ -270,6 +271,29 @@ function checkFramework(ctx: Ctx, id: string): ItemResult {
   return { title: framework?.label ?? id, replacesBuiltin: false }
 }
 
+/** A toolkit file may be at most 512 KB (it is prompt context, not a document library). */
+export const MAX_TOOLKIT_BYTES = 512 * 1024
+
+function checkToolkit(ctx: Ctx, id: string): ItemResult {
+  const path = `toolkits/${id}.json`
+  if ((ctx.files.get(path)?.length ?? 0) > MAX_TOOLKIT_BYTES) {
+    ctx.problems.push({ path, message: 'A toolkit file may be at most 512 KB' })
+    return { title: id, replacesBuiltin: false }
+  }
+  const toolkit = parseWith(ctx, path, ToolkitSchema)
+  if (!toolkit) return { title: id, replacesBuiltin: false }
+  if (toolkit.id !== id)
+    ctx.problems.push({ path, message: `id "${toolkit.id}" must equal the file name "${id}"` })
+  // Inject types the toolkit adds need a template in the same pack or in the app.
+  for (const type of toolkit.injectTypes)
+    if (!INJECT_TYPE_IDS.includes(type) && !ctx.manifest.contents.templates.includes(type))
+      ctx.problems.push({
+        path,
+        message: `injectTypes: "${type}" is neither a built-in inject type nor a template of this pack`,
+      })
+  return { title: toolkit.name, replacesBuiltin: false }
+}
+
 const CHECKS: Record<PackKind, (ctx: Ctx, id: string) => ItemResult> = {
   templates: checkTemplate,
   prompts: checkPrompt,
@@ -279,6 +303,7 @@ const CHECKS: Record<PackKind, (ctx: Ctx, id: string) => ItemResult> = {
   examples: checkExample,
   regulations: checkRegulation,
   frameworks: checkFramework,
+  toolkits: checkToolkit,
 }
 
 /** Archive paths that belong to one item. */
@@ -289,6 +314,7 @@ export function itemPaths(kind: PackKind, id: string, paths: Iterable<string>): 
     workflows: (p) => p === `workflows/${id}.json` || p === `workflows/${id}.bindings.json`,
     regulations: (p) => p === `regulations/${id}.json`,
     frameworks: (p) => p === `frameworks/${id}.json`,
+    toolkits: (p) => p === `toolkits/${id}.json`,
   }
   const match = flat[kind] ?? ((p: string) => p.startsWith(`${kind}/${id}/`))
   return [...paths].filter(match)

@@ -13,7 +13,7 @@ import {
 import type { AarOutput } from '@shared/schemas/generation'
 import { conductOf, type Scenario } from '@shared/schemas/scenario'
 import { citationLabel } from '../generate/docs'
-import { domainContext } from '../generate/domain'
+import { domainContextWithToolkits } from '../toolkits/context'
 import { pipelineDeps, type PipelineDeps, type SearchIndex } from '../generate/deps'
 import { stripKeysDeep } from '../generate/mappers'
 import { runStage, StageFailure, type StageResult } from '../generate/stage'
@@ -117,7 +117,7 @@ export async function draftVars(
 ): Promise<Record<string, unknown>> {
   const { scenario, record } = env.built
   const project = await env.deps.loadProject(env.root)
-  const domain = domainContext(project, scenario)
+  const domain = await domainContextWithToolkits(project, scenario)
   return {
     ...baseVars({
       project,

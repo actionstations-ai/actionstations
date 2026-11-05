@@ -6,14 +6,15 @@ The file format is specified in [docs/packs-format.md](../packs-format.md). The 
 
 ## What a pack contains
 
-| Kind                | What it adds                                                                                     | Where you see it                                       |
-| ------------------- | ------------------------------------------------------------------------------------------------ | ------------------------------------------------------ |
-| Templates           | Inject templates, including new inject types.                                                    | **Templates**, inject type lists in the MSEL and deck. |
-| Prompts             | Replacements for the prompts the app ships, for projects in the pack's domains.                  | **Prompts**, and the project's generation.             |
-| Domain profiles     | A new kind of organization (freight rail, a port, a water utility) with its systems and threats. | The domain picker on **New project** and **Overview**. |
-| ComfyUI workflows   | Image and video workflows with their bindings.                                                   | **Workflows**.                                         |
-| Reference documents | Plans, templates and quick references you can copy into a project.                               | **Documents → Add from pack…**                         |
-| Example projects    | Ready-made fictional projects.                                                                   | **Projects → Examples**.                               |
+| Kind                | What it adds                                                                                     | Where you see it                                                  |
+| ------------------- | ------------------------------------------------------------------------------------------------ | ----------------------------------------------------------------- |
+| Templates           | Inject templates, including new inject types.                                                    | **Templates**, inject type lists in the MSEL and deck.            |
+| Prompts             | Replacements for the prompts the app ships, for projects in the pack's domains.                  | **Prompts**, and the project's generation.                        |
+| Domain profiles     | A new kind of organization (freight rail, a port, a water utility) with its systems and threats. | The domain picker on **New project** and **Overview**.            |
+| ComfyUI workflows   | Image and video workflows with their bindings.                                                   | **Workflows**.                                                    |
+| Reference documents | Plans, templates and quick references you can copy into a project.                               | **Documents → Add from pack…**                                    |
+| Example projects    | Ready-made fictional projects.                                                                   | **Projects → Examples**.                                          |
+| Toolkits            | A field's expertise (terms, products, outside parties) that any scenario can use.                | Scenario **Toolkits** tab; see the [toolkits guide](toolkits.md). |
 
 A pack carries data only. It cannot contain programs, scripts or plugins (see [Security](#security)).
 

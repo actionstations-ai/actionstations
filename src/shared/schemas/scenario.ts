@@ -1,3 +1,4 @@
+import { ToolkitId } from '../toolkits/schema'
 import { z } from 'zod'
 import { ThreatFamilyId } from '../domains/schema'
 import { Citation, ExerciseTime, Id, IsoDateTime, RelPath, SafeId, WallClock } from './common'
@@ -516,6 +517,8 @@ export const Scenario = z.looseObject({
   languages: ScenarioLanguages.optional(),
   /** Translated documents per language; injects carry their own translations. */
   translations: ScenarioTranslations.optional(),
+  /** Toolkit ids switched on for this scenario (spec 0448); a new scenario starts with the project's. */
+  toolkits: z.array(ToolkitId).default([]),
   /** Set when the scenario is one organization's copy of a regional exercise (spec 0440). */
   regional: z.object({ exerciseId: z.string().regex(/^[0-9A-HJKMNP-TV-Z]{26}$/) }).optional(),
 })

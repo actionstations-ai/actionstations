@@ -8,6 +8,10 @@ as `#NN`. Releasing: rename `[Unreleased]` to the new version with the release d
 
 ## [Unreleased]
 
+### Added
+
+- **Toolkits**: shared field expertise any scenario can use. A toolkit is pack data (`toolkits/<id>.json`, pack format 3) with outside parties, inject types, decision forms and writing guidance; a scenario's **Toolkits** tab turns them on, the app suggests them from the brief and the kind of organization, and the generator and the controller handbook use them. See the [toolkits guide](docs/guides/toolkits.md). (#649)
+
 ## [0.7.1] - 2026-11-05
 
 ### Fixed

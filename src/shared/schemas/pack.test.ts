@@ -1,3 +1,4 @@
+import { ToolkitSchema } from '../toolkits/schema'
 import { readFileSync } from 'node:fs'
 import { resolve } from 'node:path'
 import { describe, expect, it } from 'vitest'
@@ -108,9 +109,26 @@ describe('PackManifest: identity and versions', () => {
   )
 
   it('rejects a newer formatVersion (the header still reads it)', () => {
-    const raw = { ...manifest(), formatVersion: 3 }
+    const raw = { ...manifest(), formatVersion: 4 }
     expect(PackManifest.safeParse(raw).success).toBe(false)
-    expect(PackManifestHeader.parse(raw).formatVersion).toBe(3)
+    expect(PackManifestHeader.parse(raw).formatVersion).toBe(4)
+  })
+
+  it('reads format 3 and refuses toolkits in an older manifest (#649)', () => {
+    const m = manifest()
+    m.contents.toolkits = ['weather']
+    m.files.push({ path: 'toolkits/weather.json', sha256: SHA, size: 10 })
+    expect(issues(PackManifest.safeParse({ ...m, formatVersion: 2 }))).toMatch(
+      /contents\.toolkits needs formatVersion 3/,
+    )
+    expect(PackManifest.safeParse({ ...m, formatVersion: 3 }).success).toBe(true)
+    expect(packFormatVersionFor({ templates: ['x'], toolkits: ['weather'] })).toBe(3)
+    expect(Object.keys(manifestContents({ templates: ['x'] }))).not.toContain('toolkits')
+    expect(classifyPackPath('toolkits/weather.json')).toMatchObject({
+      kind: 'toolkits',
+      item: 'weather',
+    })
+    expect(classifyPackPath('toolkits/weather/x.json')).toHaveProperty('error')
   })
 
   it('reads format 1 and format 2 manifests', () => {
@@ -306,6 +324,7 @@ describe('PackManifest: kinds, folders and extensions', () => {
       examples: [],
       regulations: [],
       frameworks: [],
+      toolkits: [],
     }
     m.files = [{ path: 'README.md', sha256: SHA, size: 1 }]
     m.documents = []
@@ -542,6 +561,15 @@ describe('docs/packs-format.md examples', () => {
     expect(blocks('pack').some((b) => (b as { formatVersion: number }).formatVersion === 2)).toBe(
       true,
     )
+  })
+})
+
+describe('docs/packs-format.md toolkit example (#649)', () => {
+  it('parses as a toolkit', () => {
+    const doc = readFileSync(resolve('docs/packs-format.md'), 'utf8')
+    const m = /<!-- example:toolkit -->\s*```json\n([\s\S]*?)```/.exec(doc)
+    expect(m).not.toBeNull()
+    expect(ToolkitSchema.safeParse(JSON.parse(m![1]!)).error?.issues ?? []).toEqual([])
   })
 })
 

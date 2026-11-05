@@ -104,6 +104,7 @@ function contentsOf(req: ParsedExportRequest): PackContents {
     examples: req.example ? [req.example.slug] : [],
     regulations: [],
     frameworks: [],
+    toolkits: [],
   }
 }
 

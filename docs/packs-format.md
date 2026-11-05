@@ -1,8 +1,8 @@
 # Pack and catalog formats
 
-Status: format versions 1 and 2 (format 2 adds regulations and frameworks)
+Status: format versions 1, 2 and 3 (format 2 adds regulations and frameworks; format 3 adds toolkits)
 
-A **pack** is a zip archive named `<id>-<version>.aspack` with a `pack.json` manifest at its root. It carries content for Action Stations: inject templates, prompts, domain profiles, ComfyUI workflows, reference documents, example projects, and (format 2) regulatory reporting rules and control frameworks. A **catalog** is a JSON index (`index.json`) listing packs and where to download them. The official catalog is `https://actionstations.ai/packs/index.json`; anyone can publish another one. Installing and exporting packs in the app is covered in the [Packs guide](guides/packs.md).
+A **pack** is a zip archive named `<id>-<version>.aspack` with a `pack.json` manifest at its root. It carries content for Action Stations: inject templates, prompts, domain profiles, ComfyUI workflows, reference documents, example projects, (format 2) regulatory reporting rules and control frameworks, and (format 3) toolkits of field expertise. A **catalog** is a JSON index (`index.json`) listing packs and where to download them. The official catalog is `https://actionstations.ai/packs/index.json`; anyone can publish another one. Installing and exporting packs in the app is covered in the [Packs guide](guides/packs.md).
 
 Integrity is **hashes only**: `pack.json` lists the sha256 and size of every file, and a catalog entry carries the sha256 of the archive. Nothing is signed. A hash proves the bytes are the ones the catalog (or the person who sent you the file) described, not who made them.
 
@@ -26,6 +26,7 @@ The format is defined by strict schemas, and every JSON block below marked as an
   examples/<slug>/project/…      the example's .asproj folder content
   regulations/<id>.json          reporting obligations with clocks (Regulation; format 2)
   frameworks/<id>.json           control catalog with mapping rules (Framework; format 2)
+  toolkits/<id>.json             field expertise any scenario can use (Toolkit; format 3)
 ```
 
 Nothing else is allowed. In particular there is no place for scripts, binaries, plugins or installers.
@@ -43,6 +44,7 @@ Nothing else is allowed. In particular there is no place for scripts, binaries, 
 | `examples/<slug>/…`  | `.json` `.md` `.txt` `.csv` `.png` `.jpg` `.jpeg` `.webp` `.mp3` `.wav` `.ogg` `.m4a` `.mp4` `.webm` `.pdf` `.docx` `.pptx` `.xlsx`, and `.gitignore` inside `project/` | no `index.sqlite`, no `.cache/`               |
 | `regulations/`       | `.json`                                                                                                                                                                 | flat, `<id>.json`; format 2                   |
 | `frameworks/`        | `.json`                                                                                                                                                                 | flat, `<id>.json`, at most 1 MB; format 2     |
+| `toolkits/`          | `.json`                                                                                                                                                                 | flat, `<id>.json`, at most 512 KB; format 3   |
 
 ### Path rules
 
@@ -67,6 +69,7 @@ Every path in the archive and in `pack.json`:
 | examples    | `^[a-z0-9][a-z0-9_-]{0,63}$`        | example slug                                                                                |
 | regulations | `^[a-z][a-z0-9_]{0,63}$`            | regulation id (`sec_8k_105`); a pack may replace a bundled one by using its id              |
 | frameworks  | `^[a-z][a-z0-9_]{0,63}$`            | framework id (`nist_csf_2`), the prefix of control references such as `nist_csf_2:RS.CO-02` |
+| toolkits    | `^[a-z][a-z0-9_]{0,63}$`            | toolkit id (`weather`), also the id a scenario and a domain's suggested list use            |
 
 ### Limits
 
@@ -86,28 +89,28 @@ An archive must have exactly one reading, so that every zip tool sees the same f
 
 ## pack.json
 
-| Field           | Type     | Required                  | Rules                                                                                                                                                                                                                                                                                                                    |
-| --------------- | -------- | ------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `formatVersion` | integer  | yes                       | `1` or `2`. `2` is required when `contents` lists `regulations` or `frameworks`, and a version-1 manifest that lists them is refused. A value larger than the app knows is refused with "this pack needs a newer version of the app". Writers use the oldest version that holds the contents.                            |
-| `id`            | string   | yes                       | reverse-DNS, two or more labels of `[a-z0-9]` with inner `-`, dot-separated, ≤ 128 (`ai.actionstations.heritage-rail`, `org.example.my-pack`). Use a domain you control, or `io.github.<user>.<name>`.                                                                                                                   |
-| `name`          | string   | yes                       | 1–100 characters                                                                                                                                                                                                                                                                                                         |
-| `version`       | string   | yes                       | semantic version, prerelease allowed, no build metadata (`1.0.0`, `1.1.0-beta.1`)                                                                                                                                                                                                                                        |
-| `summary`       | string   | yes                       | one line, ≤ 200                                                                                                                                                                                                                                                                                                          |
-| `description`   | string   | no                        | Markdown, ≤ 20 000; shown as text-only Markdown (raw HTML is not rendered)                                                                                                                                                                                                                                               |
-| `author`        | object   | yes                       | `name` (required), `url` (http/https), `email` (never published), `github` (user name)                                                                                                                                                                                                                                   |
-| `contributors`  | object[] | no                        | up to 50 credited people or organizations: `name` (1–200), `url` (http/https), `github` (user name), `roles` (one or more of `author`, `templates`, `prompts`, `documents`, `examples`, `translation`, `review`). See "Credit and endorsements".                                                                         |
-| `license`       | string   | yes                       | SPDX expression for the pack's own content (`CC-BY-4.0`, `MIT OR Apache-2.0`, `LicenseRef-…`)                                                                                                                                                                                                                            |
-| `homepage`      | string   | no                        | http/https URL                                                                                                                                                                                                                                                                                                           |
-| `minAppVersion` | string   | yes                       | semantic version; the app refuses to install when it is older. Packs need the app's pack support, so in practice `0.3.0` or later.                                                                                                                                                                                       |
-| `domains`       | string[] | no                        | domain profile ids the pack is for (built-in or added by a pack). Empty = any domain. At most 50. Also limits where the pack's prompts apply.                                                                                                                                                                            |
-| `tags`          | string[] | no                        | ≤ 20, `^[a-z0-9][a-z0-9-]{0,31}$`                                                                                                                                                                                                                                                                                        |
-| `contents`      | object   | yes                       | keys `templates`, `prompts`, `domains`, `workflows`, `documents`, `examples` and (format 2) `regulations`, `frameworks`, each a list of unique item ids (default empty, at most 500 per kind). Unknown keys are refused, which is why a version-1 pack leaves the format-2 keys out entirely. At least one item overall. |
-| `documents`     | object[] | if the pack has documents | one entry per file under `documents/`: `path` (listed in `files`), `title` (≤ 300), `license` (SPDX, required), `source` (≤ 500), `description` (≤ 2000)                                                                                                                                                                 |
-| `files`         | object[] | yes                       | every file in the archive except `pack.json`, exactly once: `path`, `sha256` (64 lowercase hex), `size` (bytes)                                                                                                                                                                                                          |
+| Field           | Type     | Required                  | Rules                                                                                                                                                                                                                                                                                                                                              |
+| --------------- | -------- | ------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `formatVersion` | integer  | yes                       | `1`, `2` or `3`. `2` is required when `contents` lists `regulations` or `frameworks`, `3` when it lists `toolkits`, and an older manifest that lists them is refused. A value larger than the app knows is refused with "this pack needs a newer version of the app". Writers use the oldest version that holds the contents.                      |
+| `id`            | string   | yes                       | reverse-DNS, two or more labels of `[a-z0-9]` with inner `-`, dot-separated, ≤ 128 (`ai.actionstations.heritage-rail`, `org.example.my-pack`). Use a domain you control, or `io.github.<user>.<name>`.                                                                                                                                             |
+| `name`          | string   | yes                       | 1–100 characters                                                                                                                                                                                                                                                                                                                                   |
+| `version`       | string   | yes                       | semantic version, prerelease allowed, no build metadata (`1.0.0`, `1.1.0-beta.1`)                                                                                                                                                                                                                                                                  |
+| `summary`       | string   | yes                       | one line, ≤ 200                                                                                                                                                                                                                                                                                                                                    |
+| `description`   | string   | no                        | Markdown, ≤ 20 000; shown as text-only Markdown (raw HTML is not rendered)                                                                                                                                                                                                                                                                         |
+| `author`        | object   | yes                       | `name` (required), `url` (http/https), `email` (never published), `github` (user name)                                                                                                                                                                                                                                                             |
+| `contributors`  | object[] | no                        | up to 50 credited people or organizations: `name` (1–200), `url` (http/https), `github` (user name), `roles` (one or more of `author`, `templates`, `prompts`, `documents`, `examples`, `translation`, `review`). See "Credit and endorsements".                                                                                                   |
+| `license`       | string   | yes                       | SPDX expression for the pack's own content (`CC-BY-4.0`, `MIT OR Apache-2.0`, `LicenseRef-…`)                                                                                                                                                                                                                                                      |
+| `homepage`      | string   | no                        | http/https URL                                                                                                                                                                                                                                                                                                                                     |
+| `minAppVersion` | string   | yes                       | semantic version; the app refuses to install when it is older. Packs need the app's pack support, so in practice `0.3.0` or later.                                                                                                                                                                                                                 |
+| `domains`       | string[] | no                        | domain profile ids the pack is for (built-in or added by a pack). Empty = any domain. At most 50. Also limits where the pack's prompts apply.                                                                                                                                                                                                      |
+| `tags`          | string[] | no                        | ≤ 20, `^[a-z0-9][a-z0-9-]{0,31}$`                                                                                                                                                                                                                                                                                                                  |
+| `contents`      | object   | yes                       | keys `templates`, `prompts`, `domains`, `workflows`, `documents`, `examples` and (format 2) `regulations`, `frameworks`, and (format 3) `toolkits`, each a list of unique item ids (default empty, at most 500 per kind). Unknown keys are refused, which is why a pack leaves the keys of a newer format out entirely. At least one item overall. |
+| `documents`     | object[] | if the pack has documents | one entry per file under `documents/`: `path` (listed in `files`), `title` (≤ 300), `license` (SPDX, required), `source` (≤ 500), `description` (≤ 2000)                                                                                                                                                                                           |
+| `files`         | object[] | yes                       | every file in the archive except `pack.json`, exactly once: `path`, `sha256` (64 lowercase hex), `size` (bytes)                                                                                                                                                                                                                                    |
 
 Cross-checks:
 
-- every file under a content folder belongs to an item listed in `contents`, and every listed item has its required files (template: `template.html` + `meta.json`; prompt: `prompts/<name>.md`; domain: `domains/<id>.json`; workflow: `<id>.json` + `<id>.bindings.json`; example: `example.json` + `project/project.json`; document group: at least one file; regulation: `regulations/<id>.json`; framework: `frameworks/<id>.json`);
+- every file under a content folder belongs to an item listed in `contents`, and every listed item has its required files (template: `template.html` + `meta.json`; prompt: `prompts/<name>.md`; domain: `domains/<id>.json`; workflow: `<id>.json` + `<id>.bindings.json`; example: `example.json` + `project/project.json`; document group: at least one file; regulation: `regulations/<id>.json`; framework: `frameworks/<id>.json`; toolkit: `toolkits/<id>.json`);
 - the archive holds exactly the files `files` lists: an extra entry or a missing one is refused;
 - every file's sha256 and size match.
 
@@ -346,6 +349,61 @@ Rules the reader and the app enforce:
 - A project keeps the families its domain snapshot carries, so a project whose pack was removed still resolves, lints and prompts with the family; a stored family id nothing provides falls back to the domain's default.
 - The family picker on Generate lists the domain's families, including the added ones; a family a pack adds is never offered to domains that do not list it.
 
+## Toolkits (format 3)
+
+A **toolkit** is shared field expertise any scenario can use, separate from the domain profile that describes the organization being exercised. A weather toolkit can serve an airport exercise and a farming exercise alike. Toolkits are data: anything that needs code (a chart kind, a data source, an evaluation measure, a format check) is built into the app, and a toolkit only names it by id.
+
+**Toolkit** (`toolkits/<id>.json`): `id` equals the file name, the file is at most 512 KB, and every list is capped. Fields (only `id`, `name` and `description` are required):
+
+| Field            | Meaning                                                                                                                                                           |
+| ---------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `appliesTo`      | `keywords`: hazard and threat words that make the app propose the toolkit when a brief mentions them; `domains`: domain ids it suits                              |
+| `injectTypes`    | inject type ids it adds. Each is a built-in type or a template in the same pack                                                                                   |
+| `figureKinds`    | ids of built-in chart and display kinds it uses                                                                                                                   |
+| `connectors`     | ids of built-in public data sources it uses                                                                                                                       |
+| `outsideParties` | parties the facilitator plays that this field brings in                                                                                                           |
+| `advisorRoles`   | roles a domain can add (`key`, `name`, `abbreviation`, `team`, `description`)                                                                                     |
+| `documents`      | reference documents in library packs (`packId`, `documentId`, `title`)                                                                                            |
+| `metrics`        | built-in evaluation measures with their settings (`id`, `label`, `config` of strings, numbers and booleans)                                                       |
+| `decisionForms`  | structured decisions (`id`, `label`, `description`, `fields` of kind `text`, `number`, `choice`, `time` or `area`; a `choice` field lists at least two `choices`) |
+| `knowledge`      | what the writer needs: `glossary` (term and definition), `productConventions`, `realismRules`                                                                     |
+| `lintRules`      | ids of built-in format checks                                                                                                                                     |
+
+<!-- example:toolkit -->
+
+```json
+{
+  "id": "harbor_watch",
+  "name": "Harbor watch",
+  "description": "Bulletins and decisions for a harbor under a gale.",
+  "appliesTo": { "keywords": ["gale", "sea fog"], "domains": ["transit"] },
+  "outsideParties": ["Harbor watch desk"],
+  "decisionForms": [
+    {
+      "id": "issue_bulletin",
+      "label": "Issue a bulletin",
+      "fields": [
+        { "id": "level", "label": "Level", "kind": "choice", "choices": ["Advisory", "Warning"] },
+        { "id": "time", "label": "Time", "kind": "time", "required": true }
+      ]
+    }
+  ],
+  "knowledge": {
+    "glossary": [
+      {
+        "term": "Bulletin",
+        "definition": "A short notice with a level, an area and an expiry time."
+      }
+    ],
+    "realismRules": ["A warning is never issued without an area."]
+  }
+}
+```
+
+**In the app.** A project and each scenario carry a list of toolkit ids; a new scenario starts with the project's list and keeps its own afterwards. A domain profile may list `suggestedToolkits`. For a scenario, the app proposes toolkits whose `appliesTo.keywords` appear in the brief and the domain's suggested ones, each with a one-line reason; nothing turns on until the person confirms. A scenario's toolkits add their knowledge (capped like other context), outside parties and inject types to every generation stage, and the controller handbook lists the toolkits used and their data sources. A toolkit whose pack is removed or disabled is skipped. Toolkits resolve from enabled installed packs first, then enabled bundled packs, the first pack to provide an id winning.
+
+**Older apps.** An app that knows only format 2 refuses a version-3 pack with "This pack needs a newer version of the app (pack format 3)". Packs without toolkits keep their older format number.
+
 ## Credit and endorsements
 
 `contributors` credits everyone who made a pack, including translators and reviewers; `author` stays required and is the credited owner. The Packs screen shows the author, "and N contributors" and the full list with roles in the details, and Browse search matches contributor names. `author.email` is for the maintainer's use: the catalog builder drops it and the site never prints it.
@@ -566,5 +624,6 @@ The website was started against a draft of this format. Differences:
 - Catalog entry: `formatVersion` added (optional, default 1); `url` must be https; `kinds` non-empty; `id`+`version` unique, several versions allowed. Catalog `homepage` added (optional).
 - Folders: workflows need their `<id>.bindings.json`; examples need `project/project.json`; no SVG anywhere; the only template HTML file is `template.html`.
 - Format 2: `formatVersion` may be `2`; `contents` gains `regulations` and `frameworks`; folders `regulations/` and `frameworks/` (flat `<id>.json`). See [Regulations and frameworks](#regulations-and-frameworks-format-2).
+- Format 3: `formatVersion` may be `3`; `contents` gains `toolkits`; folder `toolkits/` (flat `<id>.json`). See [Toolkits](#toolkits-format-3).
 
 Exercise bundles for regional exercises (`.asexercise`) reuse these archive rules and add a signature; see [exercise-bundle-format.md](exercise-bundle-format.md).

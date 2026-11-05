@@ -1,6 +1,7 @@
 // Markdown renderers for the scenario documents, shaped after reference/scenario-3/*.md.
 // The handbook is assembled from sections produced by different stages (handbook prose,
 // rubric, hot wash), so each section sits between markers and can be replaced on re-run.
+import type { Toolkit } from '@shared/toolkits'
 import type {
   BriefingOutput,
   Citation,
@@ -97,7 +98,8 @@ export function renderMselMarkdown(s: Scenario): string {
 // ---------------------------------------------------------------------------------------------
 // Controller / Evaluator handbook
 
-export type HandbookSection = 'overview' | 'room' | 'rules' | 'rubric' | 'hotwash' | 'seams'
+export type HandbookSection =
+  'overview' | 'room' | 'rules' | 'rubric' | 'hotwash' | 'seams' | 'toolkits'
 
 const marker = (name: HandbookSection, close = false): string =>
   `<!-- ${close ? '/' : ''}section:${name} -->`
@@ -115,6 +117,24 @@ export function upsertSection(markdown: string, name: HandbookSection, body: str
   const block = wrapSection(name, body)
   if (start < 0 || end < start) return markdown.trimEnd() + '\n\n' + block + '\n'
   return markdown.slice(0, start) + block + markdown.slice(end + close.length)
+}
+
+/** The handbook section that names the toolkits the scenario uses and their data sources. */
+export function toolkitsHandbookSection(toolkits: readonly Toolkit[]): string {
+  if (!toolkits.length) return ''
+  const lines = [
+    '### Toolkits used',
+    '',
+    'This exercise draws on field expertise from these toolkits. Their terms, product formats and realism rules shaped the injects.',
+    '',
+  ]
+  for (const t of toolkits) {
+    lines.push(`- **${cell(t.name)}**: ${cell(t.description)}`)
+    if (t.connectors.length) lines.push(`  - Data sources: ${t.connectors.join(', ')}`)
+    if (t.documents.length)
+      lines.push(`  - Reference documents: ${t.documents.map((d) => cell(d.title)).join('; ')}`)
+  }
+  return lines.join('\n')
 }
 
 export function rubricSection(s: Scenario): string {
