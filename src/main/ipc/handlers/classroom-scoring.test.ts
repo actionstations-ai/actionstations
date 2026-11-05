@@ -252,3 +252,21 @@ describe('rotation', () => {
     expect(bad).toMatchObject({ ok: false, error: { code: 'VALIDATION' } })
   })
 })
+
+describe('reflection survey', () => {
+  it('is built from the prompts and marked as not anonymous', async () => {
+    const { projectPath } = await ready()
+    const { createScenario } = await import('../../scenario/store')
+    const { ScenarioBrief } = await import('@shared/schemas')
+    const { readSurvey } = await import('../../surveys/store')
+    const scn = await createScenario(projectPath, { title: 'Run', brief: ScenarioBrief.parse({}) })
+    await call('classroom:set-reflection-prompts', { projectPath, prompts: ['One?', 'Two?'] })
+    const r = data<{ surveyId: string }>(
+      await call('classroom:reflection-survey', { projectPath, scenarioId: scn.id }),
+    )
+    const survey = await readSurvey(projectPath, scn.id, r.surveyId)
+    expect(survey.classroomReflection).toBe(true)
+    expect(survey.sections[0]!.questions.map((q) => q.text)).toEqual(['One?', 'Two?'])
+    expect(survey.introMd).toMatch(/with your name/)
+  })
+})

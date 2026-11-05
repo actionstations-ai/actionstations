@@ -10,7 +10,7 @@ import {
 import { AppError } from '../lib/errors'
 import { newId } from '../lib/ids'
 import { removeObservation, upsertObservation } from '../evaluation/store'
-import { isClassroomOn, readCourse, updateClassroomFile } from './store'
+import { isClassroomOn, readClassroomFile, readCourse, updateClassroomFile } from './store'
 
 /** Save an observation; with a `studentId` the project must have Classroom on and know the student. */
 export async function observeForStudent(
@@ -19,7 +19,12 @@ export async function observeForStudent(
   observation: Observation,
 ): Promise<EvaluationRecord> {
   const { studentId, ...anonymous } = observation
-  if (!studentId) return upsertObservation(root, scenarioId, anonymous)
+  if (!studentId) {
+    const record = await upsertObservation(root, scenarioId, anonymous)
+    // An evaluator who clears the student also clears the link to the earlier student.
+    if (await isClassroomOn(root)) await dropObservationLinks(root, observation.id)
+    return record
+  }
   if (!(await isClassroomOn(root))) throw new AppError('FORBIDDEN', STUDENT_ID_NEEDS_CLASSROOM)
   const { students } = await readCourse(root)
   if (!students.some((s) => s.id === studentId))
@@ -45,6 +50,16 @@ export async function observeForStudent(
     })
   })
   return record
+}
+
+async function dropObservationLinks(root: string, observationId: string): Promise<void> {
+  const { evidence } = await readClassroomFile(root, 'evidence')
+  if (!evidence.some((e) => e.kind === 'observation' && e.observationId === observationId)) return
+  await updateClassroomFile(root, 'evidence', (file) => {
+    file.evidence = file.evidence.filter(
+      (e) => !(e.kind === 'observation' && e.observationId === observationId),
+    )
+  })
 }
 
 /** Remove an observation and any student link to it. */

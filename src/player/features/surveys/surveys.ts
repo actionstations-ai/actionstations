@@ -20,6 +20,8 @@ export interface PlayerSurvey {
   targets: string[]
   closesAt?: number
   status: 'open' | 'closed'
+  /** False for a classroom reflection, whose answers go to the instructor with the student's name. */
+  anonymous?: boolean
   /** The answers this device sent (or queued), kept so it can show and change them. */
   mine?: Answers
   /** False while the answers wait in the outbox (offline). */
@@ -53,6 +55,7 @@ export function applyOpen(
     targets: p.targets,
     ...(p.closesAt ? { closesAt: p.closesAt } : {}),
     status: 'open',
+    anonymous: p.anonymous,
     ...(before?.mine ? { mine: before.mine } : {}),
     sent: before?.sent ?? true,
     openedAt: before?.openedAt ?? at,

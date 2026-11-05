@@ -170,7 +170,7 @@ export function SurveyForm({ session, survey }: { session: PlayerSession; survey
         </p>
       ) : null}
       {open ? (
-        <p className="muted">{`${T.canChange} ${T.anonymous}`}</p>
+        <p className="muted">{`${T.canChange} ${survey.anonymous === false ? T.named : T.anonymous}`}</p>
       ) : (
         <p className="muted">{T.closedNote}</p>
       )}

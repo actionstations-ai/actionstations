@@ -41,6 +41,8 @@ export interface LiveDrillDeps {
   log: { append: (input: SessionLogInput) => Promise<unknown> }
   runs: DrillRuns
   seats: () => DrillSeat[]
+  /** Classroom accommodations (ADR-0090): a seat's time multiplier, 1 when none. */
+  multiplier?: (seat: DrillSeat) => Promise<number>
   now: () => number
   changed: () => void
 }
@@ -145,6 +147,7 @@ export class LiveDrills {
       targets: d.targets,
     }
     for (const to of d.targets) await this.deps.send('drill.open', to as Destination, payload)
+    await this.extendTime(d, payload)
     this.deliveries.push(d)
     await this.deps.log.append({
       kind: 'drill.open',
@@ -161,6 +164,20 @@ export class LiveDrills {
     })
     this.deps.changed()
     return this.view(d)
+  }
+
+  /**
+   * A device with a time multiplier is shown a longer drill time. The frame reuses the drill id,
+   * so the device keeps its place; the shared time and every other device are unchanged.
+   */
+  private async extendTime(d: Delivery, payload: Record<string, unknown>): Promise<void> {
+    if (!this.deps.multiplier) return
+    for (const seat of this.deps.seats().filter((s) => s.online && inScope(s, d.targets))) {
+      const m = await this.deps.multiplier(seat)
+      if (m <= 1) continue
+      const durationMin = Math.min(60, Math.ceil(d.drill.durationMin * m))
+      await this.deps.send('drill.open', `client:${seat.clientId}`, { ...payload, durationMin })
+    }
   }
 
   /** Finish every device's run, report to the program, and tell devices. Closing twice is safe. */

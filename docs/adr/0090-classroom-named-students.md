@@ -21,3 +21,9 @@ The evaluation model (`src/shared/schemas/evaluation.ts`) says ratings are discu
 - Student-linked evidence is a second file to keep consistent with `evaluation.json`: removing an observation removes its evidence link, and a link whose observation is gone is ignored.
 - Sharing a project folder by copying it shares `classroom/` unless the sharer leaves it out; the Classroom screen says so, and duplicating from the app leaves it out.
 - Records are held under the institution's policy, not the app's: FERPA treats grades as education records, so an export is the instructor's act and the export screen says so.
+
+## Live play (added with #724 and #739)
+
+- **The roster goes to evaluator devices only.** `eval.assign` carries `students` (id and display name) in Classroom mode, sealed to the evaluator under the staff key; `eval.observation` may carry a `studentId`. The controller keeps the id only when the roster has it, saves the observation without it and links it in `classroom/evidence.json`. The session log never carries a student id.
+- **Reflections are the one attributed survey.** A survey marked `classroomReflection` is announced to devices as not anonymous. The controller maps the answering seat to a student (the session's seat table by role id, else an exact display-name match) and stores the answer as evidence in `classroom/`. The survey response file stays anonymous as for every survey. A seat that matches nobody is not attributed.
+- **Extra time is per device.** A student with a time multiplier gets a later close on surveys and a longer drill time; the shared clock and other devices are unchanged. Votes and decision forms are group acts and are not extended.

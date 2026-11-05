@@ -106,6 +106,11 @@ export const classroomScoringChannels = {
     }),
     ClassroomState,
   ),
+  /**
+   * Save (or refresh) the scenario's reflection survey from the course's prompts. Open it from
+   * the live Surveys panel: its answers are linked to the student, for the instructor only.
+   */
+  'classroom:reflection-survey': channel(S, z.object({ surveyId: SafeId })),
   /** Plan roles for a section across sessions, keeping hand-locked assignments, and save it. */
   'classroom:rotation-plan': channel(
     P.extend({

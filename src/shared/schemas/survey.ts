@@ -149,6 +149,8 @@ export const Survey = z.looseObject({
   templateId: z.string().max(80).optional(),
   templateVersion: z.number().int().optional(),
   status: z.enum(['draft', 'ready', 'archived']).default('draft'),
+  /** Classroom reflection (spec 0453 FR-6): answers are linked to the student for the instructor only. */
+  classroomReflection: z.boolean().optional(),
   createdAt: IsoDateTime,
   updatedAt: IsoDateTime,
 })

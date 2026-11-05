@@ -119,6 +119,8 @@ export interface EvaluationDeps {
   seatOf: (clientId: string) => EvalSeat | undefined
   clientRef: (clientId: string) => Promise<string>
   scenario: () => Promise<Scenes>
+  /** Classroom mode only: the roster an evaluator may name (empty otherwise). */
+  students?: () => Promise<Array<{ id: string; name: string }>>
   /** Upsert one observation into the scenario's evaluation.json. */
   save: (observation: Observation) => Promise<unknown>
   attribution: () => Attribution
@@ -202,7 +204,16 @@ export class LiveEvaluation {
     if (!this.isEvaluator(seat) || !seat.online) return
     const state = await this.stateFor(clientId)
     const tasks = assignmentTasks(await this.deps.scenario(), this.showExpected)
-    const body = { label: state.label, watch: state.watch, showExpected: this.showExpected, tasks }
+    const students = ((await this.deps.students?.()) ?? []).slice(0, 300)
+    const body = {
+      label: state.label,
+      watch: state.watch,
+      showExpected: this.showExpected,
+      ...(students.length
+        ? { students: students.map((s) => ({ id: s.id, name: s.name.slice(0, 80) })) }
+        : {}),
+      tasks,
+    }
     const fingerprint = JSON.stringify(body)
     const changed = fingerprint !== state.sent
     if (changed) {
@@ -298,7 +309,8 @@ export class LiveEvaluation {
     if (!prior && this.held.size >= MAX_OBSERVATIONS) {
       return this.anomaly(ref, seq, 'session observation limit reached')
     }
-    const observation = this.toObservation(state, p)
+    const studentId = await this.knownStudent(ref, seq, p.studentId)
+    const observation = { ...this.toObservation(state, p), ...(studentId ? { studentId } : {}) }
     await this.deps.log.append({
       kind: 'eval.observation',
       actor: {
@@ -320,6 +332,15 @@ export class LiveEvaluation {
     if (!prior) state.count += 1
     this.held.set(key, { ref, revision: p.revision, observation })
     this.deps.changed()
+  }
+
+  /** A student id is kept only when Classroom is on and the roster has it; the log never carries it. */
+  private async knownStudent(ref: string, seq: number, id: string | undefined) {
+    if (!id) return undefined
+    const known = (await this.deps.students?.()) ?? []
+    if (known.some((s) => s.id === id)) return id
+    await this.anomaly(ref, seq, 'observation named a student who is not on the roster')
+    return undefined
   }
 
   private logData(p: EvalObservationPayload): Record<string, unknown> {

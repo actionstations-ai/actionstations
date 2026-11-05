@@ -30,6 +30,8 @@ export interface LocalObservation {
   exerciseTime: string
   observedAt: number
   mselRowId?: string
+  /** Classroom mode: the student this observation is about (a roster id from the assignment). */
+  studentId?: string
 }
 
 export interface ObservationStore {
@@ -125,6 +127,7 @@ export interface ObservationInput {
   notes: string
   exerciseTime: string
   mselRowId?: string
+  studentId?: string
 }
 
 export type SaveResult =
@@ -154,9 +157,11 @@ export class ObservationBook {
     return this.byId.get(observationId)
   }
 
-  /** The task's or criterion's single observation (one per task, revised in place). */
-  forTask(taskId: string): LocalObservation | undefined {
-    return [...this.byId.values()].find((o) => o.kind === 'task' && o.taskId === taskId)
+  /** The task's or criterion's single observation (one per task, and per student when one is named). */
+  forTask(taskId: string, studentId?: string): LocalObservation | undefined {
+    return [...this.byId.values()].find(
+      (o) => o.kind === 'task' && o.taskId === taskId && o.studentId === studentId,
+    )
   }
 
   /** Waiting to send: saved here, not yet taken by the connection. */
@@ -167,7 +172,9 @@ export class ObservationBook {
   async save(input: ObservationInput): Promise<SaveResult> {
     const prior =
       (input.observationId ? this.byId.get(input.observationId) : undefined) ??
-      (input.kind === 'task' && input.taskId ? this.forTask(input.taskId) : undefined)
+      (input.kind === 'task' && input.taskId
+        ? this.forTask(input.taskId, input.studentId)
+        : undefined)
     if (!prior && this.byId.size >= MAX_LOCAL_OBSERVATIONS) return { ok: false, reason: 'limit' }
     const next: LocalObservation = {
       sessionId: this.sessionId,
@@ -183,6 +190,7 @@ export class ObservationBook {
       exerciseTime: input.exerciseTime,
       observedAt: prior?.observedAt ?? this.now(),
       ...(input.mselRowId ? { mselRowId: input.mselRowId } : {}),
+      ...(input.studentId ? { studentId: input.studentId } : {}),
     }
     this.byId.set(next.observationId, next)
     await this.store.put(next)
@@ -217,5 +225,6 @@ export function toPayload(o: LocalObservation): EvalObservationPayload {
     exerciseTime: o.exerciseTime,
     observedAt: o.observedAt,
     ...(o.mselRowId ? { mselRowId: o.mselRowId } : {}),
+    ...(o.studentId ? { studentId: o.studentId } : {}),
   }
 }

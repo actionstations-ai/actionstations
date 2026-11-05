@@ -87,7 +87,8 @@ import { LiveEvaluation } from './evaluation'
 import { leavePartner } from './partner'
 import { forwardReceipt, logPartnerRelease } from './partner-host'
 import { LiveSimcellHelpers } from './simcell-helper'
-import { upsertObservation } from '../evaluation/store'
+import { observeForStudent } from '../classroom/observations'
+import { classroomStudentsFor, recordReflection, timeMultiplierForSeat } from '../classroom/live'
 import type { Calls, CallSeat } from './calls'
 import { makeBridge, makeCalls, type LinkHost } from './simcell-link'
 import { simcellFor } from '../simcell/registry'
@@ -528,8 +529,9 @@ function makeEvaluation(getActive: () => Active): LiveEvaluation {
     },
     clientRef: (id) => clientRef(getActive(), id),
     scenario: () => getScenario(getActive().root, getActive().session.scenarioId),
+    students: () => classroomStudentsFor(getActive().root, getActive().session.scenarioId),
     save: (observation) =>
-      upsertObservation(getActive().root, getActive().session.scenarioId, observation),
+      observeForStudent(getActive().root, getActive().session.scenarioId, observation),
     attribution: () => getActive().session.attribution,
     now: () => Date.now(),
     newId: () => toBase64Url(getActive().crypto.random(16)),
@@ -807,9 +809,16 @@ function makeSurveys(
           ...(team ? { teamId: team } : {}),
           label: role?.name ?? s.kind,
           online: s.online,
+          ...(s.name ? { displayName: s.name } : {}),
         }
       }),
     channel,
+    classroom: {
+      multiplier: (seat) =>
+        timeMultiplierForSeat(getActive().root, getActive().session.scenarioId, seat),
+      reflection: (seat, survey, response) =>
+        recordReflection(getActive().root, getActive().session.scenarioId, seat, survey, response),
+    },
     now: () => Date.now(),
     changed: () => emitChanged('surveys'),
   })
@@ -834,8 +843,11 @@ function makeDrills(getActive: () => Active, roles: readonly Role[]): LiveDrills
           ...(team ? { teamId: team } : {}),
           label: role?.name ?? s.kind,
           online: s.online,
+          ...(s.name ? { displayName: s.name } : {}),
         }
       }),
+    multiplier: (seat) =>
+      timeMultiplierForSeat(getActive().root, getActive().session.scenarioId, seat),
     now: () => Date.now(),
     changed: () => emitChanged('drills'),
   })

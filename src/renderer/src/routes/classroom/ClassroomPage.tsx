@@ -10,6 +10,7 @@ import { OutcomesPanel } from './OutcomesPanel'
 import { RotationPanel } from './RotationPanel'
 import { RosterPanel } from './RosterPanel'
 import { RubricsPanel } from './RubricsPanel'
+import { SessionPanel } from './SessionPanel'
 import { ScoringPanel } from './ScoringPanel'
 import { useClassroom } from './use-classroom'
 import './classroom.css'
@@ -29,6 +30,7 @@ export default function ClassroomPage() {
         <>
           <CoursePanel key={data.course.updatedAt} projectPath={projectPath} state={data} />
           <RosterPanel projectPath={projectPath} state={data} />
+          <SessionPanel projectPath={projectPath} state={data} />
           <OutcomesPanel
             key={`o-${data.course.outcomes.length}`}
             projectPath={projectPath}
