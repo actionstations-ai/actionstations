@@ -50,6 +50,18 @@
       "domain": "energy_utility",
       "version": "1.0.0"
     },
+    "epidemiology-library": {
+      "name": "Epidemiology reference library",
+      "summary": "CDC Principles of Epidemiology, the PHEP Exercise Framework guidance and the PHEP capabilities.",
+      "domain": "epidemiology",
+      "version": "1.0.0"
+    },
+    "federal-continuity-library": {
+      "name": "Federal continuity reference library",
+      "summary": "Federal continuity directives (program management, essential functions, planning framework), the Continuity Guidance Circular and the reconstitution plan template.",
+      "domain": "federal_continuity",
+      "version": "1.0.0"
+    },
     "financial-services-library": {
       "name": "Financial services reference library",
       "summary": "FFIEC handbooks, incident notification rules, FinCEN and OFAC advisories and the FDIC Cyber Challenge.",
@@ -144,12 +156,6 @@
       "name": "Water utility reference library",
       "summary": "EPA AWIA ERP template, incident action checklists, sector IR guide and the water CTEP.",
       "domain": "water_utility",
-      "version": "1.0.0"
-    },
-    "federal-continuity-library": {
-      "name": "Federal continuity reference library",
-      "summary": "Federal continuity directives (program management, essential functions, planning framework), the Continuity Guidance Circular and the reconstitution plan template.",
-      "domain": "federal_continuity",
       "version": "1.0.0"
     }
   },
@@ -3605,7 +3611,8 @@
       "size": 6297660,
       "license": "LicenseRef-US-Government-Work",
       "basis": "US federal government work (17 U.S.C. §105): CDC",
-      "pinned": "2026-10-24"
+      "pinned": "2026-10-24",
+      "alsoIn": ["epidemiology-library"]
     },
     {
       "pack": "public-health-library",
@@ -4728,6 +4735,36 @@
       "license": "LicenseRef-US-Government-Work",
       "basis": "US federal government work (17 U.S.C. §105): FEMA",
       "pinned": "2026-11-02"
+    },
+    {
+      "pack": "epidemiology-library",
+      "slug": "cdc-principles-of-epidemiology",
+      "file": "cdc-principles-of-epidemiology.pdf",
+      "title": "Principles of Epidemiology in Public Health Practice, Third Edition (Self-Study Course SS1978)",
+      "publisher": "CDC Office of Workforce and Career Development",
+      "edition": "October 2006, updated May 2012",
+      "url": "https://archive.cdc.gov/www_cdc_gov/csels/dsepd/ss1978/SS1978.pdf",
+      "landing": "https://stacks.cdc.gov/view/cdc/13178",
+      "sha256": "30256d4fa0d56481e6b55ae91eb2b45452ccca0c035ebdecc6ede3b7c7d8ee8b",
+      "size": 6305461,
+      "license": "LicenseRef-US-Government-Work",
+      "basis": "US federal government work (17 U.S.C. §105): CDC course; CDC Stacks lists the rights as Public Domain; the text carries no third-party copyright notice.",
+      "pinned": "2026-11-05"
+    },
+    {
+      "pack": "epidemiology-library",
+      "slug": "cdc-phep-exercise-framework",
+      "file": "cdc-phep-exercise-framework.pdf",
+      "title": "2024-2028 PHEP Notice of Funding Opportunity: Exercise Framework Supplemental Guidance",
+      "publisher": "CDC Office of Readiness and Response",
+      "edition": "April 2024",
+      "url": "https://www.cdc.gov/orr/media/pdfs/2024/06/2024-2028_PHEP-NOFO_Exercise-Framework-Supplemental-Guidance_508c.pdf",
+      "landing": "https://www.cdc.gov/readiness/php/phep/2024-phep-cooperative-agreement-guidance-budget-period-1.html",
+      "sha256": "321bf7d800bb9c8d25badfc8327c2144e5d976c5312af19ea31a1d6f3416fce3",
+      "size": 3650216,
+      "license": "LicenseRef-US-Government-Work",
+      "basis": "US federal government work (17 U.S.C. §105): CDC funding guidance, no copyright notice.",
+      "pinned": "2026-11-05"
     }
   ],
   "links": [
@@ -7026,6 +7063,34 @@
       "publisher": "eCFR",
       "url": "https://www.ecfr.gov/current/title-40/chapter-I/subchapter-D/part-141/subpart-Q",
       "reason": "HTML regulation text (govinfo annual-edition PDFs could be bundled per section if wanted)"
+    },
+    {
+      "pack": "epidemiology-library",
+      "title": "CDC Field Epidemiology Manual",
+      "publisher": "CDC",
+      "url": "https://www.cdc.gov/field-epi-manual/",
+      "reason": "Web chapters only, with no copyright or public domain statement on the page, and the book edition is published by a commercial press; read it online"
+    },
+    {
+      "pack": "epidemiology-library",
+      "title": "Epi Info documentation",
+      "publisher": "CDC",
+      "url": "https://www.cdc.gov/epiinfo/index.html",
+      "reason": "Web pages and software documentation that change with each release; no single dated file to pin"
+    },
+    {
+      "pack": "epidemiology-library",
+      "title": "National Notifiable Diseases Surveillance System: weekly tables and notice to data users",
+      "publisher": "CDC",
+      "url": "https://www.cdc.gov/nndss/infectious-disease/index.html",
+      "reason": "Updated weekly; the connector stores the dataset it read with its retrieval date"
+    },
+    {
+      "pack": "epidemiology-library",
+      "title": "CSTE national surveillance case definitions (NNDSS case definition services)",
+      "publisher": "CDC and CSTE",
+      "url": "https://ndc.services.cdc.gov/",
+      "reason": "A searchable service, not a document; case definitions are revised by position statements"
     }
   ]
 }
