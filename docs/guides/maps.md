@@ -64,8 +64,8 @@ the box to take the map off the phones.
 ## Place names on offline maps
 
 Offline vector maps name places, roads and water in Latin script. The font is Noto Sans (Latin
-ranges only), bundled in the app under the SIL Open Font License; the licence text is in
-`src/renderer/src/components/map/geo/glyphs/OFL.txt`. Names in other scripts are left out until
+ranges only), bundled in the app under the SIL Open Font License; the licence text is
+included with the app. Names in other scripts are left out until
 more font ranges are bundled.
 
 ## Locations pages for geographic maps

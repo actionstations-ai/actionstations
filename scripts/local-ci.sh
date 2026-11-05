@@ -14,6 +14,7 @@ step "install (frozen lockfile)";   pnpm install --frozen-lockfile
 step "lint";                        pnpm lint
 step "format:check";                pnpm format:check
 step "doc links";                   node scripts/check-doc-links.mjs
+step "user docs (no internal references)"; node scripts/check-user-docs.mjs
 step "typecheck";                   pnpm typecheck
 UNIT_LOG="$(mktemp -t ttx-unit-log.XXXXXX)"
 trap 'rm -f "$UNIT_LOG"' EXIT

@@ -41,7 +41,7 @@ Each provider card shows its reachability and latency, and has **Test** (a one-l
 
 **Ollama on Linux** installs without `sudo`. A system-wide Ollama (`/usr/local/bin`, `/usr/bin`) is detected first and used as it is. Otherwise **Download and install** fetches the release tarball for x64 or arm64. It requires the sha256 Ollama publishes in `sha256sum.txt`, which must match GitHub's digest; Ollama does not sign its Linux builds, so this checksum is the only check. The tarball is unpacked into `~/.local/share/actionstations/tools/ollama` (under `$XDG_DATA_HOME` when that is set). The main build already includes NVIDIA CUDA support. When the app finds an AMD GPU driver (`/dev/kfd`) or an NVIDIA Jetson, the row also offers the ROCm or JetPack add-on, ticked. To remove it, stop Ollama and delete that folder.
 
-The app never elevates silently and never downloads in the background. For LM Studio and ComfyUI on Linux, and for the mlx-audio voice server, only the download page or the exact command is offered: there is nothing signed or checksummed to verify. See [ADR-0021](../../adr/0021-local-tools-setup.md) for the publisher identities, the per-OS support matrix and what happens when a vendor moves its downloads.
+The app never elevates silently and never downloads in the background. For LM Studio and ComfyUI on Linux, and for the mlx-audio voice server, only the download page or the exact command is offered: there is nothing signed or checksummed to verify.
 
 **Recommended models** follow the tools. They are chosen for this computer's memory: 70 % of RAM on Apple Silicon, VRAM on an NVIDIA GPU, otherwise half of RAM on the CPU. You get a text model per tool (from `qwen3.5:4b` up to `gpt-oss:120b`), `nomic-embed-text` for Ollama, SDXL and LTX-Video for ComfyUI's default workflows, and, with 32 GB or more, the optional FLUX.2 [klein] 4B files that switch off screens in blank-screen scenes ([ComfyUI guide](comfyui.md#optional-flux2-klein-edit-for-blank-screen-scenes)). Each has its size and license and is its own **Download**. Downloads go through the tool's own pull: Ollama's pull API, `lms get`, or a sha256-checked file in the matching model folder of the running ComfyUI.
 
@@ -104,7 +104,7 @@ A few per-provider options have no form field yet. Quit the app, edit the provid
 
 ## Offline development
 
-Launch with `TTX_MOCK_PROVIDERS=1` to add a built-in mock provider and route every task to it when routing is empty. It returns schema-valid output instantly; the e2e tests use it.
+Launch with `TTX_MOCK_PROVIDERS=1` to add a built-in mock provider and route every task to it when routing is empty. It returns schema-valid output instantly.
 
 ## General troubleshooting
 

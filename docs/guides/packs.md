@@ -2,7 +2,7 @@
 
 A pack is a single `.aspack` file that adds content to Action Stations: inject templates, prompts, domain profiles, ComfyUI workflows, reference documents and example projects. This guide covers installing packs, reading the review before you install, what happens to your projects when a pack is updated, disabled or removed, exporting your own work as a pack, and validating a pack from the command line.
 
-The file format is specified in [docs/packs-format.md](../packs-format.md) and the design decisions in [ADR-0018](../adr/0018-packs.md). The screenshots are taken from the built app by `e2e/packs.spec.ts` (`pnpm build:app && GUIDE_SHOTS=1 pnpm exec playwright test e2e/packs.spec.ts`) with mock providers, an isolated data folder and the test fixture pack **Freight Rail Operations**.
+The file format is specified in [docs/packs-format.md](../packs-format.md). The screenshots were taken with mock providers, an isolated data folder and the sample pack **Freight Rail Operations**.
 
 ## What a pack contains
 
@@ -29,7 +29,7 @@ Nothing is contacted until you add a catalog. The app ships with no catalog, nev
 
 ## Included with the app
 
-Everything the app ships is a pack (ADR-0020), listed at the top of **Installed** under **Included with the app**:
+Everything the app ships is a pack, listed at the top of **Installed** under **Included with the app**:
 
 | Pack                                                                                                                                                                                                         | What it holds                                                                                                                                                                                                                                                                                        |
 | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -79,9 +79,9 @@ Press **Install from file…** and pick an `.aspack` file, drop the file anywher
 
 Press **Install from URL…**, paste the archive address (`https`), and if the publisher lists a sha256, paste it into **Expected sha256 (optional)**. **Download and review** downloads the archive; a download whose sha256 differs from the one you entered is refused.
 
-### Running from source before 0.3.0
+### Minimum app version
 
-Pack support ships in 0.3.0, and packs state the oldest app version they need (`minAppVersion`, in practice `0.3.0`). Until the app's own version reaches 0.3.0, a development build reports an older version and refuses those packs with "This pack needs Action Stations 0.3.0 or later". To try packs from a source checkout, start it with `TTX_APP_VERSION=0.3.0 pnpm dev`. The variable is ignored in packaged builds.
+Packs state the oldest app version they need (`minAppVersion`). The app refuses a pack that needs a newer version than yours with a message such as "This pack needs Action Stations 0.3.0 or later".
 
 ## Read the review
 
@@ -200,7 +200,7 @@ The `minAppVersion` check compares with the version in the checkout's `package.j
 node scripts/pack-validate.mjs my-pack-1.0.0.aspack --app-version 0.3.0
 ```
 
-The script also prints a pack's catalog entry (`--catalog-entry --url <base-url>`) and checks a whole catalog (`--catalog index.json`); see [Publishing to the official catalog](../packs-format.md#publishing-to-the-official-catalog). Template authors can render a pack's template previews against their golden images with `pnpm test:templates --pack <unpacked pack folder>` (see [Template authoring](templates.md#sharing-a-template-in-a-pack)).
+The script also prints a pack's catalog entry (`--catalog-entry --url <base-url>`) and checks a whole catalog (`--catalog index.json`); see [Publishing to the official catalog](../packs-format.md#publishing-to-the-official-catalog). Template authors can also check a pack's template previews against golden images (see [Template authoring](templates.md#sharing-a-template-in-a-pack)).
 
 ## Security
 

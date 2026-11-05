@@ -1,6 +1,6 @@
 # Live play: the player page
 
-The player page is what participants open on their own phone, tablet or laptop during a live exercise. It needs no install and no account: the facilitator shows a QR code (or hands out per-role cards), a player scans it, picks a seat, and sees what the exercise sends to that seat. This guide describes the page as it ships in 0.6.0; the facilitator's side (starting a session, the Live tab, role cards) is documented with the features that provide it (#407, #410, #418).
+The player page is what participants open on their own phone, tablet or laptop during a live exercise. It needs no install and no account: the facilitator shows a QR code (or hands out per-role cards), a player scans it, picks a seat, and sees what the exercise sends to that seat. This guide describes the page itself.
 
 ## Joining
 
@@ -52,14 +52,7 @@ A reload keeps your seat and history. A late joiner gets the whole history for t
 
 ## Privacy
 
-The page makes requests only to the computer or server that served it: no fonts, scripts, images or trackers from anywhere else, and the content security policy the page ships with forbids them. Exercise traffic is end-to-end encrypted (ADR-0027); the servers hold no key. The browser keeps the device id and the position in the stream for this tab only (`sessionStorage`), the theme and cue preferences for this browser (`localStorage`), and the display name in memory. **About → Forget this device** clears the id and keys for the session from this browser.
-
-## For developers
-
-- Build: `pnpm build:player` writes `out/player/` (index.html, assets/, manifest.json) and checks the gzipped size budget; `pnpm build:app` and the installers include it as `app-resources/player/`.
-- Try it without the app: `pnpm dev:player` serves the built page from a scripted session on `http://127.0.0.1:8485` and prints the players and staff links, a per-role card, and `curl` lines for notices, injects, clock changes, reseat, kick and end. Set `PLAYER_NO_WS=1` to exercise the fetch fallback. Open the links in a phone browser on the same machine or through the browser's device emulation.
-- Tests: `pnpm exec vitest run src/player` (state, reconnect, catch-up, screens) and `pnpm exec playwright test e2e/live/` (five simulated devices against the harness, plus the axe-core audit in light and dark at 100 % and 200 %). Screenshots land in `.tmp/live/`.
-- Where features plug in: `src/player/app/items.ts` turns an opened frame into an inbox or feed item (the generic text card is the fallback), `src/player/screens/MoreScreen.tsx` lists the tabs, `src/player/features/<name>/` is each sub-spec's folder. Design: [ADR-0033](../adr/0033-player-page-bundle.md); spec: [0411](../specs/0411-player-page.md).
+The page makes requests only to the computer or server that served it: no fonts, scripts, images or trackers from anywhere else, and the content security policy the page ships with forbids them. Exercise traffic is end-to-end encrypted; the servers hold no key. The browser keeps the device id and the position in the stream for this tab only (`sessionStorage`), the theme and cue preferences for this browser (`localStorage`), and the display name in memory. **About → Forget this device** clears the id and keys for the session from this browser.
 
 ## Delivering injects to devices
 

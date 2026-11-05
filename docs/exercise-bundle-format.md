@@ -1,7 +1,6 @@
 # Exercise bundle format (`.asexercise`)
 
-Reference for the signed bundles that organizations exchange in a regional exercise (spec 0440,
-ADR-0062). The archive rules are those of [packs](packs-format.md): one reading of the zip, POSIX
+Reference for the signed bundles that organizations exchange in a regional exercise. The archive rules are those of [packs](packs-format.md): one reading of the zip, POSIX
 paths from the pack path rules, no encryption, no links, size and count limits (500 MB
 uncompressed, 5,000 files).
 
@@ -28,7 +27,7 @@ then each file's strict schema. Whether the key is the expected one is a separat
 
 ## Content
 
-Everything is a strict schema in `src/shared/schemas/regional.ts`: an unknown field is refused.
+Every file follows a strict schema: an unknown field is refused.
 Rows carry `id, phaseId, time, wallClock, from, toRoleIds, toLabel, event, expectedAction,
 purposeTag, format, injectId, citations, owner, revision, visibility, publicSummary, dependsOn`.
 Injects carry `id, mselRowId, type, title, deliveryMode, fields, variant, instructorNote,

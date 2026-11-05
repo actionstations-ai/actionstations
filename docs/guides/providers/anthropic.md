@@ -24,7 +24,7 @@ Create a key in the [Anthropic Console](https://console.anthropic.com) under **A
 
 ## Cost
 
-Every Claude call is metered in `provider-calls.jsonl` in the app's data folder: model, input, output and cache tokens, duration, and an **estimated** cost from list prices built into the app (`src/main/providers/text/anthropic/models.ts`, cached 2026-10-06; prices change, so treat the figure as an estimate, not a bill). The retrieved document context is sent as a cacheable block, so repeated calls within a few minutes are billed at the cache-read rate.
+Every Claude call is metered in `provider-calls.jsonl` in the app's data folder: model, input, output and cache tokens, duration, and an **estimated** cost from list prices built into the app (as of 2026-10-06; prices change, so treat the figure as an estimate, not a bill). The retrieved document context is sent as a cacheable block, so repeated calls within a few minutes are billed at the cache-read rate.
 
 For scale: the reference scenario generated on a local model used about 127,000 input and 21,500 output tokens across its stages (ideation and inject generation not included). At the built-in list prices that volume is roughly:
 

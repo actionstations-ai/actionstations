@@ -72,11 +72,11 @@ Each type = fields + default render (template vs. AI vs. audio) + export behavio
 | `email_header_analysis` | raw headers, highlights[] | T | phishing CLUE |
 | `ransom_note` | text, wallet, timer, style | T | |
 | `screenshot_generic` | appName, windowTitle, imageBrief | AI or T | |
-| `service_status_page` | orgName, serviceName, overallStatus, incidentTitle, components[{name,status}], updates[{status,time,text}] | T | Public status page; variant `site_banner` puts the outage banner on the org's own site or portal (#324) |
-| `leak_site_post` | siteName, victimName, victimDomain, dataSize, deadline, countdown, status, description, fileList[{name,size}] | T | Ransomware data-leak site listing with countdown (#324) |
-| `security_advisory` | publisher, advisoryId, title, tlp, released, severity, cves[], affectedProducts[], summary, iocs[], mitigations[] | T (PDF) | CISA / ISAC advisory with TLP 2.0 marking; variant `vendor` for a PSIRT advisory (#324) |
-| `hl7_interface_monitor` | engine, site, clock, interfaces[{name,direction,source,destination,messageType,status,queueDepth,lastMessage,error}], alerts[] | T | Interface engine dashboard with stalled HL7 feeds. **Healthcare only**, in the healthcare pack (#331) |
-| `election_results_page` | jurisdiction, electionName, lastUpdated, url, precinctsReporting, contests[{name,choices[{name,party,votes,percent}]}], pageStatus, banner | T | Election night results site; variants `official`, `spoofed` (lookalike copy). **Elections only**, in the elections pack (#331) |
+| `service_status_page` | orgName, serviceName, overallStatus, incidentTitle, components[{name,status}], updates[{status,time,text}] | T | Public status page; variant `site_banner` puts the outage banner on the org's own site or portal |
+| `leak_site_post` | siteName, victimName, victimDomain, dataSize, deadline, countdown, status, description, fileList[{name,size}] | T | Ransomware data-leak site listing with countdown |
+| `security_advisory` | publisher, advisoryId, title, tlp, released, severity, cves[], affectedProducts[], summary, iocs[], mitigations[] | T (PDF) | CISA / ISAC advisory with TLP 2.0 marking; variant `vendor` for a PSIRT advisory |
+| `hl7_interface_monitor` | engine, site, clock, interfaces[{name,direction,source,destination,messageType,status,queueDepth,lastMessage,error}], alerts[] | T | Interface engine dashboard with stalled HL7 feeds. **Healthcare only**, in the healthcare pack |
+| `election_results_page` | jurisdiction, electionName, lastUpdated, url, precinctsReporting, contests[{name,choices[{name,party,votes,percent}]}], pageStatus, banner | T | Election night results site; variants `official`, `spoofed` (lookalike copy). **Elections only**, in the elections pack |
 
 ### Operational displays & physical
 | Type | Key fields | Render | Notes |
@@ -93,14 +93,14 @@ Each type = fields + default render (template vs. AI vs. audio) + export behavio
 | `scene_photo` | sceneBrief, style(phone/press), caption, credit | AI + T | I-10 crowded terminal, blank screens; photo framed by the `scene_photo` template (phone or press variant) |
 | `map_annotation` | baseMapAsset, markers[], labels[] | T over image | Uses project's terminal map |
 | `signage_photo` | text, placement | AI + T | Whiteboard at gate, etc. |
-| `alarm_summary` | systemName, site, clock, operator, counts, alarms[{time,priority,tag,source,description,value,state}] | T | Alarm list of a DCS, NOC or BMS console; variants `dark`, `light` (#324) |
-| `nws_weather_warning` | office, product, issued, warningFor[], until, at, hazard, source, impact, locations[], actions[], vtecInfo, ugcInfo | T (mono) | National Weather Service text product: warnings, follow-up statements, Special Weather Statement and watches; VTEC and UGC lines built by the app (#324, #432) |
-| `cap_alert` | identifier, sender, status (Exercise or Test), msgType, sent, expires, category, event, urgency, severity, certainty, eventCode, easOrg, areaDesc, sameCodes[], headline, description, instruction, cmamText, cmamLongText | T | CAP 1.2 alert as an alert-origination tool shows it before Send (`review`) or as XML (`xml`); never `Actual`; exports as CAP XML (#432) |
-| `eas_broadcast` | originator, event, locations[], areaNames[], issued, purgeMinutes, station, details | T (+ image slot) | EAS message: TV crawl frame (`tv_crawl`) or decoder log with the SAME header (`decoder_log`); header built by the app (#432) |
-| `notam` | notamNumber, facility, location, effectiveStart, effectiveEnd, text, tfr{type,reason,radiusNm,floor,ceiling,restrictions[]} | T | NOTAM text, TFR detail or ICAO format; variants `text`, `tfr`, `icao`. **Airport, stadium and unmanned systems** (#324) |
-| `rider_service_alert` | agency, routes[{id,mode}], effect, cause, headline, description, activePeriod, alternatives[] | T | Rider alert (GTFS-Realtime cause / effect); variants `web`, `app`. **Transit only**, in the transit pack (#324) |
-| `gcs_telemetry_screen` | aircraft{id,type}, mode, altitudeAgl, groundSpeed, battery, gnss{satellites,hdop,fix}, link{rssi,quality}, warnings[], messages[] | T | UAS ground control station screen. **Unmanned systems only**, in the unmanned systems pack (#331) |
-| `track_bulletin` | railroad, subdivision, number, date, issuedTo, items[{type,limits,restriction}], dispatcher, okTime | T (PDF) | Track bulletin or track warrant (neutral form); variants `bulletin`, `warrant`. **Freight rail only**, in the freight rail pack (#331) |
+| `alarm_summary` | systemName, site, clock, operator, counts, alarms[{time,priority,tag,source,description,value,state}] | T | Alarm list of a DCS, NOC or BMS console; variants `dark`, `light` |
+| `nws_weather_warning` | office, product, issued, warningFor[], until, at, hazard, source, impact, locations[], actions[], vtecInfo, ugcInfo | T (mono) | National Weather Service text product: warnings, follow-up statements, Special Weather Statement and watches; VTEC and UGC lines built by the app |
+| `cap_alert` | identifier, sender, status (Exercise or Test), msgType, sent, expires, category, event, urgency, severity, certainty, eventCode, easOrg, areaDesc, sameCodes[], headline, description, instruction, cmamText, cmamLongText | T | CAP 1.2 alert as an alert-origination tool shows it before Send (`review`) or as XML (`xml`); never `Actual`; exports as CAP XML |
+| `eas_broadcast` | originator, event, locations[], areaNames[], issued, purgeMinutes, station, details | T (+ image slot) | EAS message: TV crawl frame (`tv_crawl`) or decoder log with the SAME header (`decoder_log`); header built by the app |
+| `notam` | notamNumber, facility, location, effectiveStart, effectiveEnd, text, tfr{type,reason,radiusNm,floor,ceiling,restrictions[]} | T | NOTAM text, TFR detail or ICAO format; variants `text`, `tfr`, `icao`. **Airport, stadium and unmanned systems** |
+| `rider_service_alert` | agency, routes[{id,mode}], effect, cause, headline, description, activePeriod, alternatives[] | T | Rider alert (GTFS-Realtime cause / effect); variants `web`, `app`. **Transit only**, in the transit pack |
+| `gcs_telemetry_screen` | aircraft{id,type}, mode, altitudeAgl, groundSpeed, battery, gnss{satellites,hdop,fix}, link{rssi,quality}, warnings[], messages[] | T | UAS ground control station screen. **Unmanned systems only**, in the unmanned systems pack |
+| `track_bulletin` | railroad, subdivision, number, date, issuedTo, items[{type,limits,restriction}], dispatcher, okTime | T (PDF) | Track bulletin or track warrant (neutral form); variants `bulletin`, `warrant`. **Freight rail only**, in the freight rail pack |
 
 ### Documents & forms
 | Type | Key fields | Render | Notes |
@@ -112,19 +112,19 @@ Each type = fields + default render (template vs. AI vs. audio) + export behavio
 | `status_board` | resources[{name,status,notes}] | T | Player briefing resource table |
 | `sitrep` | number, time, summary, actions | T | |
 | `field_report` | organization, reportNo, date, location, inspector, reportType, summary, findings[{item,condition,notes}], actionsTaken[], recommendations[] | T (PDF) | Field / inspection / patrol report |
-| `ics_213_general_message` | incidentName, to, from, subject, date, time, message, approvedBy, reply | T (PDF, FEMA layout) | Blank version for players (#324) |
-| `ics_214_activity_log` | incidentName, opPeriod, name, icsPosition, homeAgency, resources[], entries[{time,activity}] | T (PDF, FEMA layout) | Blank version for players (#324) |
-| `chain_of_custody_form` | org, caseNo, items[{itemNo,description,serial}], collectedBy, collectedAt, location, transfers[{dateTime,releasedBy,receivedBy,purpose}] | T (PDF) | Evidence, election material, downed UAS (#324). Long lists continue on continuation sheets (#331) |
-| `regulatory_report_form` | agency, formName, reportType, reportId, submittedAt, organization, sections[{heading,items[{label,value}]}], narrative | T (PDF) | Filed incident report: OE-417, NRC, NORS, PHMSA, CIRCIA, FAA 107.9, bank notice (#324). Long reports print on several pages (#331) |
-| `lab_result_report` | labName, client, sampleId, sampleLocation, sampledAt, reportedAt, results[{analyte,result,units,limit,method,flag}], comments | T (PDF) | Certified lab report / certificate of analysis (#324) |
-| `breach_notification_letter` | org, date, recipientName, whatHappened, whatInformation, whatWeAreDoing, whatYouCanDo, forMoreInformation, signerName | T (PDF) | Model-form breach notice to individuals (#324) |
-| `downtime_notice` | org, systemName, status, startedAt, expectedRestore, affected[], procedures[], contact | T (PDF) | EHR / MES / SIS downtime notice; variants `unplanned`, `planned` (#324) |
-| `boil_water_notice` | utility, pwsId, noticeType, issuedAt, affectedArea, whatHappened, whatToDo[], whatIsBeingDone, expectedResolution, contact | T (PDF) | EPA Tier 1 public notice; variants `boil_water`, `do_not_drink`. **Water utility, public health, municipal** (#324) |
-| `wire_transfer_request` | org, requestNo, requestedAt, amount, beneficiary{name,bank,aba,account}, purpose, initiatedBy, approvals[], callback | T (PDF) | Outgoing wire request or vendor bank change request (BEC); variants `wire_request`, `vendor_bank_change` (#331) |
-| `sds_excerpt` | product, supplier, signalWord, pictograms[], hazardStatements[], ingredients[], firstAid, properties[], exposureLimits[] | T (PDF) | Safety Data Sheet, sections 1–4, 8, 9 (#331) |
-| `emergency_declaration` | jurisdiction, declarationNo, issuedAt, whereas[], declaration, powers[], effective, expires, signer | T (PDF) | Local declaration of emergency (#331) |
-| `reunification_notice` | org, site, headline, issuedAt, situation, reunificationSite, steps[], bring[], contact | T (PDF) | Family reunification notice; variant `card` for the request / release card (#331) |
-| `msib_cotp_order` | sector, number, issuedAt, subject, marsecLevel, portCondition, body, restrictions[], effective, until, poc, signer | T (PDF) | USCG Marine Safety Information Bulletin or Captain of the Port order; variants `msib`, `cotp_order`. **Port and maritime only**, in the port pack (#331) |
+| `ics_213_general_message` | incidentName, to, from, subject, date, time, message, approvedBy, reply | T (PDF, FEMA layout) | Blank version for players |
+| `ics_214_activity_log` | incidentName, opPeriod, name, icsPosition, homeAgency, resources[], entries[{time,activity}] | T (PDF, FEMA layout) | Blank version for players |
+| `chain_of_custody_form` | org, caseNo, items[{itemNo,description,serial}], collectedBy, collectedAt, location, transfers[{dateTime,releasedBy,receivedBy,purpose}] | T (PDF) | Evidence, election material, downed UAS. Long lists continue on continuation sheets |
+| `regulatory_report_form` | agency, formName, reportType, reportId, submittedAt, organization, sections[{heading,items[{label,value}]}], narrative | T (PDF) | Filed incident report: OE-417, NRC, NORS, PHMSA, CIRCIA, FAA 107.9, bank notice. Long reports print on several pages |
+| `lab_result_report` | labName, client, sampleId, sampleLocation, sampledAt, reportedAt, results[{analyte,result,units,limit,method,flag}], comments | T (PDF) | Certified lab report / certificate of analysis |
+| `breach_notification_letter` | org, date, recipientName, whatHappened, whatInformation, whatWeAreDoing, whatYouCanDo, forMoreInformation, signerName | T (PDF) | Model-form breach notice to individuals |
+| `downtime_notice` | org, systemName, status, startedAt, expectedRestore, affected[], procedures[], contact | T (PDF) | EHR / MES / SIS downtime notice; variants `unplanned`, `planned` |
+| `boil_water_notice` | utility, pwsId, noticeType, issuedAt, affectedArea, whatHappened, whatToDo[], whatIsBeingDone, expectedResolution, contact | T (PDF) | EPA Tier 1 public notice; variants `boil_water`, `do_not_drink`. **Water utility, public health, municipal** |
+| `wire_transfer_request` | org, requestNo, requestedAt, amount, beneficiary{name,bank,aba,account}, purpose, initiatedBy, approvals[], callback | T (PDF) | Outgoing wire request or vendor bank change request (BEC); variants `wire_request`, `vendor_bank_change` |
+| `sds_excerpt` | product, supplier, signalWord, pictograms[], hazardStatements[], ingredients[], firstAid, properties[], exposureLimits[] | T (PDF) | Safety Data Sheet, sections 1–4, 8, 9 |
+| `emergency_declaration` | jurisdiction, declarationNo, issuedAt, whereas[], declaration, powers[], effective, expires, signer | T (PDF) | Local declaration of emergency |
+| `reunification_notice` | org, site, headline, issuedAt, situation, reunificationSite, steps[], bring[], contact | T (PDF) | Family reunification notice; variant `card` for the request / release card |
+| `msib_cotp_order` | sector, number, issuedAt, subject, marsecLevel, portCondition, body, restrictions[], effective, until, poc, signer | T (PDF) | USCG Marine Safety Information Bulletin or Captain of the Port order; variants `msib`, `cotp_order`. **Port and maritime only**, in the port pack |
 
 ### Facilitator control
 | Type | Key fields | Render | Notes |
@@ -135,13 +135,13 @@ Each type = fields + default render (template vs. AI vs. audio) + export behavio
 | `endex_card` | resolution, transition to hot wash | T | |
 | `simcell_script` | role being played, hard questions[], concessions[] | T (handbook only) | "Agent Smith: do you have a PCAP?" |
 
-## Domain tags (ADR-0014)
+## Domain tags
 
-An inject type may carry `domains: ['airport', …]` in `src/shared/taxonomy.ts`. A tagged type is offered only to projects whose domain profile has one of those ids: the MSEL prompt lists the domain's types (the profile's preferred types first), and `chooseInjectType` treats a tagged type as unavailable elsewhere and follows the fallback chain to the generic equivalent (`fids_board` → `info_display_board`, `bhs_scada_screen` → `scada_hmi`). Untagged types belong to every domain.
+An inject type may carry a list of domains, such as `['airport', …]`. A tagged type is offered only to projects whose domain profile has one of those ids: the MSEL prompt lists the domain's types (the profile's preferred types first), and a tagged type is treated as unavailable elsewhere, so generation falls back to the generic equivalent (`fids_board` → `info_display_board`, `bhs_scada_screen` → `scada_hmi`). Untagged types belong to every domain.
 
-## Types from packs and user templates (ADR-0018)
+## Types from packs and user templates
 
-`INJECT_TYPES` in `src/shared/taxonomy.ts` is the built-in list. A template in the user layer (`userData/templates/injects/<type>/`) or in an enabled pack whose type is not built in joins the taxonomy through the `taxonomy` block of its `meta.json` (`category`, `render`, `defaultDelivery`, optional `domains` and `paper`; a user template without the block joins as a hand-to-role document). Main registers these with `registerInjectTypes` (`src/main/render/template-registry.ts`) at startup and after every pack change; `injectTypeInfo`, `injectTypes()`, `injectTypesForDomain`, `chooseInjectType` and the prompts' taxonomy variables read the registry, so domain tags apply to pack types too. The renderer keeps its own copy from `templates:taxonomy` and refetches on `templates:changed`. A registered type never replaces a built-in entry: a pack template that shadows a built-in type keeps the built-in taxonomy. A project's own templates (including copies of pack templates kept after the pack is uninstalled) are listed by `templates:taxonomy { projectPath }`, and an inject's stored `type` is any type id (`^[a-z0-9_]+$`) so such injects keep loading.
+The tables above are the built-in list. A template in your own templates folder (`userData/templates/injects/<type>/`) or in an enabled pack whose type is not built in joins the taxonomy through the `taxonomy` block of its `meta.json` (`category`, `render`, `defaultDelivery`, optional `domains` and `paper`; a user template without the block joins as a hand-to-role document). The app registers these types at startup and after every pack change, so domain tags apply to pack types too. A pack template never replaces a built-in entry: a pack template that shadows a built-in type keeps the built-in taxonomy. A project's own templates (including copies of pack templates kept after the pack is uninstalled) are listed with the project, and an inject's stored `type` is any type id (lowercase letters, digits and underscores) so such injects keep loading.
 
 ## Rendering rules
 
