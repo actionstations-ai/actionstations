@@ -1,5 +1,5 @@
 import { useState, type FormEvent } from 'react'
-import type { OpenProject } from '@shared/schemas'
+import { CLASSROOM_NOTICE, type OpenProject } from '@shared/schemas'
 import { Button, Dialog, Field } from '../../components/ui'
 import { toast } from '../../components/toast-store'
 import { call } from '../../lib/api'
@@ -11,6 +11,8 @@ interface Draft {
   orgName: string
   orgType: string
   parentDir: string | null
+  /** Turn on Classroom mode once the project exists (the notice is shown beside the box). */
+  classroom: boolean
 }
 
 /** Create the project folder and remember its parent as the default location. */
@@ -22,6 +24,8 @@ async function createProject(draft: Draft, dir: string): Promise<OpenProject> {
     orgType: draft.orgType,
   })
   await call('settings:update', { defaultProjectsDir: dir })
+  if (draft.classroom)
+    await call('classroom:set-enabled', { projectPath: created.path, enabled: true })
   return created
 }
 
@@ -107,6 +111,7 @@ function NewProjectForm(props: {
     orgName: '',
     orgType: 'generic',
     parentDir: null,
+    classroom: false,
   })
   const [submitted, setSubmitted] = useState(false)
   const [busy, setBusy] = useState(false)
@@ -133,6 +138,20 @@ function NewProjectForm(props: {
     <form className="stack" onSubmit={submit} noValidate aria-label="New project">
       <NameFields draft={draft} nameError={nameError} set={set} />
       <DomainProfilePicker value={draft.orgType} onChange={(id) => set({ orgType: id })} />
+      <label className="row">
+        <input
+          type="checkbox"
+          checked={draft.classroom}
+          onChange={(e) => set({ classroom: e.target.checked })}
+          aria-describedby="new-classroom-notice"
+        />
+        Use this project for a course (Classroom mode)
+      </label>
+      {draft.classroom && (
+        <p id="new-classroom-notice" className="muted">
+          {CLASSROOM_NOTICE}
+        </p>
+      )}
       <LocationField
         value={parentDir}
         error={dirError}

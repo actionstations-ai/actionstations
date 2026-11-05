@@ -15,6 +15,12 @@ the notice and turn it on:
 Outside Classroom mode nothing changes: observations never name a player, and ratings are
 discussion aids, not grades.
 
+You can also tick **Use this project for a course** when you create a project; the same notice is
+shown beside the box.
+
+For advice on outcomes, rubrics, rotation, fair grading of a group exercise, accommodations and
+records privacy, see the [instructor's guide](classroom-instructor-guide.md).
+
 ## Course, sections and roster
 
 1. Save the course name, the term and one or more sections.
@@ -107,3 +113,30 @@ Record adjustments for a student: a time multiplier for that student's timed res
 packet, breaks, and an observer or evaluator role with an equivalent rubric. They record
 adjustments, not diagnoses. They are private to you: they are left out of shared files, the After
 Action Report and the dashboard, which shows only a count.
+
+## Running a session
+
+Under **Session set-up**, choose the scenario and the section, tick **Practice run** if the session
+should not count, choose the rubrics that apply and seat students by role. The adjustments to
+remember for the seated students are listed there.
+
+- **Evaluators** who join a live session see the seated students in a **Observing** list. Choose a
+  student and every rating you save is about that student; choose **Whole team** to go back. The
+  After Action Report and the live record never carry a student's name.
+- **Reflections.** **Save the reflection survey** builds a survey from your reflection prompts.
+  Open it from the Surveys panel during the live session. Students are told that, unlike other
+  surveys, their answers go to you with their name. A student is matched by the role you seated
+  them in, or by a display name that matches the roster exactly; an answer from a device that
+  matches no one is not kept against anyone. For paper, **Reflection sheets PDF** prints one page
+  per student, and **Type in a reflection from a printed sheet** adds the answer afterward.
+- **Extra time.** A student with a time multiplier gets a later close on surveys and a longer drill
+  time on their own device. Votes and decision forms are group actions and are not extended.
+- **Make-up version.** **Create a make-up version** starts a new scenario with the same objectives,
+  mapped outcomes and rubrics and different facts. It runs through the usual generation steps, so
+  it needs a model provider like any scenario.
+
+## Printing
+
+**Handout PDF** on a rubric prints the rubric for students. **Score report PDF** on a student prints
+their scores with the evidence quoted and your comments; for a practice run it says the run does
+not count. PDFs are saved where you choose and are not kept in the project.
