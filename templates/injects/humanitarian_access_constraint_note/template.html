@@ -1,0 +1,53 @@
+<section class="page">
+  <p class="marking">{{default fields.marking "EXERCISE · EXERCISE · EXERCISE"}}</p>
+  <header class="head">
+    <div>
+      <div class="agency">{{fields.organization}}</div>
+      {{#if fields.unit}}
+      <div class="sub">{{fields.unit}}</div>
+      {{/if}}
+    </div>
+    <div class="doc-title">Access note</div>
+  </header>
+  <table class="meta">
+    <tr>
+      <th>Note</th>
+      <td>{{fields.noteId}}</td>
+      <th>Issued</th>
+      <td>{{fields.issued}}</td>
+    </tr>
+    <tr>
+      <th>Route</th>
+      <td>{{fields.route}}</td>
+      <th>Status</th>
+      <td>{{fields.status}}</td>
+    </tr>
+    <tr>
+      <th>Valid until</th>
+      <td colspan="3">{{fields.validUntil}}</td>
+    </tr>
+  </table>
+  {{#if fields.constraint}}
+  <h2>Constraint</h2>
+  <p>{{nl2br fields.constraint}}</p>
+  {{/if}}{{#if fields.vehicles}}
+  <h2>Vehicles</h2>
+  <p>{{nl2br fields.vehicles}}</p>
+  {{/if}}{{#if fields.duration}}
+  <h2>Expected duration</h2>
+  <p>{{nl2br fields.duration}}</p>
+  {{/if}}{{#if fields.alternatives}}
+  <h2>Alternatives</h2>
+  <ul>
+    {{#each fields.alternatives}}
+    <li>{{this}}</li>
+    {{/each}}
+  </ul>
+  {{/if}}
+  <div class="spacer"></div>
+  <div class="foot">
+    <span>{{fields.noteId}}</span
+    ><span>Exercise material. All organizations, people and places are fictional.</span>
+  </div>
+  <p class="marking">{{default fields.marking "EXERCISE · EXERCISE · EXERCISE"}}</p>
+</section>

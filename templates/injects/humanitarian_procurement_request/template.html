@@ -1,0 +1,66 @@
+<section class="page">
+  <p class="marking">{{default fields.marking "EXERCISE · EXERCISE · EXERCISE"}}</p>
+  <header class="head">
+    <div>
+      <div class="agency">{{fields.organization}}</div>
+      {{#if fields.unit}}
+      <div class="sub">{{fields.unit}}</div>
+      {{/if}}
+    </div>
+    <div class="doc-title">Procurement</div>
+  </header>
+  <table class="meta">
+    <tr>
+      <th>Request</th>
+      <td>{{fields.requestId}}</td>
+      <th>Requested by</th>
+      <td>{{fields.requester}}</td>
+    </tr>
+    <tr>
+      <th>Date</th>
+      <td>{{fields.date}}</td>
+      <th>Urgency</th>
+      <td>{{fields.urgency}}</td>
+    </tr>
+    <tr>
+      <th>Budget line</th>
+      <td>{{fields.budgetLine}}</td>
+      <th>Approver</th>
+      <td>{{fields.approver}}</td>
+    </tr>
+  </table>
+  {{#if fields.items}}
+  <h2>Items</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Item</th>
+        <th>Quantity</th>
+        <th>Unit</th>
+        <th>Cost (US$)</th>
+        <th>Needed by</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each fields.items}}
+      <tr>
+        <td>{{this.item}}</td>
+        <td class="mono">{{this.quantity}}</td>
+        <td class="mono">{{this.unit}}</td>
+        <td class="mono">{{this.cost}}</td>
+        <td class="mono">{{this.needBy}}</td>
+      </tr>
+      {{/each}}
+    </tbody>
+  </table>
+  {{/if}}{{#if fields.justification}}
+  <h2>Justification</h2>
+  <p>{{nl2br fields.justification}}</p>
+  {{/if}}
+  <div class="spacer"></div>
+  <div class="foot">
+    <span>{{fields.requestId}}</span
+    ><span>Exercise material. All organizations, people and places are fictional.</span>
+  </div>
+  <p class="marking">{{default fields.marking "EXERCISE · EXERCISE · EXERCISE"}}</p>
+</section>

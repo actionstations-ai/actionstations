@@ -1,0 +1,113 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Rapid assessment summary",
+  "description": "A summary of a rapid needs assessment: area, dates, how many households and sites were assessed, needs by sector with a severity, the method and its limits. Figures are fictional and must agree with the rest of the pack.",
+  "type": "object",
+  "required": ["organization", "area", "dates", "coverage"],
+  "properties": {
+    "marking": {
+      "type": "string",
+      "description": "Exercise marking",
+      "examples": ["EXERCISE · EXERCISE · EXERCISE"],
+      "x-translate": false
+    },
+    "organization": {
+      "type": "string",
+      "description": "Issuing organization",
+      "examples": ["Harbourlight Relief"],
+      "x-translate": false
+    },
+    "unit": {
+      "type": "string",
+      "description": "Office, unit or team",
+      "examples": ["Assessment team"],
+      "x-translate": false
+    },
+    "area": {
+      "type": "string",
+      "description": "Area assessed",
+      "examples": ["Karun North, Bel Ravi and Soma Valley districts"]
+    },
+    "dates": {
+      "type": "string",
+      "description": "Assessment dates",
+      "examples": ["14 to 16 October 2026"],
+      "x-translate": false
+    },
+    "coverage": {
+      "type": "string",
+      "description": "What was covered",
+      "examples": [
+        "212 households interviewed in 19 villages; 31 key informants; 64 health facilities visited."
+      ]
+    },
+    "needs": {
+      "type": "array",
+      "description": "Needs by sector",
+      "maxItems": 8,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "description": "One row",
+        "properties": {
+          "sector": {
+            "type": "string",
+            "description": "Sector",
+            "examples": ["Health"]
+          },
+          "severity": {
+            "type": "string",
+            "description": "Severity of need",
+            "enum": ["low", "medium", "high", "extreme"],
+            "examples": ["high"]
+          },
+          "finding": {
+            "type": "string",
+            "description": "Main finding",
+            "examples": ["17 of 64 health facilities damaged; surgical capacity below need"]
+          }
+        },
+        "required": ["sector", "severity", "finding"]
+      },
+      "examples": [
+        [
+          {
+            "sector": "Health",
+            "severity": "extreme",
+            "finding": "17 of 64 health facilities damaged; surgical capacity below need"
+          },
+          {
+            "sector": "Water, sanitation and hygiene",
+            "severity": "high",
+            "finding": "Piped supply cut in two district towns; people rely on wells and trucking"
+          },
+          {
+            "sector": "Shelter",
+            "severity": "high",
+            "finding": "About 38,000 households in damaged or unsafe homes; nights are cold"
+          },
+          {
+            "sector": "Food security",
+            "severity": "medium",
+            "finding": "Markets are open but prices of flour have risen by a third"
+          }
+        ]
+      ]
+    },
+    "method": {
+      "type": "string",
+      "description": "Method",
+      "examples": [
+        "Household and key informant interviews with a standard form on tablets. Villages were chosen to cover each district and the main road corridors."
+      ]
+    },
+    "limitations": {
+      "type": "string",
+      "description": "Limits of the assessment",
+      "examples": [
+        "Hadar could not be reached. Figures are not representative of the whole province and will be revised."
+      ]
+    }
+  },
+  "additionalProperties": false
+}

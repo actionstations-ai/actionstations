@@ -1,0 +1,54 @@
+<section class="page">
+  <p class="marking">{{default fields.marking "EXERCISE · EXERCISE · EXERCISE"}}</p>
+  <header class="head">
+    <div>
+      <div class="agency">{{fields.organization}}</div>
+      {{#if fields.unit}}
+      <div class="sub">{{fields.unit}}</div>
+      {{/if}}
+    </div>
+    <div class="doc-title">Misinformation</div>
+  </header>
+  <table class="meta">
+    <tr>
+      <th>As of</th>
+      <td colspan="3">{{fields.period}}</td>
+    </tr>
+  </table>
+  {{#if fields.items}}
+  <h2>Claims</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Id</th>
+        <th>Claim</th>
+        <th>Where</th>
+        <th>First seen</th>
+        <th>Status</th>
+        <th>Response</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each fields.items}}
+      <tr>
+        <td class="mono">{{this.id}}</td>
+        <td>{{this.claim}}</td>
+        <td>{{this.channel}}</td>
+        <td class="mono">{{this.firstSeen}}</td>
+        <td><span class="status status-{{this.status}}">{{this.status}}</span></td>
+        <td>{{this.response}}</td>
+      </tr>
+      {{/each}}
+    </tbody>
+  </table>
+  {{/if}}{{#if fields.note}}
+  <h2>Note</h2>
+  <p>{{nl2br fields.note}}</p>
+  {{/if}}
+  <div class="spacer"></div>
+  <div class="foot">
+    <span>{{fields.period}}</span
+    ><span>Exercise material. All organizations, people and places are fictional.</span>
+  </div>
+  <p class="marking">{{default fields.marking "EXERCISE · EXERCISE · EXERCISE"}}</p>
+</section>

@@ -1,0 +1,57 @@
+<section class="page">
+  <p class="marking">{{default fields.marking "EXERCISE · EXERCISE · EXERCISE"}}</p>
+  <header class="head">
+    <div>
+      <div class="agency">{{fields.organization}}</div>
+      {{#if fields.unit}}
+      <div class="sub">{{fields.unit}}</div>
+      {{/if}}
+    </div>
+    <div class="doc-title">Distribution</div>
+  </header>
+  <table class="meta">
+    <tr>
+      <th>Round</th>
+      <td>{{fields.period}}</td>
+      <th>Totals</th>
+      <td>{{fields.totals}}</td>
+    </tr>
+  </table>
+  {{#if fields.sites}}
+  <h2>Coverage by site</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Site</th>
+        <th>Planned</th>
+        <th>Reached</th>
+        <th>Coverage</th>
+        <th>Items</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each fields.sites}}
+      <tr>
+        <td>{{this.site}}</td>
+        <td class="mono">{{this.planned}}</td>
+        <td class="mono">{{this.reached}}</td>
+        <td class="mono">{{this.coverage}}</td>
+        <td>{{this.items}}</td>
+      </tr>
+      {{/each}}
+    </tbody>
+  </table>
+  {{/if}}{{#if fields.constraints}}
+  <h2>Constraints</h2>
+  <p>{{nl2br fields.constraints}}</p>
+  {{/if}}{{#if fields.feedback}}
+  <h2>Community feedback</h2>
+  <p>{{nl2br fields.feedback}}</p>
+  {{/if}}
+  <div class="spacer"></div>
+  <div class="foot">
+    <span>{{fields.period}}</span
+    ><span>Exercise material. All organizations, people and places are fictional.</span>
+  </div>
+  <p class="marking">{{default fields.marking "EXERCISE · EXERCISE · EXERCISE"}}</p>
+</section>

@@ -45,6 +45,7 @@ import './logistics'
 import './space'
 // Field kinds register themselves when imported (wildfire).
 import './fire'
+import './humanitarian'
 
 export {
   FigureOutput,

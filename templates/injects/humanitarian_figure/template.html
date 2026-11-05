@@ -1,0 +1,17 @@
+<article class="figure-sheet">
+  {{#if fields.heading}}
+  <header class="head">
+    <h1>{{fields.heading}}</h1>
+    {{#if fields.source}}
+    <p class="source">{{fields.source}}</p>
+    {{/if}}
+  </header>
+  {{/if}}
+  <figure class="chart">
+    {{{figures.main}}}
+    <figcaption class="sr-only">{{figures.main.summary}}</figcaption>
+  </figure>
+  {{#unless fields.hideTable}} {{#if figures.main.table}}
+  <section class="data">{{{figures.main.tableHtml}}}</section>
+  {{/if}} {{/unless}}
+</article>

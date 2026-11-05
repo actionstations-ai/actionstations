@@ -1,0 +1,89 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Access constraint note",
+  "description": "A logistics-cluster style note on a route or crossing: its status (open, restricted or closed), the constraint, which vehicles can pass, expected duration, alternatives and a validity time. Places are fictional.",
+  "type": "object",
+  "required": ["organization", "noteId", "issued", "route", "status", "constraint", "validUntil"],
+  "properties": {
+    "marking": {
+      "type": "string",
+      "description": "Exercise marking",
+      "examples": ["EXERCISE · EXERCISE · EXERCISE"],
+      "x-translate": false
+    },
+    "organization": {
+      "type": "string",
+      "description": "Issuing organization",
+      "examples": ["Logistics Cluster, Republic of Tamsaria"],
+      "x-translate": false
+    },
+    "unit": {
+      "type": "string",
+      "description": "Office, unit or team",
+      "examples": ["Access and constraints"],
+      "x-translate": false
+    },
+    "noteId": {
+      "type": "string",
+      "description": "Note reference",
+      "examples": ["AC-2026-009"],
+      "x-translate": false
+    },
+    "issued": {
+      "type": "string",
+      "description": "Issued",
+      "examples": ["16 October 2026, 08:00 local"],
+      "x-translate": false
+    },
+    "route": {
+      "type": "string",
+      "description": "Route or crossing",
+      "examples": ["Route 4, Bel Ravi to Hadar"]
+    },
+    "status": {
+      "type": "string",
+      "description": "Status",
+      "enum": ["open", "restricted", "closed"],
+      "examples": ["restricted"]
+    },
+    "constraint": {
+      "type": "string",
+      "description": "What the constraint is",
+      "examples": [
+        "A landslide at kilometre 31 has narrowed the road. Light vehicles can pass one at a time under a marshal; trucks over 3.5 tonnes cannot."
+      ]
+    },
+    "vehicles": {
+      "type": "string",
+      "description": "Vehicles that can pass",
+      "examples": ["Light vehicles and pickups; no trucks over 3.5 tonnes."]
+    },
+    "duration": {
+      "type": "string",
+      "description": "Expected duration",
+      "examples": ["At least five days; the road authority is clearing with one excavator."]
+    },
+    "alternatives": {
+      "type": "array",
+      "description": "Alternatives",
+      "maxItems": 5,
+      "items": {
+        "type": "string",
+        "description": "Entry"
+      },
+      "examples": [
+        [
+          "Route 9 is open in daylight and adds about three hours.",
+          "Air drop by helicopter can be requested through the logistics cluster."
+        ]
+      ]
+    },
+    "validUntil": {
+      "type": "string",
+      "description": "Valid until",
+      "examples": ["18 October 2026, 08:00 local"],
+      "x-translate": false
+    }
+  },
+  "additionalProperties": false
+}

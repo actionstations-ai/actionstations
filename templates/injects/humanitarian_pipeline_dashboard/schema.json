@@ -1,0 +1,165 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Pipeline dashboard",
+  "description": "A commodity pipeline dashboard: stock on hand, consumption, shipments on the way, the forecast break day and reorder lead time, with a drawn stock projection. Days of stock equal stock on hand divided by daily consumption. Quantities are fictional.",
+  "type": "object",
+  "required": [
+    "organization",
+    "commodity",
+    "asOf",
+    "stockOnHand",
+    "dailyConsumption",
+    "daysOfStock",
+    "breakDay",
+    "leadTimeDays",
+    "assessment"
+  ],
+  "properties": {
+    "marking": {
+      "type": "string",
+      "description": "Exercise marking",
+      "examples": ["EXERCISE · EXERCISE · EXERCISE"],
+      "x-translate": false
+    },
+    "organization": {
+      "type": "string",
+      "description": "Issuing organization",
+      "examples": ["Harbourlight Relief"],
+      "x-translate": false
+    },
+    "unit": {
+      "type": "string",
+      "description": "Office, unit or team",
+      "examples": ["Tamsaria Country Office, Logistics"],
+      "x-translate": false
+    },
+    "commodity": {
+      "type": "string",
+      "description": "Commodity",
+      "examples": ["Fortified wheat flour"]
+    },
+    "asOf": {
+      "type": "string",
+      "description": "Stock count date",
+      "examples": ["Day 0: 20 October 2026"],
+      "x-translate": false
+    },
+    "programme": {
+      "type": "string",
+      "description": "Programme served",
+      "examples": ["General food distribution, Karun and Soma Valley"]
+    },
+    "stockOnHand": {
+      "type": "string",
+      "description": "Stock on hand",
+      "examples": ["420 tonnes"],
+      "x-translate": false
+    },
+    "dailyConsumption": {
+      "type": "string",
+      "description": "Daily consumption",
+      "examples": ["28 tonnes"],
+      "x-translate": false
+    },
+    "daysOfStock": {
+      "type": "string",
+      "description": "Days of stock (stock divided by daily consumption)",
+      "examples": ["15"],
+      "x-translate": false
+    },
+    "breakDay": {
+      "type": "string",
+      "description": "Forecast break day, counted from the stock count",
+      "examples": ["22"],
+      "x-translate": false
+    },
+    "leadTimeDays": {
+      "type": "string",
+      "description": "Reorder lead time in days",
+      "examples": ["21"],
+      "x-translate": false
+    },
+    "assessment": {
+      "type": "string",
+      "description": "What the dashboard shows",
+      "examples": [
+        "Stock lasts 15 days. The shipment due on day 12 extends it to day 22, eight days before the next shipment on day 30. A reorder takes 21 days, so the latest day to order was day 1."
+      ]
+    },
+    "inTransit": {
+      "type": "array",
+      "description": "Shipments on the way",
+      "maxItems": 6,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "description": "One row",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Shipment reference",
+            "examples": ["SHP-20418"],
+            "x-translate": false
+          },
+          "quantity": {
+            "type": "string",
+            "description": "Quantity",
+            "examples": ["200 tonnes"],
+            "x-translate": false
+          },
+          "eta": {
+            "type": "string",
+            "description": "Expected arrival",
+            "examples": ["Day 12"],
+            "x-translate": false
+          },
+          "note": {
+            "type": "string",
+            "description": "Note",
+            "examples": ["Vessel at anchor, berth due day 10"]
+          }
+        },
+        "required": ["id", "quantity", "eta"]
+      },
+      "examples": [
+        [
+          {
+            "id": "SHP-20418",
+            "quantity": "200 tonnes",
+            "eta": "Day 12",
+            "note": "Vessel at anchor, berth due day 10"
+          },
+          {
+            "id": "SHP-20455",
+            "quantity": "600 tonnes",
+            "eta": "Day 30",
+            "note": "Booked; loading not started"
+          }
+        ]
+      ]
+    },
+    "figures": {
+      "type": "object",
+      "description": "Stock projection drawn from data",
+      "properties": {
+        "pipeline": {
+          "type": "object",
+          "required": ["kind", "data"],
+          "additionalProperties": false,
+          "properties": {
+            "kind": {
+              "type": "string",
+              "enum": ["humanitarian_pipeline"]
+            },
+            "data": {
+              "type": "object",
+              "description": "Data for the kind"
+            }
+          }
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}
