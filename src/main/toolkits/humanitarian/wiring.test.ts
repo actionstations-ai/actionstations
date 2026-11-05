@@ -29,6 +29,12 @@ describe('code the toolkit names exists', () => {
   it('has no figure kind, connector, metric or lint rule the app lacks', () => {
     expect(fieldLintRuleIds()).toEqual(expect.arrayContaining(toolkit.lintRules))
     expect(connectorIds()).toEqual(expect.arrayContaining(toolkit.connectors))
+    expect(toolkit.connectors).toEqual([
+      'hdx-operational-presence',
+      'hdx-key-figures',
+      'reliefweb-reports',
+      'awsd-incident-counts',
+    ])
     expect(unknownCapabilityWarnings(toolkit)).toEqual([])
   })
 })

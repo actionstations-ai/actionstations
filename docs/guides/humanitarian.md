@@ -23,15 +23,17 @@ Turn it on in the scenario's **Toolkits** tab (see [Toolkits](toolkits.md)). The
 
 ## Data you can bring in
 
-Two sources can seed a scenario with real structure. Neither needs a key.
+Four sources can seed a scenario with real structure and baselines. None needs a key.
 
 - The Humanitarian Data Exchange works without setup: the app identifies itself with its own name and help@actionstations.ai. You can enter your own application name and contact in **Settings** instead.
 - ReliefWeb only answers application names it has approved. It stays off until you enter an approved name in **Settings**, and until then the app uses sample data.
 
-- **Operational presence (3W) by country** from the Humanitarian Data Exchange: which organizations report work in which sector and admin area. The licence of the source dataset is read when you fetch and kept with the data; data under a licence that does not allow redistribution stays in your scenario and is left out of exported packs.
+- **Operational presence (3W) by country** from the Humanitarian Data Exchange: which organizations report work in which sector and admin area.
+- **Key figures by country** from the Humanitarian Data Exchange, for the year your scenario starts in: people in need, targeted and reached by sector from the response plan, refugees and asylum seekers the country hosts (with their main countries of origin), the latest count of internally displaced people, and the appeal's requirements and funding. A series of the same figures over ten years comes with them. These are the figures OCHA's key figures pages show, from the same sources.
 - **ReliefWeb report titles** for a country and period, for a timeline. Only titles, dates, sources and links are kept.
+- **Aid worker security incident counts** from the Aid Worker Security Database, for one country (two-letter code) or worldwide, for the ten years up to your scenario: major incidents per year, aid workers killed, wounded, kidnapped and detained, national and international staff, and the most common means and context of attack. Only these counts are kept; incident details, places and names are never stored. The latest incidents are provisional, and the summary says how many are not yet verified.
 
-You see an estimate of the size before you agree, and the app sends nothing about your plans to either service.
+For the Humanitarian Data Exchange sources, the licence of each source dataset is read when you fetch and kept with the data; data under a licence that does not allow redistribution stays in your scenario and is left out of exported packs. You see an estimate of the size before you agree, and the app sends nothing about your plans to any of these services.
 
 ## Simulated data
 
