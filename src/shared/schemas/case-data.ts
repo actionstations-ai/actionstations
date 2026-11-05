@@ -73,13 +73,13 @@ export const CaseFileName = z
   .refine((n) => !n.includes('..'), 'Invalid case file name')
 export const CASE_FILE_EXTENSIONS = ['json', 'geojson', 'png', 'webp', 'txt', 'md'] as const
 
-export const RasterFrame = z.object({
+export const CaseRasterFrame = z.object({
   t: IsoDateTime,
   file: CaseFileName,
   /** west, south, east, north of the image (georeference). */
   bounds: z.tuple([z.number(), z.number(), z.number(), z.number()]),
 })
-export type RasterFrame = z.infer<typeof RasterFrame>
+export type CaseRasterFrame = z.infer<typeof CaseRasterFrame>
 
 export const CaseDataset = z.object({
   id: SafeId,
@@ -90,7 +90,7 @@ export const CaseDataset = z.object({
   area: CaseArea.optional(),
   /** series, features, text and reports: the data file. Rasters list frames instead. */
   file: CaseFileName.optional(),
-  frames: z.array(RasterFrame).max(2000).optional(),
+  frames: z.array(CaseRasterFrame).max(2000).optional(),
   unit: text(40).optional(),
   bytes: z.number().int().nonnegative().default(0),
 })
