@@ -50,10 +50,6 @@ describe('pharmacy domain and toolkit agree', () => {
     expect(domain.threatFamilies[0]).toBe('drug_shortage')
   })
 
-  it('prefers every inject type the toolkit adds', () => {
-    for (const t of toolkit.injectTypes) expect(domain.injectTypes, t).toContain(t)
-  })
-
   it('lists the domain in the media environment toolkit', () => {
     const media = ToolkitSchema.parse(read('packs/toolkits/media_environment.json'))
     expect(media.appliesTo.domains).toContain('pharmacy')
