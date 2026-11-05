@@ -60,6 +60,8 @@ const BY_WHAT: Record<What, string[]> = {
   drills: ['drills:'],
   /** micro-drills/ or micro-drill-runs/ changed (#437). */
   'micro-drills': ['microdrills:'],
+  /** case-studies/ or case-study-runs/ changed (spec 0452). */
+  'case-studies': ['casestudy:'],
 }
 
 const SCENARIO_WORK = [...new Set(BY_WHAT.injects.concat(BY_WHAT.scenario))]
