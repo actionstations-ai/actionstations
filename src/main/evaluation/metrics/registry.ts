@@ -9,9 +9,14 @@ import type {
   ModeledSeries,
 } from '@shared/schemas/metrics'
 import { AppError } from '../../lib/errors'
+import { corrections } from './corrections'
 import { decisionTiming } from './decision-timing'
+import { holdingStatementTime } from './holding-statement-time'
 import { messageConsistency, type FactStatement, type KeyFact } from './message-consistency'
+import { reporterHandling } from './reporter-handling'
+import { statementAccuracy, type StatementCheck } from './statement-accuracy'
 import { thresholdTiming } from './threshold-timing'
+import { verification } from './verification'
 
 /** Everything any metric may read; a metric uses the part it needs. */
 export interface MetricInputBag {
@@ -20,9 +25,20 @@ export interface MetricInputBag {
   series?: ModeledSeries[]
   facts?: KeyFact[]
   statements?: FactStatement[]
+  /** Statement claims checked against the fact sheet (media environment). */
+  checks?: StatementCheck[]
 }
 
-export const METRIC_IDS = ['decision_timing', 'threshold_timing', 'message_consistency'] as const
+export const METRIC_IDS = [
+  'decision_timing',
+  'threshold_timing',
+  'message_consistency',
+  'holding_statement_time',
+  'statement_accuracy',
+  'corrections',
+  'reporter_handling',
+  'verification',
+] as const
 export type MetricId = (typeof METRIC_IDS)[number]
 
 export const isMetricId = (id: string): id is MetricId =>
@@ -49,6 +65,31 @@ function compute(ref: MetricRef & { id: MetricId }, bag: MetricInputBag) {
       return messageConsistency.compute(
         { facts: bag.facts ?? [], statements: bag.statements ?? [] },
         messageConsistency.configSchema.parse(ref.config),
+      )
+    case 'holding_statement_time':
+      return holdingStatementTime.compute(
+        { events: bag.events ?? [], decisions: bag.decisions ?? [] },
+        holdingStatementTime.configSchema.parse(ref.config),
+      )
+    case 'statement_accuracy':
+      return statementAccuracy.compute(
+        { checks: bag.checks ?? [] },
+        statementAccuracy.configSchema.parse(ref.config),
+      )
+    case 'corrections':
+      return corrections.compute(
+        { events: bag.events ?? [], decisions: bag.decisions ?? [] },
+        corrections.configSchema.parse(ref.config),
+      )
+    case 'reporter_handling':
+      return reporterHandling.compute(
+        { events: bag.events ?? [], decisions: bag.decisions ?? [] },
+        reporterHandling.configSchema.parse(ref.config),
+      )
+    case 'verification':
+      return verification.compute(
+        { events: bag.events ?? [], decisions: bag.decisions ?? [] },
+        verification.configSchema.parse(ref.config),
       )
   }
 }
