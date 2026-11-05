@@ -20,3 +20,9 @@ The framework document states the exercises, their objectives, participants and 
 - Another program (an accreditation body, a grant) is a toolkit with tags, not new code.
 - If CDC publishes the data element list, the table columns can follow it without a format change.
 - Applying a tag's suggested objectives to the scenario is a separate action not built here; the suggestions are shown for the designer to adopt.
+
+## Amendment (2026-11-05, #842)
+
+- **Tag objectives.** Generation now appends a tag's objectives to the scenario after the objectives step (the prompt is told so it does not restate them; a classroom make-up with fixed objectives is left alone), and the exercise details have a button that adds them. Lead words before a colon become the objective's name; names stay unique because the evaluation guide step matches objectives by name.
+- **Tag capabilities in the AAR.** A tag's optional `capabilityFramework` names the `mappings` framework its `capabilities` use. The AAR then adds a table per tag mapping each program capability (by its number) to the Core Capabilities the toolkits map it to, with the rating each received.
+- **Toolkit critical tasks in the evaluation guides.** The eeg prompt lists the toolkits' critical tasks per Core Capability as reference data. Tasks still need a plan citation, so a field task reaches a guide only where a plan section supports it; nothing is added without one.

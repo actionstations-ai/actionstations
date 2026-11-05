@@ -299,7 +299,12 @@ export function ConductDetailsEditor(props: PartEditorProps) {
       <ScheduleFields c={c} update={update} />
       <DirectorFields c={c} update={update} />
       <SiteFields c={c} update={update} />
-      <ProgramTagFields projectPath={props.projectPath} c={c} update={update} />
+      <ProgramTagFields
+        projectPath={props.projectPath}
+        scenarioId={props.scenario.id}
+        c={c}
+        update={update}
+      />
       <PrepFields
         c={c}
         update={update}

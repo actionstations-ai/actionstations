@@ -59,11 +59,19 @@ Two public CDC data sets can set a scenario in real history: **wastewater viral 
 
 Real line lists are not public, so none is fetched or implied. When a replayed scenario needs individual cases, the app draws simulated cases so that each week holds exactly the real count, and marks them simulated. The levels use the definition CDC publishes with the data, shown beside it. Notifiable disease counts are provisional and revised by CDC later; each week is shown as published, and a week CDC marks unavailable or not reportable is left out rather than counted as zero.
 
+## Evaluation guides and PHEP capabilities
+
+The toolkit names critical tasks for four Core Capabilities: Public Health, Healthcare, and Emergency Medical Services; Situational Assessment; Public Information and Warning; and Operational Coordination. Each is mapped to the PHEP capabilities it covers (for example 8, 9, 11, 12 and 13 for the first). When the evaluation guides are written, these tasks go to the model with the plan sections, and it uses a task where one of your plans supports it, in your plan's words and citing that section. A task your plans do not support is left out, so the guides still check what your procedures say. You can edit, lock or add tasks in the Evaluation tab as usual.
+
 ## Tagging the exercise with a PHEP exercise
 
 Public health agencies funded under the CDC PHEP cooperative agreement follow its 2024-2028 Exercise Framework. In **Exercise details**, under **Program exercise**, tick the exercise your tabletop is: for example Biological Incident 100, or Capstone 100. The screen shows the framework's suggested objectives and participants and the date by which improvement plan data is due (90 days after the exercise).
 
+To bring the framework's objectives into the scenario, choose **Add to scenario objectives** under the suggestions. Each one is named by its lead words ("Capability 8", "Laboratory") and an objective the scenario already has is not added again. When you generate a scenario that carries the tag, the app adds them for you after the objectives step and tells the model not to restate them, so the evaluation guides and the After-Action Report cover them like any other objective.
+
 The After-Action Report then adds a table under the improvement plan that names the program exercise and the date of the framework text on every row. You enter that information in CDC's own system; this app submits nothing to CDC. The framework text is dated April 2024, and the cooperative agreement runs to June 30, 2029, so check CDC's current guidance before you rely on a requirement. The framework does not publish the exact improvement plan data elements, so the table uses the standard improvement plan columns and does not claim to match CDC's template.
+
+For an exercise that names PHEP capabilities (Biological Incident 100 and 200, Capstone 100 and the Critical Contacts Drill), a second table lists each PHEP capability with the Core Capabilities it maps to and the rating each received in the report. A Core Capability the exercise did not evaluate says so, and one awaiting your confirmation shows "Rating pending".
 
 ## Limits of simulated data
 

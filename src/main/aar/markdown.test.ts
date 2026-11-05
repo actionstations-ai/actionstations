@@ -362,6 +362,37 @@ describe('program exercise tags (#842, spec 0457 FR-14)', () => {
     )
   })
 
+  it('maps the program capabilities to the Core Capabilities with the rating each received', () => {
+    const mapped = {
+      ...tag,
+      capabilities: [
+        'Capability 3: Emergency Operations Coordination',
+        'Capability 4: Information',
+      ],
+      capabilityFramework: 'CDC PHEP capabilities (2018)',
+      capabilityMap: [
+        {
+          label: 'Capability 3: Emergency Operations Coordination',
+          coreCapabilities: ['operational_coordination', 'situational_assessment'],
+        },
+        { label: 'Capability 4: Information', coreCapabilities: [] },
+      ],
+    }
+    const ip = sectionBody(renderAarMarkdown(aar, scenario, 'NCRAA', {}, [], [mapped]), 'ip')!
+    expect(ip).toContain('#### Program capabilities: PHEP Biological Incident 200')
+    expect(ip).toContain('| Program capability | Core Capability | Rating |')
+    expect(ip).toContain(
+      '| Capability 3: Emergency Operations Coordination | Operational Coordination | Performed with Some Challenges (S) |',
+    )
+    expect(ip).toContain(
+      '| Capability 3: Emergency Operations Coordination | Situational Assessment | Not evaluated in this exercise |',
+    )
+    expect(ip).toContain('| Capability 4: Information | No Core Capability mapped |  |')
+    // A tag without a map adds no capability table.
+    const plain = sectionBody(renderAarMarkdown(aar, scenario, 'NCRAA', {}, [], [tag]), 'ip')!
+    expect(plain).not.toContain('Program capabilities')
+  })
+
   it('leaves the improvement plan as it was without tags, and refreshes the table in place', () => {
     const plain = renderAarMarkdown(aar, scenario, 'NCRAA')
     expect(sectionBody(plain, 'ip')).not.toContain('submits nothing')

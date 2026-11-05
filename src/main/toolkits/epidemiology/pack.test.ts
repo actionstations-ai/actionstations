@@ -4,7 +4,13 @@ import { existsSync, readFileSync } from 'node:fs'
 import { join } from 'node:path'
 import Ajv2020 from 'ajv/dist/2020.js'
 import { describe, expect, it } from 'vitest'
-import { toolkitKnowledge, ToolkitSchema } from '@shared/toolkits'
+import {
+  fieldTaskGroups,
+  tagCapabilityRows,
+  tagObjectiveDrafts,
+  toolkitKnowledge,
+  ToolkitSchema,
+} from '@shared/toolkits'
 import { TemplateMeta } from '../../render/templates'
 import { runMetric } from '../../evaluation/metrics/registry'
 import { registerEpidemiologyMetrics } from './register'
@@ -143,6 +149,42 @@ describe('epidemiology evaluation data (PHEP, April 2024)', () => {
     expect(phep('public_information_and_warning')).toEqual(['4'])
     expect(phep('operational_coordination')).toEqual(['3'])
     for (const c of toolkit.capabilities) expect(c.criticalTasks.length).toBeGreaterThanOrEqual(3)
+  })
+
+  it('maps every PHEP capability a tag names to a Core Capability through the toolkit', () => {
+    for (const t of toolkit.exerciseTags) {
+      if (!t.capabilities.length) continue
+      expect(t.capabilityFramework, t.id).toBe(toolkit.capabilities[0]!.mappings[0]!.framework)
+      for (const row of tagCapabilityRows(t, [toolkit]))
+        expect(row.coreCapabilities.length, `${t.id}: ${row.label}`).toBeGreaterThan(0)
+    }
+    const bi200 = tagCapabilityRows(tag('phep_biological_incident_200'), [toolkit])
+    expect(bi200[0]!.coreCapabilities).toEqual([
+      'public_health_healthcare_and_emergency_medical_services',
+    ])
+    const contacts = tagCapabilityRows(tag('phep_critical_contacts'), [toolkit])
+    expect(contacts[0]!.coreCapabilities).toEqual([
+      'public_health_healthcare_and_emergency_medical_services',
+      'situational_assessment',
+    ])
+  })
+
+  it('gives the evaluation guides its critical tasks for the four Core Capabilities', () => {
+    const groups = fieldTaskGroups([toolkit])
+    expect(groups.map((g) => g.capability)).toEqual([
+      'public_health_healthcare_and_emergency_medical_services',
+      'situational_assessment',
+      'public_information_and_warning',
+      'operational_coordination',
+    ])
+    expect(groups[0]!.tasks.join(' ')).toMatch(/case definition/)
+    expect(groups[0]!.mappings).toBe('CDC PHEP capabilities (2018) 8, 9, 11, 12, 13')
+  })
+
+  it('names each suggested objective so the scenario can take it', () => {
+    const drafts = tagObjectiveDrafts(tag('phep_biological_incident_200'))
+    expect(drafts.map((d) => d.name)).toEqual(['Capability 8', 'Capability 9'])
+    expect(drafts[0]!.text).toMatch(/^Determine MCM dispensing/)
   })
 })
 

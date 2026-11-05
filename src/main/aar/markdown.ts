@@ -25,7 +25,7 @@ import {
 import type { Citation } from '@shared/schemas/common'
 import type { MetricResult } from '@shared/schemas/metrics'
 import { conductOf, type ConductDetails, type Scenario } from '@shared/schemas/scenario'
-import { programTagMarkdown, type ImprovementRow, type ToolkitExerciseTag } from '@shared/toolkits'
+import { programTagMarkdown, type ImprovementRow, type ProgramTag } from '@shared/toolkits'
 import { mdCell, mdTable } from '../export/escape'
 
 export const AAR_SECTIONS = [
@@ -299,10 +299,20 @@ const IP_HEADER = [
   'Completion Date',
 ]
 
+/** Core Capability id → its confirmed rating as the document prints it, or "Rating pending". */
+function capabilityRatings(aar: Aar): Record<string, string> {
+  return Object.fromEntries(
+    aar.capabilities.map((c) => [
+      c.capability,
+      c.rating ? `${CAPABILITY_RATING_LABELS[c.rating]} (${c.rating})` : 'Rating pending',
+    ]),
+  )
+}
+
 export function improvementPlanSection(
   aar: Aar,
   s: Scenario,
-  programTags: readonly ToolkitExerciseTag[] = [],
+  programTags: readonly ProgramTag[] = [],
 ): string {
   const rows = improvementPlanRows(aar).map(({ capability, finding, action }) => [
     capabilityName(capability),
@@ -337,6 +347,7 @@ export function improvementPlanSection(
       programTagMarkdown(programTags, plain, aar.exerciseDate, {
         participants: aar.participatingOrganizations,
         exerciseTitle: s.title,
+        ratings: capabilityRatings(aar),
       }),
     )
   }
@@ -438,7 +449,7 @@ export function renderAarMarkdown(
   orgName: string,
   prose: Partial<Record<AarSection, string>> = {},
   metrics: readonly MetricResult[] = [],
-  programTags: readonly ToolkitExerciseTag[] = [],
+  programTags: readonly ProgramTag[] = [],
 ): string {
   const parts = [
     header(aar, s, orgName),
@@ -489,7 +500,7 @@ export function refreshAarMarkdown(
   s: Scenario,
   orgName: string,
   metrics: readonly MetricResult[] = [],
-  programTags: readonly ToolkitExerciseTag[] = [],
+  programTags: readonly ProgramTag[] = [],
 ): string {
   if (!markdown.trim() || !sectionBody(markdown, 'ratings')) {
     const prose: Partial<Record<AarSection, string>> = {}
