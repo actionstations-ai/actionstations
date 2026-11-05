@@ -1,0 +1,340 @@
+{
+  "variant": "time_series",
+  "fields": {
+    "heading": "Clearwater Reservoir inflow and level",
+    "source": "Operations historian, exercise minutes 0 to 120",
+    "figures": {
+      "main": {
+        "kind": "time_series",
+        "data": {
+          "title": "Inflow and level, first two hours",
+          "xLabel": "Minutes since STARTEX",
+          "yLabel": "Inflow",
+          "unit": "m3/s",
+          "series": [
+            {
+              "name": "Inflow",
+              "points": [
+                {
+                  "x": 0,
+                  "y": 12
+                },
+                {
+                  "x": 20,
+                  "y": 14
+                },
+                {
+                  "x": 40,
+                  "y": 19
+                },
+                {
+                  "x": 60,
+                  "y": 31
+                },
+                {
+                  "x": 80,
+                  "y": 44
+                },
+                {
+                  "x": 100,
+                  "y": 52
+                },
+                {
+                  "x": 120,
+                  "y": 49
+                }
+              ]
+            },
+            {
+              "name": "Spillway release",
+              "points": [
+                {
+                  "x": 0,
+                  "y": 10
+                },
+                {
+                  "x": 20,
+                  "y": 10
+                },
+                {
+                  "x": 40,
+                  "y": 12
+                },
+                {
+                  "x": 60,
+                  "y": 18
+                },
+                {
+                  "x": 80,
+                  "y": 30
+                },
+                {
+                  "x": 100,
+                  "y": 38
+                },
+                {
+                  "x": 120,
+                  "y": 41
+                }
+              ]
+            }
+          ],
+          "thresholds": [
+            {
+              "value": 40,
+              "label": "Notify downstream"
+            }
+          ],
+          "annotations": [
+            {
+              "x": 55,
+              "label": "Rain band reaches the upper catchment"
+            },
+            {
+              "x": 85,
+              "label": "Spillway gate 2 opened to 60 percent"
+            }
+          ]
+        }
+      }
+    }
+  },
+  "variants": {
+    "bar": {
+      "fields": {
+        "heading": "Calls to the county dispatch center by hour",
+        "source": "CAD export, exercise day 1",
+        "figures": {
+          "main": {
+            "kind": "bar",
+            "data": {
+              "title": "Calls received",
+              "yLabel": "Calls",
+              "bars": [
+                {
+                  "label": "06:00",
+                  "value": 14
+                },
+                {
+                  "label": "07:00",
+                  "value": 22
+                },
+                {
+                  "label": "08:00",
+                  "value": 61
+                },
+                {
+                  "label": "09:00",
+                  "value": 118
+                },
+                {
+                  "label": "10:00",
+                  "value": 87
+                },
+                {
+                  "label": "11:00",
+                  "value": 40
+                }
+              ]
+            }
+          }
+        }
+      }
+    },
+    "stacked_bar": {
+      "fields": {
+        "heading": "Open work orders by district and priority",
+        "source": "Maintenance system, 14:00",
+        "figures": {
+          "main": {
+            "kind": "stacked_bar",
+            "data": {
+              "title": "Open work orders",
+              "yLabel": "Orders",
+              "categories": ["North", "Central", "Harbor", "East side"],
+              "series": [
+                {
+                  "name": "Emergency",
+                  "values": [3, 9, 14, 2]
+                },
+                {
+                  "name": "Urgent",
+                  "values": [8, 12, 10, 6]
+                },
+                {
+                  "name": "Routine",
+                  "values": [21, 17, 9, 15]
+                }
+              ]
+            }
+          }
+        }
+      }
+    },
+    "gauge": {
+      "fields": {
+        "heading": "Chlorine residual at the Eastgate treatment plant",
+        "source": "Online analyzer CL-204",
+        "figures": {
+          "main": {
+            "kind": "gauge",
+            "data": {
+              "title": "Chlorine residual",
+              "label": "Free chlorine",
+              "value": 0.42,
+              "min": 0,
+              "max": 4,
+              "unit": "mg/L",
+              "bands": [
+                {
+                  "from": 0,
+                  "to": 0.5,
+                  "label": "Below minimum",
+                  "state": "down"
+                },
+                {
+                  "from": 0.5,
+                  "to": 1,
+                  "label": "Low",
+                  "state": "degraded"
+                },
+                {
+                  "from": 1,
+                  "to": 3,
+                  "label": "Target range",
+                  "state": "ok"
+                },
+                {
+                  "from": 3,
+                  "to": 4,
+                  "label": "High",
+                  "state": "degraded"
+                }
+              ]
+            }
+          }
+        }
+      }
+    },
+    "status_board": {
+      "fields": {
+        "heading": "Control room systems",
+        "source": "Shift supervisor, 15:20",
+        "figures": {
+          "main": {
+            "kind": "status_board",
+            "data": {
+              "title": "Systems status",
+              "asOf": "15:20",
+              "rows": [
+                {
+                  "name": "SCADA historian",
+                  "state": "degraded",
+                  "detail": "Trends stop at 14:52; live values still update",
+                  "updated": "15:18"
+                },
+                {
+                  "name": "Telemetry radio, Ridge",
+                  "state": "ok",
+                  "detail": "All eleven remote sites reporting",
+                  "updated": "15:20"
+                },
+                {
+                  "name": "Pump station 4 controller",
+                  "state": "down",
+                  "detail": "No response since 14:47; crew on the way",
+                  "updated": "15:12"
+                },
+                {
+                  "name": "Customer outage portal",
+                  "state": "unknown",
+                  "detail": "Not yet checked",
+                  "updated": ""
+                }
+              ]
+            }
+          }
+        }
+      }
+    },
+    "table": {
+      "fields": {
+        "heading": "Shelter occupancy",
+        "source": "Shelter coordinators, 18:00 report",
+        "figures": {
+          "main": {
+            "kind": "table",
+            "data": {
+              "title": "Shelter occupancy at 18:00",
+              "caption": "Capacity counts cots only.",
+              "columns": ["Shelter", "Capacity", "Present", "Pets", "Notes"],
+              "rows": [
+                ["Lincoln Middle School", 220, 187, 12, "Generator running"],
+                ["Harbor Rec Center", 150, 150, 31, "Full; diverting arrivals to Eastgate"],
+                ["Eastgate Church Hall", 80, 22, 0, "Opened 17:30"]
+              ]
+            }
+          }
+        }
+      }
+    },
+    "annotated_timeline": {
+      "fields": {
+        "heading": "Incident timeline, first morning",
+        "source": "Reconstructed from the duty log",
+        "figures": {
+          "main": {
+            "kind": "annotated_timeline",
+            "data": {
+              "title": "What happened when",
+              "xLabel": "Minutes since STARTEX",
+              "lanes": ["Operations", "Public information", "Logistics"],
+              "events": [
+                {
+                  "x": 5,
+                  "lane": "Operations",
+                  "label": "Alarm at pump station 4"
+                },
+                {
+                  "x": 22,
+                  "lane": "Operations",
+                  "label": "Crew dispatched",
+                  "detail": "ETA 40 min"
+                },
+                {
+                  "x": 35,
+                  "lane": "Public information",
+                  "label": "First social post about low pressure"
+                },
+                {
+                  "x": 70,
+                  "lane": "Public information",
+                  "label": "Boil notice drafted"
+                },
+                {
+                  "x": 95,
+                  "lane": "Logistics",
+                  "label": "Bottled water request sent"
+                }
+              ],
+              "spans": [
+                {
+                  "from": 5,
+                  "to": 62,
+                  "lane": "Operations",
+                  "label": "Station 4 offline"
+                },
+                {
+                  "from": 40,
+                  "to": 110,
+                  "lane": "Logistics",
+                  "label": "Tanker staging"
+                }
+              ]
+            }
+          }
+        }
+      }
+    }
+  }
+}

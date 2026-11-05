@@ -92,6 +92,7 @@ export const TYPE_FALLBACKS: Record<string, string[]> = {
   emergency_declaration: ['official_letter', 'press_release', 'memo'],
   reunification_notice: ['incident_alert_notification', 'press_release', 'memo'],
   track_bulletin: ['field_report', 'radio_call', 'memo'],
+  figure: ['status_board', 'field_report', 'memo'],
   msib_cotp_order: ['regulatory_notice', 'official_letter', 'memo'],
   hl7_interface_monitor: ['alarm_summary', 'system_log', 'siem_alert'],
   gcs_telemetry_screen: ['uas_detection_alert', 'system_log', 'error_dialog'],
@@ -202,6 +203,7 @@ export const KEY_FIELDS: Record<string, string> = {
     'jurisdiction, declarationNo, issuedAt, whereas[], declaration, powers[], effective, expires, signer{name,title}',
   reunification_notice:
     'org, site, headline, issuedAt, situation, reunificationSite{name,address}, steps[], bring[], contact',
+  figure: 'heading, source, hideTable, figures{main{kind,data,options}}',
   track_bulletin:
     'railroad, subdivision, number, date, issuedTo, items[{type,limits,restriction}], dispatcher, okTime',
   msib_cotp_order:

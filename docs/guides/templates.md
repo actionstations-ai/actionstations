@@ -102,7 +102,7 @@ The context has these keys (`derived` is empty for most types, see [Derived valu
 | `variant` | The variant being rendered (also available as the `variant-<name>` class on `<body>`).                                                                  |
 | `assets`  | `slot → URL` of AI images for this inject's image slots (empty when there are none).                                                                    |
 
-**Escaping is on.** Field values are untrusted model output, so `{{fields.text}}` is HTML-escaped. Never use triple-stash `{{{ }}}`. The helpers that output markup (`nl2br`, `social`) escape their input first.
+**Escaping is on.** Field values are untrusted model output, so `{{fields.text}}` is HTML-escaped. Never use triple-stash `{{{ }}}` except for figures the app drew (`{{{figures.name}}}`, see [Figures](#figures)). The helpers that output markup (`nl2br`, `social`) escape their input first.
 
 ### Helpers
 
@@ -137,6 +137,42 @@ Players can get an inject in Spanish ([guide](translation-and-accessibility.md))
 ### Derived values
 
 Some strings must be exact and are computed, not written: a SAME header, VTEC and UGC lines, CAP times and XML, an ICAO Q line. Templates cannot compute them, so the app does it in main before rendering (`src/main/render/derived/`, one module per inject type) and gives the template a fifth context key, `derived`, beside `fields` (it never replaces a field). Write `{{derived.sameHeader}}`, not your own formatting. Types with derived values: `cap_alert`, `eas_broadcast`, `nws_weather_warning`, `notam`. A pack template of the same type gets the same data; packs cannot add derivation code.
+
+### Figures
+
+A figure is an image the app draws from data: a chart, an instrument display, a board. It is exact (the numbers are drawn, never generated as pixels) and reproducible, so it follows project rule 5 like any template. Figure kinds live in `src/main/render/figures/<kind>.ts` as pure functions `(data, options) => { svg, summary, table? }`; the registry (`registry.ts`) is keyed by kind id. Packs and toolkits supply data, never kinds ([ADR-0075](../adr/0075-figures.md)).
+
+Generic kinds, with the `data` each takes (zod schemas sit beside each kind and reject bad data with the path):
+
+| Kind                 | Data                                                                                                                            |
+| -------------------- | ------------------------------------------------------------------------------------------------------------------------------- |
+| `time_series`        | `series[{name, points[{x, y}]}]` (up to 6), `thresholds[{value, label}]`, `annotations[{x, label}]`, `unit`, `xLabel`, `yLabel` |
+| `bar`                | `bars[{label, value}]`, `unit`, `yLabel`                                                                                        |
+| `stacked_bar`        | `categories[]`, `series[{name, values[]}]`, `unit`, `yLabel`                                                                    |
+| `gauge`              | `label`, `value`, `min`, `max`, `unit`, `bands[{from, to, label, state}]` (`state`: `ok`, `degraded`, `down`, `unknown`)        |
+| `status_board`       | `rows[{name, state, detail, updated}]`, `asOf`                                                                                  |
+| `table`              | `columns[]`, `rows[][]` of text, numbers or null, `caption`                                                                     |
+| `annotated_timeline` | `lanes[]`, `events[{x, label, detail, lane}]`, `spans[{from, to, label, lane}]`, `xLabel`                                       |
+
+Every kind also takes `title`. `x` is a number (minutes from STARTEX, hours) or an ISO 8601 date-time string, never a mix. `options` can set `width` and `height` in CSS pixels (200 to 2000); kinds that size to their content (`status_board`, `table`, `annotated_timeline`, `gauge`) use the width and work out the height.
+
+**In an inject's fields.** Put each figure under `fields.figures.<name>` as `{ kind, data, options? }`. The `figure` inject type (a heading, the figure `main`, its data table) renders a figure as the whole inject: PNG for decks, and a PDF page because it is a paper type, so it embeds in packets like any template. Its seven preview variants are one sample per kind, which is how the goldens cover every kind; the variant does not change how your data is drawn.
+
+**In a template.** The context gains `figures`, computed in main beside `derived` (`computeFigures` in `figures/index.ts`):
+
+```hbs
+<figure class='radar'>
+  {{{figures.radar}}}
+  <figcaption class='sr-only'>{{figures.radar.summary}}</figcaption>
+</figure>
+{{{figures.radar.tableHtml}}}
+```
+
+`{{{figures.name}}}` prints the SVG (triple braces: it is markup the app made, not field text). `figures.name.summary` is the plain-text summary, `figures.name.table` the rows and `figures.name.tableHtml` the same table as an accessible HTML table (`.fig-table`, styled in `_shared/base.css`; `.sr-only` hides text from the page but not from a screen reader). A bad spec fails the render with a `VALIDATION` error naming `figures.<name>`; nothing half drawn is shipped.
+
+**Accessibility (FR-5 of the toolkits spec).** Each SVG has `role="img"` with the title and the summary as its accessible name and description. The summary names the kind, the key values, the peaks, the threshold crossings and the notes, so it can stand in for the picture: it is the alt text, and the text rendition of a `figure` inject (`export/text-rendition.ts`) is the heading plus each figure's summary, which is what the screen-reader packet reads. Charts carry a data table beside them. Color is never the only cue: series differ by dash and marker, stacked segments and gauge bands by fill pattern, states by symbol and word. Colors come from the design tokens (`figures/theme.ts` mirrors them; the window has no CSS variables).
+
+**Adding a kind.** Write `figures/<kind>.ts` exporting a `FigureKind` (`kind`, a zod `schema`, a pure `render`), call `registerFigureKind` from the module that owns it (the generic kinds register in `figures/index.ts`), add a sample to a preview variant and a unit test that checks the SVG structure, the summary text and the table. Rendering must be deterministic: no random ids, dates or locale-dependent formatting (use the helpers in `figures/svg.ts`). Add a golden by listing a variant in `meta.json` and running `UPDATE_GOLDENS=1 pnpm test:templates`.
 
 ### Styles, fonts and the sandbox
 
@@ -287,7 +323,7 @@ The example below adds a hypothetical `notam` (Notice to Air Missions) type.
 - [ ] `meta.json` `type` equals the folder name and the taxonomy id.
 - [ ] Every schema property has a `description`; key properties have `examples`.
 - [ ] `preview.json` validates and reads like a real inject from a real exercise.
-- [ ] No triple-stash, no scripts, no remote URLs, only the bundled fonts.
+- [ ] No triple-stash (except `{{{figures.name}}}`), no scripts, no remote URLs, only the bundled fonts.
 - [ ] Brand aliases have generic fallbacks; field values override them.
 - [ ] Text that players must read is HTML text, never inside an image slot.
 - [ ] Golden PNG inspected at full size and committed for every variant.
