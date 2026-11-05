@@ -59,7 +59,7 @@
     "epi_curve",
     "epi_contact_network"
   ],
-  "connectors": [],
+  "connectors": ["aphis-hpai"],
   "outsideParties": [
     "USDA APHIS Veterinary Services (area veterinarian in charge, national reference laboratory)",
     "the state animal health office and state veterinarian",
@@ -96,8 +96,517 @@
     }
   ],
   "documents": [],
-  "metrics": [],
-  "decisionForms": [],
+  "metrics": [
+    {
+      "id": "decision_timing",
+      "label": "Time from presumptive positive to quarantine",
+      "config": {
+        "decisionKinds": ["animal_order_quarantine"],
+        "eventKinds": ["presumptive_positive"],
+        "leadWindowMin": 0,
+        "graceWindowMin": 240,
+        "matchArea": false
+      },
+      "groundTruth": "animal-events"
+    },
+    {
+      "id": "decision_timing",
+      "label": "Time from presumptive positive to control area set-up",
+      "config": {
+        "decisionKinds": ["animal_establish_control_area"],
+        "eventKinds": ["presumptive_positive"],
+        "leadWindowMin": 0,
+        "graceWindowMin": 480,
+        "matchArea": false
+      },
+      "groundTruth": "animal-events"
+    },
+    {
+      "id": "animal_depop_timing",
+      "label": "Depopulation within the plan goal of 24 hours",
+      "config": {
+        "goalHours": 24
+      },
+      "groundTruth": "animal-events"
+    },
+    {
+      "id": "animal_surveillance_on_schedule",
+      "label": "Premises sampled by the due date for their designation",
+      "config": {
+        "graceMinutes": 0
+      },
+      "groundTruth": "animal-events"
+    },
+    {
+      "id": "animal_continuity",
+      "label": "Permits decided within the service target and unaffected premises able to move",
+      "config": {
+        "serviceTargetHours": 24
+      },
+      "groundTruth": "animal-events"
+    },
+    {
+      "id": "animal_disposal_backlog",
+      "label": "Disposal sites chosen without a backlog",
+      "config": {
+        "maxWaitHours": 12
+      },
+      "groundTruth": "animal-depop-events"
+    },
+    {
+      "id": "message_consistency",
+      "label": "Message consistency across state, industry and public health",
+      "config": {
+        "numericTolerance": 0,
+        "partners": ["state", "industry", "public health"]
+      }
+    }
+  ],
+  "decisionForms": [
+    {
+      "id": "animal_order_quarantine",
+      "label": "Order a quarantine or hold on a premises",
+      "description": "Quarantine an infected or suspect premises, or hold movement from it.",
+      "fields": [
+        {
+          "id": "premises",
+          "label": "Premises (code)",
+          "kind": "text",
+          "required": true
+        },
+        {
+          "id": "kind",
+          "label": "Kind of order",
+          "kind": "choice",
+          "choices": ["Quarantine", "Hold order"],
+          "required": true
+        },
+        {
+          "id": "basis",
+          "label": "Basis (result, clinical signs, trace)",
+          "kind": "text",
+          "required": true
+        },
+        {
+          "id": "ordered_at",
+          "label": "Ordered at",
+          "kind": "time",
+          "required": true
+        }
+      ]
+    },
+    {
+      "id": "animal_establish_control_area",
+      "label": "Establish a control area",
+      "description": "Draw or edit the control area and surveillance zone and record the basis for their size.",
+      "fields": [
+        {
+          "id": "area",
+          "label": "Control area and zones",
+          "kind": "area",
+          "required": true,
+          "draw": true
+        },
+        {
+          "id": "infected_zone_km",
+          "label": "Infected zone (km from the infected premises)",
+          "kind": "number",
+          "required": true
+        },
+        {
+          "id": "control_area_km",
+          "label": "Control area (km from the closest infected premises)",
+          "kind": "number",
+          "required": true
+        },
+        {
+          "id": "surveillance_zone_km",
+          "label": "Surveillance zone width (km)",
+          "kind": "number",
+          "required": true
+        },
+        {
+          "id": "basis",
+          "label": "Basis (plan minimum or the reason for a different size)",
+          "kind": "text",
+          "required": true
+        },
+        {
+          "id": "effective_at",
+          "label": "Effective from",
+          "kind": "time",
+          "required": true
+        }
+      ]
+    },
+    {
+      "id": "animal_change_designation",
+      "label": "Change a premises designation",
+      "description": "Record a new designation and why; only an at-risk premises becomes monitored.",
+      "fields": [
+        {
+          "id": "premises",
+          "label": "Premises (code)",
+          "kind": "text",
+          "required": true
+        },
+        {
+          "id": "from",
+          "label": "From",
+          "kind": "choice",
+          "choices": [
+            "Infected",
+            "Contact",
+            "Suspect",
+            "At-risk",
+            "Monitored",
+            "Free",
+            "Vaccinated"
+          ],
+          "required": true
+        },
+        {
+          "id": "to",
+          "label": "To",
+          "kind": "choice",
+          "choices": [
+            "Infected",
+            "Contact",
+            "Suspect",
+            "At-risk",
+            "Monitored",
+            "Free",
+            "Vaccinated"
+          ],
+          "required": true
+        },
+        {
+          "id": "basis",
+          "label": "Basis (test result, trace, zone change)",
+          "kind": "text",
+          "required": true
+        },
+        {
+          "id": "changed_at",
+          "label": "Changed at",
+          "kind": "time",
+          "required": true
+        }
+      ]
+    },
+    {
+      "id": "animal_movement_permit_decision",
+      "label": "Issue or deny a movement permit",
+      "description": "Decide a permit request with the testing and conditions.",
+      "fields": [
+        {
+          "id": "premises",
+          "label": "Origin premises (code)",
+          "kind": "text",
+          "required": true
+        },
+        {
+          "id": "species",
+          "label": "Species or product and amount",
+          "kind": "text",
+          "required": true
+        },
+        {
+          "id": "destination",
+          "label": "Destination",
+          "kind": "text",
+          "required": true
+        },
+        {
+          "id": "testing",
+          "label": "Testing and inspection required",
+          "kind": "text",
+          "required": false
+        },
+        {
+          "id": "decision",
+          "label": "Decision",
+          "kind": "choice",
+          "choices": ["Issue", "Issue with conditions", "Deny"],
+          "required": true
+        },
+        {
+          "id": "conditions",
+          "label": "Conditions or reason",
+          "kind": "text",
+          "required": false
+        },
+        {
+          "id": "decided_at",
+          "label": "Decided at",
+          "kind": "time",
+          "required": true
+        }
+      ]
+    },
+    {
+      "id": "animal_set_depopulation_order",
+      "label": "Set the depopulation order and method",
+      "description": "Choose the sequence and method for infected premises, with the priority reasoning.",
+      "fields": [
+        {
+          "id": "premises",
+          "label": "Premises (code)",
+          "kind": "text",
+          "required": true
+        },
+        {
+          "id": "method",
+          "label": "Method",
+          "kind": "choice",
+          "choices": [
+            "Water-based foam",
+            "Ventilation shutdown",
+            "Gas",
+            "Other method per the state plan"
+          ],
+          "required": true
+        },
+        {
+          "id": "priority",
+          "label": "Order in the sequence (1 first)",
+          "kind": "number",
+          "required": true
+        },
+        {
+          "id": "reason",
+          "label": "Why this order (potential for spread, crew access)",
+          "kind": "text",
+          "required": true
+        },
+        {
+          "id": "start_at",
+          "label": "Start at",
+          "kind": "time",
+          "required": true
+        }
+      ]
+    },
+    {
+      "id": "animal_choose_disposal_site",
+      "label": "Choose a disposal site",
+      "description": "Pick the site and method for the animals from one premises, after checking capacity and travel.",
+      "fields": [
+        {
+          "id": "premises",
+          "label": "Premises (code)",
+          "kind": "text",
+          "required": true
+        },
+        {
+          "id": "site",
+          "label": "Disposal site",
+          "kind": "text",
+          "required": true
+        },
+        {
+          "id": "method",
+          "label": "Disposal method",
+          "kind": "choice",
+          "choices": [
+            "On-site composting",
+            "On-site burial",
+            "Landfill",
+            "Rendering",
+            "Incineration"
+          ],
+          "required": true
+        },
+        {
+          "id": "capacity_check",
+          "label": "Capacity and travel time checked",
+          "kind": "text",
+          "required": false
+        },
+        {
+          "id": "chosen_at",
+          "label": "Chosen at",
+          "kind": "time",
+          "required": true
+        }
+      ]
+    },
+    {
+      "id": "animal_request_federal_resources",
+      "label": "Request federal resources",
+      "description": "Ask the federal veterinary service for support through the state animal health official.",
+      "fields": [
+        {
+          "id": "resource",
+          "label": "Resource",
+          "kind": "choice",
+          "choices": [
+            "Incident management team",
+            "Depopulation crews",
+            "Laboratory support",
+            "Vaccine or vaccination teams",
+            "Epidemiology staff"
+          ],
+          "required": true
+        },
+        {
+          "id": "reason",
+          "label": "Why state capacity is not enough",
+          "kind": "text",
+          "required": true
+        },
+        {
+          "id": "requested_at",
+          "label": "Requested at",
+          "kind": "time",
+          "required": true
+        }
+      ]
+    },
+    {
+      "id": "animal_request_emergency_declaration",
+      "label": "Request an emergency declaration",
+      "description": "Ask for a state emergency declaration to support the response.",
+      "fields": [
+        {
+          "id": "scope",
+          "label": "Scope",
+          "kind": "choice",
+          "choices": ["Counties in the control area", "Whole state"],
+          "required": true
+        },
+        {
+          "id": "basis",
+          "label": "Basis",
+          "kind": "text",
+          "required": true
+        },
+        {
+          "id": "requested_at",
+          "label": "Requested at",
+          "kind": "time",
+          "required": true
+        }
+      ]
+    },
+    {
+      "id": "animal_release_control_area",
+      "label": "Release a control area",
+      "description": "Release or shrink a control area when the plan conditions are met.",
+      "fields": [
+        {
+          "id": "area",
+          "label": "Area released",
+          "kind": "area",
+          "required": true,
+          "draw": true
+        },
+        {
+          "id": "conditions_met",
+          "label": "Conditions met (cleaning, negative sampling)",
+          "kind": "text",
+          "required": true
+        },
+        {
+          "id": "remaining",
+          "label": "Restrictions that remain",
+          "kind": "text",
+          "required": false
+        },
+        {
+          "id": "released_at",
+          "label": "Released at",
+          "kind": "time",
+          "required": true
+        }
+      ]
+    },
+    {
+      "id": "animal_publish_notice",
+      "label": "Publish a producer or consumer notice",
+      "description": "Send a notice and record who it is for and what it says.",
+      "fields": [
+        {
+          "id": "audience",
+          "label": "Audience",
+          "kind": "choice",
+          "choices": [
+            "Producers",
+            "Consumers",
+            "Fair exhibitors",
+            "Trading partners",
+            "Public health"
+          ],
+          "required": true
+        },
+        {
+          "id": "summary",
+          "label": "What the notice says (numbers and distances as in the order)",
+          "kind": "text",
+          "required": true
+        },
+        {
+          "id": "published_at",
+          "label": "Published at",
+          "kind": "time",
+          "required": true
+        }
+      ]
+    },
+    {
+      "id": "animal_record_depopulation",
+      "label": "Record depopulation complete",
+      "description": "A controller records the time depopulation finished on a premises.",
+      "fields": [
+        {
+          "id": "premises",
+          "label": "Premises (code)",
+          "kind": "text",
+          "required": true
+        },
+        {
+          "id": "completed_at",
+          "label": "Completed at",
+          "kind": "time",
+          "required": true
+        }
+      ]
+    },
+    {
+      "id": "animal_record_sample",
+      "label": "Record a sample taken",
+      "description": "A controller records that a premises was sampled.",
+      "fields": [
+        {
+          "id": "premises",
+          "label": "Premises (code)",
+          "kind": "text",
+          "required": true
+        },
+        {
+          "id": "designation",
+          "label": "Designation at sampling",
+          "kind": "choice",
+          "choices": [
+            "Infected",
+            "Contact",
+            "Suspect",
+            "At-risk",
+            "Monitored",
+            "Free",
+            "Vaccinated"
+          ],
+          "required": true
+        },
+        {
+          "id": "collected_at",
+          "label": "Collected at",
+          "kind": "time",
+          "required": true
+        }
+      ]
+    }
+  ],
   "knowledge": {
     "glossary": [
       {
@@ -145,6 +654,48 @@
     "animal_sampling_interval",
     "animal_lab_sequence"
   ],
-  "capabilities": [],
+  "capabilities": [
+    {
+      "coreCapability": "operational_coordination",
+      "criticalTasks": [
+        "Set up a unified command with the federal veterinary service and state the objectives for each operational period.",
+        "Quarantine premises and set the control area and surveillance zone from the plan minimums, recording the basis for any change.",
+        "Request federal resources and an emergency declaration with a stated reason.",
+        "Keep one designation for each premises across the tracing, laboratory and permit teams."
+      ]
+    },
+    {
+      "coreCapability": "public_information_and_warning",
+      "criticalTasks": [
+        "Issue producer, exhibitor and consumer notices with the same counts, distances and times as the control area order.",
+        "Answer the food safety question for consumers in the first message.",
+        "Correct a wrong zone or a wrong farm named in a post."
+      ]
+    },
+    {
+      "coreCapability": "situational_assessment",
+      "criticalTasks": [
+        "Keep the premises list, designations and the curve of confirmed premises in agreement.",
+        "Track laboratory turnaround and the presumptive and confirmed results separately.",
+        "Report sampling due and sampled by designation."
+      ]
+    },
+    {
+      "coreCapability": "supply_chain_integrity_and_security",
+      "criticalTasks": [
+        "Decide movement permits within the service target, with testing and conditions.",
+        "Keep unaffected producers moving product under permit and explain each denial.",
+        "Tell trading partners the zone and dates."
+      ]
+    },
+    {
+      "coreCapability": "environmental_response_health_and_safety",
+      "criticalTasks": [
+        "Depopulate infected premises against the 24 hour goal, ordering premises by potential for spread when crews are limited.",
+        "Choose a disposal site and method with capacity and travel checked.",
+        "Monitor the health of workers exposed to infected animals."
+      ]
+    }
+  ],
   "exerciseTags": []
 }
