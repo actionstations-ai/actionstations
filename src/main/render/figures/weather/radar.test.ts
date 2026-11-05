@@ -39,7 +39,7 @@ describe('radar figure', () => {
     expect(r.summary).toMatch(
       /Strongest inbound velocity is \d+ kt at \d{3} degrees at \d+ km; strongest outbound is \d+ kt/,
     )
-    expect(r.summary).toMatch(/adjacent inbound and outbound pair/)
+    expect(r.summary).toMatch(/Velocity changes by \d+ kt|No velocity change of 40 kt/)
     expect(r.svg).toContain('Radial velocity (kt)')
   })
 

@@ -252,62 +252,72 @@ function reflectivityStats(d: RadarData, toDisplay: (v: number) => number): Stat
   return { rows, sentences }
 }
 
-/** The strongest adjacent inbound/outbound pair within 6 km, by speed difference. */
+const describeVelocity = (kt: number): string =>
+  kt < 0 ? `${Math.abs(Math.round(kt))} kt inbound` : `${Math.round(kt)} kt outbound`
+
+/** Strongest inbound and outbound velocities, and the largest change in velocity across a 6 km window. */
 function velocityStats(d: RadarData, toDisplay: (v: number) => number): Stats {
   const f = d.field
   let inbound: Gate | undefined
   let outbound: Gate | undefined
   const cell = new Map<string, Gate>()
   for (const g of gates(d, toDisplay)) {
-    if (!inbound || g.value < inbound.value) inbound = g
-    if (!outbound || g.value > outbound.value) outbound = g
+    if (g.value < 0 && (!inbound || g.value < inbound.value)) inbound = g
+    if (g.value > 0 && (!outbound || g.value > outbound.value)) outbound = g
     cell.set(`${g.r}:${g.g}`, g)
   }
   const order = f.azimuthsDeg.map((_, i) => i).sort((a, b) => f.azimuthsDeg[a]! - f.azimuthsDeg[b]!)
-  let couplet: { a: Gate; b: Gate; delta: number; width: number } | undefined
-  for (let i = 0; i + 1 < order.length; i++) {
-    const ra = order[i]!
-    const rb = order[i + 1]!
-    if (f.azimuthsDeg[rb]! - f.azimuthsDeg[ra]! > 2) continue
-    for (let g = 0; g < f.gates; g++) {
-      const a = cell.get(`${ra}:${g}`)
-      const b = cell.get(`${rb}:${g}`)
-      if (!a || !b || a.value * b.value >= 0) continue
-      const width = a.km * (((f.azimuthsDeg[rb]! - f.azimuthsDeg[ra]!) * Math.PI) / 180)
-      const delta = Math.abs(a.value - b.value)
-      if (width <= 6 && (!couplet || delta > couplet.delta)) couplet = { a, b, delta, width }
+  let best: { a: Gate; b: Gate; delta: number; width: number } | undefined
+  for (let i = 0; i < order.length; i++) {
+    for (let k = 1; k <= 14; k++) {
+      const ra = order[i]!
+      const rb = order[(i + k) % order.length]!
+      const dAz = (f.azimuthsDeg[rb]! - f.azimuthsDeg[ra]! + 360) % 360
+      if (dAz > 6) break
+      for (let g = 0; g < f.gates; g++) {
+        const a = cell.get(`${ra}:${g}`)
+        const b = cell.get(`${rb}:${g}`)
+        if (!a || !b) continue
+        const width = a.km * ((dAz * Math.PI) / 180)
+        if (width > 6) continue
+        const delta = Math.abs(a.value - b.value)
+        if (!best || delta > best.delta) best = { a, b, delta, width }
+      }
     }
   }
   const rows: string[][] = []
   const sentences: string[] = []
-  if (!inbound || !outbound) {
+  if (!inbound && !outbound) {
     rows.push(['Radial velocity', 'no data'])
     sentences.push('No velocity data are in view.')
     return { rows, sentences }
   }
   const at = (g: Gate) => `${bearing(g.az)} degrees at ${Math.round(g.km)} km`
   rows.push(
-    ['Strongest inbound', `${Math.abs(Math.round(inbound.value))} kt, ${at(inbound)}`],
-    ['Strongest outbound', `${Math.round(outbound.value)} kt, ${at(outbound)}`],
+    [
+      'Strongest inbound',
+      inbound ? `${Math.abs(Math.round(inbound.value))} kt, ${at(inbound)}` : 'none',
+    ],
+    ['Strongest outbound', outbound ? `${Math.round(outbound.value)} kt, ${at(outbound)}` : 'none'],
   )
   sentences.push(
-    `Strongest inbound velocity is ${Math.abs(Math.round(inbound.value))} kt at ${at(inbound)}; strongest outbound is ${Math.round(outbound.value)} kt at ${at(outbound)}.`,
+    `${inbound ? `Strongest inbound velocity is ${Math.abs(Math.round(inbound.value))} kt at ${at(inbound)}` : 'No gate has inbound velocity'}; ${outbound ? `strongest outbound is ${Math.round(outbound.value)} kt at ${at(outbound)}` : 'none is outbound'}.`,
   )
-  if (couplet && couplet.delta >= 40) {
-    const c = couplet
-    const inb = c.a.value < 0 ? c.a : c.b
-    const out = c.a.value < 0 ? c.b : c.a
-    const where = `${bearing(c.a.az)} degrees at ${Math.round(c.a.km)} km (${placeOf(d.site, c.a.az, c.a.km)})`
+  if (best && best.delta >= 40) {
+    const where = `${bearing(best.a.az)} degrees at ${Math.round(best.a.km)} km (${placeOf(d.site, best.a.az, best.a.km)})`
     rows.push([
-      'Strongest adjacent inbound/outbound pair',
-      `${Math.round(c.delta)} kt difference over ${c.width.toFixed(1)} km, ${where}`,
+      'Strongest velocity change across 6 km',
+      `${Math.round(best.delta)} kt, from ${describeVelocity(best.a.value)} to ${describeVelocity(best.b.value)} over ${best.width.toFixed(1)} km, ${where}`,
     ])
     sentences.push(
-      `The strongest adjacent inbound and outbound pair is ${Math.abs(Math.round(inb.value))} kt inbound next to ${Math.round(out.value)} kt outbound, ${c.width.toFixed(1)} km apart, at ${where}.`,
+      `Velocity changes by ${Math.round(best.delta)} kt, from ${describeVelocity(best.a.value)} to ${describeVelocity(best.b.value)}, over ${best.width.toFixed(1)} km at ${where}; a change this strong over so short a distance can mean rotation.`,
     )
   } else {
-    rows.push(['Strongest adjacent inbound/outbound pair', 'under 40 kt difference'])
-    sentences.push('No adjacent inbound and outbound pair differs by 40 kt or more.')
+    rows.push([
+      'Strongest velocity change across 6 km',
+      best ? `${Math.round(best.delta)} kt` : 'none',
+    ])
+    sentences.push('No velocity change of 40 kt or more occurs across a 6 km window.')
   }
   return { rows, sentences }
 }
