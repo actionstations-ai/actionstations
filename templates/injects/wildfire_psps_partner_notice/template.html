@@ -1,0 +1,45 @@
+<article class="wf">
+  <p class="marking">{{default fields.marking "EXERCISE · EXERCISE · EXERCISE"}}</p>
+  <header>
+    <p class="agency">{{fields.utility}} · Public safety partner notice</p>
+    <h1>{{fields.headline}}</h1>
+    <p class="meta">
+      Issued {{fields.issuedAt}} · {{fields.window.hoursAhead}} hours before the window opens
+    </p>
+  </header>
+  <p class="band">
+    <strong>Forecast window:</strong> {{fields.window.start}} to {{fields.window.end}}
+  </p>
+  <h2>Basis</h2>
+  <p>{{fields.basis}}</p>
+  <table>
+    <thead>
+      <tr>
+        <th scope="col">Circuit</th>
+        <th scope="col">Area</th>
+        <th scope="col">Customers</th>
+        <th scope="col">Medical baseline</th>
+        <th scope="col">Critical facilities</th>
+        <th scope="col">Status</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each fields.circuits}}
+      <tr>
+        <th scope="row">{{circuit}}</th>
+        <td>{{area}}</td>
+        <td>{{customers}}</td>
+        <td>{{medicalBaseline}}</td>
+        <td>{{critical}}</td>
+        <td class="st">{{status}}</td>
+      </tr>
+      {{/each}}
+    </tbody>
+  </table>
+  <h2>Requested of partners</h2>
+  <p>{{fields.partnerActions}}</p>
+  <footer>
+    <p>{{fields.nextCall}}</p>
+    <p>{{fields.contact}}</p>
+  </footer>
+</article>

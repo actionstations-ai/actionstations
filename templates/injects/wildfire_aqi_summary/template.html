@@ -1,0 +1,37 @@
+<article class="wf">
+  <p class="marking">{{default fields.marking "EXERCISE · EXERCISE · EXERCISE"}}</p>
+  <header>
+    <p class="agency">{{fields.agency}}</p>
+    <h1>{{fields.title}}</h1>
+    <p class="meta">Issued {{fields.issuedAt}}</p>
+  </header>
+  <table>
+    <thead>
+      <tr>
+        <th scope="col">Area</th>
+        <th scope="col">Type</th>
+        <th scope="col">For</th>
+        <th scope="col">AQI</th>
+        <th scope="col">Category</th>
+        <th scope="col">PM2.5</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each fields.rows}}
+      <tr>
+        <th scope="row">{{area}}</th>
+        <td>{{kind}}</td>
+        <td>{{valid}}</td>
+        <td>{{aqi}}</td>
+        <td
+          class="aq {{#if (eq category 'Good')}}aq-good{{else if (eq category 'Moderate')}}aq-moderate{{else if (eq category 'Unhealthy for Sensitive Groups')}}aq-usg{{else if (eq category 'Unhealthy')}}aq-unhealthy{{else if (eq category 'Very Unhealthy')}}aq-very{{else}}aq-hazardous{{/if}}"
+        >
+          {{category}}
+        </td>
+        <td>{{#if pm25}}{{pm25}} ug/m3{{/if}}</td>
+      </tr>
+      {{/each}}
+    </tbody>
+  </table>
+  <p class="exercise">{{fields.note}}</p>
+</article>

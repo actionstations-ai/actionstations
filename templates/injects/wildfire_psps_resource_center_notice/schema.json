@@ -1,0 +1,78 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Power shutoff community resource center notice",
+  "description": "A notice of community resource centers open during a power shutoff: each site with hours, status (Open, Opening or Closed) and services, what to bring and how to get a ride.",
+  "type": "object",
+  "required": ["utility", "issuedAt", "headline", "centers"],
+  "additionalProperties": false,
+  "properties": {
+    "marking": {
+      "type": "string",
+      "description": "Exercise marking line.",
+      "examples": ["EXERCISE · EXERCISE · EXERCISE"]
+    },
+    "utility": {
+      "type": "string",
+      "description": "Utility (fictional).",
+      "examples": ["Pinecrest Valley Electric"]
+    },
+    "issuedAt": {
+      "type": "string",
+      "description": "Issue time.",
+      "examples": ["4:00 PM PDT Sat Oct 10, 2026"]
+    },
+    "headline": {
+      "type": "string",
+      "description": "Headline.",
+      "examples": ["Community resource centers open Sunday during the power shutoff"]
+    },
+    "centers": {
+      "type": "array",
+      "description": "Community resource centers. Name sites by building, not street address.",
+      "maxItems": 8,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["name", "hours", "status"],
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Site.",
+            "examples": ["Calloway High School gym"]
+          },
+          "hours": {
+            "type": "string",
+            "description": "Hours.",
+            "examples": ["8 AM to 8 PM Sunday"]
+          },
+          "status": {
+            "type": "string",
+            "description": "Status.",
+            "examples": ["Open"],
+            "enum": ["Open", "Opening", "Closed"]
+          },
+          "services": {
+            "type": "string",
+            "description": "Services.",
+            "examples": ["Phone and medical device charging, water, restrooms, information"]
+          }
+        }
+      }
+    },
+    "bring": {
+      "type": "string",
+      "description": "What to bring.",
+      "examples": ["Phones, chargers, medical devices and medications."]
+    },
+    "accessibility": {
+      "type": "string",
+      "description": "Accessibility and transport.",
+      "examples": ["Wheelchair accessible; call 555-0100 for a ride."]
+    },
+    "contact": {
+      "type": "string",
+      "description": "Information line.",
+      "examples": ["Pinecrest Valley Electric 555-0100"]
+    }
+  }
+}

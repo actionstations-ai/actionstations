@@ -71,6 +71,28 @@ describe('lint rules', () => {
     expect(issues).toHaveLength(1)
     expect(issues[0]?.path).toBe('fields.containmentPct')
   })
+  it('flags an AQI category that does not match the value, in a row and in a notice', () => {
+    const rows = fieldLintIssues('wildfire_aqi_summary', {
+      rows: [{ area: 'A', kind: 'Forecast', valid: 'Mon', aqi: 168, category: 'Moderate' }],
+    })
+    expect(rows.map((i) => i.path)).toEqual(['fields.rows[0].category'])
+    expect(
+      fieldLintIssues('wildfire_school_air_notice', { aqi: 168, category: 'Unhealthy' }),
+    ).toEqual([])
+    expect(
+      fieldLintIssues('wildfire_school_air_notice', { aqi: 168, category: 'Hazardous' }),
+    ).toHaveLength(1)
+  })
+  it('flags a partner notice outside its window and impossible medical baseline counts', () => {
+    expect(
+      fieldLintIssues('wildfire_psps_partner_notice', { window: { hoursAhead: 20 } }),
+    ).toHaveLength(1)
+    expect(
+      fieldLintIssues('wildfire_psps_post_event_report', {
+        medicalBaseline: { customers: 10, attempted: 12, reached: 5 },
+      }),
+    ).toHaveLength(1)
+  })
   it('leaves other inject types alone', () => {
     expect(fieldLintIssues('memo', { containmentPct: 5, outlook: '90 percent contained' })).toEqual(
       [],

@@ -1,0 +1,25 @@
+{
+  "variant": "call",
+  "fields": {
+    "utility": "Pinecrest Valley Electric",
+    "audience": "Medical baseline customers on circuit C-114",
+    "timing": "24-48 hours before",
+    "subject": "Possible power shutoff Saturday evening",
+    "script": "This is Pinecrest Valley Electric. Because of strong wind and dry conditions we may turn off power to your home starting 6 PM Saturday. If you rely on power for a medical need, say so now and we will connect you to help. Press 1 to confirm you got this message.",
+    "confirm": "Press 1, or reply YES to confirm.",
+    "unreachable": "Retry twice at 30-minute intervals, then record the attempt and send a field visit request.",
+    "callback": "555-0100"
+  },
+  "variants": {
+    "text": {
+      "fields": {
+        "script": "Pinecrest Valley Electric: power may be shut off from 6 PM Sat to reduce wildfire risk. Medical needs? Call 555-0100. Reply YES to confirm."
+      }
+    },
+    "email": {
+      "fields": {
+        "script": "We may turn off power to your area starting at 6 PM Saturday because of strong wind and very dry conditions. Charge phones and medical devices, plan for several days without power and visit the community resource center at Calloway High School. If you rely on power for a medical need, call 555-0100."
+      }
+    }
+  }
+}

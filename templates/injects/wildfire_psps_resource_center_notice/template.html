@@ -1,0 +1,40 @@
+<article class="wf">
+  <p class="marking">{{default fields.marking "EXERCISE · EXERCISE · EXERCISE"}}</p>
+  <header>
+    <p class="agency">{{fields.utility}}</p>
+    <h1>{{fields.headline}}</h1>
+    <p class="meta">Issued {{fields.issuedAt}}</p>
+  </header>
+  <table>
+    <thead>
+      <tr>
+        <th scope="col">Site</th>
+        <th scope="col">Hours</th>
+        <th scope="col">Status</th>
+        <th scope="col">Services</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each fields.centers}}
+      <tr>
+        <th scope="row">{{name}}</th>
+        <td>{{hours}}</td>
+        <td
+          class="st {{#if (eq status 'Open')}}st-clear{{else if (eq status 'Closed')}}st-order{{else}}st-warning{{/if}}"
+        >
+          <span aria-hidden="true"
+            >{{#if (eq status 'Open')}}●{{else if (eq status 'Closed')}}■{{else}}▲{{/if}}</span
+          >
+          {{status}}
+        </td>
+        <td>{{services}}</td>
+      </tr>
+      {{/each}}
+    </tbody>
+  </table>
+  <h2>What to bring</h2>
+  <p>{{fields.bring}}</p>
+  <h2>Access</h2>
+  <p>{{fields.accessibility}}</p>
+  <footer><p>{{fields.contact}}</p></footer>
+</article>

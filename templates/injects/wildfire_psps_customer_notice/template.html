@@ -1,0 +1,38 @@
+<article class="wf">
+  <p class="marking">{{default fields.marking "EXERCISE · EXERCISE · EXERCISE"}}</p>
+  <header>
+    <p class="agency">{{fields.utility}}</p>
+    <h1>{{fields.headline}}</h1>
+    <p class="meta">{{fields.timing}} · Issued {{fields.issuedAt}}</p>
+  </header>
+  <p class="callout">{{fields.message}}</p>
+  <table>
+    <tbody>
+      <tr>
+        <th scope="row">Affected</th>
+        <td>{{fields.circuits}}</td>
+      </tr>
+      {{#if fields.powerOff}}
+      <tr>
+        <th scope="row">Power off</th>
+        <td>{{fields.powerOff}}</td>
+      </tr>
+      {{/if}} {{#if fields.powerOn}}
+      <tr>
+        <th scope="row">Power back</th>
+        <td>{{fields.powerOn}}</td>
+      </tr>
+      {{/if}}
+    </tbody>
+  </table>
+  <h2>What to do</h2>
+  <p>{{fields.whatToDo}}</p>
+  {{#if fields.medicalNote}}
+  <h2>Medical needs</h2>
+  <p>{{fields.medicalNote}}</p>
+  {{/if}} {{#if fields.resourceCenter}}
+  <h2>Community resource center</h2>
+  <p>{{fields.resourceCenter}}</p>
+  {{/if}}
+  <footer><p>{{fields.contact}}</p></footer>
+</article>
