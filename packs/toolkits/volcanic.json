@@ -1,0 +1,163 @@
+{
+  "id": "volcanic",
+  "name": "Volcanoes and ash",
+  "description": "Volcano unrest, eruption, ash and lahar products and decisions: Volcano Activity Notices, notices for aviation, alert level and aviation color code badges, ash advisories and lahar warnings. For volcano observatories, emergency managers near volcanoes, schools, airports and utilities.",
+  "appliesTo": {
+    "keywords": [
+      "volcano",
+      "volcanic",
+      "eruption",
+      "ash cloud",
+      "ashfall",
+      "lahar",
+      "alert level",
+      "color code",
+      "vona",
+      "pyroclastic",
+      "volcanic ash",
+      "tephra"
+    ],
+    "domains": [
+      "geoscience",
+      "airport",
+      "k12_schools",
+      "campus",
+      "energy_utility",
+      "water_utility",
+      "water_dam",
+      "municipal",
+      "healthcare",
+      "freight_rail",
+      "emergency_communications"
+    ]
+  },
+  "injectTypes": [
+    "volcano_activity_notice",
+    "vona",
+    "volcano_alert_badge",
+    "volcanic_ash_advisory",
+    "lahar_warning"
+  ],
+  "figureKinds": [
+    "monitoring_series",
+    "ash_advisory_map",
+    "lahar_travel_map",
+    "epicenter_map",
+    "time_series"
+  ],
+  "connectors": ["volcano-notices", "comcat"],
+  "outsideParties": [
+    "the volcano observatory",
+    "the Volcanic Ash Advisory Center",
+    "aviation weather (SIGMET) and the FAA",
+    "county emergency management and the sheriff",
+    "school districts in the lahar hazard zone",
+    "water and power utilities downwind and downstream"
+  ],
+  "advisorRoles": [
+    {
+      "key": "volcano_scientist",
+      "name": "Volcano Monitoring Scientist (advisor)",
+      "abbreviation": "MON",
+      "team": "Advisors",
+      "description": "Explains monitoring data and the alert level to the players."
+    }
+  ],
+  "documents": [],
+  "metrics": [
+    {
+      "id": "threshold_timing",
+      "label": "Lahar evacuation before arrival",
+      "config": { "actionKind": "order_evacuation", "threshold": 1, "clearanceMin": 20 }
+    },
+    {
+      "id": "decision_timing",
+      "label": "Alert level change against eruption onset",
+      "config": { "leadWindowMin": 360, "graceWindowMin": 0, "matchArea": false }
+    },
+    {
+      "id": "message_consistency",
+      "label": "Agreement on alert level and color code across partners",
+      "config": {}
+    }
+  ],
+  "decisionForms": [
+    {
+      "id": "change_alert_level",
+      "label": "Change the volcano alert level and aviation color code",
+      "description": "Raise or lower the alert level; the aviation color code changes with it.",
+      "fields": [
+        {
+          "id": "level",
+          "label": "Alert level",
+          "kind": "choice",
+          "required": true,
+          "choices": ["Normal", "Advisory", "Watch", "Warning"]
+        },
+        {
+          "id": "color",
+          "label": "Aviation color code",
+          "kind": "choice",
+          "required": true,
+          "choices": ["Green", "Yellow", "Orange", "Red"]
+        },
+        { "id": "time", "label": "Time", "kind": "time", "required": true }
+      ]
+    },
+    {
+      "id": "order_evacuation",
+      "label": "Order an evacuation",
+      "description": "Order the evacuation of a hazard zone (lahar, ashfall, pyroclastic flow).",
+      "fields": [
+        { "id": "zone", "label": "Zone", "kind": "area", "required": true },
+        { "id": "time", "label": "Time ordered", "kind": "time", "required": true }
+      ]
+    },
+    {
+      "id": "issue_ash_statement",
+      "label": "Issue an aviation or public ash statement",
+      "description": "A notice for aviation or the public about an ash cloud.",
+      "fields": [
+        { "id": "audience", "label": "Audience", "kind": "text" },
+        { "id": "key_message", "label": "Key message", "kind": "text", "required": true },
+        { "id": "time", "label": "Time", "kind": "time", "required": true }
+      ]
+    }
+  ],
+  "knowledge": {
+    "glossary": [
+      {
+        "term": "Volcano alert level",
+        "definition": "Ground-based hazard level: NORMAL, ADVISORY, WATCH, WARNING."
+      },
+      {
+        "term": "Aviation color code",
+        "definition": "GREEN, YELLOW, ORANGE, RED (or UNASSIGNED) for ash hazard to aircraft. Pairs: NORMAL/GREEN, ADVISORY/YELLOW, WATCH/ORANGE, WARNING/RED."
+      },
+      {
+        "term": "VONA",
+        "definition": "Volcano Observatory Notice for Aviation: a fixed-line message with the color code, source, summary and cloud height."
+      },
+      {
+        "term": "VAA / VAAC",
+        "definition": "Volcanic Ash Advisory from a Volcanic Ash Advisory Center: observed and forecast ash at +6, +12 and +18 hours. It is the basis for SIGMETs."
+      },
+      {
+        "term": "Lahar",
+        "definition": "A volcanic mudflow down a river valley. It can happen with no eruption and arrive in minutes to hours."
+      }
+    ],
+    "productConventions": [
+      "Always state alert level and color code together, in words. A VONA gives both current and previous color code.",
+      "VONA and VAA lines are uppercase fixed labels with UTC times (YYYYMMDD/HHMMZ). Heights are flight levels or feet.",
+      "A lahar warning gives a travel time per place."
+    ],
+    "realismRules": [
+      "The alert level can go up with no eruption, and down in steps. Observatories do not predict eruption dates.",
+      "An ash advisory comes from the VAAC, not the observatory. Airlines act on SIGMETs and the advisory, not on the observatory's alert level alone.",
+      "Ash heights above sea level and flight levels differ; do not mix feet and meters in one line.",
+      "Lahar evacuation is on foot to high ground, on a timeline set by travel time."
+    ]
+  },
+  "lintRules": ["alert_level_color_pair", "volcano_notice_syntax"]
+}

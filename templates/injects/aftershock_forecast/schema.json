@@ -1,0 +1,91 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Aftershock forecast",
+  "description": "A USGS-style aftershock forecast: the mainshock, then for each time window (day, week, month, year) the chance of at least one aftershock of magnitude 3 or larger, 5 or larger, 6 or larger and 7 or larger, plus the expected number of aftershocks in a range. Chances are probabilities, never predictions of a date; the plain-language note says so.",
+  "type": "object",
+  "required": ["mainshock", "issued", "windows"],
+  "additionalProperties": false,
+  "properties": {
+    "issuer": {
+      "type": "string",
+      "description": "Issuing center",
+      "examples": ["Regional Earthquake Information Center"]
+    },
+    "mainshock": {
+      "type": "string",
+      "description": "Mainshock line",
+      "examples": ["M 6.8 - 14 km SW of Haldane, Westport, 2026-11-05 14:22 UTC"],
+      "x-translate": false
+    },
+    "issued": {
+      "type": "string",
+      "description": "Forecast issue time and version",
+      "examples": ["Issued 2026-11-05 20:00 UTC (version 3)"],
+      "x-translate": false
+    },
+    "windows": {
+      "type": "array",
+      "description": "Forecast windows, shortest first (up to 4)",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["label", "rows"],
+        "properties": {
+          "label": {
+            "type": "string",
+            "description": "Window",
+            "examples": ["Next 1 Week"],
+            "x-translate": false
+          },
+          "start": {
+            "type": "string",
+            "description": "Window start date",
+            "examples": ["Nov 6"],
+            "x-translate": false
+          },
+          "rows": {
+            "type": "array",
+            "description": "One row per minimum magnitude",
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["minMagnitude", "chance"],
+              "properties": {
+                "minMagnitude": {
+                  "type": "number",
+                  "description": "Minimum magnitude",
+                  "examples": [5],
+                  "minimum": 0,
+                  "maximum": 10
+                },
+                "chance": {
+                  "type": "string",
+                  "description": "Chance of at least one",
+                  "examples": ["12%"],
+                  "x-translate": false
+                },
+                "expected": {
+                  "type": "string",
+                  "description": "Expected number, range",
+                  "examples": ["0 to 1"],
+                  "x-translate": false
+                }
+              }
+            },
+            "minItems": 1,
+            "maxItems": 5
+          }
+        }
+      },
+      "minItems": 1,
+      "maxItems": 4
+    },
+    "note": {
+      "type": "string",
+      "description": "Plain-language note on how to read the numbers",
+      "examples": [
+        "These are chances, not predictions. Aftershocks become less frequent with time, and a larger earthquake than the mainshock is possible but unlikely."
+      ]
+    }
+  }
+}

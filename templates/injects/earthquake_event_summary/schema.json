@@ -1,0 +1,116 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Earthquake event summary",
+  "description": "A USGS-style earthquake event page summary: title, magnitude with its type (moment magnitude Mw unless stated), origin time in UTC, location, depth, status (automatic or reviewed), maximum shaking intensity as a Modified Mercalli number in Roman numerals, felt reports and a tsunami flag. Magnitude and intensity are different scales and are never interchanged.",
+  "type": "object",
+  "required": [
+    "title",
+    "magnitude",
+    "magnitudeType",
+    "timeUtc",
+    "latitude",
+    "longitude",
+    "depthKm",
+    "status"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "issuer": {
+      "type": "string",
+      "description": "Issuing earthquake information center as printed",
+      "examples": ["Regional Earthquake Information Center"]
+    },
+    "eventId": {
+      "type": "string",
+      "description": "Event id",
+      "examples": ["xx2026kpqd"],
+      "x-translate": false
+    },
+    "title": {
+      "type": "string",
+      "description": "Event title: magnitude and nearest place",
+      "examples": ["M 6.8 - 14 km SW of Haldane, Westport"],
+      "x-translate": false
+    },
+    "magnitude": {
+      "type": "number",
+      "description": "Magnitude (moment magnitude Mw unless magnitudeType says otherwise)",
+      "examples": [6.8],
+      "minimum": 0,
+      "maximum": 10
+    },
+    "magnitudeType": {
+      "type": "string",
+      "description": "Magnitude type",
+      "examples": ["Mw"],
+      "enum": ["Mw", "Mww", "Mwr", "ML", "Md", "mb"]
+    },
+    "timeUtc": {
+      "type": "string",
+      "description": "Origin time in UTC",
+      "examples": ["2026-11-05 14:22:07 UTC"],
+      "x-translate": false
+    },
+    "timeLocal": {
+      "type": "string",
+      "description": "Origin time local",
+      "examples": ["2026-11-05 06:22:07 PST"],
+      "x-translate": false
+    },
+    "latitude": {
+      "type": "number",
+      "description": "Latitude in decimal degrees",
+      "examples": [46.82],
+      "minimum": -90,
+      "maximum": 90
+    },
+    "longitude": {
+      "type": "number",
+      "description": "Longitude in decimal degrees",
+      "examples": [-124.1],
+      "minimum": -180,
+      "maximum": 180
+    },
+    "depthKm": {
+      "type": "number",
+      "description": "Depth in kilometers",
+      "examples": [18.4],
+      "minimum": 0,
+      "maximum": 800
+    },
+    "status": {
+      "type": "string",
+      "description": "Review status",
+      "examples": ["automatic"],
+      "enum": ["automatic", "reviewed"]
+    },
+    "maxMmi": {
+      "type": "string",
+      "description": "Maximum estimated shaking intensity (Modified Mercalli, Roman numeral)",
+      "examples": ["VIII"],
+      "enum": ["I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX", "X"]
+    },
+    "feltReports": {
+      "type": "integer",
+      "description": "Number of \"Did You Feel It?\" responses so far",
+      "examples": [5240],
+      "minimum": 0
+    },
+    "tsunamiFlag": {
+      "type": "boolean",
+      "description": "Whether a tsunami evaluation is in progress"
+    },
+    "notes": {
+      "type": "string",
+      "description": "One or two sentences on what is known and what is not yet",
+      "examples": [
+        "The magnitude is preliminary and may change in the next hour as more stations report."
+      ]
+    },
+    "footer": {
+      "type": "string",
+      "description": "Footer line",
+      "examples": ["Exercise product. Not an official earthquake record."]
+    }
+  }
+}

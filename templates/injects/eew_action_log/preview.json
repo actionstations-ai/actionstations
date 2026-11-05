@@ -1,0 +1,38 @@
+{
+  "fields": {
+    "organization": "Riverbend Transit Authority",
+    "alertReceived": "06:22:22",
+    "shakingArrival": "06:22:34",
+    "rows": [
+      {
+        "time": "06:22:23",
+        "system": "Train control, Red Line",
+        "action": "Automatic slowdown to 20 mph",
+        "result": "completed",
+        "delaySec": 1
+      },
+      {
+        "time": "06:22:24",
+        "system": "Station elevators (14)",
+        "action": "Sent to nearest floor, doors opened",
+        "result": "partial",
+        "delaySec": 2
+      },
+      {
+        "time": "06:22:25",
+        "system": "Maintenance yard doors",
+        "action": "Open",
+        "result": "completed",
+        "delaySec": 3
+      },
+      {
+        "time": "06:22:27",
+        "system": "Fuel depot valves",
+        "action": "Close",
+        "result": "failed",
+        "delaySec": 5
+      }
+    ],
+    "note": "The fuel depot valve controller did not acknowledge; a crew is being sent to close it by hand."
+  }
+}

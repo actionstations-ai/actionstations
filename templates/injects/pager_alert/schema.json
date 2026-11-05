@@ -1,0 +1,88 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "PAGER alert",
+  "description": "A USGS PAGER-style estimate of fatalities and economic losses after an earthquake, with an alert level (green, yellow, orange or red) for each, the population exposed at each shaking intensity (Modified Mercalli) and the usual comment. The level is always written as a word.",
+  "type": "object",
+  "required": ["title", "version", "fatalityLevel", "economicLevel", "exposure"],
+  "additionalProperties": false,
+  "properties": {
+    "issuer": {
+      "type": "string",
+      "description": "Issuing center",
+      "examples": ["Regional Earthquake Information Center"]
+    },
+    "title": {
+      "type": "string",
+      "description": "Event title",
+      "examples": ["M 6.8 - 14 km SW of Haldane, Westport"],
+      "x-translate": false
+    },
+    "version": {
+      "type": "string",
+      "description": "PAGER version and time",
+      "examples": ["Version 2 · 2026-11-05 14:41 UTC"],
+      "x-translate": false
+    },
+    "fatalityLevel": {
+      "type": "string",
+      "description": "Estimated fatality alert level",
+      "examples": ["orange"],
+      "enum": ["green", "yellow", "orange", "red"]
+    },
+    "fatalityRange": {
+      "type": "string",
+      "description": "Estimated fatalities range",
+      "examples": ["100 to 1,000"],
+      "x-translate": false
+    },
+    "economicLevel": {
+      "type": "string",
+      "description": "Estimated economic loss alert level",
+      "examples": ["red"],
+      "enum": ["green", "yellow", "orange", "red"]
+    },
+    "economicRange": {
+      "type": "string",
+      "description": "Estimated economic losses range",
+      "examples": ["$1 billion to $10 billion"],
+      "x-translate": false
+    },
+    "exposure": {
+      "type": "array",
+      "description": "Population exposed by Modified Mercalli intensity (up to 10 rows)",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["mmi", "population"],
+        "properties": {
+          "mmi": {
+            "type": "string",
+            "description": "Intensity",
+            "examples": ["VIII"],
+            "enum": ["I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX", "X"]
+          },
+          "population": {
+            "type": "string",
+            "description": "Estimated population",
+            "examples": ["184,000"],
+            "x-translate": false
+          },
+          "shaking": {
+            "type": "string",
+            "description": "Perceived shaking",
+            "examples": ["Severe"]
+          }
+        }
+      },
+      "minItems": 1,
+      "maxItems": 10
+    },
+    "comment": {
+      "type": "string",
+      "description": "The comment on the estimate and its uncertainty",
+      "examples": [
+        "Significant damage is likely and the disaster is potentially widespread. Estimates are based on preliminary shaking and may change."
+      ]
+    }
+  }
+}

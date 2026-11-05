@@ -1,0 +1,39 @@
+<div class="gx">
+  <div class="gx-ex">{{t 'Exercise product'}}</div>
+  <header class="gx-head">
+    <div class="gx-org">
+      {{default fields.issuer "Earthquake information center"}} · {{t 'Aftershock forecast'}}
+    </div>
+    <h1>{{fields.mainshock}}</h1>
+    <div class="gx-sub">{{fields.issued}}</div>
+  </header>
+  <div class="gx-body">
+    {{#each fields.windows}}
+    <div class="gx-h2">{{label}}{{#if start}} ({{start}}){{/if}}</div>
+    <table class="gx-table">
+      <thead>
+        <tr>
+          <th scope="col">{{t 'Magnitude'}}</th>
+          <th scope="col">{{t 'Chance of at least one'}}</th>
+          <th scope="col">{{t 'Expected number'}}</th>
+        </tr>
+      </thead>
+      <tbody>
+        {{#each rows}}
+        <tr>
+          <th scope="row">M {{minMagnitude}} {{t 'or larger'}}</th>
+          <td>{{chance}}</td>
+          <td>{{default expected "–"}}</td>
+        </tr>
+        {{/each}}
+      </tbody>
+    </table>
+    {{/each}} {{#if fields.note}}
+    <p>{{fields.note}}</p>
+    {{/if}}
+  </div>
+  <div class="gx-foot">
+    {{default fields.footer "Exercise product. Not an official earthquake, alert or inspection
+    record."}}
+  </div>
+</div>

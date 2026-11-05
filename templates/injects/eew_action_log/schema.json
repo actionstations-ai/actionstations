@@ -1,0 +1,75 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Early warning automated action log",
+  "description": "A log of the automated actions an organization took on an earthquake early warning alert (trains slowed, elevators sent to the nearest floor and opened, doors opened, valves closed), each with the system, the action, the result and the delay from alert receipt. It lists when the alert arrived and when strong shaking arrived so the reader can see which actions finished in time.",
+  "type": "object",
+  "required": ["organization", "alertReceived", "rows"],
+  "additionalProperties": false,
+  "properties": {
+    "organization": {
+      "type": "string",
+      "description": "Organization whose systems acted",
+      "examples": ["Riverbend Transit Authority"]
+    },
+    "alertReceived": {
+      "type": "string",
+      "description": "Time the alert was received, with seconds",
+      "examples": ["06:22:22"],
+      "x-translate": false
+    },
+    "shakingArrival": {
+      "type": "string",
+      "description": "Time strong shaking arrived at the site, with seconds",
+      "examples": ["06:22:34"],
+      "x-translate": false
+    },
+    "rows": {
+      "type": "array",
+      "description": "Actions in time order (up to 12)",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["time", "system", "action", "result"],
+        "properties": {
+          "time": {
+            "type": "string",
+            "description": "Time with seconds",
+            "examples": ["06:22:23"],
+            "x-translate": false
+          },
+          "system": {
+            "type": "string",
+            "description": "System",
+            "examples": ["Train control, Red Line"]
+          },
+          "action": {
+            "type": "string",
+            "description": "Action taken",
+            "examples": ["Automatic slowdown to 20 mph"]
+          },
+          "result": {
+            "type": "string",
+            "description": "Result",
+            "examples": ["Completed"],
+            "enum": ["completed", "partial", "failed", "not triggered"]
+          },
+          "delaySec": {
+            "type": "number",
+            "description": "Seconds after alert receipt",
+            "examples": [1],
+            "minimum": 0
+          }
+        }
+      },
+      "minItems": 1,
+      "maxItems": 12
+    },
+    "note": {
+      "type": "string",
+      "description": "Operator note",
+      "examples": [
+        "Two trains between stations stopped under the automatic slowdown; no injuries reported yet."
+      ]
+    }
+  }
+}

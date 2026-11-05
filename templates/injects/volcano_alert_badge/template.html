@@ -1,0 +1,21 @@
+<div class="gx gx-bd">
+  <div class="gx-ex">{{t 'Exercise product'}}</div>
+  <header class="gx-head">
+    <div class="gx-org">{{fields.observatory}}</div>
+    <h1>{{fields.volcano}}</h1>
+  </header>
+  <div class="gx-body">
+    <div class="pair">
+      <div class="cc-{{fields.colorCode}}">
+        <small>{{t 'Alert level'}}</small><b>{{fields.alertLevel}}</b>
+      </div>
+      <div class="cc-{{fields.colorCode}}">
+        <small>{{t 'Aviation color code'}}</small><b>{{fields.colorCode}}</b>
+      </div>
+    </div>
+    <div class="gx-sub">{{t 'In effect since'}} {{fields.since}}</div>
+    {{#if fields.statement}}
+    <p>{{fields.statement}}</p>
+    {{/if}}
+  </div>
+</div>

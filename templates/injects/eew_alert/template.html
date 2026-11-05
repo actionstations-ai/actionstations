@@ -1,0 +1,30 @@
+<div class="gx gx-eew">
+  <div class="gx-ex">{{t 'Exercise product'}}</div>
+  <div class="scr">
+    <div class="card">
+      <div class="t">{{default fields.sender "Earthquake Early Warning"}} · {{fields.sentAt}}</div>
+      <h2>{{fields.headline}}</h2>
+      <p>{{fields.message}}</p>
+      {{#if fields.place}}
+      <div class="t only-app">{{t 'For'}}: {{fields.place}}</div>
+      {{/if}}
+      <div class="stat only-app">
+        {{#if fields.magnitude}}
+        <div><b>{{fields.magnitude}}</b><small>{{t 'Estimated magnitude'}}</small></div>
+        {{/if}} {{#if fields.expectedMmi}}
+        <div>
+          <b><span class="mmi mmi-{{fields.expectedMmi}}">{{fields.expectedMmi}}</span></b
+          ><small>{{t 'Expected shaking (MMI)'}}</small>
+        </div>
+        {{/if}}
+        <div>
+          <b>{{#if fields.secondsWarning}}{{fields.secondsWarning}} s{{else}}0 s{{/if}}</b
+          ><small
+            >{{#if fields.secondsWarning}}{{t 'Warning time'}}{{else}}{{t 'Shaking has
+            begun'}}{{/if}}</small
+          >
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

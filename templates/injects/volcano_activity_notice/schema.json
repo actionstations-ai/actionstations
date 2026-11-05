@@ -1,0 +1,87 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Volcano Activity Notice",
+  "description": "A volcano observatory notice describing current activity: the volcano, the volcano alert level together with its aviation color code (NORMAL/GREEN, ADVISORY/YELLOW, WATCH/ORANGE, WARNING/RED), a summary of recent observations, hazards, and when the next update is expected. Both are always written as words.",
+  "type": "object",
+  "required": ["observatory", "volcano", "issued", "alertLevel", "colorCode", "summary"],
+  "additionalProperties": false,
+  "properties": {
+    "observatory": {
+      "type": "string",
+      "description": "Issuing volcano observatory",
+      "examples": ["Cascade Volcano Observatory"]
+    },
+    "volcano": {
+      "type": "string",
+      "description": "Volcano name and location",
+      "examples": ["Mount Hollis, Westport County"],
+      "x-translate": false
+    },
+    "issued": {
+      "type": "string",
+      "description": "Issue time",
+      "examples": ["2026-11-05 09:15 PST (17:15 UTC)"],
+      "x-translate": false
+    },
+    "noticeId": {
+      "type": "string",
+      "description": "Notice number",
+      "examples": ["2026-0147"],
+      "x-translate": false
+    },
+    "alertLevel": {
+      "type": "string",
+      "description": "Volcano alert level (ground-based hazard level)",
+      "examples": ["WATCH"],
+      "enum": ["NORMAL", "ADVISORY", "WATCH", "WARNING", "UNASSIGNED"]
+    },
+    "colorCode": {
+      "type": "string",
+      "description": "Aviation color code. It pairs with the alert level: NORMAL/GREEN, ADVISORY/YELLOW, WATCH/ORANGE, WARNING/RED",
+      "examples": ["ORANGE"],
+      "enum": ["GREEN", "YELLOW", "ORANGE", "RED", "UNASSIGNED"]
+    },
+    "previousLevel": {
+      "type": "string",
+      "description": "Previous level and color code if changed",
+      "examples": ["ADVISORY / YELLOW"],
+      "x-translate": false
+    },
+    "summary": {
+      "type": "string",
+      "description": "Summary of recent activity in plain language",
+      "examples": [
+        "Earthquake activity beneath the volcano has increased over the past 24 hours, with more than 180 small earthquakes located at depths of 3 to 8 km. GPS stations show the summit has risen about 4 cm since Monday."
+      ]
+    },
+    "observations": {
+      "type": "array",
+      "description": "Key observations as short lines (up to 6)",
+      "items": {
+        "type": "string",
+        "description": "One observation",
+        "examples": ["Seismicity: 180 located earthquakes in 24 hours, largest M 2.4."]
+      },
+      "maxItems": 6
+    },
+    "hazards": {
+      "type": "string",
+      "description": "Current hazards",
+      "examples": [
+        "Hazards are confined to the summit area. An eruption could send ash into the air and generate lahars in the river valleys on the volcano's west side."
+      ]
+    },
+    "nextUpdate": {
+      "type": "string",
+      "description": "When the next notice is expected",
+      "examples": ["Daily at 09:00 PST, or sooner if activity changes."],
+      "x-translate": false
+    },
+    "contact": {
+      "type": "string",
+      "description": "Contact",
+      "examples": ["Scientist-in-Charge, 555-0100"],
+      "x-translate": false
+    }
+  }
+}

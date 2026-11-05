@@ -1,0 +1,51 @@
+<div class="gx">
+  <div class="gx-ex">{{t 'Exercise product'}}</div>
+  <header class="gx-head">
+    <div class="gx-org">
+      {{default fields.issuer "Earthquake information center"}} · {{t 'Event'}} {{fields.eventId}}
+    </div>
+    <h1>{{fields.title}}</h1>
+  </header>
+  <div class="gx-body">
+    <div class="row">
+      <div>
+        <div class="big">{{fields.magnitude}}</div>
+        <small>{{fields.magnitudeType}} {{t 'magnitude'}}</small>
+      </div>
+      {{#if fields.maxMmi}}
+      <div>
+        <span class="mmi mmi-{{fields.maxMmi}}">{{fields.maxMmi}}</span
+        ><small>{{t 'Max intensity (MMI)'}}</small>
+      </div>
+      {{/if}}
+      <div>
+        <b>{{t 'Status'}}: {{fields.status}}</b>{{#if fields.tsunamiFlag}}<small
+          >{{t 'Tsunami evaluation in progress'}}</small
+        >{{/if}}
+      </div>
+    </div>
+    <dl class="gx-kv">
+      <dt>{{t 'Time (UTC)'}}</dt>
+      <dd>{{fields.timeUtc}}</dd>
+      {{#if fields.timeLocal}}
+      <dt>{{t 'Time (local)'}}</dt>
+      <dd>{{fields.timeLocal}}</dd>
+      {{/if}}
+      <dt>{{t 'Location'}}</dt>
+      <dd>{{fields.latitude}}, {{fields.longitude}}</dd>
+      <dt>{{t 'Depth'}}</dt>
+      <dd>{{fields.depthKm}} km</dd>
+      {{#if fields.feltReports}}
+      <dt>{{t 'Felt reports'}}</dt>
+      <dd>{{fields.feltReports}}</dd>
+      {{/if}}
+    </dl>
+    {{#if fields.notes}}
+    <p>{{fields.notes}}</p>
+    {{/if}}
+  </div>
+  <div class="gx-foot">
+    {{default fields.footer "Exercise product. Not an official earthquake, alert or inspection
+    record."}}
+  </div>
+</div>

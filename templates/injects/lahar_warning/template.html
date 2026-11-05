@@ -1,0 +1,39 @@
+<div class="gx">
+  <div class="gx-ex">{{t 'Exercise product'}}</div>
+  <header class="gx-head">
+    <div class="gx-org">{{fields.issuer}}</div>
+    <h1>{{t 'Lahar warning'}}</h1>
+    <div class="gx-sub">{{t 'Detected'}} {{fields.detectedAt}}</div>
+  </header>
+  <div class="gx-body">
+    <div class="alarm">{{t 'Lahar warning in effect. Move to high ground now.'}}</div>
+    <p>{{fields.detection}}</p>
+    {{#if fields.sirensActivatedAt}}
+    <p>
+      <b>{{t 'Sirens activated'}}:</b> {{fields.sirensActivatedAt}}{{#if fields.sirenZone}}
+      ({{fields.sirenZone}}){{/if}}
+    </p>
+    {{/if}}
+    <div class="gx-h2">{{t 'Estimated travel time'}}</div>
+    <table class="gx-table">
+      <thead>
+        <tr>
+          <th scope="col">{{t 'Place'}}</th>
+          <th scope="col">{{t 'Minutes after detection'}}</th>
+        </tr>
+      </thead>
+      <tbody>
+        {{#each fields.travel}}
+        <tr>
+          <th scope="row">{{place}}</th>
+          <td>{{minutes}}</td>
+        </tr>
+        {{/each}}
+      </tbody>
+    </table>
+    <p><b>{{t 'What to do'}}:</b> {{fields.action}}</p>
+  </div>
+  <div class="gx-foot">
+    {{default fields.footer "Exercise product. Not an official volcano notice."}}
+  </div>
+</div>
