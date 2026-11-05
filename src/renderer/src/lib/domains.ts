@@ -76,7 +76,14 @@ export const PROFILE_GROUP_IDS: readonly { label: string; ids: readonly string[]
   },
   {
     label: 'Communications, IT and finance',
-    ids: ['telecom', 'data_center_it', 'financial_services', 'crisis_comms', 'ai_incidents'],
+    ids: [
+      'telecom',
+      'data_center_it',
+      'financial_services',
+      'crisis_comms',
+      'ai_incidents',
+      'governance',
+    ],
   },
   { label: 'Any organization', ids: ['generic'] },
 ]
