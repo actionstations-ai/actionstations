@@ -1,0 +1,85 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Claims or e-prescribing outage notice and workaround sheet",
+  "description": "A notice that a pharmacy system (claims switch, e-prescribing network, pharmacy system, cabinets) is down, with its status, impact and the pharmacy workaround: manual claims, cash policy and emergency supply.",
+  "required": ["organization", "system", "status", "startedAt", "impact", "workaround"],
+  "properties": {
+    "marking": {
+      "type": "string",
+      "description": "Exercise marking printed above the form",
+      "examples": ["EXERCISE · FICTIONAL ORGANIZATION AND RECORDS · NOT FOR CLINICAL USE"]
+    },
+    "organization": {
+      "type": "string",
+      "description": "Organization name (fictional)",
+      "examples": ["Birch Lane Pharmacy (fictional)"]
+    },
+    "noticeNumber": {
+      "type": "string",
+      "description": "Notice number",
+      "examples": ["OUT-0412"],
+      "x-translate": false
+    },
+    "system": {
+      "type": "string",
+      "description": "System affected",
+      "examples": ["Claims switch (fictional vendor: ClearPath Claims)"]
+    },
+    "status": {
+      "type": "string",
+      "description": "Status",
+      "enum": ["Investigating", "Identified", "Monitoring", "Resolved"]
+    },
+    "startedAt": {
+      "type": "string",
+      "description": "When it started",
+      "examples": ["11/09/2026 08:40"]
+    },
+    "nextUpdate": {
+      "type": "string",
+      "description": "When the next update is due",
+      "examples": ["11/09/2026 11:30"]
+    },
+    "impact": {
+      "type": "string",
+      "description": "What is affected",
+      "examples": [
+        "Claims reject with a network timeout for all payers. E-prescriptions arrive late or not at all."
+      ]
+    },
+    "workaround": {
+      "type": "array",
+      "description": "Workaround steps (1-10)",
+      "maxItems": 10,
+      "minItems": 1,
+      "items": {
+        "type": "string",
+        "description": "One step",
+        "examples": [
+          "Take the prescription and call the payer help line for a manual authorization."
+        ]
+      }
+    },
+    "cashPolicy": {
+      "type": "string",
+      "description": "Cash and wait policy",
+      "examples": [
+        "Offer the patient the cash price or a wait; do not hold a critical medication for a claim."
+      ]
+    },
+    "emergencySupply": {
+      "type": "string",
+      "description": "Emergency supply policy",
+      "examples": [
+        "Up to a three-day supply for a chronic medication when the pharmacist cannot reach the prescriber; document and notify the district manager."
+      ]
+    },
+    "contact": {
+      "type": "string",
+      "description": "Who to call",
+      "examples": ["District help desk, 555-0142 (fictional)"]
+    }
+  },
+  "type": "object",
+  "additionalProperties": false
+}

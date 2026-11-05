@@ -1,0 +1,194 @@
+/* Pharmacy form (exercise content, fictional organization and records). */
+.page {
+  height: 1056px;
+  padding: 28px 48px 26px;
+  display: flex;
+  flex-direction: column;
+  font-family: 'Roboto', 'Inter', sans-serif;
+  font-size: 12px;
+  line-height: 1.35;
+  color: #1a1a1a;
+}
+.board {
+  padding: 22px 28px 20px;
+  font-family: 'Roboto', 'Inter', sans-serif;
+  font-size: 13px;
+  line-height: 1.35;
+  color: #1a1a1a;
+  background: #ffffff;
+}
+.marking {
+  margin: 0;
+  text-align: center;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  color: #9b1c14;
+}
+.head {
+  margin-top: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 16px;
+  padding-bottom: 8px;
+  border-bottom: 3px solid #14586b;
+}
+.org {
+  font-size: 12px;
+  font-weight: 700;
+  color: #14586b;
+}
+.title {
+  margin: 0;
+  font-family: 'Roboto Condensed', 'Roboto', sans-serif;
+  font-size: 24px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+.sub {
+  font-size: 11px;
+  color: #444;
+  text-align: right;
+}
+.kv {
+  margin-top: 10px;
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
+}
+.kv th,
+.kv td,
+.grid th,
+.grid td {
+  border: 1px solid #9ab0b8;
+  padding: 4px 7px;
+  text-align: left;
+  vertical-align: top;
+}
+.kv th {
+  width: 130px;
+  background: #e8f1f3;
+  font-size: 11px;
+  font-weight: 600;
+  color: #134452;
+}
+.mono {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+}
+h2 {
+  margin: 14px 0 5px;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #14586b;
+}
+.grid {
+  width: 100%;
+  border-collapse: collapse;
+}
+.grid th {
+  background: #14586b;
+  color: #fff;
+  font-size: 11px;
+  font-weight: 600;
+  border-color: #14586b;
+}
+.grid tbody tr:nth-child(even) td {
+  background: #f3f8f9;
+}
+.grid .num {
+  text-align: right;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+}
+.grid tbody th {
+  background: none;
+  color: #1a1a1a;
+  border-color: #9ab0b8;
+  text-align: left;
+}
+.tag {
+  display: inline-block;
+  padding: 1px 6px;
+  border: 1px solid #1a1a1a;
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+.st-critical,
+.st-out,
+.st-fail,
+.st-over-target,
+.st-do-not-use {
+  background: #b3261e !important;
+  border-color: #b3261e;
+  color: #fff;
+}
+.st-limited,
+.st-review,
+.st-investigating,
+.st-identified,
+.st-held {
+  background: #fde7c2 !important;
+  border-color: #8a5a00;
+  color: #3d2800;
+}
+.st-available,
+.st-pass,
+.st-within-target,
+.st-resolved,
+.st-viable {
+  background: #d6efdc !important;
+  border-color: #1d6b34;
+  color: #0f3d1d;
+}
+.st-monitoring {
+  background: #dbe8f5 !important;
+  border-color: #1f4e79;
+  color: #12304d;
+}
+.note {
+  margin: 8px 0 0;
+  padding: 6px 9px;
+  border-left: 4px solid #14586b;
+  background: #edf5f7;
+}
+.warn {
+  margin: 8px 0 0;
+  padding: 6px 9px;
+  border-left: 4px solid #9b1c14;
+  background: #fbeceb;
+  font-weight: 600;
+}
+ol.steps,
+ul.list {
+  margin: 4px 0 0;
+  padding-left: 20px;
+}
+ol.steps li,
+ul.list li {
+  margin: 2px 0;
+}
+.foot {
+  margin-top: auto;
+  padding-top: 8px;
+  border-top: 1px solid #9ab0b8;
+  font-size: 10.5px;
+  color: #444;
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+}
+.board .foot {
+  margin-top: 14px;
+}
+.letter p {
+  margin: 8px 0;
+  font-size: 13px;
+  line-height: 1.5;
+}

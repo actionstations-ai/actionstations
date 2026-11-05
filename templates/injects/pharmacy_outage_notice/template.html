@@ -1,0 +1,53 @@
+<section class="page">
+  <p class="marking">
+    {{default fields.marking "EXERCISE · FICTIONAL ORGANIZATION AND RECORDS · NOT FOR CLINICAL
+    USE"}}
+  </p>
+  <header class="head">
+    <div>
+      <div class="org">{{fields.organization}}</div>
+      <h1 class="title">Pharmacy system outage</h1>
+    </div>
+    <div class="sub">{{fields.noticeNumber}}<br />Started {{fields.startedAt}}</div>
+  </header>
+  <table class="kv">
+    <tr>
+      <th scope="row">System</th>
+      <td>{{fields.system}}</td>
+    </tr>
+    <tr>
+      <th scope="row">Status</th>
+      <td><span class="tag st-{{lower fields.status}}">{{fields.status}}</span></td>
+    </tr>
+    {{#if fields.nextUpdate}}
+    <tr>
+      <th scope="row">Next update</th>
+      <td class="mono">{{fields.nextUpdate}}</td>
+    </tr>
+    {{/if}}
+    <tr>
+      <th scope="row">Impact</th>
+      <td>{{fields.impact}}</td>
+    </tr>
+  </table>
+  <h2>Workaround</h2>
+  <ol class="steps">
+    {{#each fields.workaround}}
+    <li>{{this}}</li>
+    {{/each}}
+  </ol>
+  {{#if fields.cashPolicy}}
+  <h2>Cash and wait</h2>
+  <p class="note">{{fields.cashPolicy}}</p>
+  {{/if}} {{#if fields.emergencySupply}}
+  <h2>Emergency supply</h2>
+  <p class="note">{{fields.emergencySupply}}</p>
+  {{/if}} {{#if fields.contact}}
+  <p><strong>Questions:</strong> {{fields.contact}}</p>
+  {{/if}}
+
+  <footer class="foot">
+    <span>Keep patients safe first: triage the line and document every manual fill.</span
+    ><span>Exercise record</span>
+  </footer>
+</section>

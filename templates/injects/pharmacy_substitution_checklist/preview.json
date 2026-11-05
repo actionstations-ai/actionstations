@@ -1,0 +1,50 @@
+{
+  "fields": {
+    "organization": "Harbor Point Health pharmacy (fictional)",
+    "date": "11/05/2026",
+    "current": "Sodium chloride 0.9% injection, 1,000 mL bag",
+    "alternative": "Lactated Ringer injection, 1,000 mL bag",
+    "proposedUse": "Maintenance fluid on medical-surgical units",
+    "checks": [
+      {
+        "item": "Concentration",
+        "from": "154 mEq/L sodium",
+        "to": "130 mEq/L sodium",
+        "result": "Review",
+        "note": "Lower sodium; pharmacist checks the order for patients with kidney disease."
+      },
+      {
+        "item": "Device",
+        "from": "Flexible bag, blue port",
+        "to": "Flexible bag, blue port",
+        "result": "Pass",
+        "note": "Same pump set."
+      },
+      {
+        "item": "Labeling",
+        "from": "White label, green band",
+        "to": "White label, green band",
+        "result": "Review",
+        "note": "Same label color; add a shelf and bag-level look-alike alert before first issue."
+      },
+      {
+        "item": "Look-alike risk",
+        "from": "Sodium chloride 0.9%",
+        "to": "Lactated Ringer",
+        "result": "Review",
+        "note": "Store apart in the cabinets."
+      },
+      {
+        "item": "Build change",
+        "from": "Order set default",
+        "to": "Order set with the alternative",
+        "result": "Pass",
+        "note": "Informatics tested in the build environment."
+      }
+    ],
+    "decision": "Approved with conditions",
+    "conditions": "Order set built; pharmacist verifies each order; look-alike alert on cabinets before first issue.",
+    "informed": "Nursing educators, anesthesia, pharmacy informatics",
+    "reviewer": "Medication safety officer"
+  }
+}

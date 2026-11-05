@@ -1,0 +1,78 @@
+<section class="page">
+  <p class="marking">
+    {{default fields.marking "EXERCISE · FICTIONAL ORGANIZATION AND RECORDS · NOT FOR CLINICAL
+    USE"}}
+  </p>
+  <header class="head">
+    <div>
+      <div class="org">{{fields.organization}}</div>
+      <h1 class="title">Temperature log</h1>
+    </div>
+    <div class="sub">{{fields.unit}}<br />{{fields.period}}</div>
+  </header>
+  <table class="kv">
+    <tr>
+      <th scope="row">Location</th>
+      <td>{{fields.location}}</td>
+    </tr>
+    <tr>
+      <th scope="row">Holds</th>
+      <td>{{fields.product}}</td>
+    </tr>
+    <tr>
+      <th scope="row">Labeled range</th>
+      <td class="mono">{{fields.rangeLabel}}</td>
+    </tr>
+    <tr>
+      <th scope="row">Minimum / maximum</th>
+      <td class="mono">{{fields.minC}} °C / {{fields.maxC}} °C</td>
+    </tr>
+    <tr>
+      <th scope="row">Time outside range</th>
+      <td class="mono">{{fields.minutesOutside}} minutes</td>
+    </tr>
+    <tr>
+      <th scope="row">Probe</th>
+      <td>{{fields.probe}}</td>
+    </tr>
+    <tr>
+      <th scope="row">Calibration</th>
+      <td>{{fields.calibration}}</td>
+    </tr>
+  </table>
+  <h2>Readings</h2>
+  <table class="grid">
+    <thead>
+      <tr>
+        <th scope="col">Time</th>
+        <th scope="col">°C</th>
+        <th scope="col">°F</th>
+        <th scope="col">State</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each fields.readings}}
+      <tr>
+        <th scope="row" class="mono">{{this.time}}</th>
+        <td class="num">{{this.tempC}}</td>
+        <td class="num">{{this.tempF}}</td>
+        <td>
+          <span class="tag {{#if (eq this.state 'In range')}}st-pass{{else}}st-critical{{/if}}"
+            >{{this.state}}</span
+          >
+        </td>
+      </tr>
+      {{/each}}
+    </tbody>
+  </table>
+  {{#if fields.note}}
+  <p class="note">{{fields.note}}</p>
+  {{/if}}
+
+  <footer class="foot">
+    <span
+      >Any reading outside the labeled range is an excursion: label exposed product do not use and
+      hold it until a viability decision.</span
+    ><span>Exercise record</span>
+  </footer>
+</section>

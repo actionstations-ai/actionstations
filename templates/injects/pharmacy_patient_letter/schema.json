@@ -1,0 +1,92 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Patient letter or call script (recall or shortage)",
+  "description": "A plain-language letter or phone script to patients about a recall or a shortage: what happened, what to do, what the pharmacy is doing and who to call.",
+  "required": ["organization", "date", "subject", "body", "whatToDo"],
+  "properties": {
+    "marking": {
+      "type": "string",
+      "description": "Exercise marking printed above the form",
+      "examples": ["EXERCISE · FICTIONAL ORGANIZATION AND RECORDS · NOT FOR CLINICAL USE"]
+    },
+    "organization": {
+      "type": "string",
+      "description": "Organization name (fictional)",
+      "examples": ["Birch Lane Pharmacy (fictional)"]
+    },
+    "address": {
+      "type": "string",
+      "description": "Pharmacy address line (fictional)",
+      "examples": ["200 Example Road, Eastbrook"]
+    },
+    "date": {
+      "type": "string",
+      "description": "Date",
+      "examples": ["11/06/2026"]
+    },
+    "form": {
+      "type": "string",
+      "description": "Letter or call script",
+      "enum": ["Letter", "Call script"]
+    },
+    "salutation": {
+      "type": "string",
+      "description": "Salutation",
+      "examples": ["Dear patient,"]
+    },
+    "subject": {
+      "type": "string",
+      "description": "Subject",
+      "examples": ["Important information about your ondansetron prescription"]
+    },
+    "body": {
+      "type": "array",
+      "description": "Paragraphs (1-5)",
+      "maxItems": 5,
+      "minItems": 1,
+      "items": {
+        "type": "string",
+        "description": "One paragraph",
+        "examples": [
+          "The manufacturer has recalled two lots of the medicine we gave you on October 30."
+        ]
+      }
+    },
+    "whatToDo": {
+      "type": "array",
+      "description": "What to do (1-6)",
+      "maxItems": 6,
+      "minItems": 1,
+      "items": {
+        "type": "string",
+        "description": "One step",
+        "examples": ["Check the lot number on the label."]
+      }
+    },
+    "pharmacyActions": {
+      "type": "string",
+      "description": "What the pharmacy is doing",
+      "examples": [
+        "We have removed the lots from our shelves and will replace your medicine at no charge."
+      ]
+    },
+    "phone": {
+      "type": "string",
+      "description": "Phone number to call (fictional)",
+      "examples": ["555-0188"],
+      "x-translate": false
+    },
+    "hours": {
+      "type": "string",
+      "description": "Hours",
+      "examples": ["Monday to Friday, 9 a.m. to 6 p.m."]
+    },
+    "signer": {
+      "type": "string",
+      "description": "Signed by (role)",
+      "examples": ["Pharmacist-in-charge"]
+    }
+  },
+  "type": "object",
+  "additionalProperties": false
+}

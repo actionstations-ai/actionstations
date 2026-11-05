@@ -1,0 +1,95 @@
+<section class="page">
+  <p class="marking">
+    {{default fields.marking "EXERCISE · FICTIONAL ORGANIZATION AND RECORDS · NOT FOR CLINICAL
+    USE"}}
+  </p>
+  <header class="head">
+    <div>
+      <div class="org">{{fields.organization}}</div>
+      <h1 class="title">Theft or loss notice</h1>
+    </div>
+    <div class="sub">Discovered {{fields.discoveredOn}}</div>
+  </header>
+  <table class="kv">
+    <tr>
+      <th scope="row">Registrant</th>
+      <td>{{fields.registrant}}</td>
+    </tr>
+    <tr>
+      <th scope="row">Registration</th>
+      <td class="mono">{{fields.registration}} (fictional)</td>
+    </tr>
+    <tr>
+      <th scope="row">Discovered</th>
+      <td class="mono">{{fields.discoveredOn}}</td>
+    </tr>
+    <tr>
+      <th scope="row">Field Division notice due</th>
+      <td class="mono">{{fields.noticeDueBy}} (one business day after discovery)</td>
+    </tr>
+    {{#if fields.noticeSentAt}}
+    <tr>
+      <th scope="row">Notice sent</th>
+      <td class="mono">{{fields.noticeSentAt}}</td>
+    </tr>
+    {{/if}}
+    <tr>
+      <th scope="row">Form 106 due</th>
+      <td class="mono">{{fields.form106DueBy}} (electronic, 45 days after discovery)</td>
+    </tr>
+  </table>
+  <h2>Substances (worksheet)</h2>
+  <table class="grid">
+    <thead>
+      <tr>
+        <th scope="col">Drug</th>
+        <th scope="col">Strength and form</th>
+        <th scope="col">NDC</th>
+        <th scope="col">Quantity</th>
+        <th scope="col">Unit</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each fields.substances}}
+      <tr>
+        <th scope="row">{{this.drug}}</th>
+        <td>{{this.strength}}</td>
+        <td class="mono">{{this.ndc}}</td>
+        <td class="num">{{this.quantity}}</td>
+        <td>{{this.unit}}</td>
+      </tr>
+      {{/each}}
+    </tbody>
+  </table>
+  {{#if fields.circumstances}}
+  <h2>Circumstances</h2>
+  <p>{{fields.circumstances}}</p>
+  {{/if}} {{#if fields.significanceFactors.length}}
+  <h2>Factors considered</h2>
+  <ul class="list">
+    {{#each fields.significanceFactors}}
+    <li>{{this}}</li>
+    {{/each}}
+  </ul>
+  {{/if}}
+  <table class="kv">
+    {{#if fields.reportedBy}}
+    <tr>
+      <th scope="row">Reported by</th>
+      <td>{{fields.reportedBy}}</td>
+    </tr>
+    {{/if}} {{#if fields.otherNotified}}
+    <tr>
+      <th scope="row">Others notified</th>
+      <td>{{fields.otherNotified}}</td>
+    </tr>
+    {{/if}}
+  </table>
+
+  <footer class="foot">
+    <span
+      >Worksheet of the data a Form 106 asks for, not the form. Due dates count weekends only for
+      the business day; check federal holidays.</span
+    ><span>Exercise record</span>
+  </footer>
+</section>

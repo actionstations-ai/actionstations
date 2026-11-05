@@ -1162,6 +1162,32 @@
       }
     },
     {
+      "id": "ai.actionstations.pharmacy",
+      "name": "Pharmacy and drug supply",
+      "summary": "Pharmacy domain (hospital, community, compounding, vaccine program) and the pharmacy toolkit: shortage, substitution, queue, cold chain, controlled substance and recall products.",
+      "tags": ["pharmacy", "healthcare", "supply"],
+      "domains": ["pharmacy"],
+      "contents": {
+        "templates": [
+          "pharmacy_allocation_memo",
+          "pharmacy_compounding_record",
+          "pharmacy_diversion_report",
+          "pharmacy_excursion_report",
+          "pharmacy_loss_notice",
+          "pharmacy_outage_notice",
+          "pharmacy_patient_letter",
+          "pharmacy_queue_report",
+          "pharmacy_recall_notice",
+          "pharmacy_shortage_assessment",
+          "pharmacy_shortage_board",
+          "pharmacy_substitution_checklist",
+          "pharmacy_temperature_log"
+        ],
+        "domains": ["pharmacy"],
+        "toolkits": ["pharmacy"]
+      }
+    },
+    {
       "id": "ai.actionstations.campus",
       "name": "Campuses",
       "summary": "University and school campus domain: profile.",

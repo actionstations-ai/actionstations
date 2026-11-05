@@ -1,0 +1,85 @@
+<section class="page">
+  <p class="marking">
+    {{default fields.marking "EXERCISE · FICTIONAL ORGANIZATION AND RECORDS · NOT FOR CLINICAL
+    USE"}}
+  </p>
+  <header class="head">
+    <div>
+      <div class="org">{{fields.organization}}</div>
+      <h1 class="title">Compounding batch record</h1>
+    </div>
+    <div class="sub">{{fields.batch}}<br />{{fields.madeOn}}</div>
+  </header>
+  <table class="kv">
+    <tr>
+      <th scope="row">Preparation</th>
+      <td>{{fields.product}}</td>
+    </tr>
+    <tr>
+      <th scope="row">Prepared / verified</th>
+      <td>{{fields.preparedBy}} / {{fields.verifiedBy}}</td>
+    </tr>
+    <tr>
+      <th scope="row">Beyond-use date</th>
+      <td class="mono">{{fields.beyondUse}}</td>
+    </tr>
+    <tr>
+      <th scope="row">Units made</th>
+      <td class="mono">{{fields.unitsMade}}</td>
+    </tr>
+  </table>
+  <h2>Ingredients</h2>
+  <table class="grid">
+    <thead>
+      <tr>
+        <th scope="col">Ingredient</th>
+        <th scope="col">Lot</th>
+        <th scope="col">Expected</th>
+        <th scope="col">Actual</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each fields.ingredients}}
+      <tr>
+        <th scope="row">{{this.name}}</th>
+        <td class="mono">{{this.lot}}</td>
+        <td>{{this.expected}}</td>
+        <td>{{this.actual}}</td>
+      </tr>
+      {{/each}}
+    </tbody>
+  </table>
+  <h2>Checks and results</h2>
+  <table class="grid">
+    <thead>
+      <tr>
+        <th scope="col">Check</th>
+        <th scope="col">Specification</th>
+        <th scope="col">Result</th>
+        <th scope="col">Outcome</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each fields.checks}}
+      <tr>
+        <th scope="row">{{this.check}}</th>
+        <td>{{this.spec}}</td>
+        <td>{{this.result}}</td>
+        <td><span class="tag st-{{lower this.outcome}}">{{this.outcome}}</span></td>
+      </tr>
+      {{/each}}
+    </tbody>
+  </table>
+  <h2>Disposition</h2>
+  <p class="warn">{{fields.disposition}}</p>
+  {{#if fields.investigation}}
+  <p class="note">{{fields.investigation}}</p>
+  {{/if}}
+
+  <footer class="foot">
+    <span
+      >Exercise batch record. Specifications and beyond-use dates are the scenario author rules, not
+      a compounding standard.</span
+    ><span>Exercise record</span>
+  </footer>
+</section>

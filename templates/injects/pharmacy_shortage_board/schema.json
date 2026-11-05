@@ -1,0 +1,99 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Drug shortage board",
+  "description": "A board of the drugs in shortage: presentation, NDC, on-hand quantity, usage per day, days on hand (on hand divided by usage), estimated recovery, status and allocation tier. Days on hand must equal on hand over usage. A recovery date is an estimate.",
+  "required": ["organization", "asOf", "rows"],
+  "properties": {
+    "marking": {
+      "type": "string",
+      "description": "Exercise marking printed above the form",
+      "examples": ["EXERCISE · FICTIONAL ORGANIZATION AND RECORDS · NOT FOR CLINICAL USE"]
+    },
+    "organization": {
+      "type": "string",
+      "description": "Organization name (fictional)",
+      "examples": ["Harbor Point Health pharmacy (fictional)"]
+    },
+    "asOf": {
+      "type": "string",
+      "description": "Date and time the board was updated",
+      "examples": ["11/05/2026 08:00"]
+    },
+    "preparedBy": {
+      "type": "string",
+      "description": "Who updated the board (role)",
+      "examples": ["Drug shortage coordinator"]
+    },
+    "rows": {
+      "type": "array",
+      "description": "One row per short drug presentation (1-12)",
+      "maxItems": 12,
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "properties": {
+          "drug": {
+            "type": "string",
+            "description": "Drug name",
+            "examples": ["Sodium chloride 0.9% injection"]
+          },
+          "presentation": {
+            "type": "string",
+            "description": "Strength and container",
+            "examples": ["1,000 mL flexible bag"]
+          },
+          "ndc": {
+            "type": "string",
+            "description": "National Drug Code (fictional unless quoted from a dated FDA record)",
+            "examples": ["99998-0412-01"],
+            "x-translate": false
+          },
+          "onHand": {
+            "type": "integer",
+            "minimum": 0,
+            "description": "Units on hand (containers)"
+          },
+          "usagePerDay": {
+            "type": "integer",
+            "minimum": 0,
+            "description": "Containers used per day"
+          },
+          "daysOnHand": {
+            "type": "number",
+            "description": "Days on hand = onHand / usagePerDay, one decimal",
+            "minimum": 0
+          },
+          "recovery": {
+            "type": "string",
+            "description": "Estimated recovery (an estimate, with who said it)",
+            "examples": ["Estimated mid-December (supplier)"]
+          },
+          "status": {
+            "type": "string",
+            "description": "Status",
+            "enum": ["Available", "Limited", "Critical", "Out"]
+          },
+          "tier": {
+            "type": "string",
+            "description": "Allocation tier or rule in force",
+            "examples": ["Tier 1 first; units at 50 percent"]
+          }
+        },
+        "additionalProperties": false,
+        "required": ["drug", "presentation", "onHand", "usagePerDay", "daysOnHand", "status"]
+      }
+    },
+    "sourceNote": {
+      "type": "string",
+      "description": "Where a quoted record comes from, with its retrieval date; leave empty for a fictional board",
+      "examples": ["Fictional board. No FDA record is quoted."]
+    },
+    "note": {
+      "type": "string",
+      "description": "Note under the board",
+      "examples": ["Operating rooms and dialysis are Tier 1."]
+    }
+  },
+  "type": "object",
+  "additionalProperties": false
+}

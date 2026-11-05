@@ -1,0 +1,170 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Temperature excursion report and viability decision",
+  "description": "A report of one excursion: the unit, the range, the minimum, maximum and time outside the range, the timeline, the product affected with its decision (hold, viable, discard) and who was told. Viability answers come from the scenario table or a manufacturer, never invented.",
+  "required": [
+    "organization",
+    "unit",
+    "rangeLabel",
+    "rangeLowC",
+    "rangeHighC",
+    "minC",
+    "maxC",
+    "minutesOutside",
+    "products",
+    "timeline"
+  ],
+  "properties": {
+    "marking": {
+      "type": "string",
+      "description": "Exercise marking printed above the form",
+      "examples": ["EXERCISE · FICTIONAL ORGANIZATION AND RECORDS · NOT FOR CLINICAL USE"]
+    },
+    "organization": {
+      "type": "string",
+      "description": "Organization name (fictional)",
+      "examples": ["Eastbrook County Clinic (fictional)"]
+    },
+    "reportNumber": {
+      "type": "string",
+      "description": "Report number",
+      "examples": ["EXC-2026-07"],
+      "x-translate": false
+    },
+    "unit": {
+      "type": "string",
+      "description": "Storage unit",
+      "examples": ["Refrigerator R-2"],
+      "x-translate": false
+    },
+    "discoveredAt": {
+      "type": "string",
+      "description": "When it was found",
+      "examples": ["11/09/2026 06:05"]
+    },
+    "foundBy": {
+      "type": "string",
+      "description": "Found by (role)",
+      "examples": ["Clinic manager"]
+    },
+    "rangeLabel": {
+      "type": "string",
+      "description": "Labeled range in both scales, matching the numbers below",
+      "examples": ["2 to 8 °C (36 to 46 °F)"]
+    },
+    "rangeLowC": {
+      "type": "number",
+      "description": "Low end of the labeled range in Celsius"
+    },
+    "rangeHighC": {
+      "type": "number",
+      "description": "High end of the labeled range in Celsius"
+    },
+    "minC": {
+      "type": "number",
+      "description": "Lowest reading in Celsius"
+    },
+    "maxC": {
+      "type": "number",
+      "description": "Highest reading in Celsius"
+    },
+    "minutesOutside": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Minutes outside the range"
+    },
+    "cause": {
+      "type": "string",
+      "description": "Cause",
+      "examples": ["Tripped breaker; the unit was on a circuit shared with a space heater."]
+    },
+    "timeline": {
+      "type": "array",
+      "description": "Timeline (2-12)",
+      "maxItems": 12,
+      "minItems": 2,
+      "items": {
+        "type": "object",
+        "properties": {
+          "time": {
+            "type": "string",
+            "description": "Time",
+            "examples": ["02:40"]
+          },
+          "event": {
+            "type": "string",
+            "description": "What happened",
+            "examples": ["Alarm sounded; the first contact did not answer."]
+          }
+        },
+        "additionalProperties": false,
+        "required": ["time", "event"]
+      }
+    },
+    "products": {
+      "type": "array",
+      "description": "Product affected (1-10)",
+      "maxItems": 10,
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "properties": {
+          "product": {
+            "type": "string",
+            "description": "Product",
+            "examples": ["Pediatric vaccine A (fictional)"]
+          },
+          "lot": {
+            "type": "string",
+            "description": "Lot",
+            "examples": ["EX-A-4410"],
+            "x-translate": false
+          },
+          "doses": {
+            "type": "integer",
+            "minimum": 0,
+            "description": "Doses"
+          },
+          "decision": {
+            "type": "string",
+            "description": "Decision",
+            "enum": ["Do not use", "Held", "Viable", "Discarded"]
+          },
+          "basis": {
+            "type": "string",
+            "description": "Basis for the decision",
+            "examples": [
+              "Scenario product table: usable after a documented excursion under 12 °C for under six hours."
+            ]
+          }
+        },
+        "additionalProperties": false,
+        "required": ["product", "lot", "doses", "decision"]
+      }
+    },
+    "decidedBy": {
+      "type": "string",
+      "description": "Decision made by (role)",
+      "examples": ["Vaccine coordinator with the immunization program"]
+    },
+    "patientsAffected": {
+      "type": "string",
+      "description": "Patients given doses after the alarm",
+      "examples": ["14 doses given between 02:40 and 06:05; recontact list prepared"]
+    },
+    "notified": {
+      "type": "string",
+      "description": "Who was told",
+      "examples": ["State immunization program, vaccine manufacturer line, clinic medical director"]
+    },
+    "corrective": {
+      "type": "string",
+      "description": "Corrective action",
+      "examples": [
+        "Dedicated circuit, generator transfer switch and a call tree with two named contacts."
+      ]
+    }
+  },
+  "type": "object",
+  "additionalProperties": false
+}

@@ -1,0 +1,39 @@
+{
+  "fields": {
+    "organization": "Harbor Point Health pharmacy (fictional)",
+    "date": "11/05/2026",
+    "drug": "Sodium chloride 0.9% injection, 1,000 mL bag",
+    "preparedBy": "Drug shortage coordinator and clinical pharmacist",
+    "operational": {
+      "onHand": 1840,
+      "usagePerDay": 460,
+      "daysOnHand": 4,
+      "onOrder": "2 pallets due 11/07 at 50 percent of the order",
+      "supplier": "Allocation at 50 percent of the 12-month average until further notice.",
+      "duration": "Estimated four to six weeks; no firm date."
+    },
+    "therapeutic": {
+      "groups": [
+        {
+          "group": "Operating room irrigation and maintenance fluid",
+          "dependence": "Alternative with a change",
+          "alternatives": "Lactated Ringer injection; oral hydration where allowed",
+          "risk": "Different electrolyte content in patients with kidney disease"
+        },
+        {
+          "group": "Dialysis priming and line flushes",
+          "dependence": "No alternative",
+          "alternatives": "None approved in this exercise",
+          "risk": "Treatment delayed"
+        },
+        {
+          "group": "Medication dilution on the wards",
+          "dependence": "Alternative equal",
+          "alternatives": "Dextrose 5% where the drug allows",
+          "risk": "Wrong diluent for a drug that needs saline"
+        }
+      ]
+    },
+    "recommendation": "Allocate by tier at 50 percent, restrict non-essential use, approve the checked alternatives."
+  }
+}

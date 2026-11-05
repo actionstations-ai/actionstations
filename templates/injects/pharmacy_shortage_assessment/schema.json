@@ -1,0 +1,119 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Shortage assessment (operational and therapeutic)",
+  "description": "The shortage team assessment of one drug: the operational side (supply, timing, duration) and the therapeutic side (patient groups, alternatives, risk), with a recommendation. Days on hand must equal on hand over usage.",
+  "required": ["organization", "drug", "operational", "therapeutic"],
+  "properties": {
+    "marking": {
+      "type": "string",
+      "description": "Exercise marking printed above the form",
+      "examples": ["EXERCISE · FICTIONAL ORGANIZATION AND RECORDS · NOT FOR CLINICAL USE"]
+    },
+    "organization": {
+      "type": "string",
+      "description": "Organization name (fictional)",
+      "examples": ["Harbor Point Health pharmacy (fictional)"]
+    },
+    "date": {
+      "type": "string",
+      "description": "Date",
+      "examples": ["11/05/2026"]
+    },
+    "drug": {
+      "type": "string",
+      "description": "Drug and presentation",
+      "examples": ["Sodium chloride 0.9% injection, 1,000 mL bag"]
+    },
+    "preparedBy": {
+      "type": "string",
+      "description": "Prepared by (roles)",
+      "examples": ["Drug shortage coordinator and clinical pharmacist"]
+    },
+    "operational": {
+      "type": "object",
+      "properties": {
+        "onHand": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Containers on hand"
+        },
+        "usagePerDay": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Containers used per day"
+        },
+        "daysOnHand": {
+          "type": "number",
+          "description": "Days on hand = onHand / usagePerDay, one decimal",
+          "minimum": 0
+        },
+        "onOrder": {
+          "type": "string",
+          "description": "What is on order and when it arrives",
+          "examples": ["2 pallets due 11/07 at 50 percent of the order"]
+        },
+        "supplier": {
+          "type": "string",
+          "description": "What the supplier says",
+          "examples": ["Allocation at 50 percent of the 12-month average until further notice."]
+        },
+        "duration": {
+          "type": "string",
+          "description": "Expected duration (an estimate)",
+          "examples": ["Estimated four to six weeks; no firm date."]
+        }
+      },
+      "additionalProperties": false,
+      "required": ["onHand", "usagePerDay", "daysOnHand"]
+    },
+    "therapeutic": {
+      "type": "object",
+      "properties": {
+        "groups": {
+          "type": "array",
+          "description": "Patient groups that depend on the drug",
+          "maxItems": 8,
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "properties": {
+              "group": {
+                "type": "string",
+                "description": "Patient group",
+                "examples": ["Operating room irrigation and maintenance fluid"]
+              },
+              "dependence": {
+                "type": "string",
+                "description": "How dependent on this drug",
+                "enum": ["No alternative", "Alternative with a change", "Alternative equal"]
+              },
+              "alternatives": {
+                "type": "string",
+                "description": "Alternatives the team may use",
+                "examples": ["Lactated Ringer injection; oral hydration where allowed"]
+              },
+              "risk": {
+                "type": "string",
+                "description": "Main risk of a change",
+                "examples": ["Different electrolyte content in patients with kidney disease"]
+              }
+            },
+            "additionalProperties": false,
+            "required": ["group", "dependence"]
+          }
+        }
+      },
+      "additionalProperties": false,
+      "required": ["groups"]
+    },
+    "recommendation": {
+      "type": "string",
+      "description": "Recommendation to the director of pharmacy",
+      "examples": [
+        "Allocate by tier at 50 percent, restrict non-essential use, approve the checked alternatives."
+      ]
+    }
+  },
+  "type": "object",
+  "additionalProperties": false
+}

@@ -1,0 +1,45 @@
+{
+  "fields": {
+    "organization": "Birch Lane Pharmacy (fictional)",
+    "asOf": "11/09/2026 10:30",
+    "queues": [
+      {
+        "name": "Data entry",
+        "count": 14,
+        "oldestMinutes": 22,
+        "targetMinutes": 30,
+        "status": "Within target",
+        "priority": 1,
+        "staff": 2
+      },
+      {
+        "name": "Claims and rejections",
+        "count": 31,
+        "oldestMinutes": 95,
+        "targetMinutes": 30,
+        "status": "Over target",
+        "priority": 6,
+        "staff": 1
+      },
+      {
+        "name": "Pharmacist verification",
+        "count": 18,
+        "oldestMinutes": 48,
+        "targetMinutes": 20,
+        "status": "Over target",
+        "priority": 3,
+        "staff": 1
+      },
+      {
+        "name": "Ready for pickup",
+        "count": 63,
+        "oldestMinutes": 240,
+        "targetMinutes": 480,
+        "status": "Within target",
+        "priority": 0,
+        "staff": 1
+      }
+    ],
+    "note": "Claims rejections are holding 31 prescriptions. One pharmacist is verifying. Six items are marked priority (insulin, anticoagulants, a child antibiotic)."
+  }
+}

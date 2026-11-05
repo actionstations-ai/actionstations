@@ -11,6 +11,7 @@ import './geoscience/register-lint'
 import './justice/register-lint'
 import './lab_safety/register-lint'
 import './media/register-lint'
+import './pharmacy/register-lint'
 import './spill/lint'
 import './weather/lint'
 

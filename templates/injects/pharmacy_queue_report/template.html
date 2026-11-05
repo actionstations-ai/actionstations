@@ -1,0 +1,54 @@
+<section class="board">
+  <p class="marking">
+    {{default fields.marking "EXERCISE · FICTIONAL ORGANIZATION AND RECORDS · NOT FOR CLINICAL
+    USE"}}
+  </p>
+  <header class="head">
+    <div>
+      <div class="org">{{fields.organization}}</div>
+      <h1 class="title">Queue report</h1>
+    </div>
+    <div class="sub">As of {{fields.asOf}}</div>
+  </header>
+  <table class="grid" style="margin-top: 10px">
+    <caption class="sr-only">
+      Pharmacy work queues with count, age of the oldest item and status
+    </caption>
+    <thead>
+      <tr>
+        <th scope="col">Queue</th>
+        <th scope="col">Items</th>
+        <th scope="col">Oldest (min)</th>
+        <th scope="col">Target (min)</th>
+        <th scope="col">Status</th>
+        <th scope="col">Priority</th>
+        <th scope="col">Staff</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each fields.queues}}
+      <tr>
+        <th scope="row">{{this.name}}</th>
+        <td class="num">{{this.count}}</td>
+        <td class="num">{{this.oldestMinutes}}</td>
+        <td class="num">{{this.targetMinutes}}</td>
+        <td>
+          <span
+            class="tag {{#if (eq this.status 'Over target')}}st-over-target{{else}}st-within-target{{/if}}"
+            >{{this.status}}</span
+          >
+        </td>
+        <td class="num">{{this.priority}}</td>
+        <td class="num">{{this.staff}}</td>
+      </tr>
+      {{/each}}
+    </tbody>
+  </table>
+  {{#if fields.note}}
+  <p class="note">{{fields.note}}</p>
+  {{/if}}
+  <footer class="foot">
+    <span>Over target means the oldest item is older than the target.</span
+    ><span>Exercise record</span>
+  </footer>
+</section>

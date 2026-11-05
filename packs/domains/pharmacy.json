@@ -1,0 +1,855 @@
+{
+  "id": "pharmacy",
+  "label": "Pharmacy and pharmaceutical supply",
+  "description": "The pharmacy view of drug supply: the hospital pharmacy department (a department view of the healthcare profile, with its outside parties, media and regulation list repeated here so a project can run on either), a community pharmacy (chain and independent), a sterile compounding service and a vaccine program with its cold chain. Exercises: a critical drug shortage and allocation, a compounding error, controlled substance diversion, a cold chain failure, a recall, a claims or e-prescribing outage, and dispensing during a disaster. Plans and references: the CMS emergency preparedness program (42 CFR 482.15 and the pharmaceutical services condition at 482.25), 21 CFR 1301.76(b) for theft or loss of controlled substances (notice to the DEA Field Division within one business day of discovery and an electronic Form 106 within 45 days), FDA drug shortage and recall pages, and the CDC Vaccine Storage and Handling Toolkit. Clinical content is exercise content, never guidance; every patient, drug record and organization is fictional unless a dated FDA record is quoted as history.",
+  "aliases": [
+    "pharmacy",
+    "hospital pharmacy",
+    "health-system pharmacy",
+    "health system pharmacy",
+    "community pharmacy",
+    "retail pharmacy",
+    "chain pharmacy",
+    "independent pharmacy",
+    "compounding pharmacy",
+    "outsourcing facility",
+    "sterile compounding",
+    "pharmacy school",
+    "college of pharmacy",
+    "drug shortage",
+    "medication supply",
+    "vaccine storage",
+    "cold chain",
+    "pharmacist"
+  ],
+  "vocabulary": {
+    "facility": "the pharmacy (the central pharmacy and its satellites, or the store, or the clinic vaccine storage)",
+    "public": "patients, caregivers, prescribers and the nurses who wait for the drug",
+    "frontline": "staff pharmacists, pharmacy technicians, buyers, compounding technicians, nurses at the cabinet, vaccine coordinators",
+    "operationsCenter": "the pharmacy operations desk, backed by the Hospital Command Center (or the district help desk in a chain)"
+  },
+  "factCategories": [
+    {
+      "id": "storage_units",
+      "label": "Refrigerators and freezers",
+      "noun": "Refrigerators?|Freezers?|Storage Units?|Cold Rooms?",
+      "context": "vaccine|cold|temperature|refrigerat|freez|storage|logger|probe|excursion",
+      "idShape": "alnum",
+      "lint": true,
+      "complete": true
+    },
+    {
+      "id": "satellites",
+      "label": "Satellite pharmacies and stores",
+      "noun": "Satellites?|Satellite Pharmacies|Stores?",
+      "context": "pharmac|dispens|cabinet|stock|inventory|satellite",
+      "idShape": "alnum",
+      "lint": false,
+      "complete": false
+    },
+    {
+      "id": "cabinets",
+      "label": "Dispensing cabinets",
+      "noun": "Cabinets?|ADCs?",
+      "context": "cabinet|dispens|override|discrepanc|controlled|narcotic",
+      "idShape": "alnum",
+      "lint": false,
+      "complete": false
+    }
+  ],
+  "systems": {
+    "it": [
+      "pharmacy information system (order verification, profiles, inventory)",
+      "automated dispensing cabinets",
+      "IV workflow and compounding software with barcode verification",
+      "electronic health record (EHR) and the medication administration record",
+      "electronic prescribing network and the claims switch",
+      "wholesaler ordering portal",
+      "inventory and purchasing system",
+      "temperature monitoring (digital data loggers and alarms)",
+      "state prescription drug monitoring program",
+      "diversion analytics reports from the cabinets",
+      "helpdesk / ITSM",
+      "secure messaging and paging"
+    ],
+    "ot": [
+      "pharmacy refrigerators, freezers and cold rooms",
+      "cleanroom air handling and pressure monitors",
+      "emergency power and the red outlets",
+      "building automation (HVAC, power)",
+      "pneumatic tube system",
+      "door access to the vault and the controlled substance safe",
+      "carousel and robotic dispensing systems"
+    ]
+  },
+  "roles": [
+    {
+      "key": "dop",
+      "name": "Director of Pharmacy",
+      "abbreviation": "DOP",
+      "team": "Hospital pharmacy: Leadership",
+      "description": "Owns shortage response, allocation rules, spending authority, emergency formulary changes and what to tell the incident commander."
+    },
+    {
+      "key": "pharmacy_ops",
+      "name": "Pharmacy operations manager",
+      "abbreviation": "OPS",
+      "team": "Hospital pharmacy: Operations",
+      "description": "Owns staffing, workflow changes, queue priorities and downtime procedures."
+    },
+    {
+      "key": "buyer",
+      "name": "Drug shortage coordinator / buyer",
+      "abbreviation": "BUY",
+      "team": "Hospital pharmacy: Purchasing",
+      "description": "Owns alternate suppliers, wholesaler allocations, refusing gray-market offers and order quantities."
+    },
+    {
+      "key": "clinical_pharmacist",
+      "name": "Clinical pharmacist (critical care, oncology, infectious diseases)",
+      "abbreviation": "CP",
+      "team": "Hospital pharmacy: Clinical",
+      "description": "Owns therapeutic alternatives, dose conversion questions and which patients have priority."
+    },
+    {
+      "key": "medication_safety",
+      "name": "Medication safety officer",
+      "abbreviation": "MSO",
+      "team": "Hospital pharmacy: Quality",
+      "description": "Owns the error risk of each substitution and event review."
+    },
+    {
+      "key": "pharmacy_informatics",
+      "name": "Pharmacy informatics pharmacist",
+      "abbreviation": "INF",
+      "team": "Hospital pharmacy: Informatics",
+      "description": "Owns build changes for substitutes, order set edits, label changes and interface and cabinet issues."
+    },
+    {
+      "key": "tech_lead",
+      "name": "Pharmacy technician lead",
+      "abbreviation": "TECH",
+      "team": "Hospital pharmacy: Operations",
+      "description": "Owns fill, restock and cabinet loading priorities."
+    },
+    {
+      "key": "pt_chair",
+      "name": "Pharmacy and Therapeutics (P&T) committee chair",
+      "abbreviation": "P&T",
+      "team": "Hospital pharmacy: Governance",
+      "description": "Owns emergency approvals and restrictions."
+    },
+    {
+      "key": "diversion_specialist",
+      "name": "Controlled substance diversion specialist",
+      "abbreviation": "CSD",
+      "team": "Hospital pharmacy: Compliance",
+      "description": "Owns the investigation of anomalies, reporting, and interviews with human resources and security."
+    },
+    {
+      "key": "pharmacy_pio",
+      "name": "Public Information Officer (hospital liaison)",
+      "abbreviation": "PIO",
+      "team": "Hospital pharmacy: Public information",
+      "description": "Owns patient, family and press messaging when a shortage, recall or loss becomes public."
+    },
+    {
+      "key": "pic",
+      "name": "Pharmacist-in-charge (community)",
+      "abbreviation": "PIC",
+      "team": "Community pharmacy: Store",
+      "description": "Owns store operations, the refill and cash policy during outages and controlled substance reporting."
+    },
+    {
+      "key": "staff_pharmacist",
+      "name": "Staff pharmacist (community)",
+      "abbreviation": "RPh",
+      "team": "Community pharmacy: Store",
+      "description": "Owns verification, counseling, the line at the counter and the decision to dispense under uncertainty."
+    },
+    {
+      "key": "store_technician",
+      "name": "Pharmacy technician (community)",
+      "abbreviation": "Tech",
+      "team": "Community pharmacy: Store",
+      "description": "Owns intake, fills, manual claims on paper and the callback list."
+    },
+    {
+      "key": "district_manager",
+      "name": "District or regional manager",
+      "abbreviation": "DM",
+      "team": "Community pharmacy: Chain",
+      "description": "Owns policy exceptions, transfers of stock between stores and the corporate help desk."
+    },
+    {
+      "key": "designated_person",
+      "name": "Sterile compounding supervisor / designated person",
+      "abbreviation": "DP",
+      "team": "Compounding: Leadership",
+      "description": "Owns stopping or releasing batches, beyond-use dates, cleanroom status and the decision to outsource."
+    },
+    {
+      "key": "compounding_qa",
+      "name": "Compounding quality pharmacist",
+      "abbreviation": "QA",
+      "team": "Compounding: Quality",
+      "description": "Owns the batch record review, out-of-spec results and release."
+    },
+    {
+      "key": "vaccine_coordinator",
+      "name": "Vaccine coordinator",
+      "abbreviation": "VAX",
+      "team": "Vaccine program: Immunization",
+      "description": "Owns storage unit monitoring, excursion response, transfer of vaccine and notification of the immunization program."
+    },
+    {
+      "key": "immunization_program",
+      "name": "Immunization program liaison (health department)",
+      "abbreviation": "IZ",
+      "team": "Vaccine program: Immunization",
+      "description": "Owns program guidance, the report of an excursion and replacement of product."
+    },
+    {
+      "key": "clinic_manager",
+      "name": "Clinic or site manager",
+      "abbreviation": "CM",
+      "team": "Vaccine program: Site",
+      "description": "Owns the building, the generator, the call tree and the patients to be contacted."
+    }
+  ],
+  "outsideParties": [
+    "drug wholesaler and manufacturer representatives",
+    "the group purchasing organization",
+    "FDA (drug shortages, recalls, importation)",
+    "DEA field division",
+    "the state board of pharmacy",
+    "state and local health department and the immunization program",
+    "the vaccine manufacturer",
+    "CDC",
+    "insurers and pharmacy benefit managers",
+    "the claims switch vendor",
+    "prescribers",
+    "patients and caregivers",
+    "the healthcare coalition and neighboring hospitals (loans of drugs)",
+    "poison control",
+    "the media",
+    "CMS and the state department of health",
+    "the Joint Commission",
+    "HHS / ASPR",
+    "local EMS and the regional trauma system",
+    "the local utility (power)",
+    "Health-ISAC"
+  ],
+  "mediaChannels": [
+    "a patient Facebook post about a prescription that could not be filled",
+    "a pharmacist post on a professional forum about a shortage",
+    "the local TV assignment desk",
+    "a health reporter email about a recall",
+    "a trade publication shortage tracker",
+    "a county health department social post about a vaccine clinic"
+  ],
+  "sceneAnchors": {
+    "public": "inside a community pharmacy: a counter with a register, shelves of boxed medicines behind it, a short line of customers, a waiting area with three chairs, bright even lighting",
+    "control": "inside a hospital pharmacy: shelves of labeled bins, a laminar-flow hood in the background, two computers at a verification counter, a whiteboard with a handwritten list, technicians in scrubs and lanyards",
+    "exterior": "a hospital loading dock: a delivery van with its rear doors open, pallets of boxed fluids, a technician with a hand truck, overcast daylight"
+  },
+  "injectTypes": [
+    "phone_call",
+    "radio_call",
+    "text_message",
+    "email",
+    "memo",
+    "status_board",
+    "sitrep",
+    "downtime_notice",
+    "helpdesk_ticket",
+    "service_status_page",
+    "lab_result_report",
+    "facebook_post",
+    "tweet",
+    "news_article",
+    "press_release",
+    "media_inquiry_phone_slip",
+    "official_letter",
+    "regulatory_notice",
+    "regulatory_report_form",
+    "field_report",
+    "figure",
+    "pharmacy_shortage_board",
+    "pharmacy_shortage_assessment",
+    "pharmacy_allocation_memo",
+    "pharmacy_substitution_checklist",
+    "pharmacy_queue_report",
+    "pharmacy_outage_notice",
+    "pharmacy_temperature_log",
+    "pharmacy_excursion_report",
+    "pharmacy_diversion_report",
+    "pharmacy_loss_notice",
+    "pharmacy_recall_notice",
+    "pharmacy_compounding_record",
+    "pharmacy_patient_letter"
+  ],
+  "threatFamilies": [
+    "drug_shortage",
+    "pharmacy_outage",
+    "cold_chain_failure",
+    "controlled_substance_diversion",
+    "compounding_error",
+    "drug_recall",
+    "cyber",
+    "infrastructure_failure",
+    "natural_hazard",
+    "mass_gathering"
+  ],
+  "addedThreatFamilies": [
+    {
+      "lint": {
+        "clueRequired": false,
+        "clueRole": "operations"
+      },
+      "id": "drug_shortage",
+      "label": "Drug shortage and allocation",
+      "description": "A manufacturer, plant or wholesaler problem cuts the supply of a drug the organization cannot do without; the shortage team assesses, allocates, substitutes and tells staff and patients.",
+      "keywords": [
+        "shortage",
+        "drug shortage",
+        "allocation",
+        "backorder",
+        "sole source",
+        "manufacturer outage",
+        "iv fluid",
+        "plant",
+        "wholesaler",
+        "substitution",
+        "conserve",
+        "rationing",
+        "importation"
+      ],
+      "phaseArc": [
+        {
+          "title": "Early signal",
+          "goal": "A wholesaler or manufacturer notice arrives before anyone has the full picture.",
+          "beats": [
+            "A wholesaler allocation notice with a quantity and no recovery date",
+            "A buyer who cannot get the usual product from the usual supplier",
+            "A rumor on a professional forum that a plant is down"
+          ]
+        },
+        {
+          "title": "Assessment",
+          "goal": "The shortage team convenes and sizes the problem two ways: how much is left, and which patients depend on it.",
+          "beats": [
+            "An on-hand count that disagrees with the inventory system",
+            "A usage per day that is higher than the buyer assumed",
+            "A clinical pharmacist who names the patient groups with no alternative"
+          ]
+        },
+        {
+          "title": "Conservation and allocation",
+          "goal": "Rules for who gets the drug are agreed, written down and applied the same way on every unit.",
+          "beats": [
+            "A tiered allocation with a percentage",
+            "A physician who wants an exception for one patient",
+            "A satellite pharmacy still stocking at the old par level"
+          ]
+        },
+        {
+          "title": "Substitution and communication",
+          "goal": "Alternatives are approved, built and explained; staff, patients and neighbors are told.",
+          "beats": [
+            "An alternative in a different concentration or container",
+            "A look-alike risk found by the medication safety officer",
+            "An order set that still defaults to the short product"
+          ]
+        },
+        {
+          "title": "Sourcing, recovery and lessons",
+          "goal": "Supply returns slowly; the team decides when to relax the rules and records what it learned.",
+          "beats": [
+            "An import or a loan from another hospital with different labeling",
+            "A recovery date that moves again",
+            "A hot wash with a list of decisions that took too long"
+          ]
+        }
+      ],
+      "decisionPointExamples": [
+        "allocate the remaining IV fluid at 50 percent to every unit equally, or by tier with the operating rooms and dialysis first and a message that some units will get less",
+        "approve an imported product with different labeling now, or wait a day for the label crosswalk and risk running out",
+        "refuse a gray-market offer at three times the price, or buy it to protect a patient group with no alternative"
+      ],
+      "clueKinds": "a wholesaler notice with a quantity and a date, an on-hand count that differs from the system, a usage rate that jumped, a recovery estimate that moved",
+      "hurdleKinds": "an order set still defaulting to the short product, a satellite pharmacy stocking at the old par level, a substitute with a different concentration or container",
+      "keyCoordination": "the wholesaler and manufacturer representatives and the clinicians who use the drug",
+      "purposeMix": {
+        "CORE_NARRATIVE": 25,
+        "OPERATIONAL_FRICTION": 25,
+        "CLUE": 15,
+        "DECISION_POINT": 15,
+        "PRESSURE": 10,
+        "NOISE": 10
+      },
+      "promptGuidance": "Write for a director of pharmacy and the shortage team. Quantities and days on hand follow one model: days on hand is on-hand divided by usage per day, and an allocation percentage changes the projected stockout date. A recovery date from a manufacturer or FDA is an estimate and moves. Never invent doses or drug interactions beyond what the scenario author supplied; name the substitution and its checks without dosing advice."
+    },
+    {
+      "lint": {
+        "clueRequired": false,
+        "clueRole": "operations"
+      },
+      "id": "compounding_error",
+      "label": "Compounding error",
+      "description": "A sterile or nonsterile preparation is wrong (the wrong ingredient or concentration, a contaminated batch, an out-of-spec result or a wrong beyond-use date) and some of it may already be on units.",
+      "keywords": [
+        "compounding",
+        "compounded",
+        "sterile",
+        "cleanroom",
+        "iv room",
+        "batch",
+        "beyond-use date",
+        "out of specification",
+        "contaminated",
+        "endotoxin",
+        "outsourcing facility",
+        "tpn"
+      ],
+      "phaseArc": [
+        {
+          "title": "Detection",
+          "goal": "Someone notices the preparation is not what it should be.",
+          "beats": [
+            "A technician who sees a mismatch between the label and the batch record",
+            "A nurse who reports cloudiness in a bag",
+            "A failed result from the lab"
+          ]
+        },
+        {
+          "title": "Containment",
+          "goal": "The batch is stopped and found: made, in stock, on units and possibly given.",
+          "beats": [
+            "A quarantine that misses the satellite pharmacy",
+            "A count of units made that disagrees with the record",
+            "A doubt about whether the first bags were given"
+          ]
+        },
+        {
+          "title": "Patient impact",
+          "goal": "The team decides who to look for, tell and watch.",
+          "beats": [
+            "A list of patients who may have received doses",
+            "A physician who asks what to tell the family",
+            "A safety event report with the wrong lot"
+          ]
+        },
+        {
+          "title": "Notification and cause",
+          "goal": "Reports are made and the cause is found.",
+          "beats": [
+            "A call to the state board or the supplier",
+            "A calibration or procedure gap",
+            "A decision to outsource the product for a while"
+          ]
+        },
+        {
+          "title": "Recovery",
+          "goal": "Compounding restarts with a corrective plan.",
+          "beats": ["A release checklist with a new check", "Staff retraining", "A hot wash"]
+        }
+      ],
+      "decisionPointExamples": [
+        "stop all sterile compounding now and outsource, or release the batches that passed and keep the room open",
+        "pull every dose of the lot from units tonight, or wait for the final culture and accept the risk of one more dose given",
+        "tell the patients and families now with incomplete facts, or wait for the investigation"
+      ],
+      "clueKinds": "a batch record that does not match the label, a visual change in a bag, a failed in-process check, a lot number on a nurse event report",
+      "hurdleKinds": "a quarantine list that misses a satellite stock, a count of units made that does not add up, an event report with the wrong lot",
+      "keyCoordination": "the nursing units that hold the product and the state board of pharmacy",
+      "purposeMix": {
+        "CORE_NARRATIVE": 30,
+        "CLUE": 20,
+        "DECISION_POINT": 15,
+        "OPERATIONAL_FRICTION": 15,
+        "PRESSURE": 15,
+        "NOISE": 5
+      },
+      "promptGuidance": "Write for the designated person and the compounding supervisor. Lot numbers, quantities made, in stock, on units and given must add up. Beyond-use dates follow the scenario author rule; do not invent compounding standards or numeric limits."
+    },
+    {
+      "lint": {
+        "clueRequired": false,
+        "clueRole": "operations"
+      },
+      "id": "controlled_substance_diversion",
+      "label": "Controlled substance diversion",
+      "description": "Cabinet and dispensing data point to one person unusual handling of controlled drugs, with a patient safety question and a set of notices to the DEA and the board.",
+      "keywords": [
+        "diversion",
+        "controlled substance",
+        "discrepancy",
+        "opioid",
+        "override",
+        "waste",
+        "dea",
+        "theft or loss",
+        "form 106",
+        "cabinet",
+        "narcotic",
+        "impaired"
+      ],
+      "phaseArc": [
+        {
+          "title": "Anomaly",
+          "goal": "A report or a pattern shows one user stands out.",
+          "beats": [
+            "A discrepancy report with the same user",
+            "A nurse concern about a colleague",
+            "A usage chart where one user sits far above peers"
+          ]
+        },
+        {
+          "title": "Verification",
+          "goal": "The diversion specialist checks the data and the innocent explanations.",
+          "beats": [
+            "A float assignment that explains part of the pattern",
+            "A waste witness who cannot be reached",
+            "A patient whose pain scores do not match the doses"
+          ]
+        },
+        {
+          "title": "Investigation and patient safety",
+          "goal": "HR, security and pharmacy plan the interview; patients who may have gone without are considered.",
+          "beats": [
+            "A decision to remove the user from the cabinet now or after the interview",
+            "A question about patient harm",
+            "A union representative"
+          ]
+        },
+        {
+          "title": "Notifications",
+          "goal": "The DEA notice, the report and the board are handled on time.",
+          "beats": [
+            "One business day for the Field Division notice after discovery",
+            "The electronic Form 106 within 45 days",
+            "A disagreement about when discovery occurred"
+          ]
+        },
+        {
+          "title": "Corrective action",
+          "goal": "The system closes the gap and the case is documented.",
+          "beats": [
+            "A cabinet configuration change",
+            "A review of other users",
+            "A communication to staff that protects privacy"
+          ]
+        }
+      ],
+      "decisionPointExamples": [
+        "pull the user cabinet access immediately and risk alerting them, or watch for another day to complete the pattern",
+        "treat the loss as significant now and notify the DEA Field Division within one business day, or finish the count first",
+        "interview the user before the report is complete, or wait for HR and security to be ready"
+      ],
+      "clueKinds": "a cabinet discrepancy report, a usage chart comparing one user with peers by hour, a waste record with a witness who was elsewhere, an override pattern",
+      "hurdleKinds": "an innocent explanation that covers part of the data, a witness who cannot be reached, a cabinet report that will not export",
+      "keyCoordination": "the DEA Field Division, the state board of pharmacy, human resources and security",
+      "purposeMix": {
+        "CORE_NARRATIVE": 25,
+        "CLUE": 25,
+        "DECISION_POINT": 15,
+        "OPERATIONAL_FRICTION": 15,
+        "PRESSURE": 10,
+        "NOISE": 10
+      },
+      "promptGuidance": "Write for a diversion specialist and the director of pharmacy. People are fictional and presumed innocent until the case says otherwise; seed an innocent explanation for part of the data. The DEA notice is due within one business day of discovery and Form 106 is filed electronically within 45 days of discovery (21 CFR 1301.76(b)); state rules vary and the scenario author sets them. Registration numbers are fictional."
+    },
+    {
+      "lint": {
+        "clueRequired": false,
+        "clueRole": "operations"
+      },
+      "id": "cold_chain_failure",
+      "label": "Cold chain failure",
+      "description": "A refrigerator or freezer holding vaccines or biologics fails or loses power; the team moves product, decides whether it is still usable and tells patients and the immunization program.",
+      "keywords": [
+        "cold chain",
+        "freezer",
+        "refrigerator",
+        "vaccine storage",
+        "temperature excursion",
+        "data logger",
+        "power failure",
+        "compressor",
+        "viability",
+        "biologic",
+        "vaccine",
+        "alarm"
+      ],
+      "phaseArc": [
+        {
+          "title": "Alarm",
+          "goal": "A temperature alarm or a door left open is noticed, often off hours.",
+          "beats": [
+            "A data logger alarm at 2 a.m. with no answer from the first contact",
+            "A reading at the edge of the range",
+            "A unit that shows a different temperature from its backup"
+          ]
+        },
+        {
+          "title": "Verify and move",
+          "goal": "The team checks the unit, labels exposed product and moves it.",
+          "beats": [
+            "A transport cooler with no validated packout",
+            "A backup unit that is already full",
+            "A generator that does not power the freezer outlet"
+          ]
+        },
+        {
+          "title": "Viability decision",
+          "goal": "Someone decides whether each product is usable, with a manufacturer or program.",
+          "beats": [
+            "A min and max reading and a time out of range",
+            "A manufacturer line that is closed until morning",
+            "Two products with different stability data"
+          ]
+        },
+        {
+          "title": "Patient impact",
+          "goal": "Doses given during or after the excursion are found.",
+          "beats": [
+            "A list of patients vaccinated from the unit since the alarm",
+            "A question about revaccination",
+            "A parent calling the clinic"
+          ]
+        },
+        {
+          "title": "Report and corrective action",
+          "goal": "The immunization program is told and the cause is fixed.",
+          "beats": [
+            "A report to the immunization program",
+            "A probe calibration found to be out of date",
+            "A plan for backup power"
+          ]
+        }
+      ],
+      "decisionPointExamples": [
+        "discard the exposed vaccine now, or hold it labeled do not use until the manufacturer answers in the morning",
+        "move the product to the hospital pharmacy 20 minutes away in a cooler, or to the neighboring clinic unit that is closer but less monitored",
+        "recall and revaccinate patients given doses after the alarm, or wait for the viability answer"
+      ],
+      "clueKinds": "a data logger report with min, max and time outside the range, a second probe that disagrees, a certificate of calibration that has expired, a power company outage notice",
+      "hurdleKinds": "a backup unit that is full, a generator outlet that is not on the freezer circuit, a manufacturer line that is closed, a packout that was never validated",
+      "keyCoordination": "the immunization program and the vaccine manufacturer",
+      "purposeMix": {
+        "CORE_NARRATIVE": 25,
+        "CLUE": 20,
+        "OPERATIONAL_FRICTION": 20,
+        "DECISION_POINT": 15,
+        "PRESSURE": 10,
+        "NOISE": 10
+      },
+      "promptGuidance": "Write for a vaccine coordinator or a pharmacy night supervisor. Temperatures are given in both Celsius and Fahrenheit and agree with the stored range (for example 2 to 8 C is 36 to 46 F). An excursion report states the minimum, the maximum and the time outside the range. Viability answers come from the scenario fictional product table or a manufacturer; do not invent real stability data."
+    },
+    {
+      "lint": {
+        "clueRequired": false,
+        "clueRole": "operations"
+      },
+      "id": "drug_recall",
+      "label": "Drug recall",
+      "description": "A manufacturer or FDA recall or a contamination notice reaches a pharmacy; lots must be found, quarantined and traced to patients who need to be told.",
+      "keywords": [
+        "recall",
+        "lot",
+        "quarantine",
+        "contamination",
+        "class i",
+        "class ii",
+        "withdrawal",
+        "trace",
+        "dscsa",
+        "defective",
+        "sterility"
+      ],
+      "phaseArc": [
+        {
+          "title": "Notice",
+          "goal": "The recall notice arrives by an unexpected route.",
+          "beats": [
+            "A fax from the wholesaler on a Friday evening",
+            "A news story before the notice",
+            "A notice listing lots in a different package size"
+          ]
+        },
+        {
+          "title": "Find and quarantine",
+          "goal": "The pharmacy finds every lot it has and stops use.",
+          "beats": [
+            "A count of received, dispensed and on hand that does not add up",
+            "A lot in a satellite cabinet",
+            "A return that was already shipped"
+          ]
+        },
+        {
+          "title": "Trace to patients",
+          "goal": "Dispensed lots are traced to patients and prescribers.",
+          "beats": [
+            "A list of patients that includes outpatients and discharged inpatients",
+            "A pharmacy system that cannot search by lot",
+            "A prescriber who wants to switch therapy"
+          ]
+        },
+        {
+          "title": "Communication",
+          "goal": "Patients, clinicians and the media are told in plain language.",
+          "beats": [
+            "A call script and a patient letter",
+            "A reporter call",
+            "A social post that gets the product wrong"
+          ]
+        },
+        {
+          "title": "Closure",
+          "goal": "The recall is closed and the response recorded.",
+          "beats": [
+            "A response form returned to the firm",
+            "A lessons list",
+            "A decision to change how lots are scanned"
+          ]
+        }
+      ],
+      "decisionPointExamples": [
+        "quarantine every lot of the product now and accept a shortage, or only the listed lots and trust the notice",
+        "call every patient who received the lot this week, or start with the highest-risk group and mail the rest",
+        "switch all patients to an alternative today, or let prescribers decide patient by patient"
+      ],
+      "clueKinds": "a lot number in a notice that matches a lot on the shelf, a count that does not add up, a dispensing record with a lot in it, a return already shipped",
+      "hurdleKinds": "a pharmacy system that cannot search by lot, a satellite cabinet nobody checked, a patient list with incomplete contact data",
+      "keyCoordination": "the wholesaler, the manufacturer and the prescribers whose patients received the lot",
+      "purposeMix": {
+        "CORE_NARRATIVE": 25,
+        "CLUE": 20,
+        "OPERATIONAL_FRICTION": 20,
+        "DECISION_POINT": 15,
+        "PRESSURE": 10,
+        "NOISE": 10
+      },
+      "promptGuidance": "Write for a pharmacy operations manager. Quantities received, dispensed, on hand and returned must add up per lot. Lot numbers and NDCs are fictional unless quoted from a dated FDA record."
+    },
+    {
+      "lint": {
+        "clueRequired": false,
+        "clueRole": "operations"
+      },
+      "id": "pharmacy_outage",
+      "label": "Pharmacy systems outage",
+      "description": "The claims switch, the e-prescribing network, the pharmacy information system or the dispensing cabinets stop working; the pharmacy keeps patients safe under downtime, with a queue of waiting patients.",
+      "keywords": [
+        "claims",
+        "switch",
+        "e-prescribing",
+        "eprescribing",
+        "adjudication",
+        "downtime",
+        "pharmacy system",
+        "cabinet failure",
+        "outage",
+        "cash",
+        "manual claims",
+        "emergency supply",
+        "ransomware"
+      ],
+      "phaseArc": [
+        {
+          "title": "First failures",
+          "goal": "Claims reject or prescriptions stop arriving and the cause is unknown.",
+          "beats": [
+            "A rejected claim at the counter with a vague message",
+            "A prescriber calling because the pharmacy did not receive an order",
+            "A cabinet that will not open"
+          ]
+        },
+        {
+          "title": "Workarounds",
+          "goal": "The pharmacy chooses how to keep dispensing: manual claims, cash, emergency supply or waiting.",
+          "beats": [
+            "A line at the counter and a pharmacist who must decide who waits",
+            "A patient on a critical medication with no coverage check",
+            "A district manager with a policy that does not fit"
+          ]
+        },
+        {
+          "title": "Downtime operations",
+          "goal": "Paper workflows run for hours; the queue grows.",
+          "beats": [
+            "A downtime form with a missing field",
+            "A technician who has not used the paper process",
+            "A queue whose oldest item keeps getting older"
+          ]
+        },
+        {
+          "title": "Communication and reconciliation",
+          "goal": "Patients, prescribers and payers are told; later, work is reentered.",
+          "beats": [
+            "A message to patients about cash prices",
+            "A reconciliation of manual fills",
+            "A payer that will not honor late claims"
+          ]
+        },
+        {
+          "title": "Recovery",
+          "goal": "Systems return and the pharmacy audits what happened.",
+          "beats": [
+            "An interface that restarts with a duplicate queue",
+            "A review of downtime errors",
+            "A decision to change the plan"
+          ]
+        }
+      ],
+      "decisionPointExamples": [
+        "dispense a critical medication on cash and bill later, or hold it until the claim can be checked",
+        "send waiting patients to a nearby pharmacy, or keep them and extend hours",
+        "switch to the backup claims network now, or wait another hour for the primary to return"
+      ],
+      "clueKinds": "a claim rejection code that repeats across payers, a vendor status page, a prescriber saying orders are sent, a queue age that keeps rising",
+      "hurdleKinds": "a missing downtime form, a technician new to paper, a cabinet override that logs nothing, a backup network not contracted",
+      "keyCoordination": "the claims switch vendor, the payers and the prescribers",
+      "purposeMix": {
+        "CORE_NARRATIVE": 25,
+        "OPERATIONAL_FRICTION": 25,
+        "TECH_HURDLE": 15,
+        "CLUE": 10,
+        "PRESSURE": 15,
+        "NOISE": 10
+      },
+      "promptGuidance": "Write for a pharmacist-in-charge or a pharmacy operations manager. Queue counts and ages change over time and never reset. Do not invent a real vendor, payer or switch name; use fictional ones."
+    }
+  ],
+  "noiseExamples": [
+    "a delivery van from the wrong wholesaler at the dock",
+    "a customer asking where the cough drops are",
+    "a label printer out of paper",
+    "a vendor representative offering a new inventory app",
+    "a technician asking for a schedule swap"
+  ],
+  "pressureExamples": [
+    "a physician demanding the drug for one patient despite the allocation rule",
+    "a nurse manager saying her unit was shorted compared with another",
+    "a reporter asking whether patients are going without",
+    "a state health department asking for the shortage status by noon",
+    "a family member posting that the pharmacy refused a refill",
+    "the DEA field division asking when the loss was discovered"
+  ],
+  "rolePatterns": {
+    "technical": "informatics|inf\\b",
+    "operations": "director of pharmacy|operations|pharmacist-in-charge|pic\\b|buyer|vaccine coordinator|designated"
+  },
+  "agencyPattern": "FDA|DEA|CDC|CMS|HHS|ASPR|Joint Commission|state board of pharmacy|ISMP|ASHP|USP",
+  "coreCapabilities": [
+    "supply_chain_integrity_and_security",
+    "logistics_and_supply_chain_management",
+    "public_health_healthcare_and_emergency_medical_services",
+    "operational_coordination",
+    "operational_communications",
+    "public_information_and_warning"
+  ],
+  "regulations": ["hipaa_breach"],
+  "suggestedToolkits": ["pharmacy", "clinical_care", "clinical_systems", "media_environment"]
+}

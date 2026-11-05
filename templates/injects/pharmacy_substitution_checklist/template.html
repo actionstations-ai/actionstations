@@ -1,0 +1,82 @@
+<section class="page">
+  <p class="marking">
+    {{default fields.marking "EXERCISE · FICTIONAL ORGANIZATION AND RECORDS · NOT FOR CLINICAL
+    USE"}}
+  </p>
+  <header class="head">
+    <div>
+      <div class="org">{{fields.organization}}</div>
+      <h1 class="title">Substitution safety checklist</h1>
+    </div>
+    <div class="sub">{{fields.date}}<br />{{fields.reviewer}}</div>
+  </header>
+  <table class="kv">
+    <tr>
+      <th scope="row">Short product</th>
+      <td>{{fields.current}}</td>
+    </tr>
+    <tr>
+      <th scope="row">Proposed substitute</th>
+      <td>{{fields.alternative}}</td>
+    </tr>
+    {{#if fields.proposedUse}}
+    <tr>
+      <th scope="row">Use</th>
+      <td>{{fields.proposedUse}}</td>
+    </tr>
+    {{/if}} {{#if fields.proposedDose}}
+    <tr>
+      <th scope="row">Dose in the order</th>
+      <td>
+        {{fields.proposedDose.drug}} {{fields.proposedDose.dose}} {{fields.proposedDose.route}}
+      </td>
+    </tr>
+    {{/if}}
+  </table>
+  <h2>Checks</h2>
+  <table class="grid">
+    <thead>
+      <tr>
+        <th scope="col">Check</th>
+        <th scope="col">Current</th>
+        <th scope="col">Substitute</th>
+        <th scope="col">Result</th>
+        <th scope="col">Finding</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each fields.checks}}
+      <tr>
+        <th scope="row">{{this.item}}</th>
+        <td>{{this.from}}</td>
+        <td>{{this.to}}</td>
+        <td><span class="tag st-{{lower this.result}}">{{this.result}}</span></td>
+        <td>{{this.note}}</td>
+      </tr>
+      {{/each}}
+    </tbody>
+  </table>
+  <h2>Decision</h2>
+  <table class="kv">
+    <tr>
+      <th scope="row">Decision</th>
+      <td><strong>{{fields.decision}}</strong></td>
+    </tr>
+    {{#if fields.conditions}}
+    <tr>
+      <th scope="row">Conditions</th>
+      <td>{{fields.conditions}}</td>
+    </tr>
+    {{/if}} {{#if fields.informed}}
+    <tr>
+      <th scope="row">Who is told</th>
+      <td>{{fields.informed}}</td>
+    </tr>
+    {{/if}}
+  </table>
+
+  <footer class="foot">
+    <span>Exercise content, not clinical guidance. A Fail result blocks approval until fixed.</span
+    ><span>Exercise record</span>
+  </footer>
+</section>

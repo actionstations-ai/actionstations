@@ -1,0 +1,78 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Dispensing and verification queue report",
+  "description": "The state of the pharmacy work queues at one time: count, age of the oldest item against a target, priority items and staff. A queue is over target when its oldest item is older than the target.",
+  "required": ["organization", "asOf", "queues"],
+  "properties": {
+    "marking": {
+      "type": "string",
+      "description": "Exercise marking printed above the form",
+      "examples": ["EXERCISE · FICTIONAL ORGANIZATION AND RECORDS · NOT FOR CLINICAL USE"]
+    },
+    "organization": {
+      "type": "string",
+      "description": "Organization name (fictional)",
+      "examples": ["Birch Lane Pharmacy (fictional)"]
+    },
+    "asOf": {
+      "type": "string",
+      "description": "Date and time",
+      "examples": ["11/09/2026 10:30"]
+    },
+    "queues": {
+      "type": "array",
+      "description": "One row per queue (1-8)",
+      "maxItems": 8,
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Queue",
+            "examples": ["Verification"]
+          },
+          "count": {
+            "type": "integer",
+            "minimum": 0,
+            "description": "Items in the queue"
+          },
+          "oldestMinutes": {
+            "type": "integer",
+            "minimum": 0,
+            "description": "Age of the oldest item in minutes"
+          },
+          "targetMinutes": {
+            "type": "integer",
+            "minimum": 0,
+            "description": "Target for the oldest item in minutes"
+          },
+          "status": {
+            "type": "string",
+            "description": "Within or over the target",
+            "enum": ["Within target", "Over target"]
+          },
+          "priority": {
+            "type": "integer",
+            "minimum": 0,
+            "description": "Items flagged priority"
+          },
+          "staff": {
+            "type": "integer",
+            "minimum": 0,
+            "description": "Staff working the queue"
+          }
+        },
+        "additionalProperties": false,
+        "required": ["name", "count", "oldestMinutes", "targetMinutes", "status"]
+      }
+    },
+    "note": {
+      "type": "string",
+      "description": "Note",
+      "examples": ["Claims rejections are holding 31 prescriptions in Verification."]
+    }
+  },
+  "type": "object",
+  "additionalProperties": false
+}

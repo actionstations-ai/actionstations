@@ -1,0 +1,127 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Recall notice and recall response log",
+  "description": "A recall notice for one product with a response log by lot: received, dispensed, on hand, returned and quarantined. For each lot, received equals dispensed plus on hand plus returned, and quarantined is part of on hand.",
+  "required": ["organization", "product", "reason", "lots"],
+  "properties": {
+    "marking": {
+      "type": "string",
+      "description": "Exercise marking printed above the form",
+      "examples": ["EXERCISE · FICTIONAL ORGANIZATION AND RECORDS · NOT FOR CLINICAL USE"]
+    },
+    "organization": {
+      "type": "string",
+      "description": "Organization name (fictional)",
+      "examples": ["Harbor Point Health pharmacy (fictional)"]
+    },
+    "noticeNumber": {
+      "type": "string",
+      "description": "Notice number",
+      "examples": ["RC-2026-31"],
+      "x-translate": false
+    },
+    "issuedBy": {
+      "type": "string",
+      "description": "Who issued the recall (fictional firm)",
+      "examples": ["Northgate Pharmaceuticals (fictional)"]
+    },
+    "issuedOn": {
+      "type": "string",
+      "description": "Date of the notice",
+      "examples": ["11/05/2026"]
+    },
+    "product": {
+      "type": "string",
+      "description": "Product",
+      "examples": ["Ondansetron injection, 4 mg/2 mL vial"]
+    },
+    "ndc": {
+      "type": "string",
+      "description": "NDC (fictional)",
+      "examples": ["99998-0930-02"],
+      "x-translate": false
+    },
+    "recallClass": {
+      "type": "string",
+      "description": "Class stated in the notice",
+      "enum": ["Class I", "Class II", "Class III", "Not classified yet"]
+    },
+    "reason": {
+      "type": "string",
+      "description": "Reason for the recall",
+      "examples": ["Particulate matter found in retained samples of two lots."]
+    },
+    "action": {
+      "type": "string",
+      "description": "Action requested",
+      "examples": ["Stop use, quarantine, return and complete the response form."]
+    },
+    "lots": {
+      "type": "array",
+      "description": "Response by lot (1-8)",
+      "maxItems": 8,
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "properties": {
+          "lot": {
+            "type": "string",
+            "description": "Lot",
+            "examples": ["EX-30417"],
+            "x-translate": false
+          },
+          "expiration": {
+            "type": "string",
+            "description": "Expiration",
+            "examples": ["2027-06"],
+            "x-translate": false
+          },
+          "received": {
+            "type": "integer",
+            "minimum": 0,
+            "description": "Units received"
+          },
+          "dispensed": {
+            "type": "integer",
+            "minimum": 0,
+            "description": "Units dispensed"
+          },
+          "onHand": {
+            "type": "integer",
+            "minimum": 0,
+            "description": "Units on hand"
+          },
+          "returned": {
+            "type": "integer",
+            "minimum": 0,
+            "description": "Units returned"
+          },
+          "quarantined": {
+            "type": "integer",
+            "minimum": 0,
+            "description": "Units quarantined (part of on hand)"
+          },
+          "where": {
+            "type": "string",
+            "description": "Where the units are",
+            "examples": ["Central pharmacy shelf C4; ED cabinet"]
+          }
+        },
+        "additionalProperties": false,
+        "required": ["lot", "received", "dispensed", "onHand", "returned"]
+      }
+    },
+    "patientsToContact": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Patients to contact"
+    },
+    "responseDue": {
+      "type": "string",
+      "description": "Response due",
+      "examples": ["11/07/2026"]
+    }
+  },
+  "type": "object",
+  "additionalProperties": false
+}

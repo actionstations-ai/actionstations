@@ -1,0 +1,48 @@
+{
+  "fields": {
+    "organization": "Harbor Point Health pharmacy (fictional)",
+    "product": "Magnesium sulfate in water, 20 g/500 mL (fictional batch)",
+    "batch": "CMP-1108-02",
+    "madeOn": "11/08/2026 14:10",
+    "preparedBy": "Compounding technician 3",
+    "verifiedBy": "Pharmacist 2",
+    "beyondUse": "11/10/2026 14:10",
+    "unitsMade": 24,
+    "ingredients": [
+      {
+        "name": "Magnesium sulfate 50%",
+        "lot": "EX-MG-5521",
+        "expected": "40 mL",
+        "actual": "40 mL"
+      },
+      {
+        "name": "Sterile water for injection",
+        "lot": "EX-SW-0912",
+        "expected": "460 mL",
+        "actual": "460 mL"
+      }
+    ],
+    "checks": [
+      {
+        "check": "Label against batch record",
+        "spec": "Match",
+        "result": "Match",
+        "outcome": "Pass"
+      },
+      {
+        "check": "Visual inspection",
+        "spec": "Clear, no particles",
+        "result": "Clear",
+        "outcome": "Pass"
+      },
+      {
+        "check": "Assay (percent of labeled)",
+        "spec": "90 to 110 percent",
+        "result": "148 percent",
+        "outcome": "Fail"
+      }
+    ],
+    "disposition": "Quarantined; 18 units on hand, 6 sent to 4 West; recall of the six units in progress.",
+    "investigation": "The stock concentration in the batch record template does not match the vial used."
+  }
+}

@@ -49,6 +49,7 @@ describe('built-in domain profiles', () => {
       'energy_utility',
       'healthcare',
       'nursing',
+      'pharmacy',
       'campus',
       'stadium_venue',
       'port_maritime',

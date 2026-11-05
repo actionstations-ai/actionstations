@@ -1,0 +1,137 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Compounding batch record and out-of-spec result",
+  "description": "A compounding batch record: ingredients with expected and actual amounts, in-process checks and a result that failed its specification, with the disposition of the batch. Beyond-use dates follow the scenario rule.",
+  "required": ["organization", "product", "batch", "ingredients", "checks", "disposition"],
+  "properties": {
+    "marking": {
+      "type": "string",
+      "description": "Exercise marking printed above the form",
+      "examples": ["EXERCISE · FICTIONAL ORGANIZATION AND RECORDS · NOT FOR CLINICAL USE"]
+    },
+    "organization": {
+      "type": "string",
+      "description": "Organization name (fictional)",
+      "examples": ["Harbor Point Health pharmacy (fictional)"]
+    },
+    "product": {
+      "type": "string",
+      "description": "Preparation",
+      "examples": ["Magnesium sulfate in water, 20 g/500 mL (fictional batch)"]
+    },
+    "batch": {
+      "type": "string",
+      "description": "Batch number",
+      "examples": ["CMP-1108-02"],
+      "x-translate": false
+    },
+    "madeOn": {
+      "type": "string",
+      "description": "Date and time made",
+      "examples": ["11/08/2026 14:10"]
+    },
+    "preparedBy": {
+      "type": "string",
+      "description": "Prepared by (role)",
+      "examples": ["Compounding technician 3"]
+    },
+    "verifiedBy": {
+      "type": "string",
+      "description": "Verified by (role)",
+      "examples": ["Pharmacist 2"]
+    },
+    "beyondUse": {
+      "type": "string",
+      "description": "Beyond-use date set by the scenario rule",
+      "examples": ["11/10/2026 14:10"]
+    },
+    "unitsMade": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Units made"
+    },
+    "ingredients": {
+      "type": "array",
+      "description": "Ingredients (1-8)",
+      "maxItems": 8,
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Ingredient",
+            "examples": ["Magnesium sulfate 50%"]
+          },
+          "lot": {
+            "type": "string",
+            "description": "Lot",
+            "examples": ["EX-MG-5521"],
+            "x-translate": false
+          },
+          "expected": {
+            "type": "string",
+            "description": "Expected amount",
+            "examples": ["40 mL"]
+          },
+          "actual": {
+            "type": "string",
+            "description": "Actual amount",
+            "examples": ["40 mL"]
+          }
+        },
+        "additionalProperties": false,
+        "required": ["name", "expected", "actual"]
+      }
+    },
+    "checks": {
+      "type": "array",
+      "description": "In-process checks and results (1-8)",
+      "maxItems": 8,
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "properties": {
+          "check": {
+            "type": "string",
+            "description": "Check",
+            "examples": ["Assay (percent of labeled)"]
+          },
+          "spec": {
+            "type": "string",
+            "description": "Specification",
+            "examples": ["90 to 110 percent"]
+          },
+          "result": {
+            "type": "string",
+            "description": "Result",
+            "examples": ["148 percent"]
+          },
+          "outcome": {
+            "type": "string",
+            "description": "Outcome",
+            "enum": ["Pass", "Fail"]
+          }
+        },
+        "additionalProperties": false,
+        "required": ["check", "spec", "result", "outcome"]
+      }
+    },
+    "disposition": {
+      "type": "string",
+      "description": "Disposition of the batch",
+      "examples": [
+        "Quarantined; 18 units on hand, 6 sent to 4 West; recall of the six units in progress."
+      ]
+    },
+    "investigation": {
+      "type": "string",
+      "description": "Investigation note",
+      "examples": [
+        "Stock concentration was entered as 50 percent when the vial was 10 percent in the batch record template."
+      ]
+    }
+  },
+  "type": "object",
+  "additionalProperties": false
+}
