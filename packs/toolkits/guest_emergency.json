@@ -1,0 +1,133 @@
+{
+  "id": "guest_emergency",
+  "name": "Guest emergency",
+  "description": "Emergencies that involve guests away from home on a ship or in a property: muster and accounting, a person overboard, an alleged serious crime, a tower evacuation read against the in-house list, hurricane departures and shelter in place, a guest death or serious injury, a hotline script, and an outage of the property management system. Stays at coordination, accounting and notification; it carries no tactical or medical detail.",
+  "appliesTo": {
+    "keywords": [
+      "muster",
+      "passenger accounting",
+      "man overboard",
+      "missing passenger",
+      "guest death",
+      "in-house guest list",
+      "floor evacuation",
+      "guest departure",
+      "shelter in place",
+      "hotline",
+      "property management system",
+      "keycard outage",
+      "cruise ship crime",
+      "next of kin"
+    ],
+    "domains": [
+      "hospitality",
+      "commercial_facilities",
+      "stadium_venue",
+      "port_maritime",
+      "airport",
+      "campus"
+    ]
+  },
+  "injectTypes": [
+    "muster_accounting_report",
+    "man_overboard_checklist",
+    "alleged_crime_report",
+    "floor_evacuation_status",
+    "hurricane_guest_departure_plan",
+    "guest_casualty_notification_checklist",
+    "guest_hotline_script",
+    "pms_outage_board"
+  ],
+  "outsideParties": [
+    "the FBI field office",
+    "the US Coast Guard rescue coordination center",
+    "consulates and embassies",
+    "the medical examiner or coroner",
+    "guests' families and next of kin",
+    "the fire department",
+    "county emergency management",
+    "airline and ground transport partners",
+    "the brand or franchisor"
+  ],
+  "advisorRoles": [
+    {
+      "key": "guest_safety_adviser",
+      "name": "Hotel or ship safety adviser",
+      "abbreviation": "SAFE-ADV",
+      "team": "Advisors",
+      "description": "Advises on muster, accounting methods, evacuation and the order of notifications."
+    },
+    {
+      "key": "guest_care_adviser",
+      "name": "Guest care and family liaison adviser",
+      "abbreviation": "CARE-ADV",
+      "team": "Advisors",
+      "description": "Advises on talking with families, hotline scripts and care for guests and crew."
+    }
+  ],
+  "documents": [],
+  "knowledge": {
+    "glossary": [
+      {
+        "term": "Muster and accounting",
+        "definition": "Counting persons at assembly stations against the manifest (ship) or the in-house guest list (property). Expected equals counted plus not accounted for; state the time of the count and the time of the list."
+      },
+      {
+        "term": "In-house guest list",
+        "definition": "The property management system's list of registered guests by room. A printout is older than the live list; late check-ins are not on it."
+      },
+      {
+        "term": "Cruise crime reporting",
+        "definition": "46 U.S.C. 3507(g): the line telephones the nearest FBI field office as soon as possible after homicide, suspicious death, a missing US national, kidnapping, assault with serious bodily injury, certain sexual offenses, firing or tampering with the vessel, or theft over $10,000, files a written report on the Department of Transportation website, and keeps a complaint log open to the FBI and the Coast Guard."
+      },
+      {
+        "term": "Man overboard",
+        "definition": "Alarm, mark the position, turn the ship, post lookouts, call the Coast Guard rescue coordination center, muster to confirm identity, secure camera recordings."
+      },
+      {
+        "term": "Departure window",
+        "definition": "The last time guests can leave by one method (shuttle, own vehicle, flight) before a road, causeway or airport closes; each window is tied to an advisory or closure time."
+      }
+    ],
+    "productConventions": [
+      "Guests, crew and families appear as role codes (Guest A) or room codes; no real names or personal data.",
+      "Boards state the time of the count and of the list, and totals reconcile row by row.",
+      "Hurricane plans tie every action to an advisory time or a road or airport closure, in local time.",
+      "A notification checklist orders family first, then authorities and the consulate; the statement waits until the family is told."
+    ],
+    "realismRules": [
+      "Camera footage is kept at least 20 days (46 U.S.C. 3507(b)).",
+      "Describe coordination, never injuries, methods or weapons.",
+      "A cabin or room is sealed and recordings secured before they are overwritten.",
+      "Ships, lines, hotels and people are fictional; real ports and cities are fine."
+    ]
+  },
+  "lintRules": ["hosp_accounting_reconciles", "hosp_crime_report_roles"],
+  "capabilities": [
+    {
+      "coreCapability": "mass_care_services",
+      "criticalTasks": [
+        "Account for every guest and crew member and say how many are not accounted for at each time",
+        "Move guests to shelter or onward transport inside the departure windows"
+      ],
+      "mappings": []
+    },
+    {
+      "coreCapability": "fatality_management_services",
+      "criticalTasks": [
+        "Notify family first, then the consulate, the medical examiner and the FBI where reportable",
+        "Hold the public statement until the family has been told"
+      ],
+      "mappings": []
+    },
+    {
+      "coreCapability": "on_scene_security_protection_and_law_enforcement",
+      "criticalTasks": [
+        "Telephone the FBI as soon as possible for a reportable incident",
+        "Secure evidence, recordings and the cabin"
+      ],
+      "mappings": []
+    }
+  ],
+  "exerciseTags": []
+}

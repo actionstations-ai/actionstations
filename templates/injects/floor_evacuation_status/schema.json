@@ -1,0 +1,115 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Floor evacuation status",
+  "description": "Status of a tower evacuation by floor, read against the in-house guest list: guests registered, accounted for at the assembly point, still unaccounted, and guests with mobility or other assistance needs. The time of the list and the time of the count are both stated, because the list may be older than the count.",
+  "type": "object",
+  "required": ["property", "listPrintedAt", "asOf", "floors"],
+  "properties": {
+    "marking": {
+      "type": "string",
+      "description": "Exercise marking",
+      "examples": ["EXERCISE \u00b7 EXERCISE \u00b7 EXERCISE"],
+      "x-translate": false
+    },
+    "property": {
+      "type": "string",
+      "description": "Property and tower (fictional)",
+      "examples": ["Palmetto Bay Resort, North Tower"],
+      "x-translate": false
+    },
+    "listPrintedAt": {
+      "type": "string",
+      "description": "When the in-house list was printed or last refreshed",
+      "examples": ["19:30"],
+      "x-translate": false
+    },
+    "asOf": {
+      "type": "string",
+      "description": "Time of this status",
+      "examples": ["19:58"],
+      "x-translate": false
+    },
+    "event": {
+      "type": "string",
+      "description": "What triggered the evacuation",
+      "examples": ["Fire alarm, smoke reported on Floor 14"]
+    },
+    "floors": {
+      "type": "array",
+      "maxItems": 24,
+      "description": "Status by floor",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "description": "Row",
+        "properties": {
+          "floor": {
+            "type": "string",
+            "description": "Floor",
+            "examples": ["14"],
+            "x-translate": false
+          },
+          "registered": {
+            "type": "number",
+            "description": "Guests registered",
+            "examples": [62],
+            "minimum": 0,
+            "maximum": 2000
+          },
+          "accounted": {
+            "type": "number",
+            "description": "Guests accounted for at the assembly point",
+            "examples": [41],
+            "minimum": 0,
+            "maximum": 2000
+          },
+          "unaccounted": {
+            "type": "number",
+            "description": "Registered guests not accounted for",
+            "examples": [21],
+            "minimum": 0,
+            "maximum": 2000
+          },
+          "assistance": {
+            "type": "number",
+            "description": "Guests needing assistance",
+            "examples": [3],
+            "minimum": 0,
+            "maximum": 2000
+          },
+          "state": {
+            "type": "string",
+            "description": "Floor state",
+            "examples": ["Clearing"],
+            "x-translate": false
+          }
+        }
+      },
+      "examples": [
+        [
+          {
+            "floor": "14",
+            "registered": 62,
+            "accounted": 41,
+            "unaccounted": 21,
+            "assistance": 3,
+            "state": "Clearing"
+          }
+        ]
+      ]
+    },
+    "notes": {
+      "type": "array",
+      "maxItems": 6,
+      "description": "Notes for command",
+      "items": {
+        "type": "string",
+        "description": "Entry"
+      },
+      "examples": [
+        ["Guests with assistance needs on 14 and 15 are with floor wardens at stairwell B"]
+      ]
+    }
+  },
+  "additionalProperties": false
+}

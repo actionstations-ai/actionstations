@@ -3,6 +3,11 @@
 // reports nothing.
 import { registerFieldLintRule, type FieldLintIssue, type FieldLintRule } from '../field-lint'
 import {
+  checkAccountingReconciles,
+  checkCrimeReportRoles,
+  type GuestLintProblem,
+} from './guest-lint'
+import {
   checkCumulative,
   checkIsolationLetter,
   checkNoMedicalAdvice,
@@ -21,7 +26,7 @@ const rec = (v: unknown): Record<string, unknown> | undefined =>
     ? (v as Record<string, unknown>)
     : undefined
 
-const issues = (ps: HospLintProblem[], path = 'fields'): FieldLintIssue[] =>
+const issues = (ps: (HospLintProblem | GuestLintProblem)[], path = 'fields'): FieldLintIssue[] =>
   ps.map((p) => ({ path, message: p.message }))
 
 function counts(f: Record<string, unknown>) {
@@ -112,4 +117,31 @@ const isolation: FieldLintRule = {
   },
 }
 
-for (const r of [percent, cumulative, timing, medicalAdvice, isolation]) registerFieldLintRule(r)
+const rowsOf = (v: unknown): Record<string, unknown>[] =>
+  Array.isArray(v) ? v.flatMap((r) => (rec(r) ? [rec(r)!] : [])) : []
+
+const accounting: FieldLintRule = {
+  id: 'hosp_accounting_reconciles',
+  injectTypes: ['muster_accounting_report', 'floor_evacuation_status'],
+  check(f) {
+    const rows = [...rowsOf(f.groups), ...rowsOf(f.floors)].flatMap((r, i) => {
+      const total = num(r.expected) ?? num(r.registered)
+      const accounted = num(r.mustered) ?? num(r.accounted)
+      const unaccounted = num(r.unaccounted)
+      if (total === undefined || accounted === undefined || unaccounted === undefined) return []
+      return [
+        { label: str(r.group) ?? `floor ${str(r.floor) ?? i + 1}`, total, accounted, unaccounted },
+      ]
+    })
+    return issues(checkAccountingReconciles(rows))
+  },
+}
+
+const crimeRoles: FieldLintRule = {
+  id: 'hosp_crime_report_roles',
+  injectTypes: ['alleged_crime_report', 'guest_casualty_notification_checklist'],
+  check: (f) => issues(checkCrimeReportRoles(allStrings(f))),
+}
+
+for (const r of [percent, cumulative, timing, medicalAdvice, isolation, accounting, crimeRoles])
+  registerFieldLintRule(r)

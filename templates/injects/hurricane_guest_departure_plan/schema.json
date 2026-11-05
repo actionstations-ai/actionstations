@@ -1,0 +1,112 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Hurricane guest departure plan",
+  "description": "Plan for guest departures ahead of a tropical cyclone, tied to an advisory time and to flight and road clearance: guests by departure method, the last safe departure for each, remaining guests and the shelter-in-place decision. Every time is local and every action names an advisory or clearance it depends on.",
+  "type": "object",
+  "required": ["property", "advisory", "asOf", "windows"],
+  "properties": {
+    "marking": {
+      "type": "string",
+      "description": "Exercise marking",
+      "examples": ["EXERCISE \u00b7 EXERCISE \u00b7 EXERCISE"],
+      "x-translate": false
+    },
+    "property": {
+      "type": "string",
+      "description": "Property (fictional)",
+      "examples": ["Palmetto Bay Resort"],
+      "x-translate": false
+    },
+    "storm": {
+      "type": "string",
+      "description": "Storm and advisory in words",
+      "examples": ["Hurricane Delia, Advisory 14, 5:00 p.m."],
+      "x-translate": false
+    },
+    "advisory": {
+      "type": "string",
+      "description": "What the advisory says about the property",
+      "examples": [
+        "A hurricane warning is in effect for the coast. Tropical-storm-force winds are expected to arrive Friday 2:00 a.m."
+      ]
+    },
+    "asOf": {
+      "type": "string",
+      "description": "Time of this plan",
+      "examples": ["Thursday, 6:00 p.m."],
+      "x-translate": false
+    },
+    "windows": {
+      "type": "array",
+      "maxItems": 8,
+      "description": "Departure windows",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "description": "Row",
+        "properties": {
+          "method": {
+            "type": "string",
+            "description": "Departure method",
+            "examples": ["Airport shuttle"],
+            "x-translate": false
+          },
+          "guests": {
+            "type": "number",
+            "description": "Guests planned",
+            "examples": [210],
+            "minimum": 0,
+            "maximum": 5000
+          },
+          "lastDeparture": {
+            "type": "string",
+            "description": "Last safe departure and what sets it",
+            "examples": ["Thursday 10:00 p.m., before the airport road closes at midnight"],
+            "x-translate": false
+          },
+          "status": {
+            "type": "string",
+            "description": "Status",
+            "examples": ["On plan"],
+            "x-translate": false
+          }
+        }
+      },
+      "examples": [
+        [
+          {
+            "method": "Airport shuttle",
+            "guests": 210,
+            "lastDeparture": "Thursday 10:00 p.m.",
+            "status": "On plan"
+          }
+        ]
+      ]
+    },
+    "remaining": {
+      "type": "number",
+      "description": "Guests expected to remain on property",
+      "examples": [180],
+      "minimum": 0,
+      "maximum": 5000
+    },
+    "shelterDecision": {
+      "type": "string",
+      "description": "The shelter-in-place decision and who made it",
+      "examples": [
+        "Guests who remain move to the ballroom level and Floors 2 to 6 at 11:00 p.m. General Manager decision at 5:45 p.m."
+      ]
+    },
+    "actions": {
+      "type": "array",
+      "maxItems": 10,
+      "description": "Actions with owner and time",
+      "items": {
+        "type": "string",
+        "description": "Entry"
+      },
+      "examples": [["Front office confirms every departing guest by room, 8:00 p.m."]]
+    }
+  },
+  "additionalProperties": false
+}

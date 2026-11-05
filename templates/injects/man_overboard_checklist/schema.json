@@ -1,0 +1,122 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Man overboard checklist",
+  "description": "Checklist and search plan for a person reported overboard: time and place of the last sighting, actions with owners and times, notifications, and what is held as evidence. Coordination-level steps only.",
+  "type": "object",
+  "required": ["vessel", "reportedAt", "lastSeen", "items"],
+  "properties": {
+    "marking": {
+      "type": "string",
+      "description": "Exercise marking",
+      "examples": ["EXERCISE \u00b7 EXERCISE \u00b7 EXERCISE"],
+      "x-translate": false
+    },
+    "vessel": {
+      "type": "string",
+      "description": "Vessel (fictional)",
+      "examples": ["MV Harbor Lantern"],
+      "x-translate": false
+    },
+    "line": {
+      "type": "string",
+      "description": "Line (fictional)",
+      "examples": ["Calloway Cruise Line"],
+      "x-translate": false
+    },
+    "reportedAt": {
+      "type": "string",
+      "description": "When reported",
+      "examples": ["Nov 4, 2026, 02:14"],
+      "x-translate": false
+    },
+    "lastSeen": {
+      "type": "string",
+      "description": "Last known sighting and how it is known",
+      "examples": ["Deck 12 aft rail at 01:51, from a camera still and a bar receipt at 01:38"]
+    },
+    "position": {
+      "type": "string",
+      "description": "Ship position and course at the report",
+      "examples": ["27 12 N, 078 41 W, course 070, 18 knots"],
+      "x-translate": false
+    },
+    "searchPlan": {
+      "type": "string",
+      "description": "The search plan in a sentence",
+      "examples": [
+        "Williamson turn executed by the Master; ship returns on reciprocal course; four lookouts posted; Coast Guard search and rescue asked to coordinate."
+      ]
+    },
+    "items": {
+      "type": "array",
+      "maxItems": 14,
+      "description": "Actions",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "description": "Row",
+        "properties": {
+          "action": {
+            "type": "string",
+            "description": "Action",
+            "examples": ["Sound the alarm and mark the position"]
+          },
+          "owner": {
+            "type": "string",
+            "description": "Owner",
+            "examples": ["Officer of the Watch"],
+            "x-translate": false
+          },
+          "time": {
+            "type": "string",
+            "description": "Time",
+            "examples": ["02:15"],
+            "x-translate": false
+          },
+          "status": {
+            "type": "string",
+            "description": "Status",
+            "examples": ["Done"],
+            "x-translate": false
+          }
+        }
+      },
+      "examples": [
+        [
+          {
+            "action": "Sound the alarm and mark the position",
+            "owner": "Officer of the Watch",
+            "time": "02:15",
+            "status": "Done"
+          }
+        ]
+      ]
+    },
+    "notified": {
+      "type": "array",
+      "maxItems": 8,
+      "description": "Who has been told, with time",
+      "items": {
+        "type": "string",
+        "description": "Entry"
+      },
+      "examples": [["Coast Guard rescue coordination center, 02:20"]]
+    },
+    "evidence": {
+      "type": "array",
+      "maxItems": 6,
+      "description": "What is secured",
+      "items": {
+        "type": "string",
+        "description": "Entry"
+      },
+      "examples": [
+        [
+          "Camera recordings for Decks 11 and 12 from 01:00",
+          "The cabin of the missing person sealed"
+        ]
+      ]
+    }
+  },
+  "additionalProperties": false
+}

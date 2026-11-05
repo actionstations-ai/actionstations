@@ -1,0 +1,128 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Muster and accounting report",
+  "description": "Report of persons accounted for at muster stations during an emergency or drill: passengers and crew expected, mustered, not yet accounted for and cabins checked, with the time of the count. Totals reconcile: expected equals mustered plus unaccounted.",
+  "type": "object",
+  "required": ["vessel", "asOf", "groups", "unaccountedNotes"],
+  "properties": {
+    "marking": {
+      "type": "string",
+      "description": "Exercise marking",
+      "examples": ["EXERCISE \u00b7 EXERCISE \u00b7 EXERCISE"],
+      "x-translate": false
+    },
+    "vessel": {
+      "type": "string",
+      "description": "Vessel (fictional)",
+      "examples": ["MV Harbor Lantern"],
+      "x-translate": false
+    },
+    "line": {
+      "type": "string",
+      "description": "Line (fictional)",
+      "examples": ["Calloway Cruise Line"],
+      "x-translate": false
+    },
+    "event": {
+      "type": "string",
+      "description": "What the muster is for",
+      "examples": ["General emergency alarm, fire reported in the aft galley, Deck 5"]
+    },
+    "asOf": {
+      "type": "string",
+      "description": "Time of the count, ship time",
+      "examples": ["Nov 3, 2026, 20:42"],
+      "x-translate": false
+    },
+    "groups": {
+      "type": "array",
+      "maxItems": 6,
+      "description": "Counts by group",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "description": "Row",
+        "properties": {
+          "group": {
+            "type": "string",
+            "description": "Passengers or crew, or a station",
+            "examples": ["Passengers"],
+            "x-translate": false
+          },
+          "expected": {
+            "type": "number",
+            "description": "Persons expected from the manifest",
+            "examples": [2410],
+            "minimum": 0,
+            "maximum": 10000
+          },
+          "mustered": {
+            "type": "number",
+            "description": "Persons counted at stations",
+            "examples": [2388],
+            "minimum": 0,
+            "maximum": 10000
+          },
+          "unaccounted": {
+            "type": "number",
+            "description": "Persons not yet accounted for (expected minus mustered)",
+            "examples": [22],
+            "minimum": 0,
+            "maximum": 10000
+          },
+          "cabinsChecked": {
+            "type": "string",
+            "description": "Cabins checked, as \"checked of total\"",
+            "examples": ["540 of 1,205"],
+            "x-translate": false
+          }
+        }
+      },
+      "examples": [
+        [
+          {
+            "group": "Passengers",
+            "expected": 2410,
+            "mustered": 2388,
+            "unaccounted": 22,
+            "cabinsChecked": "540 of 1,205"
+          }
+        ]
+      ]
+    },
+    "unaccountedNotes": {
+      "type": "array",
+      "maxItems": 8,
+      "description": "What is known about the persons not accounted for, by cabin or deck, with codes not names",
+      "items": {
+        "type": "string",
+        "description": "Entry"
+      },
+      "examples": [
+        [
+          "Cabin 7118: two guests, last scanned at the spa at 19:55",
+          "Cabin 6034: one guest with a mobility need; steward sent"
+        ]
+      ]
+    },
+    "actions": {
+      "type": "array",
+      "maxItems": 8,
+      "description": "Search and follow-up actions with times",
+      "items": {
+        "type": "string",
+        "description": "Entry"
+      },
+      "examples": [
+        ["Deck 6 aft cabins search started 20:40", "Public address call for cabin 7118 at 20:41"]
+      ]
+    },
+    "reportedBy": {
+      "type": "string",
+      "description": "Reported by",
+      "examples": ["Staff Captain Joel Dahan"],
+      "x-translate": false
+    }
+  },
+  "additionalProperties": false
+}

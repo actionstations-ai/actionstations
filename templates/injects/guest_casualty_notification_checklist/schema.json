@@ -1,0 +1,98 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Guest notification checklist",
+  "description": "Checklist for notifying the people and authorities after a guest dies or is seriously injured: family or next of kin, the consulate for a foreign national, the medical examiner or coroner, the FBI where the incident is reportable, the company and the brand. Each line has an owner, a time and a status. Contains role codes, never names.",
+  "type": "object",
+  "required": ["property", "event", "items"],
+  "properties": {
+    "marking": {
+      "type": "string",
+      "description": "Exercise marking",
+      "examples": ["EXERCISE \u00b7 EXERCISE \u00b7 EXERCISE"],
+      "x-translate": false
+    },
+    "property": {
+      "type": "string",
+      "description": "Ship or property (fictional)",
+      "examples": ["MV Harbor Lantern"],
+      "x-translate": false
+    },
+    "event": {
+      "type": "string",
+      "description": "The event in a sentence, with no graphic detail",
+      "examples": [
+        "Guest A, a foreign national, died in the ship medical center at 22:40 after a medical emergency in a restaurant."
+      ]
+    },
+    "openedAt": {
+      "type": "string",
+      "description": "When opened",
+      "examples": ["Nov 3, 2026, 22:50"],
+      "x-translate": false
+    },
+    "items": {
+      "type": "array",
+      "maxItems": 16,
+      "description": "Notifications",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "description": "Row",
+        "properties": {
+          "who": {
+            "type": "string",
+            "description": "Who is to be told",
+            "examples": ["Next of kin (Guest B, traveling companion, then family at home)"],
+            "x-translate": false
+          },
+          "how": {
+            "type": "string",
+            "description": "How",
+            "examples": ["In person, then telephone"],
+            "x-translate": false
+          },
+          "owner": {
+            "type": "string",
+            "description": "Owner",
+            "examples": ["Master and Guest Care"],
+            "x-translate": false
+          },
+          "time": {
+            "type": "string",
+            "description": "Target or actual time",
+            "examples": ["23:30"],
+            "x-translate": false
+          },
+          "status": {
+            "type": "string",
+            "description": "Status",
+            "examples": ["Done"],
+            "x-translate": false
+          }
+        }
+      },
+      "examples": [
+        [
+          {
+            "who": "Next of kin",
+            "how": "In person",
+            "owner": "Master",
+            "time": "23:30",
+            "status": "Done"
+          }
+        ]
+      ]
+    },
+    "notes": {
+      "type": "array",
+      "maxItems": 6,
+      "description": "Care for the family and crew",
+      "items": {
+        "type": "string",
+        "description": "Entry"
+      },
+      "examples": [["A care team member stays with Guest B"]]
+    }
+  },
+  "additionalProperties": false
+}

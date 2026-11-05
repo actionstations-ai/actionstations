@@ -1550,17 +1550,25 @@
     {
       "id": "ai.actionstations.hospitality",
       "name": "Hospitality, tourism and cruise",
-      "summary": "Hotel, resort, cruise line and tourism board domain, with the outbreak-at-sea toolkit: illness reports, checklist, guest letters, port notice, boarding memo.",
+      "summary": "Hotel, resort, cruise line and tourism board domain with outbreak-at-sea and guest emergency toolkits: illness reports, muster, guest letters, notifications.",
       "tags": ["hospitality", "cruise", "hotel", "tourism", "toolkit"],
       "domains": ["hospitality"],
       "contents": {
         "domains": ["hospitality"],
-        "toolkits": ["outbreak_at_sea"],
+        "toolkits": ["guest_emergency", "outbreak_at_sea"],
         "templates": [
           "age_cumulative_report",
+          "alleged_crime_report",
           "boarding_decision_memo",
+          "floor_evacuation_status",
+          "guest_casualty_notification_checklist",
+          "guest_hotline_script",
           "guest_letter",
+          "hurricane_guest_departure_plan",
+          "man_overboard_checklist",
+          "muster_accounting_report",
           "outbreak_response_checklist",
+          "pms_outage_board",
           "port_health_notification"
         ]
       }

@@ -1,0 +1,40 @@
+<section class="page">
+  <p class="marking">{{default fields.marking "EXERCISE · EXERCISE · EXERCISE"}}</p>
+  <header class="head">
+    <div>
+      <div class="agency">{{fields.hotline}}</div>
+      <div class="sub">{{fields.version}}</div>
+    </div>
+    <div class="doc-title">Hotline script</div>
+  </header>
+  <h1>{{fields.incident}}</h1>
+  <div class="callout"><strong>Say first:</strong> {{fields.opening}}</div>
+  <h2>You may say</h2>
+  <ul>
+    {{#each fields.maySay}}
+    <li>{{this}}</li>
+    {{/each}}
+  </ul>
+  <h2>Do not say</h2>
+  <ul>
+    {{#each fields.doNotSay}}
+    <li>{{this}}</li>
+    {{/each}}
+  </ul>
+  {{#if fields.ask}}
+  <h2>Ask the caller</h2>
+  <ul>
+    {{#each fields.ask}}
+    <li>{{this}}</li>
+    {{/each}}
+  </ul>
+  {{/if}}
+  <h2>Hand off</h2>
+  <p>{{fields.handoff}}</p>
+  <div class="spacer"></div>
+  <div class="foot">
+    <span>Hotline script</span
+    ><span>Exercise material. All people, ships and places are fictional.</span>
+  </div>
+  <p class="marking">{{default fields.marking "EXERCISE · EXERCISE · EXERCISE"}}</p>
+</section>
