@@ -1,0 +1,1155 @@
+{
+  "id": "research_labs",
+  "label": "Research laboratories and biosafety",
+  "description": "The people who run and oversee research laboratories: biosafety officers, responsible officials of select agent registrations, laboratory directors, environmental health and safety, institutional biosafety committees, occupational health, research compliance and research IT. It covers a university biosafety program, a registered entity, a hospital or clinical research laboratory, an animal facility and a company or core facility. Exercises concern incident management, notification, continuity and compliance, never how to handle or make anything.",
+  "aliases": [
+    "biosafety",
+    "biosecurity",
+    "biosafety_officer",
+    "bso",
+    "responsible_official",
+    "select_agent",
+    "select_agent_program",
+    "fsap",
+    "ibc",
+    "institutional_biosafety_committee",
+    "research_compliance",
+    "lab_manager",
+    "ehs",
+    "bsl_2",
+    "bsl_3",
+    "containment_lab",
+    "vivarium",
+    "animal_facility",
+    "freezer_farm",
+    "biobank",
+    "core_facility",
+    "research_laboratory",
+    "research_lab",
+    "university_research_lab",
+    "registered_entity"
+  ],
+  "vocabulary": {
+    "facility": "the research laboratory (the lab suite, its freezers and cold rooms, the animal facility and the offices that oversee them)",
+    "public": "the research community, participants in studies, neighbors of the campus, sponsors and the press",
+    "frontline": "principal investigators, lab managers, technicians, graduate students, animal care staff and biosafety officers",
+    "operationsCenter": "the incident command post, the biosafety office or the institution's emergency operations center"
+  },
+  "factCategories": [
+    {
+      "id": "lab_rooms",
+      "label": "Laboratory rooms",
+      "noun": "Labs?|Rooms?|Suites?",
+      "idShape": "alnum",
+      "lint": true,
+      "complete": true
+    },
+    {
+      "id": "freezers",
+      "label": "Freezers and storage units",
+      "noun": "Freezers?|Incubators?|Cold Rooms?",
+      "idShape": "alnum",
+      "lint": true,
+      "complete": true
+    },
+    {
+      "id": "incident_numbers",
+      "label": "Incident report numbers",
+      "pattern": "\\b(LI-\\d{4}-\\d{2,5})\\b",
+      "idShape": "token",
+      "lint": false,
+      "complete": false
+    },
+    {
+      "id": "inventory_records",
+      "label": "Inventory record numbers",
+      "pattern": "\\b(INV-\\d{3,6})\\b",
+      "idShape": "token",
+      "lint": false,
+      "complete": false
+    }
+  ],
+  "systems": {
+    "it": [
+      "inventory management system with an audit trail (LIMS or spreadsheet)",
+      "freezer and incubator monitoring with alarm call-out",
+      "electronic lab notebook and sample tracking",
+      "instrument computers on a research network",
+      "biobank and study databases",
+      "access control and camera system",
+      "building automation (ventilation and pressure monitoring)",
+      "incident reporting and tracking system",
+      "research data repository and backups",
+      "mass notification and the emergency phone tree",
+      "shared services: email, directory and SIEM"
+    ],
+    "ot": [
+      "biosafety cabinets and directional airflow",
+      "-80 degC freezers and liquid nitrogen supply",
+      "backup generators and uninterruptible power",
+      "building pressure and exhaust controls",
+      "autoclaves and cage wash equipment",
+      "fire detection and suppression"
+    ]
+  },
+  "roles": [
+    {
+      "key": "io",
+      "name": "Institutional Official / Vice President for Research",
+      "abbreviation": "IO",
+      "team": "Team A: Institutional Oversight",
+      "description": "Reports to NIH and sponsors, decides the institution's public posture, and holds the line between the laboratories and the university."
+    },
+    {
+      "key": "ibc",
+      "name": "Institutional Biosafety Committee chair",
+      "abbreviation": "IBC",
+      "team": "Team A: Institutional Oversight",
+      "description": "Reviews incidents, orders corrective action and decides what the committee reports to NIH."
+    },
+    {
+      "key": "ro",
+      "name": "Responsible Official",
+      "abbreviation": "RO",
+      "team": "Team B: Biosafety and Registration",
+      "description": "Decides notification to the Federal Select Agent Program, completes the written report, restricts access and suspends work in registered areas."
+    },
+    {
+      "key": "aro",
+      "name": "Alternate Responsible Official",
+      "abbreviation": "ARO",
+      "team": "Team B: Biosafety and Registration",
+      "description": "Acts for the RO when absent and shares the notification and report decisions."
+    },
+    {
+      "key": "bso",
+      "name": "Biosafety Officer",
+      "abbreviation": "BSO",
+      "team": "Team B: Biosafety and Registration",
+      "description": "Classifies the incident, checks containment, refers workers for medical evaluation and reports to the committee."
+    },
+    {
+      "key": "ehs",
+      "name": "Environmental Health and Safety director",
+      "abbreviation": "EHS",
+      "team": "Team B: Biosafety and Registration",
+      "description": "Coordinates decontamination, waste, fire safety and the response of emergency services."
+    },
+    {
+      "key": "pi",
+      "name": "Principal Investigator / Laboratory Director",
+      "abbreviation": "PI",
+      "team": "Team C: Laboratory",
+      "description": "Orders stop-work in the lab, accounts for materials, reports exposures and owns corrective actions."
+    },
+    {
+      "key": "lm",
+      "name": "Laboratory Manager",
+      "abbreviation": "LM",
+      "team": "Team C: Laboratory",
+      "description": "Keeps inventory, access lists, freezer and equipment alarms and supplies; first to see most incidents."
+    },
+    {
+      "key": "cfm",
+      "name": "Core Facility or Clinical Laboratory Manager",
+      "abbreviation": "CFM",
+      "team": "Team C: Laboratory",
+      "description": "Runs a shared or clinical laboratory, decides what is moved or turned away during an incident and speaks for its users."
+    },
+    {
+      "key": "oh",
+      "name": "Occupational Health physician or nurse",
+      "abbreviation": "OH",
+      "team": "Team D: Medical and Compliance",
+      "description": "Evaluates exposed workers, advises on post-exposure care and sets work restrictions."
+    },
+    {
+      "key": "rc",
+      "name": "Research Compliance / IRB director",
+      "abbreviation": "RC",
+      "team": "Team D: Medical and Compliance",
+      "description": "Notifies the IRB, sponsors and regulators and decides how data and human subject incidents are reported."
+    },
+    {
+      "key": "rit",
+      "name": "Research IT / Data Steward",
+      "abbreviation": "RIT",
+      "team": "Team E: Research IT and Facilities",
+      "description": "Contains data incidents, restores from backups and secures instrument networks."
+    },
+    {
+      "key": "fac",
+      "name": "Facilities and Security",
+      "abbreviation": "FAC",
+      "team": "Team E: Research IT and Facilities",
+      "description": "Provides access logs, alarms, power and ventilation, and first response on the building."
+    },
+    {
+      "key": "afd",
+      "name": "Animal Facility Director / Veterinarian",
+      "abbreviation": "AFD",
+      "team": "Team F: Animal Care",
+      "description": "Isolates colonies, decides on euthanasia and reports to the animal care committee."
+    },
+    {
+      "key": "pio",
+      "name": "University Communications / Legal Counsel",
+      "abbreviation": "PIO",
+      "team": "Team G: Communications and Legal",
+      "description": "Drafts the public statement, handles media and reviews every outside notice."
+    }
+  ],
+  "outsideParties": [
+    "CDC Division of Regulatory Science and Compliance and APHIS Agricultural Select Agent Services (the Federal Select Agent Program)",
+    "NIH Office of Science Policy",
+    "the local health department",
+    "the local fire department and hazmat team",
+    "campus police and local law enforcement",
+    "the sponsor or funding agency",
+    "the IRB and participants in affected studies",
+    "the accrediting body",
+    "the insurer",
+    "the vendor of the monitoring or inventory system",
+    "neighbors of the campus",
+    "the press"
+  ],
+  "mediaChannels": [
+    "a campus news site",
+    "a student newspaper",
+    "a local TV reporter's email",
+    "a research community mailing list",
+    "a social post from a lab member",
+    "a neighbors' group message",
+    "a sponsor's program officer email"
+  ],
+  "sceneAnchors": {
+    "public": "a university sidewalk outside a research building: students with backpacks, a hazard sign at a door, a news van at the curb, afternoon light",
+    "control": "a biosafety office command post: a conference table with laptops, a printed floor plan with colored pins, a freezer alarm panel on a screen and a whiteboard with a phone tree",
+    "exterior": "a loading dock at the back of a research building with a fire truck, a facilities worker with a clipboard and wet pavement under overcast sky"
+  },
+  "injectTypes": [
+    "email",
+    "email_forward",
+    "memo",
+    "official_letter",
+    "regulatory_notice",
+    "press_release",
+    "phone_call",
+    "voicemail",
+    "text_message",
+    "helpdesk_ticket",
+    "system_log",
+    "alarm_summary",
+    "pacs_alarm_panel",
+    "status_board",
+    "sitrep",
+    "field_report",
+    "ics_201_prefill",
+    "ics_213_general_message",
+    "incident_alert_notification",
+    "breach_notification_letter",
+    "regulatory_report_form",
+    "chain_of_custody_form",
+    "info_display_board",
+    "screenshot_generic",
+    "news_article",
+    "tweet",
+    "facebook_post",
+    "media_inquiry_phone_slip",
+    "figure",
+    "map_annotation"
+  ],
+  "threatFamilies": [
+    "lab_exposure",
+    "lab_inventory_discrepancy",
+    "lab_sample_loss",
+    "lab_facility_emergency",
+    "lab_animal_facility_emergency",
+    "lab_data_breach",
+    "lab_workplace_threat",
+    "lab_service_degradation"
+  ],
+  "addedThreatFamilies": [
+    {
+      "id": "lab_exposure",
+      "label": "Laboratory exposure",
+      "description": "A worker may have been exposed to an infectious agent through a needlestick, a spill outside containment or an equipment failure; the response runs from stop-work and medical evaluation to the reports each office owes.",
+      "keywords": [
+        "lab exposure",
+        "needlestick",
+        "sharps injury",
+        "spill outside containment",
+        "potential exposure",
+        "laboratory-acquired infection",
+        "exposure incident",
+        "splash",
+        "biosafety cabinet failure",
+        "occupational exposure",
+        "post-exposure"
+      ],
+      "phaseArc": [
+        {
+          "title": "Discovery",
+          "goal": "A worker reports a possible exposure and the first facts conflict about what happened and when.",
+          "beats": [
+            "The worker tells the lab manager about a needlestick at the end of a shift",
+            "The PI says it was minor and asks to keep the lab running",
+            "A coworker saw a spill that the report does not mention"
+          ]
+        },
+        {
+          "title": "Immediate actions and containment",
+          "goal": "Stop-work, first aid and the move to medical evaluation happen while the clock runs.",
+          "beats": [
+            "The BSO asks who has stopped work in the room and who has been told to stay out",
+            "Occupational health is closed for the weekend and the on-call line goes to voicemail",
+            "A visitor was in the room and has not been identified"
+          ]
+        },
+        {
+          "title": "Classify and notify",
+          "goal": "The BSO classifies the incident and works out who must be told and by when.",
+          "beats": [
+            "The PI, occupational health and the IBC chair give conflicting advice on whether the event is reportable",
+            "The institution's own deadline for the PI to report is shorter than the funder's",
+            "An overt exposure to recombinant material raises an immediate notice to the funder"
+          ]
+        },
+        {
+          "title": "Investigate",
+          "goal": "The team reconstructs what happened from the worker's account, the room records and the equipment log.",
+          "beats": [
+            "The access log shows a second person in the lab",
+            "The equipment log shows the cabinet alarm was silenced earlier that week",
+            "Training records for the worker are out of date"
+          ]
+        },
+        {
+          "title": "Written reports",
+          "goal": "The written reports are drafted and the facts must agree across them.",
+          "beats": [
+            "The internal report, the IBC minutes and the funder notice give different times",
+            "Counsel asks to review the funder notice before it goes",
+            "A draft staff email says more than the report does"
+          ]
+        },
+        {
+          "title": "Corrective action",
+          "goal": "The committee decides on corrective actions and who owns each one.",
+          "beats": [
+            "The IBC asks for retraining and a room inspection",
+            "The PI disputes a work restriction",
+            "Facilities cannot service the cabinet for three weeks"
+          ]
+        },
+        {
+          "title": "Return to work",
+          "goal": "The room and the worker return to work on stated conditions.",
+          "beats": [
+            "Occupational health clears the worker with a follow-up schedule",
+            "The IBC lifts the stop-work order for part of the lab",
+            "A lessons-learned memo goes to every lab on the floor"
+          ]
+        }
+      ],
+      "decisionPointExamples": [
+        "classify the event as reportable now, or wait for the occupational health evaluation",
+        "stop work in the whole suite, or only in the room",
+        "tell the funder today, or after the IBC meets"
+      ],
+      "clueKinds": "an incident report timestamp, a badge-in record, an occupational health intake note, a training record, an equipment service log",
+      "hurdleKinds": "the on-call line is unanswered, the worker's account changes, the PI wants to keep working, records are on paper in the lab",
+      "keyCoordination": "the BSO, occupational health, the IBC chair, the PI and the institutional official",
+      "purposeMix": {
+        "CLUE": 25,
+        "DECISION_POINT": 20,
+        "PRESSURE": 10,
+        "NOISE": 10
+      },
+      "promptGuidance": "Keep the story at the level of what the organization decides and whom it tells: classification, stop-work, medical evaluation, notifications and their deadlines, continuity and messages. Name an agent only as a generic class or from the designer's reviewed list. Give no technique, protocol, growth, production, quantity, strain or modification detail for any agent.",
+      "lint": {
+        "clueRequired": true,
+        "clueRole": "operations",
+        "decisionMustMention": {
+          "pattern": "stop[- ]work|medical|occupational health|classif|notif|report|IBC",
+          "description": "a classification, stop-work, medical evaluation or notification decision"
+        }
+      }
+    },
+    {
+      "id": "lab_inventory_discrepancy",
+      "label": "Inventory discrepancy",
+      "description": "A count of registered material does not match the records; the response is to decide whether an item is missing, who is told and when, and how the records are reconciled inside the written report deadline.",
+      "keywords": [
+        "inventory discrepancy",
+        "select agent",
+        "missing vial",
+        "inventory audit",
+        "reconciliation",
+        "theft or loss",
+        "loss report",
+        "Form 3",
+        "registered entity",
+        "responsible official",
+        "records discrepancy",
+        "count does not match"
+      ],
+      "phaseArc": [
+        {
+          "title": "Discovery",
+          "goal": "An audit finds that the count and the inventory record differ for one registered item.",
+          "beats": [
+            "The lab manager's count is one short of the record",
+            "The last audit was clean eleven weeks ago",
+            "A new technician says the record was updated on paper"
+          ]
+        },
+        {
+          "title": "Immediate actions and containment",
+          "goal": "Access is restricted and the room is secured while the team searches the obvious places.",
+          "beats": [
+            "The RO asks who has the freezer key and the access list",
+            "Security pulls the door log for the past month",
+            "A search of the freezer finds an unlabeled box"
+          ]
+        },
+        {
+          "title": "Classify and notify",
+          "goal": "The responsible official decides whether this is a possible theft or loss and which calls are due immediately.",
+          "beats": [
+            "The RO has to choose between waiting for the search and calling now",
+            "The alternate RO is on leave and the phone tree is out of date",
+            "Law enforcement is on the immediate notification list"
+          ]
+        },
+        {
+          "title": "Investigate",
+          "goal": "The team reconciles records against transfers, destruction logs and the freezer contents.",
+          "beats": [
+            "A transfer was recorded in one system and not in the other",
+            "A destruction was logged by one person and signed by no one",
+            "The audit trail shows an edit after hours"
+          ]
+        },
+        {
+          "title": "Written reports",
+          "goal": "The written report is prepared inside seven calendar days and the facts must agree.",
+          "beats": [
+            "Form 3 information is incomplete on day five",
+            "The PI's account of the transfer differs from the log",
+            "Counsel asks to see the draft"
+          ]
+        },
+        {
+          "title": "Corrective action",
+          "goal": "The entity corrects its record keeping and its plan.",
+          "beats": [
+            "The RO proposes dual sign-off on every transfer",
+            "The inventory system cannot enforce it",
+            "The entity must review its incident response plan after the event"
+          ]
+        },
+        {
+          "title": "Return to work",
+          "goal": "Work resumes under the stated conditions and the plan is revised.",
+          "beats": [
+            "The RO lifts access restrictions in steps",
+            "A drill record is written for the plan review",
+            "The next audit is moved up"
+          ]
+        }
+      ],
+      "decisionPointExamples": [
+        "notify now on a possible loss, or finish the search first",
+        "restrict the whole lab or one freezer",
+        "report the item as lost or as a records error"
+      ],
+      "clueKinds": "an inventory record with a gap, a transfer slip, a destruction log, a door log, an audit trail entry",
+      "hurdleKinds": "records are held in two systems, the person who handled the item has left, the RO is unreachable",
+      "keyCoordination": "the responsible official, the alternate, the BSO, security and the PI",
+      "purposeMix": {
+        "CLUE": 30,
+        "DECISION_POINT": 20,
+        "PRESSURE": 10,
+        "NOISE": 10
+      },
+      "promptGuidance": "Keep the story at the level of what the organization decides and whom it tells: classification, stop-work, medical evaluation, notifications and their deadlines, continuity and messages. Name an agent only as a generic class or from the designer's reviewed list. Give no technique, protocol, growth, production, quantity, strain or modification detail for any agent.",
+      "lint": {
+        "clueRequired": true,
+        "clueRole": "operations",
+        "decisionMustMention": {
+          "pattern": "notif|report|restrict|responsible official|RO|Form 3|law enforcement",
+          "description": "a notification, restriction or reporting decision"
+        }
+      }
+    },
+    {
+      "id": "lab_sample_loss",
+      "label": "Freezer failure and sample loss",
+      "description": "A freezer or incubator alarm fails or goes unanswered and irreplaceable samples are at risk; the team decides what to save first and whom to call.",
+      "keywords": [
+        "freezer failure",
+        "freezer alarm",
+        "temperature alarm",
+        "sample loss",
+        "irreplaceable samples",
+        "biobank",
+        "liquid nitrogen",
+        "backup freezer",
+        "compressor failure",
+        "power outage freezer",
+        "cold storage",
+        "freezer farm"
+      ],
+      "phaseArc": [
+        {
+          "title": "Discovery",
+          "goal": "A temperature alarm sounds or a technician finds a warm freezer on a weekend.",
+          "beats": [
+            "The monitoring system shows an alarm that nobody acknowledged",
+            "The call-out list reaches a number that has changed",
+            "A door was left ajar after a late delivery"
+          ]
+        },
+        {
+          "title": "Immediate actions and containment",
+          "goal": "Staff move what they can to backup space while the alarm clock runs.",
+          "beats": [
+            "The backup freezer is nearly full",
+            "The lab manager must choose between two racks",
+            "Facilities cannot reach the building until morning"
+          ]
+        },
+        {
+          "title": "Classify and notify",
+          "goal": "The lab decides what is irreplaceable, who must be told and what the sponsor needs to hear.",
+          "beats": [
+            "A collaborator's samples are in the same freezer",
+            "The institutional official wants a loss estimate before facts are known",
+            "Insurance requires notice inside a stated period"
+          ]
+        },
+        {
+          "title": "Investigate",
+          "goal": "The team finds the cause and checks the monitoring and call-out systems.",
+          "beats": [
+            "The monitoring log shows a sensor offline for a day",
+            "The compressor service record is overdue",
+            "The power log shows a short outage"
+          ]
+        },
+        {
+          "title": "Written reports",
+          "goal": "Reports go to the sponsor, the institution and the insurer, and the loss register is closed.",
+          "beats": [
+            "The register lists samples as lost that were found in a backup",
+            "A sponsor asks whether the study can continue",
+            "Participant consent terms limit what can be re-collected"
+          ]
+        },
+        {
+          "title": "Corrective action",
+          "goal": "The lab changes alarms, call-out and backup space.",
+          "beats": [
+            "Facilities proposes a second sensor on every unit",
+            "Budget for a backup freezer is not approved",
+            "The call-out list is tested monthly from now on"
+          ]
+        },
+        {
+          "title": "Return to work",
+          "goal": "The lab restocks and resumes work.",
+          "beats": [
+            "Replacement samples are collected where possible",
+            "The register is reconciled with the freezer contents",
+            "A summary goes to every lab that shares the room"
+          ]
+        }
+      ],
+      "decisionPointExamples": [
+        "move the most valuable rack first, or the largest group",
+        "wait for facilities, or move samples to an unqualified freezer",
+        "tell the sponsor tonight, or after the count"
+      ],
+      "clueKinds": "an alarm log, a temperature trend, a call-out record, a sample register entry, a service record",
+      "hurdleKinds": "the alarm does not reach anyone, backup space is short, nobody holds the key to the cold room",
+      "keyCoordination": "the lab manager, the PI, facilities, the sponsor liaison and research compliance",
+      "purposeMix": {
+        "CLUE": 25,
+        "DECISION_POINT": 20,
+        "PRESSURE": 10,
+        "NOISE": 10
+      },
+      "promptGuidance": "Keep the story at the level of what the organization decides and whom it tells: classification, stop-work, medical evaluation, notifications and their deadlines, continuity and messages. Name an agent only as a generic class or from the designer's reviewed list. Give no technique, protocol, growth, production, quantity, strain or modification detail for any agent.",
+      "lint": {
+        "clueRequired": true,
+        "clueRole": "technical",
+        "decisionMustMention": {
+          "pattern": "move|backup|sponsor|notif|call-out|priorit",
+          "description": "a decision on what to move, whom to call or what to tell the sponsor"
+        }
+      }
+    },
+    {
+      "id": "lab_facility_emergency",
+      "label": "Laboratory facility emergency",
+      "description": "A fire, flood, loss of ventilation or power affects a laboratory building with active work; the response is evacuation, coordination with responders and the plan for the work left behind.",
+      "keywords": [
+        "lab fire",
+        "laboratory fire",
+        "loss of ventilation",
+        "building evacuation lab",
+        "pressure alarm",
+        "flood in lab",
+        "gas leak lab",
+        "power outage lab",
+        "fire alarm lab",
+        "emergency responders lab",
+        "containment loss",
+        "evacuation with active work"
+      ],
+      "phaseArc": [
+        {
+          "title": "Discovery",
+          "goal": "An alarm sounds and people are working with open experiments.",
+          "beats": [
+            "The fire alarm sounds during an active run",
+            "The building automation system shows ventilation off",
+            "A flooded floor reaches the cold room"
+          ]
+        },
+        {
+          "title": "Immediate actions and containment",
+          "goal": "Staff evacuate, secure what they can and meet responders with a facility briefing.",
+          "beats": [
+            "A lab manager asks whether to leave an experiment running",
+            "The fire department asks what is stored on the floor",
+            "Two people are missing from the muster list"
+          ]
+        },
+        {
+          "title": "Classify and notify",
+          "goal": "The incident commander and the BSO classify the event and notify the offices that must be told.",
+          "beats": [
+            "The RO has to decide whether the event touches registered areas",
+            "The institutional official wants a statement",
+            "Neighbors are asking about smoke"
+          ]
+        },
+        {
+          "title": "Investigate",
+          "goal": "The team checks the building's systems, access records and the state of each room.",
+          "beats": [
+            "The ventilation log shows when airflow stopped",
+            "Door records show which rooms were open",
+            "Responders report water in an animal room"
+          ]
+        },
+        {
+          "title": "Written reports",
+          "goal": "Reports are filed with the institution, insurers and any registration.",
+          "beats": [
+            "The facilities report and the lab report disagree on the time",
+            "A sponsor needs a statement on research impact",
+            "Counsel reviews the press statement"
+          ]
+        },
+        {
+          "title": "Corrective action",
+          "goal": "The institution repairs, retests and revises the plan.",
+          "beats": [
+            "The building cannot be reoccupied for a week",
+            "Backup power failed its last test",
+            "The plan's responder briefing sheet was out of date"
+          ]
+        },
+        {
+          "title": "Return to work",
+          "goal": "Rooms are cleared for reoccupancy in order.",
+          "beats": [
+            "The BSO signs off a room only after checks",
+            "Staff are briefed before return",
+            "The plan is revised after the event"
+          ]
+        }
+      ],
+      "decisionPointExamples": [
+        "let responders in before the BSO arrives, or wait",
+        "evacuate the whole building, or the wing",
+        "issue a public statement now, or after the count"
+      ],
+      "clueKinds": "an alarm panel event, a building automation log, a muster list, a door record, a responder report",
+      "hurdleKinds": "the BSO is off site, the muster list is out of date, responders do not know the building",
+      "keyCoordination": "incident command, the BSO, facilities, the fire department and communications",
+      "purposeMix": {
+        "CLUE": 20,
+        "DECISION_POINT": 20,
+        "PRESSURE": 15,
+        "NOISE": 10
+      },
+      "promptGuidance": "Keep the story at the level of what the organization decides and whom it tells: classification, stop-work, medical evaluation, notifications and their deadlines, continuity and messages. Name an agent only as a generic class or from the designer's reviewed list. Give no technique, protocol, growth, production, quantity, strain or modification detail for any agent.",
+      "lint": {
+        "clueRequired": true,
+        "clueRole": "operations",
+        "decisionMustMention": {
+          "pattern": "evacuat|responder|statement|notif|classif|muster",
+          "description": "an evacuation, responder or notification decision"
+        }
+      }
+    },
+    {
+      "id": "lab_animal_facility_emergency",
+      "label": "Animal facility emergency",
+      "description": "An animal facility loses environmental control, has an escape or a colony health event; the response mixes animal welfare, containment and the reports the program owes.",
+      "keywords": [
+        "animal facility",
+        "vivarium",
+        "colony",
+        "animal escape",
+        "animal care",
+        "environmental controls",
+        "cage wash",
+        "husbandry",
+        "veterinarian",
+        "animal room alarm",
+        "IACUC",
+        "colony health"
+      ],
+      "phaseArc": [
+        {
+          "title": "Discovery",
+          "goal": "Husbandry staff find a failure or an event in an animal room.",
+          "beats": [
+            "A room's temperature alarm sounded overnight",
+            "A cage was found open in a corridor",
+            "The veterinarian reports an unexpected cluster of sick animals"
+          ]
+        },
+        {
+          "title": "Immediate actions and containment",
+          "goal": "Staff secure rooms, protect animals and limit movement between rooms.",
+          "beats": [
+            "The facility director must choose which rooms to isolate",
+            "An investigator wants to retrieve a study group",
+            "Staff are told to stay in their rooms"
+          ]
+        },
+        {
+          "title": "Classify and notify",
+          "goal": "The director and the committee classify the event and decide whom to tell.",
+          "beats": [
+            "The animal care committee has a reporting duty",
+            "A sponsor study is affected",
+            "An accrediting body expects notice of significant events"
+          ]
+        },
+        {
+          "title": "Investigate",
+          "goal": "The team finds the cause from facility logs and records.",
+          "beats": [
+            "The building system log shows a fan fault",
+            "A door log shows an unlocked room",
+            "A health record shows earlier signs"
+          ]
+        },
+        {
+          "title": "Written reports",
+          "goal": "Reports go to the committee, the sponsor and the institution.",
+          "beats": [
+            "The report to the committee and the sponsor differ in numbers",
+            "Counsel reviews wording about animal welfare",
+            "A press inquiry reaches communications"
+          ]
+        },
+        {
+          "title": "Corrective action",
+          "goal": "The facility fixes its controls and plans.",
+          "beats": [
+            "The facility proposes a second alarm path",
+            "Funding for repairs is delayed",
+            "Husbandry staff ask for clearer call-out"
+          ]
+        },
+        {
+          "title": "Return to work",
+          "goal": "Rooms reopen in order and studies resume.",
+          "beats": [
+            "The veterinarian clears rooms one at a time",
+            "Investigators re-plan studies",
+            "The committee reviews the event"
+          ]
+        }
+      ],
+      "decisionPointExamples": [
+        "isolate the whole barrier or one room",
+        "euthanize a study group, or wait for the veterinarian",
+        "tell the sponsor now, or with the committee report"
+      ],
+      "clueKinds": "an environmental alarm log, a husbandry record, a veterinary note, a door log, a census sheet",
+      "hurdleKinds": "alarm call-out fails, staff are short, investigators push to reach their animals",
+      "keyCoordination": "the facility director, the veterinarian, the committee chair, the PI and facilities",
+      "purposeMix": {
+        "CLUE": 25,
+        "DECISION_POINT": 20,
+        "PRESSURE": 10,
+        "NOISE": 10
+      },
+      "promptGuidance": "Keep the story at the level of what the organization decides and whom it tells: classification, stop-work, medical evaluation, notifications and their deadlines, continuity and messages. Name an agent only as a generic class or from the designer's reviewed list. Give no technique, protocol, growth, production, quantity, strain or modification detail for any agent.",
+      "lint": {
+        "clueRequired": true,
+        "clueRole": "operations",
+        "decisionMustMention": {
+          "pattern": "isolat|committee|veterinar|notif|sponsor|report",
+          "description": "an isolation, welfare or reporting decision"
+        }
+      }
+    },
+    {
+      "id": "lab_data_breach",
+      "label": "Research data breach",
+      "description": "Ransomware or unauthorized access reaches instrument computers or a study database; the team contains the incident and meets the notification duties to the IRB, sponsors, participants and regulators.",
+      "keywords": [
+        "research data breach",
+        "ransomware lab",
+        "instrument computer",
+        "electronic lab notebook",
+        "participant data",
+        "IRB notification",
+        "sponsor notification",
+        "data breach research",
+        "study database",
+        "unauthorized access research",
+        "data stewardship",
+        "compromised instrument"
+      ],
+      "phaseArc": [
+        {
+          "title": "Discovery",
+          "goal": "An instrument computer shows a ransom note or an alert shows unusual access to a study database.",
+          "beats": [
+            "A technician reports a locked instrument computer",
+            "The data steward sees large transfers from a lab share",
+            "A collaborator reports that a shared folder is encrypted"
+          ]
+        },
+        {
+          "title": "Immediate actions and containment",
+          "goal": "Research IT isolates systems while labs decide what to do with runs in progress.",
+          "beats": [
+            "Research IT asks to power off the instrument network",
+            "A time-critical run is under way",
+            "Backups for the notebook system are two days old"
+          ]
+        },
+        {
+          "title": "Classify and notify",
+          "goal": "Compliance works out whose data is involved and which notices are due.",
+          "beats": [
+            "Participant records are on one instrument computer",
+            "The sponsor contract names a notice period",
+            "Counsel asks whether protected health information is involved"
+          ]
+        },
+        {
+          "title": "Investigate",
+          "goal": "The team establishes what was accessed and what can be restored.",
+          "beats": [
+            "The log shows access from an unknown address",
+            "Backup status shows a gap",
+            "A collaborator holds a copy of the data"
+          ]
+        },
+        {
+          "title": "Written reports",
+          "goal": "Notices go to the IRB, the sponsor and, where required, participants and regulators.",
+          "beats": [
+            "The IRB notice and the participant letter state different counts",
+            "A state deadline is shorter than the sponsor's",
+            "Communications drafts a statement for staff"
+          ]
+        },
+        {
+          "title": "Corrective action",
+          "goal": "Research IT and compliance change controls.",
+          "beats": [
+            "Instrument computers cannot take patches without vendor approval",
+            "Segmenting the instrument network delays a study",
+            "Training for data stewards is scheduled"
+          ]
+        },
+        {
+          "title": "Return to work",
+          "goal": "Systems return in order and studies resume.",
+          "beats": [
+            "Instruments come back one at a time",
+            "The IRB reviews the corrective plan",
+            "A summary goes to every principal investigator"
+          ]
+        }
+      ],
+      "decisionPointExamples": [
+        "pay or restore from backup",
+        "tell participants now, or finish the scope first",
+        "power off the instrument network, or keep the run going"
+      ],
+      "clueKinds": "an access log, a backup status, an instrument network diagram, a ransom note, a data inventory",
+      "hurdleKinds": "instrument vendors control patching, backups are old, the data inventory is incomplete",
+      "keyCoordination": "research IT, the data steward, research compliance, the IRB, counsel and the sponsor liaison",
+      "purposeMix": {
+        "CLUE": 25,
+        "DECISION_POINT": 20,
+        "PRESSURE": 10,
+        "NOISE": 10
+      },
+      "promptGuidance": "Keep the story at the level of what the organization decides and whom it tells: classification, stop-work, medical evaluation, notifications and their deadlines, continuity and messages. Name an agent only as a generic class or from the designer's reviewed list. Give no technique, protocol, growth, production, quantity, strain or modification detail for any agent.",
+      "lint": {
+        "clueRequired": true,
+        "clueRole": "technical",
+        "decisionMustMention": {
+          "pattern": "restore|notif|IRB|sponsor|participants|isolate|backup",
+          "description": "a restore, isolation or notification decision"
+        }
+      }
+    },
+    {
+      "id": "lab_workplace_threat",
+      "label": "Workplace violence or threat",
+      "description": "A threat, suspicious package or aggressive visitor puts a laboratory building and its restricted areas at risk; the response protects people and controls access.",
+      "keywords": [
+        "workplace violence",
+        "threat to lab",
+        "bomb threat",
+        "suspicious package",
+        "aggressive visitor",
+        "lockdown lab",
+        "protest at lab",
+        "access control lab",
+        "security breach lab",
+        "threat to researchers",
+        "harassment researcher"
+      ],
+      "phaseArc": [
+        {
+          "title": "Discovery",
+          "goal": "A threat or a suspicious item is reported near a laboratory.",
+          "beats": [
+            "A threatening voicemail names a researcher",
+            "A package arrives with no sender",
+            "A visitor argues with a technician at the door"
+          ]
+        },
+        {
+          "title": "Immediate actions and containment",
+          "goal": "Security protects people and restricts access to sensitive areas.",
+          "beats": [
+            "Security asks which rooms need to be locked",
+            "The RO asks to confirm registered areas are secured",
+            "A researcher is working alone"
+          ]
+        },
+        {
+          "title": "Classify and notify",
+          "goal": "Leaders classify the threat and decide whom to tell.",
+          "beats": [
+            "Police ask for a building plan",
+            "The institutional official wants a statement",
+            "The RO asks whether the event counts as a security breach"
+          ]
+        },
+        {
+          "title": "Investigate",
+          "goal": "Security and campus police gather facts and review recordings.",
+          "beats": [
+            "Camera footage is from the wrong door",
+            "A badge was used at an odd hour",
+            "An earlier email carries a similar message"
+          ]
+        },
+        {
+          "title": "Written reports",
+          "goal": "Reports go to police, the institution and any registration.",
+          "beats": [
+            "The security report and police report differ",
+            "A researcher asks for protection",
+            "Communications drafts a notice to staff"
+          ]
+        },
+        {
+          "title": "Corrective action",
+          "goal": "The institution revises access and training.",
+          "beats": [
+            "Visitor policy is tightened",
+            "Researchers ask for safer parking",
+            "The plan is revised after the event"
+          ]
+        },
+        {
+          "title": "Return to work",
+          "goal": "The building returns to normal on stated conditions.",
+          "beats": [
+            "Access is restored in steps",
+            "Counseling is offered",
+            "A summary goes to every lab"
+          ]
+        }
+      ],
+      "decisionPointExamples": [
+        "lock down the whole building, or the wing",
+        "let police into restricted areas with an escort, or without",
+        "announce to the campus now, or after the facts"
+      ],
+      "clueKinds": "a voicemail transcript, a badge log, a camera clip, a visitor sign-in, a police report",
+      "hurdleKinds": "camera coverage has gaps, visitor logs are on paper, staff disagree on what they saw",
+      "keyCoordination": "campus security, police, the RO, the BSO and communications",
+      "purposeMix": {
+        "CLUE": 20,
+        "DECISION_POINT": 20,
+        "PRESSURE": 15,
+        "NOISE": 10
+      },
+      "promptGuidance": "Keep the story at the level of what the organization decides and whom it tells: classification, stop-work, medical evaluation, notifications and their deadlines, continuity and messages. Name an agent only as a generic class or from the designer's reviewed list. Give no technique, protocol, growth, production, quantity, strain or modification detail for any agent.",
+      "lint": {
+        "clueRequired": true,
+        "clueRole": "security",
+        "decisionMustMention": {
+          "pattern": "lock|police|access|notif|escort|statement",
+          "description": "a lockdown, access or notification decision"
+        }
+      }
+    },
+    {
+      "id": "lab_service_degradation",
+      "label": "Monitoring or access system degradation",
+      "description": "The alarm, monitoring or access control system that watches the laboratories is down or wrong; the team works without it and decides what compensating checks to run.",
+      "keywords": [
+        "monitoring outage",
+        "alarm system failure",
+        "access control failure",
+        "building automation outage",
+        "sensor offline",
+        "badge reader failure",
+        "false alarm",
+        "missed alarm",
+        "call-out failure",
+        "monitoring system down"
+      ],
+      "phaseArc": [
+        {
+          "title": "Discovery",
+          "goal": "The monitoring or access system stops reporting or reports nonsense.",
+          "beats": [
+            "The freezer monitoring dashboard shows all units offline",
+            "Badge readers on a corridor stop working",
+            "Pressure alarms report values that do not change"
+          ]
+        },
+        {
+          "title": "Immediate actions and containment",
+          "goal": "Staff start compensating checks by hand.",
+          "beats": [
+            "Rounds on paper replace the dashboard",
+            "The RO asks for hourly checks of registered rooms",
+            "Facilities cannot say when the system will be back"
+          ]
+        },
+        {
+          "title": "Classify and notify",
+          "goal": "Leaders decide which gaps must be reported and to whom.",
+          "beats": [
+            "An outage in a registered area may need a note to the RO's records",
+            "Sponsors expect notice if samples are at risk",
+            "The institutional official asks for an impact summary"
+          ]
+        },
+        {
+          "title": "Investigate",
+          "goal": "The vendor and facilities find the cause.",
+          "beats": [
+            "The vendor blames a software update",
+            "A network change was made the day before",
+            "Logs for the gap are missing"
+          ]
+        },
+        {
+          "title": "Written reports",
+          "goal": "Reports record the gap and the checks made.",
+          "beats": [
+            "Paper rounds are incomplete",
+            "The report to the RO shows a different gap than the log",
+            "Counsel asks for the vendor contract"
+          ]
+        },
+        {
+          "title": "Corrective action",
+          "goal": "The institution adds redundancy and tests it.",
+          "beats": [
+            "A second path for alarms is proposed",
+            "Budget is short",
+            "The call-out test fails on the first try"
+          ]
+        },
+        {
+          "title": "Return to work",
+          "goal": "Normal monitoring returns on stated conditions.",
+          "beats": [
+            "Sensors are calibrated before use",
+            "Staff stop paper rounds in stages",
+            "A drill record is written"
+          ]
+        }
+      ],
+      "decisionPointExamples": [
+        "staff rounds by hand through the night, or accept the risk",
+        "report the gap now, or when the system is back",
+        "move samples to units on another monitor"
+      ],
+      "clueKinds": "a dashboard screenshot, a vendor ticket, a paper round sheet, a network change log, a call-out test result",
+      "hurdleKinds": "the vendor is slow, rounds are incomplete, nobody holds the manual process",
+      "keyCoordination": "facilities, research IT, the lab managers, the vendor and the RO",
+      "purposeMix": {
+        "CLUE": 25,
+        "DECISION_POINT": 20,
+        "PRESSURE": 10,
+        "NOISE": 10
+      },
+      "promptGuidance": "Keep the story at the level of what the organization decides and whom it tells: classification, stop-work, medical evaluation, notifications and their deadlines, continuity and messages. Name an agent only as a generic class or from the designer's reviewed list. Give no technique, protocol, growth, production, quantity, strain or modification detail for any agent.",
+      "lint": {
+        "clueRequired": true,
+        "clueRole": "technical",
+        "decisionMustMention": {
+          "pattern": "round|manual|report|notif|compensat|move",
+          "description": "a compensating check, a report or a move decision"
+        }
+      }
+    }
+  ],
+  "noiseExamples": [
+    "a routine freezer defrost notice",
+    "a vendor sales call about monitoring",
+    "a student asking about a safety training date",
+    "a reporter asking about last year's inspection",
+    "a calendar invite for the committee meeting"
+  ],
+  "pressureExamples": [
+    "a PI demanding the lab reopen before the review",
+    "a sponsor asking for an answer today",
+    "a reporter calling the director's cell",
+    "a committee member questioning a restriction",
+    "a graduate student posting about the event"
+  ],
+  "rolePatterns": {
+    "technical": "research IT|data steward|facilities",
+    "operations": "biosafety|responsible official|laboratory"
+  },
+  "agencyPattern": "CDC|APHIS|FSAP|Federal Select Agent Program|NIH|OSP|IRB|IBC|OSHA|local health department",
+  "coreCapabilities": [
+    "operational_coordination",
+    "operational_communications",
+    "public_information_and_warning",
+    "situational_assessment",
+    "environmental_response_health_and_safety"
+  ],
+  "suggestedToolkits": ["lab_safety", "epidemiology", "media_environment"],
+  "regulations": ["hipaa_breach"],
+  "frameworks": ["nist_csf_2"]
+}
