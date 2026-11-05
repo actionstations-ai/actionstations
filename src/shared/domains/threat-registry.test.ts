@@ -43,7 +43,13 @@ afterEach(() => {
 
 describe('built-in families', () => {
   it('keep their ids and order', () => {
-    expect(allThreatFamilies().map((t) => t.id)).toEqual(THREAT_FAMILIES.map((t) => t.id))
+    const builtIn = new Set<string>(THREAT_FAMILY_IDS)
+    // Bundled domain packs add their own families after the built-ins (tests/setup).
+    expect(
+      allThreatFamilies()
+        .map((t) => t.id)
+        .filter((id) => builtIn.has(id)),
+    ).toEqual(THREAT_FAMILIES.map((t) => t.id))
     expect(THREAT_FAMILIES.map((t) => t.id).sort()).toEqual([...THREAT_FAMILY_IDS].sort())
   })
 
@@ -60,9 +66,10 @@ describe('built-in families', () => {
 
 describe('setThreatFamilySource', () => {
   it('adds families from any source after the built-ins', () => {
+    const before = allThreatFamilies().length
     setThreatFamilySource('toolkits', [{ packId: 'org.example.hydro', families: [flood()] }])
     expect(allThreatFamilies().at(-1)?.id).toBe('river_flood')
-    expect(allThreatFamilies()).toHaveLength(THREAT_FAMILY_IDS.length + 1)
+    expect(allThreatFamilies()).toHaveLength(before + 1)
     expect(findThreatFamily('river_flood')?.label).toBe('River flood')
     expect(isThreatFamilyId('river_flood')).toBe(true)
   })

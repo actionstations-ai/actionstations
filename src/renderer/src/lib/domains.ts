@@ -52,6 +52,7 @@ export const PROFILE_GROUP_IDS: readonly { label: string; ids: readonly string[]
     ids: [
       'healthcare',
       'public_health',
+      'epidemiology',
       'campus',
       'k12_schools',
       'stadium_venue',

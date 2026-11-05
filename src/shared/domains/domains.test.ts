@@ -41,6 +41,7 @@ describe('built-in domain profiles', () => {
       'gas_pipeline',
       'chemical',
       'public_health',
+      'epidemiology',
       'emergency_communications',
       'elections',
       'federal_continuity',
@@ -60,7 +61,10 @@ describe('built-in domain profiles', () => {
   it('references only inject types and threat families that exist', () => {
     for (const p of DOMAIN_PROFILES) {
       for (const t of p.injectTypes) expect(INJECT_TYPE_IDS, `${p.id} → ${t}`).toContain(t)
-      for (const f of p.threatFamilies) expect(THREAT_FAMILY_IDS).toContain(f)
+      for (const f of p.threatFamilies)
+        expect([...THREAT_FAMILY_IDS, ...(p.addedThreatFamilies ?? []).map((t) => t.id)]).toContain(
+          f,
+        )
       expect(p.roles.length).toBeGreaterThanOrEqual(4)
       expect(p.roles.some((r) => /public|communications|affairs|relations|pio/i.test(r.name))).toBe(
         true,

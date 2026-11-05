@@ -10,6 +10,7 @@ as `#NN`. Releasing: rename `[Unreleased]` to the new version with the release d
 
 ### Added
 
+- An **Epidemiology and outbreak investigation** domain pack (#832, spec 0457): the `epidemiology` profile for epidemiology programs, hospital infection prevention teams and public health laboratories, with eight outbreak threat families and their phase arcs (foodborne, respiratory spread, vaccine-preventable exposure, healthcare-associated cluster, mass prophylaxis, surveillance signal, laboratory surge, surveillance service degradation). It extends the public health profile and suggests the epidemiology toolkit; the word "epidemiology" now resolves to the new profile instead of public health.
 - **Toolkits**: shared field expertise any scenario can use. A toolkit is pack data (`toolkits/<id>.json`, pack format 3) with outside parties, inject types, decision forms and writing guidance; a scenario's **Toolkits** tab turns them on, the app suggests them from the brief and the kind of organization, and the generator and the controller handbook use them. See the [toolkits guide](docs/guides/toolkits.md). (#649)
 - Structured decisions: a toolkit can define decision forms; players fill them in under More, Decisions (queued offline like messages) and the facilitator can record one in the Live tab with or without devices. Decisions are sealed to the controller, checked against the form, and logged with the exercise time and the session's attribution level (#654).
 
