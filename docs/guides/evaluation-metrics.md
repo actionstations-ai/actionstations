@@ -15,6 +15,15 @@ Compares the decisions your players made with a list of real or simulated events
 
 Lead time is measured on hits only. A warning that never verified is a false alarm; it raises FAR and lowers CSI but does not change lead time, so read lead time together with FAR.
 
+### Warning verification (weather toolkit)
+
+With the weather toolkit on, decision timing is set up for warnings: the decisions counted are the warnings your players issue, a warning counts for an event up to 45 minutes before it, and the events are the storm reports of the real or simulated storm. A warning that precedes a report is a hit, a report with no warning before it is a miss, and a warning with no report in its window is a false alarm.
+
+Two things to keep in mind when you read the result:
+
+- **Lead time is measured from the earliest warning that matches each report**, and only for hits. A warning that never verified raises the false alarm ratio and lowers CSI but leaves lead time alone, so read the lead time together with the false alarm ratio.
+- **The match does not use the warning polygon.** It uses the time window (and the area names, when your decisions carry them). A warning drawn in the wrong place still counts when a report falls in its window, so use the event table to check the places.
+
 ## Threshold timing
 
 Compares an action with the time a measured or modeled quantity crossed a threshold, for each zone: for example, the start of an evacuation against the arrival of tropical-storm-force winds, less the time the evacuation needs.

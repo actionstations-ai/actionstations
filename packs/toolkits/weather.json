@@ -162,5 +162,33 @@
     "iem-warnings",
     "iem-soundings",
     "nhc-hurdat2"
+  ],
+  "metrics": [
+    {
+      "id": "decision_timing",
+      "label": "Warning verification",
+      "config": {
+        "decisionKinds": "issue_warning",
+        "leadWindowMin": 45,
+        "graceWindowMin": 0,
+        "matchArea": false
+      }
+    },
+    {
+      "id": "threshold_timing",
+      "label": "Hurricane decision timeline",
+      "config": {
+        "actionKind": "order_evacuation",
+        "threshold": 34,
+        "clearanceMin": 720
+      }
+    },
+    {
+      "id": "message_consistency",
+      "label": "Integrated warning team consistency",
+      "config": {
+        "numericTolerance": 0
+      }
+    }
   ]
 }
