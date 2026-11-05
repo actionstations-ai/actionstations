@@ -1,12 +1,12 @@
 # Template authoring guide
 
-Inject templates turn the structured fields of an inject (a tweet's handle and text, a ticket's number and description, a FIDS board's rows) into a PNG and, for paper injects, a PDF page. Every text-bearing inject is rendered from a template so its text is exact and legible; AI image models are only used for photographic scenes, which a template can then frame ([CONTRIBUTING.md, Project rules 5](../../CONTRIBUTING.md#project-rules)).
+Inject templates turn the structured fields of an inject (a tweet's handle and text, a ticket's number and description, a FIDS board's rows) into a PNG and, for paper injects, a PDF page. Every text-bearing inject is rendered from a template so its text is exact and legible; AI image models are only used for photographic scenes, which a template can then frame.
 
-This guide covers the folder contract, the day-to-day loop, golden images, and adding a new inject type end to end. The reference implementation is [`templates/injects/time_jump_card/`](../../templates/injects/time_jump_card/) (simple, paper) and [`templates/injects/tweet/`](../../templates/injects/tweet/) (variants, image slots). The design decisions are in [ADR-0008](../adr/0008-template-rendering.md); the inject types are listed in [docs/03-INJECT-TAXONOMY.md](../03-INJECT-TAXONOMY.md).
+This guide covers the folder contract, the day-to-day loop, golden images, and adding a new inject type end to end. The reference implementation is [`templates/injects/time_jump_card/`](../../templates/injects/time_jump_card/) (simple, paper) and [`templates/injects/tweet/`](../../templates/injects/tweet/) (variants, image slots). The inject types are listed in [docs/03-INJECT-TAXONOMY.md](../03-INJECT-TAXONOMY.md).
 
 ## Folder contract
 
-A template is one folder, `templates/injects/<type>/`, where `<type>` is the inject type id (`[a-z0-9_]+`, the same id as in `src/shared/taxonomy.ts`).
+A template is one folder, `templates/injects/<type>/`, where `<type>` is the inject type id (`[a-z0-9_]+`, the same id as in the inject taxonomy).
 
 | File                       | Required | Purpose                                                                                      |
 | -------------------------- | -------- | -------------------------------------------------------------------------------------------- |
@@ -45,7 +45,7 @@ A template is one folder, `templates/injects/<type>/`, where `<type>` is the inj
 | `background` | Colour behind the inject (the app chrome around a screenshot).                                                       |
 | `imageSlots` | Names of places an AI image can be composited into (see [Image slots](#image-slots)).                                |
 
-Which domains a type belongs to is set in the inject taxonomy (`src/shared/taxonomy.ts`, `domains: ['airport']`), not in `meta.json`. An untagged type is offered to every domain. The Templates page has a **Domain** filter (chips for every domain profile, including those of installed packs, plus **All domains**): a domain shows the untagged templates plus those tagged for it, and tagged cards carry a badge such as _Airport only_. Opened while a project is open, the page starts on that project's domain.
+Which domains a type belongs to is set in the inject taxonomy (a `domains` list such as `['airport']`), not in `meta.json`. An untagged type is offered to every domain. The Templates page has a **Domain** filter (chips for every domain profile, including those of installed packs, plus **All domains**): a domain shows the untagged templates plus those tagged for it, and tagged cards carry a badge such as _Airport only_. Opened while a project is open, the page starts on that project's domain.
 
 ### `schema.json`
 
@@ -136,7 +136,7 @@ Players can get an inject in Spanish ([guide](translation-and-accessibility.md))
 
 ### Derived values
 
-Some strings must be exact and are computed, not written: a SAME header, VTEC and UGC lines, CAP times and XML, an ICAO Q line. Templates cannot compute them, so the app does it in main before rendering (`src/main/render/derived/`, one module per inject type) and gives the template a fifth context key, `derived`, beside `fields` (it never replaces a field). Write `{{derived.sameHeader}}`, not your own formatting. Types with derived values: `cap_alert`, `eas_broadcast`, `nws_weather_warning`, `notam`. A pack template of the same type gets the same data; packs cannot add derivation code.
+Some strings must be exact and are computed, not written: a SAME header, VTEC and UGC lines, CAP times and XML, an ICAO Q line. Templates cannot compute them, so the app does it before rendering and gives the template a fifth context key, `derived`, beside `fields` (it never replaces a field). Write `{{derived.sameHeader}}`, not your own formatting. Types with derived values: `cap_alert`, `eas_broadcast`, `nws_weather_warning`, `notam`. A pack template of the same type gets the same data; packs cannot add derivation code.
 
 ### Styles, fonts and the sandbox
 
@@ -153,7 +153,7 @@ Paper injects are US Letter at 96 dpi: `"width": 816, "height": 1056`, `"paper":
 
 #### Forms longer than one page
 
-A form whose lists can outgrow a page (the chain of custody form's transfers, the regulatory report's sections) omits `height` and prints one `<section class="page">` per Letter page, each `height: 1056px` with `break-after: page`. The PNG is then the pages stacked (1632 × 2112 per page) and the PDF has one Letter page per section. Templates cannot measure text, so two helpers split the lists by estimated height (`src/main/render/paginate.ts`):
+A form whose lists can outgrow a page (the chain of custody form's transfers, the regulatory report's sections) omits `height` and prints one `<section class="page">` per Letter page, each `height: 1056px` with `break-after: page`. The PNG is then the pages stacked (1632 × 2112 per page) and the PDF has one Letter page per section. Templates cannot measure text, so two helpers split the lists by estimated height:
 
 ```handlebars
 {{#each
@@ -229,58 +229,38 @@ At generation time the media stage stores the image as an asset whose id starts 
 
 ## The authoring loop
 
-1. **Look at it in the app.** `pnpm dev`, then **Templates** in the sidebar. The gallery renders every template's `preview.json` and lists its fields and variants. Templates are re-read whenever a file in their folder changes, so reopening a template shows your edits.
+1. **Look at it in the app.** Open **Templates** in the sidebar. The gallery renders every template's `preview.json` and lists its fields and variants. Templates are re-read whenever a file in their folder changes, so reopening a template shows your edits.
 
    ![The Templates gallery](images/templates.png)
 
-2. **Render through the real pipeline.**
+2. **Render through the real pipeline.** The template check renders every template and variant with the same renderer exports use, writes a PNG for each, and compares each with its golden image (below). Open the PNGs right after a run: the next run replaces them.
 
-   ```bash
-   pnpm build:app
-   pnpm test:templates
-   ```
-
-   `test:templates` runs two Playwright specs against the built app:
-   - `e2e/templates-preview.spec.ts` writes `test-results/templates/<type>[--<variant>].png` for every template and checks the render pool (concurrency, crash recovery).
-   - `e2e/templates-golden.spec.ts` compares every template × variant with its golden PNG (below).
-
-   Open the PNGs right after the run: Playwright empties `test-results/` at the start of every run.
-
-3. **Check the generated version.** To see what a model makes of your schema, generate injects for a scenario (`generate:injects`, used by the live inject test `LIVE=1 pnpm test -- tests/live/injects.live.test.ts`) and read the rendered pages under `<project>/scenarios/<id>/media/`.
+3. **Check the generated version.** To see what a model makes of your schema, generate injects for a scenario and read the rendered pages under `<project>/scenarios/<id>/media/`.
 
 ## Goldens and determinism
 
-Each template × variant has a committed golden: `templates/injects/<type>/__golden__/<variant>.png`, a 2× render of `preview.json`. The golden test:
+Each template × variant has a golden image: `templates/injects/<type>/__golden__/<variant>.png`, a 2× render of `preview.json`. The golden check:
 
-1. renders the preview twice and fails if the two renders differ by more than 0.01 % of pixels (GPU anti-aliasing can move a few pixels between pooled windows, so byte equality is not required);
-2. compares the render with the golden using pixelmatch (threshold 0.1, at most 0.1 % differing pixels);
-3. on a mismatch or a missing golden, writes `.tmp/golden-diff/<type>--<variant>.actual.png` (and `.diff.png` for a mismatch).
+1. renders the preview twice and fails if the two renders differ by more than 0.01 % of pixels (GPU anti-aliasing can move a few pixels between renderer windows, so byte equality is not required);
+2. compares the render with the golden (pixel threshold 0.1, at most 0.1 % differing pixels);
+3. on a mismatch or a missing golden, saves the new render, and for a mismatch an image of the differences.
 
 Creating or updating a golden:
 
-- **New template or new variant:** run `pnpm test:templates`. The test fails with `no golden at …` and writes the render to `.tmp/golden-diff/<type>--<variant>.actual.png`. Look at it at full size, then copy it to `templates/injects/<type>/__golden__/<variant>.png`.
-- **Deliberate change to an existing template:** inspect `.tmp/golden-diff/*.diff.png`, then copy the `.actual.png` over the golden.
-- `UPDATE_GOLDENS=1 pnpm test:templates` rewrites **every** golden. Use it only when a shared change (fonts, `base.css`) moves many templates on purpose, then review `git diff --stat templates/` and restore any golden you did not mean to change with `git restore <path>`.
+- **New template or new variant:** the check fails with a missing golden and saves the render. Look at it at full size, then save it as `templates/injects/<type>/__golden__/<variant>.png`.
+- **Deliberate change to an existing template:** inspect the difference image, then replace the golden with the new render.
+- **Shared change:** a change to fonts or `base.css` can move many templates on purpose. Regenerate all goldens only then, and review every changed image before keeping it.
 
-Goldens are macOS baselines. Never regenerate one to turn a red test green without looking at the diff. Goldens are excluded from packaged builds.
+Goldens are macOS baselines. Never regenerate one just to make a failing check pass without looking at the difference. Goldens are excluded from packaged builds.
 
 ## Adding a new inject type end to end
 
-The example below adds a hypothetical `notam` (Notice to Air Missions) type.
+Types that ship with the app are listed in the inject taxonomy ([docs/03-INJECT-TAXONOMY.md](../03-INJECT-TAXONOMY.md)). A type you add yourself ships in a pack with a `taxonomy` block in its `meta.json`. The example below adds a hypothetical `notam` (Notice to Air Missions) type.
 
-1. **Open an issue** with the **New inject type** template (`.github/ISSUE_TEMPLATE/inject-type.yml`): type id, fields with examples, render path, a real example, export behaviour.
-2. **Taxonomy entry.** Add the type to `INJECT_TYPES` in `src/shared/taxonomy.ts` with its category, render paths, `paper`, and default delivery:
-
-   ```ts
-   t('notam', 'NOTAM', 'documents', ['template'], { paper: true }),
-   ```
-
-   Add the row to the matching table in [docs/03-INJECT-TAXONOMY.md](../03-INJECT-TAXONOMY.md).
-
-3. **Fallbacks.** In `src/main/generate/injects/type-map.ts`, add `notam` to `TYPE_FALLBACKS` (the closest template-backed types, best first, used when a template is missing) and, if other types should fall back to it, add it to their lists. If the type might ship without a template, add a `KEY_FIELDS` entry so the model knows which fields to write.
-4. **Template folder.** Create `templates/injects/notam/` with `meta.json` (`"type": "notam"`, `"paper": true`, 816 × 1056), `schema.json` (descriptions and examples on every field, `additionalProperties: false`), `preview.json` (realistic data that validates), `template.html` and `style.css`.
-5. **Look at it:** `pnpm dev` → **Templates**, then `pnpm build:app && pnpm test:templates`. The golden test fails with a missing golden; inspect `.tmp/golden-diff/notam--default.actual.png` and copy it to `templates/injects/notam/__golden__/default.png`.
-6. **Run local CI** (`pnpm ci:local`), which lints, type-checks, runs the unit tests (including the taxonomy schema tests) and the template goldens, then open a PR with the rendered PNG attached.
+1. **Define the type.** Write down the type id, the fields with examples, the render path, a real example and the export behavior.
+2. **Template folder.** Create `templates/injects/notam/` with `meta.json` (`"type": "notam"`, `"paper": true`, 816 × 1056, and a `taxonomy` block with `category`, `render` and `defaultDelivery`), `schema.json` (descriptions and examples on every field, `additionalProperties: false`), `preview.json` (realistic data that validates), `template.html` and `style.css`.
+3. **Look at it.** Open **Templates** to see the preview, then run the golden check. It fails with a missing golden; inspect the saved render and save it as `templates/injects/notam/__golden__/default.png`.
+4. **Share it.** Export the folder in a pack (see [Sharing a template in a pack](#sharing-a-template-in-a-pack)).
 
 ### Checklist
 
@@ -300,4 +280,4 @@ A template can be shared with other users in a pack (`.aspack`; installing and e
 node scripts/pack-validate.mjs my-pack-1.0.0.aspack
 ```
 
-It prints `ok`, or one line per problem naming the file inside the pack, and exits 1 when anything is wrong. While the checkout's `package.json` version is older than 0.3.0, add `--app-version 0.3.0` so a pack that needs 0.3.0 is not refused for that alone.
+It prints `ok`, or one line per problem naming the file inside the pack, and exits 1 when anything is wrong.

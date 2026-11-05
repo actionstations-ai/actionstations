@@ -132,15 +132,10 @@ revised rows before trusting them. "Fits" is the size on disk plus an estimate o
 the weights at 32K); the lowest tier assumes 5.5 GB. A tier with no such model says so. The
 setup recommendations in the app are updated by hand from this report.
 
-## Smoke test
-
-`pnpm e2e` includes `e2e/bench-smoke.spec.ts`, which runs the quick suite against the app's
-in-process mock provider (about a minute) and validates the run file. It needs no model.
-
 ## Tabletop Benchmark (public view)
 
 The same runs feed Tabletop Benchmark, the public benchmark at
-https://github.com/actionstations-ai/tabletop-bench (spec 0444). `pnpm bench:export` prints the
+https://github.com/actionstations-ai/tabletop-bench. `pnpm bench:export` prints the
 hash of each suite's task set and, with `--out <dir>`, writes the task-set files; every run file
 records that hash as `taskSetHash`. To submit a run there, use that repository's `tb run` and
 `tb add`; it checks the hash against the checkout you run from.
@@ -148,7 +143,7 @@ records that hash as `taskSetHash`. To submit a run there, use that repository's
 ## Tabletop Mini Benchmark (about ten minutes per model)
 
 The Mini answers "will this model work for tabletop generation?" with four model calls on fixed
-inputs from the bundled examples, each run twice, and one number with a stated meaning (spec 0445):
+inputs from the bundled examples, each run twice, and one number with a stated meaning:
 
 **Mini score = Quality x Completion**
 

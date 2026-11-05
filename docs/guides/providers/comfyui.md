@@ -47,7 +47,7 @@ Download them from the Hugging Face pages (the files are under **Files and versi
 What the defaults do and how long they take on Apple Silicon (MPS):
 
 - **`sdxl-photo`**: SDXL base 1.0 text-to-image at 1216 × 832, 25 steps. Style suffixes push towards phone photos, press photos, CCTV frames and portraits. Measured through the app's **Test render**: 18.7 s per image with the model loaded.
-- **`image-to-video`**: LTX-Video 2B distilled animates the inject's scene image into an H.264 MP4 at 1024 × 576, 24 fps, up to 5 seconds. Measured: 29.6 s for a 3-second clip. Wan 2.2 was evaluated and produced broken frames on MPS, so it is not a default; with a CUDA GPU you can import Wan's official API-format workflow yourself. See [ADR-0011](../../adr/0011-video-model-ltxv.md).
+- **`image-to-video`**: LTX-Video 2B distilled animates the inject's scene image into an H.264 MP4 at 1024 × 576, 24 fps, up to 5 seconds. Measured: 29.6 s for a 3-second clip. Wan 2.2 was evaluated and produced broken frames on MPS, so it is not a default; with a CUDA GPU you can import Wan's official API-format workflow yourself.
 
 ### Optional: FLUX.2 [klein] edit for blank-screen scenes
 

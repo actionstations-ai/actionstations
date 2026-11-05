@@ -1,7 +1,7 @@
 # Model profiles
 
 Every model family has sampling settings its makers recommend. Action Stations keeps a table of
-them (`src/shared/model-profiles.json`, checked by `src/shared/schemas/model-profile.ts`) and
+them and
 applies the matching profile to every request an OpenAI-compatible server (LM Studio, vLLM,
 llama.cpp) or Ollama receives. A model with no profile is called exactly as before.
 
@@ -46,7 +46,7 @@ creative ones). The two combine like this:
 
 `top_p`, `top_k` and `min_p` always come from the profile.
 
-## Output cap and reasoning (#591)
+## Output cap and reasoning
 
 A stage's `maxTokens` in `prompts/*.md` is sized for the answer. A thinking model spends part of
 the same budget on reasoning, so when a profile's `reasoning.tokens` is set and thinking is on,

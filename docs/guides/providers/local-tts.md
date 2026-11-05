@@ -1,6 +1,6 @@
 # Local text-to-speech (mlx-audio)
 
-Voice injects (radio calls, phone calls, voicemails, PA announcements) are spoken by a text-to-speech model, then given radio, phone or PA post-processing by the app. On Apple Silicon the recommended voices run locally under MLX through [mlx-audio](https://github.com/Blaizzy/mlx-audio), whose server speaks the OpenAI `POST /v1/audio/speech` API. The app's **OpenAI-compatible** provider type talks to it directly ([ADR-0010](../../adr/0010-local-tts-openai-speech.md)).
+Voice injects (radio calls, phone calls, voicemails, PA announcements) are spoken by a text-to-speech model, then given radio, phone or PA post-processing by the app. On Apple Silicon the recommended voices run locally under MLX through [mlx-audio](https://github.com/Blaizzy/mlx-audio), whose server speaks the OpenAI `POST /v1/audio/speech` API. The app's **OpenAI-compatible** provider type talks to it directly.
 
 Verified with mlx-audio 0.6.1 on macOS (Apple Silicon). mlx-audio does not run on Windows or Linux; there, use the [system voice](#system-voice-any-platform), a ComfyUI TTS workflow ([ComfyUI guide](comfyui.md) and [`comfy/workflows/README.md`](../../../comfy/workflows/README.md#adding-a-comfyui-tts-workflow-optional)) or a remote OpenAI-compatible speech endpoint.
 

@@ -5,7 +5,7 @@ Two checks help you trust what the generator wrote and the plans it read:
 - **Source check** labels every expected action, controller note, overview section and scenario idea that makes a claim about your plans: **Grounded**, **Needs review** or **Unsupported**, with the reason one click away.
 - **Plan conflicts** compares your own plans, policies and forms and lists the places where two of them disagree, with both passages side by side.
 
-Both run on your computer without a model. A model check is optional and goes through the provider you set for reviews (**Providers → Routing → Critique**). The design is recorded in [ADR-0028](../adr/0028-deterministic-grounding-first.md) and the full behaviour in [spec 0423](../specs/0423-grounding-and-plan-conflicts.md).
+Both run on your computer without a model. A model check is optional and goes through the provider you set for reviews (**Providers → Routing → Critique**).
 
 ## What the labels mean
 
