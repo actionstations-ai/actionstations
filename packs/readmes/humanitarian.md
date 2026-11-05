@@ -7,7 +7,7 @@ Included with Action Stations and enabled by default. Turn it off on the Packs s
 ## What is in the pack
 
 - **Domain profile `humanitarian`:** four variants as role sets (an international NGO country office, a coordination office with clusters, a response site, and a headquarters crisis management team), their systems and outside parties, and eight threat families: sudden-onset disaster abroad, refugee influx, outbreak in a displacement site, staff security incident, supply pipeline break, funding gap, beneficiary data breach and communications loss in the field.
-- **Toolkit `humanitarian`:** terms, product conventions and realism rules for humanitarian exercises, the outside parties and advisor roles the field brings in, and the products, figures, decisions and measures that later releases of this pack add. Any organization can turn the toolkit on: a county voluntary organization active in disasters, a port or a food bank can use the situation report, 3W and coordination products without being a humanitarian agency.
+- **Toolkit `humanitarian`:** terms, product conventions and realism rules for humanitarian exercises, the outside parties and advisor roles the field brings in, and the coordination, field security, supply and needs templates, seven drawn figures, seventeen decisions, measures, replay connectors and simulated events. Any organization can turn the toolkit on: a county voluntary organization active in disasters, a port or a food bank can use the situation report, 3W and coordination products without being a humanitarian agency.
 
 ## Things the toolkit knows
 
