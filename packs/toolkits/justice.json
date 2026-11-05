@@ -97,8 +97,494 @@
     }
   ],
   "documents": [],
-  "metrics": [],
-  "decisionForms": [],
+  "metrics": [
+    {
+      "id": "justice_time_to_decision",
+      "label": "Time to unified command",
+      "config": {
+        "label": "Time to unified command",
+        "startEventKind": "first_arrival",
+        "requiredDecisionKinds": "justice_establish_command_post,justice_establish_unified_command",
+        "targetMin": 30
+      },
+      "groundTruth": "justice-incident-events"
+    },
+    {
+      "id": "justice_time_to_decision",
+      "label": "Time to family center open",
+      "config": {
+        "label": "Time to family center open",
+        "startEventKind": "first_report",
+        "requiredDecisionKinds": "justice_open_family_center",
+        "targetMin": 60
+      },
+      "groundTruth": "justice-incident-events"
+    },
+    {
+      "id": "justice_time_to_decision",
+      "label": "Time to accurate count",
+      "config": {
+        "label": "Time to accurate count",
+        "startEventKind": "count_taken",
+        "requiredDecisionKinds": "justice_declare_count_clear",
+        "targetMin": 60
+      },
+      "groundTruth": "justice-count-events"
+    },
+    {
+      "id": "justice_time_to_decision",
+      "label": "Time to restore each court function",
+      "config": {
+        "label": "Time to restore each court function",
+        "startEventKind": "system_down",
+        "requiredDecisionKinds": "justice_restore_system",
+        "pairBy": "system"
+      },
+      "groundTruth": "justice-court-events"
+    },
+    {
+      "id": "decision_timing",
+      "label": "AMBER Alert issue time after the first report",
+      "config": {
+        "decisionKinds": "justice_issue_amber_alert",
+        "eventKinds": "first_report",
+        "leadWindowMin": 0,
+        "graceWindowMin": 120,
+        "matchArea": false
+      },
+      "groundTruth": "justice-incident-events"
+    },
+    {
+      "id": "message_consistency",
+      "label": "Message consistency across agencies",
+      "config": {
+        "numericTolerance": 0,
+        "partners": "police,sheriff,fire and EMS,school district"
+      }
+    },
+    {
+      "id": "justice_dispatch_service_level",
+      "label": "Dispatch service level in a call surge",
+      "config": {
+        "targetMin": 8
+      },
+      "groundTruth": "justice-call-events"
+    }
+  ],
+  "decisionForms": [
+    {
+      "id": "justice_establish_command_post",
+      "label": "Establish the command post",
+      "description": "Name the incident commander and the building-level location of the command post.",
+      "fields": [
+        {
+          "id": "location",
+          "label": "Location (building level)",
+          "kind": "text",
+          "required": true
+        },
+        {
+          "id": "incident_commander",
+          "label": "Incident commander (name, agency)",
+          "kind": "text",
+          "required": true
+        },
+        {
+          "id": "established_at",
+          "label": "Established at",
+          "kind": "time",
+          "required": true
+        }
+      ]
+    },
+    {
+      "id": "justice_establish_unified_command",
+      "label": "Establish unified command",
+      "description": "Record which agencies are in unified command and who represents each.",
+      "fields": [
+        {
+          "id": "agencies",
+          "label": "Agencies in unified command",
+          "kind": "text",
+          "required": true
+        },
+        {
+          "id": "incident_commander",
+          "label": "Incident commander",
+          "kind": "text",
+          "required": true
+        },
+        {
+          "id": "established_at",
+          "label": "Established at",
+          "kind": "time",
+          "required": true
+        }
+      ]
+    },
+    {
+      "id": "justice_request_mutual_aid",
+      "label": "Request mutual aid",
+      "description": "Ask another agency for resources through the agreed channel.",
+      "fields": [
+        {
+          "id": "requested_from",
+          "label": "Requested from",
+          "kind": "text",
+          "required": true
+        },
+        {
+          "id": "resources",
+          "label": "What kind and how many",
+          "kind": "text",
+          "required": true
+        },
+        {
+          "id": "channel",
+          "label": "Channel used",
+          "kind": "text",
+          "required": false
+        },
+        {
+          "id": "requested_at",
+          "label": "Requested at",
+          "kind": "time",
+          "required": true
+        }
+      ]
+    },
+    {
+      "id": "justice_activate_negotiation_team",
+      "label": "Activate the negotiation team",
+      "description": "The incident commander activates the team.",
+      "fields": [
+        {
+          "id": "incident_commander",
+          "label": "Incident commander",
+          "kind": "text",
+          "required": true
+        },
+        {
+          "id": "activated_at",
+          "label": "Activated at",
+          "kind": "time",
+          "required": true
+        }
+      ]
+    },
+    {
+      "id": "justice_open_family_center",
+      "label": "Open a family reunification or assistance center",
+      "description": "Choose the site and open it.",
+      "fields": [
+        {
+          "id": "center_type",
+          "label": "Type",
+          "kind": "choice",
+          "choices": ["Reunification site", "Family assistance center"],
+          "required": true
+        },
+        {
+          "id": "site",
+          "label": "Site (building level)",
+          "kind": "text",
+          "required": true
+        },
+        {
+          "id": "opened_at",
+          "label": "Opened at",
+          "kind": "time",
+          "required": true
+        }
+      ]
+    },
+    {
+      "id": "justice_issue_public_statement",
+      "label": "Issue a public statement",
+      "description": "Release a statement through the joint information center.",
+      "fields": [
+        {
+          "id": "channel",
+          "label": "Channel",
+          "kind": "choice",
+          "choices": ["News release", "Social media", "Press briefing", "Text alert"],
+          "required": true
+        },
+        {
+          "id": "summary",
+          "label": "Content summary",
+          "kind": "text",
+          "required": true
+        },
+        {
+          "id": "joint",
+          "label": "Joint with other agencies",
+          "kind": "choice",
+          "choices": ["Yes", "No"],
+          "required": true
+        },
+        {
+          "id": "issued_at",
+          "label": "Issued at",
+          "kind": "time",
+          "required": true
+        }
+      ]
+    },
+    {
+      "id": "justice_decide_amber_criteria",
+      "label": "Decide the AMBER Alert criteria",
+      "description": "Record each of the five recommended criteria as met, not met or unclear, with the reasoning.",
+      "fields": [
+        {
+          "id": "abduction",
+          "label": "1. Reasonable belief an abduction occurred",
+          "kind": "choice",
+          "choices": ["Met", "Not met", "Unclear"],
+          "required": true
+        },
+        {
+          "id": "danger",
+          "label": "2. Imminent danger of serious bodily injury or death",
+          "kind": "choice",
+          "choices": ["Met", "Not met", "Unclear"],
+          "required": true
+        },
+        {
+          "id": "description",
+          "label": "3. Enough descriptive information",
+          "kind": "choice",
+          "choices": ["Met", "Not met", "Unclear"],
+          "required": true
+        },
+        {
+          "id": "age",
+          "label": "4. Child is 17 or younger",
+          "kind": "choice",
+          "choices": ["Met", "Not met", "Unclear"],
+          "required": true
+        },
+        {
+          "id": "database",
+          "label": "5. Entered in the national database with the Child Abduction flag",
+          "kind": "choice",
+          "choices": ["Met", "Not met", "Unclear"],
+          "required": true
+        },
+        {
+          "id": "rationale",
+          "label": "Rationale",
+          "kind": "text",
+          "required": true
+        },
+        {
+          "id": "decided_at",
+          "label": "Decided at",
+          "kind": "time",
+          "required": true
+        }
+      ]
+    },
+    {
+      "id": "justice_issue_amber_alert",
+      "label": "Issue an AMBER Alert",
+      "description": "Request the alert for an area.",
+      "fields": [
+        {
+          "id": "area",
+          "label": "Alert area",
+          "kind": "text",
+          "required": true
+        },
+        {
+          "id": "issued_at",
+          "label": "Issued at",
+          "kind": "time",
+          "required": true
+        },
+        {
+          "id": "database_first",
+          "label": "Database entry made before the alert",
+          "kind": "choice",
+          "choices": ["Yes", "No"],
+          "required": true
+        }
+      ]
+    },
+    {
+      "id": "justice_lock_down_or_evacuate",
+      "label": "Lock down or evacuate a housing area or facility",
+      "description": "Choose the action and its scope.",
+      "fields": [
+        {
+          "id": "action",
+          "label": "Action",
+          "kind": "choice",
+          "choices": ["Lock down", "Evacuate"],
+          "required": true
+        },
+        {
+          "id": "scope",
+          "label": "Area or facility",
+          "kind": "text",
+          "required": true
+        },
+        {
+          "id": "effective_at",
+          "label": "Effective at",
+          "kind": "time",
+          "required": true
+        },
+        {
+          "id": "reason",
+          "label": "Reason",
+          "kind": "text",
+          "required": false
+        }
+      ]
+    },
+    {
+      "id": "justice_declare_count_clear",
+      "label": "Declare the count clear",
+      "description": "Declare that the count reconciles with the movement log.",
+      "fields": [
+        {
+          "id": "counted",
+          "label": "Total counted",
+          "kind": "number",
+          "required": true
+        },
+        {
+          "id": "expected",
+          "label": "Total expected",
+          "kind": "number",
+          "required": true
+        },
+        {
+          "id": "reconciled",
+          "label": "Reconciled with the movement log",
+          "kind": "choice",
+          "choices": ["Yes", "No"],
+          "required": true
+        },
+        {
+          "id": "declared_at",
+          "label": "Declared at",
+          "kind": "time",
+          "required": true
+        }
+      ]
+    },
+    {
+      "id": "justice_close_courthouse_or_function",
+      "label": "Close the courthouse or a function",
+      "description": "Close all or part of the court's operations.",
+      "fields": [
+        {
+          "id": "scope",
+          "label": "Scope",
+          "kind": "choice",
+          "choices": ["Entire courthouse", "Non-essential functions", "One function"],
+          "required": true
+        },
+        {
+          "id": "duration",
+          "label": "Duration",
+          "kind": "text",
+          "required": true
+        },
+        {
+          "id": "continuing",
+          "label": "Functions that continue",
+          "kind": "text",
+          "required": false
+        },
+        {
+          "id": "effective_at",
+          "label": "Effective at",
+          "kind": "time",
+          "required": true
+        }
+      ]
+    },
+    {
+      "id": "justice_move_to_paper_filing",
+      "label": "Move to paper filing",
+      "description": "Switch to paper filing for a period.",
+      "fields": [
+        {
+          "id": "location",
+          "label": "Where filings are accepted",
+          "kind": "text",
+          "required": true
+        },
+        {
+          "id": "duration",
+          "label": "Duration",
+          "kind": "text",
+          "required": false
+        },
+        {
+          "id": "effective_at",
+          "label": "Effective at",
+          "kind": "time",
+          "required": true
+        }
+      ]
+    },
+    {
+      "id": "justice_restore_system",
+      "label": "Restore a system",
+      "description": "Restore a court system, in dependency order.",
+      "fields": [
+        {
+          "id": "system",
+          "label": "System",
+          "kind": "choice",
+          "choices": ["Telephones", "Public website", "Case management", "E-filing"],
+          "required": true
+        },
+        {
+          "id": "restored_at",
+          "label": "Restored at",
+          "kind": "time",
+          "required": true
+        },
+        {
+          "id": "depends_on",
+          "label": "Confirmed dependencies are running",
+          "kind": "text",
+          "required": false
+        }
+      ]
+    },
+    {
+      "id": "justice_notify_bar_and_public",
+      "label": "Notify the bar and the public",
+      "description": "Send a notice to the bar, jurors or the public.",
+      "fields": [
+        {
+          "id": "audience",
+          "label": "Audience",
+          "kind": "choice",
+          "choices": ["The bar", "Jurors", "The public", "All of them"],
+          "required": true
+        },
+        {
+          "id": "summary",
+          "label": "Content summary",
+          "kind": "text",
+          "required": true
+        },
+        {
+          "id": "sent_at",
+          "label": "Sent at",
+          "kind": "time",
+          "required": true
+        }
+      ]
+    }
+  ],
   "knowledge": {
     "glossary": [
       {
@@ -141,6 +627,68 @@
     "justice_no_notoriety",
     "justice_negotiation_decision_level"
   ],
-  "capabilities": [],
+  "capabilities": [
+    {
+      "coreCapability": "operational_coordination",
+      "criticalTasks": [
+        "Name an incident commander and announce the command post before sending more units.",
+        "Form unified command with fire, EMS and every agency with authority, and list who is at the command post.",
+        "Request mutual aid through the agreed channels and say who leads a multiagency response.",
+        "Keep one set of incident objectives for every agency on scene."
+      ],
+      "mappings": []
+    },
+    {
+      "coreCapability": "operational_communications",
+      "criticalTasks": [
+        "Assign radio channels and an interoperability channel so agencies can reach the command post.",
+        "Keep a CAD chronology and unit status that every agency can read.",
+        "Say what is known and what is not on the radio in unit names, building-level locations and statuses."
+      ],
+      "mappings": []
+    },
+    {
+      "coreCapability": "public_information_and_warning",
+      "criticalTasks": [
+        "Activate a joint information system and release one statement with the same numbers from every agency.",
+        "Tell families where to go and when it opens before they crowd the perimeter.",
+        "Decide the AMBER Alert criteria with reasons, enter the database record before the alert, and answer tips.",
+        "Notify the bar, jurors and the public of court closures in plain language."
+      ],
+      "mappings": []
+    },
+    {
+      "coreCapability": "on_scene_security_protection_and_law_enforcement",
+      "criticalTasks": [
+        "Hold the command decisions that law enforcement owns at the command level: who leads, who is told, who is asked for help.",
+        "Reconcile a facility count from the movement log and declare it clear on stated facts."
+      ],
+      "mappings": []
+    },
+    {
+      "coreCapability": "situational_assessment",
+      "criticalTasks": [
+        "Reconcile conflicting counts and status reports into one picture at the command post.",
+        "Track the status of essential court functions against their recovery time objectives."
+      ],
+      "mappings": []
+    },
+    {
+      "coreCapability": "mass_care_services",
+      "criticalTasks": [
+        "Open a reunification site or family assistance center and staff it with victim services.",
+        "Reunite students and families through an agreed process."
+      ],
+      "mappings": []
+    },
+    {
+      "coreCapability": "cybersecurity",
+      "criticalTasks": [
+        "Decide what to shut down and what to leave running when court systems are attacked.",
+        "Restore systems in dependency order and confirm each dependency before the next."
+      ],
+      "mappings": []
+    }
+  ],
   "exerciseTags": []
 }
