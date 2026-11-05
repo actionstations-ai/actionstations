@@ -229,6 +229,12 @@
       "summary": "PREP Guidelines, the Coast Guard Deepwater Horizon preparedness review, the NTSB Marshall pipeline report and NOAA job aids and guides for oil spill response.",
       "domain": "environmental_response",
       "version": "1.0.0"
+    },
+    "ems-fire-library": {
+      "name": "EMS, fire and hazmat reference library",
+      "summary": "EPA RMP exercise and emergency response guidance, the CISA hazmat and emergency services tabletop packages, and the NTSB and CSB reports on a derailment release and a chemical plant fire.",
+      "domain": "ems_fire",
+      "version": "1.0.0"
     }
   },
   "documents": [
@@ -849,7 +855,8 @@
       "size": 718219,
       "license": "LicenseRef-US-Government-Work",
       "basis": "US federal government work (17 U.S.C. §105): EPA",
-      "pinned": "2026-10-24"
+      "pinned": "2026-10-24",
+      "alsoIn": ["ems-fire-library"]
     },
     {
       "pack": "chemical-library",
@@ -863,7 +870,8 @@
       "size": 282380,
       "license": "LicenseRef-US-Government-Work",
       "basis": "US federal government work (17 U.S.C. §105): EPA",
-      "pinned": "2026-10-24"
+      "pinned": "2026-10-24",
+      "alsoIn": ["ems-fire-library"]
     },
     {
       "pack": "chemical-library",
@@ -907,7 +915,8 @@
       "license": "LicenseRef-US-Government-Work",
       "basis": "US federal government work (17 U.S.C. §105): CSB",
       "note": "Names a real company; reference only, never the exercising organization.",
-      "pinned": "2026-10-24"
+      "pinned": "2026-10-24",
+      "alsoIn": ["ems-fire-library"]
     },
     {
       "pack": "chemical-library",
@@ -1653,7 +1662,8 @@
       "license": "LicenseRef-US-Government-Work",
       "basis": "US federal government work (17 U.S.C. §105): CISA publication, TLP:CLEAR blank template, no copyright notice. The cover photo (unknown provenance) is replaced with a blank image when packed.",
       "process": "strip-cover",
-      "pinned": "2026-10-24"
+      "pinned": "2026-10-24",
+      "alsoIn": ["ems-fire-library"]
     },
     {
       "pack": "emergency-communications-library",
@@ -2675,7 +2685,8 @@
       "license": "LicenseRef-US-Government-Work",
       "basis": "US federal government work (17 U.S.C. §105): NTSB",
       "note": "Names a real railroad and town; reference only, never the exercising organization.",
-      "pinned": "2026-10-24"
+      "pinned": "2026-10-24",
+      "alsoIn": ["ems-fire-library"]
     },
     {
       "pack": "freight-rail-library",
@@ -3020,7 +3031,8 @@
       "license": "LicenseRef-US-Government-Work",
       "basis": "US federal government work (17 U.S.C. §105): CISA publication, TLP:CLEAR blank template, no copyright notice. The cover photo (unknown provenance) is replaced with a blank image when packed.",
       "process": "strip-cover",
-      "pinned": "2026-10-24"
+      "pinned": "2026-10-24",
+      "alsoIn": ["ems-fire-library"]
     },
     {
       "pack": "industrial-library",
@@ -8463,6 +8475,48 @@
       "publisher": "NOAA Office of Response and Restoration",
       "url": "https://response.restoration.noaa.gov/esi",
       "reason": "Large GIS downloads; linked"
+    },
+    {
+      "pack": "ems-fire-library",
+      "title": "Operational Templates and Guidance for EMS Mass Incident Deployment (June 2012)",
+      "publisher": "US Fire Administration",
+      "url": "https://www.usfa.fema.gov/downloads/pdf/publications/templates_guidance_ems_mass_incident_deployment.pdf",
+      "reason": "Published by USFA with no copyright notice, but written for USFA by the National EMS Management Association; a contractor's work is not automatically a US government work, so it is linked, not bundled"
+    },
+    {
+      "pack": "ems-fire-library",
+      "title": "Hazardous Waste Operations and Emergency Response, OSHA 3114",
+      "publisher": "OSHA",
+      "url": "https://www.osha.gov/emergency-preparedness/hazardous-waste-operations/osha-resources",
+      "reason": "osha.gov refuses scripted downloads, so no hash could be pinned"
+    },
+    {
+      "pack": "ems-fire-library",
+      "title": "29 CFR 1910.120 (HAZWOPER) and 1910.134",
+      "publisher": "OSHA",
+      "url": "https://www.osha.gov/laws-regs/interlinking/standards/1910.120/all",
+      "reason": "Regulation text on a web page; linked"
+    },
+    {
+      "pack": "ems-fire-library",
+      "title": "Emergency Response Guidebook (ERG 2024)",
+      "publisher": "PHMSA, Transport Canada and SCT",
+      "url": "https://www.phmsa.dot.gov/training/hazmat/erg/emergency-response-guidebook-erg",
+      "reason": "Reproduction terms not confirmed with PHMSA; no text or tables are bundled (the toolkit holds protective action distances as data the user enters)"
+    },
+    {
+      "pack": "ems-fire-library",
+      "title": "After Action Report for the Response to the 2013 Boston Marathon Bombings (December 2014)",
+      "publisher": "Massachusetts Emergency Management Agency and partners",
+      "url": "https://www.mass.gov/doc/after-action-report-for-the-response-to-the-2013-boston-marathon-bombings/download",
+      "reason": "A state work with terms not stated; linked"
+    },
+    {
+      "pack": "ems-fire-library",
+      "title": "NFPA 1710, 1730, 472 and 704; NENA and APCO standards",
+      "publisher": "NFPA, NENA, APCO",
+      "url": "https://www.nfpa.org/",
+      "reason": "Copyrighted; named, not bundled"
     }
   ]
 }
