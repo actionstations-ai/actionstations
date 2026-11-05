@@ -1,0 +1,133 @@
+{
+  "id": "debris_flow",
+  "name": "Landslides and debris flows",
+  "description": "Post-fire debris flows, rainfall-triggered landslides and earthquake ground failure: hazard assessment summaries, rainfall threshold guidance, road closure notices and ground failure summaries, with the closure and evacuation decisions made against the rainfall forecast. For geological surveys, transportation departments, counties and utilities below burn scars.",
+  "appliesTo": {
+    "keywords": [
+      "debris flow",
+      "burn scar",
+      "post-fire",
+      "mudslide",
+      "mudflow",
+      "landslide",
+      "rockfall",
+      "rainfall threshold",
+      "slope failure",
+      "liquefaction",
+      "lateral spreading",
+      "ground failure"
+    ],
+    "domains": [
+      "geoscience",
+      "municipal",
+      "water_utility",
+      "water_dam",
+      "energy_utility",
+      "gas_pipeline",
+      "transit",
+      "freight_rail",
+      "emergency_communications",
+      "k12_schools"
+    ]
+  },
+  "injectTypes": [
+    "debris_flow_assessment",
+    "rainfall_threshold_guidance",
+    "hazard_road_closure",
+    "ground_failure_summary"
+  ],
+  "figureKinds": ["debris_flow_hazard_map", "time_series", "status_board"],
+  "connectors": ["landslide-assessments", "quaternary-faults", "comcat"],
+  "outsideParties": [
+    "the geological survey's landslide hazards team",
+    "the National Weather Service forecast office (rainfall forecasts)",
+    "the state or county transportation department",
+    "the county sheriff and emergency management",
+    "utilities and rail operators with lines below the burn area"
+  ],
+  "advisorRoles": [
+    {
+      "key": "landslide_geologist",
+      "name": "Landslide / Geologic Hazards Geologist (advisor)",
+      "abbreviation": "GEO",
+      "team": "Advisors",
+      "description": "Explains hazard maps, rainfall thresholds and ground failure model output to the players."
+    }
+  ],
+  "documents": [],
+  "metrics": [
+    {
+      "id": "threshold_timing",
+      "label": "Closure or evacuation before the rainfall threshold is crossed",
+      "config": { "actionKind": "close_road", "threshold": 1, "clearanceMin": 60 }
+    },
+    {
+      "id": "message_consistency",
+      "label": "Agreement on closures and thresholds across partners",
+      "config": {}
+    }
+  ],
+  "decisionForms": [
+    {
+      "id": "close_road",
+      "label": "Close a road, bridge or rail line",
+      "description": "Close a route below a burn area or near an unstable slope.",
+      "fields": [
+        { "id": "route", "label": "Road, bridge or line", "kind": "text", "required": true },
+        { "id": "area", "label": "Area", "kind": "area" },
+        { "id": "time", "label": "Time", "kind": "time", "required": true }
+      ]
+    },
+    {
+      "id": "order_evacuation",
+      "label": "Order an evacuation",
+      "description": "Order the evacuation of homes below a burn area or an unstable slope.",
+      "fields": [
+        { "id": "zone", "label": "Zone", "kind": "area", "required": true },
+        { "id": "time", "label": "Time ordered", "kind": "time", "required": true }
+      ]
+    },
+    {
+      "id": "reopen_route",
+      "label": "Re-open a route",
+      "description": "Re-open a cleared route before or after the next storm.",
+      "fields": [
+        { "id": "route", "label": "Road, bridge or line", "kind": "text", "required": true },
+        { "id": "time", "label": "Time", "kind": "time", "required": true }
+      ]
+    }
+  ],
+  "knowledge": {
+    "glossary": [
+      {
+        "term": "Debris flow",
+        "definition": "A fast slurry of mud, rock and water down a channel, with little warning. After a wildfire it can start in minutes."
+      },
+      {
+        "term": "Rainfall threshold",
+        "definition": "A short-duration rainfall amount (15, 30 or 60 minutes) above which debris flows are likely on a burn scar."
+      },
+      {
+        "term": "Hazard assessment",
+        "definition": "Per-basin likelihood, volume and combined hazard for named storm intensities, from the geological survey."
+      },
+      {
+        "term": "Liquefaction",
+        "definition": "Saturated loose soil loses strength in shaking; shows as sand boils and lateral spreading."
+      }
+    ],
+    "productConventions": [
+      "Hazard assessments give likelihood and volume for named storm intensities, not for a calendar day.",
+      "Rainfall thresholds are short-duration amounts, in millimeters or inches, per burn area.",
+      "A closure notice names route limits, the reason, the effective time, the detour and when it will be reviewed.",
+      "Ground failure summaries give landslide and liquefaction alert levels as words with exposed area and population."
+    ],
+    "realismRules": [
+      "Debris flows follow intense short rain on recently burned slopes, not total daily rainfall or long steady rain. The risk is greatest in the first years after the fire.",
+      "Hazard maps are planning guidance; they do not forecast a flow on a given day.",
+      "Ground failure models describe regions, not single sites.",
+      "Roads below burns close before the storm; re-opening waits for crews to inspect and clear."
+    ]
+  },
+  "lintRules": ["debris_flow_rainfall_wording", "ground_failure_regional_wording"]
+}

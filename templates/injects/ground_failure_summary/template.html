@@ -1,0 +1,28 @@
+<div class="gx">
+  <div class="gx-ex">{{t 'Exercise product'}}</div>
+  <header class="gx-head">
+    <div class="gx-org">{{fields.issuer}} · {{t 'Ground failure'}}</div>
+    <h1>{{fields.title}}</h1>
+    <div class="gx-sub">{{fields.version}}</div>
+  </header>
+  <div class="gx-body">
+    <div class="lvls">
+      <div class="lvl lv-{{fields.landslide.level}}">
+        <b>{{t 'Landslides'}}</b>
+        <div class="w">{{fields.landslide.level}} {{t 'alert'}}</div>
+        <div>{{fields.landslide.exposure}}</div>
+      </div>
+      <div class="lvl lv-{{fields.liquefaction.level}}">
+        <b>{{t 'Liquefaction'}}</b>
+        <div class="w">{{fields.liquefaction.level}} {{t 'alert'}}</div>
+        <div>{{fields.liquefaction.exposure}}</div>
+      </div>
+    </div>
+    {{#if fields.caution}}
+    <p>{{fields.caution}}</p>
+    {{/if}}
+  </div>
+  <div class="gx-foot">
+    {{default fields.footer "Exercise product. Not an official hazard assessment or closure."}}
+  </div>
+</div>

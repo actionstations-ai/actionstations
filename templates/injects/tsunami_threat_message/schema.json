@@ -1,0 +1,78 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "International tsunami threat message",
+  "description": "A Pacific-style international tsunami threat message for a distant source: the earthquake parameters, an evaluation, and a list of coasts with a threat category and the estimated arrival time of the first wave (hours, not minutes). It is advice to national authorities; each country decides its own warnings.",
+  "type": "object",
+  "required": ["center", "messageNumber", "issued", "quake", "evaluation", "coasts"],
+  "additionalProperties": false,
+  "properties": {
+    "center": {
+      "type": "string",
+      "description": "Issuing center",
+      "examples": ["Pacific Tsunami Warning Center"]
+    },
+    "messageNumber": {
+      "type": "string",
+      "description": "Message number",
+      "examples": ["Tsunami Threat Message Number 2"],
+      "x-translate": false
+    },
+    "issued": {
+      "type": "string",
+      "description": "Issue time in UTC",
+      "examples": ["1415Z 05 NOV 2026"],
+      "x-translate": false
+    },
+    "quake": {
+      "type": "string",
+      "description": "Earthquake parameters",
+      "examples": ["Magnitude 8.4, 1332Z 05 NOV 2026, 21.3 S 70.1 W, depth 25 km"],
+      "x-translate": false
+    },
+    "evaluation": {
+      "type": "string",
+      "description": "Evaluation",
+      "examples": [
+        "Hazardous tsunami waves are possible for some coasts located within 1000 km of the earthquake and tsunami waves are possible for coasts farther away."
+      ]
+    },
+    "coasts": {
+      "type": "array",
+      "description": "Coasts or countries with threat category and first arrival (up to 10)",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["place", "threat"],
+        "properties": {
+          "place": {
+            "type": "string",
+            "description": "Coast or country",
+            "examples": ["Hawaii"],
+            "x-translate": false
+          },
+          "threat": {
+            "type": "string",
+            "description": "Threat category",
+            "examples": ["Threat"],
+            "enum": ["Threat", "Potential threat", "No threat"]
+          },
+          "arrival": {
+            "type": "string",
+            "description": "Estimated first arrival, UTC",
+            "examples": ["2231Z 05 NOV"],
+            "x-translate": false
+          }
+        }
+      },
+      "minItems": 1,
+      "maxItems": 10
+    },
+    "note": {
+      "type": "string",
+      "description": "Closing note",
+      "examples": [
+        "This message is for national authorities. Local warnings are issued by each country."
+      ]
+    }
+  }
+}

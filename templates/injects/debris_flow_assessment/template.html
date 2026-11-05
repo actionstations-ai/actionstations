@@ -1,0 +1,36 @@
+<div class="gx">
+  <div class="gx-ex">{{t 'Exercise product'}}</div>
+  <header class="gx-head">
+    <div class="gx-org">{{default fields.issuer "Geologic hazards team"}}</div>
+    <h1>{{fields.fire}}: {{t 'debris-flow hazard assessment'}}</h1>
+    <div class="gx-sub">{{fields.issued}}</div>
+  </header>
+  <div class="gx-body">
+    <p>{{fields.area}}</p>
+    <table class="gx-table">
+      <thead>
+        <tr>
+          <th scope="col">{{t 'Storm (rainfall rate)'}}</th>
+          <th scope="col">{{t 'Basins with high likelihood'}}</th>
+          <th scope="col">{{t 'Typical volume'}}</th>
+        </tr>
+      </thead>
+      <tbody>
+        {{#each fields.storms}}
+        <tr>
+          <th scope="row">{{rate}}</th>
+          <td>{{likelihood}}</td>
+          <td>{{default volume "–"}}</td>
+        </tr>
+        {{/each}}
+      </tbody>
+    </table>
+    <p>{{fields.summary}}</p>
+    {{#if fields.caution}}
+    <p><b>{{fields.caution}}</b></p>
+    {{/if}}
+  </div>
+  <div class="gx-foot">
+    {{default fields.footer "Exercise product. Not an official hazard assessment or closure."}}
+  </div>
+</div>
