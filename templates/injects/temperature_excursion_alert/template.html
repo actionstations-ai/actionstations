@@ -32,7 +32,11 @@
       {{/if}}
     </dl>
     <div class="gx-h2">{{t 'Lots in the unit'}}</div>
-    <p class="gx-mono">{{#each fields.lots}}{{this}} {{/each}}</p>
+    <ul class="gx-lots">
+      {{#each fields.lots}}
+      <li class="gx-mono">{{this}}</li>
+      {{/each}}
+    </ul>
     {{#if fields.action}}
     <div class="gx-h2">{{t 'Action'}}</div>
     <p>{{fields.action}}</p>
