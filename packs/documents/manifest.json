@@ -181,6 +181,12 @@
       "summary": "CMS emergency preparedness guidance, FEMA healthcare power outage guidance and the AHRQ TeamSTEPPS pocket guide (SBAR, handoffs, debriefs).",
       "domain": "nursing",
       "version": "1.0.0"
+    },
+    "ai-incidents-library": {
+      "name": "AI incidents reference library",
+      "summary": "NIST AI Risk Management Framework and Generative AI Profile, the FinCEN alert on deepfake fraud and the FCC ruling on AI voices in robocalls.",
+      "domain": "ai_incidents",
+      "version": "1.0.0"
     }
   },
   "documents": [
@@ -2815,6 +2821,7 @@
     },
     {
       "pack": "healthcare-library",
+      "alsoIn": ["nursing-library"],
       "slug": "cms-som-appendix-z",
       "file": "cms-som-appendix-z.pdf",
       "title": "State Operations Manual Appendix Z: Emergency Preparedness for All Provider and Certified Supplier Types, Interpretive Guidance",
@@ -2825,8 +2832,7 @@
       "size": 817397,
       "license": "LicenseRef-US-Government-Work",
       "basis": "US federal government work (17 U.S.C. §105): CMS",
-      "pinned": "2026-10-24",
-      "alsoIn": ["nursing-library"]
+      "pinned": "2026-10-24"
     },
     {
       "pack": "healthcare-library",
@@ -2844,6 +2850,7 @@
     },
     {
       "pack": "healthcare-library",
+      "alsoIn": ["nursing-library"],
       "slug": "fema-healthcare-power-outages",
       "file": "fema-healthcare-power-outages.pdf",
       "title": "Healthcare Facilities and Power Outages: Guidance for State, Local, Tribal, Territorial, and Private Sector Partners",
@@ -2854,8 +2861,7 @@
       "size": 831893,
       "license": "LicenseRef-US-Government-Work",
       "basis": "US federal government work (17 U.S.C. §105): FEMA",
-      "pinned": "2026-10-24",
-      "alsoIn": ["nursing-library"]
+      "pinned": "2026-10-24"
     },
     {
       "pack": "healthcare-library",
@@ -3627,6 +3633,7 @@
     },
     {
       "pack": "public-health-library",
+      "alsoIn": ["epidemiology-library"],
       "slug": "cdc-phep-capabilities",
       "file": "cdc-phep-capabilities.pdf",
       "title": "Public Health Emergency Preparedness and Response Capabilities: National Standards for State, Local, Tribal, and Territorial Public Health",
@@ -3637,8 +3644,7 @@
       "size": 6297660,
       "license": "LicenseRef-US-Government-Work",
       "basis": "US federal government work (17 U.S.C. §105): CDC",
-      "pinned": "2026-10-24",
-      "alsoIn": ["epidemiology-library"]
+      "pinned": "2026-10-24"
     },
     {
       "pack": "public-health-library",
@@ -5182,6 +5188,66 @@
       "license": "LicenseRef-US-Government-Work",
       "basis": "US federal government work (17 U.S.C. §105): AHRQ; the document carries no copyright notice and AHRQ states that its government works are public domain in the United States",
       "note": "TeamSTEPPS is a registered mark of AHRQ and the Department of Defense; the mark is not a copyright. Check the AHRQ site for a newer TeamSTEPPS 3.0 guide.",
+      "pinned": "2026-11-05"
+    },
+    {
+      "pack": "ai-incidents-library",
+      "slug": "nist-ai-100-1",
+      "file": "nist-ai-100-1.pdf",
+      "title": "Artificial Intelligence Risk Management Framework (AI RMF 1.0), NIST AI 100-1",
+      "publisher": "NIST",
+      "edition": "January 2023",
+      "url": "https://nvlpubs.nist.gov/nistpubs/ai/NIST.AI.100-1.pdf",
+      "landing": "https://www.nist.gov/itl/ai-risk-management-framework",
+      "sha256": "7576edb531d9848825814ee88e28b1795d3a84b435b4b797d3670eafdc4a89f1",
+      "size": 1946127,
+      "license": "LicenseRef-US-Government-Work",
+      "basis": "US federal government work (17 U.S.C. §105): NIST. No third-party copyright notice in the document.",
+      "pinned": "2026-11-05"
+    },
+    {
+      "pack": "ai-incidents-library",
+      "slug": "nist-ai-600-1",
+      "file": "nist-ai-600-1.pdf",
+      "title": "AI RMF: Generative Artificial Intelligence Profile, NIST AI 600-1",
+      "publisher": "NIST",
+      "edition": "26 July 2024",
+      "url": "https://nvlpubs.nist.gov/nistpubs/ai/NIST.AI.600-1.pdf",
+      "landing": "https://www.nist.gov/itl/ai-risk-management-framework",
+      "sha256": "6e73620ab6b64e90ef2c04bf0e0d6246185a2f4b1b13cab0df494496cff89b6a",
+      "size": 1174643,
+      "license": "LicenseRef-US-Government-Work",
+      "basis": "US federal government work (17 U.S.C. §105): NIST. No third-party copyright notice in the document.",
+      "pinned": "2026-11-05"
+    },
+    {
+      "pack": "ai-incidents-library",
+      "slug": "fincen-fin-2024-alert004",
+      "file": "fincen-fin-2024-alert004.pdf",
+      "title": "FinCEN Alert on Fraud Schemes Involving Deepfake Media Targeting Financial Institutions, FIN-2024-Alert004",
+      "publisher": "FinCEN (US Treasury)",
+      "edition": "13 November 2024",
+      "url": "https://www.fincen.gov/system/files/shared/FinCEN-Alert-DeepFakes-Alert508FINAL.pdf",
+      "landing": "https://www.fincen.gov/news/news-releases/fincen-issues-alert-fraud-schemes-involving-deepfake-media-targeting-financial",
+      "sha256": "5e02f6647ee023ffaca6c63dcfaaa3d3456097032dbc6dc7953c2a4bff786b36",
+      "size": 404611,
+      "license": "LicenseRef-US-Government-Work",
+      "basis": "US federal government work (17 U.S.C. §105): FinCEN. No third-party copyright notice in the document.",
+      "pinned": "2026-11-05"
+    },
+    {
+      "pack": "ai-incidents-library",
+      "slug": "fcc-24-17-ai-voice-robocalls",
+      "file": "fcc-24-17-ai-voice-robocalls.pdf",
+      "title": "Declaratory Ruling, FCC 24-17: AI-generated voices in robocalls under the TCPA",
+      "publisher": "Federal Communications Commission",
+      "edition": "Adopted 2 February 2024",
+      "url": "https://docs.fcc.gov/public/attachments/FCC-24-17A1.pdf",
+      "landing": "https://docs.fcc.gov/public/attachments/FCC-24-17A1.pdf",
+      "sha256": "a0dd0f10dca4871816bca86f7c79dc56e5f6214c27b60e06371406830b495597",
+      "size": 116686,
+      "license": "LicenseRef-US-Government-Work",
+      "basis": "US federal government work (17 U.S.C. §105): FCC.",
       "pinned": "2026-11-05"
     }
   ],
@@ -7719,6 +7785,34 @@
       "publisher": "Royal College of Physicians",
       "url": "https://www.rcp.ac.uk/improving-care/resources/national-early-warning-score-news-2/",
       "reason": "Reproduction terms unconfirmed; not bundled, and no score chart is drawn from it"
+    },
+    {
+      "pack": "ai-incidents-library",
+      "title": "Regulation (EU) 2024/1689 (AI Act), Official Journal text",
+      "publisher": "Publications Office of the European Union",
+      "url": "https://eur-lex.europa.eu/eli/reg/2024/1689/oj",
+      "reason": "EU legislation is not bundled; linked to the Official Journal text"
+    },
+    {
+      "pack": "ai-incidents-library",
+      "title": "AI Incident Database",
+      "publisher": "Responsible AI Collaborative",
+      "url": "https://incidentdatabase.ai/",
+      "reason": "Data license not stated on the about page; linked, not bundled, and no incident is replayed as an inject"
+    },
+    {
+      "pack": "ai-incidents-library",
+      "title": "FBI IC3 PSA I-051525-PSA: senior US officials impersonated in malicious messaging",
+      "publisher": "FBI Internet Crime Complaint Center",
+      "url": "https://www.ic3.gov/PSA/2025/PSA250515",
+      "reason": "A web page, not a document file; linked"
+    },
+    {
+      "pack": "ai-incidents-library",
+      "title": "C2PA Technical Specification (Content Credentials)",
+      "publisher": "Coalition for Content Provenance and Authenticity",
+      "url": "https://spec.c2pa.org/",
+      "reason": "Specification terms are the C2PA's own; linked, not bundled"
     }
   ]
 }
