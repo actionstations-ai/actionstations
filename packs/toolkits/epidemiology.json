@@ -101,52 +101,60 @@
       "id": "decision_timing",
       "label": "Time from first report to case definition",
       "config": {
-        "decisionKinds": "adopt_case_definition",
-        "eventKinds": "first_report",
+        "decisionKinds": ["adopt_case_definition"],
+        "eventKinds": ["first_report"],
         "leadWindowMin": 0,
         "graceWindowMin": 480,
         "matchArea": false
-      }
+      },
+      "groundTruth": "epi-case-events"
     },
     {
       "id": "decision_timing",
       "label": "Time from first report to outbreak declaration",
       "config": {
-        "decisionKinds": "declare_outbreak",
-        "eventKinds": "first_report",
+        "decisionKinds": ["declare_outbreak"],
+        "eventKinds": ["first_report"],
         "leadWindowMin": 0,
         "graceWindowMin": 720,
         "matchArea": false
-      }
+      },
+      "groundTruth": "epi-case-events"
     },
     {
       "id": "decision_timing",
       "label": "Time from first report to first control measure",
       "config": {
-        "decisionKinds": "recommend_exclusion_or_closure, open_dispensing_site, issue_exposure_notice",
-        "eventKinds": "first_report",
+        "decisionKinds": [
+          "recommend_exclusion_or_closure",
+          "open_dispensing_site",
+          "issue_exposure_notice"
+        ],
+        "eventKinds": ["first_report"],
         "leadWindowMin": 0,
         "graceWindowMin": 1440,
         "matchArea": false
-      }
+      },
+      "groundTruth": "epi-case-events"
     },
     {
       "id": "decision_timing",
       "label": "Time from first report to public notice",
       "config": {
-        "decisionKinds": "issue_exposure_notice, release_data",
-        "eventKinds": "first_report",
+        "decisionKinds": ["issue_exposure_notice", "release_data"],
+        "eventKinds": ["first_report"],
         "leadWindowMin": 0,
         "graceWindowMin": 1440,
         "matchArea": false
-      }
+      },
+      "groundTruth": "epi-case-events"
     },
     {
       "id": "message_consistency",
       "label": "Message consistency across health department, hospital and school",
       "config": {
         "numericTolerance": 0,
-        "partners": "health department, hospital, school"
+        "partners": ["health department", "hospital", "school"]
       }
     },
     {
@@ -154,7 +162,8 @@
       "label": "Contacts reached within the designer's target",
       "config": {
         "targetHours": 24
-      }
+      },
+      "groundTruth": "epi-contact-events"
     },
     {
       "id": "dispensing_throughput",
@@ -162,14 +171,16 @@
       "config": {
         "planPerHour": 300,
         "openTargetMin": 120
-      }
+      },
+      "groundTruth": "epi-dispensing-events"
     },
     {
       "id": "curve_accuracy",
       "label": "Epidemic curve matches the line list",
       "config": {
         "binHours": 24
-      }
+      },
+      "groundTruth": "epi-case-events"
     }
   ],
   "decisionForms": [
@@ -444,6 +455,68 @@
           "required": true
         }
       ]
+    },
+    {
+      "id": "record_contact_outcome",
+      "label": "Record the outcome of reaching a contact",
+      "description": "Record that a listed contact was reached, or that the team could not reach them. The time is the time of the decision.",
+      "fields": [
+        {
+          "id": "contact",
+          "label": "Contact code (never a real name)",
+          "kind": "text",
+          "required": true
+        },
+        {
+          "id": "outcome",
+          "label": "Outcome",
+          "kind": "choice",
+          "choices": ["Reached", "Unreachable"],
+          "required": true
+        }
+      ]
+    },
+    {
+      "id": "record_dispensing_count",
+      "label": "Record people served at a dispensing site",
+      "fields": [
+        {
+          "id": "site",
+          "label": "Site",
+          "kind": "text",
+          "required": true
+        },
+        {
+          "id": "served",
+          "label": "People served since the last count",
+          "kind": "number",
+          "required": true
+        }
+      ]
+    },
+    {
+      "id": "submit_epi_curve",
+      "label": "Submit the epidemic curve a team drew",
+      "description": "Counts per bin by onset date, for checking against the line list.",
+      "fields": [
+        {
+          "id": "team",
+          "label": "Team",
+          "kind": "text"
+        },
+        {
+          "id": "start",
+          "label": "Start of the first bin (date, YYYY-MM-DD)",
+          "kind": "text",
+          "required": true
+        },
+        {
+          "id": "counts",
+          "label": "Cases per bin, separated by commas",
+          "kind": "text",
+          "required": true
+        }
+      ]
     }
   ],
   "knowledge": {
@@ -520,5 +593,274 @@
       "Simulated series are never presented as historical."
     ]
   },
-  "lintRules": ["epi_exposure_window", "epi_counts_match_line_list", "epi_onset_not_report_date"]
+  "lintRules": ["epi_exposure_window", "epi_counts_match_line_list", "epi_onset_not_report_date"],
+  "capabilities": [
+    {
+      "coreCapability": "public_health_healthcare_and_emergency_medical_services",
+      "criticalTasks": [
+        "Confirm the diagnosis and decide, on a stated basis, whether cases exceed what is expected.",
+        "Adopt a case definition with confirmed, probable and suspect tiers and revise it when facts change.",
+        "Count cases by onset time, place and person; keep the line list and the epidemic curve in agreement.",
+        "Test hypotheses with attack rates or odds ratios before naming a vehicle or source.",
+        "Recommend control measures before the investigation is complete; the health officer orders them.",
+        "Issue exposure notices with exact places and time windows computed from onset and the infectious period.",
+        "Identify, classify and reach contacts within the designer's target and report those who cannot be reached.",
+        "Set laboratory testing priorities and manage turnaround and referral.",
+        "Open and run dispensing sites at the planned throughput."
+      ],
+      "mappings": [
+        {
+          "framework": "CDC PHEP capabilities (2018)",
+          "ids": ["8", "9", "11", "12", "13"]
+        }
+      ]
+    },
+    {
+      "coreCapability": "situational_assessment",
+      "criticalTasks": [
+        "Keep one count of cases by tier that every message uses.",
+        "Track laboratory and reporting delays and state their effect on the numbers.",
+        "Update the line list and the curve on a stated cycle and date every figure."
+      ],
+      "mappings": [
+        {
+          "framework": "CDC PHEP capabilities (2018)",
+          "ids": ["6", "13"]
+        }
+      ]
+    },
+    {
+      "coreCapability": "public_information_and_warning",
+      "criticalTasks": [
+        "Issue exposure notices, clinician alerts and letters that match the line list and the exposure window.",
+        "Give the public, clinicians, schools and employers the same advice at the same time.",
+        "Counter misinformation that names the wrong source or place."
+      ],
+      "mappings": [
+        {
+          "framework": "CDC PHEP capabilities (2018)",
+          "ids": ["4"]
+        }
+      ]
+    },
+    {
+      "coreCapability": "operational_coordination",
+      "criticalTasks": [
+        "Agree one case definition and one count among the health department, the hospital infection prevention team and the laboratory.",
+        "State who recommends and who orders each control measure.",
+        "Request CDC Epi-Aid when local and state capacity is not enough."
+      ],
+      "mappings": [
+        {
+          "framework": "CDC PHEP capabilities (2018)",
+          "ids": ["3"]
+        }
+      ]
+    }
+  ],
+  "exerciseTags": [
+    {
+      "id": "phep_biological_incident_100",
+      "label": "PHEP Biological Incident 100 (discussion-based)",
+      "program": "CDC PHEP 2024-2028 Exercise Framework",
+      "version": "April 2024",
+      "source": "https://www.cdc.gov/orr/media/pdfs/2024/06/2024-2028_PHEP-NOFO_Exercise-Framework-Supplemental-Guidance_508c.pdf",
+      "type": "discussion",
+      "description": "Discuss potential public health roles, functions, and countermeasures when responding to a large-scale biological incident including pandemic influenza.",
+      "objectives": [
+        "Public health roles and functions: equity considerations, and how public health coordinates with health care partners and regulatory agencies.",
+        "Jurisdictional risks and response capabilities for biological mass casualty incidents, and the jurisdiction's capability to assess the health needs of affected populations and protect responders.",
+        "Medical countermeasures: strategies to distribute and dispense or administer them efficiently and to measure throughput.",
+        "Laboratory: the role of the Laboratory Response Network for Biological Threats (LRN-B) in a large-scale biological incident response."
+      ],
+      "participants": "Public health, emergency management, public health biological laboratories, environmental health programs, health care coalitions, and other partners responsible for coordinating or supporting response and recovery to a mass casualty biological incident.",
+      "frequency": "Once during the period of performance",
+      "capabilities": [
+        "Capability 8: Medical Countermeasure Dispensing and Administration",
+        "Capability 9: Medical Materiel Management and Distribution",
+        "Capability 12: Public Health Laboratory Testing"
+      ],
+      "priorities": [
+        "Partnerships",
+        "Health equity",
+        "Risk communications",
+        "Data modernization",
+        "Recovery"
+      ],
+      "notes": [
+        "Administrative preparedness and rural, frontier and tribal coordination discussion exercises cannot be used to fulfill it."
+      ],
+      "improvementPlanDueDays": 90
+    },
+    {
+      "id": "phep_biological_incident_200",
+      "label": "PHEP Biological Incident 200 (functional exercise)",
+      "program": "CDC PHEP 2024-2028 Exercise Framework",
+      "version": "April 2024",
+      "source": "https://www.cdc.gov/orr/media/pdfs/2024/06/2024-2028_PHEP-NOFO_Exercise-Framework-Supplemental-Guidance_508c.pdf",
+      "type": "functional",
+      "description": "Validate and evaluate the various aspects of a public health response to a biological incident: dispensing, administration, throughput, distribution, partnerships, and biological laboratory participation.",
+      "objectives": [
+        "Capability 8: determine MCM dispensing and administration strategies; receive MCMs; activate dispensing or administration operations; dispense or administer MCMs to targeted populations.",
+        "Capability 9: acquire medical materiel from national stockpiles or other sources; distribute it; monitor inventories and distribution operations; recover materiel and demobilize."
+      ],
+      "participants": "Public health, emergency management, public health biological laboratories, environmental health programs, health care coalitions, and other partners responsible for coordinating or supporting response and recovery to a mass casualty biological incident.",
+      "frequency": "Once during the period of performance",
+      "capabilities": [
+        "Capability 8: Medical Countermeasure Dispensing and Administration",
+        "Capability 9: Medical Materiel Management and Distribution",
+        "Capability 12: Public Health Laboratory Testing"
+      ],
+      "priorities": [
+        "Partnerships",
+        "Health equity",
+        "Risk communications",
+        "Data modernization",
+        "Recovery"
+      ],
+      "notes": [
+        "CRI-funded jurisdictions must include staff notification and assembly of site core management teams, activation of the selected dispensing or vaccination site, set up of at least one site (open or closed), and dispensing, administering and tracking MCM inventories.",
+        "Seasonal influenza clinics cannot be used to fulfill the Biological Incident track.",
+        "It cannot replace Capstone 300 when a biological threat is the capstone risk."
+      ],
+      "improvementPlanDueDays": 90
+    },
+    {
+      "id": "phep_capstone_100",
+      "label": "PHEP Capstone 100 (discussion-based)",
+      "program": "CDC PHEP 2024-2028 Exercise Framework",
+      "version": "April 2024",
+      "source": "https://www.cdc.gov/orr/media/pdfs/2024/06/2024-2028_PHEP-NOFO_Exercise-Framework-Supplemental-Guidance_508c.pdf",
+      "type": "discussion",
+      "description": "Discuss aspects of preparing and conducting the capstone full-scale exercise for the jurisdictional priority risk. A prior chemical, biological, radiological or nuclear, or natural disaster discussion exercise can meet it when aligned to the risk assessment.",
+      "objectives": [
+        "Public health roles and functions for the chosen risk, including equity considerations and coordination with health care partners and regulatory agencies.",
+        "Jurisdictional risks and response capabilities for the chosen risk.",
+        "Medical countermeasure and medical materiel management strategies, with throughput and inventories measured."
+      ],
+      "participants": "Public health, emergency management, and other partners responsible for coordinating or supporting response and recovery efforts for the jurisdictional risk chosen as the primary focus of the capstone exercise.",
+      "frequency": "Once during the period of performance",
+      "capabilities": [
+        "Capability 8: Medical Countermeasure Dispensing and Administration",
+        "Capability 9: Medical Materiel Management and Distribution"
+      ],
+      "priorities": [
+        "Partnerships",
+        "Health equity",
+        "Risk communications",
+        "Data modernization",
+        "Recovery"
+      ],
+      "notes": [],
+      "improvementPlanDueDays": 90
+    },
+    {
+      "id": "phep_capstone_200",
+      "label": "PHEP Capstone 200 (drill)",
+      "program": "CDC PHEP 2024-2028 Exercise Framework",
+      "version": "April 2024",
+      "source": "https://www.cdc.gov/orr/media/pdfs/2024/06/2024-2028_PHEP-NOFO_Exercise-Framework-Supplemental-Guidance_508c.pdf",
+      "type": "drill",
+      "description": "Exercise one specific primary operation or function critical to the success of the capstone exercise.",
+      "objectives": [
+        "Test and validate at least one critical response function based on the jurisdictional risk chosen for the capstone."
+      ],
+      "participants": "Public health, emergency management, and other partners responsible for coordinating or supporting response and recovery efforts for the jurisdictional risk chosen as the primary focus of the capstone exercise.",
+      "frequency": "Once during the period of performance",
+      "capabilities": [],
+      "priorities": [
+        "Partnerships",
+        "Health equity",
+        "Risk communications",
+        "Data modernization",
+        "Recovery"
+      ],
+      "notes": [],
+      "improvementPlanDueDays": 90
+    },
+    {
+      "id": "phep_capstone_300",
+      "label": "PHEP Capstone 300 (functional exercise)",
+      "program": "CDC PHEP 2024-2028 Exercise Framework",
+      "version": "April 2024",
+      "source": "https://www.cdc.gov/orr/media/pdfs/2024/06/2024-2028_PHEP-NOFO_Exercise-Framework-Supplemental-Guidance_508c.pdf",
+      "type": "functional",
+      "description": "Validate and evaluate multiple response capabilities critical to the success of the capstone exercise.",
+      "objectives": [
+        "Incorporate the applicable public health capability functions related to the risk identified in the risk assessment.",
+        "Include the five cross-cutting program priorities: partnerships, health equity, risk communications, data modernization and recovery."
+      ],
+      "participants": "Public health, emergency management, and other partners responsible for coordinating or supporting response and recovery efforts for the jurisdictional risk chosen as the primary focus of the capstone exercise.",
+      "frequency": "Once during the period of performance",
+      "capabilities": [],
+      "priorities": [
+        "Partnerships",
+        "Health equity",
+        "Risk communications",
+        "Data modernization",
+        "Recovery"
+      ],
+      "notes": [
+        "If a biological threat is the capstone risk, it must focus on the areas for improvement from the Biological Incident 200 exercise."
+      ],
+      "improvementPlanDueDays": 90
+    },
+    {
+      "id": "phep_capstone_400",
+      "label": "PHEP Capstone 400 (full-scale exercise)",
+      "program": "CDC PHEP 2024-2028 Exercise Framework",
+      "version": "April 2024",
+      "source": "https://www.cdc.gov/orr/media/pdfs/2024/06/2024-2028_PHEP-NOFO_Exercise-Framework-Supplemental-Guidance_508c.pdf",
+      "type": "full_scale",
+      "description": "Test the ability of the jurisdiction to operationalize response plans for the risk selected in the risk assessment.",
+      "objectives": [
+        "Incorporate the applicable public health capability functions related to the risk identified in the risk assessment.",
+        "Include the five cross-cutting program priorities: partnerships, health equity, risk communications, data modernization and recovery."
+      ],
+      "participants": "Public health, emergency management, and other partners responsible for coordinating or supporting response and recovery efforts for the jurisdictional risk chosen as the primary focus of the capstone exercise.",
+      "frequency": "Once during the period of performance",
+      "capabilities": [],
+      "priorities": [
+        "Partnerships",
+        "Health equity",
+        "Risk communications",
+        "Data modernization",
+        "Recovery"
+      ],
+      "notes": [],
+      "improvementPlanDueDays": 90
+    },
+    {
+      "id": "phep_critical_contacts",
+      "label": "PHEP Critical Contacts Drill",
+      "program": "CDC PHEP 2024-2028 Exercise Framework",
+      "version": "April 2024",
+      "source": "https://www.cdc.gov/orr/media/pdfs/2024/06/2024-2028_PHEP-NOFO_Exercise-Framework-Supplemental-Guidance_508c.pdf",
+      "type": "drill",
+      "description": "Test and validate critical contact information for the on-call epidemiologist, laboratorian and PHEP director; optionally exercise internal notification systems.",
+      "objectives": [
+        "Contact: ensure on-call staff have access to on-call contact numbers and that the numbers work.",
+        "Verify: verify and update on-call critical contact numbers.",
+        "Optional: exercise additional internal notification procedures."
+      ],
+      "participants": "On-call epidemiologist, on-call LRN-B or LRN-C personnel, and the on-call PHEP director.",
+      "frequency": "Each budget period",
+      "capabilities": [
+        "Capability 13: Public Health Surveillance and Epidemiological Investigation",
+        "Capability 12: Public Health Laboratory Testing"
+      ],
+      "priorities": [
+        "Partnerships",
+        "Health equity",
+        "Risk communications",
+        "Data modernization",
+        "Recovery"
+      ],
+      "notes": [
+        "Unannounced, conducted Monday to Friday, and alternating each year between biological and chemical laboratory on-call staff.",
+        "Performance target: 60 minutes from the CDC Emergency Operations Center contacting the on-call epidemiologist to the PHEP director and the LRN contacts notifying the EOC watch officer."
+      ],
+      "improvementPlanDueDays": 90
+    }
+  ]
 }

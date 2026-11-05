@@ -333,3 +333,41 @@ describe('Field metrics section', () => {
     expect(sectionBody(again, 'metrics')).toContain('| Hits | 5 |')
   })
 })
+
+describe('program exercise tags (#842, spec 0457 FR-14)', () => {
+  const tag = {
+    id: 'phep_biological_incident_200',
+    label: 'PHEP Biological Incident 200 (functional exercise)',
+    program: 'CDC PHEP 2024-2028 Exercise Framework',
+    version: 'April 2024',
+    source: 'https://www.cdc.gov/orr/example.pdf',
+    type: 'functional' as const,
+    description: '',
+    objectives: [],
+    participants: '',
+    capabilities: [],
+    priorities: [],
+    improvementPlanDueDays: 90,
+    notes: [],
+  }
+
+  it('adds one table per tag under the improvement plan with the due date', () => {
+    const md = renderAarMarkdown(aar, scenario, 'NCRAA', {}, [], [tag])
+    const ip = sectionBody(md, 'ip')!
+    expect(ip).toContain('### CDC PHEP 2024-2028 Exercise Framework: PHEP Biological Incident 200')
+    expect(ip).toContain('within 90 days of the exercise, by 2027-01-26')
+    expect(ip).toContain('this app submits nothing')
+    expect(ip).toContain(
+      '| PHEP Biological Incident 200 (functional exercise) | April 2024 | Operational Coordination | Go Dark decided apart | Revise TIRP 13.6 |',
+    )
+  })
+
+  it('leaves the improvement plan as it was without tags, and refreshes the table in place', () => {
+    const plain = renderAarMarkdown(aar, scenario, 'NCRAA')
+    expect(sectionBody(plain, 'ip')).not.toContain('submits nothing')
+    const refreshed = refreshAarMarkdown(plain, aar, scenario, 'NCRAA', [], [tag])
+    expect(sectionBody(refreshed, 'ip')).toContain('PHEP Biological Incident 200')
+    const again = refreshAarMarkdown(refreshed, aar, scenario, 'NCRAA', [], [])
+    expect(sectionBody(again, 'ip')).not.toContain('PHEP Biological Incident 200')
+  })
+})

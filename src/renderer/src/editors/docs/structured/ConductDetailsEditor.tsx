@@ -9,6 +9,7 @@ import { Button } from '../../../components/ui'
 import { Empty, ItemActions, StringList, TextField } from './inputs'
 import { moveItem, replaceAt } from './list-utils'
 import { PartFrame, type PartEditorProps } from './PartFrame'
+import { ProgramTagFields } from './ProgramTagFields'
 import { useScenarioPart, type PartSpec } from './use-scenario-part'
 
 type Update = (fn: (c: ConductDetails) => ConductDetails) => void
@@ -297,6 +298,7 @@ export function ConductDetailsEditor(props: PartEditorProps) {
       <ScheduleFields c={c} update={update} />
       <DirectorFields c={c} update={update} />
       <SiteFields c={c} update={update} />
+      <ProgramTagFields projectPath={props.projectPath} c={c} update={update} />
       <CommunicationsFields c={c} update={update} />
       <AcronymFields c={c} update={update} seed={seed} />
     </PartFrame>

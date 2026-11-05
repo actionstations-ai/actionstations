@@ -325,6 +325,8 @@ export const ConductDetails = z.object({
   safetyNotes: z.string().default(''),
   securityNotes: z.string().default(''),
   acronyms: z.array(z.object({ term: z.string(), meaning: z.string() })).default([]),
+  /** Program exercise tags (toolkit `exerciseTags`, spec 0457 FR-14): ids; the AAR adds each program's improvement plan table. */
+  exerciseTags: z.array(z.string().max(64)).max(10).default([]),
 })
 export type ConductDetails = z.infer<typeof ConductDetails>
 

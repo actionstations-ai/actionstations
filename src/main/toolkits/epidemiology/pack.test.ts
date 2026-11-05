@@ -6,6 +6,8 @@ import Ajv2020 from 'ajv/dist/2020.js'
 import { describe, expect, it } from 'vitest'
 import { toolkitKnowledge, ToolkitSchema } from '@shared/toolkits'
 import { TemplateMeta } from '../../render/templates'
+import { runMetric } from '../../evaluation/metrics/registry'
+import { registerEpidemiologyMetrics } from './register'
 import { EPI_LINT_RULES } from './lint'
 
 const ROOT = join(__dirname, '../../../..')
@@ -49,7 +51,19 @@ describe('epidemiology toolkit file', () => {
       'order_lab_priority',
       'open_dispensing_site',
       'release_data',
+      'record_contact_outcome',
+      'record_dispensing_count',
+      'submit_epi_curve',
     ])
+  })
+
+  it('names metrics the app runs, with configs that validate', () => {
+    registerEpidemiologyMetrics()
+    expect(toolkit.metrics.length).toBeGreaterThanOrEqual(8)
+    for (const m of toolkit.metrics) {
+      const result = runMetric({ id: m.id, config: m.config }, {})
+      expect(result.metricId, m.label).toBe(m.id)
+    }
   })
 
   it('carries a source with every pathogen fact', () => {
@@ -66,6 +80,69 @@ describe('epidemiology toolkit file', () => {
       const g = toolkit.knowledge.glossary.find((x) => x.term.startsWith(name))
       expect(g?.definition, name).toMatch(/CDC/)
     }
+  })
+})
+
+describe('epidemiology evaluation data (PHEP, April 2024)', () => {
+  const tag = (id: string) => toolkit.exerciseTags.find((t) => t.id === id)!
+
+  it('lists the exercises of the two tracks and the drill', () => {
+    expect(toolkit.exerciseTags.map((t) => t.id)).toEqual([
+      'phep_biological_incident_100',
+      'phep_biological_incident_200',
+      'phep_capstone_100',
+      'phep_capstone_200',
+      'phep_capstone_300',
+      'phep_capstone_400',
+      'phep_critical_contacts',
+    ])
+    for (const t of toolkit.exerciseTags) {
+      expect(t.version).toBe('April 2024')
+      expect(t.source).toMatch(/^https:\/\/www\.cdc\.gov\/.*Exercise-Framework/)
+    }
+  })
+
+  it('carries the framework text: types, capabilities 8 and 9 for Biological 200, the 60 minute drill', () => {
+    expect(tag('phep_biological_incident_100').type).toBe('discussion')
+    expect(tag('phep_biological_incident_200').type).toBe('functional')
+    expect(tag('phep_biological_incident_200').capabilities.join(' ')).toMatch(
+      /Capability 8.*Capability 9/,
+    )
+    expect(tag('phep_capstone_400').type).toBe('full_scale')
+    expect(tag('phep_critical_contacts').notes.join(' ')).toMatch(/60 minutes/)
+    expect(tag('phep_critical_contacts').frequency).toBe('Each budget period')
+    expect(tag('phep_biological_incident_100').frequency).toBe(
+      'Once during the period of performance',
+    )
+  })
+
+  it('sets the 90 day improvement plan window and the five program priorities on every exercise', () => {
+    for (const t of toolkit.exerciseTags) {
+      expect(t.improvementPlanDueDays, t.id).toBe(90)
+      expect(t.priorities).toEqual([
+        'Partnerships',
+        'Health equity',
+        'Risk communications',
+        'Data modernization',
+        'Recovery',
+      ])
+    }
+  })
+
+  it('maps the Core Capabilities the profile shows to PHEP capability numbers', () => {
+    const phep = (core: string) =>
+      toolkit.capabilities.find((c) => c.coreCapability === core)?.mappings[0]?.ids
+    expect(phep('public_health_healthcare_and_emergency_medical_services')).toEqual([
+      '8',
+      '9',
+      '11',
+      '12',
+      '13',
+    ])
+    expect(phep('situational_assessment')).toContain('13')
+    expect(phep('public_information_and_warning')).toEqual(['4'])
+    expect(phep('operational_coordination')).toEqual(['3'])
+    for (const c of toolkit.capabilities) expect(c.criticalTasks.length).toBeGreaterThanOrEqual(3)
   })
 })
 

@@ -111,3 +111,30 @@ export function runMetric(ref: MetricRef, bag: MetricInputBag, ctx: RunContext =
     ...(ctx.sessionId ? { sessionId: ctx.sessionId } : {}),
   }
 }
+
+/** Config keys a metric takes as lists. A toolkit config holds only text, numbers and booleans, so a list is written as comma-separated text. */
+const LIST_KEYS: Record<string, readonly string[]> = {
+  decision_timing: ['decisionKinds', 'eventKinds'],
+  message_consistency: ['partners'],
+}
+
+/**
+ * A metric a toolkit names, as a ref `runMetric` can run: list settings written as
+ * "a, b, c" become arrays; everything else passes through.
+ */
+export function metricRefFromToolkit(m: {
+  id: string
+  config: Record<string, string | number | boolean>
+}): MetricRef {
+  const lists = new Set(LIST_KEYS[m.id] ?? [])
+  const config: Record<string, unknown> = {}
+  for (const [k, v] of Object.entries(m.config))
+    config[k] =
+      lists.has(k) && typeof v === 'string'
+        ? v
+            .split(',')
+            .map((x) => x.trim())
+            .filter(Boolean)
+        : v
+  return { id: m.id, config }
+}

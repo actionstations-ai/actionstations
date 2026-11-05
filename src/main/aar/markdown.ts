@@ -25,6 +25,7 @@ import {
 import type { Citation } from '@shared/schemas/common'
 import type { MetricResult } from '@shared/schemas/metrics'
 import { conductOf, type ConductDetails, type Scenario } from '@shared/schemas/scenario'
+import { programTagMarkdown, type ImprovementRow, type ToolkitExerciseTag } from '@shared/toolkits'
 import { mdCell, mdTable } from '../export/escape'
 
 export const AAR_SECTIONS = [
@@ -298,7 +299,11 @@ const IP_HEADER = [
   'Completion Date',
 ]
 
-export function improvementPlanSection(aar: Aar, s: Scenario): string {
+export function improvementPlanSection(
+  aar: Aar,
+  s: Scenario,
+  programTags: readonly ToolkitExerciseTag[] = [],
+): string {
   const rows = improvementPlanRows(aar).map(({ capability, finding, action }) => [
     capabilityName(capability),
     finding.title,
@@ -316,6 +321,19 @@ export function improvementPlanSection(aar: Aar, s: Scenario): string {
     '',
   ]
   lines.push(rows.length ? mdTable(IP_HEADER, rows) : '_No corrective actions yet._')
+  if (programTags.length) {
+    const plain: ImprovementRow[] = rows.map((r) => ({
+      capability: r[0]!,
+      finding: r[1]!,
+      action: r[2]!,
+      element: r[3]!,
+      owner: r[4]!,
+      poc: r[5]!,
+      start: r[6]!,
+      due: r[7]!,
+    }))
+    lines.push('', programTagMarkdown(programTags, plain, aar.exerciseDate))
+  }
   return lines.join('\n')
 }
 
@@ -414,6 +432,7 @@ export function renderAarMarkdown(
   orgName: string,
   prose: Partial<Record<AarSection, string>> = {},
   metrics: readonly MetricResult[] = [],
+  programTags: readonly ToolkitExerciseTag[] = [],
 ): string {
   const parts = [
     header(aar, s, orgName),
@@ -422,7 +441,7 @@ export function renderAarMarkdown(
     wrapSection('ratings', ratingsSection(aar, s)),
     wrapSection('findings', prose.findings ?? findingsSection(aar, s)),
     ...(metrics.length ? [wrapSection('metrics', fieldMetricsSection(metrics))] : []),
-    wrapSection('ip', improvementPlanSection(aar, s)),
+    wrapSection('ip', improvementPlanSection(aar, s, programTags)),
     wrapSection('participants', participantsSection(aar)),
     ...(hasFeedback(aar) ? [wrapSection('feedback', prose.feedback ?? feedbackSection(aar))] : []),
     wrapSection('acronyms', acronymsSection(aar)),
@@ -464,6 +483,7 @@ export function refreshAarMarkdown(
   s: Scenario,
   orgName: string,
   metrics: readonly MetricResult[] = [],
+  programTags: readonly ToolkitExerciseTag[] = [],
 ): string {
   if (!markdown.trim() || !sectionBody(markdown, 'ratings')) {
     const prose: Partial<Record<AarSection, string>> = {}
@@ -471,14 +491,14 @@ export function refreshAarMarkdown(
       const body = sectionBody(markdown, name)
       if (body) prose[name] = body
     }
-    return renderAarMarkdown(aar, s, orgName, prose, metrics)
+    return renderAarMarkdown(aar, s, orgName, prose, metrics, programTags)
   }
   let out = refreshRatingLines(markdown, aar).replace(/^Exercise date: .* · Status: .*$/m, () =>
     statusLine(aar, orgName),
   )
   out = upsertSection(out, 'overview', exerciseOverviewSection(aar, s, orgName))
   out = upsertSection(out, 'ratings', ratingsSection(aar, s))
-  out = upsertSection(out, 'ip', improvementPlanSection(aar, s))
+  out = upsertSection(out, 'ip', improvementPlanSection(aar, s, programTags))
   out = upsertSection(out, 'participants', participantsSection(aar))
   out = upsertSection(out, 'acronyms', acronymsSection(aar))
   return upsertMetrics(out, metrics)
