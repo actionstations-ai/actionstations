@@ -38,8 +38,12 @@ export interface ConnectorResponse {
 }
 
 export interface FetchContext {
-  /** GET one URL on one of the connector's hosts. Bytes count against the scenario's room. */
-  get: (url: string) => Promise<ConnectorResponse>
+  /**
+   * GET one URL on one of the connector's hosts. Bytes count against the scenario's room.
+   * `range` asks for bytes `from` to `to` inclusive (HTTP Range), for archives that hold large
+   * files of which the exercise needs the first part.
+   */
+  get: (url: string, init?: { range?: readonly [number, number] }) => Promise<ConnectorResponse>
   signal?: AbortSignal
 }
 

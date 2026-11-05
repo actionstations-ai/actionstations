@@ -223,7 +223,7 @@ export function composeDocument(
   const body = compile(t)({
     fields: input.fields,
     derived: deriveFields(input.type, input.fields),
-    figures: computeFigures(input.fields),
+    figures: computeFigures(input.fields, input.caseData),
     caseData: input.caseData ?? {},
     brand: {
       ...(input.brand ?? { aliases: {} }),

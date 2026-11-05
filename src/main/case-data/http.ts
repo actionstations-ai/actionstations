@@ -4,7 +4,7 @@
 // received bytes and an idle timeout. Nothing here runs unless the user consented to a fetch.
 import { AppError } from '../lib/errors'
 import { abortError, idleAbort, readCapped, redact, tooLarge } from '../packs/fetch'
-import type { ConnectorResponse } from '../toolkits/connectors/registry'
+import type { FetchContext } from '../toolkits/connectors/registry'
 
 export const MAX_CASE_REDIRECTS = 3
 export const CASE_TIMEOUT_MS = 60_000
@@ -45,9 +45,9 @@ async function readBody(res: Response, url: string, max: number, touch: () => vo
   return new Uint8Array(Buffer.concat(chunks))
 }
 
-export function createCaseGet(opts: CaseHttpOptions): (url: string) => Promise<ConnectorResponse> {
+export function createCaseGet(opts: CaseHttpOptions): FetchContext['get'] {
   const fetchImpl = opts.fetchImpl ?? fetch
-  return async (url) => {
+  return async (url, init) => {
     const idle = idleAbort(opts.timeoutMs ?? CASE_TIMEOUT_MS, opts.signal)
     const first = assertConnectorUrl(url, opts.hosts)
     let current = first
@@ -58,7 +58,10 @@ export function createCaseGet(opts: CaseHttpOptions): (url: string) => Promise<C
           redirect: 'manual',
           signal: idle.signal,
           credentials: 'omit',
-          headers: { 'user-agent': caseUserAgent(opts.version) },
+          headers: {
+            'user-agent': caseUserAgent(opts.version),
+            ...(init?.range ? { range: `bytes=${init.range[0]}-${init.range[1]}` } : {}),
+          },
         })
         idle.touch()
         if (res.status >= 300 && res.status < 400) {

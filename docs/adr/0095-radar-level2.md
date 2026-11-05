@@ -34,3 +34,15 @@ Level III decoding needs its own bzip2 handling and packet formats (digital radi
 - The decoder reads 8-bit and 16-bit moments but the figure carries 8-bit moments only (every operational moment the figure uses is 8-bit).
 - Super-resolution and split-cut volumes (two sweeps per angle, one with reflectivity and one with velocity) decode as two elevation cuts; the figure picks the cut that has the moment.
 - Archives are contacted only when a user fetches an event (spec NFR-2); the connector's host, `unidata-nexrad-level2.s3.amazonaws.com`, is fixed in code.
+
+## Replay connectors (#661)
+
+The weather toolkit names five connectors, each with a fixed public host, a pure estimate and a fetch limited to that host:
+
+- `nexrad-level2` (radar, range requests as above; one features dataset per product, frames chained so each shows until the next scan);
+- `spc-storm-reports` (the day files of the Storm Prediction Center; points that appear when reported, plus the same reports as ground-truth events in the same file, which warning verification reads);
+- `iem-warnings` (NWS warning polygons from the Iowa Environmental Mesonet VTEC archive);
+- `iem-soundings` (radiosonde profiles for the skew-T and hodograph, from the same archive; the IGRA archive the spec names holds only standard and significant levels in a fixed-width format, and the IEM serves the same NWS reports as JSON);
+- `nhc-hurdat2` (a storm's best track from the latest HURDAT2 file).
+
+A figure inject points at a frames dataset (`{ dataset }` as the figure's data); the render picks the frame active at the inject's case time (`computeFigures` reads the resolved case data). Model guidance (HRRR GRIB2), satellite (GOES NetCDF) and gauges (USGS, owned by the flooding toolkit) are not fetched yet; the simulated generators (#662) cover those figures until decoders exist. Connector responses are recorded in `tests/fixtures/weather`; `LIVE=1` runs the same fetches against the real archives.
