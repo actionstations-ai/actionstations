@@ -14,9 +14,13 @@ process.env.TTX_RESOURCES = resolve('.')
 const { ToolkitSchema } = await import('@shared/toolkits')
 const { fieldLintIssues, fieldLintRuleIds } = await import('../lint-rules')
 const { unknownCapabilityWarnings } = await import('../capabilities')
+const { registerHumanitarianToolkit } = await import('./register')
+const { connectorIds } = await import('../connectors/registry')
 const { checkCampRates, checkCoverage, checkPipelineStated, checkStockBalance } =
   await import('./lint')
 
+registerHumanitarianToolkit()
+registerHumanitarianToolkit()
 const toolkit = ToolkitSchema.parse(
   JSON.parse(readFileSync(resolve('packs/toolkits/humanitarian.json'), 'utf8')),
 )
@@ -24,7 +28,8 @@ const toolkit = ToolkitSchema.parse(
 describe('code the toolkit names exists', () => {
   it('has no figure kind, connector, metric or lint rule the app lacks', () => {
     expect(fieldLintRuleIds()).toEqual(expect.arrayContaining(toolkit.lintRules))
-    const missing = unknownCapabilityWarnings(toolkit).filter((w) => !/connector|metric/i.test(w))
+    expect(connectorIds()).toEqual(expect.arrayContaining(toolkit.connectors))
+    const missing = unknownCapabilityWarnings(toolkit).filter((w) => !/metric/i.test(w))
     expect(missing).toEqual([])
   })
 })

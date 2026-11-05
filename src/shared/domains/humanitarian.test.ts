@@ -18,7 +18,13 @@ const FAMILIES = [
 
 describe('humanitarian domain profile', () => {
   it('resolves its aliases', () => {
-    for (const key of ['NGO', 'International Aid', 'country office', 'camp-management', 'HCT'])
+    for (const key of [
+      'NGO',
+      'International Aid',
+      'NGO country office',
+      'camp-management',
+      'humanitarian country team',
+    ])
       expect(builtinProfile(key).id, key).toBe('humanitarian')
   })
 
