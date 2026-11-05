@@ -9,6 +9,7 @@
 import { z } from 'zod'
 import { CoreCapabilityId } from '../core-capabilities'
 import { Citation, ExerciseTime, Id, IsoDateTime } from './common'
+import { MetricResult } from './metrics'
 
 export const RATINGS = ['met', 'partial', 'not_met', 'not_observed'] as const
 export const Rating = z.enum(RATINGS)
@@ -127,6 +128,8 @@ export type Observation = z.infer<typeof Observation>
 export const EvaluationRecord = z.looseObject({
   formatVersion: z.number().int().default(1),
   observations: z.array(Observation).max(EVALUATION_LIMITS.observations).default([]),
+  /** Field metric results (spec 0448 FR-12): the latest per metric and session. */
+  metricResults: z.array(MetricResult).max(200).optional(),
   updatedAt: IsoDateTime,
 })
 export type EvaluationRecord = z.infer<typeof EvaluationRecord>

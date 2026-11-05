@@ -287,3 +287,49 @@ describe('labels', () => {
     )
   })
 })
+
+describe('Field metrics section', () => {
+  const metric = {
+    metricId: 'decision_timing',
+    title: 'Decision timing',
+    computedAt: '2026-10-28T18:00:00.000Z',
+    config: {},
+    inputs: [{ label: 'Ground-truth events scored', value: '3' }],
+    summary: [
+      { label: 'Hits', value: '2' },
+      { label: 'POD (probability of detection)', value: '0.667' },
+    ],
+    tables: [{ title: 'Events', columns: ['Event', 'Outcome'], rows: [['e1', 'Hit']] }],
+    caveats: ['Lead time is measured on hits only.'],
+    data: {},
+  }
+
+  it('prints the inputs, the numbers, the tables and the caveats before the improvement plan', () => {
+    const md = renderAarMarkdown(aar, scenario, 'NCRAA', {}, [metric])
+    const body = sectionBody(md, 'metrics')!
+    expect(body).toContain('## Field Metrics')
+    expect(body).toContain('- Ground-truth events scored: 3')
+    expect(body).toContain('0.667')
+    expect(body).toContain('| e1 | Hit |')
+    expect(body).toContain('Lead time is measured on hits only.')
+    expect(md.indexOf('section:metrics')).toBeLessThan(md.indexOf('section:ip'))
+  })
+
+  it('leaves the section out when no metric ran', () => {
+    expect(renderAarMarkdown(aar, scenario, 'NCRAA')).not.toContain('section:metrics')
+  })
+
+  it('adds the section to an existing document on refresh and keeps edited prose', () => {
+    const md = renderAarMarkdown(aar, scenario, 'NCRAA')
+    const edited = upsertSection(md, 'summary', 'My own summary.')
+    const refreshed = refreshAarMarkdown(edited, aar, scenario, 'NCRAA', [metric])
+    expect(sectionBody(refreshed, 'summary')).toBe('My own summary.')
+    expect(sectionBody(refreshed, 'metrics')).toContain('Decision timing')
+    expect(refreshed.indexOf('section:metrics')).toBeLessThan(refreshed.indexOf('section:ip'))
+    const again = refreshAarMarkdown(refreshed, aar, scenario, 'NCRAA', [
+      { ...metric, summary: [{ label: 'Hits', value: '5' }] },
+    ])
+    expect(again.match(/<!-- section:metrics -->/g)).toHaveLength(1)
+    expect(sectionBody(again, 'metrics')).toContain('| Hits | 5 |')
+  })
+})

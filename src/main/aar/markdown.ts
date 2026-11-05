@@ -23,6 +23,7 @@ import {
   type Finding,
 } from '@shared/schemas/aar'
 import type { Citation } from '@shared/schemas/common'
+import type { MetricResult } from '@shared/schemas/metrics'
 import { conductOf, type ConductDetails, type Scenario } from '@shared/schemas/scenario'
 import { mdCell, mdTable } from '../export/escape'
 
@@ -31,6 +32,7 @@ export const AAR_SECTIONS = [
   'summary',
   'ratings',
   'findings',
+  'metrics',
   'ip',
   'participants',
   'feedback',
@@ -351,6 +353,39 @@ export function acronymsSection(aar: Aar): string {
   ].join('\n')
 }
 
+/** Section "Field metrics" (spec 0448 FR-12): each result with the inputs used and the numbers. */
+export function fieldMetricsSection(results: readonly MetricResult[]): string {
+  const lines = ['## Field Metrics', '']
+  for (const r of results) {
+    lines.push(`### ${r.title}`, '', '**Inputs used**', '')
+    lines.push(...r.inputs.map((i) => `- ${i.label}: ${i.value}`), '')
+    lines.push(
+      mdTable(
+        ['Measure', 'Value'],
+        r.summary.map((m) => [m.label, m.value]),
+      ),
+      '',
+    )
+    for (const t of r.tables) {
+      if (t.rows.length === 0) continue
+      lines.push(`**${t.title}**`, '', mdTable(t.columns, t.rows), '')
+    }
+    lines.push(...r.caveats.map((c) => `_Note: ${c}_`), '')
+  }
+  return lines.join('\n').trimEnd()
+}
+
+/** Insert the metrics section before the improvement plan when the document lacks it. */
+function upsertMetrics(markdown: string, results: readonly MetricResult[]): string {
+  if (results.length === 0) return markdown
+  const body = fieldMetricsSection(results)
+  if (sectionBody(markdown, 'metrics') !== undefined)
+    return upsertSection(markdown, 'metrics', body)
+  const at = markdown.indexOf(marker('ip'))
+  if (at < 0) return upsertSection(markdown, 'metrics', body)
+  return markdown.slice(0, at) + wrapSection('metrics', body) + '\n\n' + markdown.slice(at)
+}
+
 /** The "Exercise date · organization · Status" line under the title. */
 function statusLine(aar: Aar, orgName: string): string {
   const status = aarStatus(aar) === 'draft' ? 'Draft (ratings pending)' : 'Reviewed'
@@ -378,6 +413,7 @@ export function renderAarMarkdown(
   s: Scenario,
   orgName: string,
   prose: Partial<Record<AarSection, string>> = {},
+  metrics: readonly MetricResult[] = [],
 ): string {
   const parts = [
     header(aar, s, orgName),
@@ -385,6 +421,7 @@ export function renderAarMarkdown(
     wrapSection('summary', prose.summary ?? executiveSummarySection(aar)),
     wrapSection('ratings', ratingsSection(aar, s)),
     wrapSection('findings', prose.findings ?? findingsSection(aar, s)),
+    ...(metrics.length ? [wrapSection('metrics', fieldMetricsSection(metrics))] : []),
     wrapSection('ip', improvementPlanSection(aar, s)),
     wrapSection('participants', participantsSection(aar)),
     ...(hasFeedback(aar) ? [wrapSection('feedback', prose.feedback ?? feedbackSection(aar))] : []),
@@ -426,6 +463,7 @@ export function refreshAarMarkdown(
   aar: Aar,
   s: Scenario,
   orgName: string,
+  metrics: readonly MetricResult[] = [],
 ): string {
   if (!markdown.trim() || !sectionBody(markdown, 'ratings')) {
     const prose: Partial<Record<AarSection, string>> = {}
@@ -433,7 +471,7 @@ export function refreshAarMarkdown(
       const body = sectionBody(markdown, name)
       if (body) prose[name] = body
     }
-    return renderAarMarkdown(aar, s, orgName, prose)
+    return renderAarMarkdown(aar, s, orgName, prose, metrics)
   }
   let out = refreshRatingLines(markdown, aar).replace(/^Exercise date: .* · Status: .*$/m, () =>
     statusLine(aar, orgName),
@@ -443,5 +481,5 @@ export function refreshAarMarkdown(
   out = upsertSection(out, 'ip', improvementPlanSection(aar, s))
   out = upsertSection(out, 'participants', participantsSection(aar))
   out = upsertSection(out, 'acronyms', acronymsSection(aar))
-  return out
+  return upsertMetrics(out, metrics)
 }

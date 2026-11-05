@@ -2,6 +2,7 @@
 // history/aar-json.jsonl, and documents/aar.md rendered from it through the scenario document
 // store, so the document gets the editor, history and restore every other document has.
 import { Aar } from '@shared/schemas/aar'
+import type { MetricResult } from '@shared/schemas/metrics'
 import { conductOf, type Scenario } from '@shared/schemas/scenario'
 import { AppError } from '../lib/errors'
 import { emit } from '../lib/events'
@@ -17,6 +18,7 @@ import {
   requireScenarioDir,
   writeScenarioDoc,
 } from '../scenario/store'
+import { readEvaluation } from '../evaluation/store'
 import { refreshAarMarkdown, renderAarMarkdown } from './markdown'
 
 export const AAR_FILE = 'aar.json'
@@ -86,6 +88,14 @@ async function sponsorOf(root: string, scenario: Scenario): Promise<string> {
   return conductOf(scenario).sponsor || project.orgName || project.name
 }
 
+/** Stored field metric results that belong to the report's session (all, when it names none). */
+async function metricsFor(root: string, scenarioId: string, aar: Aar): Promise<MetricResult[]> {
+  const stored = (await readEvaluation(root, scenarioId)).metricResults ?? []
+  return stored.filter(
+    (r) => !r.sessionId || !aar.liveSessionId || r.sessionId === aar.liveSessionId,
+  )
+}
+
 /**
  * Write documents/aar.md from aar.json. `full` renders the whole document (a fresh draft);
  * `refresh` re-renders the tables a structured editor owns and keeps the prose a person edited.
@@ -101,10 +111,11 @@ export async function syncAarDocument(
   const s = scenario ?? (await getScenario(root, scenarioId))
   const orgName = await sponsorOf(root, s)
   const current = await readScenarioDoc(root, scenarioId, 'aar')
+  const metrics = await metricsFor(root, scenarioId, aar)
   const markdown =
     mode === 'full'
-      ? renderAarMarkdown(aar, s, orgName)
-      : refreshAarMarkdown(current, aar, s, orgName)
+      ? renderAarMarkdown(aar, s, orgName, {}, metrics)
+      : refreshAarMarkdown(current, aar, s, orgName, metrics)
   if (markdown !== current)
     await writeScenarioDoc(root, scenarioId, 'aar', markdown, {
       by: opts.by,

@@ -9,7 +9,8 @@ vi.mock('electron', () => ({
   BrowserWindow: { getAllWindows: () => [] },
 }))
 
-const { readEvaluation, removeObservation, upsertObservation } = await import('./store')
+const { readEvaluation, removeObservation, saveMetricResults, upsertObservation } =
+  await import('./store')
 const { createProject } = await import('../project/store')
 const { createScenario } = await import('../scenario/store')
 const { ScenarioBrief } = await import('@shared/schemas')
@@ -87,5 +88,28 @@ describe('evaluation store', () => {
     })
     const record = await upsertObservation(root, scenarioId, observation('O-1'))
     expect((record as Record<string, unknown>).futureField).toEqual({ kept: true })
+  })
+
+  it('stores metric results with the record and replaces one for the same metric and session', async () => {
+    const { root, scenarioId } = await setup()
+    const result = (value: string, sessionId?: string) => ({
+      metricId: 'decision_timing',
+      title: 'Decision timing',
+      computedAt: '2026-10-28T14:00:00.000Z',
+      ...(sessionId ? { sessionId } : {}),
+      config: {},
+      inputs: [],
+      summary: [{ label: 'Hits', value }],
+      tables: [],
+      caveats: [],
+      data: {},
+    })
+    await saveMetricResults(root, scenarioId, [result('1', 's1'), result('9', 's2')])
+    const record = await saveMetricResults(root, scenarioId, [result('2', 's1')])
+    const stored = record.metricResults ?? []
+    expect(stored.map((r) => [r.sessionId, r.summary[0]!.value]).sort()).toEqual([
+      ['s1', '2'],
+      ['s2', '9'],
+    ])
   })
 })
