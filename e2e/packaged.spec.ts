@@ -311,25 +311,18 @@ test.describe('packaged app', () => {
   const GEOMETRY_ONLY = new Set(['figure--wildfire_fire_map', 'figure--wildfire_smoke_map'])
 
   test('renders every template preview to match its golden', async () => {
-    // Several hundred previews with the field packs. One app session stalls after about 400
-    // full-page previews (#1117), so the app is restarted every RENDERS_PER_SESSION renders.
+    // Several hundred previews in one session (about 2.5 minutes on Apple silicon); the limit
+    // allows for the slower hosted runners. A long session once stalled on a hung window reset
+    // (#1117), so this also guards that.
     test.setTimeout(900_000)
-    const RENDERS_PER_SESSION = 150
-    let app = await launchPackaged()
-    let invoke = invoker(app.page)
-    let renders = 0
+    const app = await launchPackaged()
+    const invoke = invoker(app.page)
     const failures: string[] = []
     try {
       const templates = await invoke<TemplateInfo[]>('templates:list')
       expect(templates.length).toBeGreaterThan(0)
       for (const t of templates) {
         for (const variant of t.variants.length ? t.variants : ['default']) {
-          if (renders > 0 && renders % RENDERS_PER_SESSION === 0) {
-            await close(app)
-            app = await launchPackaged()
-            invoke = invoker(app.page)
-          }
-          renders++
           const r = await invoke<{ dataUrl: string }>('render:preview', {
             type: t.type,
             fields: t.previewVariants?.[variant] ?? t.preview,
