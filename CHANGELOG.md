@@ -8,6 +8,10 @@ as `#NN`. Releasing: rename `[Unreleased]` to the new version with the release d
 
 ## [Unreleased]
 
+### Fixed
+
+- Rendering many previews in one session (for example scrolling the whole template gallery) could stop answering: a render window that hung while being reset kept the finished preview from returning. The reset now has the render timeout, and a window that misses it is replaced (#1117).
+
 ## [0.7.2] - 2026-11-05
 
 ### Added

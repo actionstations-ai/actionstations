@@ -10,7 +10,7 @@ interface FakeWorker {
   die?: (reason: string) => void
 }
 
-function fakeDriver(opts: { failReset?: boolean } = {}) {
+function fakeDriver(opts: { failReset?: boolean; hangReset?: boolean } = {}) {
   let next = 0
   const all: FakeWorker[] = []
   const destroyed: FakeWorker[] = []
@@ -22,6 +22,7 @@ function fakeDriver(opts: { failReset?: boolean } = {}) {
     },
     reset: async (w) => {
       if (opts.failReset) throw new Error('reset failed')
+      if (opts.hangReset) return new Promise<void>(() => undefined)
       w.resets++
     },
     destroy: (w) => {
@@ -129,6 +130,15 @@ describe('WorkerPool', () => {
     await pool2.run('2', async () => 1)
     await pool2.run('2', async () => 1)
     expect(badReset.all).toHaveLength(2)
+  })
+
+  it('returns a finished job and replaces the worker when its reset never finishes (#1117)', async () => {
+    const hung = fakeDriver({ hangReset: true })
+    const pool = new WorkerPool(hung.driver, opts({ size: 1, timeoutMs: 20 }))
+    await expect(pool.run('2', async () => 'first')).resolves.toBe('first')
+    expect(hung.destroyed).toHaveLength(1)
+    await expect(pool.run('2', async () => 'second')).resolves.toBe('second')
+    expect(hung.all).toHaveLength(2)
   })
 
   it('keys workers by zoom and swaps an idle worker of another key when full', async () => {

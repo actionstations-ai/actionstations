@@ -5,7 +5,8 @@
 // - Workers are keyed (the render window's zoom factor): an idle worker is reused only for
 //   jobs with the same key; a mismatched idle worker is destroyed to make room.
 // - A worker is recycled after `maxUses` jobs, when it reports itself dead (renderer crash),
-//   when its job times out, or when `reset` fails.
+//   when its job times out, or when `reset` fails or does not finish within the timeout. An
+//   unbounded reset on a wedged window kept the finished job from ever returning (#1117).
 // - shutdown() (app quit) is final: queued and in-flight jobs reject with CANCELLED, every
 //   worker is destroyed, and no worker is created afterwards. Without it, quitting closed
 //   the busy windows, the failed jobs woke queued ones, and those opened fresh windows
@@ -195,7 +196,7 @@ export class WorkerPool<W> {
     let keep = healthy && slot.uses < this.opts.maxUses && this.driver.isAlive(slot.worker)
     if (keep) {
       try {
-        await this.driver.reset(slot.worker)
+        await this.withTimeout(this.driver.reset(slot.worker), 'Worker reset')
       } catch {
         keep = false
       }
@@ -203,6 +204,22 @@ export class WorkerPool<W> {
     if (keep && this.slots.length <= this.opts.size) slot.busy = false
     else this.remove(slot)
     this.wakeNext()
+  }
+
+  /** Rejects when `p` takes longer than the pool's timeout. */
+  private async withTimeout<T>(p: Promise<T>, what: string): Promise<T> {
+    let timer: ReturnType<typeof setTimeout> | undefined
+    const late = new Promise<never>((_, reject) => {
+      timer = setTimeout(
+        () => reject(new AppError('INTERNAL', `${what} timed out after ${this.opts.timeoutMs} ms`)),
+        this.opts.timeoutMs,
+      )
+    })
+    try {
+      return await Promise.race([p, late])
+    } finally {
+      clearTimeout(timer)
+    }
   }
 
   private remove(slot: Slot<W>): void {
