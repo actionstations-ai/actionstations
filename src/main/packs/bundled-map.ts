@@ -38,11 +38,13 @@ export const BUNDLED_DOCUMENT_LICENSES = ['LicenseRef-US-Government-Work', 'CC0-
 /**
  * Licenses a catalog-only library document may carry (#1101): the bundled ones, plus
  * `LicenseRef-Publisher-Terms` for a document published under its publisher's own terms, which
- * the manifest `basis` states. Core (bundled) documents keep BUNDLED_DOCUMENT_LICENSES.
+ * the manifest `basis` states, and `CC-BY-4.0` for one under Creative Commons Attribution 4.0
+ * (the C2PA specification). Core (bundled) documents keep BUNDLED_DOCUMENT_LICENSES.
  */
 export const LIBRARY_DOCUMENT_LICENSES = [
   ...BUNDLED_DOCUMENT_LICENSES,
   'LicenseRef-Publisher-Terms',
+  'CC-BY-4.0',
 ] as const
 
 /** Installer budget for documents across all bundled packs (ADR-0020). */

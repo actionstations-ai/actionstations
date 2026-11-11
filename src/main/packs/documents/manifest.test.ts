@@ -55,7 +55,7 @@ describe('packs/documents/manifest.json', () => {
       expect(
         d.pack === 'core'
           ? ['LicenseRef-US-Government-Work', 'CC0-1.0']
-          : ['LicenseRef-US-Government-Work', 'CC0-1.0', 'LicenseRef-Publisher-Terms'],
+          : ['LicenseRef-US-Government-Work', 'CC0-1.0', 'LicenseRef-Publisher-Terms', 'CC-BY-4.0'],
       ).toContain(d.license)
       expect(d.basis.length).toBeGreaterThan(10)
       expect(new URL(d.url).protocol).toBe('https:')
@@ -147,8 +147,12 @@ describe('DocumentsManifest schema', () => {
     ).toEqual([])
   })
 
-  it('refuses licenses other than US government work, CC0 or publisher terms', () => {
-    expect(issues(manifest([doc({ license: 'CC-BY-4.0' as never })]))).not.toEqual([])
+  it('refuses licenses other than US government work, CC0, publisher terms or CC BY 4.0', () => {
+    expect(issues(manifest([doc({ license: 'CC-BY-SA-4.0' as never })]))).not.toEqual([])
+    expect(issues(manifest([doc({ license: 'CC-BY-4.0' })]))).toEqual([])
+    expect(issues(manifest([doc({ pack: 'core', license: 'CC-BY-4.0' })]))).toContain(
+      'a core document must be LicenseRef-US-Government-Work or CC0-1.0',
+    )
   })
 
   it('accepts publisher terms in a library but not in core (#1101)', () => {
