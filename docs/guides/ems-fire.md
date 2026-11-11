@@ -7,7 +7,7 @@ Everything here is exercise material. It is not clinical guidance, hazmat guidan
 ## Mass casualty and triage
 
 - **Products:** triage tag, patient list, Medical Branch worksheet, treatment areas, transportation log and a hospital call record. Every priority is printed as a word (Immediate, Delayed, Minor, Expectant) with a pattern, so nothing depends on color.
-- **Triage method:** name the method your players use (START, SALT or your local method) when you set up the scenario. No single method is required everywhere, so the exercise does not pick one for you.
+- **Triage method:** name the method your players use (START, SALT or your local method) when you set up the scenario. No single method is required everywhere, so the exercise does not pick one for you. The methods differ in ways players notice: in START a patient who does not breathe after the airway is opened takes the black Deceased/Expectant tag, while SALT keeps Expectant (gray) and Dead (black) apart, assesses walkers as well, and calls a patient Expectant only when a check fails and survival is unlikely with the resources on hand. Children up to about 8 are triaged with JumpSTART when the method is START.
 - **Charts:** patients tagged by priority over time, a patient tracking board and a hospital capacity board, each with a text summary and a table.
 - **Decisions:** declare an MCI, set the triage method, report triage complete, assign a patient to a hospital, open or close a hospital, and issue a public statement.
 - **Evaluation:** time to triage complete, patients sent to a hospital that can treat their injuries, and whether any hospital was sent more than it said it could take. Message consistency checks the casualty counts that command, the PIO and the hospitals gave.

@@ -38,6 +38,7 @@ describe('triage methods', () => {
     expect(triageStart({ ...adult, respirationsPerMinute: 31 })).toBe('Immediate')
     expect(triageStart({ ...adult, respirationsPerMinute: 30 })).toBe('Delayed')
     expect(triageStart({ ...adult, capillaryRefillSeconds: 3 })).toBe('Immediate')
+    expect(triageStart({ ...adult, radialPulse: false })).toBe('Immediate')
     expect(triageStart({ ...adult, obeysCommands: false })).toBe('Immediate')
     expect(triageStart(adult)).toBe('Delayed')
   })
@@ -51,10 +52,16 @@ describe('triage methods', () => {
   })
   it('SALT separates deceased and expectant and checks lifesaving needs', () => {
     expect(triageSalt({ ...adult, breathing: false })).toBe('Deceased')
-    expect(triageSalt({ ...adult, lethalInjury: true })).toBe('Expectant')
+    expect(triageSalt({ ...adult, lethalInjury: true, obeysCommands: false })).toBe('Expectant')
     expect(triageSalt({ ...adult, hemorrhageControlled: false })).toBe('Immediate')
     expect(triageSalt({ ...adult, respiratoryDistress: true })).toBe('Immediate')
     expect(triageSalt(adult)).toBe('Delayed')
+  })
+  it('SALT assesses walkers too and keeps Expectant for patients who fail a check', () => {
+    expect(triageSalt({ ...adult, walks: true })).toBe('Minor')
+    expect(triageSalt({ ...adult, walks: true, hemorrhageControlled: false })).toBe('Immediate')
+    // A patient who passes every check is Delayed or Minimal, never Expectant.
+    expect(triageSalt({ ...adult, lethalInjury: true })).toBe('Delayed')
   })
 })
 
