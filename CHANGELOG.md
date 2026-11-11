@@ -8,6 +8,10 @@ as `#NN`. Releasing: rename `[Unreleased]` to the new version with the release d
 
 ## [Unreleased]
 
+### Added
+
+- **User guides for three fields** (#884, #898, #786): [Health informatics and clinical IT](docs/guides/health-informatics.md) (downtime, interfaces, identity, restore order, reconciliation and the HIPAA breach clocks), [Nursing and clinical care](docs/guides/nursing.md) (unit exercises, simulated patients and unfolding case studies with class sessions and the education record) and [Environmental response and oil spills](docs/guides/environmental-response.md) (unified command, ICS 232 and 234, trajectory and ESI figures, simulated spills and plumes, countermeasure and protection decisions). Each says when to choose the domain and when to add the toolkit to another, and lists the products, figures, decisions, measures, rules and their caveats, and the reference library. They are listed in the README and the toolkits guide.
+
 ### Changed
 
 - **Clinical systems restore order and reconciliation defaults** (#684): the default clinician priority stays identity check, lab interface, EHR, pharmacy interface, and the restore-order measure now matches system names written in plain words ("Lab interface" and `lab_interface` are the same). The consequence rules are split so each names its own risk: opening the EHR before the lab interface enlarges the results backlog (a chart that looks complete while results are queued), and letting results flow before downtime registrations are matched to the master patient index raises the wrong-patient risk. Seeded reconciliation discrepancies now surface between 10 and 80 percent of back-entry instead of 20 to 90, so the first (a duplicate registration) comes with the identity work and the last arrives while players can still act.
