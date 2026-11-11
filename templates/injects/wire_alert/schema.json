@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "title": "Wire alert",
-  "description": "A wire service alert in a fictional wire service style: a slug, a level (flash, bulletin or update), a dateline, a time stamp and short text. A flash is one line. Use only fictional wire service names; never imitate a real wire service.",
+  "description": "A wire service alert in a fictional wire service style: a slug, a level (flash, bulletin or update), a dateline, a time stamp and short text. A flash is one line and kept for the gravest news; most incident stories open with a bulletin. Use only fictional wire service names; never imitate a real wire service.",
   "type": "object",
   "required": ["wireName", "slug", "time", "text"],
   "properties": {
@@ -31,13 +31,13 @@
     },
     "priority": {
       "type": "string",
-      "description": "Priority line",
+      "description": "Priority line. Leave empty when it would only repeat the level; never a lower priority than the level (no URGENT under a FLASH).",
       "examples": ["URGENT"],
       "x-translate": false
     },
     "text": {
       "type": "string",
-      "description": "Alert text. Flash: one line. Bulletin: two to four lines. Update: new details with attribution.",
+      "description": "Alert text. Flash: one line. Bulletin: one to three sentences. Update: new details with attribution.",
       "examples": ["Video said to show fire at Halyard plant; company says no fire reported."]
     },
     "editorsNote": {

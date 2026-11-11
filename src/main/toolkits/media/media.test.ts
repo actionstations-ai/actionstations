@@ -21,13 +21,20 @@ describe('news cycle schedule', () => {
     expect(newsCycleSchedule({ ...base, seed: 8 })).not.toEqual(newsCycleSchedule(base))
   })
 
-  it('puts a wire flash within minutes, a bulletin after it, and sorts by time', () => {
+  it('puts a wire bulletin within minutes, an update after it, and sorts by time', () => {
     const s = newsCycleSchedule(base)
-    const flash = s.find((i) => i.kind === 'wire_flash')!
-    expect(flash.atMin - base.triggerAtMin).toBeGreaterThanOrEqual(2)
-    expect(flash.atMin - base.triggerAtMin).toBeLessThanOrEqual(6)
-    expect(s.find((i) => i.kind === 'wire_bulletin')!.atMin).toBeGreaterThan(flash.atMin)
+    const bulletin = s.find((i) => i.kind === 'wire_bulletin')!
+    expect(bulletin.atMin - base.triggerAtMin).toBeGreaterThanOrEqual(2)
+    expect(bulletin.atMin - base.triggerAtMin).toBeLessThanOrEqual(6)
+    expect(s.find((i) => i.kind === 'wire_flash')).toBeUndefined()
+    expect(s.find((i) => i.kind === 'wire_update')!.atMin).toBeGreaterThan(bulletin.atMin)
     expect(s.map((i) => i.atMin)).toEqual([...s.map((i) => i.atMin)].sort((a, b) => a - b))
+  })
+
+  it('keeps a wire flash for the gravest national story only', () => {
+    const s = newsCycleSchedule({ ...base, severity: 5, visibility: 'national' })
+    expect(s.find((i) => i.kind === 'wire_flash')).toBeDefined()
+    expect(s.find((i) => i.kind === 'wire_bulletin')).toBeUndefined()
   })
 
   it('schedules local TV at the next top of the hour with a deadline 15 minutes before', () => {

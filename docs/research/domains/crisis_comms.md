@@ -121,3 +121,21 @@ There is no free source of social posts for replay that is clearly licensed for 
 ## 10. Reuse by other domains
 
 Every exercise has a media environment: the airport's outage trends on social media, the utility's outage map draws reporters, the hospital's cyber incident reaches the press. The **media environment toolkit** supplies the news cycle, social spread, reporter calls and verification tasks to all domains; each domain profile lists it as a suggested toolkit. It is reused directly by the AI incidents epic (#700, spec 0467: synthetic media verification), elections (misinformation), emergency communications, municipal, campus, K–12 schools, healthcare, financial services, public health, stadium and venue, and the corporate governance epic (#692).
+
+## Expert review (2026-11-11)
+
+Model-led expert review from the point of view of a crisis communications director and former newsroom editor. It is not a review by a licensed or employed practitioner.
+
+**Checked:** the crisis communications domain (roles, threat families and their guidance), the media environment toolkit (glossary, product conventions, realism rules, decision forms, measures), the news cycle simulator, the holding statement, press release, wire alert and social post templates and their preview data, the lint rules, and the media environment user guide.
+
+**Sources:** CDC Crisis and Emergency Risk Communication (the six principles: be first, be right, be credible, express empathy, promote action, show respect); FEMA NIMS Joint Information System and the PIO cycle; FCC report on the 2018 Hawaii false alert (correction through the channel the error used); news agency practice for alert priorities (a flash kept for the gravest news, a bulletin as the usual first alert, then urgent items and write-throughs); AP style datelines (Ohio is never abbreviated); C2PA Technical Specification 2.3 (trust rests on the signer's identity; a manifest shows who signed and that the asset is unchanged, not that it is true).
+
+**Changed:**
+
+- The news cycle opened every story above the smallest with a wire flash. A wire desk keeps a flash for the gravest news; an incident at a fictional company opens with a bulletin. The simulator now schedules a bulletin and then an update, and a flash only for a severity 5 national story. The glossary, the product convention and the wire alert schema say the same, and the user guide describes the new schedule.
+- The wire alert preview showed an URGENT priority line under a FLASH header, a lower priority than the level. The priority line is removed from that preview, the schema says never to put a lower priority under the level, and the flash golden was regenerated.
+- The disaster public information arc told the generator to use only fictional agencies and a fictional county. A joint information center works with real public agencies; the guidance now keeps the exercising organization, its people and the outlets fictional and lets real cities and public agencies appear in their real roles, never with a real person's name or words.
+
+**Defaults set:** time to holding statement window of 60 minutes (kept: it matches the first-hour target common in crisis plans and CERC's "be first"); holding statement under 150 words (kept).
+
+**Caveats:** the airport press release preview attributes a quote to "the Airport Director" without a name, which reads oddly in a release; it belongs to the airport field and was left alone. Social post counters never fall in the spread model, a simplification the guide states.
