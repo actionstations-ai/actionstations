@@ -107,3 +107,31 @@ Laboratory exposure, inventory discrepancy, sample loss, facility emergency, ani
 ## 10. Reuse by other domains
 
 Healthcare and campus (clinical laboratories, research hospitals), `public_health` (public health laboratories, exposure follow-up), animal health (veterinary diagnostic laboratories, spec 0460), K–12 (school science labs, with the facility emergency elements only), data center and cyber (research data breach), pharmacy (#696), construction and engineering (lab buildings, #704).
+
+## Expert review (2026-11-11)
+
+A model-led expert review written from the standpoint of an institutional biosafety officer at a registered entity. It is not a review by a licensed or employed practitioner; the institution's biosafety officer and responsible official should review an exercise before it is run.
+
+**What was checked.** The domain profile (roles, outside parties, eight threat families and their prompt guidance), the Lab safety toolkit (knowledge, decision forms, measures, guardrails, the incident response plan drill tag), the four regulation clocks, the previews of the lab templates (incident report, theft, loss or release worksheet, exposure evaluation, responder briefing and others) and the user guide. Safety: every threat family keeps to classification, stop-work, medical evaluation, notifications, continuity and messages; agents appear only as a generic class or BMBL biosafety level; no technique, quantity, strain or decontamination parameter appears in the pack or the previews.
+
+**Sources.**
+
+- 42 CFR 73.19 (eCFR): immediate notice of theft, loss or release to CDC or APHIS by telephone, facsimile or e-mail; theft or loss also to law enforcement and reported even if later recovered; a release is one causing occupational exposure or outside the primary barriers of the biocontainment area; APHIS/CDC Form 3 within seven calendar days. 42 CFR 73.14: incident response plan, drills or exercises at least annually, review after any drill, exercise or incident. The pack matches.
+- Federal Select Agent Program (selectagents.gov): CDC Division of Regulatory Science and Compliance and APHIS Agricultural Select Agent Services are the current names.
+- NIH Guidelines Section IV-B-2-b-(7) (IBC reports significant problems, violations and significant research-related accidents and illnesses to NIH OSP within 30 days) and Appendices G-II-B-2-k (BL2: overt exposure, immediately), G-II-C-2-q and G-II-D-2-k (BL3 and BL4: overt or potential exposure, immediately), read through the NIH OSP incident reporting FAQ and institutional procedures that quote it.
+- NIH notice NOT-OD-26-112 (released August 19, 2026, comments to October 19, 2026): proposed notice within 24 hours and full report within 30 days. The pack labels it a draft.
+- BMBL 6th edition terminology (BSL-1 to BSL-4, risk groups) for the agent class wording.
+
+**What changed and why.**
+
+- The NIH Guidelines clock covered only an overt exposure in a BL2 laboratory as immediately reportable. BL3 and BL4 overt or potential exposures are also immediate; the trigger, its citation, the toolkit realism rule and the guide now say so.
+- The select agent status note and the guide cited "a training slide" that once used three days. A practitioner would not cite that; both now state the rule itself (immediate notice, Form 3 within seven calendar days of discovery, reportable even if later found) and the guide adds what counts as a release.
+- The responder briefing preview said badge readers "fail open on fire alarm" next to a registered storage room. A registered area does not unlock for a fire alarm; the preview now says stairwell doors release and Room 118 stays locked (golden image regenerated).
+
+**Defaults.** Kept: the 60 minute exercise window for "immediately" (scores a call made shortly after discovery as on time without pretending the regulation sets a number); institution example deadlines of 24 hours (PI to biosafety officer), 3 days (to IBC chair) and 7 days (sponsor), labeled as example values; 30 minutes to stop work and 60 minutes to medical evaluation after an exposure report, which fit common institutional exposure protocols.
+
+**Remaining caveats.**
+
+- Many institutions require an exposure to be reported to the biosafety officer at once, not within 24 hours; designers exercising an exposure should shorten that example clock in their own pack.
+- The draft NIH policy may be finalized or changed; re-check it at each release.
+- The Form 3 is now submitted through the program's electronic system; the worksheet is an exercise aid only and says so.

@@ -109,3 +109,32 @@ Foodborne outbreak, respiratory pathogen with community spread, vaccine-preventa
 ## 11. Reuse by other domains
 
 Animal health (zoonoses; spec 0460) uses the curve, line list, network and compartment model. Research labs (spec 0466) use exposure follow-up. Hospitality and cruise (#703), humanitarian response (#702), schools and campuses, airports (exposure notifications), food and agriculture (traceback), healthcare and emergency communications use the curves and notices. Wastewater and curve figures also serve public information exercises.
+
+## Expert review (2026-11-11)
+
+A model-led expert review written from the standpoint of a state health department field epidemiologist and PHEP coordinator. It is not a review by a licensed or employed practitioner; a state epidemiologist and an infection preventionist should still look at the products before they are used to train staff.
+
+**What was checked.** The domain profile (roles, outside parties, threat families and their arcs), the toolkit knowledge (glossary, product conventions, realism rules), the decision forms and measures, the PHEP exercise tags and capability mappings, the eight figure kinds (epidemic curve labelling in particular), the previews of the seven epidemiology templates (case report form, outbreak questionnaire, exposure notice, clinician health alert, school or employer letter, isolation and quarantine guidance, hotline notes) and the user guide.
+
+**Sources.**
+
+- CDC PHEP Notice of Funding Opportunity, Exercise Framework Supplemental Guidance, April 2024 (cdc.gov/orr, read as text): Biological Incident 100/200, Capstone 100-400, Critical Contacts Drill (60 minute target, alternating LRN-B and LRN-C, unannounced, Monday to Friday), improvement plan data in Ready CAMP within 90 days. All tags in the pack match.
+- CDC Public Health Emergency Preparedness and Response Capabilities (2018) numbering for the capability mappings (8, 9, 11, 12, 13; 6; 4; 3).
+- CSTE/NNDSS measles case definition (position statement 12-ID-07) as summarised by CDC and state manuals; a January 2026 CSTE operational note on epi-linked confirmation during community transmission was noted.
+- CDC disease pages for the seven pathogen facts (norovirus with the FDA Food Code 48 hour return, nontyphoidal Salmonella, measles including post-exposure MMR in 72 hours and IG in 6 days and exclusion days 5 to 21, influenza, SARS-CoV-2, pertussis, Legionella). All values in the glossary agree.
+- CDC Field Epidemiology Manual, chapter 3 (the ten investigation steps) and Principles of Epidemiology, lesson 6 (epidemic curve conventions: number of cases on the vertical axis, onset time on the horizontal axis).
+
+**What changed and why.**
+
+- The clinician health alert preview gave the measles case definition with an epidemiologic link as _probable_. Under the CSTE definition, a febrile rash illness with a direct epidemiologic link to a laboratory-confirmed case is _confirmed_; probable means the clinical picture with no epidemiologic link and no conclusive testing. The preview now says so (golden image regenerated), and the measles glossary line carries the rule so drafts do not repeat the error.
+- The epidemic curve had no vertical axis title and its horizontal title read "Onset (UTC), 6-hour bins". A curve without "Number of cases" would be marked down in any epidemiology class. The figure now titles both axes ("Number of cases"; "Date of illness onset" or "Time of illness onset" with the interval), and a figure can name another unit: the animal disease toolkit's premises curve now reads "Number of premises" against "Estimated date of infection".
+- Two glossary lines were shortened to stay inside the knowledge cap after the measles addition (SARS-CoV-2 wording; no fact changed).
+- The user guide's epidemic curve description names both axes.
+
+**Defaults.** Kept as set, with these reasons: contact reach target 24 hours (a common health department target for first contact attempt; designers should set their own), dispensing plan of 300 people per hour (a planning figure only, stated as the designer's), grace windows of 8 hours to a case definition, 12 hours to declaration and 24 hours to the first control measure and public notice (reasonable for a one-day tabletop; a longer exercise should widen them).
+
+**Remaining caveats.**
+
+- Day bins are cut at UTC midnight. For a local outbreak the date of a late-evening onset can shift by one day; scenario times should be entered so this does not matter, or the curve drawn in hour bins.
+- The PHEP framework text is dated April 2024 and the capabilities document 2018; CDC may revise both during the period of performance.
+- Measles epi-link confirmation has a 2026 optional CSTE variation for community transmission; a jurisdiction using it should edit the case definition in the alert.

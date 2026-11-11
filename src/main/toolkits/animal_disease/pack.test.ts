@@ -209,3 +209,21 @@ describe('animal disease lint rules on the shipped previews', () => {
     expect(fieldLintIssues('animal_depop_plan', { planNumber: 'x' })).toEqual([])
   })
 })
+
+describe('expert review facts (#693)', () => {
+  it('marks ventilation shutdown as a constrained-circumstances method', () => {
+    const form = toolkit.decisionForms!.find((f) => f.id === 'animal_set_depopulation_order')!
+    const method = form.fields.find((f) => f.id === 'method')!
+    expect(method.choices).toContain('Ventilation shutdown plus (constrained circumstances only)')
+    expect(method.choices).not.toContain('Ventilation shutdown')
+  })
+
+  it('keeps dairy HPAI off the poultry zones and depopulation', () => {
+    const domain = JSON.parse(readFileSync(join(ROOT, 'packs/domains/animal_health.json'), 'utf8'))
+    const dairy = domain.addedThreatFamilies.find((f: { id: string }) => f.id === 'hpai_dairy')
+    expect(dairy.promptGuidance).toMatch(/Do not apply the poultry control area minimums/)
+    const titles = dairy.phaseArc.map((p: { title: string }) => p.title)
+    expect(titles).toContain('Quarantine and movement')
+    expect(titles).not.toContain('Depopulation and disposal')
+  })
+})

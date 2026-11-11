@@ -51,6 +51,9 @@ export const EpiCurveData = z
       .max(6)
       .default([]),
     smooth: z.boolean().default(false),
+    /** Axis titles; the defaults suit cases of illness. Another unit (premises) names its own. */
+    xLabel: z.string().min(1).max(80).optional(),
+    yLabel: z.string().min(1).max(60).default('Number of cases'),
   })
   .refine((d) => (d.cases === undefined) !== (d.counts === undefined), {
     message: 'give either cases or counts, not both',
@@ -223,9 +226,15 @@ function render(d: EpiCurveData, o: { width: number; height: number }): FigureRe
   body += text(
     M.left + (plotR - M.left) / 2,
     top + plotH + 36,
-    `Onset (UTC), ${d.binHours >= 24 ? `${d.binHours / 24 === 1 ? 'day' : `${d.binHours / 24} days`}` : `${d.binHours}-hour`} bins`,
+    `${d.xLabel ?? (d.binHours >= 24 ? 'Date of illness onset' : 'Time of illness onset')} (UTC), ${d.binHours >= 24 ? `${d.binHours / 24 === 1 ? '1-day' : `${d.binHours / 24}-day`}` : `${d.binHours}-hour`} intervals`,
     { size: 11.5, anchor: 'middle', fill: MUTED },
   )
+  body += text(0, 0, d.yLabel, {
+    size: 11.5,
+    anchor: 'middle',
+    fill: MUTED,
+    extra: `transform="translate(14 ${n(top + plotH / 2)}) rotate(-90)"`,
+  })
   let ky = o.height - 4
   keyLines.forEach((lines) =>
     lines.forEach((ln) => {

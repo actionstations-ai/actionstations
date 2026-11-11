@@ -197,6 +197,14 @@ describe('epi_curve', () => {
     expect(svg).toMatch(/Confirmed \(\d+\)/)
   })
 
+  it('titles both axes: number of cases against date or time of illness onset', () => {
+    const { svg } = renderFigure({ kind: 'epi_curve', data })
+    expect(svg).toContain('Number of cases')
+    expect(svg).toMatch(/Time of illness onset \(UTC\), 6-hour intervals/)
+    const daily = renderFigure({ kind: 'epi_curve', data: { ...data, binHours: 24 } })
+    expect(daily.svg).toMatch(/Date of illness onset \(UTC\), 1-day intervals/)
+  })
+
   it('takes pre-counted bins and refuses both inputs at once', () => {
     const counts = [
       { start: '2026-10-01T00:00:00Z', confirmed: 2 },

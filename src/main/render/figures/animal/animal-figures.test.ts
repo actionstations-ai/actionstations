@@ -231,6 +231,8 @@ describe('animal figure kinds', () => {
   it('feeds the shared epidemic curve and tracing diagram', () => {
     const curve = renderFigure({ kind: 'epi_curve', data: curveDataFromSpread(run) })
     expect(curve.summary).toMatch(/simulated|Infected premises/i)
+    expect(curve.svg).toContain('Number of premises')
+    expect(curve.svg).toContain('Estimated date of infection')
     const net = renderFigure({ kind: 'epi_contact_network', data: networkDataFromSpread(run, 40) })
     expect(net.table!.rows.length).toBeGreaterThan(1)
     expect(around(3).km).toBe(3)

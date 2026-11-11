@@ -29,7 +29,9 @@ The plans give every premises one designation. The app uses the plan words and s
 
 Only an at-risk premises can become a monitored premises. The zones are the infected zone around an infected premises, the buffer zone beyond it (together the control area), and the surveillance zone outside the control area. For avian influenza the plan (the HPAI Red Book, May 2017) sets minimums of 3 km for the infected zone, 7 km more for the buffer zone, a control area at least 10 km from the closest infected premises and a surveillance zone at least 10 km wide. The foot-and-mouth plan (October 2020) gives sampling intervals by designation: contact premises every 5 days for 14 days, at-risk and monitored premises every 10 days and surveillance zone premises every 21 days, until 56 days after the last detected case. Each product names the plan and edition it follows, because a newer edition can change a number.
 
-A **presumptive positive** is reported by a network laboratory. The national reference laboratory confirms it. The plan clocks, including the goal of depopulating within 24 hours, start at the presumptive result.
+A **presumptive positive** is reported by a network laboratory. The national reference laboratory confirms it. The plan clocks, including the goal of depopulating within 24 hours, start at the presumptive result. Once the index case is confirmed, the HPAI plan lets the response act on presumptive results inside an established control area without waiting for confirmation; presumptive results from outside it still go to the national reference laboratory.
+
+Avian influenza in dairy cattle follows a different path from poultry: affected herds are quarantined, lactating cattle move only with the testing the federal order and your state require, and herds are released after repeated negative herd tests. The poultry zone minimums and the 24 hour depopulation goal do not apply. Dairy rules changed during 2025 and 2026, so confirm the current federal and state rules before you run a dairy scenario.
 
 ## Using the zone calculator
 
