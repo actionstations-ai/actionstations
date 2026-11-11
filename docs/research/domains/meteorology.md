@@ -94,3 +94,24 @@ Impact-based warnings: tornado and severe thunderstorm warnings carry damage thr
 ## 9. Reuse by other domains
 
 Weather appears in most domains' scenarios: airports (METAR/TAF, SIGMETs, ground stops), utilities (outage forecasts, storm staging), agriculture (flooding, drought, heat, frost), stadiums and venues (lightning, evacuation of outdoor events), schools (closures, sheltering), transit and rail (flooding, high wind), port and maritime (marine warnings, surge), public health (heat), emergency communications (warnings to the public). The weather toolkit (spec 0448) makes these products and figures available to every domain.
+
+## Expert review (2026-11-11)
+
+Model-led expert review from the standpoint of an NWS warning coordination meteorologist. It is not a review by a licensed or employed practitioner.
+
+**Checked:** the weather toolkit (glossary, product conventions, realism rules, decision forms, metrics), the meteorology domain profile (roles, threat families, phase arcs, prompt guidance), the format lint rules (METAR, TAF, LAT...LON, product header, P-VTEC), the warning template preview, the user guide and the pack READMEs.
+
+**Sources:** NWSI 10-1703 (P-VTEC action, class and significance codes), NWSI 10-1701 and 10-1702 (WMO heading, UGC and polygon conventions), the NWS impact-based warning pages for tornado, severe thunderstorm and flash flood tags and their WEA triggers, the NHC product description document (advisory times 03, 09, 15, 21 UTC; watch about 48 h and warning about 36 h before tropical-storm-force winds), the SPC outlook category definitions, the NWS Hazard Simplification notices (Excessive Heat products renamed Extreme Heat, March 2025; Flood Watch consolidation, service change notice 21-56, November 2021).
+
+**Correct as found:** SPC categorical risk levels; P-VTEC grammar and action codes; damage threat tags; hurricane watch and warning lead times and advisory hours; METAR/TAF group checks; issuance time format; Extreme Heat watch naming.
+
+**Changed and why:**
+
+- The toolkit said a warning cannot precede its watch and that a watch comes before warnings. Warnings are routinely issued with no watch in effect (isolated storms, fast lines, almost all flash flood warnings); a model following the old rule would invent watches. The rule now says a watch, if any, precedes the warnings in its area, and the convective prompt guidance names "warning with no watch" as a realistic decision point.
+- The sample warning (template preview, schema examples and the UGC glossary example) used UGC OHC035-093 and a polygon near Cleveland, which are in the Cleveland office's area, under a Wilmington OH (KILN) header saying "southwestern Ohio". They now use OHC027-165 (Clinton and Warren counties, in the KILN area) and a polygon near 39.4N 84.0W. The golden image was regenerated.
+- WMO headings in the samples were checked against the products on the NOAA text server (tgftp.nws.noaa.gov). Wilmington OH is an Eastern Region office, so its headings end in 1: fire weather forecast FNUS51 (was FNUS53), hazardous weather outlook FLUS41 (was FLUS43), local storm report NWUS51 (was NWUS53), public information statement NOUS41 (was NOUS43) and red flag warning WWUS81 (was WWUS75). There is no stand-alone storm surge warning product: the warning is carried in the tropical cyclone watch/warning product, so the sample now uses WTUS84 KLCH and TCVLCH (was WGUS84 and SSWLCH), and its VTEC event number is 1000 plus the storm number (1004, was 0004), as tropical VTEC uses. Goldens regenerated.
+- The product header check rejected a valid WMO heading with a BBB indicator (for example `WGUS51 KILN 211814 CCA`); it now accepts RRx, CCx and AAx.
+
+**Defaults set:** warning verification keeps a 45-minute lead window with area matching off. 45 minutes covers a typical tornado and severe thunderstorm warning duration; flash flood warnings run longer, so a planner scoring flash flood warnings should widen the window. Hurricane clearance stays at 12 hours as a placeholder for the community's hurricane evacuation study value.
+
+**Remaining caveats:** the flash flood warning template has no H-VTEC line, which real FFWs carry; the polygon latitude check stops at 15N, so Guam products fail it; `NWSChat` remains in the agency pattern for recognition although partners now use NWS Slack-based chat; the sounding indices remain teaching-grade.

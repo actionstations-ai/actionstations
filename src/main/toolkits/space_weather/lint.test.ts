@@ -64,6 +64,17 @@ describe('message codes, times and kinds', () => {
       /K-index of 6 but the headline says 5/,
     )
   })
+  it('checks that a geomagnetic watch code matches the G level it predicts', () => {
+    expect(lintMessageCode('WATA50', 'WATCH', 'Geomagnetic Storm Category G3 Predicted')).toEqual(
+      [],
+    )
+    expect(
+      lintMessageCode('WATA99', 'WATCH', 'Geomagnetic Storm Category G4 or Greater Predicted'),
+    ).toEqual([])
+    expect(
+      lintMessageCode('WATA20', 'WATCH', 'Geomagnetic Storm Category G4 Predicted')[0]?.message,
+    ).toMatch(/watch for G1 but the headline says G4/)
+  })
   it('requires the issue time in UTC as the products write it', () => {
     expect(lintSwpcIssueTime('2026 Nov 05 1558 UTC')).toEqual([])
     expect(lintSwpcIssueTime('1058 AM EST Thu Nov 5 2026')).toHaveLength(1)

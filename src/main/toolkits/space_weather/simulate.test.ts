@@ -74,17 +74,35 @@ describe('event series', () => {
 })
 
 describe('message sequence', () => {
-  it('runs watch, warning, alert, summary in time order with lead times', () => {
+  it('runs watch, warnings, sudden impulse summary and alerts in time order with lead times', () => {
     const e = simulateEvent(params())
     const kinds = e.messages.map((m) => m.kind)
     expect(kinds[0]).toBe('WATCH')
     expect(kinds[1]).toBe('WARNING')
-    expect(kinds.at(-1)).toBe('SUMMARY')
     expect(kinds.filter((k) => k === 'ALERT').length).toBeGreaterThanOrEqual(1)
     const times = e.messages.map((m) => Date.parse(m.time))
     expect(times).toEqual([...times].sort((a, b) => a - b))
     expect(Date.parse(e.messages[0]!.time)).toBeLessThanOrEqual(e.clock.arrival - 20 * 3_600_000)
+    expect(Date.parse(e.messages[0]!.time)).toBeGreaterThan(e.clock.flare)
     expect(Date.parse(e.messages[1]!.time)).toBe(e.clock.arrival - 3_600_000)
+    const sud = e.messages.find((m) => m.code === 'SUMSUD')!
+    expect(sud.headline).toBe('Geomagnetic Sudden Impulse')
+    expect(Date.parse(sud.time)).toBeGreaterThan(e.clock.arrival)
+  })
+  it('uses the SWPC watch code of the predicted G level and K-index alerts up to 9', () => {
+    const codes = (g: number) => simulateEvent(params({ peakG: g })).messages.map((m) => m.code)
+    expect(codes(1)).toContain('WATA20')
+    expect(codes(2)).toContain('WATA30')
+    expect(codes(3)).toContain('WATA50')
+    expect(codes(4)).toContain('WATA99')
+    expect(codes(5)).toEqual(expect.arrayContaining(['WATA99', 'WARK07', 'ALTK08', 'ALTK09']))
+    const k7 = simulateEvent(params({ peakG: 5 })).messages.find((m) => m.code === 'WARK07')!
+    expect(k7.headline).toBe('Geomagnetic K-index of 7 or greater expected')
+  })
+  it('never issues the watch before the eruption, even for a fast CME', () => {
+    const e = simulateEvent(params({ cmeSpeedKmS: 3500 }))
+    expect(Date.parse(e.messages[0]!.time)).toBeGreaterThan(e.clock.flare)
+    expect(Date.parse(e.messages[0]!.time)).toBeLessThan(e.clock.arrival)
   })
   it('writes no messages when there is no geomagnetic storm', () => {
     expect(simulateEvent(params({ peakG: 0 })).messages).toEqual([])

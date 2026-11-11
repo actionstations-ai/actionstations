@@ -8,7 +8,7 @@ The **Space weather and satellite operations** pack gives an exercise a geomagne
 ## What the toolkit knows
 
 - The NOAA scales: G levels map to Kp (G1 is Kp 5 up to G5 at Kp 9), R levels to the X-ray class of a flare (R1 is M1, R3 is X1, R5 is X20) and S levels to proton flux (S1 is 10 particle flux units, each level ten times higher).
-- A watch is elevated risk with uncertain timing, a warning is an event that is occurring, imminent or likely, and an alert says a threshold has been crossed. Products carry a message code, a serial number and an issue time in UTC.
+- A geomagnetic storm watch comes one to three days ahead, while a warning usually comes minutes to a couple of hours ahead. A watch is elevated risk with uncertain timing, a warning is an event that is occurring, imminent or likely, and an alert says a threshold has been crossed. Products carry a message code, a serial number and an issue time in UTC.
 - Levels describe potential effects, impacts are regional, and the arrival time of a coronal mass ejection is uncertain by hours.
 - The toolkit gives no engineering advice about protection settings and no radiation doses.
 
@@ -30,7 +30,7 @@ A short list of well-known storms (the May 2024 storm, the October 2024 storm an
 
 ## Simulate a storm
 
-Give the time and class of a flare, the peak G and S levels and the speed of the CME. The simulation makes a flare, a proton event, a solar wind step at arrival, a Kp trajectory that peaks at the level you chose, a magnetometer disturbance, a neutral current from one stated relation and your ground conductivity factor, and the Space Weather Prediction Center messages in order: watch, warning, alert, summary. Add receivers (single-frequency, multi-frequency, or a GNSS-disciplined oscillator with its holdover in hours) to see GNSS error, satellites tracked, timing alarms and holdover remaining. Everything is labeled simulated. It is an illustration for exercises, not a prediction of any real transformer or receiver.
+Give the time and class of a flare, the peak G and S levels and the speed of the CME. The simulation makes a flare, a proton event, a solar wind step at arrival, a Kp trajectory that peaks at the level you chose, a magnetometer disturbance, a neutral current from one stated relation and your ground conductivity factor, and the Space Weather Prediction Center messages in order with their real codes: the geomagnetic watch for the level you chose about a day ahead, the sudden impulse warning and the K-index warning before arrival, the sudden impulse summary when the shock arrives, and a K-index alert as each level is reached. Add receivers (single-frequency, multi-frequency, or a GNSS-disciplined oscillator with its holdover in hours) to see GNSS error, satellites tracked, timing alarms and holdover remaining. Everything is labeled simulated. It is an illustration for exercises, not a prediction of any real transformer or receiver.
 
 ## Decisions and timing
 

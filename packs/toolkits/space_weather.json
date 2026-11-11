@@ -743,7 +743,7 @@
       }
     ],
     "productConventions": [
-      "SWPC products carry a message code (for example WATA20, WARK05, ALTK06, SUMX01) and serial number, and times are UTC.",
+      "SWPC products carry a message code and serial number, and times are UTC. Geomagnetic watches are WATA20 (G1), WATA30 (G2), WATA50 (G3) and WATA99 (G4 or greater); K-index warnings WARK04 to WARK07 (7 or greater) and alerts ALTK04 to ALTK09; WARSUD and SUMSUD for a sudden impulse; ALTPX1 to ALTPX5 for proton S levels; ALTXMF and SUMX01 for flares.",
       "A geomagnetic storm watch lists the highest level predicted for each day; copy real layouts, not invented thresholds.",
       "Grid procedure notices follow NERC EOP-010: information received, actions at predetermined conditions, a termination condition, and evidence in logs.",
       "Impact messages state effects and actions, not solar physics; partner messages agree on severity and duration.",
@@ -752,7 +752,7 @@
     "realismRules": [
       "Scale levels describe potential effects; impacts are regional and depend on latitude and ground conductivity.",
       "CME arrival time is uncertain by hours; state the lead time the scenario assumes.",
-      "A flare gives minutes of effect and no lead time; radiation lasts hours to days; scintillation can last days after the peak.",
+      "A flare gives no lead time and its radio blackout lasts minutes to a few hours on the sunlit side; radiation lasts hours to days; scintillation can last days after the peak.",
       "Satellite navigation is degraded for hours at G4 and days at G5; HF is intermittent at G3 and may be lost for a day or two at G5.",
       "Do not give engineering advice about protection settings or radiation doses.",
       "Real storms are historical and dated; fictional events use invented utilities, satellites and places."

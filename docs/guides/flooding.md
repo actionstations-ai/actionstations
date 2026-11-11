@@ -7,8 +7,8 @@ The **Flooding and hydrology** pack gives an exercise a flood: river gauges and 
 
 ## What the toolkit knows
 
-- Flood categories (minor, moderate and major) are set for each river gauge from local impacts. A gauge may not have all of them, and flood stage is not the same as bankfull. The figures always show the gauge's own table.
-- National Weather Service water products follow Ready, Set, Go: a hydrologic outlook, then a watch, then a warning.
+- Flood categories (minor, moderate and major) are set for each river gauge from local impacts. Flood stage is where minor flooding begins. A gauge may not have all of them, and flood stage is not the same as bankfull. The figures always show the gauge's own table.
+- National Weather Service water products follow Ready, Set, Go: a hydrologic outlook, then a watch, then a warning. A flash flood warning often comes with no watch before it. Excessive rainfall is covered by a flood watch; the separate flash flood watch is kept for special cases such as a dam failure or rain on a burn scar.
 - Flash flood warnings carry a damage tag: base, CONSIDERABLE or CATASTROPHIC. Wireless Emergency Alerts go out only for CONSIDERABLE and CATASTROPHIC, and CATASTROPHIC is used only with flash flood emergency language.
 - River floods rise over days and give time to sandbag, close roads and evacuate. Flash floods rise in minutes to hours.
 

@@ -121,8 +121,21 @@ export function lintMessageCode(code: string, kind: string, headline = ''): Spac
       rule: 'message_code',
       message: `Code ${code} is for a K-index of ${k[1]} but the headline says ${stated[1]}.`,
     })
+  const watchG = WATCH_CODE_G[code]
+  const predicted = /Category G([1-5])/i.exec(headline)
+  if (watchG && predicted) {
+    const g = Number(predicted[1])
+    if (watchG === 4 ? g < 4 : g !== watchG)
+      issues.push({
+        rule: 'message_code',
+        message: `Code ${code} is the watch for ${watchG === 4 ? 'G4 or greater' : `G${watchG}`} but the headline says G${g} (WATA20 is G1, WATA30 G2, WATA50 G3, WATA99 G4 or greater).`,
+      })
+  }
   return issues
 }
+
+/** SWPC geomagnetic watch codes and the G level each predicts (WATA99 is G4 or greater). */
+const WATCH_CODE_G: Record<string, number> = { WATA20: 1, WATA30: 2, WATA50: 3, WATA99: 4 }
 
 const SWPC_TIME = /^\d{4} [A-Z][a-z]{2} \d{2} \d{4} UTC$/
 

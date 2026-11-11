@@ -196,7 +196,7 @@ const latLonRule: FieldLintRule = {
     }),
 }
 
-const WMO = /^[A-Z]{4}\d{2} [A-Z]{4} \d{6}$/
+const WMO = /^[A-Z]{4}\d{2} [A-Z]{4} \d{6}(?: (?:RR|CC|AA)[A-Z])?$/
 const AWIPS = /^[A-Z0-9]{4,9}$/
 const ISSUED =
   /^(?:0?[1-9]\d{2}|1[0-2]\d{2}) (?:AM|PM) [A-Z]{3,4} (?:Mon|Tue|Wed|Thu|Fri|Sat|Sun) (?:Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec) \d{1,2} \d{4}$/
@@ -210,7 +210,10 @@ const headerRule: FieldLintRule = {
     for (const [path, v] of stringValues(fields, 'wmoHeader'))
       if (v && !WMO.test(v.trim()))
         out.push(
-          issue(path, 'The WMO heading looks like "WFUS53 KILN 211814" (TTAAii CCCC DDHHMM)'),
+          issue(
+            path,
+            'The WMO heading looks like "WFUS53 KILN 211814" (TTAAii CCCC DDHHMM, with an optional RRx, CCx or AAx indicator)',
+          ),
         )
     for (const [path, v] of stringValues(fields, 'awipsId'))
       if (v && !AWIPS.test(v.trim()))

@@ -15,6 +15,12 @@ describe('flood categories', () => {
     expect(categoryAtStage(leveed, 18)).toBe('moderate')
     expect(categoryAtStage(leveed, 5)).toBe('none')
   })
+  it('treats flood stage as the start of minor flooding when no separate minor stage is given', () => {
+    const table = { action: 12, flood: 14, moderate: 17 }
+    expect(categoryAtStage(table, 13)).toBe('action')
+    expect(categoryAtStage(table, 15)).toBe('minor')
+    expect(lintCategoryClaim(table, 15, 'minor')).toEqual([])
+  })
   it('flags a category the point does not define', () => {
     expect(lintCategoryClaim(leveed, 14, 'minor')[0]?.message).toMatch(/no minor category/)
   })

@@ -112,3 +112,23 @@ Research for the flooding and hydrology epic (#687, spec 0454), built on the too
 ## 9. Reuse by other domains
 
 Flooding is a toolkit most domains can use: water and wastewater utilities (overflow, plant protection), energy utilities (substations, outage staging), food and agriculture (livestock, grain, fields), transit and freight rail (washouts, underpasses), airports (field drainage, access roads), ports (river stage and navigation), healthcare and K–12 (dry-site transfer, closures), campuses and venues (drainage), telecom (sites and backhaul), gas pipeline (river crossings), municipal and emergency communications (warnings, closures). The flooding toolkit shares the hydrograph figure kind with the weather toolkit (spec 0449 FR-5) and the debris-flow toolkit with earth sciences (spec 0450).
+
+## Expert review (2026-11-11)
+
+Model-led expert review from the standpoint of an NWS service hydrologist and warning coordination meteorologist. It is not a review by a licensed or employed practitioner.
+
+**Checked:** the flooding toolkit (glossary, product conventions, realism rules, decision forms, metrics), the flooding domain profile (roles, threat families, prompt guidance), the flood lint rules, the hydrologic product template preview, the hydrograph and gauge figures' category logic and the user guide.
+
+**Sources:** NWS Manual 10-950 (flood stage and the flood categories), NWSI 10-922 (water resources products), NWS service change notice 21-56 and the Hydrology Hazard Simplification pages (Flood Watch consolidation, November 2021), NWS impact-based flash flood warning pages (base, CONSIDERABLE, CATASTROPHIC; WEA for CONSIDERABLE and CATASTROPHIC only), NWS St. Louis ESF products as carried on the NOAA text server (`FGUS73 KLSX`).
+
+**Correct as found:** flood stage versus bankfull; per-point category tables with missing categories; the flash flood damage tag rules and WEA triggers; Ready, Set, Go tiers; river versus flash flood time scales; stage in feet and flow in cfs.
+
+**Changed and why:**
+
+- The flash flood threat family said "a flash flood watch covers the county" for heavy rain. Since November 2021 excessive rainfall is covered by a Flood Watch; the Flash Flood Watch is kept only for special cases (dam failure, burn scars). The beat and phase goal now say flood watch; the burn-scar family keeps its flash flood watch. The guide says so too and adds that a flash flood warning often has no watch before it.
+- The category logic ignored flood stage when a table gave flood stage but no separate minor stage, so a stage above flood stage was reported as "action". Flood stage is where minor flooding begins (10-950); the stage is now minor, and a minor claim at such a point is accepted. The guide states that flood stage is where minor flooding begins.
+- The hydrologic outlook sample used WMO heading FGUS63; NWS St. Louis issues ESF under FGUS73. Preview and schema example corrected and the golden image regenerated.
+
+**Defaults set:** flash flood decision timing keeps a 120-minute lead window with area matching on; evacuation clearance stays at 120 minutes as a placeholder for the plan's own value.
+
+**Remaining caveats:** the product order check (outlook, watch, warning) only fires when both products exist, which fits the no-watch case but can flag a watch issued later for a new area of the same event; a table that gives flood stage below a moderate stage with no minor stage is unusual in practice, since NWS sets flood stage equal to the minor threshold.

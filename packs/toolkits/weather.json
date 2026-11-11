@@ -84,7 +84,7 @@
       },
       {
         "term": "UGC",
-        "definition": "County or zone line, e.g. OHC035-093-042115- (state, C county or Z zone, codes, expiry DDHHMM UTC)."
+        "definition": "County or zone line, e.g. OHC027-165-042115- (state, C county or Z zone, codes, expiry DDHHMM UTC)."
       },
       {
         "term": "LSR",
@@ -106,14 +106,14 @@
     "productConventions": [
       "Text products are monospace, upper case in headers, with a WMO line, an AWIPS id, UGC and VTEC lines, then the issuance time in local time (e.g. 214 PM EDT Wed Oct 21 2026) and a $$ end line.",
       "Warnings read '* At 213 PM EDT, ...' with the evidence and movement, then HAZARD, SOURCE and IMPACT, then locations, actions and a LAT...LON polygon in hundredths of degrees (west longitude positive).",
-      "The usual order is outlook, mesoscale discussion, watch, warnings and statements, local storm reports, then a public information statement. A statement follows a warning; a watch comes before warnings in its area.",
+      "The usual order is outlook, mesoscale discussion, watch, warnings and statements, local storm reports, then a public information statement. A statement follows a warning; a watch, if any, precedes the warnings in its area, and many warnings come with no watch.",
       "METAR and TAF use UTC and fixed groups: KILN 211853Z 24012G22KT 3SM +TSRA BKN025CB 24/22 A2992; a TAF has valid periods, FM, TEMPO, PROB30 groups.",
       "Hurricane advisories are numbered and issued at 5 AM, 11 AM, 5 PM and 11 PM EDT (09, 15, 21, 03 UTC); a watch is about 48 hours and a warning about 36 hours before TS-force winds."
     ],
     "realismRules": [
       "Use only real NWS office ids, products and codes; invent the exercising organization, people and local businesses, never the weather service's own staff.",
       "Every product is marked as an exercise or test. Never produce text that could pass for a live alert on an actual channel.",
-      "Times are consistent: a warning cannot precede its watch in the same area, a statement cannot precede its warning, issuance and expiry fit the VTEC and UGC lines.",
+      "Times are consistent: a statement cannot precede its warning, and issuance and expiry fit the VTEC and UGC lines.",
       "Radar, satellite, sounding and model figures come from case data (historical or simulated), never from an image generator; say when data is simulated.",
       "A real past event keeps its real dates and places; do not mix its storm reports with invented ones without saying so.",
       "Warnings have limited lead time and false alarms; do not give a perfect forecast. Include a missed or late warning when the objectives call for it."
