@@ -97,7 +97,12 @@ describe('988 routing check', () => {
 
 describe('FNSS integration check', () => {
   it('flags separate-tier wording only', () => {
-    expect(lintFnssIntegration('Move residents to the special needs shelter.').length).toBe(1)
+    expect(
+      lintFnssIntegration('Disabled residents were moved to a separate area of the gym.').length,
+    ).toBe(1)
+    expect(
+      lintFnssIntegration('Refer him to the county special needs shelter for oxygen care.'),
+    ).toEqual([])
     expect(
       lintFnssIntegration('A general population shelter with functional needs support.'),
     ).toEqual([])
@@ -117,6 +122,13 @@ describe('crisis counseling durations', () => {
     expect(
       lintCrisisCounselingDurations('The regular services program lasts 12 months.').length,
     ).toBe(1)
+  })
+  it('reads application deadlines as deadlines, not program lengths', () => {
+    expect(
+      lintCrisisCounselingDurations(
+        'Apply for the immediate services program within 14 days of the declaration; it runs up to 60 days.',
+      ),
+    ).toEqual([])
   })
 })
 

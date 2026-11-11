@@ -112,3 +112,21 @@ Real court cyber incidents give realistic shapes for simulation: the Los Angeles
 ## 9. Reuse by other domains
 
 Unified command, dispatch and public information appear in municipal, k12_schools and campus (school and campus police), stadium_venue, transit and airport (transit and airport police), healthcare (workplace violence), elections (threats at polling places), commercial_facilities and port_maritime. Reunification and family notification reuse the human services toolkit (spec 0464). Court ransomware and continuity reuse the cyber scenarios of every domain and the data_center_it domain. The justice toolkit's dispatch pieces reuse `emergency_communications`.
+
+## Expert review (2026-11-11)
+
+Model-led expert review from the standpoint of a law enforcement and corrections emergency manager who has run court continuity planning. It is not a review by a licensed or employed practitioner.
+
+**Checked:** the domain profile (roles, threat families, phase beats, decision points, prompt guidance), the justice toolkit (glossary, realism rules, decision forms, metrics, critical tasks), the coordination-level guardrails, the count sheet, corrections report, court order, court notice and AMBER worksheet preview data, the jail count and court outage simulators, and the user guide.
+
+**Sources:** AMBER Alert recommended criteria (amberalert.ojp.gov, as recorded above and matched by the worksheet); County of Riverside v. McLaughlin, 500 U.S. 44 (1991), for the 48-hour probable cause determination after a warrantless arrest; the DOJ COPS critical incident review of the Uvalde response (January 2024), already cited.
+
+**Changed and why:**
+
+- Count: the glossary now defines the out-count (people logged out to court, a hospital or work release) and the recount before a discrepancy is treated as an escape; counts that ignore the out-count are the most common source of a false "short" count. A corrections beat now names the out-count, and another names the victim notification service and the prosecutor when someone stays unaccounted for. The victim notification service and victim advocates are an outside party.
+- Court continuity: a realism rule and a service degradation beat now keep first appearances and probable cause determinations for people in custody running during an outage, with protective orders and juvenile detention hearings. The emergency docket order preview already showed this.
+- The National Center for Missing & Exploited Children is named correctly in the toolkit and the missing child family.
+
+**Defaults set:** time to unified command 30 minutes, family center 60 minutes and accurate count 60 minutes are kept as planner-editable targets; an hour to clear a count is a fair outer bound for a facility of a few hundred. AMBER issue window 120 minutes kept; no national time standard exists.
+
+**Caveats:** the jail count simulator compares each area with its assigned population and lets the movement log explain the difference; facilities that keep a running in-area expected count will read the sheet differently. State first appearance rules vary (24 to 72 hours); the guide tells planners to use their own. Tactical content remains excluded by design.

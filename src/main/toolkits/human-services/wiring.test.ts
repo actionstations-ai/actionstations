@@ -128,7 +128,7 @@ describe('lint rules', () => {
     ).toBe(1)
     expect(
       fieldLintIssues('hs_shelter_status_report', {
-        issues: 'Move him to the special needs shelter.',
+        issues: 'Disabled residents were moved to a separate shelter.',
       }).length,
     ).toBe(1)
     expect(

@@ -108,3 +108,23 @@ Research for the behavioral health and human services epic (#697, spec 0464) and
 ## 9. Reuse by other domains
 
 Shelters and mass care appear in municipal, emergency management, k12_schools and campus (school and campus shelters), healthcare (surge, discharge), public_health (shelter infection control, heat), flooding, wildfire and weather (hurricane evacuations), humanitarian (camp management, spec 0469), and stadium_venue (venue evacuations). Reunification is used by k12_schools, campus, healthcare, stadium_venue and justice (active threat aftermath, spec 0465). The crisis line toolkit serves emergency_communications (988 and 911 interplay), municipal and k12_schools. Psychological first aid knowledge is useful in every domain's recovery phase.
+
+## Expert review (2026-11-11)
+
+Model-led expert review from the standpoint of a behavioral health and human services disaster lead. It is not a review by a licensed or employed practitioner.
+
+**Checked:** the human services domain and the four toolkits (crisis line, mass care, reunification and child welfare, behavioral safeguards), the safe messaging, rerouting, FNSS and crisis counseling lint rules, the shelter, referral, reunification and crisis counseling preview data, and the user guide.
+
+**Sources:** GAO-26-108114 (published July 1, 2026): rerouting to national backup after generally 2 minutes for calls and 5 minutes for texts and chats, Spanish-language contacts not rerouted, about 76 percent of calls answered locally from July 2022 to September 2025, routing as of March 2026, and the goal of more than 90 percent of routed texts and chats answered locally by September 29, 2026; 44 CFR 206.171 (Cornell LII text): immediate services application within 14 days of the declaration and funding up to 60 days after it, regular services application within 60 days and funding up to nine months from the award; the NCTSN and National Center for PTSD Psychological First Aid field guide (eight core actions); FEMA FNSS guidance (November 2010).
+
+**Changed and why:**
+
+- Medical needs shelters: the mass care rule and the FNSS lint no longer treat "special needs shelter" as wrong in itself. Florida and some other states use the term in law for a medical needs shelter, which is a referral for medical care beyond functional support, not a separate tier. The lint still flags moving people because of a disability; the rule now says the health lead refers someone who needs medical care to a hospital or a state medical needs shelter.
+- Crisis counseling: the glossary and the request preview now give the application deadlines (14 and 60 days after the declaration) and count the immediate services period from the declaration, not from the request date. The duration lint no longer reads "within 14 days" as a program length. Golden regenerated.
+- Shelter health referral preview: a new breathing difficulty sent to a clinic as "same day" with a follow-up call hours later would be a 911 call in a real shelter; the example need is now a medication refill and a wound check. Golden regenerated.
+- The safe messaging source no longer carries an edition year that could not be confirmed.
+- The National Center for Missing & Exploited Children is named correctly.
+
+**Defaults set:** crisis line service level target 90 percent answered within 120 seconds kept as an editable default (it matches the federal text and chat goal and the call rerouting timer); shelter opening clearance of 120 minutes before tropical-storm-force wind kept as a minimum, and planners will usually open earlier; functional needs coverage target 60 minutes kept.
+
+**Caveats:** the 988 routing values are as of March 2026 and change; the guide says to check current rules. The safe messaging and PFA checks catch common failures only. Nothing here was reviewed by a clinician, a crisis center director or a mass care lead.

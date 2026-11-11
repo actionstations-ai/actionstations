@@ -34,7 +34,7 @@ const INJURIES: Record<Target, string[]> = {
     'Scrapes and a bruised knee, walking',
   ],
   Expectant: [
-    'Massive crush injury, little response',
+    'Massive crush injury to the chest and abdomen',
     'Severe head injury, unresponsive',
     'Extensive burns over most of the body',
   ],

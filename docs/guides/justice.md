@@ -17,6 +17,12 @@ The same rule runs when you check the scenario: a phrase that slips into tactica
 - **Decisions** for players to record: establish the command post and unified command, request mutual aid, activate the negotiation team, open a family center, issue a public statement, decide the AMBER criteria and issue the alert, lock down or evacuate, declare a count clear, close the courthouse or a function, move to paper filing, restore a system and notify the bar and public.
 - **Timing measures** shown with the events and decisions they used: time to unified command, time to a family center, time to an accurate count, time to restore each court function against its own objective, AMBER Alert timing, message consistency across agencies, and dispatch service level in a call surge. Targets are yours to set.
 
+## Counts and court outages
+
+A jail count reconciles when the people counted in each housing area plus the out-count (people logged out to court, a hospital or work release) equal the population. A count that does not clear is recounted and checked against the movement log before anyone treats it as an escape, and the notification list includes the victim notification service and the prosecutor if anyone stays unaccounted for.
+
+A court outage never stops first appearances for people in custody. A person arrested without a warrant needs a probable cause determination, generally within 48 hours under the Supreme Court's 1991 decision in County of Riverside v. McLaughlin, and your state's rules set the first appearance clock. Protective orders and juvenile detention hearings also continue, on paper if they must.
+
 ## Simulated events
 
 The app can generate events to score against. Every set is labeled **simulated**, and the same settings repeat the same data.

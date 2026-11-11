@@ -47,15 +47,19 @@ export function lint988Routing(text: string): HsProblem[] {
 }
 
 const SEPARATE_TIER =
-  /\b(?:special[- ]needs? shelters?|disabled (?:residents|people|evacuees) (?:are|were|will be) (?:moved|sent|transferred|taken) to a (?:separate|different) (?:shelter|area|wing)|separate shelter for (?:people|persons|residents|evacuees) with disabilit\w+)\b/i
+  /\b(?:disabled (?:residents|people|evacuees) (?:are|were|will be) (?:moved|sent|transferred|taken) to a (?:separate|different) (?:shelter|area|wing)|separate shelter for (?:people|persons|residents|evacuees) with disabilit\w+)\b/i
 
-/** FEMA FNSS guidance (2010): general population shelters integrate people with access and functional needs. */
+/**
+ * FEMA FNSS guidance (2010): general population shelters integrate people with access and
+ * functional needs. "Special needs shelter" alone is not flagged: some states (Florida among them)
+ * use it in law for a medical needs shelter, which is a referral for medical care, not a tier.
+ */
 export function lintFnssIntegration(text: string): HsProblem[] {
   return SEPARATE_TIER.test(text)
     ? [
         {
           message:
-            'General population shelters integrate people with access and functional needs and support them in place (FEMA FNSS guidance, 2010); avoid wording that sets up a separate tier, such as "special needs shelter".',
+            'General population shelters integrate people with access and functional needs and support them in place (FEMA FNSS guidance, 2010); do not move someone to a separate shelter or area because of a disability.',
         },
       ]
     : []
@@ -68,8 +72,13 @@ const SIXTY = (n: string, u: string) =>
   (/^(?:60|sixty)$/i.test(n) && u === 'day') || (/^(?:2|two)$/i.test(n) && u === 'month')
 const NINE = (n: string, u: string) => /^(?:9|nine)$/i.test(n) && u === 'month'
 
+/** "within 14 days" and "due in 60 days" are application deadlines, not program lengths. */
+const DEADLINE_BEFORE = /\b(?:within|due in)\s+$/i
+
 function durationsOf(tail: string): [string, string][] {
-  return [...tail.matchAll(DURATION)].map((m) => [m[1]!, m[2]!.toLowerCase()])
+  return [...tail.matchAll(DURATION)]
+    .filter((m) => !DEADLINE_BEFORE.test(tail.slice(Math.max(0, m.index - 12), m.index)))
+    .map((m) => [m[1]!, m[2]!.toLowerCase()])
 }
 
 /** Crisis counseling program: immediate services up to 60 days, regular services up to nine months (44 CFR 206.171). */

@@ -137,3 +137,26 @@ Hazmat and MCI products serve `chemical` and `industrial` (the plant's call to t
 ## 10. Related toolkits
 
 Clinical care (#685) for patient detail, vitals and SBAR at the hospital end; weather (spec 0449) for wind; wildfire (#694) for fires in the wildland-urban interface; spill and plume (spec 0455) for the plume figure; structures (spec 0471) for collapse; maps (spec 0436).
+
+## Expert review (2026-11-11)
+
+Model-led expert review from the standpoint of an EMS medical director and fire chief with hazmat experience. It is not a review by a licensed or employed practitioner.
+
+**Checked:** the START, JumpSTART and SALT decision functions and the simulated findings; the mass casualty, hazmat and dispatch toolkits (glossary, product conventions, realism rules, decision forms, metrics); the domain roles, threat families and prompt guidance; the triage tag, patient list, placard, shipping paper and entry briefing preview data; the release simulation and the guidebook distance lint; the user guide.
+
+**Sources:** WikEM, Mass casualty incident triage (START and SALT steps and colors); the 2008 workgroup announcement of the SALT guideline (Occupational Health and Safety, September 2008), which states that walking patients must be individually assessed before being labeled minimally injured; Miami-Dade and Fire Engineering START/JumpSTART references (radial pulse or capillary refill, JumpSTART 15 and 45 breaths a minute, five rescue breaths for an apneic child with a pulse); the ERG 2024 structure recorded in section 5 above; 49 CFR 172.202 shipping description order (UN number, proper shipping name, class, packing group).
+
+**Changed and why:**
+
+- SALT logic: walkers are no longer Minor without assessment; every patient passes through the assessment checks, and Expectant is reached only by a patient who fails a check and is unlikely to survive with the resources available. The earlier order could tag a patient who obeyed commands, had a pulse and no distress as Expectant, which SALT does not allow. Steps text and glossary now give the global sort order (still, wavers, walkers) and the gray Expectant tag.
+- START: no radial pulse now makes a patient Immediate alongside capillary refill over 2 seconds; the black tag is described as Deceased/Expectant.
+- JumpSTART glossary gives the 15 and 45 breath limits, the peripheral pulse check and the rescue-breath step.
+- Simulated Expectant injury text no longer says "little response", which contradicted a START Expectant patient who is not breathing.
+- ICS titles: under a Medical Group the triage, treatment and patient transportation positions are units (unit leaders); they are groups only under a Medical Branch. The transportation role and the Medical Group description now say so.
+- Safety Officer: watches hazards and can stop unsafe acts; the Hazmat Group sets zones and PPE, so the Safety Officer no longer "owns" them.
+- Run card: CAD applies the response plan automatically; the printed copy is the fallback when CAD is down.
+- Shipping paper preview: a loaded tank car carried a "residue" note, which contradicted the 20,000 gallon quantity; the note now gives the car's place in the consist. Golden regenerated.
+
+**Defaults set:** the pediatric limit stays at under 8 years (JumpSTART's design range); walking stands in for SALT's "minor injuries only" in the simulator; the JumpSTART rescue-breath step is not simulated. The protective action distance tolerance (10 percent) and the mayday action window (2 minutes) are kept as reasonable exercise targets.
+
+**Caveats:** the SALT primary paper (Lerner and colleagues, 2008) and the Model Uniform Core Criteria were not read in full; the structure is from the workgroup announcement and secondary summaries. ERG distances are still not bundled. Local MCI plans differ on unit and group titles and on tag colors; planners should set the local method.
