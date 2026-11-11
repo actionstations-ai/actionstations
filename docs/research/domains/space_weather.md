@@ -127,3 +127,24 @@ Research for the space weather and satellite operations epic (#701, spec 0468), 
 ## 9. Reuse by other domains
 
 Space weather is a toolkit for energy utilities (a severe storm watch is already listed as a scenario seed in `energy_utility`), telecom (GNSS timing and satellite links), airports and airlines (HF and GNSS), food and agriculture (precision guidance), freight rail and transit (signaling and timing, power), port and maritime (navigation), gas pipeline (induced currents and SCADA links), emergency communications (HF, satellite and amateur radio), financial services (time stamping), unmanned systems (GNSS dependence), and municipal and state emergency management (long power loss). It uses the weather toolkit (spec 0449) for forecasting style and decision timing, and the energy utility, telecom and airport domains for the organizations.
+
+## Expert review (2026-11-11)
+
+Model-led expert review from the standpoint of a NOAA SWPC space weather forecaster. It is not a review by a licensed or employed practitioner.
+
+**Checked:** the space weather toolkit (glossary, product conventions, realism rules, decisions, metrics, critical tasks), the space weather domain profile, the scale, message code, CME arrival and ICAO lint rules, the simulated SWPC message sequence, the SWPC message template and the user guide.
+
+**Sources:** NOAA Space Weather Scales (G to Kp, R to GOES X-ray class, S to 10 MeV proton flux); the SWPC subscription services product list (message codes and titles, watch lead time up to 72 hours, warnings minutes to a couple of hours ahead); NERC EOP-010-1 requirements; ICAO Annex 3 Amendment 82 material on space weather advisories (HF COM, GNSS, RADIATION, SATCOM effects kept).
+
+**Correct as found:** the G, R and S mappings and their lint; watch, warning, alert definitions; EOP-010 elements (plan, dissemination, actions at predetermined conditions, termination); G4/G5 navigation and HF effects; ICAO advisory layout checks.
+
+**Changed and why:**
+
+- The simulation always issued WATA20 (the G1 watch) whatever level it predicted, ended with SUMSUD headed "geomagnetic storm reached Gn" (SUMSUD is the sudden impulse summary, issued at shock arrival), and stopped K-index alerts at 7. It now uses WATA20, WATA30, WATA50 or WATA99 (G4 or greater) for the predicted level, issues WARSUD before arrival and SUMSUD after the shock, heads WARK07 "7 or greater", raises ALTK08 and ALTK09 when reached, and never places the watch before the eruption for fast CMEs.
+- The message code lint now checks that a watch code matches the G level in its headline.
+- The SWPC message preview was WATA20 with a G4 headline; it is now WATA99 "G4 or Greater Predicted" (golden regenerated). The schema's code list described SUM10R as a proton summary; it is the 10 cm radio burst summary. The list now gives the full code families.
+- A realism rule said a flare gives "minutes of effect"; R-scale blackouts last minutes to a few hours. The domain said a CME is watched "for days"; watches give one to three days (up to 72 hours).
+
+**Defaults set:** the dissemination measure keeps a 60-minute target and an empty entity list for the planner to fill; the GIC relation stays a stated exercise constant.
+
+**Remaining caveats:** the strategy documents in the library are the 2015 editions (a 2019 strategy and action plan exist); TPL-007-4 is cited and should be checked against any later version; proton (WARPX1, ALTPXn) messages are not simulated.

@@ -18,11 +18,22 @@ export interface CategoryTable {
 
 export type FloodCategory = 'none' | 'action' | 'minor' | 'moderate' | 'major'
 
+/**
+ * The stage at which minor flooding begins. In NWS usage flood stage is the start of the minor
+ * category (NWS Manual 10-950), so a table that gives flood stage but no separate minor stage
+ * still floods at flood stage; a point whose first impacts are moderate has no flood stage below
+ * its moderate stage.
+ */
+function minorStage(table: CategoryTable): number | undefined {
+  return table.minor ?? table.flood
+}
+
 /** The category a stage falls in for this point, using only the thresholds the point has. */
 export function categoryAtStage(table: CategoryTable, stage: number): FloodCategory {
   if (table.major !== undefined && stage >= table.major) return 'major'
   if (table.moderate !== undefined && stage >= table.moderate) return 'moderate'
-  if (table.minor !== undefined && stage >= table.minor) return 'minor'
+  const minor = minorStage(table)
+  if (minor !== undefined && stage >= minor) return 'minor'
   if (table.action !== undefined && stage >= table.action) return 'action'
   return 'none'
 }
@@ -33,7 +44,8 @@ export function lintCategoryClaim(
   stage: number,
   claimed: Exclude<FloodCategory, 'none'>,
 ): FloodLintIssue[] {
-  if (claimed !== 'action' && table[claimed] === undefined)
+  const defined = claimed === 'minor' ? minorStage(table) : table[claimed]
+  if (claimed !== 'action' && defined === undefined)
     return [
       {
         rule: 'flood_categories',

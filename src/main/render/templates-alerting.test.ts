@@ -164,7 +164,7 @@ describe('notam v2', () => {
 describe('nws_weather_warning v2', () => {
   it('builds the VTEC, UGC and issuance lines from the structured fields', () => {
     const text = visible(render('nws_weather_warning', 'default'))
-    expect(text).toContain('OHC035-093-212115-')
+    expect(text).toContain('OHC027-165-212115-')
     expect(text).toContain('/O.NEW.KILN.FF.W.0042.261021T1814Z-261021T2115Z/')
     expect(text).toContain('214 PM EDT Wed Oct 21 2026')
     expect(text).toContain('* Until 515 PM EDT.')

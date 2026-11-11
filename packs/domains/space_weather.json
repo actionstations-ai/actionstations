@@ -223,7 +223,7 @@
     {
       "id": "space_geomagnetic_storm",
       "label": "Severe geomagnetic storm",
-      "description": "A coronal mass ejection is watched for days, then warned, then arrives; Kp climbs and the grid operating procedure must be applied before onset, with GNSS and HF effects following.",
+      "description": "A coronal mass ejection is watched for one to three days in transit, then warned, then arrives; Kp climbs and the grid operating procedure must be applied before onset, with GNSS and HF effects following.",
       "keywords": [
         "geomagnetic storm",
         "geomagnetic disturbance",
@@ -240,7 +240,7 @@
       "phaseArc": [
         {
           "title": "Flare and CME observed, watch issued",
-          "goal": "Players see a geomagnetic storm watch with days of lead time and decide what to prepare and who to tell.",
+          "goal": "Players see a geomagnetic storm watch with one to three days of lead time (up to 72 hours) and decide what to prepare and who to tell.",
           "beats": [
             "A large flare is reported and a CME is modeled toward Earth",
             "A geomagnetic storm watch lists the highest level predicted for each day",
@@ -480,7 +480,7 @@
       "clueKinds": "a string of alerts with different codes in the order the hazards arrived, a coronagraph-based arrival forecast, reports from several sectors at once",
       "hurdleKinds": "staff stretched between hazards, a data feed gap during the peak, conflicting statements from partners",
       "keyCoordination": "the NOAA Space Weather Prediction Center and state emergency management",
-      "promptGuidance": "Keep the clocks separate: a flare gives minutes of effect, a radiation storm hours to days, a geomagnetic storm hours to a day or more, and GNSS scintillation can last days after the peak. Messages across sectors should state the same severity and duration.",
+      "promptGuidance": "Keep the clocks separate: a flare's radio blackout lasts minutes to a few hours, a radiation storm hours to days, a geomagnetic storm hours to a day or more, and GNSS scintillation can last days after the peak. Messages across sectors should state the same severity and duration.",
       "lint": {
         "clueRequired": true,
         "clueRole": "operations"

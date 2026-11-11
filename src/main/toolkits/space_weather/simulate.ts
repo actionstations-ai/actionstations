@@ -6,7 +6,6 @@
 // everything it makes as simulated (ADR-0076) and the labels here say so as well.
 import { z } from 'zod'
 import { IsoDateTime } from '@shared/schemas/common'
-import { gLevelOfKp } from '../../render/figures/space/common'
 import { gnssModel, Receiver, type GnssSeries } from './gnss'
 
 const HOUR_MS = 3_600_000
@@ -181,31 +180,57 @@ export function firstKpAtLeast(kp: readonly TimedValue[], value: number): string
   return kp.find((x) => x.v >= value)?.t
 }
 
+/** The SWPC geomagnetic watch code and headline for a predicted G level (WATA99 is G4 or greater). */
+export function watchForG(g: number): { code: string; headline: string } {
+  if (g >= 4)
+    return { code: 'WATA99', headline: 'Geomagnetic Storm Category G4 or Greater Predicted' }
+  const code = ['WATA20', 'WATA30', 'WATA50'][Math.max(1, g) - 1]!
+  return { code, headline: `Geomagnetic Storm Category G${Math.max(1, g)} Predicted` }
+}
+
 /**
- * The SWPC message sequence in the right order with plausible lead times: a watch about a day
- * ahead of arrival, a warning an hour before it, an alert for each K-index threshold when it
- * is reached, and a summary after the storm. Codes are those seen in the live feeds (K-index
- * messages go up to 7); the text is a headline only, the template writes the product.
+ * The SWPC message sequence in the right order with plausible lead times, using the codes and
+ * titles of the SWPC product list: a watch for the predicted G level about a day ahead of
+ * arrival (never before the eruption is seen), a sudden impulse warning an hour before the
+ * shock and its summary when it arrives, a K-index warning (WARK04 to WARK07, the last meaning
+ * 7 or greater), and an alert for each K-index from 5 to 9 when it is first reached. The text is
+ * a headline only; the template writes the product.
  */
 export function messageSequence(p: SpaceEventParams, kp: readonly TimedValue[]): SimMessage[] {
   if (p.peakG === 0) return []
-  const { arrival, end } = eventClock(p)
+  const { flare, arrival } = eventClock(p)
   const peakKp = PEAK_KP_FOR_G[p.peakG]!
+  const warnK = Math.min(7, Math.max(4, peakKp))
+  const watch = watchForG(p.peakG)
   const out: SimMessage[] = [
     {
-      time: iso(arrival - 24 * HOUR_MS),
-      code: 'WATA20',
+      time: iso(
+        Math.min(arrival - 2 * HOUR_MS, Math.max(flare + 3 * HOUR_MS, arrival - 24 * HOUR_MS)),
+      ),
+      code: watch.code,
       kind: 'WATCH',
-      headline: `Geomagnetic Storm Category G${p.peakG} Predicted`,
+      headline: watch.headline,
     },
     {
       time: iso(arrival - HOUR_MS),
-      code: `WARK0${Math.min(7, Math.max(4, peakKp))}`,
+      code: 'WARSUD',
       kind: 'WARNING',
-      headline: `Geomagnetic K-index of ${Math.min(7, peakKp)} expected`,
+      headline: 'Geomagnetic Sudden Impulse expected',
+    },
+    {
+      time: iso(arrival - 30 * MIN_MS),
+      code: `WARK0${warnK}`,
+      kind: 'WARNING',
+      headline: `Geomagnetic K-index of ${warnK}${warnK === 7 ? ' or greater' : ''} expected`,
+    },
+    {
+      time: iso(arrival + 15 * MIN_MS),
+      code: 'SUMSUD',
+      kind: 'SUMMARY',
+      headline: 'Geomagnetic Sudden Impulse',
     },
   ]
-  for (let k = 5; k <= Math.min(7, peakKp); k++) {
+  for (let k = 5; k <= peakKp; k++) {
     const at = firstKpAtLeast(kp, k)
     if (at)
       out.push({
@@ -215,12 +240,6 @@ export function messageSequence(p: SpaceEventParams, kp: readonly TimedValue[]):
         headline: `Geomagnetic K-index of ${k}`,
       })
   }
-  out.push({
-    time: iso(end),
-    code: 'SUMSUD',
-    kind: 'SUMMARY',
-    headline: `Geomagnetic storm reached G${gLevelOfKp(Math.max(...kp.map((x) => x.v)))}`,
-  })
   return out.sort((a, b) => Date.parse(a.time) - Date.parse(b.time))
 }
 

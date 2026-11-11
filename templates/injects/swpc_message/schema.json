@@ -8,8 +8,8 @@
   "properties": {
     "messageCode": {
       "type": "string",
-      "description": "The SWPC space weather message code, copied from the live product family (WATA20 and WATA30 geomagnetic watches, WARK04 to WARK07 K-index warnings, ALTK04 to ALTK07 K-index alerts, ALTXMF X-ray alert, ALTEF3 electron flux alert, SUM10R proton summary, SUMX01 X-ray summary).",
-      "examples": ["WATA20"],
+      "description": "The SWPC space weather message code, copied from the live product family (geomagnetic watches WATA20 for G1, WATA30 for G2, WATA50 for G3 and WATA99 for G4 or greater; K-index warnings WARK04 to WARK07, where WARK07 means 7 or greater; K-index alerts ALTK04 to ALTK09; WARSUD and SUMSUD for a sudden impulse; ALTXMF X-ray alert and SUMXM5, SUMX01, SUMX10, SUMX20 X-ray summaries; WARPX1, ALTPX1 to ALTPX5 and SUMPX1 to SUMPX5 proton messages; ALTEF3 electron flux alert; SUM10R 10 cm radio burst summary).",
+      "examples": ["WATA99"],
       "x-translate": false
     },
     "serialNumber": {
@@ -32,7 +32,7 @@
     "headline": {
       "type": "string",
       "description": "The headline after the product kind, with the level or threshold.",
-      "examples": ["Geomagnetic Storm Category G4 Predicted"]
+      "examples": ["Geomagnetic Storm Category G4 or Greater Predicted"]
     },
     "dayLevels": {
       "type": "array",

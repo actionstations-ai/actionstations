@@ -101,6 +101,11 @@ describe('product_header and vtec_syntax', () => {
       }),
     ).toEqual([])
   })
+  it('accepts a corrected or delayed WMO heading', () => {
+    expect(
+      run(['product_header'], 'nws_weather_warning', { wmoHeader: 'WGUS51 KILN 211814 CCA' }),
+    ).toEqual([])
+  })
   it('flags each malformed header line', () => {
     const issues = run(['product_header', 'vtec_syntax'], 'nws_weather_warning', {
       wmoHeader: 'WGUS51 KILN 21:18',
