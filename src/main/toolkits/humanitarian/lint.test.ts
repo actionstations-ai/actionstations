@@ -24,6 +24,20 @@ describe('cluster activation statements', () => {
       ),
     ).toEqual([])
   })
+  it('accepts a country-level activation that names the Reset arrangement', () => {
+    expect(
+      checkClusterActivation(
+        'Under the Humanitarian Reset arrangement, the Humanitarian Coordinator activated the clusters with the Humanitarian Country Team.',
+      ),
+    ).toEqual([])
+  })
+  it('accepts clusters for displaced people beside a refugee response in a mixed setting', () => {
+    expect(
+      checkClusterActivation(
+        'In this mixed setting, clusters are activated for internally displaced people while the refugee response follows the refugee coordination model.',
+      ),
+    ).toEqual([])
+  })
   it('flags cluster activation in a refugee setting but not its refusal', () => {
     expect(
       checkClusterActivation('In the refugee camp, clusters are activated for health.'),

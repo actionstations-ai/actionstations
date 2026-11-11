@@ -215,7 +215,7 @@
     {
       "id": "humanitarian_request_cluster_activation",
       "label": "Request cluster activation",
-      "description": "The Humanitarian Coordinator asks the Emergency Relief Coordinator to activate clusters. Not used in refugee settings.",
+      "description": "The Humanitarian Coordinator, after consulting the Humanitarian Country Team, asks the Emergency Relief Coordinator to activate clusters. Not used in refugee settings.",
       "fields": [
         {
           "id": "cluster",
@@ -230,7 +230,8 @@
             "Protection",
             "Logistics",
             "Nutrition",
-            "Camp coordination and management",
+            "Camp coordination and camp management",
+            "Emergency telecommunications",
             "Education",
             "Early recovery"
           ]
@@ -258,7 +259,7 @@
     {
       "id": "humanitarian_activate_cluster",
       "label": "Activate cluster",
-      "description": "Recorded when the Emergency Relief Coordinator decides, with the IASC Principals' endorsement.",
+      "description": "Recorded when the activation is decided: by the Emergency Relief Coordinator with the IASC Principals' endorsement, or at country level where the scenario follows the 2025 Humanitarian Reset arrangement.",
       "fields": [
         {
           "id": "cluster",
@@ -273,7 +274,8 @@
             "Protection",
             "Logistics",
             "Nutrition",
-            "Camp coordination and management",
+            "Camp coordination and camp management",
+            "Emergency telecommunications",
             "Education",
             "Early recovery"
           ]
@@ -821,7 +823,7 @@
       },
       {
         "term": "Cluster",
-        "definition": "A sector coordination group (health, water sanitation and hygiene, shelter, food security, protection, logistics and others) led by a cluster lead agency under the Humanitarian Coordinator."
+        "definition": "A sector coordination group led by a cluster lead agency under the Humanitarian Coordinator. The 2025 Humanitarian Reset is consolidating the 11 global clusters into 8 (shelter with camp coordination; logistics with emergency telecommunications; protection with its areas of responsibility); use the structure the scenario states."
       },
       {
         "term": "Humanitarian Country Team (HCT)",
@@ -830,6 +832,14 @@
       {
         "term": "Saving Lives Together",
         "definition": "The IASC framework for UN and NGO security collaboration (2015): sharing incident reports and alerts. It does not make the UN responsible for an NGO's security."
+      },
+      {
+        "term": "Flash update and situation report",
+        "definition": "A flash update is the short numbered product of the first days of an emergency or escalation, often daily; a situation report follows at a set interval once the response runs."
+      },
+      {
+        "term": "Do no harm",
+        "definition": "Check that aid does not put people at greater risk or feed tension: siting, hiring, selection and who can see a list."
       },
       {
         "term": "Hibernation, relocation, evacuation",
@@ -841,10 +851,12 @@
       "A gap list line names the sector, the area, the need, the owner and a date; an unassigned line says so."
     ],
     "realismRules": [
-      "Cluster activation is requested by the Humanitarian Coordinator and decided by the Emergency Relief Coordinator with IASC Principals' endorsement; it is time-limited (IASC Transformative Agenda). Refugee settings use the refugee coordination model, not clusters (IASC and UNHCR, checked 2026-11-05).",
+      "Under the IASC cluster approach, activation is requested by the Humanitarian Coordinator after consulting the HCT and decided by the Emergency Relief Coordinator with IASC Principals' endorsement; it is time-limited. Since the 2025 Humanitarian Reset the HC and HCT have more say; state which arrangement the scenario uses. Refugee settings use the refugee coordination model, not clusters (IASC, UNHCR, checked 2026-11-11).",
       "Name cluster lead agencies only when the scenario states them. The humanitarian principles are humanity, neutrality, impartiality and independence (UN General Assembly resolutions 46/182 and 58/114).",
       "Numbers agree across the flash update, the 3W table and the gap list. Days of stock equal stock on hand divided by daily consumption.",
-      "Keep staff security and kidnapping content to decisions and communications: no negotiation tactics, ransom mechanics or detention-resistance technique."
+      "Keep staff security and kidnapping content to decisions and communications: no negotiation tactics, ransom mechanics or detention-resistance technique.",
+      "Apply do no harm; beneficiary and protection data stay need-to-know.",
+      "Staff security decisions say what they mean for national staff, not only international staff."
     ]
   },
   "lintRules": [

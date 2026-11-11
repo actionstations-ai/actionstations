@@ -31,17 +31,33 @@ const REFUGEE_SETTING = /\brefugee\s+(?:influx|camp|settlement|response|site)s?\
 const CLUSTER_ACTIVATED =
   /\b(?:clusters?\s+(?:was|were|has been|have been|is|are)\s+activated|activate\s+(?:the\s+)?clusters?|cluster activation)\b/i
 const NEGATED = /\b(?:not|no|instead of|rather than)\b[^.]{0,30}\bcluster/i
+// Text that names the 2025 Humanitarian Reset arrangement (country-level decision with the HCT)
+// or the Emergency Relief Coordinator has stated its process; it is not flagged.
+const PROCESS_STATED =
+  /\b(?:Humanitarian Reset|Humanitarian Country Team|HCT|Emergency Relief Coordinator|ERC)\b/
+// Mixed settings (refugees and internally displaced people) may run clusters beside the
+// refugee coordination model.
+const MIXED_SETTING = /\b(?:mixed settings?|internally displaced|IDPs?)\b/i
 
-/** Clusters are requested by the HC and activated by the ERC; refugee settings do not use them. */
+/**
+ * Under the IASC procedure clusters are requested by the HC and activated by the ERC; the 2025
+ * Reset moves more of the choice to the HC and HCT, so text that names its process passes.
+ * Refugee settings use the refugee coordination model unless the text names a mixed setting.
+ */
 export function checkClusterActivation(text: string): HumanitarianProblem[] {
   const out: HumanitarianProblem[] = []
-  if (HC_ACTIVATES.test(text))
+  if (HC_ACTIVATES.test(text) && !PROCESS_STATED.test(text))
     out.push(
       problem(
-        'The Humanitarian Coordinator requests cluster activation; the Emergency Relief Coordinator decides, with the IASC Principals’ endorsement.',
+        'Under the IASC procedure the Humanitarian Coordinator requests cluster activation and the Emergency Relief Coordinator decides, with the IASC Principals’ endorsement. If the scenario follows the 2025 Humanitarian Reset, where the HC and the Humanitarian Country Team decide which clusters to activate, say so.',
       ),
     )
-  if (REFUGEE_SETTING.test(text) && CLUSTER_ACTIVATED.test(text) && !NEGATED.test(text))
+  if (
+    REFUGEE_SETTING.test(text) &&
+    CLUSTER_ACTIVATED.test(text) &&
+    !NEGATED.test(text) &&
+    !MIXED_SETTING.test(text)
+  )
     out.push(
       problem(
         'Refugee settings use the refugee coordination model, not cluster activation; the text activates clusters in one.',

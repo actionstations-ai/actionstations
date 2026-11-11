@@ -123,3 +123,28 @@ Outbreak case data is simulated by the epidemiology toolkit's generator from par
 ## 10. Reuse by other domains
 
 The outbreak-at-sea and guest-emergency products suit airlines and airports, campuses, long-term care, correctional facilities, large events and any congregate setting. Reuses the epidemiology toolkit (#690), weather toolkit, crisis communications (#691) and `commercial_facilities`, `port_maritime` and `stadium_venue` profiles by reference.
+
+## Expert review (2026-11-11)
+
+This is a model-led expert review, written from the standpoint of a cruise line and hotel group safety and public health director. It is not a review by a licensed or employed practitioner.
+
+**Checked.** The domain profile with its six threat families and role sets, the outbreak at sea and guest emergency toolkits (glossary, conventions, realism rules, decision forms, measures, critical tasks), the CDC ship illness reporting regulation entry and its clocks, the report timing, medical advice and isolation lint rules, the hospitality guide and readme, and the previews of the cumulative illness report, response checklist, port health notification, boarding memo, guest letter, muster report, man overboard checklist, alleged crime report, notification checklist and hurricane departure plan.
+
+**Sources.** 42 CFR part 71 including 71.21, read from the eCFR versioner API on 2026-11-11; the CDC Vessel Sanitation Program 2025 Environmental Public Health Standards (the pinned file, sha256 ad58b3aa…, sections 4.1 to 4.5); 46 U.S.C. 3507 (Cornell LII), including (a)(1)(D), (b)(4) and (g)(3)(A).
+
+**Confirmed.** The reportable AGE case definition; the 24-hour report 24 to 36 hours before arrival and the cumulative 4-hour update; the 2 and 3 percent special reports within 15 days of a US port, with a telephone call at 2 percent; specimens from 2 percent; isolation of 48 hours for food employees and 24 hours for other crew and for passengers; the immediate report of death or illness to the quarantine station; the FBI telephone report as soon as possible for the listed incidents, the written report to the Department of Transportation website and the 20-day video retention. The muster, man overboard, alleged crime and hurricane products read correctly and stay at coordination level.
+
+**Changed and why.**
+
+- The reference title of 42 CFR 71.21 was wrong ("Sanitary, hygienic, and medical reporting"); the section is "Report of death or illness". Fixed in the regulation entry, the toolkit's document list and the documents manifest.
+- The guest emergency convention put the family first and the authorities after. On a ship bound for a US port a death goes to the CDC quarantine station at once, and a reportable crime to the FBI as soon as possible; neither waits for the family. The convention and the fatality management critical task now say so, and the guide adds the quarantine station report.
+- Outbreak at sea: the glossary adds that crew with onset up to 3 days before boarding count and that the VSP may ask for daily updates after a special report. The isolation convention now says passengers are advised to stay in cabins (the standards' wording) and crew return to work only with medical clearance. The guide follows.
+- The man overboard glossary adds releasing a lifebuoy, the first action a practitioner expects.
+
+**Defaults set.** The 30-minute allowance for the immediate report and the 60-minute allowance for the special reports stay as labelled exercise allowances; the standards state no interval. Notification order: required reports first, then the family before the consulate and before any public statement.
+
+**Caveats left for the owner.**
+
+- The guest death notification checklist preview has no row for the CDC quarantine station. Add one (for example: CDC quarantine station at the arrival port; telephone at once, then in writing (42 CFR 71.21(a)); Ship's Doctor for the Master; 23:05; Done) and regenerate that template's golden; the app could not be rendered in this review's environment.
+- The immediate report trigger says "ill person"; 42 CFR 71.1 defines that term narrowly, and a hint pointing to the definition would help planners.
+- Hotel-side content leans on the commercial facilities profile; a hotel fire and life-safety reviewer should look at the tower fire family.

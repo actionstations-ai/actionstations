@@ -31,7 +31,7 @@ describe('humanitarian toolkit file', () => {
     expect(rules).toMatch(/requested by the Humanitarian Coordinator/)
     expect(rules).toMatch(/Emergency Relief Coordinator/)
     expect(rules).toMatch(/refugee coordination model, not clusters/)
-    expect(rules).toMatch(/checked 2026-11-05/)
+    expect(rules).toMatch(/checked 2026-11-11/)
   })
 
   it('keeps security content at the level of decisions and communications', () => {

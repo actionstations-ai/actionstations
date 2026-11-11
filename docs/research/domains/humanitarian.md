@@ -105,3 +105,29 @@ The cluster approach grew out of the 2005 Humanitarian Response Review; the IASC
 ## 9. Reuse by other domains
 
 Camp management and shelter reuse the human services toolkit (spec 0464); outbreak scenarios reuse the epidemiology toolkit (#690) and the public_health domain; pipelines reuse the supply chain toolkit (#695) and port_maritime; sudden-onset hazards reuse weather (0449), earth sciences (0450) and flooding (#687); misinformation reuses crisis communications (#691) and AI incidents (#700); beneficiary data breaches reuse the cyber scenarios. In the other direction, domestic NGOs, faith-based and voluntary organizations active in disasters can use the 3W, coordination and sitrep products in US community exercises.
+
+## Expert review (2026-11-11)
+
+This is a model-led expert review, written from the standpoint of a humanitarian coordinator with UN cluster and NGO experience. It is not a review by a licensed or employed practitioner.
+
+**Checked.** The domain profile with its eight threat families and four role sets, the humanitarian toolkit (glossary, product conventions, realism rules, the seventeen decision forms, measures and their thresholds, critical tasks), the cluster activation and Saving Lives Together lint rules, the humanitarian guide and pack readme, and the flash update and Humanitarian Country Team record previews.
+
+**Sources.** The OPAG co-chairs' "Humanitarian Reset: Cluster Simplification" final proposal to the IASC Principals (9 June 2025) and the summary of the IASC Principals' meeting of 17 June 2025, both read 2026-11-11 from the Global Nutrition Cluster site; ALNAP, State of the Humanitarian System 2026, chapter 2.2 (coordination); the Global Protection Cluster note on the consolidated protection cluster; UN General Assembly resolutions 46/182 and 58/114 for the principles.
+
+**Confirmed.** The 3W definition and its rule that a blank is a gap or a reporting failure; the HCT's composition; the refugee coordination model in refugee settings; Saving Lives Together not transferring security responsibility; the four humanitarian principles; hibernation, relocation and evacuation as separate decisions; the guardrail on kidnapping and detention content; the days-of-stock arithmetic. The gap measures (12 hours to assign, 48 hours to cover) and the 24-hour outbreak declaration window are reasonable exercise defaults.
+
+**Changed and why.**
+
+- Cluster activation. The pack stated only the classic procedure (the HC requests, the ERC decides with the IASC Principals), and its lint flagged any text in which the HC activates clusters. In June 2025 the IASC Principals broadly agreed the cluster simplification, under which HCs and HCTs decide which clusters to activate or merge and the 11 global clusters are consolidated into 8. Implementation is uneven by country. The realism rule, the domain prompt guidance, the decision form descriptions, the guide and the readme now give both arrangements and ask the scenario to state which applies. The lint no longer flags text that names its process (the Reset, the HCT or the ERC), nor clusters beside a refugee response in a named mixed setting. Tests cover both.
+- The cluster choice lists lacked Emergency Telecommunications and misnamed Camp Coordination and Camp Management; both are fixed.
+- The glossary now separates the OCHA flash update from the situation report and defines do no harm. Realism rules apply do no harm and need-to-know handling of beneficiary and protection data, and require staff security decisions to address national staff, not only international staff.
+- The flash update's schema examples cited the Health and Shelter Clusters as sources two days before the HCT met to consider activation; they now say Health partners and Shelter partners.
+
+**Defaults set.** Where a scenario does not say otherwise, the classic IASC request and decision path is assumed; the Reset arrangement is accepted when stated. The cluster lists keep the 11 established names, since many country operations still use them.
+
+**Caveats left for the owner.**
+
+- The flash update preview still cites "Health Cluster" and "Shelter Cluster" before activation. Change both to "Health partners" and "Shelter partners" and regenerate that template's golden; the app could not be rendered in this review's environment.
+- The March 2026 IASC guidance on in-country adaptation of clusters was not read. Re-check the eight cluster names and the activation authority before the next release.
+- The evacuation decision's scope choices name international and non-essential staff only; a choice for relocating national staff and families may be worth adding.
+- The Sphere licence question from the spec remains open; the toolkit still links rather than bundles.

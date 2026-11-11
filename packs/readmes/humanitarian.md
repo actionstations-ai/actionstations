@@ -11,8 +11,8 @@ Included with Action Stations and enabled by default. Turn it off on the Packs s
 
 ## Things the toolkit knows
 
-- A cluster is activated at the request of the Humanitarian Coordinator and decided by the Emergency Relief Coordinator with the endorsement of the IASC Principals, and is time-limited. Refugee settings use the refugee coordination model, not clusters.
+- Under the IASC cluster approach, a cluster is activated at the request of the Humanitarian Coordinator and decided by the Emergency Relief Coordinator with the endorsement of the IASC Principals, and is time-limited. The 2025 Humanitarian Reset gives the Humanitarian Coordinator and the country team more say and is consolidating the 11 global clusters into 8; a scenario says which arrangement it uses. Refugee settings use the refugee coordination model, not clusters.
 - Taking part in the Saving Lives Together framework does not make the UN responsible for an NGO's security.
 - Staff security and kidnapping scenarios stay at the level of decisions and communications. The pack never writes negotiation tactics, ransom mechanics or detention-resistance technique.
 
-Facts were checked against IASC and UNHCR pages on 2026-11-05. The structure of the cluster system can change, so confirm the current one before relying on it. Every organization, person and crisis in the pack is fictional.
+Facts were checked against IASC and UNHCR pages on 2026-11-05 and the cluster simplification proposal on 2026-11-11. The structure of the cluster system can change, so confirm the current one before relying on it. Every organization, person and crisis in the pack is fictional.

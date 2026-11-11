@@ -28,9 +28,12 @@ These points come from the federal rule for ships bound for a US port and from t
 
 - A ship carrying 13 or more passengers reports its cumulative count of acute gastroenteritis cases (zero included) 24 to 36 hours before arrival, and again at least 4 hours before arrival if the count changed.
 - Within 15 days of a US port, a special report goes to the CDC when the cumulative reportable cases reach 2 percent of the passengers or of the crew, with a telephone call, and a second at 3 percent. Three percent, or an unusual pattern below it, is an outbreak.
-- A reportable case is diarrhea (three or more loose stools in 24 hours, or more than normal for the person), or vomiting with one more symptom. Nausea alone is not counted.
-- Ill passengers stay in their cabins until 24 hours after their symptoms end. Ill food employees stay off duty for 48 hours after, other ill crew for 24 hours. Medical staff begin collecting specimens at 2 percent.
+- A reportable case is diarrhea (three or more loose stools in 24 hours, or more than normal for the person), or vomiting with one more symptom. Nausea alone is not counted. Crew who fell ill up to 3 days before boarding count.
+- After a special report the CDC may ask for daily updates, and the 24-hour and 4-hour reports carry on.
+- Ill passengers are advised to stay in their cabins until 24 hours after their symptoms end. Ill food employees stay isolated for 48 hours after, other ill crew for 24 hours, and return to work only when the medical staff clear them. Medical staff begin collecting specimens at 2 percent.
 - The CDC may ask a line to tell port authorities, delay boarding the next voyage and arrange cleaning in the terminal.
+
+Separately, the master of a ship bound for a US port reports any death, or any ill person as the federal rule defines one, at once to the CDC quarantine station at or nearest the arrival port. This covers the 15 days before arrival, or the time since leaving a US port if that is shorter.
 
 The standards give no time limit for the special reports, so the clocks use a short allowance that you can change. See **Compliance** in Settings for the clocks and how to place the arrival time.
 
@@ -47,6 +50,8 @@ Turn on **Guest emergency** for a muster, a person overboard, a serious crime re
 - **Decisions:** evacuate or shelter, guest accounting, notify family or consulate, and issue a statement.
 
 A cruise line must telephone the nearest FBI field office as soon as possible after a homicide, suspicious death, a missing US national, a kidnapping, a serious assault, certain sexual offenses or a theft over $10,000, and then file a written report on the Department of Transportation website. The line keeps a complaint log open to the FBI and the Coast Guard, and keeps camera recordings at least 20 days.
+
+A guest death on a ship bound for a US port also goes at once to the CDC quarantine station. Required reports like this one, and the FBI call, do not wait for the family; the family is told before any public statement.
 
 Accounting boards say when the count was made and when the guest list was printed, because a printout is older than the live list. Totals always add up: expected equals accounted for plus not accounted for.
 

@@ -25,6 +25,12 @@ describe('simulated supply network', () => {
     }
   })
 
+  it('counts days of supply from stock on hand only, not stock still in transit', () => {
+    const withInbound = n.daily.filter((d) => d.inbound > 0 && d.demand > 0)
+    expect(withInbound.length).toBeGreaterThan(0)
+    for (const d of withInbound) expect(d.days).toBeCloseTo(d.onHand / d.demand, 9)
+  })
+
   it('reconciles each order: placed, in transit, then received, never both', () => {
     const last = n.params.days - 1
     for (const o of n.orders) {
