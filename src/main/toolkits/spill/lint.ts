@@ -1,15 +1,14 @@
 // Format rules of the spill and plume toolkit (spec 0455 FR-4), registered with the field lint
 // registry so they run on the injects of the types the toolkit adds and feed the repair round of
 // the inject text stage. Two rules:
-//  - spill.notification_order: in a notification record the Qualified Individual is told before
-//    the National Response Center is called, the times do not run backward, and a call to the
-//    NRC is a report, not a request for resources;
+//  - spill.notification_order: in a notification record the times do not run backward and a call
+//    to the NRC is a report, not a request for resources. The NRC may come before the Qualified
+//    Individual: 33 CFR 153.203 has the person in charge call it immediately, without waiting;
 //  - spill.units: a document states volumes in one unit (barrels, gallons or cubic meters), never
 //    a mix, so a conversion is done once outside the document.
 // Only types the toolkit adds are named, so a scenario without it is checked as before.
 import { registerFieldLintRule, type FieldLintIssue, type FieldLintRule } from '../field-lint'
 
-const QI = /\bqualified individual\b|\bQI\b/i
 const NRC = /\bnational response center\b|\bNRC\b/i
 const ASKS_FOR_RESOURCES =
   /\b(request(?:s|ed|ing)?|dispatch(?:es|ed)?|send(?:s|ing)?|asked? (?:for|to send))\b[^.;]{0,60}\b(responders?|boom|skimmers?|resources?|crews?|equipment|help)\b/i
@@ -40,14 +39,7 @@ export function minutesOf(t: string): number | undefined {
 export function notificationOrderIssues(fields: Record<string, unknown>): FieldLintIssue[] {
   const rows = rowsOf(fields)
   const issues: FieldLintIssue[] = []
-  const qi = rows.findIndex((r) => QI.test(r.who))
   const nrc = rows.findIndex((r) => NRC.test(r.who))
-  if (qi >= 0 && nrc >= 0 && nrc < qi)
-    issues.push({
-      path: `fields.notifications[${nrc}].who`,
-      message:
-        'The National Response Center is called by the responsible party after the Qualified Individual has been told; list the Qualified Individual first.',
-    })
   if (nrc >= 0 && ASKS_FOR_RESOURCES.test(rows[nrc]!.remarks))
     issues.push({
       path: `fields.notifications[${nrc}].remarks`,

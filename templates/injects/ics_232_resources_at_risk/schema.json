@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "title": "ICS 232 Resources at Risk Summary",
-  "description": "Environmental Unit summary of the resources threatened by a release, ranked by protection priority, with the strategy and the contact for each. Built from the ESI map and the trajectory forecast. Up to 9 rows fit on the page.",
+  "description": "Environmental Unit summary of the sites at risk from a release, laid out like the Coast Guard ICS 232-CG: environmentally sensitive areas and wildlife concerns in one table, archeo-cultural and socio-economic sites (water intakes, marinas, fisheries, cultural sites) in another, each with an incident priority and its site issues. Built from the Area Contingency Plan sites, the ESI map and the trajectory forecast. About 10 rows fit on the page across the two tables.",
   "type": "object",
   "additionalProperties": false,
   "properties": {
@@ -15,57 +15,113 @@
       "description": "Block 1. Incident name",
       "examples": ["Pelican Point Terminal Tank 14 Release"]
     },
+    "incidentLocation": {
+      "type": "string",
+      "description": "Block 2. Incident location",
+      "examples": ["Heron Bay, Mobile County, Alabama"]
+    },
     "operationalPeriod": {
       "type": "string",
-      "description": "Block 2. Operational period",
+      "description": "Block 3. Operational period",
       "examples": ["11/04/2026 0700 to 11/04/2026 1900"]
     },
     "forecastBasis": {
       "type": "string",
-      "description": "Which trajectory forecast the ranking follows",
+      "description": "Which trajectory forecast the priorities follow (an incident note, not a numbered block)",
       "examples": ["Trajectory run 04 Nov 0600, 48 h, best estimate"]
     },
     "landfall": {
       "type": "string",
-      "description": "Earliest predicted contact with a listed resource",
+      "description": "Earliest predicted contact with a listed site (an incident note)",
       "examples": ["1420 on 04 Nov, Heron Bay marsh mouth"]
     },
     "resources": {
       "type": "array",
-      "description": "Resources ranked for protection (priority 1 is protected first)",
+      "description": "Block 4. Environmentally sensitive areas and wildlife concerns, in priority order",
       "maxItems": 9,
       "items": {
         "type": "object",
         "additionalProperties": false,
         "properties": {
+          "site": {
+            "type": "string",
+            "description": "Site # (from the Area Contingency Plan or Geographic Response Plan, or assigned in the incident)",
+            "examples": ["HB-3"]
+          },
           "priority": {
             "type": "string",
-            "description": "Pri.",
+            "description": "Priority for this incident (1 is first)",
             "examples": ["1"]
           },
           "resource": {
             "type": "string",
-            "description": "Resource at risk",
+            "description": "Site name",
             "examples": ["Heron Bay marsh (ESI 10A)"]
           },
           "location": {
             "type": "string",
-            "description": "Location",
+            "description": "Physical location (landmark or latitude and longitude)",
             "examples": ["Lat 30.31 N, Lon 88.10 W"]
           },
           "arrival": {
             "type": "string",
-            "description": "Predicted contact",
+            "description": "Predicted contact time, shown in the narrative",
             "examples": ["1420 04 Nov"]
           },
           "consideration": {
             "type": "string",
-            "description": "Special considerations",
+            "description": "Site issues (sensitive resources, season, access)",
             "examples": ["Nesting colony; April to August closed to boats"]
           },
           "strategy": {
             "type": "string",
-            "description": "Protection strategy",
+            "description": "Narrative: protection strategy and other details",
+            "examples": ["Deflection boom, 600 ft, anchor at mouth"]
+          }
+        }
+      }
+    },
+    "socioeconomic": {
+      "type": "array",
+      "description": "Block 5. Archeo-cultural and socio-economic issues (water intakes, marinas, fisheries and leases, cultural sites), in priority order",
+      "maxItems": 9,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "site": {
+            "type": "string",
+            "description": "Site # (from the Area Contingency Plan or Geographic Response Plan, or assigned in the incident)",
+            "examples": ["HB-3"]
+          },
+          "priority": {
+            "type": "string",
+            "description": "Priority for this incident (1 is first)",
+            "examples": ["1"]
+          },
+          "resource": {
+            "type": "string",
+            "description": "Site name",
+            "examples": ["Raw water intake, Bayou Sara Water Authority"]
+          },
+          "location": {
+            "type": "string",
+            "description": "Physical location (landmark or latitude and longitude)",
+            "examples": ["Lat 30.31 N, Lon 88.10 W"]
+          },
+          "arrival": {
+            "type": "string",
+            "description": "Predicted contact time, shown in the narrative",
+            "examples": ["1420 04 Nov"]
+          },
+          "consideration": {
+            "type": "string",
+            "description": "Site issues (sensitive resources, season, access)",
+            "examples": ["Nesting colony; April to August closed to boats"]
+          },
+          "strategy": {
+            "type": "string",
+            "description": "Narrative: protection strategy and other details",
             "examples": ["Deflection boom, 600 ft, anchor at mouth"]
           }
         }
@@ -73,7 +129,7 @@
     },
     "preparedBy": {
       "type": "string",
-      "description": "6. Prepared by (Environmental Unit Leader) and date/time",
+      "description": "Block 6. Prepared by (Environmental Unit Leader), date and time",
       "examples": ["Marisol Tran, Environmental Unit Leader, 11/04/2026 0930"]
     }
   }

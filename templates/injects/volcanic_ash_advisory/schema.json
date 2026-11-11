@@ -75,10 +75,16 @@
       "examples": ["ERUPTION AT 20261105/1840Z. ASH TO FL300 REPORTED BY PILOT."],
       "x-translate": false
     },
+    "observedDtg": {
+      "type": "string",
+      "description": "Time of the ash observation, day and UTC time (the OBS VA DTG line)",
+      "examples": ["05/1900Z"],
+      "x-translate": false
+    },
     "observed": {
       "type": "string",
-      "description": "Observed ash cloud: time and extent",
-      "examples": ["05/1900Z SFC/FL300 N4652 W12145 - N4710 W12010 - N4640 W12000 MOV E 35KT"],
+      "description": "Observed ash cloud: vertical extent, area and movement (the OBS VA CLD line); without the observation time field, start with the time",
+      "examples": ["SFC/FL300 N4652 W12145 - N4710 W12010 - N4640 W12000 MOV E 35KT"],
       "x-translate": false
     },
     "forecast6": {

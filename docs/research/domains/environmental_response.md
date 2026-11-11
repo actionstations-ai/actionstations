@@ -132,3 +132,42 @@ Spill and plume products and figures serve `port_maritime` (vessel casualties, t
 ## 10. Related toolkits
 
 Weather (spec 0449) for winds, currents and storms; earth sciences (spec 0450) for earthquake-caused releases; flooding (#687) for river transport; EMS, fire and hazmat (spec 0456) for the plume and protective action side; maps (spec 0436) and hazard data (spec 0439) for the existing overlay system.
+
+## Expert review (2026-11-11)
+
+A model-led expert review written from the viewpoint of a NOAA/EPA/USCG spill response coordinator. It is not a review by a licensed or employed practitioner. It covered the domain profile, the spill and plume toolkit (knowledge, decision forms, metrics, lint rules), the toolkit's 14 product templates and their sample data, the spill figures (trajectory, ESI excerpt, boom plan, weathering, plume), the simulator's product table and the pack readme. The PREP data were spot-checked against the 2016 guidelines and not re-read in full.
+
+**Checked against primary sources**
+
+- NRC reporting: 33 CFR 153.203 (eCFR, current). The person in charge of the vessel or facility notifies the NRC (800-424-8802) immediately. If that is not practicable, the report goes to the predesignated OSC, and the NRC relays reports to the FOSC.
+- Countermeasure authority: 40 CFR 300.910 (eCFR, current). The OSC authorizes agents. Inside an approved RRT/Area Committee preauthorization plan, which sets limits for water depth, distance to shore and quantity, no incident-specific concurrence is needed. Otherwise the EPA RRT representative and the state RRT representative must concur, after consultation with the Interior and Commerce natural resource trustees.
+- Pipeline response plan changes: 49 CFR 194.121(b) (eCFR, current). The operator modifies the plan at once and submits the change within 30 days. A change to the worst case discharge volume is a listed example.
+- ICS forms: the Coast Guard ICS 232-CG Resources at Risk Summary (rev. 07/23) has blocks 1 Incident Name, 2 Incident Location, 3 Operational Period, 4 Environmentally Sensitive Areas and Wildlife Concerns (Site #, Priority, Site Name and Physical Location, Site Issues, Narrative), 5 Archeo-Cultural and Socio-economic Issues (the same columns) and 6 Prepared by (Environmental Unit Leader, with input from resource trustees). The ICS 234-CG Work Analysis Matrix (rev. 07/23) has blocks 1 to 3 as above, 4 Objectives (desired outcome), 5 Strategies (how), 6 Tactics / Work Assignments (who, what, where, when) and 7 Prepared by (Operations Section Chief, before the tactics meeting). Both PDFs were read as published on the Coast Guard forms set mirrored at emsics.com.
+- Boom limits: NOAA-hosted boom research gives a critical current of 0.6 to 1.0 knot at right angles to the boom, depending on the oil. Massachusetts DEP booming guidance puts entrainment at about 0.75 knot and keeps the current across the boom under 0.7 knot by angling it.
+- OPA 90 claims (33 U.S.C. 2713): a claim goes to the responsible party first, and to the Oil Spill Liability Trust Fund through the NPFC if it is denied or not settled within 90 days. The claims notice sample matches.
+- ESI codes in the samples were checked against NOAA OR&R's Shoreline Sensitivity Rankings list and the ESI crosswalk: 3A is fine- to medium-grained sand beaches, 6B is riprap in the current scheme (some older atlases use 6B for gravel beaches and 6C for riprap), and 10A is salt- and brackish-water marshes. No change was needed.
+
+**Changed, and why**
+
+- The domain profile and the pack readme put the Area Committee inside the unified command. The unified command is the FOSC, the state OSC and the responsible party, and it works from the Area Contingency Plan that the Area Committee writes. Both now say so.
+- The toolkit said the responsible party calls the NRC and that the Qualified Individual is told first. The person in charge reports immediately (33 CFR 153.203). Plans often route that call through the QI, but the law does not make it wait. The convention, the realism rule and the NRC glossary now say this.
+- The `spill.notification_order` lint flagged an NRC call listed before the QI as an error. That order is lawful and often correct, so the check is removed. The rule still flags times that run backward and an NRC call written as a request for resources.
+- The FOSC role and the realism rule now describe countermeasure authority as preauthorization under its conditions, or else incident-specific RRT concurrence with trustee consultation. Before, they said only "the FOSC approves".
+- The boom rule now says boom set square to the current loses oil above about 0.7 knot (0.6 to 1 knot), is angled to deflect in faster water and fails in steep waves. Before, it said "about 1 knot".
+- The pipeline arc beat now says the operator changes the plan at once and submits the change within 30 days when the worst case discharge changes. Before, it said "reviewed within 30 days".
+- The ICS 232 template now follows the ICS 232-CG layout. It has the incident location, a site # column, separate tables for environmental and wildlife sites and for archeo-cultural and socio-economic sites (intakes, marinas, leases), and a narrative column that carries the predicted contact and the protection strategy. The trajectory note is kept as an unnumbered incident line, and the old fields still render.
+- The ICS 234 template now follows the ICS 234-CG layout. It shows objectives, strategies and tactics with who, what, where and when, has the incident location, and is prepared by the Operations Section Chief. A `strategy` field was added; the old row fields fill the tactics column.
+- The sample dispersant request for 4,200 bbl of diesel in a shallow bay was approved under a "3 to 7 mi offshore" zone that contradicted the slick's position. Diesel is light, so much of it evaporates and disperses naturally, and an SSC would advise against dispersant in shallow water by a marsh. The sample is now a request outside the preauthorization zone that the FOSC does not approve. The UC agenda and the open action tracker samples follow the same decision.
+- The sample aerial observations described continuous dark oil from diesel. They now use the oil appearance terms an observer would use for diesel (metallic, discontinuous true color, rainbow).
+
+**Defaults set**
+
+- No order is enforced between the NRC report and the QI call. Plans differ, and the regulation does not set one.
+- The preauthorization criteria in the samples (at least 3 nautical miles from shore and 10 m deep) are written as the exercise area plan's, not as a national rule. Each RRT sets its own.
+
+**Caveats left**
+
+- The ICS 233-CG layout was not obtained during the review. The open action tracker keeps its generic columns.
+- The pack readme gives the PREP 2016.1 revision date as May 2018, and the PREP data module gives October 2018. This was not resolved.
+- The simulator's weathering table (evaporation and dispersion limits by product) gives plausible teaching values, not ADIOS output. Real numbers should be imported.
+- There is no dedicated user guide for this field. The PREP guide covers only the exercise record.

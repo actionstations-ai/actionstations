@@ -14,6 +14,6 @@ Included with Action Stations and enabled by default. Turn it off on the Packs s
 
 - A perimeter is a mapped polygon at a time, not a continuous record of the fire.
 - Evacuation status words (order, warning, shelter in place, none) must match on the map, in the zone table and in every message.
-- Power shutoff notification windows are an example rule from one state (48 to 72 hours for public safety partners, 24 to 48 hours for customers, 1 to 4 hours before, and at de-energization). Change them for your project.
+- Power shutoff notification windows are an example rule from one state (48 to 72 hours for public safety partners, 24 to 48 hours for customers, 1 to 4 hours before, at de-energization, just before re-energization begins and when it is complete). Change them for your project.
 
 All organizations, people, circuits and customers in examples are fictional.

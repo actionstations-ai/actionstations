@@ -14,11 +14,15 @@
     <div>ADVISORY NR: {{fields.advisoryNumber}}</div>
     <div>INFO SOURCE: {{fields.infoSource}}</div>
     {{#if fields.colorCode}}
-    <div>AVIATION COLOR CODE: {{fields.colorCode}}</div>
+    <div>AVIATION COLOUR CODE: {{fields.colorCode}}</div>
     {{/if}}
     <div>ERUPTION DETAILS: {{fields.eruptionDetails}}</div>
+    {{#if fields.observedDtg}}
+    <div>OBS VA DTG: {{fields.observedDtg}}</div>
+    <div>OBS VA CLD: {{fields.observed}}</div>
+    {{else}}
     <div>OBS VA DTG/CLD: {{fields.observed}}</div>
-    {{#if fields.forecast6}}
+    {{/if}} {{#if fields.forecast6}}
     <div>FCST VA CLD +6 HR: {{fields.forecast6}}</div>
     {{/if}} {{#if fields.forecast12}}
     <div>FCST VA CLD +12 HR: {{fields.forecast12}}</div>

@@ -1,4 +1,4 @@
-// The spill toolkit's format rules (#759): notification order and one volume unit per document.
+// The spill toolkit's format rules (#759): notification records and one volume unit per document.
 import { readFileSync } from 'node:fs'
 import { join } from 'node:path'
 import { describe, expect, it } from 'vitest'
@@ -52,12 +52,13 @@ describe('spill.notification_order', () => {
     ).toEqual([])
   })
 
-  it('flags the NRC listed before the Qualified Individual', () => {
-    const issues = notificationOrderIssues(
-      rows(['National Response Center', '2331'], ['Qualified Individual', '2342']),
-    )
-    expect(issues).toHaveLength(1)
-    expect(issues[0]!.path).toBe('fields.notifications[0].who')
+  it('accepts the NRC called before the Qualified Individual is reached', () => {
+    // 33 CFR 153.203: the person in charge reports immediately, without waiting for the QI.
+    expect(
+      notificationOrderIssues(
+        rows(['National Response Center', '2331'], ['Qualified Individual', '2342']),
+      ),
+    ).toEqual([])
   })
 
   it('flags a call to the NRC that asks for responders or boom', () => {

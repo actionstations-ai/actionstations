@@ -1,4 +1,4 @@
-<!-- ICS 234 Work Analysis Matrix, one US Letter page. Exercise product; layout modeled on the public form, not the official file. -->
+<!-- ICS 234-CG Work Analysis Matrix, one US Letter page. Exercise product; layout modeled on the public form, not the official file. -->
 <section class="page">
   <p class="marking">{{default fields.marking "EXERCISE · EXERCISE · EXERCISE"}}</p>
   <div class="form">
@@ -7,45 +7,52 @@
       <span class="id">ICS 234</span>
     </div>
     <div class="grid">
-      <div class="cell w2">
+      <div class="cell">
         <span class="label">1. Incident name</span><span class="v">{{fields.incidentName}}</span>
       </div>
       <div class="cell">
-        <span class="label">2. Operational period</span
+        <span class="label">2. Incident location</span
+        ><span class="v">{{fields.incidentLocation}}</span>
+      </div>
+      <div class="cell">
+        <span class="label">3. Operational period</span
         ><span class="v">{{fields.operationalPeriod}}</span>
       </div>
     </div>
     <div class="block">
-      <span class="label">3. Objectives and work assignments</span>
       <table class="t">
         <thead>
           <tr>
-            <th style="width: 20%">Objective</th>
-            <th style="width: 24%">Work assignment</th>
-            <th style="width: 18%">Resources needed</th>
-            <th style="width: 16%">Responsible</th>
-            <th style="width: 10%">Start</th>
-            <th style="width: 12%">Complete</th>
+            <th style="width: 24%">4. Objectives<br />Desired outcome</th>
+            <th style="width: 26%">5. Strategies<br />How</th>
+            <th style="width: 50%">6. Tactics / work assignments<br />Who / what / where / when</th>
           </tr>
         </thead>
         <tbody>
           {{#each fields.rows}}
           <tr>
             <td><span class="v">{{this.objective}}</span></td>
-            <td><span class="v">{{this.assignment}}</span></td>
-            <td><span class="v">{{this.resources}}</span></td>
-            <td><span class="v">{{this.responsible}}</span></td>
-            <td><span class="v">{{this.start}}</span></td>
-            <td><span class="v">{{this.complete}}</span></td>
+            <td><span class="v">{{this.strategy}}</span></td>
+            <td>
+              <span class="v"
+                >{{this.assignment}}{{#if this.resources}}. {{this.resources}}{{/if}}{{#if
+                this.responsible}}. {{this.responsible}}{{/if}}{{#if this.start}}. {{this.start}} to
+                {{default this.complete "ongoing"}}{{/if}}</span
+              >
+            </td>
           </tr>
           {{/each}}
         </tbody>
       </table>
     </div>
+    <div class="block">
+      <span class="label">7. Prepared by (Operations Section Chief), date and time</span>
+      <div class="v body">{{nl2br fields.preparedBy}}</div>
+    </div>
     <div class="fill"></div>
     <div class="note">
-      Exercise product modeled on the structure of the public ICS form. Not the official form: use
-      the current Coast Guard or EPA version for a real incident.
+      Exercise product modeled on the structure of the public ICS 234-CG form. Not the official
+      form: use the current Coast Guard or EPA version for a real incident.
     </div>
   </div>
   <p class="marking">{{default fields.marking "EXERCISE · EXERCISE · EXERCISE"}}</p>

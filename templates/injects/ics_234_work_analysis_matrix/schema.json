@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "title": "ICS 234 Work Analysis Matrix",
-  "description": "Planning worksheet that ties each objective to the work assignments, resources and responsible position needed to meet it. Up to 8 rows fit on the page.",
+  "description": "Planning worksheet laid out like the Coast Guard ICS 234-CG: each objective from the ICS 202 (desired outcome) with the strategies that could meet it (how) and the tactics or work assignments that carry them out (who, what, where, when). Prepared by the Operations Section Chief before the tactics meeting. Up to 8 rows fit on the page.",
   "type": "object",
   "additionalProperties": false,
   "properties": {
@@ -15,14 +15,19 @@
       "description": "1. Incident name",
       "examples": ["Pelican Point Terminal Tank 14 Release"]
     },
+    "incidentLocation": {
+      "type": "string",
+      "description": "2. Incident location",
+      "examples": ["Heron Bay, Mobile County, Alabama"]
+    },
     "operationalPeriod": {
       "type": "string",
-      "description": "2. Operational period",
+      "description": "3. Operational period",
       "examples": ["11/04/2026 0700 to 11/04/2026 1900"]
     },
     "rows": {
       "type": "array",
-      "description": "One row per work assignment",
+      "description": "One row per tactic or work assignment; repeat the objective and strategy when several tactics serve them",
       "maxItems": 8,
       "items": {
         "type": "object",
@@ -30,36 +35,46 @@
         "properties": {
           "objective": {
             "type": "string",
-            "description": "Objective",
-            "examples": ["Protect the raw water intake before 2310"]
+            "description": "Block 4. Objective: the desired outcome, with its ICS 202 letter",
+            "examples": ["A. Protect the raw water intake before 2310"]
+          },
+          "strategy": {
+            "type": "string",
+            "description": "Block 5. Strategy: how the objective is met",
+            "examples": ["Keep oil out of the intake channel"]
           },
           "assignment": {
             "type": "string",
-            "description": "Work assignment",
+            "description": "Block 6. Tactic or work assignment (what and where)",
             "examples": ["Install exclusion boom across the intake channel"]
           },
           "resources": {
             "type": "string",
-            "description": "Resources needed",
+            "description": "Resources for the assignment (part of block 6)",
             "examples": ["1,200 ft boom; 2 boats; 6 crew"]
           },
           "responsible": {
             "type": "string",
-            "description": "Responsible",
+            "description": "Who carries it out (part of block 6)",
             "examples": ["Operations Section Chief / OSRO Branch"]
           },
           "start": {
             "type": "string",
-            "description": "Start",
+            "description": "When it starts (part of block 6)",
             "examples": ["04 Nov 1030"]
           },
           "complete": {
             "type": "string",
-            "description": "Complete",
+            "description": "When it is complete, or ongoing (part of block 6)",
             "examples": ["04 Nov 1900"]
           }
         }
       }
+    },
+    "preparedBy": {
+      "type": "string",
+      "description": "7. Prepared by (Operations Section Chief), date and time",
+      "examples": ["K. Delacroix, Operations Section Chief, 11/04/2026 1500"]
     }
   }
 }

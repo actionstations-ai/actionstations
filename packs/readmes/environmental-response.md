@@ -1,6 +1,6 @@
 # Environmental response
 
-Included with Action Stations. This pack adds the `environmental_response` domain profile: the responsible party's incident management team (older plans say spill management team), its qualified individual and oil spill removal organization, the Coast Guard or EPA On-Scene Coordinator and the Area Committee in a unified command, the state agencies, and the water utilities and wildlife agencies downstream. The names `imt`, `smt`, `osro`, `unified_command` and `worst_case_discharge` all resolve here.
+Included with Action Stations. This pack adds the `environmental_response` domain profile: the responsible party's incident management team (older plans say spill management team), its qualified individual and oil spill removal organization, the Coast Guard or EPA On-Scene Coordinator with the state On-Scene Coordinator in a unified command working from the Area Committee's contingency plan, the other state agencies, and the water utilities and wildlife agencies downstream. The names `imt`, `smt`, `osro`, `unified_command` and `worst_case_discharge` all resolve here.
 
 It adds eight threat families: vessel casualty with a release, facility or tank release, pipeline release to a river, offshore release, chemical release with a toxic plume, marine firefighting and salvage, a drinking water intake threatened, and wildlife and shoreline impact. Each follows an arc from discovery and notification to demobilization.
 
@@ -18,7 +18,7 @@ Facts below were checked on 2026-11-05. Rules change, so check the current text 
 
 ## Reporting
 
-- A release of oil to water is reported to the National Response Center immediately by the responsible party. The call is a report, not a request for resources.
+- A release of oil to water is reported to the National Response Center (800-424-8802) immediately by the person in charge of the vessel or facility. The call is a report, not a request for resources.
 
 ## Not bundled
 

@@ -13,6 +13,7 @@ describe('magnitude_intensity_labels', () => {
     expect(rules('A magnitude VII earthquake struck.', id)).toHaveLength(1)
     expect(rules('Shaking reached MMI 7.2 in the city.', id)).toHaveLength(1)
     expect(rules('The M VIII quake', id)).toHaveLength(1)
+    expect(rules('A magnitude XI event', id)).toHaveLength(1)
   })
   it('accepts M 6.8 with intensity VII', () => {
     expect(rules('The M 6.8 earthquake produced intensity VII (MMI) in Haldane.', id)).toEqual([])
@@ -31,9 +32,14 @@ describe('alert_level_color_pair', () => {
     ])
       expect(rules(t, id), t).toEqual([])
   })
+  it('accepts WARNING with ORANGE, a hazardous eruption with little ash', () => {
+    expect(rules('Mauna Loa remains at WARNING / ORANGE as lava flows advance.', id)).toEqual([])
+    expect(rules('The volcano is at ORANGE (WARNING).', id)).toEqual([])
+  })
   it('flags a wrong pair', () => {
     expect(rules('raised to WATCH / RED', id)[0]).toMatch(/WATCH pairs with .*ORANGE/)
     expect(rules('color code YELLOW, alert level WARNING', id)[0]).toMatch(/YELLOW pairs with/)
+    expect(rules('lowered to NORMAL / ORANGE', id)[0]).toMatch(/NORMAL pairs with .*GREEN/)
   })
 })
 
