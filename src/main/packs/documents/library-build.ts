@@ -49,21 +49,21 @@ const byPath = (a: string, b: string): number => (a < b ? -1 : a > b ? 1 : 0)
 
 export const LIBRARY_LICENSE = 'LicenseRef-US-Government-Work'
 
-const PUBLISHER_TERMS = 'LicenseRef-Publisher-Terms'
-
 /** The pack license: its documents' licenses joined with AND (US government work if empty). */
 export function libraryLicense(docs: readonly Pick<ManifestDocument, 'license'>[]): string {
   const all = [...new Set(docs.map((d) => d.license))].sort(byPath)
   return all.length ? all.join(' AND ') : LIBRARY_LICENSE
 }
 
+const FEDERAL_LICENSES: readonly string[] = ['LicenseRef-US-Government-Work', 'CC0-1.0']
+
 const allFederal = (docs: readonly Pick<ManifestDocument, 'license'>[]): boolean =>
-  !docs.some((d) => d.license === PUBLISHER_TERMS)
+  docs.every((d) => FEDERAL_LICENSES.includes(d.license))
 
 const FEDERAL_NOTE =
   'Every document here is a work of the United States federal government (17 U.S.C. §105) and is in the public domain in the United States.'
 const MIXED_NOTE =
-  "Documents marked LicenseRef-US-Government-Work are works of the United States federal government (17 U.S.C. §105). Documents marked LicenseRef-Publisher-Terms are published under their publisher's own terms, which the document and its entry in pack.json state."
+  "Documents marked LicenseRef-US-Government-Work are works of the United States federal government (17 U.S.C. §105). Documents marked LicenseRef-Publisher-Terms are published under their publisher's own terms, which the document and its entry in pack.json state. Documents marked CC-BY-4.0 are under Creative Commons Attribution 4.0; credit the publisher named in their entry."
 
 /** One document's files for a pack, or why it is missing. */
 interface Loaded {
