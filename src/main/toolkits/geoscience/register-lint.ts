@@ -3,7 +3,11 @@
 // plus checks that read a field directly (an alert level against its color code, the date-time
 // group of a notice, a tsunami watch marked as sent by wireless alert). Importing this module
 // registers them; lint-rules.ts lists it.
-import { ALERT_COLOR_PAIRS, GEO_LINT_RULES } from '../../../shared/toolkits/geo-lint'
+import {
+  alertColorAllowed,
+  alertColorWords,
+  GEO_LINT_RULES,
+} from '../../../shared/toolkits/geo-lint'
 import { registerFieldLintRule, type FieldLintIssue, type FieldLintRule } from '../field-lint'
 
 type Fields = Record<string, unknown>
@@ -67,15 +71,14 @@ const alertPair = (f: Fields): FieldLintIssue[] => {
   const level = String(f.alertLevel ?? '')
   const color = String(f.colorCode ?? '')
   if (!level || !color || level === 'UNASSIGNED' || color === 'UNASSIGNED') return []
-  const want = ALERT_COLOR_PAIRS[level]
-  return want && want !== color
-    ? [
+  return alertColorAllowed(level, color)
+    ? []
+    : [
         {
           path: 'fields.colorCode',
-          message: `Alert level ${level} pairs with aviation color code ${want}, not ${color}.`,
+          message: `Alert level ${level} pairs with aviation color code ${alertColorWords(level)}, not ${color}.`,
         },
       ]
-    : []
 }
 
 const noticeSyntax = (f: Fields): FieldLintIssue[] => {

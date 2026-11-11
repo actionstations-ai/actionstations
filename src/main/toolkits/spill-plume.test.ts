@@ -29,8 +29,8 @@ describe('spill_plume toolkit', () => {
   it('fits its knowledge in the per-toolkit prompt cap with nothing cut', () => {
     const text = toolkitKnowledge([toolkit])
     expect(text.truncated).toEqual([])
-    expect(text.text).toContain('Only the FOSC approves dispersant')
-    expect(text.text).toContain('The responsible party calls the NRC')
+    expect(text.text).toContain('Only the FOSC authorizes dispersant')
+    expect(text.text).toContain('The person in charge of the vessel or facility calls the NRC')
   })
 
   it('is proposed for an oil spill brief and for the domains it suits', () => {

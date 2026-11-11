@@ -19,8 +19,8 @@ Every product is marked as an exercise product, so a handout cannot be mistaken 
 
 The toolkits carry the rules a specialist would check, and the scenario check flags text that breaks them:
 
-- **Magnitude and intensity are different.** Magnitude is one decimal number for the earthquake (M 6.8). Intensity is a Roman numeral from I to X for the shaking at a place (VII). They are never swapped.
-- **An alert level always comes with its color code.** Normal with Green, Advisory with Yellow, Watch with Orange, Warning with Red, always written as words.
+- **Magnitude and intensity are different.** Magnitude is one decimal number for the earthquake (M 6.8). Intensity is a Roman numeral for the shaking at a place (VII); the Modified Mercalli scale runs from I to XII, and USGS shaking maps show I to X+. They are never swapped.
+- **An alert level always comes with its color code.** Normal with Green, Advisory with Yellow, Watch with Orange, Warning with Red, always written as words. The two are set separately, so a dangerous eruption that puts little ash in the air, such as a lava flow, is Warning with Orange; any other mix is flagged.
 - **Early warning is seconds, and near the epicenter it can be late.** Within roughly 20 to 30 kilometers the alert can arrive after the shaking starts. A warning time longer than the distance allows is flagged.
 - **Aftershock forecasts are chances, not predictions.** Nobody can say when aftershocks will end, and a larger earthquake than the mainshock is unlikely but possible.
 - **A tsunami watch is not sent as a Wireless Emergency Alert.** Local sources give minutes to the first wave, distant ones give hours.

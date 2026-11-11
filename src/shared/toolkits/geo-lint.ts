@@ -1,7 +1,7 @@
 // Format checks for the earth science toolkits (spec 0450 FR-7), named by `lintRules` in the
 // toolkit files. Each rule reads text (an inject's fields, a message) and reports what a
 // seismologist, volcanologist or warning scientist would catch: magnitude and intensity swapped,
-// an alert level paired with the wrong aviation color code, a watch sent as a wireless alert,
+// an alert level paired with an aviation color code it cannot travel with, a watch sent as a wireless alert,
 // early warning times the physics cannot give. Pure; no Node imports.
 
 export interface GeoLintIssue {
@@ -13,14 +13,46 @@ export interface GeoLintIssue {
 
 type Rule = (text: string) => { message: string; match: string }[]
 
-const ROMAN = '(?:I{1,3}|IV|V|VI{1,3}|IX|X)'
+const ROMAN = '(?:I{1,3}|IV|V|VI{1,3}|IX|XI{0,2})'
 
-/** Volcano alert level to aviation color code. */
+/** Volcano alert level to its usual aviation color code. */
 export const ALERT_COLOR_PAIRS: Readonly<Record<string, string>> = {
   NORMAL: 'GREEN',
   ADVISORY: 'YELLOW',
   WATCH: 'ORANGE',
   WARNING: 'RED',
+}
+
+/**
+ * The color codes each alert level can travel with. The two scales are set separately (ground
+ * hazards and ash hazards to aircraft), so a hazardous eruption with little ash is WARNING with
+ * ORANGE, as Mauna Loa was in December 2022. Every other mix is a mistake.
+ */
+export const ALERT_COLOR_ALLOWED: Readonly<Record<string, readonly string[]>> = {
+  NORMAL: ['GREEN'],
+  ADVISORY: ['YELLOW'],
+  WATCH: ['ORANGE'],
+  WARNING: ['RED', 'ORANGE'],
+}
+
+/** True when the alert level and color code can be issued together. */
+export function alertColorAllowed(level: string, color: string): boolean {
+  const allowed = ALERT_COLOR_ALLOWED[level.toUpperCase()]
+  return !allowed || allowed.includes(color.toUpperCase())
+}
+
+/** What an alert level goes with, in words: "ORANGE", or "RED (or ORANGE when there is little ash)". */
+export function alertColorWords(level: string): string {
+  const [usual, ...other] = ALERT_COLOR_ALLOWED[level.toUpperCase()] ?? []
+  return other.length ? `${usual} (or ${other.join(', ')} when there is little ash)` : `${usual}`
+}
+
+/** What a color code goes with, in words. */
+function colorLevelWords(color: string): string {
+  const levels = Object.entries(ALERT_COLOR_ALLOWED)
+    .filter(([, cs]) => cs.includes(color.toUpperCase()))
+    .map(([l]) => l)
+  return levels.join(' or ')
 }
 
 /** S-wave speed in km per second used to bound early warning times. */
@@ -46,7 +78,8 @@ const magnitudeIntensityLabels: Rule = (text) => {
     })
   for (const m of all(/\b(?:MMI|intensity(?: of)?)\s+(\d+\.\d+)\b/gi, text))
     out.push({
-      message: 'Modified Mercalli intensity is a Roman numeral from I to X, not a decimal.',
+      message:
+        'Modified Mercalli intensity is a Roman numeral (I to XII; USGS maps show I to X+), not a decimal.',
       match: m[0],
     })
   return out
@@ -65,15 +98,15 @@ const alertLevelColorPair: Rule = (text) => {
     'gi',
   )
   for (const m of all(forward, text))
-    if (ALERT_COLOR_PAIRS[m[1]!.toUpperCase()] !== m[2]!.toUpperCase())
+    if (!alertColorAllowed(m[1]!, m[2]!))
       out.push({
-        message: `Alert level ${m[1]!.toUpperCase()} pairs with aviation color code ${ALERT_COLOR_PAIRS[m[1]!.toUpperCase()]}, not ${m[2]!.toUpperCase()}.`,
+        message: `Alert level ${m[1]!.toUpperCase()} pairs with aviation color code ${alertColorWords(m[1]!)}, not ${m[2]!.toUpperCase()}.`,
         match: m[0],
       })
   for (const m of all(backward, text))
-    if (ALERT_COLOR_PAIRS[m[2]!.toUpperCase()] !== m[1]!.toUpperCase())
+    if (!alertColorAllowed(m[2]!, m[1]!))
       out.push({
-        message: `Aviation color code ${m[1]!.toUpperCase()} pairs with alert level ${Object.entries(ALERT_COLOR_PAIRS).find(([, c]) => c === m[1]!.toUpperCase())?.[0]}, not ${m[2]!.toUpperCase()}.`,
+        message: `Aviation color code ${m[1]!.toUpperCase()} pairs with alert level ${colorLevelWords(m[1]!)}, not ${m[2]!.toUpperCase()}.`,
         match: m[0],
       })
   return out

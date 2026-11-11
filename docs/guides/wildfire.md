@@ -8,9 +8,9 @@ The **Wildfire and power shutoff** pack gives an exercise a fire where wildland 
 ## What the toolkit knows
 
 - A **perimeter** is a mapped polygon at one time. Between maps the edge of the fire is not known, so the app never shows minute-by-minute truth for a real fire.
-- **Evacuation words** vary by place. The notices use the words order, warning, shelter in place and none, and the zone ids and words must be the same on the map, in the zone table and in every message.
-- **Containment** is the share of the perimeter with a control line expected to hold. It is not the size of the fire and it can fall.
-- A **power shutoff** turns off power on circuits in high wind and dry fuels to avoid starting a fire. The notice windows in the examples (48 to 72 hours before for public safety partners, 24 to 48 hours for customers, 1 to 4 hours before, and at the time of de-energization) are one state's rule, used as an example. You can change them for your project.
+- **Evacuation words** vary by place. The notices use the words order, warning, shelter in place and none, and the zone ids and words must be the same on the map, in the zone table and in every message. Some states use numbered levels instead (Level 1 Be Ready, Level 2 Be Set, Level 3 Go Now); if yours does, write those words into your zone definitions and use them everywhere.
+- **Containment** is the share of the perimeter with a control line expected to hold. It is not the size of the fire and it can fall. A contained fire can still burn inside its lines; "controlled" comes later, when the lines are complete and secured.
+- A **power shutoff** turns off power on circuits in high wind and dry fuels to avoid starting a fire. The notice windows in the examples (48 to 72 hours before for public safety partners, 24 to 48 hours for customers, 1 to 4 hours before, and at the time of de-energization, then again just before power is restored and when restoration is complete) are one state's rule, used as an example. You can change them for your project.
 - The **Air Quality Index** categories use the EPA fine particle breakpoints in effect since 6 May 2024. School and event thresholds are local plans, not federal rules.
 
 ## Products
@@ -50,7 +50,7 @@ The evaluation measures compare the decisions with the case data:
 
 - the evacuation order against the latest time to give it for each zone, and whether partners' messages agree;
 - the de-energization decision against the time gusts reach the circuit threshold;
-- each shutoff notice against its window, with the windows listed in the result;
+- each shutoff notice sent before or at de-energization against its window, with the windows listed in the result (the restoration notices are not timed);
 - medical baseline customers reached (the facilitator enters attempts and confirmed contacts, and only a confirmed contact counts) and critical facilities notified;
 - a school or facility action against the time the AQI crosses the threshold.
 

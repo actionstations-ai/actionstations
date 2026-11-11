@@ -93,8 +93,8 @@
       "config": {
         "decisionKinds": ["change_alert_level"],
         "eventKinds": ["eruption_onset"],
-        "leadWindowMin": 360,
-        "graceWindowMin": 0,
+        "leadWindowMin": 10080,
+        "graceWindowMin": 60,
         "matchArea": false
       },
       "groundTruth": "sim-unrest-events"
@@ -185,7 +185,7 @@
       },
       {
         "term": "Aviation color code",
-        "definition": "GREEN, YELLOW, ORANGE, RED (or UNASSIGNED) for ash hazard to aircraft. Pairs: NORMAL/GREEN, ADVISORY/YELLOW, WATCH/ORANGE, WARNING/RED."
+        "definition": "GREEN, YELLOW, ORANGE, RED (or UNASSIGNED) for ash hazard to aircraft. Usual pairs: NORMAL/GREEN, ADVISORY/YELLOW, WATCH/ORANGE, WARNING/RED. The two are set separately, so a hazardous eruption with little ash (a lava flow) is WARNING/ORANGE."
       },
       {
         "term": "VONA",
@@ -202,7 +202,8 @@
     ],
     "productConventions": [
       "Always state alert level and color code together, in words. A VONA gives both current and previous color code.",
-      "VONA and VAA lines are uppercase fixed labels with UTC times (YYYYMMDD/HHMMZ). Heights are flight levels or feet.",
+      "VONA and VAA lines are uppercase fixed labels with UTC times (YYYYMMDD/HHMMZ). VAA cloud heights are flight levels (SFC/FL300); VONA cloud heights are meters, kilometers or feet, above sea level (AMSL) or above the vent.",
+      "An exercise VONA carries the line STATUS: EXER, so it cannot be used operationally.",
       "A lahar warning gives a travel time per place."
     ],
     "realismRules": [

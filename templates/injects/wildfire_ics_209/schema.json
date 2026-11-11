@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "title": "Wildfire incident status summary (ICS 209 style)",
-  "description": "An incident status summary in the style of the ICS 209: incident name and number, report time and operational period, location, size, percent contained, estimated control, fuels, structure counts by type, evacuations, projected activity in time blocks, critical resource needs, weather concerns and resources. It is a teaching form that follows the structure of the real report and is not the official form. Projections are the scenario's own.",
+  "description": "An incident status summary in the style of the ICS 209: incident name and number, report time and operational period, location, size, percent contained, anticipated completion date, primary fuels, structure counts by type, evacuations, projected activity in time blocks, critical resource needs, weather concerns and resources. It is a teaching form that follows the structure of the real report and is not the official form. Projections are the scenario's own.",
   "type": "object",
   "required": [
     "incidentName",
@@ -41,7 +41,7 @@
     },
     "state": {
       "type": "string",
-      "description": "Initial or update report.",
+      "description": "Report version: initial, update or final.",
       "examples": ["Update"]
     },
     "preparedBy": {
@@ -69,12 +69,12 @@
     },
     "estimatedControl": {
       "type": "string",
-      "description": "Estimated containment date, or 'to be determined'.",
+      "description": "Anticipated incident management completion date (when objectives such as containment are expected to be met), or 'to be determined'.",
       "examples": ["To be determined"]
     },
     "fuels": {
       "type": "string",
-      "description": "Fuels involved.",
+      "description": "Primary fuels involved.",
       "examples": ["Annual grass, chaparral and oak woodland"]
     },
     "structures": {
@@ -88,12 +88,12 @@
         "properties": {
           "type": {
             "type": "string",
-            "description": "Structure type.",
-            "examples": ["Residences"]
+            "description": "Structure type, as the ICS 209 rows name them (single residences, nonresidential commercial, other minor structures).",
+            "examples": ["Single residences"]
           },
           "threatened": {
             "type": "integer",
-            "description": "Threatened.",
+            "description": "Threatened within the next 72 hours.",
             "examples": [380],
             "minimum": 0
           },

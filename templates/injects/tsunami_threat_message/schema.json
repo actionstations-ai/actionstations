@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "title": "International tsunami threat message",
-  "description": "A Pacific-style international tsunami threat message for a distant source: the earthquake parameters, an evaluation, and a list of coasts with a threat category and the estimated arrival time of the first wave (hours, not minutes). It is advice to national authorities; each country decides its own warnings.",
+  "description": "A Pacific-style international tsunami threat message for a distant source: the earthquake parameters, an evaluation, and a list of coasts with the forecast wave amplitude above the tide (greater than 3 m, 1 to 3 m, 0.3 to 1 m, less than 0.3 m) and the estimated arrival time of the first wave. It is advice to national authorities; each country decides its own warnings.",
   "type": "object",
   "required": ["center", "messageNumber", "issued", "quake", "evaluation", "coasts"],
   "additionalProperties": false,
@@ -38,7 +38,7 @@
     },
     "coasts": {
       "type": "array",
-      "description": "Coasts or countries with threat category and first arrival (up to 10)",
+      "description": "Coasts or countries with forecast wave amplitude and first arrival (up to 10)",
       "items": {
         "type": "object",
         "additionalProperties": false,
@@ -52,9 +52,17 @@
           },
           "threat": {
             "type": "string",
-            "description": "Threat category",
-            "examples": ["Threat"],
-            "enum": ["Threat", "Potential threat", "No threat"]
+            "description": "Forecast wave amplitude above the tide level. The older Threat, Potential threat and No threat categories are still accepted",
+            "examples": ["1 to 3 m"],
+            "enum": [
+              "Greater than 3 m",
+              "1 to 3 m",
+              "0.3 to 1 m",
+              "Less than 0.3 m",
+              "Threat",
+              "Potential threat",
+              "No threat"
+            ]
           },
           "arrival": {
             "type": "string",

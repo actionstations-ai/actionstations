@@ -2,28 +2,43 @@
   "variant": "default",
   "fields": {
     "incidentName": "Pelican Point Terminal Tank 14 Release",
+    "incidentLocation": "Heron Bay, Mobile County, Alabama",
     "operationalPeriod": "11/04/2026 0700 to 11/04/2026 1900",
     "forecastBasis": "Trajectory run 04 Nov 0600, 48 h, best estimate",
     "landfall": "1420 on 04 Nov, Heron Bay marsh mouth",
     "resources": [
       {
+        "site": "HB-3",
+        "priority": "1",
+        "resource": "Heron Bay marsh (ESI 10A)",
+        "location": "creek mouth, 30.31 N, 88.10 W",
+        "arrival": "1420 04 Nov",
+        "consideration": "Nesting colony of wading birds; shallow-draft access only; no foot traffic in the marsh",
+        "strategy": "Deflection boom, 600 ft, anchored at the creek mouth to a collection point on the sand spit"
+      },
+      {
+        "site": "HB-5",
+        "priority": "2",
+        "resource": "Northeast bar pelican roost",
+        "location": "30.29 N, 88.06 W",
+        "arrival": "1530 04 Nov",
+        "consideration": "About 40 brown pelicans resting; hazing needs state and federal approval",
+        "strategy": "Wildlife Branch hazing plan; no boom (open water)"
+      }
+    ],
+    "socioeconomic": [
+      {
+        "site": "WI-1",
         "priority": "1",
         "resource": "Raw water intake, Bayou Sara Water Authority",
         "location": "30.55 N, 88.02 W",
         "arrival": "2310 04 Nov",
-        "consideration": "Serves 41,000 customers; utility can close in 20 min",
-        "strategy": "Exclusion boom across intake channel; utility notified"
+        "consideration": "Serves 41,000 customers; the utility closes the intake on its own trigger",
+        "strategy": "Exclusion boom across the intake channel; utility notified"
       },
       {
+        "site": "MR-2",
         "priority": "2",
-        "resource": "Heron Bay marsh (ESI 10A)",
-        "location": "30.31 N, 88.10 W",
-        "arrival": "1420 04 Nov",
-        "consideration": "Nesting colony of wading birds; boat access limited to shallow draft",
-        "strategy": "Deflection boom, 600 ft, anchored at the creek mouth"
-      },
-      {
-        "priority": "3",
         "resource": "Public boat ramp and marina",
         "location": "30.29 N, 88.08 W",
         "arrival": "1650 04 Nov",
@@ -31,11 +46,12 @@
         "strategy": "Close ramp; sorbent boom around fuel dock"
       },
       {
-        "priority": "4",
+        "site": "OL-12",
+        "priority": "3",
         "resource": "Oyster lease 12 (private)",
         "location": "30.27 N, 88.05 W",
         "arrival": "0210 05 Nov",
-        "consideration": "Harvest closure decision by state",
+        "consideration": "Harvest closure decision by the state",
         "strategy": "Monitor; no boom (current too strong)"
       }
     ],

@@ -54,6 +54,9 @@ describe('earth science field lint rules', () => {
     expect(messages('volcano_alert_badge', { alertLevel: 'WATCH', colorCode: 'ORANGE' })).toEqual(
       [],
     )
+    expect(messages('volcano_alert_badge', { alertLevel: 'WARNING', colorCode: 'ORANGE' })).toEqual(
+      [],
+    )
     expect(
       messages('press_release', {
         text: 'The observatory raised the volcano to WARNING / YELLOW today.',

@@ -112,7 +112,7 @@
     },
     {
       "key": "fban",
-      "name": "Planning Section Chief / Fire Behavior Analyst",
+      "name": "Fire Behavior Analyst (Planning Section)",
       "abbreviation": "FBAN",
       "team": "Team B: Planning",
       "description": "Owns spread projections, perimeters and the timing of the threat to each zone."
@@ -304,7 +304,7 @@
         "DECISION_POINT": 15,
         "NOISE": 10
       },
-      "promptGuidance": "Use zone ids exactly as listed in the project's facts and the same status words on the map, the table and every message (evacuation order, evacuation warning, shelter in place, none). A perimeter is a mapped polygon at a time, not continuous truth. Acreage and containment percent have fixed meanings. Times are local with a time zone. Do not predict fire behavior beyond the case data; the projected arrival comes from the scenario's case data.",
+      "promptGuidance": "Use zone ids exactly as listed in the project's facts and the same status words on the map, the table and every message (evacuation order, evacuation warning, shelter in place, none). Where the project uses numbered levels (Level 1 Be Ready, Level 2 Be Set, Level 3 Go Now), use those words instead and never mix the two systems. A perimeter is a mapped polygon at a time, not continuous truth. Acreage and containment percent have fixed meanings. Times are local with a time zone. Do not predict fire behavior beyond the case data; the projected arrival comes from the scenario's case data.",
       "lint": {
         "clueRequired": true,
         "clueRole": "operations"
@@ -383,7 +383,7 @@
         "TECH_HURDLE": 10,
         "NOISE": 10
       },
-      "promptGuidance": "Notification windows are 48 to 72 hours for public safety partners, 24 to 48 hours for customers, 1 to 4 hours before if possible, and at de-energization; the project may change them (they are California's example rule, not a national requirement). All customers, circuits and facilities are fictional. Counts must add up across circuits, classes and the medical baseline list.",
+      "promptGuidance": "Notification windows are 48 to 72 hours for public safety partners, 24 to 48 hours for customers, 1 to 4 hours before if possible, at de-energization, immediately before re-energization begins and when re-energization is complete; the project may change them (they are California's example rule, not a national requirement). All customers, circuits and facilities are fictional. Counts must add up across circuits, classes and the medical baseline list.",
       "lint": {
         "clueRequired": true,
         "clueRole": "operations"
@@ -534,7 +534,7 @@
         "DECISION_POINT": 15,
         "NOISE": 10
       },
-      "promptGuidance": "National preparedness levels run from 1 to 5; at level 5 resources are below drawdown levels for multiple resource types. State resource orders by number and status (filled, partly filled, unable to fill).",
+      "promptGuidance": "National preparedness levels run from 1 to 5; at level 5 national resources are heavily committed, areas with little fire are reaching their drawdown levels and many orders cannot be filled. State resource orders by number and status (filled, partly filled, unable to fill).",
       "lint": {
         "clueRequired": true,
         "clueRole": "operations"

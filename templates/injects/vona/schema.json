@@ -77,8 +77,8 @@
     },
     "activityStatus": {
       "type": "string",
-      "description": "Activity status",
-      "examples": ["UNREST. NO ERUPTION"],
+      "description": "Activity status: ERUPTION OCCURRED, ERUPTION ONGOING, HEIGHTENED UNREST, DECREASED UNREST, LAST VA EMISSION with its time, RE-SUSPENDED VA, UNKNOWN or NIL",
+      "examples": ["HEIGHTENED UNREST"],
       "x-translate": false
     },
     "onset": {
@@ -95,8 +95,8 @@
     },
     "cloudHeight": {
       "type": "string",
-      "description": "Volcanic ash cloud height with unit and datum",
-      "examples": ["0FT AMSL"],
+      "description": "Volcanic ash cloud height with unit and datum (AMSL or ABV SOURCE), or NO VA CLD PRODUCED",
+      "examples": ["NO VA CLD PRODUCED"],
       "x-translate": false
     },
     "heightSource": {
