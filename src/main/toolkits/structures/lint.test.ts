@@ -75,9 +75,21 @@ describe('OSHA clocks', () => {
 })
 
 describe('excavation rules', () => {
-  it('refuses a depth rule for engineered systems', () => {
+  it('accepts the 20-foot engineered-system rule and refuses any other depth', () => {
     expect(
-      checkExcavationProse(['Trenches 20 feet deep need a registered professional engineer.']),
+      checkExcavationProse([
+        'Trenches 20 feet deep or greater need a protective system designed by a registered professional engineer.',
+      ]),
+    ).toEqual([])
+    expect(
+      checkExcavationProse([
+        'A trench 10 feet deep must have shoring designed by a professional engineer.',
+      ]),
+    ).toHaveLength(1)
+    expect(
+      checkExcavationProse([
+        'Any trench over fifteen feet needs a system approved by a registered professional engineer.',
+      ]),
     ).toHaveLength(1)
     expect(
       checkExcavationProse(['A registered professional engineer approves other designs.']),

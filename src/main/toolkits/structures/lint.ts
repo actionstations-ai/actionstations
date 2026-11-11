@@ -148,19 +148,38 @@ export function checkOshaProse(texts: readonly string[]): StructuresProblem[] {
 
 // ---- excavation rules ---------------------------------------------------------------------
 
+// 29 CFR 1926 Subpart P, Appendix B (Table B-1 note), and OSHA's trenching fact sheet: a trench
+// 20 feet deep or greater needs a protective system designed by a registered professional
+// engineer or based on tabulated data one prepared or approved. A depth rule tied to any other
+// number is wrong.
 const ENGINEERED_DEPTH =
-  /\b(?:20|twenty)[- ](?:feet|foot|ft)\b[^.]{0,80}\b(?:registered professional engineer|professional engineer|engineer)\b|\b(?:registered professional engineer|professional engineer|engineer)\b[^.]{0,80}\b(?:20|twenty)[- ](?:feet|foot|ft)\b/i
+  /\b(\d+(?:\.\d+)?|ten|twelve|fifteen|twenty|twenty-five|thirty)[- ](?:feet|foot|ft)\b[^.;]{0,60}\b(?:designed|design|approved|stamped|engineered)\b[^.;]{0,40}\b(?:registered )?professional engineer\b/i
 
-/** Prose may not state a depth threshold for engineered trench systems (unverified). */
+const WORD_DEPTH: Record<string, number> = {
+  ten: 10,
+  twelve: 12,
+  fifteen: 15,
+  twenty: 20,
+  'twenty-five': 25,
+  thirty: 30,
+}
+
+/** Prose that ties engineered trench systems to a depth other than 20 feet. */
 export function checkExcavationProse(texts: readonly string[]): StructuresProblem[] {
-  return texts
-    .filter((t) => ENGINEERED_DEPTH.test(t))
-    .map((t) => ({
-      rule: 'structures.excavation_rules' as const,
+  const out: StructuresProblem[] = []
+  for (const t of texts) {
+    const m = ENGINEERED_DEPTH.exec(t)
+    if (!m) continue
+    const raw = m[1]!.toLowerCase()
+    if ((WORD_DEPTH[raw] ?? Number.parseFloat(raw)) === 20) continue
+    out.push({
+      rule: 'structures.excavation_rules',
       where: t.slice(0, 60),
       message:
-        'Do not state a depth at which a trench system must be engineered; say a registered professional engineer approves designs outside the listed options.',
-    }))
+        'A trench 20 feet deep or greater needs a protective system designed by a registered professional engineer or based on tabulated data one prepared or approved; a different depth is wrong.',
+    })
+  }
+  return out
 }
 
 /**
@@ -194,7 +213,7 @@ export function checkExcavationRecord(r: {
 const NOT_THE_OFFICIAL =
   /\b(?:the )?(?:contractor|superintendent|evaluator|volunteer evaluator|engineer of record|owner|project manager)\b[^.]{0,40}\b(?:declares?|declared|condemns?|condemned)\b[^.]{0,30}\b(?:building|structure)\b[^.]{0,20}\bunsafe\b/i
 
-/** Only the building official declares a building unsafe; evaluators recommend. */
+/** Only the building official declares a building unsafe; evaluators post placards as the official's agents. */
 export function checkAuthority(texts: readonly string[]): StructuresProblem[] {
   return texts
     .filter((t) => NOT_THE_OFFICIAL.test(t))
@@ -202,7 +221,7 @@ export function checkAuthority(texts: readonly string[]): StructuresProblem[] {
       rule: 'structures.authority' as const,
       where: t.slice(0, 60),
       message:
-        'The building official declares a building unsafe; an evaluator or engineer recommends a placard.',
+        'The building official declares a building unsafe; evaluators post placards on the building official’s authority.',
     }))
 }
 

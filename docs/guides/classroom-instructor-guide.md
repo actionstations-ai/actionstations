@@ -20,6 +20,10 @@ show only a few of them, so map each exercise to the outcomes it can really evid
   objective evidences shows as not assessed on the dashboard.
 - Save an outcome set as a file to reuse it next term, or to share it with a colleague teaching
   another section.
+- Keep the two kinds of statement apart. An exercise objective says what the exercise tests in
+  the organization's plans and capabilities, written so an evaluator can observe it; a course
+  outcome says what the student learns. A good exercise objective often evidences a course
+  outcome, but the mapping is a choice you make and confirm, not a match of words.
 
 ## Writing rubrics
 
@@ -61,6 +65,10 @@ around it. Plan a rotation so that every student plays each required role once o
 Group work is hard to grade because one student's score depends on others. These practices keep it
 fair.
 
+- Keep the exercise no-fault. Exercises following HSEEP are run as open, low-stress, no-fault
+  learning environments: they test plans and capabilities, and a plan that fails in play is a
+  finding, not a mistake by a player. Grade the student's behavior against the rubric, never how
+  the scenario turned out, and tell the class so before the session starts.
 - Score from evidence, not from impressions. Have a teaching assistant record observations during
   the exercise, with the student, the criterion and a note. Count hot wash contributions with the
   tap button. When you score, the evidence is listed beside each criterion.
@@ -126,7 +134,7 @@ produced by the United States government are generally in the public domain, but
 include material from others, so read the notice on each.
 
 - [HSEEP, the Homeland Security Exercise and Evaluation Program](https://www.fema.gov/emergency-managers/national-preparedness/exercises/hseep): the method the exercise documents follow.
-- [FEMA Emergency Management Institute independent study courses](https://training.fema.gov/is/): free courses, useful as pre-reading.
+- [FEMA Emergency Management Institute independent study courses](https://training.fema.gov/is/): free courses, useful as pre-reading. IS-120.c, An Introduction to Exercises, covers the basics of exercise design; IS-130.a, How to Be an Exercise Evaluator, prepares students who will take the evaluator role.
 - [CISA tabletop exercise packages](https://www.cisa.gov/resources-tools/services/cisa-tabletop-exercise-packages): ready-made cybersecurity scenarios.
 
 Import any of these into a project as documents, and the app grounds the exercise in them.

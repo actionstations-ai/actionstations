@@ -12,7 +12,7 @@ The toolkit keeps authority specific, because exercises often go wrong here.
 
 - The competent person, the superintendent and the safety director can stop work.
 - The engineer of record decides whether a structure is adequate and how to repair or shore it.
-- Only the building official declares a building unsafe. An evaluator recommends a placard.
+- Evaluators post placards on the building official's authority. Only the building official declares a building unsafe, orders it vacated and decides re-entry.
 - Rescue is run by the fire department and its technical rescue or urban search and rescue team. The contractor supplies drawings, equipment, access and a structural opinion.
 
 ## What it adds
@@ -28,11 +28,11 @@ The toolkit keeps authority specific, because exercises often go wrong here.
 
 When the app generates a product, it checks these and sends a draft back when one is wrong. They are summaries; check the current text of each standard before you rely on one.
 
-- A work-related fatality is reported to OSHA within 8 hours. An in-patient hospitalization, an amputation or the loss of an eye is reported within 24 hours.
+- A work-related fatality is reported to OSHA within 8 hours. An in-patient hospitalization, an amputation or the loss of an eye is reported within 24 hours. Each clock runs from when the employer learns of the event. A death counts when it occurs within 30 days of the incident; the other events count when they occur within 24 hours of it. An in-patient hospitalization is a formal admission for care or treatment, not observation or tests alone. The report goes by telephone or in person to the nearest OSHA area office, to 1-800-321-OSHA or through the online form; a voicemail, fax or email does not count. Some state plans are stricter: California wants a serious injury or illness reported within 8 hours as well.
 - An excavation needs a protective system unless it is in stable rock or under 5 feet deep with no sign of a cave-in. A competent person inspects it daily and after rain or another event that raises the hazard. A trench 4 feet deep or more needs a way out within 25 feet of lateral travel. Workers leave the hazard until precautions are taken.
-- The toolkit never states a depth at which a trench system must be engineered. Designs outside the listed options are approved by a registered professional engineer.
-- UNSAFE is red, RESTRICTED USE is yellow and INSPECTED is green, and the word is always given.
-- A crane pick stops at the wind limit in the lift plan.
+- A trench 20 feet deep or greater needs a protective system designed by a registered professional engineer or based on tabulated data one prepared or approved. Shallower trenches can use the listed sloping, shoring and shield options, and any design outside them is approved by a registered professional engineer. The toolkit flags a draft that ties engineering to any other depth.
+- UNSAFE is red, RESTRICTED USE is yellow and INSPECTED is green, and the word is always given. An UNSAFE placard means do not enter or occupy; it is not a demolition order.
+- A crane pick stops at the wind limit in the lift plan. The federal crane standard sets no single number: the competent person adjusts for wind using the manufacturer's limits, and a lift plan for a load with a large sail area, such as a curtain wall panel, often sets a lower one.
 
 ## Simulated data
 
@@ -74,7 +74,7 @@ The ethics case (an engineer finds a deficiency and the owner wants to keep work
 
 ## Reference library
 
-The toolkit names a catalog of reference documents: the OSHA reporting rule, the excavation and crane standards (29 CFR 1926, Subparts P and CC), the OSHA trenching and scaffold guides, FEMA P-2055 on post-disaster building safety evaluation, and the NSPE and ASCE codes of ethics, which carry the societies' own terms. The evaluation forms and placards of the Applied Technology Council and the evaluator field guide of the International Code Council are sold, so they are linked.
+The toolkit names a catalog of reference documents: the OSHA reporting rule, the excavation and crane standards (29 CFR 1926, Subparts P and CC), the OSHA trenching and scaffold guides, FEMA P-2055 on post-disaster building safety evaluation, and the NSPE and ASCE codes of ethics, which carry the societies' own terms. The evaluation forms and placards of the Applied Technology Council (ATC-20 for earthquakes, ATC-45 for wind and flood) and the evaluator field guide of the International Code Council are sold, so they are linked.
 
 ## Limits
 

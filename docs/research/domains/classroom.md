@@ -88,3 +88,23 @@ There is no public dataset to replay. Classroom data is created in the app: rost
 ## 9. Reuse by other domains
 
 Every domain profile gains an optional **Classroom** setting (not a toolkit): the same rubric and scoring machinery works for a hospital's nursing students, a county's new-hire training, a cybersecurity course or a journalism lab. Training programs outside universities (academies, onboarding) use it for competency sign-off. It composes with the evaluation guides (spec 0421), surveys (spec 0422), corrective actions (spec 0424) and micro-tabletops (spec 0437, practice runs).
+
+## Expert review (2026-11-11)
+
+This is a model-led expert review, written from the standpoint of an emergency management educator who teaches exercise design with HSEEP at university and FEMA Emergency Management Institute level. It is not a review by a licensed or employed practitioner.
+
+**Checked:** the Classroom mode guide and the instructor's guide against the code (roster limits of 500 students and 20 sections, the evidence-based level suggestion rule, weighted totals and per-outcome scores, team-score inheritance, practice runs excluded from the gradebook and dashboard, the practice-run notice on the score report), the three starter rubrics and their descriptors, the role rotation and accommodation descriptions, the FERPA section and the teaching-material links.
+
+**Sources read:** HSEEP situation manual templates (Rev. 2020 copies from Missouri SEMA and Indiana DHS) for the "open, low-stress, no-fault environment" wording; FEMA EMI listings for IS-120.c (An Introduction to Exercises) and IS-130.a (How to Be an Exercise Evaluator); AAC&U's VALUE "Using and citing" page (CC BY-NC-SA 4.0, written permission for commercial or software use), which matches what the instructor's guide says.
+
+**Changed and why:**
+
+- The instructor's guide had no word on the tension between grading and the HSEEP no-fault norm. A new first point under fair grading says to grade the student against the rubric, never the scenario's outcome, and to tell the class so.
+- Added a point separating exercise objectives (what the organization's plans and capabilities are tested on) from course outcomes (what the student learns), since **Suggest mappings** matches words and instructors tend to treat the match as the mapping.
+- Named IS-120.c and IS-130.a as pre-reading, the second for students rotating into the evaluator role.
+- The Classroom guide listed the starter rubrics as seven topics; there are three rubrics (Player role, Team, Evaluator). The guide now names them with their criteria, which also makes the example course plans readable.
+- Renamed the evaluator rubric criterion "Improvement points" to "Strengths and areas for improvement", the HSEEP term students meet in the evaluation guides and the After Action Report.
+
+**Defaults set:** none were open. The suggestion rule (highest level at least two pieces of evidence support) and the 3 to 6 level range were reviewed and kept: both match common rubric practice and the instructor always decides.
+
+**Caveats:** a thin `classroom` domain profile for courses whose subject is exercise design, mentioned in this dossier's scope, does not exist; Classroom mode works over any domain, so this is not a gap for instructors. Automatic grade passback through LTI is not available, as the guide says. Gradebook column rules differ per learning management system and were not checked here.

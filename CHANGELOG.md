@@ -10,6 +10,8 @@ as `#NN`. Releasing: rename `[Unreleased]` to the new version with the release d
 
 ### Fixed
 
+- **Construction and building safety** (#704): the toolkit now states the OSHA rule that a trench 20 feet deep or greater needs a protective system designed by a registered professional engineer or based on tabulated data one approved, and flags any other depth instead of the correct rule. Evaluators post placards on the building official's authority (they do not only recommend them), and the UNSAFE placard says it is not a demolition order and must not be removed without the building official's permission. The OSHA reporting note adds when each clock starts, the 30-day and 24-hour windows, what counts as an in-patient hospitalization, how to report and California's stricter rule. The crane and OSHA record samples no longer contradict their own wind limit and reporting rule.
+- **Classroom guides** (#686): the instructor's guide now covers grading inside a no-fault exercise and the difference between exercise objectives and course outcomes, and names the FEMA introductory and evaluator courses as pre-reading. The Classroom guide names the three starter rubrics correctly, and the evaluator rubric's criterion uses the HSEEP term "Strengths and areas for improvement".
 - Rendering many previews in one session (for example scrolling the whole template gallery) could stop answering: a render window that hung while being reset kept the finished preview from returning. The reset now has the render timeout, and a window that misses it is replaced (#1117).
 
 ## [0.7.2] - 2026-11-05
