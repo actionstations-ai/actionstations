@@ -1,29 +1,29 @@
 {
   "fields": {
-    "authority": "Market Surveillance Authority of Northmark",
+    "authority": "Financial Supervisory Authority of Northmark (market surveillance authority for AI used by financial institutions)",
     "reportType": "Initial report (incomplete)",
     "provider": {
       "name": "Northgate Models Ltd (fictional)",
       "contact": "compliance@northgate.example"
     },
     "system": {
-      "name": "Harbor Assist",
+      "name": "Harbor Credit Assess",
       "version": "model 4.2",
-      "intendedPurpose": "Customer assistant for banking questions"
+      "intendedPurpose": "Evaluates the creditworthiness of consumer loan applicants (high-risk use, AI Act Annex III, point 5(b))"
     },
-    "incidentDate": "October 28 to November 3, 2026",
-    "awarenessDate": "November 3, 2026",
-    "description": "The assistant gave unsafe advice about skipping a payment verification to customers over six days.",
-    "harm": "Eleven customers delayed a required verification; no loss of life or health harm; possible infringement of consumer protection obligations is under assessment.",
-    "category": "Under assessment",
+    "incidentDate": "February 2 to February 9, 2028",
+    "awarenessDate": "February 9, 2028",
+    "description": "After a data update on February 2, the system scored applicants from two postal areas markedly lower than comparable applicants elsewhere, and their applications were declined.",
+    "harm": "214 applicants were declined on the affected scores; possible infringement of obligations under Union law intended to protect fundamental rights (non-discrimination). No death or harm to health.",
+    "category": "Infringement of fundamental rights obligations",
     "causalLink": {
       "assessment": "Reasonably likely",
-      "basis": "Logs show the advice in each affected session; the prompt change on October 28 is the only change in the period."
+      "basis": "Score logs show the shift in each affected decision; the data update on February 2 is the only change in the period."
     },
-    "parallelReports": "Financial supervisor informed on November 4 under sector rules.",
+    "parallelReports": "National equality body informed on February 10.",
     "correctiveActions": [
-      "Advice answers disabled on November 3",
-      "Evaluation set extended with payment verification cases"
+      "Scores from the February 2 update withdrawn on February 9; the earlier version restored",
+      "Declined applications from the period queued for human review"
     ],
     "clockStated": "15 days after awareness (scenario clock: EU AI Act Article 73)",
     "status": "Investigation open; report will be updated",

@@ -24,7 +24,9 @@
     "authority": {
       "type": "string",
       "description": "Authority addressed (fictional)",
-      "examples": ["Market Surveillance Authority of Northmark"],
+      "examples": [
+        "Financial Supervisory Authority of Northmark (market surveillance authority for AI used by financial institutions)"
+      ],
       "x-translate": false
     },
     "reportType": {
@@ -61,7 +63,7 @@
         "name": {
           "type": "string",
           "description": "Name",
-          "examples": ["Harbor Assist"],
+          "examples": ["Harbor Credit Assess"],
           "x-translate": false
         },
         "version": {
@@ -73,7 +75,9 @@
         "intendedPurpose": {
           "type": "string",
           "description": "Intended purpose",
-          "examples": ["Customer assistant for banking questions"]
+          "examples": [
+            "Evaluates the creditworthiness of consumer loan applicants (high-risk use, AI Act Annex III, point 5(b))"
+          ]
         }
       },
       "required": ["name"]
@@ -81,33 +85,33 @@
     "incidentDate": {
       "type": "string",
       "description": "Date of the incident",
-      "examples": ["October 28 to November 3, 2026"],
+      "examples": ["February 2 to February 9, 2028"],
       "x-translate": false
     },
     "awarenessDate": {
       "type": "string",
       "description": "Date the provider became aware",
-      "examples": ["November 3, 2026"],
+      "examples": ["February 9, 2028"],
       "x-translate": false
     },
     "description": {
       "type": "string",
       "description": "What happened",
       "examples": [
-        "The assistant gave unsafe advice about skipping a payment verification to customers over six days."
+        "After a data update on February 2, the system scored applicants from two postal areas markedly lower than comparable applicants elsewhere, and their applications were declined."
       ]
     },
     "harm": {
       "type": "string",
       "description": "Harm",
       "examples": [
-        "Eleven customers delayed a required verification; no loss of life or health harm; possible infringement of consumer protection obligations is under assessment."
+        "214 applicants were declined on the affected scores; possible infringement of obligations under Union law intended to protect fundamental rights (non-discrimination). No death or harm to health."
       ]
     },
     "category": {
       "type": "string",
       "description": "Category of serious incident",
-      "examples": ["Under assessment"],
+      "examples": ["Infringement of fundamental rights obligations"],
       "enum": [
         "Death",
         "Serious harm to health",
@@ -133,7 +137,7 @@
           "type": "string",
           "description": "Basis",
           "examples": [
-            "Logs show the advice in each affected session; the prompt change on October 28 is the only change in the period."
+            "Score logs show the shift in each affected decision; the data update on February 2 is the only change in the period."
           ]
         }
       },
@@ -142,7 +146,7 @@
     "parallelReports": {
       "type": "string",
       "description": "Parallel sectoral reports",
-      "examples": ["Financial supervisor informed on November 4 under sector rules."]
+      "examples": ["National equality body informed on February 10."]
     },
     "correctiveActions": {
       "type": "array",
@@ -154,8 +158,8 @@
       },
       "examples": [
         [
-          "Advice answers disabled on November 3",
-          "Evaluation set extended with payment verification cases"
+          "Scores from the February 2 update withdrawn on February 9; the earlier version restored",
+          "Declined applications from the period queued for human review"
         ]
       ]
     },

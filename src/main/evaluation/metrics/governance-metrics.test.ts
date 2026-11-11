@@ -48,8 +48,8 @@ describe('disclosure timing', () => {
 
   it('sets the filing deadline four business days after a material determination', () => {
     const out = computeGovDisclosureTiming({ events: [discovered], decisions: [determined] }, cfg)
-    // Friday Oct 23 + 4 business days = Wednesday Oct 29 (Columbus Day was Oct 12).
-    expect(row(out, 'Filing deadline')).toBe('2026-10-29T10:05:00.000Z')
+    // Friday Oct 23 + 4 business days = Thursday Oct 29, due by the 5:30 p.m. EDGAR cut-off.
+    expect(row(out, 'Filing deadline')).toBe('2026-10-29T17:30:00.000Z')
     expect(row(out, 'Filing')).toBe('No filing recorded')
   })
 
@@ -65,6 +65,24 @@ describe('disclosure timing', () => {
       cfg,
     )
     expect(row(late, 'Filing')).toBe('Late')
+  })
+
+  it('counts a filing on the last day before the EDGAR cut-off as on time', () => {
+    const lastDay = computeGovDisclosureTiming(
+      { events: [discovered], decisions: [determined, filed('2026-10-29T16:45:00.000Z')] },
+      cfg,
+    )
+    expect(row(lastDay, 'Filing')).toBe('On time')
+    const afterCutoff = computeGovDisclosureTiming(
+      { events: [discovered], decisions: [determined, filed('2026-10-29T17:45:00.000Z')] },
+      cfg,
+    )
+    expect(row(afterCutoff, 'Filing')).toBe('Late')
+    const pacific = computeGovDisclosureTiming(
+      { events: [discovered], decisions: [determined] },
+      GovDisclosureTimingConfig.parse({ filingCutoff: '14:30' }),
+    )
+    expect(row(pacific, 'Filing deadline')).toBe('2026-10-29T14:30:00.000Z')
   })
 
   it('does not count an Item 8.01 filing as the Item 1.05 report', () => {

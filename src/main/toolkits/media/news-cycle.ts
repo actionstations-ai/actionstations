@@ -1,6 +1,6 @@
 // News cycle simulator (spec 0458 FR-5): a deterministic, seeded model of how coverage of an
 // incident develops. Given a trigger time, severity and visibility it schedules the pickup of
-// the story by fictional outlets with their deadlines (a wire flash within minutes, local TV at
+// the story by fictional outlets with their deadlines (a wire bulletin within minutes, local TV at
 // the next hour, a web article, a morning print edition), calls and emails from reporters at
 // plausible times, and follow-up stories that react to what the organization said or failed to
 // say. The result is a list of inject proposals the generator writes up and the facilitator
@@ -83,23 +83,29 @@ function wireItems(input: z.output<typeof NewsCycleInput>, rand: () => number): 
   const t = input.triggerAtMin
   const wire = pick(rand, FICTIONAL_OUTLETS.wire)
   if (input.severity < 2 && input.visibility === 'local') return []
-  const flash = t + between(rand, 2, 6)
+  const first = t + between(rand, 2, 6)
+  // A flash is kept for the gravest news; an incident story usually opens with a bulletin.
+  const isFlash = input.severity >= 5 && input.visibility === 'national'
   return [
     {
-      atMin: flash,
-      kind: 'wire_flash',
+      atMin: first,
+      kind: isFlash ? 'wire_flash' : 'wire_bulletin',
       outlet: wire,
       injectType: 'wire_alert',
-      brief: 'One-line flash: what happened, where, source named.',
-      reason: 'A wire flash follows a significant event within minutes.',
+      brief: isFlash
+        ? 'One-line flash: what happened, where, source named.'
+        : 'Bulletin of one or two sentences: what happened, where, source named.',
+      reason: isFlash
+        ? 'A flash is kept for the gravest national news and comes within minutes.'
+        : 'The wire opens a significant story with a short bulletin within minutes.',
     },
     {
-      atMin: flash + between(rand, 7, 14),
-      kind: 'wire_bulletin',
+      atMin: first + between(rand, 7, 14),
+      kind: 'wire_update',
       outlet: wire,
       injectType: 'wire_alert',
-      brief: 'Bulletin with the first confirmed details and who was asked for comment.',
-      reason: 'The wire follows a flash with a bulletin as details arrive.',
+      brief: 'Update with the first confirmed details and who was asked for comment.',
+      reason: 'The wire follows the first alert with an update as details arrive.',
     },
   ]
 }

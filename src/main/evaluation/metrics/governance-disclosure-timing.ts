@@ -20,6 +20,15 @@ import { NOT_AVAILABLE, ms, type Metric, type MetricOutput } from './types'
 export const GovDisclosureTimingConfig = z.object({
   /** Business days after a material determination (SEC Form 8-K Item 1.05: four). */
   filingBusinessDays: z.number().int().min(1).max(30).default(4),
+  /**
+   * Time of day the filing is due on the last business day, in scenario time. EDGAR gives a
+   * Form 8-K the filing date of the day it is submitted only up to 5:30 p.m. Eastern
+   * (Regulation S-T Rule 13(a)(2)); a later submission is dated the next business day.
+   */
+  filingCutoff: z
+    .string()
+    .regex(/^([01]\d|2[0-3]):[0-5]\d$/)
+    .default('17:30'),
   determinationFormId: z.string().default(GOV_FORM.determination),
   disclosureFormId: z.string().default(GOV_FORM.disclosure),
   boardFormId: z.string().default(GOV_FORM.board),
@@ -39,7 +48,17 @@ const isDetermination = (d: MetricDecision): boolean =>
 const CAVEATS = [
   'Exercise aid, not legal advice. Check the current rule and your counsel.',
   'The four business days run from the determination, on the US federal business calendar. The investigation does not have to finish first, and a determination cannot be put off by delaying a meeting.',
+  'The filing deadline is the EDGAR cut-off (5:30 p.m. Eastern by default) on the fourth business day; the time is read in scenario time, so set the cut-off when the scenario is not on Eastern time.',
 ]
+
+/** The cut-off time of day on the nth business day after the determination (floating time). */
+export function filingDeadline(determinedAt: string, config: GovDisclosureTimingConfig): Date {
+  const day = addBusinessDays(new Date(determinedAt), config.filingBusinessDays, 'us_federal')
+  const [h, m] = config.filingCutoff.split(':').map(Number)
+  const out = new Date(day.getTime())
+  out.setUTCHours(h!, m!, 0, 0)
+  return out
+}
 
 export function computeGovDisclosureTiming(
   inputs: GovDisclosureTimingInputs,
@@ -57,10 +76,7 @@ export function computeGovDisclosureTiming(
 
   const toDetermination = discovered && final ? hoursBetween(discovered.time, final.time) : null
   const toBoard = discovered && board ? hoursBetween(discovered.time, board.time) : null
-  const deadline =
-    final && material
-      ? addBusinessDays(new Date(final.time), config.filingBusinessDays, 'us_federal')
-      : null
+  const deadline = final && material ? filingDeadline(final.time, config) : null
   const toFiling = final && filing ? hoursBetween(final.time, filing.time) : null
   const filedItem = filing?.fields.item === 'item_1_05' ? 'Item 1.05' : filing ? 'Item 8.01' : null
   let filingStatus = NOT_AVAILABLE

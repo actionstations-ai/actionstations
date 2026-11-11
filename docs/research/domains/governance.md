@@ -110,3 +110,28 @@ There is no operational data to replay. The "figures" are the BIA table, the rec
 ## 9. Reuse by other domains
 
 Governance is the top layer of every commercial or institutional domain. The materiality worksheet and decision log suit healthcare systems, utilities, financial services, universities and any public company. The BIA and recovery tracker are reused by supply chain (spec 0462), data center and IT, hospitality and campus. Regulatory clocks (spec 0426) supply the deadlines. Crisis communications (#691) supplies statements.
+
+## Expert review (2026-11-11)
+
+Model-led expert review from the point of view of a general counsel's office, chief risk officer and business continuity lead. It is not a review by a licensed or employed practitioner.
+
+**Checked:** the toolkit and domain files (roles, threat families, decision forms, glossary, realism rules, lint rules), the SEC Form 8-K Item 1.05 and NYDFS 500.17 regulation files, the disclosure timing, recovery and documentation measures, the templates' preview data (materiality worksheet, Form 8-K draft, business impact analysis table), and the user guide.
+
+**Sources:**
+
+- SEC Release 33-11216 and fact sheet (Item 1.05 content: material aspects of nature, scope and timing, and material or reasonably likely material impact; materiality determined without unreasonable delay after discovery).
+- SEC staff Compliance and Disclosure Interpretations, Exchange Act Form 8-K, Questions 104B.01 to 104B.09 (sec.gov, read 2026-11-11): a delay request does not toll the deadline (104B.01); after an Attorney General delay the filing is due within four business days of the end of the delay or of the notice that it is no longer needed (104B.02, 104B.03); consulting the Department of Justice does not by itself make an incident material (104B.04); a ransom payment or the end of an incident does not remove the duty to determine materiality or to report (104B.05, 104B.06); insurance reimbursement and the size of a payment are not determinative (104B.07, 104B.08); related incidents are considered together (104B.09). The pack's glossary, realism rules and Attorney General delay trigger agree with these.
+- 17 CFR 232.13(a)(2) and (a)(4) (Regulation S-T Rule 13, Cornell LII): a filing started after 5:30 p.m. Eastern is dated the next business day; Form 8-K is not among the forms with the 10 p.m. cut-off.
+- 23 NYCRR 500.17 (72-hour incident notice; 24-hour extortion payment notice; 30-day written explanation): the regulation file agrees.
+- ISO 22301:2019 table of contents (publisher preview): clause 8.2 business impact analysis and risk assessment (8.2.2 BIA), 8.3 strategies and solutions, 8.4 plans and procedures, 8.5 exercise programme, 8.6 evaluation. The clause numbers marked unverified in section 5 are confirmed from the contents page; definitions were not readable in the preview and are paraphrased.
+
+**Changed:**
+
+- The disclosure timing measure computed the Form 8-K deadline at the time of day of the determination on the fourth business day, so a determination at 10:05 made a 5 p.m. filing on the last day "Late". It now uses the EDGAR cut-off, 5:30 p.m. by default, with a `filingCutoff` setting for scenarios not on Eastern time, and a caveat that says so. A test comment that named the wrong weekday was corrected.
+- The Item 1.05 glossary entry now gives the 5:30 p.m. Eastern cut-off and the 8-K/A amendment for facts not determined at filing (Instruction 2 to Item 1.05). The regulation file's rule text says the same and cites the staff interpretations and Rule 13.
+- The BIA glossary entry adds the ISO 22301 relation between the recovery time objective, the maximum tolerable period of disruption and a minimum acceptable level of service.
+- The user guide states the filing cut-off, the amendment and the relation of RTO to MTPD, and no longer ends with a recommendation to have documents reviewed.
+
+**Defaults set:** filing cut-off 17:30 scenario time; four business days on the US federal calendar (unchanged); no default target for discovery to determination (the designer sets it, unchanged).
+
+**Caveats:** the regulatory clock panel (shared code) still counts four business days at the time of day of the determination; the regulation's rule text tells the facilitator the real cut-off. The business impact analysis table has no MTPD column; adding one is a template change, left for the owner. Form 8-K Item 5.02 (officer departures and appointments) appears only in the succession arc's beats, without a clock.

@@ -141,7 +141,7 @@ describe('ai_incidents library', () => {
   }
   const docs = manifest.documents.filter((d) => d.pack === 'ai-incidents-library')
 
-  it("pins every document by hash; the C2PA specification is under its publisher's terms", () => {
+  it('pins every document by hash; the C2PA specification is under CC BY 4.0', () => {
     expect(docs.map((d) => d.slug).sort()).toEqual([
       'c2pa-specification-2-3',
       'fcc-24-17-ai-voice-robocalls',
@@ -152,7 +152,7 @@ describe('ai_incidents library', () => {
     for (const d of docs) {
       expect(d.sha256, d.slug).toMatch(/^[0-9a-f]{64}$/)
       expect(d.license, d.slug).toBe(
-        d.slug.startsWith('c2pa-') ? 'LicenseRef-Publisher-Terms' : 'LicenseRef-US-Government-Work',
+        d.slug.startsWith('c2pa-') ? 'CC-BY-4.0' : 'LicenseRef-US-Government-Work',
       )
     }
   })

@@ -120,3 +120,27 @@ There is no public dataset appropriate for replaying a real deepfake or model in
 ## 10. Reuse by other domains
 
 AI incidents sit on top of other fields: the **media environment toolkit** (crisis communications, spec 0458) supplies verification tasks, social spread and press; the **corporate governance** epic (#692) supplies materiality and disclosure decisions; the cyber and data center domains supply the incident process and regulatory clocks; financial services, elections, campus, healthcare and municipal profiles list `ai_incidents` as a suggested toolkit.
+
+## Expert review (2026-11-11)
+
+Model-led expert review from the point of view of an AI incident response and trust and safety lead. It is not a review by a licensed or employed practitioner.
+
+**Checked:** the AI incidents domain (roles, six threat families), the toolkit (glossary, product conventions, realism rules, decision forms, measures, lint rules), the EU AI Act Article 73 regulation file, the serious incident notification and payment recall templates and their preview data, the reference library entries, and the user guide.
+
+**Sources:**
+
+- Regulation (EU) 2024/1689: Article 3(49) serious incident, Article 3(60) deep fake, Article 73(2) to (4) (15 days, 2 days, 10 days), Article 73(9) (Annex III providers already under equivalent Union reporting duties report only Article 3(49)(c) incidents), Article 74(6) (for AI used by financial institutions the financial supervisor is the market surveillance authority), Annex III point 5(b) (creditworthiness evaluation is high-risk).
+- Regulation (EU) 2026/1744 (Digital Omnibus on AI), EUR-Lex, read 2026-11-11: adopted 8 July 2026, OJ 24 July 2026; recital 40 moves Chapter III Sections 1 to 3 to 2 December 2027 (Annex III) and 2 August 2028 (Annex I). The regulation file's dates agree.
+- NIST AI 100-1 (AI RMF 1.0, functions Govern, Map, Measure, Manage) and NIST AI 600-1 (Generative AI Profile, 26 July 2024): the dossier agrees.
+- FinCEN FIN-2024-Alert004 (13 November 2024) and the FBI IC3 Financial Fraud Kill Chain brochures (contact the originating bank at once to request a recall; file an IC3 complaint the same day so the Recovery Asset Team can ask the receiving bank to freeze funds).
+- C2PA Technical Specification 2.3 (December 2025): licensed under Creative Commons Attribution 4.0 International.
+
+**Changed:**
+
+- The serious incident notification preview reported a banking customer chat assistant under Article 73 with a consumer protection harm. A chat assistant is not a high-risk system under Annex III, so no Article 73 duty applies; a practitioner would stop there. The preview now shows a creditworthiness scoring system (Annex III, point 5(b)) with a non-discrimination harm under Article 3(49)(c), addressed to the financial supervisor acting as market surveillance authority (Article 74(6)), dated February 2028 so that the high-risk chapter applies under the amended Article 113. The schema examples match and the golden was regenerated.
+- The C2PA specification was recorded under "publisher terms"; it is CC BY 4.0 and is now recorded with the attribution and the December 2025 date. The library summary names it and the library version is 1.1.1.
+- A realism rule says that a settled wire is final, that a recall is a request and not a recovery, and that the bank fraud desk and a same-day IC3 complaint give the best chance of a freeze.
+
+**Defaults set:** time to detect target 60 minutes (kept: the window in which a payment can still be held); callback on a directory number (kept).
+
+**Caveats:** the payment recall preview shows released domestic transfers as "settlement unknown"; a Fedwire transfer settles on release, so this reads as an international or correspondent payment. Left as is. The Article 73 clocks start on the provider's awareness; a deployer's duty to inform the provider first (Article 26(5)) is covered by the role question but has no clock of its own.
