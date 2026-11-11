@@ -171,7 +171,12 @@ export interface ClinicalState {
 
 export interface RestoreDecision {
   kind: 'restore_order'
-  /** Systems first to last, using 'ehr', 'lab_interface', 'pharmacy_interface', 'identity_check'. */
+  /**
+   * Systems first to last, using 'identity_check', 'lab_interface', 'ehr', 'pharmacy_interface'.
+   * The toolkit's default clinician priority is that order: match downtime registrations to the
+   * master patient index, let results catch up, open the chart to clinicians, then send
+   * medication orders to pharmacy and the cabinets once active orders are back-entered.
+   */
   order: string[]
 }
 export interface MessageDecision {
@@ -204,13 +209,24 @@ const before = (order: string[], a: string, b: string): boolean => {
 export const CONSEQUENCE_RULES: readonly ConsequenceRule[] = [
   {
     id: 'ehr_before_lab_interface',
-    label: 'EHR restored before the lab interface',
+    label: 'EHR opened to clinicians before the lab interface',
     explanation:
-      'Clinicians see a live chart while laboratory results are still queued, so the results backlog is larger when the interface returns and the chance of a result attaching to the wrong patient rises.',
+      'Clinicians work in a live chart that looks complete while laboratory results are still queued: results are missed and tests are ordered again, so the results backlog is larger when the interface returns.',
     applies: (d) => d.kind === 'restore_order' && before(d.order, 'ehr', 'lab_interface'),
     apply: (_d, s) => ({
       ...s,
       resultsBacklog: Math.round(s.resultsBacklog * 1.5),
+    }),
+  },
+  {
+    id: 'lab_interface_before_identity_check',
+    label: 'Results flow before the identity check',
+    explanation:
+      'Queued results file to the chart before patients registered on paper are matched to the master patient index, so a result can attach to a temporary record or to the wrong patient.',
+    applies: (d) =>
+      d.kind === 'restore_order' && before(d.order, 'lab_interface', 'identity_check'),
+    apply: (_d, s) => ({
+      ...s,
       wrongPatientRisk: Math.min(100, s.wrongPatientRisk + 20),
     }),
   },

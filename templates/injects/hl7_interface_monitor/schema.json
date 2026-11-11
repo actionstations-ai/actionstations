@@ -70,7 +70,7 @@
           "name": {
             "type": "string",
             "description": "Connection / route name as configured in the engine.",
-            "examples": ["EPIC_ADT_OUT_LAB", "LIS_ORU_IN", "PYXIS_RDE_OUT"]
+            "examples": ["EHR_ADT_OUT_LAB", "LIS_ORU_IN", "ADC_RDE_OUT"]
           },
           "direction": {
             "type": "string",
@@ -81,7 +81,7 @@
           "source": {
             "type": "string",
             "description": "Sending system.",
-            "examples": ["Epic EHR"]
+            "examples": ["EHR"]
           },
           "destination": {
             "type": "string",
@@ -126,7 +126,7 @@
         "name": {
           "type": "string",
           "description": "Name of the selected interface (should match a row in interfaces).",
-          "examples": ["EPIC_ADT_OUT_LAB"]
+          "examples": ["EHR_ADT_OUT_LAB"]
         },
         "messages": {
           "type": "array",
@@ -175,7 +175,7 @@
       "items": {
         "type": "string",
         "description": "Alert text.",
-        "examples": ["Queue threshold exceeded: EPIC_ADT_OUT_LAB 1,842 msgs (limit 500)"]
+        "examples": ["Queue threshold exceeded: EHR_ADT_OUT_LAB 1,842 msgs (limit 500)"]
       }
     }
   }

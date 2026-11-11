@@ -268,6 +268,13 @@ export interface RestoreOrderInputs {
   priority: string[]
 }
 
+/** A system name as a comparison key: lower case, words joined by underscores. */
+export const systemKey = (s: string): string =>
+  s
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, '_')
+    .replace(/^_+|_+$/g, '')
+
 /** Spearman rank correlation of the order against the priority list (items in both). */
 export function rankCorrelation(order: string[], priority: string[]): number | null {
   const common = priority.filter((p) => order.includes(p))
@@ -302,9 +309,12 @@ export const restoreOrderScore: Metric<AnyConfig, RestoreOrderInputs> = {
       ...given,
       priority: given.priority.length ? given.priority : listOf(config.priority),
     }
-    const rho = rankCorrelation(inputs.order, inputs.priority)
-    const agree = pairAgreement(inputs.order, inputs.priority)
-    const missing = inputs.priority.filter((p) => !inputs.order.includes(p))
+    // "Lab interface", "lab-interface" and "lab_interface" name the same system.
+    const order = inputs.order.map(systemKey)
+    const priority = inputs.priority.map(systemKey)
+    const rho = rankCorrelation(order, priority)
+    const agree = pairAgreement(order, priority)
+    const missing = inputs.priority.filter((_p, i) => !order.includes(priority[i]!))
     return {
       metricId: 'restore_order_score',
       title: this.title,

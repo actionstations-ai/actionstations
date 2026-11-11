@@ -191,6 +191,24 @@ describe('restore_order_score', () => {
   it('has no score for fewer than two shared items', () => {
     expect(rankCorrelation(['ehr'], priority)).toBeNull()
   })
+
+  it('matches system names written in plain words against the default priority', () => {
+    const r = runMetric(
+      {
+        id: 'restore_order_score',
+        config: { priority: 'identity_check, lab_interface, ehr, pharmacy_interface' },
+      },
+      {
+        decisions: [
+          dec('set_restore_order', at('09:30'), {
+            ranking: 'Identity check > Lab interface > EHR > Pharmacy interface',
+          }),
+        ],
+      },
+    )
+    expect(get(r, 'Rank correlation (1 = same order)')).toBe('1.00')
+    expect(get(r, 'Priority items left out')).toBe('0')
+  })
 })
 
 describe('duplicate_records_created', () => {

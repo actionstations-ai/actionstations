@@ -131,3 +131,34 @@ All dated, attributed and not presented as current.
 ## 10. Reuse by other domains
 
 The clinical systems toolkit serves `healthcare` (the main host), `public_health` (lab reporting feeds), nursing (spec 0452, downtime care on the unit), pharmacy (spec 0463), EMS and fire (hospital feed failures, diversion data), behavioral health and human services, research labs (sample tracking systems), and any organization with an EHR-like records system (veterinary practices, campus health). Cyber and regulatory clocks toolkits are reused, not duplicated.
+
+## Expert review (2026-11-11)
+
+A model-led expert review written from the perspective of a CMIO/CNIO with hospital emergency management experience. It is not a review by a licensed or employed practitioner, and the practitioner review the spec asks for is still open.
+
+**Checked:** the domain profile (roles, systems, threat families and phase arcs, decision point examples, pressure and noise examples), the clinical systems toolkit (glossary, product conventions, realism rules, decision forms, metric defaults), the downtime model and consequence rules, the reconciliation play, the clinical systems metrics and their inputs, the downtime notice, downtime form, downtime census, recovery readiness checklist, breach risk worksheet, exercise record and interface monitor samples, and this dossier's regulatory statements.
+
+**Sources checked:**
+
+- ASTP/ONC SAFER Guides, 2025 edition, Contingency Planning self-assessment (footer dated August 2024; healthit.gov PDF read). Recommended practices used here: paper forms on every unit for at least 8 hours of care, with a process to enter and reconcile what was written on paper after reactivation (1.3); accurate patient identification before, during and after downtime, including unique temporary record numbers and reconciliation of those IDs when the EHR returns (1.5); staff trained and tested, with unannounced downtime drills at least once a year (2.1); a communication method that does not depend on the EHR's infrastructure and a notice when the EHR is back (2.2); a written downtime and recovery policy that says when downtime is called and how downtime information is entered (2.3); and procedures to stop and restart interfaces in an orderly way, with buffers emptied before a stop or restart (2.5). The 2025 set has eight guides. CMS attestation to the High Priority Practices guide under Promoting Interoperability is described by secondary sources; they disagree on which year moves to the 2025 guides.
+- Joint Commission emergency management chapter (revised 2022): the six critical areas are EM.12.02.01 to EM.12.02.11 (communications, staffing, patient care and clinical support, safety and security, resources and assets, utilities); EM.16.01.01 is the exercise standard. Joint Commission text is copyrighted and was read through secondary summaries and this dossier's earlier reading, not the manual itself. The exercise record template already uses these names.
+- 45 CFR 164.404 and 164.408 timing as used in the breach worksheet sample: 60 calendar days from discovery for individual notice, and within 60 days after the end of the calendar year for breaches under 500. The sample's 2026-10-21 discovery gives 2026-12-20 and 2027-03-01; both are right.
+
+**Default set: restore order.** The clinician priority list stays `identity_check, lab_interface, ehr, pharmacy_interface`, and the reasons are now written into the toolkit and the downtime model. Downtime registrations have to be matched to the master patient index before anything else flows (SAFER 1.5). Results interfaces catch up next, so that when clinicians are let back into the chart it is complete, not merely looking complete with results still queued. The EHR then opens to clinicians. The pharmacy order interface and the cabinet profiles follow once active medication orders written on paper are back-entered and verified: a profile sent before that is incomplete, and cabinets stay on override with paper verification until then. Registration (ADT) messages restart before orders and results so later messages find their patient, as SAFER 2.5 implies. The list is the scenario author's to change; the measure says it is clinical judgment, not a standard.
+
+**Default set: reconciliation thresholds.** Seeded discrepancies surface from 10 to 80 percent of back-entry (with three discrepancies: 10, 45 and 80 percent), changed from 20 to 90. The first is a duplicate registration, and duplicate registrations surface during the identity work at the very start of recovery. The last now arrives while a fifth of the work is still open, so players can act on it instead of meeting it as the facilitator closes reconciliation. The other targets stay: 60 minutes from declaration to every unit on downtime procedures, and 60 minutes for critical result communication (organizations set their own; 60 is the outer end of common practice and the scenario author can tighten it).
+
+**Changed:**
+
+- The consequence rule "EHR before the lab interface" raised both the results backlog and the wrong-patient risk. The second does not follow from that order: wrong-patient results come from results filing before downtime registrations are matched. The rule now raises only the backlog (a chart that looks complete while results are queued, so results are missed and tests ordered again), and a new rule, results before the identity check, raises the wrong-patient risk. The default priority fires neither.
+- The restore-order measure compared system names exactly, so a player who wrote "Lab interface" scored n/a against `lab_interface`. Names are now compared in a normalized form, and the form's field label gives an example in plain words.
+- The realism rule on restore order is rewritten to match, and a rule on interface restart order (ADT first; queues emptied or held before a stop or restart) is added.
+- The downtime notice sample named a real dispensing cabinet and a real badge-phone product, and the interface monitor sample and its schema examples named a real EHR product, against the toolkit's own rule. Both are vendor-neutral now, with their goldens regenerated.
+- The overlap with nursing's downtime measure is settled in the nursing dossier's review: both stay, with distinct names.
+
+**Caveats:**
+
+- The consequence rules are a teaching table, not a model, and are not yet wired into play: only their tests call them.
+- The "messages replayed before the identity check" rule fires on any replay, whether or not an identity check was decided first; read it as "replay adds expected duplicates".
+- There is no health informatics user guide yet; the toolkit is described only in the toolkits guide and the profile.
+- SAFER attestation years and the Joint Commission chapter text were not read in their primary form this session.
