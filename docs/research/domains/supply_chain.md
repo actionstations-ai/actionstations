@@ -114,3 +114,29 @@ Most supply chain exercise data (inventory, orders, shipments, lots) is simulate
 ## 10. Reuse by other domains
 
 The logistics toolkit (tracker, inventory dashboard, supplier board, traceability lookup) suits hospitals (medical supplies), pharmacies (#696), utilities (spare parts, fuel), retailers, humanitarian response (#702), schools (food service) and manufacturers. It reuses the maritime, freight rail and agriculture material and governance's BIA and recovery tracker (spec 0459).
+
+## Expert review (2026-11-11)
+
+This is a model-led expert review, written from the standpoint of a supply chain and logistics resilience director and a food safety recall lead. It is not a review by a licensed or employed practitioner.
+
+**Checked.** The domain profile and its five threat families, the logistics toolkit (glossary, product conventions, realism rules, decision forms, metrics, critical tasks), the FSMA 204 records-request and FDA recall regulation entries, the supply chain guide, the recall letter, recall status report, public recall notice, records request, temperature excursion and allocation notice previews, and the simulated network's days-of-supply arithmetic.
+
+**Sources.** 21 CFR part 7 subpart C (7.41, 7.42, 7.46, 7.49, 7.53) and 21 CFR part 1 subpart S (1.1340, 1.1455), both read from the eCFR versioner API on 2026-11-11; the FDA food traceability rule page and the Federal Register notice of 2025-08-07 proposing the 30-month extension to 2028-07-20; FDA recall background and definitions.
+
+**Confirmed.** Recall classes; depth levels (consumer, retail, wholesale); effectiveness check levels A to E, with Level B "greater than 10 and less than 100 percent"; the "urgent" marking for Class I and II (and Class III when appropriate); status reports generally every 2 to 4 weeks at an interval FDA sets; firm-initiated recall without waiting for FDA; records available within 24 hours with the electronic sortable spreadsheet; 2-year record retention; and the compliance date status (proposed extension plus the congressional direction not to enforce before 2028-07-20; no final extension rule found on 2026-11-11). Demurrage and detention, tiering, force majeure and the allocation rules read as a practitioner would expect.
+
+**Changed and why.**
+
+- The simulated days-of-supply series counted confirmed inbound stock, while the guide and the design record promise stock on hand only. In a lane disruption a delayed shipment kept the series above the floor while shelves emptied, so the supply protection measure could miss the crossing. The series now counts stock on hand only, and a test pins it. The inventory board figure keeps its separate Inbound column and still adds it, a common and labelled planner convention.
+- The glossary's days-of-supply line now says stock on hand by default and that a table adding inbound shows it.
+- The recall class entry now says FDA assigns the class after its health hazard evaluation (21 CFR 7.41), and a firm's own notice may say the class is not yet assigned, as the public notice preview does.
+- A realism rule gives the FDA recall number format: food recalls start with F and carry the federal fiscal year. The recall status report's schema example used Z, the device prefix; it is now F-0000-2027.
+
+**Defaults set.** The simulated days-of-supply series is stock on hand divided by daily demand. The recall regulation keeps its 24-hour consignee notice and 14-day first status report as labelled exercise planning targets; the regulation sets neither.
+
+**Caveats left for the owner.**
+
+- The recall status report preview still shows `Z-0000-2027`. Change it to `F-0000-2027` and regenerate that template's golden; the app could not be rendered in this review's environment.
+- The status report template has no field for the estimated time to complete the recall, which 21 CFR 7.53(b) lists.
+- The allocation notice preview says it allocates on historical share and marks a row "Allocated pro rata"; a planner would use one term.
+- Re-check the FSMA 204 compliance date at each release.

@@ -164,7 +164,8 @@ export function simulateNetwork(raw: z.input<typeof NetworkParams>): SupplyNetwo
         const inbound = open
           .filter((o) => o.arrivalDay !== null && o.arrivalDay > d)
           .reduce((s, o) => s + o.quantity, 0)
-        const days = daysOfSupply(onHand, inbound, demand)
+        // The series counts stock on hand only: a delayed shipment protects nothing.
+        const days = daysOfSupply(onHand, 0, demand)
         daily.push({
           day: d,
           item: it.name,

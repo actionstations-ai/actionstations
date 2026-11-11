@@ -15,10 +15,13 @@ Turn it on in the scenario's **Toolkits** tab (see [Toolkits](toolkits.md)). The
 
 ## Things the toolkit gets right
 
-- A cluster is requested by the Humanitarian Coordinator and activated by the Emergency Relief Coordinator with the IASC Principals' endorsement. A refugee setting uses the refugee coordination model instead. The app flags drafts that say otherwise.
+- Under the IASC cluster approach, a cluster is requested by the Humanitarian Coordinator after consulting the Humanitarian Country Team and activated by the Emergency Relief Coordinator with the IASC Principals' endorsement. The 2025 Humanitarian Reset gives the Humanitarian Coordinator and the country team more say over which clusters to activate or merge, and is consolidating the 11 global clusters into 8 (shelter with camp coordination, logistics with emergency telecommunications, and one protection cluster). Say in the scenario which arrangement applies; the app flags a draft where the Humanitarian Coordinator activates clusters alone without saying so.
+- A refugee setting uses the refugee coordination model instead of clusters. Where refugees and internally displaced people are in the same area, clusters can run beside the refugee response; name the mixed setting in the scenario.
 - Taking part in the inter-agency security framework does not make the UN responsible for an NGO's security.
 - Days of stock are stock on hand divided by daily consumption, and the figure, the text and the measures all use the same arithmetic.
 - A blank in a 3W table is a gap or a reporting failure, not proof that nobody is working there.
+- A flash update is the short, numbered product of the first days of an emergency or a sharp escalation. The situation report follows at a set interval once the response is running.
+- Drafts follow do no harm: they weigh how a distribution site, a list or a message could put people at risk, and keep beneficiary and protection data need-to-know. Staff security decisions say what they mean for national staff as well as international staff.
 - Staff security and kidnapping scenarios never include negotiation tactics, ransom amounts or mechanics, or techniques for evading or resisting detention. Add a content notice and a wellbeing check for facilitators when a scenario involves harm to staff.
 
 ## Data you can bring in
@@ -52,4 +55,4 @@ Most humanitarian doctrine is not public domain, so the toolkit links rather tha
 
 ## Before you use it for real
 
-The rules the toolkit follows were checked against IASC and UNHCR pages on 5 November 2026, and the cluster system can change. Have a humanitarian operations lead who has run cluster or NGO coordination review a scenario, and a security manager review any staff security scenario, before you use it with participants. Every product is marked as an exercise product.
+The rules the toolkit follows were checked against IASC and UNHCR pages and the IASC cluster simplification proposal on 11 November 2026. The cluster system is changing country by country, so confirm the current structure where your scenario is set. Have a humanitarian operations lead who has run cluster or NGO coordination review a scenario, and a security manager review any staff security scenario, before you use it with participants. Every product is marked as an exercise product.
