@@ -301,13 +301,24 @@ describe('disclosure_timing', () => {
 })
 
 describe('downtime_workflow_time', () => {
-  it('measures the outage to the paper workflow decision of the configured kind', () => {
+  it('measures the outage to the downtime declaration of the configured kind', () => {
     const r = run('downtime_workflow_time', {
       events: [ev('o', 'downtime_start', 0, { system: 'EHR' })],
       decisions: [dec('d', 'declare_downtime', 20, {})],
     })
-    expect(summary(r, 'Mean minutes, outage to paper workflows')).toBe('20 min')
-    expect(summary(r, 'Started within 30 minutes')).toBe('1 of 1')
+    expect(summary(r, 'Mean minutes, outage to declaration')).toBe('20 min')
+    expect(summary(r, 'Declared within 30 minutes')).toBe('1 of 1')
+    expect(r.title).toBe('Outage to downtime declaration')
+    expect(r.caveats.join(' ')).toMatch(/separate measure in the clinical systems toolkit/)
+  })
+
+  it('is distinct from the clinical systems measure of declaration to all units', () => {
+    const r = run('downtime_workflow_time', {
+      events: [ev('o', 'downtime_start', 0, { system: 'EHR' })],
+      decisions: [dec('d', 'declare_downtime', 20, {})],
+    })
+    expect(r.metricId).not.toBe('time_to_downtime_procedures')
+    expect(r.title).not.toMatch(/all units/)
   })
 })
 
@@ -445,6 +456,6 @@ describe('the downtime metric and the clinical systems toolkit', () => {
       events: [ev('o', 'downtime_start', 0)],
       decisions: [dec('d', 'declare_downtime', 10, {})],
     })
-    expect(summary(r, 'Mean minutes, outage to paper workflows')).toBe('10 min')
+    expect(summary(r, 'Mean minutes, outage to declaration')).toBe('10 min')
   })
 })

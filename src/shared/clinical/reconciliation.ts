@@ -67,10 +67,21 @@ export function progressFigureData(
   }
 }
 
-/** The percent complete at which discrepancy `index` of `count` surfaces (20 to 90 percent). */
+/** Percent complete at which the first seeded discrepancy surfaces. */
+export const FIRST_RELEASE_PERCENT = 10
+/** Percent complete by which the last seeded discrepancy has surfaced. */
+export const LAST_RELEASE_PERCENT = 80
+
+/**
+ * The percent complete at which discrepancy `index` of `count` surfaces, spread evenly from
+ * 10 to 80 percent. Duplicate registrations surface first because matching downtime
+ * registrations is the first recovery step; the last discrepancy lands while a fifth of the
+ * back-entry is still open, so players have time to act before reconciliation is closed.
+ */
 export function releaseThreshold(index: number, count: number): number {
-  if (count <= 1) return 20
-  return 20 + Math.round((index * 70) / (count - 1))
+  const span = LAST_RELEASE_PERCENT - FIRST_RELEASE_PERCENT
+  if (count <= 1) return FIRST_RELEASE_PERCENT
+  return FIRST_RELEASE_PERCENT + Math.round((index * span) / (count - 1))
 }
 
 export interface DiscrepancyInject {

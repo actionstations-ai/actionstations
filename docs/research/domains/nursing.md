@@ -137,3 +137,30 @@ All dated and attributed.
 ## 10. Reuse by other domains
 
 The clinical care toolkit serves `healthcare`, `health_informatics` (the unit side of downtime), pharmacy (spec 0463), public health, EMS and fire (triage, handoffs), campus and K-12 (school nurse), stadium and venue (first aid and medical tent), behavioral health, hospitality and cruise (shipboard medical), humanitarian response and any domain with a medical branch. The MCI triage toolkit (EMS epic) shares the START/SALT tag templates; whichever is built first defines them once.
+
+## Expert review (2026-11-11)
+
+A model-led expert review written from the perspective of a nurse executive with emergency management experience. It is not a review by a licensed or employed practitioner, and the review by nursing faculty and a hospital nurse educator that the spec asks for is still open.
+
+**Checked:** the domain profile (roles, systems, threat families, phase arcs and prompt guidance), the clinical care toolkit (glossary, product conventions, realism rules, decision forms, metric defaults), the clinical care metrics, the medication administration record and related clinical samples, and the overlap with the clinical systems toolkit.
+
+**Sources checked:** the START criteria in the realism rules (walking wounded minor; breathing only after repositioning, absent radial pulse or not following commands immediate) against the ASPR TRACIE triage material this dossier cites; the NEWS2 response thresholds (5 or more urgent review, 7 or more emergency assessment) as already recorded; the ASTP/ONC SAFER Contingency Planning guide, 2025 edition (paper forms for at least 8 hours of care on each unit, unannounced downtime drills at least yearly, patient identification during and after downtime); the Joint Commission six critical areas as in the health informatics review.
+
+**Default set: the overlapping downtime measures.** Keep both, with distinct names and definitions:
+
+- Clinical care: **Outage to downtime declaration** (metric id unchanged), from the scripted outage to the declaration decision, target 30 minutes. It was titled "Time to downtime workflows" and its summary said "outage to paper workflows", but it has always measured the time to the declaration. It is the recognition and escalation link, where the charge nurse and house supervisor matter.
+- Clinical systems: **Declaration to all units on downtime procedures**, from the declaration to each unit working on paper, target 60 minutes. It is the dissemination link: forms, downtime reports, labels and runners reaching every unit.
+
+Merging them would hide which link failed; an after-action report has to say whether the delay was in recognizing the outage or in getting the procedures to the units. Each measure now says what it does not cover and where the other lives. The metric id is kept so saved evaluations still read.
+
+**Changed:**
+
+- The downtime measure is renamed and its summary, table and caveats say "declaration", as above.
+- A realism rule told the model, when unsure, to "name a typical adult dose range from a standard reference". That invites dose ranges from memory presented as referenced. Doses now come from the scenario author; when none is given the product reads "dose as ordered" and is flagged for the author.
+- The medication administration record sample gave piperacillin-tazobactam to a patient whose allergy line reads penicillin (rash): a penicillin-class drug, the kind of error a nurse or pharmacist spots at once. The same synthetic patient keeps the penicillin allergy in the other samples, so the drug is now vancomycin 1.25 g IV every 12 hours, with the golden regenerated. The patient generator already swaps the drug for a penicillin-allergic patient.
+
+**Caveats:**
+
+- There is no nursing user guide yet.
+- The staffing ratio target of 5 patients per nurse is a medical-surgical figure; ICU, step-down and long-term care need the scenario author's own number, and the realism rules already say ratio law varies by state.
+- The CNO is labeled Operations Section Chief in the role list; that is common under HICS but not fixed, and the hospital example uses the same label.

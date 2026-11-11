@@ -201,7 +201,7 @@
       "fields": [
         {
           "id": "ranking",
-          "label": "Systems and interfaces, first to last",
+          "label": "Systems and interfaces, first to last (for example: identity check, lab interface, EHR, pharmacy interface)",
           "kind": "text",
           "required": true
         },
@@ -500,7 +500,8 @@
       "Never use a real person's data; follow the record number format in the scenario facts.",
       "A downtime report cannot show anything newer than its as-of time.",
       "An interface queue grows at arrival rate minus drain rate.",
-      "Restoring the EHR before the lab interface enlarges the results backlog and risks wrong-patient results.",
+      "Interfaces restart in order: registration (ADT) first so later orders and results find their patient, then orders and results; queues are emptied or held before an interface is stopped or restarted.",
+      "Opening the EHR to clinicians before the results interfaces have caught up leaves a chart that looks complete but is missing results; releasing results before downtime registrations are matched to the master patient index risks wrong-patient results.",
       "Downtime registration uses a reserved record number block; duplicates after recovery are expected.",
       "Clinical content is plausible exercise content, not a clinical reference; no dosing or treatment advice.",
       "The hospital's compliance office decides what satisfies a requirement; say \"may support\".",

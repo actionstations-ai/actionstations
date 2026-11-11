@@ -86,18 +86,30 @@ describe('seedDiscrepancies', () => {
 describe('consequence rules', () => {
   const start = initialState(simulateDowntime(params))
 
-  it('ehr before the lab interface enlarges the backlog and the wrong-patient risk', () => {
+  it('ehr before the lab interface enlarges the backlog', () => {
     const { state, fired } = applyDecisions(start, [
-      { kind: 'restore_order', order: ['ehr', 'lab_interface'] },
+      { kind: 'restore_order', order: ['identity_check', 'ehr', 'lab_interface'] },
     ])
     expect(state.resultsBacklog).toBe(Math.round(start.resultsBacklog * 1.5))
-    expect(state.wrongPatientRisk).toBe(start.wrongPatientRisk + 20)
+    expect(state.wrongPatientRisk).toBe(start.wrongPatientRisk)
     expect(fired.map((f) => f.ruleId)).toEqual(['ehr_before_lab_interface'])
   })
 
-  it('the lab interface first fires nothing', () => {
+  it('results before the identity check raise the wrong-patient risk', () => {
     const { state, fired } = applyDecisions(start, [
-      { kind: 'restore_order', order: ['lab_interface', 'ehr'] },
+      { kind: 'restore_order', order: ['lab_interface', 'identity_check', 'ehr'] },
+    ])
+    expect(state.wrongPatientRisk).toBe(start.wrongPatientRisk + 20)
+    expect(state.resultsBacklog).toBe(start.resultsBacklog)
+    expect(fired.map((f) => f.ruleId)).toEqual(['lab_interface_before_identity_check'])
+  })
+
+  it('the default clinician priority fires nothing', () => {
+    const { state, fired } = applyDecisions(start, [
+      {
+        kind: 'restore_order',
+        order: ['identity_check', 'lab_interface', 'ehr', 'pharmacy_interface'],
+      },
     ])
     expect(state).toEqual(start)
     expect(fired).toEqual([])
@@ -129,7 +141,7 @@ describe('consequence rules', () => {
   it('a facilitator override lists the rule but changes nothing', () => {
     const { state, fired } = applyDecisions(
       start,
-      [{ kind: 'restore_order', order: ['ehr', 'lab_interface'] }],
+      [{ kind: 'restore_order', order: ['identity_check', 'ehr', 'lab_interface'] }],
       ['ehr_before_lab_interface'],
     )
     expect(state).toEqual(start)

@@ -238,7 +238,7 @@
     },
     {
       "id": "downtime_workflow_time",
-      "label": "Time to downtime workflows",
+      "label": "Outage to downtime declaration",
       "config": {
         "decisionKind": "declare_downtime",
         "targetMinutes": 30
@@ -643,7 +643,7 @@
     "realismRules": [
       "Vital signs, labs and findings follow one coherent physiologic story; a patient in septic shock does not have a normal lactate and a normal blood pressure unless the case says why.",
       "Heart rate, blood pressure, respiratory rate, oxygen saturation and temperature stay within human ranges and change gradually over time unless an event explains a jump.",
-      "Doses and routes are plausible for the named drug and patient; when unsure, name the drug and a typical adult dose range from a standard reference and flag it for review; never invent an implausible dose.",
+      "Doses and routes come from the scenario author; when the scenario gives none, write the drug with \"dose as ordered\" and flag it for the author to review. Never supply a dose range from memory and never invent an implausible dose.",
       "A nurse does not diagnose or prescribe; nursing actions are assessment, monitoring, nursing interventions within standing orders, escalation and documentation, and requests for orders.",
       "Rapid response is called for deterioration, not arrest; a code is called for arrest. Do not mix them.",
       "Hand hygiene for C. difficile uses soap and water; contact precautions with a gown and gloves apply. Alcohol hand rub does not kill the spores.",

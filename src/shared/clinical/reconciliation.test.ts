@@ -70,17 +70,17 @@ describe('progress', () => {
 })
 
 describe('discrepancy release', () => {
-  it('spreads thresholds from 20 to 90 percent', () => {
-    expect(releaseThreshold(0, 3)).toBe(20)
-    expect(releaseThreshold(1, 3)).toBe(55)
-    expect(releaseThreshold(2, 3)).toBe(90)
-    expect(releaseThreshold(0, 1)).toBe(20)
+  it('spreads thresholds from 10 to 80 percent', () => {
+    expect(releaseThreshold(0, 3)).toBe(10)
+    expect(releaseThreshold(1, 3)).toBe(45)
+    expect(releaseThreshold(2, 3)).toBe(80)
+    expect(releaseThreshold(0, 1)).toBe(10)
   })
 
   it('releases nothing before the first threshold and the rest as progress advances', () => {
     const none = new Set<string>()
-    const at10 = progressFromDecisions([report('09:00', 'ED', 10, 90)])
-    expect(dueDiscrepancies(discrepancies, at10, none, patients)).toEqual([])
+    const at5 = progressFromDecisions([report('09:00', 'ED', 5, 95)])
+    expect(dueDiscrepancies(discrepancies, at5, none, patients)).toEqual([])
     const at60 = progressFromDecisions([report('10:00', 'ED', 60, 40)])
     expect(
       dueDiscrepancies(discrepancies, at60, none, patients).map((d) => d.discrepancy.id),

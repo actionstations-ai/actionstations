@@ -125,3 +125,31 @@ All dated and attributed.
 ## 10. Reuse by other domains
 
 The pharmacy toolkit serves `healthcare` and `nursing` (spec 0452), `health_informatics` (spec 0451), `public_health` (vaccine programs and mass dispensing sites), EMS and fire (drug boxes and shortages), long-term care, behavioral health (controlled substance handling), humanitarian response (cold chain in the field), animal health and veterinary medicine (drug supply and cold chain), research labs (reagent cold storage), and the supply chain toolkit (shipments, lot tracing).
+
+## Expert review (2026-11-11)
+
+A model-led expert review written from the perspective of a health-system pharmacy director. It is not a review by a licensed or employed practitioner; the guide's advice to have a director of pharmacy review allocation, viability and substitution content before training use stands.
+
+**Checked:** the domain profile, the pharmacy toolkit (glossary, conventions, realism rules, metrics, decision forms, the hospital exercise tag), the pharmacy user guide, the loss notice sample and its clocks, the CDC storage ranges in the conventions, and the regulation statements in this dossier.
+
+**Sources checked:**
+
+- 21 CFR 1301.76(b) (Cornell LII copy of the eCFR text): written notice to the DEA Field Division within one business day of discovery of a theft or significant loss, and DEA Form 106 through the secure network application within 45 days of discovery, with the six significance factors. The toolkit, profile, guide, seeds and loss notice sample all state this correctly; the sample's dates (discovered 2026-11-05, notice by 2026-11-06, Form 106 by 2026-12-20) check out.
+- FDA, "Notify FDA of Illegitimate Products" and the Form FDA 3911 instructions: manufacturers, repackagers, wholesale distributors and dispensers notify FDA and appropriate immediate trading partners within 24 hours of determining that a product is illegitimate (a dispenser determines this in coordination with the manufacturer); FDA prefers the 3911 platform in CDER NextGen.
+- FDA small dispenser exemption: extended on 2026-08-06 to 2027-11-27 for dispensers with 25 or fewer full-time pharmacists and technicians, covering the enhanced electronic tracing requirements only (FDA exemptions page and trade summaries). This dossier's statement is correct.
+- CDC vaccine storage ranges (2 to 8 °C, 36 to 46 °F; -50 to -15 °C, -58 to +5 °F) as recorded; arithmetic checked.
+- Joint Commission six critical areas (chapter revised 2022): communications, staffing, patient care and clinical support, safety and security, resources and assets, utilities.
+
+**Changed:**
+
+- The hospital exercise tag and the guide grouped findings under the pre-2022 names ("staff responsibilities", "clinical and support activities") and said they were unchecked. They now use the current names, in the same order as the hospital exercise record, so a hospital running the pharmacy and the clinical systems material gets one grouping.
+- DSCSA was missing. The toolkit glossary and conventions now carry the suspect and illegitimate product steps (quarantine while investigating with the manufacturer; once illegitimate, Form FDA 3911 to FDA and notice to immediate trading partners within 24 hours), and the guide says so. This is guidance for the writing model, not a new clock.
+
+**Defaults:** none assigned to this field. The existing targets (minutes to quarantine and to first patient notice in the recall measure, the one-business-day and 45-day clocks) are left as they are.
+
+**Caveats and gaps for the owner:**
+
+- There is no suspect or counterfeit product threat family or DSCSA clock; a counterfeit-product scenario would need one (a regulation file with the 24-hour notice and a 3911 inject).
+- Controlled substance content covers theft and loss only. DEA Form 222 and CSOS ordering, Form 41 destruction and the biennial inventory are not modeled, which suits tabletops but matters if a diversion exercise grows into an audit.
+- Recall replay from FDA enforcement reports is still not available, as the guide says.
+- USP <797> and <800> remain cited from secondary sources.
