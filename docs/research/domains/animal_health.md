@@ -123,3 +123,32 @@ HPAI in commercial poultry, HPAI in dairy cattle, ASF introduction, FMD with mov
 ## 11. Reuse by other domains
 
 `food_agriculture` (processors, trade, recalls), `public_health` (zoonoses, worker health), emergency management and municipal (checkpoints, disposal sites, fair cancellations), campuses with vet schools or farms, port and freight (animal and feed shipments), K–12 and county fairs (4-H and FFA shows), wildlife and zoo operators, humanitarian response (animal health in disasters, #702). The premises, zones and movement-control figures feed the logistics toolkit (#695).
+
+## Expert review (2026-11-11)
+
+A model-led expert review written from the standpoint of a state veterinarian's office and a USDA APHIS animal health emergency responder. It is not a review by a licensed or employed practitioner; the state animal health office and an extension specialist should still review the products before use.
+
+**What was checked.** The domain profile (roles, outside parties, nine threat families), the animal disease toolkit (knowledge, decision forms, measures, lint rules), the premises and zone figures and the shared curve, the previews of the ten animal templates (quarantine and control area notice, movement permit, presumptive and confirmation notice, premises investigation, depopulation and disposal plan, indemnity worksheet, producer letter, event cancellation, consumer questions, worker health log) and the user guide. Depopulation and disposal stay at management level (sequence, method category, crews, site, capacity); no technique detail is given.
+
+**Sources.**
+
+- USDA APHIS HPAI Response Plan: The Red Book (updated May 2017), read as text: zones (infected zone at least 3 km, buffer zone at least 7 km beyond it, control area at least 10 km beyond the closest infected premises, surveillance zone at least 10 km wide), designations (only an at-risk premises may become monitored), stamping-out goal of depopulation within 24 hours of a presumptive positive with highest-spread premises first, and the diagnostic flow (NVSL confirms the index case and presumptive results from outside the control area; presumptive results inside an established control area may be acted on).
+- USDA APHIS FMD Response Plan: The Red Book (October 2020), read as text: contact premises every 5 days for 14 days, at-risk and monitored premises every 10 days and surveillance zone premises every 21 days, until 56 days after the last detected case. The pack matches.
+- AVMA Guidelines for the Depopulation of Animals (2019) and the APHIS ventilation shutdown policy: ventilation shutdown plus heat or carbon dioxide is permitted only in constrained circumstances, after preferred methods are ruled out.
+- APHIS federal orders on HPAI in dairy cattle (April 2024 pre-movement testing, December 2024 milk sampling) and the National Milk Testing Strategy, as recorded in this dossier.
+- CDC guidance on monitoring people exposed to infected birds or cattle (10 days after last exposure), checked against the worker health log preview.
+
+**What changed and why.**
+
+- The HPAI in dairy cattle family reused the poultry phase goals: control areas and surveillance zones from plan minimums, and producers restocking. The dairy response has been herd quarantine, testing and movement rules, not poultry zones or herd depopulation. The phase goals now describe quarantine and movement, release after repeated negative herd tests and return to normal movement, and the prompt guidance forbids poultry zone minimums, the 24 hour goal and herd depopulation for dairy unless the brief asks for them. The guide and the toolkit realism rule say the same.
+- The depopulation method choice "Ventilation shutdown" is now "Ventilation shutdown plus (constrained circumstances only)", matching the AVMA classification, so the decision record shows the welfare constraint a management team must justify.
+- The presumptive positive glossary line and the guide now record the Red Book's diagnostic flow inside an established control area.
+- The shared epidemic curve now titles its axes; the premises curve reads "Number of premises" against "Estimated date of infection".
+
+**Defaults.** Kept: 4 hours from presumptive positive to quarantine and 8 hours to control area set-up as scoring grace (practical for a same-day order); 24 hour depopulation goal from the Red Book; 24 hour permit service target and 12 hour disposal wait (designer values; state permit desks set their own).
+
+**Remaining caveats.**
+
+- The premises curve from the spread model counts every simulated infection, including ones the response has not yet detected. It is a controller view; do not hand it to players as the response team's curve without filtering to detected premises.
+- Dairy movement rules changed during 2025 and 2026 and sources disagree on dates; the designer must confirm current federal and state rules.
+- The HPAI Red Book in the library is the May 2017 edition; APHIS policy memos since then (for example on indemnity and biosecurity audits) are not in the pack.

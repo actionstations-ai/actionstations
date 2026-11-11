@@ -111,6 +111,8 @@ export function curveDataFromSpread(run: SpreadRun, title?: string): Record<stri
     start,
     binHours: 24,
     bins: run.params.days,
+    xLabel: 'Estimated date of infection',
+    yLabel: 'Number of premises',
     cases: run.infections.map((i) => ({
       onset: new Date(Date.parse(start) + i.infectedDay * DAY_MS).toISOString(),
       status: 'confirmed',

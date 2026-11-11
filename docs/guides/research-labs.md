@@ -25,8 +25,8 @@ Each runs the same seven phases: discovery, immediate actions and containment, c
 
 The clocks are on the Clocks strip in Facilitate, on exercise time, so a time jump moves them with it. Switch on the ones that apply to the organization you are exercising:
 
-- **Select agent theft, loss or release.** Immediate notice to CDC or APHIS (and to law enforcement for a theft or loss), then the written report within 7 calendar days. A training slide once treated 3 days as the limit; the regulation says 7.
-- **NIH Guidelines reporting.** The institutional biosafety committee reports significant problems and accidents to NIH within 30 days, and an overt exposure in a BL2 laboratory immediately.
+- **Select agent theft, loss or release.** Immediate notice to CDC or APHIS (and to law enforcement for a theft or loss), then the written report (Form 3) within 7 calendar days of discovery. A release counts when it causes an occupational exposure or escapes the primary barriers of the containment area. A theft or loss is reported even if the item is found later.
+- **NIH Guidelines reporting.** The institutional biosafety committee reports significant problems and accidents to NIH within 30 days. A spill or accident with an overt exposure in a BL2 laboratory, or an overt or potential exposure in a BL3 or BL4 laboratory, is reported immediately.
 - **Draft NIH biosafety policy.** Proposed notice within 24 hours and a full report within 30 days. This is a draft, the app says so on the clock and in exports, and you should check whether it has changed before you rely on it.
 - **Institution-set deadlines.** For example, a principal investigator reports to the biosafety officer within 24 hours. These are example values, written as data in the pack, so you can replace them.
 

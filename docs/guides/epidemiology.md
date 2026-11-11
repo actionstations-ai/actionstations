@@ -36,7 +36,7 @@ These are teaching models. They are not fitted to any disease and must not be us
 
 Every figure has a text summary and a data table. Status never rests on color alone.
 
-- **Epidemic curve.** Cases by onset time, never by report date. Bars are stacked by status: confirmed (solid), probable (hatched), suspect (dotted). Numbered markers show exposure and control times, keyed under the chart. A one-peak curve within one incubation period suggests a point source; a plateau suggests an ongoing source; peaks one incubation period apart suggest spread from person to person.
+- **Epidemic curve.** Number of cases (vertical axis) by date or hour of illness onset (horizontal axis), never by report date. Bars are stacked by status: confirmed (solid), probable (hatched), suspect (dotted). Numbered markers show exposure and control times, keyed under the chart. A one-peak curve within one incubation period suggests a point source; a plateau suggests an ongoing source; peaks one incubation period apart suggest spread from person to person.
 - **Line list.** One row per case with a code, onset, status and setting. Identifiers can be codes, fictional names, or hidden behind row numbers. It always says it is simulated.
 - **Attack rates.** Ill over total, among people who ate each item and those who did not, with relative risk and odds ratio. The highest odds ratio is flagged; it points to a hypothesis, not to proof.
 - **Spot map.** A schematic of where cases are, with no street map, so nothing is mistaken for a real place.

@@ -140,3 +140,16 @@ describe('notification board', () => {
     expect(wide.rows.find((r) => /law enforcement/.test(r.notification))!.status).toBe('made')
   })
 })
+
+describe('expert review facts (#699)', () => {
+  it('reports BL3 and BL4 potential exposures immediately, not only BL2 overt ones', () => {
+    const trigger = nih.triggers.find((t) => t.id === 'bl2_overt_exposure')!
+    expect(trigger.hint).toMatch(/overt or potential exposure in a BL3 or BL4 laboratory/)
+    expect(nih.citation).toMatch(/G-II-C-2-q/)
+  })
+
+  it('states the select agent deadlines without an outside slide as a source', () => {
+    expect(select.statusNote).not.toMatch(/slide/)
+    expect(select.statusNote).toMatch(/seven calendar days/)
+  })
+})

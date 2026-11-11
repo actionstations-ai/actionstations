@@ -208,3 +208,16 @@ describe('epidemiology templates', () => {
     },
   )
 })
+
+describe('expert review facts (#847)', () => {
+  it('counts an epidemiologically linked measles case as confirmed, as the CSTE definition does', () => {
+    const measles = toolkit.knowledge!.glossary!.find((g) => g.term === 'Measles')!
+    expect(measles.definition).toMatch(/Epi-linked to a lab-confirmed case: confirmed \(CSTE\)/)
+    const preview = JSON.parse(
+      readFileSync(join(ROOT, 'templates/injects/clinician_health_alert/preview.json'), 'utf8'),
+    )
+    expect(preview.fields.caseDefinition).toMatch(
+      /^Confirmed: .*epidemiologic link to a laboratory-confirmed case\. Probable: .*no epidemiologic link/,
+    )
+  })
+})
