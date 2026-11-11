@@ -11,8 +11,8 @@
     }
   ],
   "status": "in_force",
-  "statusNote": "A summary for exercises, not legal advice. State occupational safety plans may add duties. Check the current text for what counts as work-related and for the time limits on a death after the incident.",
-  "verifiedOn": "2026-11-05",
+  "statusNote": "A summary for exercises. Each clock runs from when the employer or its agent learns of the event (or learns it was work-related). A death is reportable when it occurs within 30 days of the incident; an in-patient hospitalization, amputation or loss of an eye when it occurs within 24 hours of the incident. An in-patient hospitalization is a formal admission for care or treatment, not observation or diagnostic testing alone. Report by telephone or in person to the nearest area office, to 1-800-321-OSHA or with the online form; a message, fax or email does not count. State plans may be stricter: California requires a report within 8 hours for a serious injury or illness as well as a death.",
+  "verifiedOn": "2026-11-11",
   "calendar": "none",
   "triggers": [
     {
@@ -30,7 +30,7 @@
     {
       "id": "fatality",
       "label": "Report a work-related fatality",
-      "recipient": "OSHA area office or the OSHA 24-hour hotline",
+      "recipient": "OSHA area office, the OSHA 24-hour hotline or the online form",
       "dueAt": [{ "from": "fatality_learned", "amount": 8, "unit": "hours" }],
       "rule": "Report a work-related fatality within 8 hours.",
       "injectTypes": ["osha_report_record", "regulatory_report_form"]

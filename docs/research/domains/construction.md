@@ -135,3 +135,31 @@ Collapse and site incidents reach `industrial`, `energy_utility` (substation and
 ## 10. Related toolkits
 
 Earth sciences (spec 0450) for shaking and the seismic placards by reference; weather (spec 0449) for wind and rain; EMS, fire and hazmat (spec 0456) for rescue and the technical rescue products; flooding (#687) for flood-damaged buildings; maps (spec 0436) for assignment and site plan maps.
+
+## Expert review (2026-11-11)
+
+This is a model-led expert review, written from the standpoint of a construction safety and structural engineering lead with post-disaster building assessment experience. It is not a review by a licensed or employed practitioner.
+
+**Checked:** the domain profile (roles, outside parties, threat families, prompt guidance), the structures toolkit (glossary, realism rules, decision forms, metrics and critical tasks), the OSHA reporting regulation entry, the five lint rules, the reporting and placard metrics, the site emergency generator's reportable-event timing, the previews of the OSHA report record, crane lift record, excavation inspection record, rapid evaluation form, unsafe building order, stop-work order and building placard, and the user guide.
+
+**Sources read:**
+
+- 29 CFR 1904.39, full text through the eCFR versioner API (current as of 2026-11-01): 8 and 24 hour clocks, the three reporting methods, no voicemail, fax or email, 30-day and 24-hour windows, clocks running from when the employer or its agent learns, in-patient hospitalization as formal admission for care or treatment.
+- 29 CFR 1926 Subpart P through the same API: 1926.650 competent person definition, 1926.651(c)(2) and (k), 1926.652(a)(1) and (b), Appendices B, C and D (each limited to 20 feet; Appendix D footnote refers deeper trenches to 652(c)(2) and (c)(3)).
+- OSHA fact sheet "Trenching and Excavation Safety": "Trenches 20 feet (6.1 meters) deep or greater require that the protective system be designed by a registered professional engineer or be based on tabulated data prepared and/or approved by a registered professional engineer."
+- 29 CFR 1926.1417(n): the competent person adjusts equipment and operations for wind, ice and snow; Subpart CC sets no numeric wind limit.
+- ATC-20 UNSAFE placard (atcouncil.org) and California city post-disaster ordinances: UNSAFE means "do not enter or occupy" and is not a demolition order; INSPECTED reads "lawful occupancy permitted"; placards are not to be removed or covered without the jurisdiction's authorization.
+- 8 CCR 342 (Cal/OSHA): serious injury, illness or death reported within 8 hours of the employer knowing.
+
+**Changed and why:**
+
+- The 20-foot engineered-system rule. The dossier left it unverified and the toolkit forbade stating it. Appendix B and OSHA's own fact sheet confirm it, so the realism rules, prompt guidance and guide now state it in OSHA's words, and the `structures.excavation_rules` lint now flags a depth other than 20 feet tied to professional-engineer design instead of flagging the correct rule.
+- Placard authority. "An evaluator recommends a placard" is not how ATC-20 programs work: evaluators post the placard in the field as the building official's agents, and the official owns the unsafe declaration, the vacate order and re-entry. The guide, evaluator role, glossary, prompt guidance and lint message now say so.
+- UNSAFE placard wording. The placard template now says "This placard is not a demolition order" (an owner misreading a red placard as a demolition notice is a classic exercise inject) and carries the "do not remove, alter or cover" line. Golden image regenerated for that template.
+- OSHA clock detail. The regulation note, toolkit realism rule and guide now say the clocks run from when the employer learns, give the 30-day and 24-hour windows, exclude observation-only admissions, list the reporting methods and name California as a stricter state plan. The fatality recipient now includes the online form, which 1904.39(a)(3)(iii) allows.
+- OSHA record preview said "admitted for observation and surgery"; observation alone is not reportable, so the sample now says surgery only.
+- Crane record preview gave a "20 sustained" limit and then held the pick on a 21 mph gust with 15 mph sustained, which contradicts its own limit. The sample limit is now a gust-or-sustained limit from the lift plan for the curtain wall's sail area.
+
+**Defaults set:** none were open for this field. The placard trap defaults (all off) and the owner and insurer notice targets (unset, shown but not scored) were reviewed and kept: contract notice terms vary and should be the designer's choice.
+
+**Caveats:** the damage relation remains an invented exercise model. The rescue and placard material still deserves a read by a structural engineer who has served as an evaluator. The appeal period on the unsafe building order sample (10 days) is a plausible local value; model codes and local ordinances differ.

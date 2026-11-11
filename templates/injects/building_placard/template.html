@@ -3,8 +3,8 @@
     <h1>{{fields.category}}</h1>
     <div class="m">
       {{#if (eq fields.category "INSPECTED")}}{{t 'Lawful occupancy permitted'}}{{else if (eq
-      fields.category "UNSAFE")}}{{t 'Do not enter or occupy. Dangerous to life.'}}{{else}}{{t
-      'Entry limited as written below'}}{{/if}}
+      fields.category "UNSAFE")}}{{t 'Do not enter or occupy. This placard is not a demolition
+      order.'}}{{else}}{{t 'Entry limited as written below'}}{{/if}}
     </div>
   </div>
   <dl>
@@ -24,5 +24,8 @@
     <dt>{{t 'Issued by'}}</dt>
     <dd>{{default fields.jurisdiction "Building department"}}</dd>
   </dl>
+  <div class="keep">
+    {{t 'Do not remove, alter or cover this placard until the building official authorizes it.'}}
+  </div>
   <div class="ex">{{t 'Exercise product. Not a real placard.'}}</div>
 </div>

@@ -77,8 +77,10 @@ describe('construction profile', () => {
     expect(site).toMatch(/24 hours/)
     expect(site).toMatch(/5 feet/)
     expect(site).toMatch(/25 feet/)
-    expect(site).toMatch(/Do not state a depth threshold for engineered trench systems/)
+    expect(site).toMatch(/20 feet deep or greater .* registered professional engineer/)
     const insp = fam('post_disaster_inspection')?.promptGuidance ?? ''
+    expect(insp).toMatch(/Evaluators post placards as the building official's agents/)
+    expect(insp).toMatch(/not a demolition order/)
     expect(insp).toMatch(/INSPECTED \(green\), RESTRICTED USE \(yellow\) and UNSAFE \(red\)/)
     expect(insp).toMatch(/at the time it was evaluated/)
     expect(profile().description).toMatch(/building official declares a building unsafe/)

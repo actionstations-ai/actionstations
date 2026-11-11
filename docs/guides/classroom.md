@@ -58,8 +58,10 @@ only a starting point: nothing counts until you confirm it.
 
 A rubric belongs to a role, or to the whole team. Each criterion has a weight and three to six
 levels, each with a descriptor and points, and can be linked to outcomes. **Add the starter
-rubrics** gives you original rubrics for communication, decision quality, role clarity, use of plans,
-situational awareness, coordination and evaluator observation quality. Edit them freely. Rubrics
+rubrics** gives you three original rubrics. **Player role** scores communication, decision
+quality, role clarity, use of plans and situational awareness. **Team** scores coordination,
+communication and decision quality. **Evaluator** scores observation quality, coverage of the
+assigned tasks, and strengths and areas for improvement. Edit them freely. Rubrics
 export and import as files. Rubrics from other institutions are not included when their license
 forbids it; import them yourself if yours allows.
 

@@ -45,7 +45,8 @@ describe('structures toolkit', () => {
     const text = toolkitKnowledge([toolkit])
     expect(text.truncated).toEqual([])
     expect(text.text).toContain('within 8 hours')
-    expect(text.text).toContain('Do not state a depth rule for engineered trench systems')
+    expect(text.text).toContain('A trench 20 feet deep or greater needs a protective system')
+    expect(text.text).toContain('not a demolition order')
   })
 
   it('reuses the earthquake toolkit placard instead of duplicating it', () => {

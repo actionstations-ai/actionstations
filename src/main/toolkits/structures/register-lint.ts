@@ -1,6 +1,6 @@
 // The structures toolkit's format rules (spec 0471 FR-4) as field lint rules: they run on the
 // injects of the types below, so an inject with a wrong placard color, an OSHA clock that does
-// not match its event, a depth rule for engineered trenches, a building declared unsafe by the
+// not match its event, a wrong depth for engineered trenches, a building declared unsafe by the
 // wrong person or a pick that continues past the wind limit goes back to the model with the
 // issue named. Importing this module registers them (lint-rules.ts lists it). A rule with
 // nothing structured to check reports nothing.

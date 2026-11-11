@@ -199,7 +199,7 @@
       "name": "Building Safety Evaluator (volunteer engineer, architect or inspector)",
       "abbreviation": "EVAL",
       "team": "Team G: Evaluation program",
-      "description": "Walks a building, fills in the rapid or detailed evaluation, recommends a placard and reports to the team leader."
+      "description": "Walks a building, fills in the rapid or detailed evaluation, posts the placard on the building official's authority and reports to the team leader."
     },
     {
       "key": "construction_pio",
@@ -357,7 +357,7 @@
         "DECISION_POINT": 15,
         "NOISE": 10
       },
-      "promptGuidance": "Authority is specific: the competent person and the superintendent can stop work, the safety director can too, and the engineer of record decides structural adequacy. Use the OSHA clocks as summaries: a work-related fatality is reported within 8 hours and an in-patient hospitalization, amputation or loss of an eye within 24 hours. Excavation rules to rely on: a protective system at 5 feet or deeper unless in stable rock, a competent person's daily and post-rain inspection, a safe exit within 25 feet of lateral travel in a trench 4 feet deep or more, and workers removed from the hazard until precautions are taken. Do not state a depth threshold for engineered trench systems. Every product is an exercise product.",
+      "promptGuidance": "Authority is specific: the competent person and the superintendent can stop work, the safety director can too, and the engineer of record decides structural adequacy. Use the OSHA clocks as summaries: a work-related fatality is reported within 8 hours and an in-patient hospitalization, amputation or loss of an eye within 24 hours. Excavation rules to rely on: a protective system at 5 feet or deeper unless in stable rock, a competent person's daily and post-rain inspection, a safe exit within 25 feet of lateral travel in a trench 4 feet deep or more, and workers removed from the hazard until precautions are taken. A trench 20 feet deep or greater needs a protective system designed by a registered professional engineer or based on tabulated data one prepared or approved. Every product is an exercise product.",
       "lint": {
         "clueRequired": true,
         "clueRole": "operations"
@@ -510,7 +510,7 @@
         "DECISION_POINT": 15,
         "NOISE": 10
       },
-      "promptGuidance": "Placards are INSPECTED (green), RESTRICTED USE (yellow) and UNSAFE (red); the category is always written as words and the placard describes the building at the time it was evaluated. An evaluator recommends and the building official's program posts; the engineer of record is not the evaluator. Priorities are hospitals, shelters and schools, then other buildings. A rapid evaluation is not a structural analysis. Placards and forms follow the public methods in structure and wording but are new exercise templates.",
+      "promptGuidance": "Placards are INSPECTED (green), RESTRICTED USE (yellow) and UNSAFE (red); the category is always written as words and the placard describes the building at the time it was evaluated. Evaluators post placards as the building official's agents, and only the building official declares a building unsafe or orders it vacated; the engineer of record is not the evaluator. An UNSAFE placard is not a demolition order. Priorities are hospitals, shelters and schools, then other buildings. A rapid evaluation is not a structural analysis. Placards and forms follow the public methods in structure and wording but are new exercise templates.",
       "lint": {
         "clueRequired": true,
         "clueRole": "operations"
