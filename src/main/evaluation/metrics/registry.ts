@@ -32,6 +32,7 @@ import { decisionTiming } from './decision-timing'
 import { destinationFit } from './destination-fit'
 import { holdingStatementTime } from './holding-statement-time'
 import { needsCoverage } from './needs-coverage'
+import { notificationClocksMet, type RegulationClocks } from './notification-clocks'
 import { serviceLevel } from './service-level'
 import { timeToCompletion } from './time-to-completion'
 import { messageConsistency, type FactStatement, type KeyFact } from './message-consistency'
@@ -56,6 +57,8 @@ export interface MetricInputBag {
   checks?: StatementCheck[]
   /** Datasets a field metric reads that the generic ones do not, by dataset id. */
   datasets?: Record<string, unknown>
+  /** Regulatory clocks as the facilitator tracked them in Facilitate. */
+  clocks?: RegulationClocks[]
 }
 
 export const BUILTIN_METRIC_IDS = [
@@ -136,6 +139,8 @@ registerMetric(spillNotificationTimeliness, eventsAndDecisions)
 registerMetric(serviceLevel, (b) => ({ series: b.series ?? [] }))
 registerMetric(timeToCompletion, eventsAndDecisions)
 registerMetric(needsCoverage, eventsAndDecisions)
+// Any regulation's notification clocks, from the facilitator's compliance record (#1137).
+registerMetric(notificationClocksMet, (b) => b.clocks ?? [])
 
 export const metricIds = (): string[] => [...entries.keys()].sort()
 export const isMetricId = (id: string): boolean => entries.has(id)

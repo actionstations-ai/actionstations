@@ -101,7 +101,7 @@ Open the scenario's Evaluation tab and choose **Compute field metrics** after a 
 - **Reconciliation time and percent complete**, by unit, from the progress players reported, until reconciliation is closed.
 - **Duplicate records created.**
 - **Restore order against the clinician priority list:** a rank correlation and the share of pairs in the same order. The default list is identity check, lab interface, EHR, pharmacy interface: downtime registrations are matched first, results catch up next so the chart is complete when clinicians return, and the pharmacy interface and cabinet profiles follow once paper orders are back-entered and verified. The list is the clinicians' judgment for the scenario, not a standard; change it for your hospital and read the score with the reasons players gave. Names are compared loosely, so "Lab interface" matches lab_interface.
-- **Notification clocks met** for the HIPAA breach notification rule.
+- **Notification clocks met** for the HIPAA breach notification rule: each clock (individuals, HHS, media) met, missed, open at the end, waived or not started, from what the facilitator records in Facilitate (see Clocks and requirements below).
 
 Where each measure's events come from:
 
@@ -115,7 +115,7 @@ The clinical care measures for the same exercise (see [Nursing and clinical care
 
 ## Clocks and requirements
 
-Switch on the **HIPAA Breach Notification Rule** in Project settings, Compliance, to show its clocks under the exercise clock (see [Getting started](getting-started.md)). From the day a breach is discovered: notice to individuals without unreasonable delay and no later than 60 calendar days; notice to HHS within 60 days when 500 or more people are affected (for fewer, within 60 days after the end of the calendar year; the clock shows the 500-or-more case); and notice to prominent media within 60 days when more than 500 residents of a state or jurisdiction are affected. State breach laws can be shorter and are not modeled. A proposed update to the HIPAA Security Rule was published in January 2025 and is not final; the exercises treat it as pending.
+Switch on the **HIPAA Breach Notification Rule** in Project settings, Compliance, to show its clocks under the exercise clock (see [Getting started](getting-started.md)). From the day a breach is discovered: notice to individuals without unreasonable delay and no later than 60 calendar days; notice to HHS within 60 days when 500 or more people are affected (for fewer, within 60 days after the end of the calendar year; the clock shows the 500-or-more case); and notice to prominent media within 60 days when more than 500 residents of a state or jurisdiction are affected. Fire **Breach discovered** in Facilitate when players determine a breach occurred, and record each notice as filed (or missed, or waived when it does not apply, such as the media notice for 500 or fewer residents) so the **Notification clocks met** measure can score it. State breach laws can be shorter and are not modeled. A proposed update to the HIPAA Security Rule was published in January 2025 and is not final; the exercises treat it as pending.
 
 The domain assumes these plans, checked in November 2026. Rules change, so check the current text.
 
