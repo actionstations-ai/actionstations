@@ -174,7 +174,7 @@
     {
       "id": "make_notifications",
       "label": "Make notifications",
-      "description": "Record who was notified and when.",
+      "description": "Record each party notified and when. Name up to three parties called on the same call-out.",
       "fields": [
         {
           "id": "who",
@@ -188,7 +188,38 @@
             "Coast Guard Sector or EPA",
             "State environmental agency",
             "Downstream water utility",
-            "Local emergency management"
+            "Local emergency management",
+            "Natural resource trustees"
+          ]
+        },
+        {
+          "id": "also_notified",
+          "label": "Also notified on the same call-out",
+          "kind": "choice",
+          "choices": [
+            "National Response Center",
+            "Qualified Individual",
+            "Oil spill removal organization",
+            "Coast Guard Sector or EPA",
+            "State environmental agency",
+            "Downstream water utility",
+            "Local emergency management",
+            "Natural resource trustees"
+          ]
+        },
+        {
+          "id": "also_notified_2",
+          "label": "And also notified",
+          "kind": "choice",
+          "choices": [
+            "National Response Center",
+            "Qualified Individual",
+            "Oil spill removal organization",
+            "Coast Guard Sector or EPA",
+            "State environmental agency",
+            "Downstream water utility",
+            "Local emergency management",
+            "Natural resource trustees"
           ]
         },
         {
@@ -457,14 +488,12 @@
   ],
   "metrics": [
     {
-      "id": "decision_timing",
+      "id": "spill_notification_timeliness",
       "label": "Notification timeliness",
       "config": {
         "decisionKinds": ["make_notifications"],
         "eventKinds": ["notification_due"],
-        "leadWindowMin": 60,
-        "graceWindowMin": 0,
-        "matchArea": false
+        "partyFields": ["who", "also_notified", "also_notified_2"]
       },
       "groundTruth": "notification-deadlines"
     },
