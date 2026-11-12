@@ -1,10 +1,11 @@
 // Opt-in live checks of the humanitarian connectors: LIVE=1, optionally with HDX_APP and
 // HDX_CONTACT (HDX; the app's own identity is used without them) and RELIEFWEB_APPNAME
-// (ReliefWeb, skipped without it). The key figures and aid worker security checks need nothing
-// else. Never runs in CI.
+// (ReliefWeb, skipped without it). The key figures, GDACS and aid worker security checks need
+// nothing else. Never runs in CI.
 import { describe, expect, it } from 'vitest'
 import { caseUserAgent } from '../../case-data/http'
 import { awsdIncidentCounts } from './humanitarian-awsd'
+import { gdacsEvents } from './humanitarian-gdacs'
 import { hdxKeyFigures } from './humanitarian-hapi-figures'
 import { hdxOperationalPresence } from './humanitarian-hdx'
 import { reliefwebReports } from './humanitarian-reliefweb'
@@ -47,6 +48,19 @@ describe.skipIf(!live || !process.env.RELIEFWEB_APPNAME)('ReliefWeb live', () =>
     }
     const out = await reliefwebReports.fetch(q, ctx)
     expect(JSON.parse(String(out.files[0]!.data)).length).toBeGreaterThan(0)
+  }, 60_000)
+})
+
+describe.skipIf(!live)('GDACS live', () => {
+  it('returns the February 2023 earthquakes for Türkiye', async () => {
+    const q: ConnectorQuery = {
+      range: { start: '2023-02-01T00:00:00Z', end: '2023-02-28T00:00:00Z' },
+      area: { label: 'Türkiye' },
+      options: { location: 'TUR' },
+    }
+    const out = await gdacsEvents.fetch(q, ctx)
+    const entries = JSON.parse(String(out.files[0]!.data)) as { text: string }[]
+    expect(entries.some((e) => /Red alert\. Magnitude 7\.8/.test(e.text))).toBe(true)
   }, 60_000)
 })
 

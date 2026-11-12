@@ -6,6 +6,7 @@ import { humanitarianGapClosure } from '../../evaluation/metrics/humanitarian-ga
 import { humanitarianNeedsCoverage } from '../../evaluation/metrics/humanitarian-needs-coverage'
 import { registerMetric } from '../../evaluation/metrics/registry'
 import { awsdIncidentCounts } from '../connectors/humanitarian-awsd'
+import { gdacsEvents } from '../connectors/humanitarian-gdacs'
 import { hdxKeyFigures } from '../connectors/humanitarian-hapi-figures'
 import { hdxOperationalPresence } from '../connectors/humanitarian-hdx'
 import { reliefwebReports } from '../connectors/humanitarian-reliefweb'
@@ -22,6 +23,12 @@ export function registerHumanitarianMetrics(): void {
 
 export function registerHumanitarianToolkit(): void {
   registerHumanitarianMetrics()
-  for (const c of [hdxOperationalPresence, hdxKeyFigures, reliefwebReports, awsdIncidentCounts])
+  for (const c of [
+    hdxOperationalPresence,
+    hdxKeyFigures,
+    gdacsEvents,
+    reliefwebReports,
+    awsdIncidentCounts,
+  ])
     if (!hasConnector(c.id)) registerConnector(c)
 }

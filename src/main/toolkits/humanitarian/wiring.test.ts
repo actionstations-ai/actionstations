@@ -32,6 +32,7 @@ describe('code the toolkit names exists', () => {
     expect(toolkit.connectors).toEqual([
       'hdx-operational-presence',
       'hdx-key-figures',
+      'gdacs-events',
       'reliefweb-reports',
       'awsd-incident-counts',
     ])
