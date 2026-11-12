@@ -8,8 +8,6 @@
 //     simulated world the controller scripts by hand, such as a harm event or a triage victim.
 // This turns those decisions into events, attaches communications to the critical results they
 // answer, and puts decision times on the case clock. Pure: no Node imports, no clock.
-import { caseTimeIso } from '../case-time'
-import type { CaseTimeMapping } from '../schemas/case-data'
 import type { GroundTruthEvent, MetricDecision } from '../schemas/metrics'
 
 const key = (s: unknown): string =>
@@ -150,26 +148,5 @@ export function withCommunications(
   })
 }
 
-const HMM = /^(\d{1,3}):([0-5]\d)$/
-
-/** Minutes of an exercise-clock time ("H:MM"), or undefined. */
-export function exerciseMinutes(v: unknown): number | undefined {
-  const m = HMM.exec(text(v))
-  return m ? Number(m[1]) * 60 + Number(m[2]) : undefined
-}
-
-/**
- * Decisions on the case clock, so they compare with simulated events. A decision's own time field
- * (the time the player gave) wins, then the exercise time it was recorded at; one with neither
- * keeps its recorded time.
- */
-export function onCaseClock(
-  decisions: readonly MetricDecision[],
-  mapping: CaseTimeMapping | undefined,
-): MetricDecision[] {
-  if (!mapping) return [...decisions]
-  return decisions.map((d) => {
-    const minutes = exerciseMinutes(d.fields.time) ?? exerciseMinutes(d.exerciseTime)
-    return minutes === undefined ? d : { ...d, time: caseTimeIso(minutes, mapping) }
-  })
-}
+// Decisions on the case clock: shared with every field's measures (src/shared/case-time.ts).
+export { exerciseMinutes, onCaseClock } from '../case-time'

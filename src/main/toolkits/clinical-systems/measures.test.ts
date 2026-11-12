@@ -32,7 +32,7 @@ vi.mock('../../packs/layers', async (importOriginal) => {
         workflows: [],
         documents: [],
         examples: [],
-        regulations: [],
+        regulations: ['hipaa_breach'],
         frameworks: [],
         toolkits: ['clinical_systems', 'clinical_care'],
       },
@@ -44,7 +44,7 @@ vi.mock('../../packs/layers', async (importOriginal) => {
     enabledPacks: () => [],
     bundledPacks: () => [pack],
     packsRevision: () => 1,
-    packItemPath: (_p: unknown, _k: unknown, id: string) => resolve(`packs/toolkits/${id}.json`),
+    packItemPath: (_p: unknown, kind: string, id: string) => resolve(`packs/${kind}/${id}.json`),
   }
 })
 
@@ -60,6 +60,7 @@ const { createScenario, updateScenario } = await import('../../scenario/store')
 const { sessionFolder } = await import('../../live/log-read')
 const { writeFacilitatorState, emptyFacilitatorState } = await import('../../facilitator/state')
 const { ScenarioBrief } = await import('@shared/schemas')
+const { ComplianceSession } = await import('@shared/schemas/compliance')
 const { registerClinicalToolkit } = await import('../clinical/register')
 const { registerClinicalSystemsToolkit } = await import('./register')
 const { readClinicalCase } = await import('./play')
@@ -134,6 +135,7 @@ async function run(
   ctx: { root: string; scenarioId: string },
   logged: ReturnType<typeof decision>[],
   saved: ReturnType<typeof decision>[] = [],
+  compliance?: unknown,
 ): Promise<Results> {
   const dir = sessionFolder(ctx.root, ctx.scenarioId, SESSION)
   mkdirSync(dir, { recursive: true })
@@ -149,13 +151,12 @@ async function run(
   await writeFacilitatorState(ctx.root, ctx.scenarioId, {
     ...emptyFacilitatorState(),
     decisionRecords: saved,
+    ...(compliance ? { compliance: ComplianceSession.parse(compliance) } : {}),
   })
   const { results, skipped } = await runToolkitMetrics(ctx.root, ctx.scenarioId, {
     sessionId: SESSION,
   })
-  // The toolkit also names a HIPAA notification clock measure the app has no code for yet; every
-  // other measure runs.
-  expect(skipped.map((x) => x.id)).toEqual(['notification_clocks_met'])
+  expect(skipped).toEqual([])
   return results
 }
 
@@ -284,6 +285,31 @@ describe('clinical systems measures', () => {
     expect(data(results, 'time_to_downtime_procedures')).toMatchObject({
       allUnitsMinutes: 20,
       withinTarget: 2,
+    })
+  })
+})
+
+describe('the HIPAA notification clocks measure', () => {
+  it('scores the breach notification clocks the facilitator tracked in Facilitate', async () => {
+    const compliance = {
+      fired: [
+        {
+          id: 'f1',
+          regulationId: 'hipaa_breach',
+          triggerId: 'breach_discovered',
+          exerciseMin: 45,
+          scenarioAt: '2026-11-12T00:45',
+          by: 'manual',
+        },
+      ],
+      clocks: { 'hipaa_breach:individuals': { status: 'met', exerciseMin: 150 } },
+    }
+    const results = await run(ctx, [], [], compliance)
+    expect(data(results, 'notification_clocks_met')).toMatchObject({
+      met: 1,
+      missed: 0,
+      open: 2,
+      notStarted: 0,
     })
   })
 })

@@ -81,6 +81,16 @@ Shows how many of the needs recorded in the scenario were met, and how long each
 - The result gives the share met, the median time to meet, and a row for each category with what was recorded, met and left open.
 - Needs are supports requested (electricity for equipment, communication access, personal assistance, medication, supervision), never diagnoses.
 
+## Notification clocks met
+
+Scores the reporting clocks of one regulation (the toolkit names it) from the facilitator's record in Facilitate, with the same deadlines the clock strip shows.
+
+- A clock **starts** when its trigger fires: from an MSEL row, by hand, or from a decision whose form fires it.
+- It is **met** when the facilitator records it filed at or before the deadline, and **missed** when it was filed late, recorded as missed, or its deadline passed with nothing filed. **Waived** clocks are listed and not counted.
+- A clock still running when the exercise ends is **open**: its deadline was ahead. Clocks counted in days (60 days for a HIPAA breach notice) are usually open at the end of a tabletop, so record the notice as filed when players complete it, or read open as planned rather than done.
+- A clock whose trigger never fired reads **not started**, and the result names the trigger.
+- The share met is met clocks divided by met and missed ones.
+
 ## Where results appear
 
 Results are saved with the exercise, so the same numbers show on the Evaluation tab and in the report. Each result lists its **inputs** (how many events and decisions, the windows, the threshold, the clearance time), the numbers, a table per event, zone or fact, and notes on what limits the result. The report section sits between the findings and the improvement plan, and re-running a metric replaces its earlier result instead of adding a second copy.
@@ -89,4 +99,6 @@ Results are saved with the exercise, so the same numbers show on the Evaluation 
 
 - **Events and series** come from the scenario's case data: storm reports and observed river levels for a historical case, the scenario's own generated values for a simulated one. The report says which.
 - **Decisions** come from the decisions recorded during live play and in Facilitate, with the time they were made.
+- **Times are compared on the case clock.** Case data keeps its own times (a storm in 2019, a simulated outage starting at 02:00), while a session runs today. When a measure reads case data, each decision is moved onto the case clock: the time the player typed on the form when it has one, otherwise the exercise time it was recorded at, converted with the scenario's start offset, speed and time jumps (see [Case data](case-data.md#exercise-clock-and-case-clock)). With none set, exercise time 0:00 is the start of the data the measure reads. Measures that read no case data compare decisions with each other on the session clock.
+- **Regulatory clocks** come from what the facilitator records in Facilitate: when a trigger fired and whether each clock was filed, missed or waived.
 - **Key facts and statements** are typed by the evaluator.

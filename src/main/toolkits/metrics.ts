@@ -3,11 +3,13 @@
 // from the scenario's case data, decisions from the session log's `data.structured`, key facts
 // from the evaluation record), runs the metric registry and stores the results with the
 // evaluation, where the Evaluation tab and the after-action report read them.
+import { caseClockFor, onCaseClock } from '@shared/case-time'
 import type { EvaluationRecord } from '@shared/schemas/evaluation'
 import type { DecisionRecord } from '@shared/schemas/decisions'
 import type { MetricDecision, MetricResult } from '@shared/schemas/metrics'
 import type { Toolkit, ToolkitMetric } from '@shared/toolkits'
 import { caseDir, readManifest } from '../case-data/store'
+import { regulationClocksProvider } from '../compliance/clock-measure'
 import { syncAarDocument, readAar } from '../aar/store'
 import {
   decisionsFromLog,
@@ -94,12 +96,12 @@ export async function metricsPlan(root: string, scenarioId: string): Promise<Met
   }
 }
 
-async function datasetFile(root: string, scenarioId: string, id: string | undefined) {
+async function caseDataset(root: string, scenarioId: string, id: string | undefined) {
   if (!id) return undefined
   const manifest = await readManifest(root, scenarioId)
   const dataset = manifest?.datasets.find((d) => d.id === id)
   if (!dataset?.file) throw new Error(`the case dataset "${id}" is not in this scenario`)
-  return dataset.file
+  return { file: dataset.file, rangeStart: dataset.range?.start, mapping: manifest?.timeMapping }
 }
 
 /**
@@ -124,6 +126,9 @@ export function registerMetricInputProvider(metricId: string, provider: MetricIn
   providers.set(metricId, provider)
 }
 
+// Any regulation's clocks, as Facilitate tracked them (the notification clocks measure).
+registerMetricInputProvider('notification_clocks_met', regulationClocksProvider)
+
 async function inputBag(
   root: string,
   scenarioId: string,
@@ -138,10 +143,20 @@ async function inputBag(
     checks: record.statementChecks ?? [],
   }
   const dir = caseDir(root, scenarioId)
-  const truth = await datasetFile(root, scenarioId, ref.groundTruth)
-  if (truth) bag.events = await readGroundTruth(dir, truth)
-  const series = await datasetFile(root, scenarioId, ref.series)
-  if (series) bag.series = await readModeledSeries(dir, series)
+  const truth = await caseDataset(root, scenarioId, ref.groundTruth)
+  if (truth) bag.events = await readGroundTruth(dir, truth.file)
+  const series = await caseDataset(root, scenarioId, ref.series)
+  if (series) bag.series = await readModeledSeries(dir, series.file)
+  // A measure that reads case data compares decisions with it on the case clock (#1136).
+  const data = truth ?? series
+  if (data) {
+    const clock = caseClockFor(data.mapping, {
+      rangeStart: data.rangeStart,
+      events: bag.events,
+      series: bag.series,
+    })
+    bag.decisions = onCaseClock(decisions ?? [], clock)
+  }
   const extra = await providers.get(ref.id)?.({ root, scenarioId, ref, bag })
   return extra ? { ...bag, ...extra } : bag
 }
