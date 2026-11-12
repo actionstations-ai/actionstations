@@ -124,6 +124,22 @@ export function createFbiCdeConnector(
     terms:
       'FBI Uniform Crime Reporting data, a U.S. government work; cite the FBI Crime Data Explorer. Counts are what agencies reported, and coverage varies by month. Needs the free api.data.gov key you saved in Settings.',
     hosts: ['api.usa.gov'],
+    options: [
+      {
+        key: 'state',
+        label: 'State',
+        type: 'text',
+        help: 'Two-letter state code, such as OH. Needed unless you name an agency below.',
+        example: 'OH',
+      },
+      {
+        key: 'ori',
+        label: 'Agency ORI',
+        type: 'text',
+        help: 'Optional nine-character agency identifier (ORI), such as OH0180900, from the FBI Crime Data Explorer; leave empty for the whole state.',
+        example: 'OH0180900',
+      },
+    ],
     estimate(query) {
       scopeOf(query)
       const months = monthsOf(query.range).length

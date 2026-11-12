@@ -223,7 +223,7 @@ describe('gdacs-events', () => {
 
 describe('reliefweb-reports', () => {
   it('refuses without an application name, with the settings hint', () => {
-    expect(() => appnameOf({ ...rwQ, options: {} })).toThrow(/application name \(Settings\)/)
+    expect(() => appnameOf({ ...rwQ, options: {} })).toThrow(/application name: give yours/)
     expect(() => reliefwebReports.estimate({ ...rwQ, area: { label: "Haiti' OR 1=1" } })).toThrow(
       /country/,
     )

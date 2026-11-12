@@ -147,6 +147,15 @@ export const awsdIncidentCounts: Connector = {
   terms:
     'Compiled by Humanitarian Outcomes from public reports and partner information and verified yearly; the latest incidents are provisional. The site states no licence. Only yearly counts are kept, no incident details.',
   hosts: [HOST],
+  options: [
+    {
+      key: 'country',
+      label: 'Country',
+      type: 'text',
+      help: 'Optional two-letter ISO country code, such as SD for Sudan; worldwide counts when left empty.',
+      example: 'SD',
+    },
+  ],
   estimate(q) {
     const c = countryOf(q)
     const [first, last] = yearsOf(q)

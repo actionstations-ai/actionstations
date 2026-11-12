@@ -177,6 +177,16 @@ export const lifeline988: Connector = {
   terms:
     'Published by the U.S. Government Accountability Office with its report; cite GAO-26-108114. Covers in-state routed Lifeline contacts, July 2022 to September 2025; specialty lines (Spanish, veterans) are not broken out.',
   hosts: ['files.gao.gov'],
+  options: [
+    {
+      key: 'state',
+      label: 'State or territory',
+      type: 'text',
+      required: true,
+      help: 'Two-letter state or territory code, such as OH, or US for the whole country.',
+      example: 'OH',
+    },
+  ],
   estimate(query) {
     jurisdictionOf(query)
     return {

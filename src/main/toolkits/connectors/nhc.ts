@@ -98,6 +98,41 @@ export const nhcConnector: Connector = {
   terms:
     'US government work, public domain. Best tracks are post-storm analyses, not the forecasts issued at the time.',
   hosts: [NHC_HOST],
+  options: [
+    {
+      key: 'name',
+      label: 'Storm name',
+      type: 'text',
+      required: true,
+      help: 'The storm name as NHC gave it, letters only, such as Ian.',
+      example: 'Ian',
+    },
+    {
+      key: 'year',
+      label: 'Year',
+      type: 'number',
+      required: true,
+      help: 'The year of the storm, such as 2022.',
+      example: 2022,
+    },
+    {
+      key: 'basin',
+      label: 'Basin',
+      type: 'choice',
+      help: 'The ocean basin the storm formed in.',
+      choices: [
+        { value: 'atlantic', label: 'Atlantic' },
+        { value: 'east_pacific', label: 'Eastern Pacific' },
+      ],
+      default: 'atlantic',
+      example: 'atlantic',
+    },
+  ],
+  area: {
+    label: 'optional',
+    help: 'The place the track stands for in the exercise, kept with the data.',
+    example: { label: 'Southwest Florida' },
+  },
   estimate,
   fetch: fetchTrack,
 }

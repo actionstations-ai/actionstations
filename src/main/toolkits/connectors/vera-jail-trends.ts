@@ -124,6 +124,22 @@ export const veraJailTrends: Connector = {
   terms:
     'Published by the Vera Institute of Justice with a license file in its repository; cite Vera Institute of Justice, Incarceration Trends. Some years are estimates; counts are yearly aggregates.',
   hosts: ['raw.githubusercontent.com'],
+  options: [
+    {
+      key: 'state',
+      label: 'State',
+      type: 'text',
+      help: 'Two-letter state code, such as OH. Needed unless you name a county below.',
+      example: 'OH',
+    },
+    {
+      key: 'county',
+      label: 'County FIPS code',
+      type: 'text',
+      help: 'Optional five-digit county FIPS code, such as 39035 for Cuyahoga County, OH; leave empty for the whole state.',
+      example: '39035',
+    },
+  ],
   estimate(query) {
     const place = placeOf(query)
     return {

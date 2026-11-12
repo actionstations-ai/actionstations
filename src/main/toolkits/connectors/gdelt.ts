@@ -109,6 +109,24 @@ export const gdeltConnector: Connector = {
   source: 'The GDELT Project (DOC 2.0 API)',
   terms: GDELT_TERMS,
   hosts: [GDELT_HOST],
+  options: [
+    {
+      key: 'query',
+      label: 'Search words',
+      type: 'text',
+      required: true,
+      help: 'Words to search news coverage for, up to 200 characters; put a phrase in double quotes, such as "water main break".',
+      example: 'power outage',
+    },
+  ],
+  /** GDELT searches only the last three months, so the example period is the two days before now. */
+  get exampleRange() {
+    const now = Date.now()
+    return {
+      start: new Date(now - 2 * DAY_MS).toISOString(),
+      end: new Date(now - DAY_MS).toISOString(),
+    }
+  },
   estimate(query) {
     const { start, end } = parseRange(query, Date.now())
     keywords(query)

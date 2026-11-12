@@ -52,6 +52,12 @@ export function createAirNowConnector(
     terms:
       'AirNow data are preliminary and unverified; cite EPA AirNow. Needs the free AirNow key you saved in Settings.',
     hosts: ['www.airnowapi.org'],
+    area: {
+      bbox: 'required',
+      label: 'optional',
+      help: 'Pick a point or draw a small box; the reporting area nearest its centre is used. The name is a fallback title.',
+      example: { label: 'Sacramento', bbox: [-121.55, 38.55, -121.45, 38.62] },
+    },
     estimate(query) {
       const hours = hoursIn(query.range)
       if (!query.area.bbox)

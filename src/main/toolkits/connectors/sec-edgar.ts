@@ -193,6 +193,36 @@ export const secEdgar8k: Connector = {
   hosts: [SEARCH_HOST, ARCHIVE_HOST],
   contact: 'required',
   minIntervalMs: EDGAR_MIN_INTERVAL_MS,
+  options: [
+    {
+      key: 'item',
+      label: '8-K item',
+      type: 'choice',
+      help: 'Item 1.05 is a material cybersecurity incident; 8.01 is other events, where some companies report incidents.',
+      choices: [
+        { value: '1.05', label: 'Item 1.05, material cybersecurity incident' },
+        { value: '8.01', label: 'Item 8.01, other events' },
+      ],
+      default: '1.05',
+      example: '1.05',
+    },
+    {
+      key: 'phrase',
+      label: 'Search phrase',
+      type: 'text',
+      help: 'Words the filing must contain, up to 80 characters; cybersecurity incident when left empty.',
+      default: 'cybersecurity incident',
+      example: 'ransomware',
+    },
+    {
+      key: 'limit',
+      label: 'Most filings',
+      type: 'number',
+      help: `How many filings to fetch, a whole number from 1 to ${MAX_LIMIT}.`,
+      default: DEFAULT_LIMIT,
+      example: DEFAULT_LIMIT,
+    },
+  ],
   estimate(q) {
     const p = edgarParams(q)
     const docs = Math.min(EXCERPT_DOCS, p.limit)

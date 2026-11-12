@@ -5,7 +5,7 @@
 //
 // HAPI asks every caller to identify itself with an application name and a contact address
 // (base64 of "name:address"); it does not approve them. The app's own are sent unless the user
-// enters theirs in Settings. Neither is a secret and neither is logged (#1099).
+// gives theirs in the fetch form. Neither is a secret and neither is logged (#1099).
 // The licence of each source dataset is read from data.humdata.org at fetch time and stored with
 // the data; a dataset whose licence is not an open one is marked for this scenario only.
 // Both hosts are fixed in code. Nothing runs without the user's consent.
@@ -13,6 +13,7 @@ import { APP_CONTACT } from '../../case-data/http'
 import { AppError } from '../../lib/errors'
 import {
   type Connector,
+  type ConnectorOption,
   type ConnectorQuery,
   type ConnectorResult,
   type FetchContext,
@@ -52,10 +53,38 @@ export function identifier(q: ConnectorQuery): string {
   if (!APP.test(app) || !CONTACT.test(contact))
     throw new AppError(
       'VALIDATION',
-      'The application name or contact address entered for HDX (Settings) is not valid. Leave both empty to use the app’s own.',
+      'The application name or contact address given for HDX is not valid. Leave both empty to use the app’s own.',
     )
   return Buffer.from(`${app}:${contact}`).toString('base64')
 }
+
+/** The country option HDX, HAPI and GDACS connectors share (#1139). */
+export const LOCATION_OPTION: ConnectorOption = {
+  key: 'location',
+  label: 'Country',
+  type: 'text',
+  required: true,
+  help: 'Three-letter ISO country code in capitals, such as SDN for Sudan or HTI for Haiti.',
+  example: 'SDN',
+}
+
+/** The name and address HAPI asks callers to identify themselves with; the app's own if empty. */
+export const HAPI_IDENTITY_OPTIONS: readonly ConnectorOption[] = [
+  {
+    key: 'applicationName',
+    label: 'Application name for HDX',
+    type: 'text',
+    help: 'Optional name HAPI records for your requests (3 to 60 letters, digits, spaces, dots or dashes); the app sends its own when empty.',
+    example: 'ActionStations',
+  },
+  {
+    key: 'contactEmail',
+    label: 'Contact email for HDX',
+    type: 'text',
+    help: 'Optional email address HAPI records with the application name; the app sends its own when empty.',
+    example: 'exercises@example.org',
+  },
+]
 
 export function locationOf(q: ConnectorQuery): string {
   const l = String(q.options.location ?? '').toUpperCase()
@@ -156,6 +185,24 @@ export const hdxOperationalPresence: Connector = {
   terms:
     'Published by OCHA and country offices. The licence of each source dataset is read when you fetch and kept with the data; data under a licence that does not allow redistribution stays in this scenario and is not exported in packs.',
   hosts: [HAPI, HDX],
+  options: [
+    LOCATION_OPTION,
+    {
+      key: 'sector',
+      label: 'Sector code',
+      type: 'text',
+      help: 'Optional HDX sector code such as HEA (health) or WSH (water, sanitation and hygiene); every sector when left empty.',
+      example: 'HEA',
+    },
+    {
+      key: 'admin1',
+      label: 'Admin 1 code',
+      type: 'text',
+      help: 'Optional first-level admin area code (a P-code such as SD01) from the country page on data.humdata.org; the whole country when left empty.',
+      example: 'SD01',
+    },
+    ...HAPI_IDENTITY_OPTIONS,
+  ],
   estimate(q) {
     locationOf(q)
     identifier(q)

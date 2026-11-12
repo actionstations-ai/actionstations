@@ -122,6 +122,40 @@ export const usgsWaterdataConnector: Connector = {
   terms:
     'US Government work, public domain. Data from before the last water year may be provisional; cite the USGS site number.',
   hosts: ['api.waterdata.usgs.gov'],
+  options: [
+    {
+      key: 'sites',
+      label: 'USGS site numbers',
+      type: 'text',
+      required: true,
+      help: 'One to three USGS site numbers (8 to 15 digits) separated by commas, such as 03255000, from waterdata.usgs.gov.',
+      example: '03255000',
+    },
+    {
+      key: 'parameter',
+      label: 'Measurement',
+      type: 'choice',
+      help: 'Water height (stage, feet) or discharge (flow, cubic feet per second).',
+      choices: [
+        { value: 'stage', label: 'Stage (feet)' },
+        { value: 'flow', label: 'Flow (cubic feet per second)' },
+      ],
+      default: 'stage',
+      example: 'stage',
+    },
+    {
+      key: 'interval',
+      label: 'Interval',
+      type: 'choice',
+      help: 'Instantaneous values (every 15 minutes, at most 45 days) or one value a day.',
+      choices: [
+        { value: 'continuous', label: 'Instantaneous (at most 45 days)' },
+        { value: 'daily', label: 'Daily values' },
+      ],
+      default: 'continuous',
+      example: 'continuous',
+    },
+  ],
   estimate(query) {
     const o = Options.parse(query.options)
     checkRange(o, query)

@@ -34,6 +34,23 @@ export const USGS_OBSERVATORIES = [
   'SJG',
   'TUC',
 ] as const
+/** Where each observatory is, for the fetch form. */
+const OBSERVATORY_PLACES: Record<(typeof USGS_OBSERVATORIES)[number], string> = {
+  BOU: 'Boulder, Colorado',
+  BRW: 'Utqiagvik (Barrow), Alaska',
+  BSL: 'Stennis Space Center, Mississippi',
+  CMO: 'College (Fairbanks), Alaska',
+  DED: 'Deadhorse, Alaska',
+  FRD: 'Fredericksburg, Virginia',
+  FRN: 'Fresno, California',
+  GUA: 'Guam',
+  HON: 'Honolulu, Hawaii',
+  NEW: 'Newport, Washington',
+  SHU: 'Shumagin, Alaska',
+  SIT: 'Sitka, Alaska',
+  SJG: 'San Juan, Puerto Rico',
+  TUC: 'Tucson, Arizona',
+}
 const ELEMENTS = ['H', 'D', 'Z', 'F'] as const
 const UNITS: Record<(typeof ELEMENTS)[number], string> = { H: 'nT', D: 'arcmin', Z: 'nT', F: 'nT' }
 const MAX_DAYS = { minute: 7, hour: 60 } as const
@@ -127,6 +144,32 @@ export const usgsGeomagConnector: Connector = {
   source: 'USGS Geomagnetism Program web service',
   terms: 'US government work, public domain. Cite the USGS Geomagnetism Program.',
   hosts: [USGS_GEOMAG_HOST],
+  options: [
+    {
+      key: 'observatory',
+      label: 'Observatory',
+      type: 'choice',
+      required: true,
+      help: 'The USGS magnetic observatory whose readings are fetched.',
+      choices: USGS_OBSERVATORIES.map((id) => ({
+        value: id,
+        label: `${id}, ${OBSERVATORY_PLACES[id]}`,
+      })),
+      example: 'FRD',
+    },
+    {
+      key: 'sampling',
+      label: 'Sampling',
+      type: 'choice',
+      help: 'One value a minute (at most 7 days) or one an hour (at most 60 days).',
+      choices: [
+        { value: 'minute', label: 'Every minute (at most 7 days)' },
+        { value: 'hour', label: 'Every hour (at most 60 days)' },
+      ],
+      default: 'minute',
+      example: 'hour',
+    },
+  ],
   estimate,
   fetch: fetchSeries,
 }

@@ -163,6 +163,32 @@ export const noaaCoops: Connector = {
   terms:
     'NOAA data are public. Say where they came from; CO-OPS asks users to download only what they need.',
   hosts: [HOST],
+  options: [
+    {
+      key: 'station',
+      label: 'Station id',
+      type: 'text',
+      required: true,
+      help: 'NOAA Tides and Currents station id, such as 8518750 for The Battery, NY, from tidesandcurrents.noaa.gov.',
+      example: '8518750',
+    },
+    {
+      key: 'products',
+      label: 'Measurements',
+      type: 'text',
+      help: 'Comma-separated list from water_level, wind and currents; currents need a current station id, such as cb1101.',
+      default: 'water_level,wind',
+      example: 'water_level,wind',
+    },
+    {
+      key: 'datum',
+      label: 'Water level datum',
+      type: 'text',
+      help: 'The reference the water level is measured from, such as MLLW (mean lower low water), MSL or NAVD.',
+      default: 'MLLW',
+      example: 'MLLW',
+    },
+  ],
 
   estimate(q) {
     const { station, start, end, wins, products } = plan(q)

@@ -77,6 +77,24 @@ export const openfdaFoodEnforcement: Connector = {
   terms:
     'openFDA content is public domain (CC0); credit is requested ("Data provided by the U.S. Food and Drug Administration"). Use is rate limited per IP. Not for medical decisions; records are unvalidated.',
   hosts: [HOST],
+  options: [
+    {
+      key: 'classification',
+      label: 'Recall class',
+      type: 'choice',
+      help: 'Only recalls of this FDA class (Class I is the most serious); every class when left empty.',
+      choices: CLASSES.map((c) => ({ value: c, label: c })),
+      example: 'Class I',
+    },
+    {
+      key: 'limit',
+      label: 'Most reports',
+      type: 'number',
+      help: `How many enforcement reports to fetch, a whole number from 1 to ${MAX_LIMIT}.`,
+      default: DEFAULT_LIMIT,
+      example: DEFAULT_LIMIT,
+    },
+  ],
   estimate(q) {
     enforcementQuery(q)
     return {

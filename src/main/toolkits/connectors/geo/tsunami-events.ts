@@ -120,6 +120,35 @@ export const tsunamiEvents: Connector = {
   terms:
     'NOAA data, U.S. government work. Cite NOAA National Centers for Environmental Information.',
   hosts: [NCEI_HOST],
+  options: [
+    {
+      key: 'minMagnitude',
+      label: 'Smallest earthquake magnitude',
+      type: 'number',
+      help: 'Only tsunamis caused by an earthquake of at least this magnitude, 0 to 10.',
+      default: 6.5,
+      example: 6.5,
+    },
+    {
+      key: 'eventId',
+      label: 'Tsunami event id',
+      type: 'text',
+      help: "Optional NCEI tsunami event number, such as 5413 for Japan 2011, from the NCEI tsunami database; adds that event's runup observations.",
+      example: '5413',
+    },
+    {
+      key: 'country',
+      label: 'Runup country',
+      type: 'text',
+      help: 'Optional country name in capital letters, such as JAPAN or USA, to keep only the runups recorded there.',
+      example: 'JAPAN',
+    },
+  ],
+  area: {
+    bbox: 'optional',
+    help: 'Draw a box to keep only the tsunamis whose source lies inside it; leave it empty for the whole world.',
+    example: { bbox: [130, 30, 150, 45] },
+  },
   estimate(q) {
     eventsUrl(q)
     const id = patternOption(q, 'eventId', EVENT_ID, 'tsunami event id')

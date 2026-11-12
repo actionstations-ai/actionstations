@@ -139,6 +139,23 @@ export const noaaEsi: Connector = {
   terms:
     'NOAA ESI data are a U.S. government work. Say where they came from and that they were cropped to your area; do not present changed data as the original.',
   hosts: [HOST],
+  options: [
+    {
+      key: 'region',
+      label: 'ESI region',
+      type: 'choice',
+      required: true,
+      help: 'The NOAA Environmental Sensitivity Index atlas that covers the coastline.',
+      choices: Object.entries(ESI_REGIONS).map(([value, [label]]) => ({ value, label })),
+      example: 'upper_texas_coast',
+    },
+  ],
+  area: {
+    bbox: 'required',
+    label: 'optional',
+    help: 'Draw a box around the stretch of shoreline, at most 1 degree on a side and half a square degree in all.',
+    example: { label: 'Galveston Bay', bbox: [-95.0, 29.3, -94.6, 29.6] },
+  },
 
   estimate(q) {
     const { region, area } = plan(q)

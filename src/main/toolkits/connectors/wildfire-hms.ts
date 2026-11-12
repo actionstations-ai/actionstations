@@ -87,6 +87,12 @@ export const hmsSmokeConnector: Connector = {
   terms:
     'NOAA data are free to use; cite NOAA NESDIS. Polygons are analyst-drawn from satellite imagery; times are the imagery window.',
   hosts: ['satepsanone.nesdis.noaa.gov'],
+  area: {
+    bbox: 'required',
+    label: 'optional',
+    help: 'Draw a box around the region the smoke covers, at most 20 degrees on a side. The name is used in the dataset title.',
+    example: { label: 'Example area', bbox: [-125, 32, -114, 42] },
+  },
   estimate(query) {
     roundedBbox(query.area.bbox, MAX_SPAN_DEG, SOURCE)
     const n = days(query.range).length

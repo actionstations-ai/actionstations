@@ -75,6 +75,16 @@ export const coopsTides: Connector = {
   terms:
     'NOAA data, U.S. government work. Cite NOAA Center for Operational Oceanographic Products and Services.',
   hosts: [COOPS_HOST],
+  options: [
+    {
+      key: 'station',
+      label: 'Tide gauge station',
+      type: 'text',
+      required: true,
+      help: 'Seven-digit NOAA station number, such as 9414290 for San Francisco, from tidesandcurrents.noaa.gov.',
+      example: '9414290',
+    },
+  ],
   estimate(q) {
     const days = Math.max(1, Math.ceil(checkRange(q, 31)) + 1)
     coopsUrl(q, 'water_level')
@@ -176,6 +186,16 @@ export const ndbcDart: Connector = {
   terms:
     'NOAA data, U.S. government work. Cite NOAA National Data Buoy Center and the buoy number.',
   hosts: [NDBC_HOST],
+  options: [
+    {
+      key: 'station',
+      label: 'DART buoy number',
+      type: 'text',
+      required: true,
+      help: 'Five-digit DART buoy number, such as 46404, from the DART map on ndbc.noaa.gov.',
+      example: '46404',
+    },
+  ],
   estimate(q) {
     const years = dartYears(q)
     patternOption(q, 'station', DART_STATION, 'DART buoy number (five digits)')

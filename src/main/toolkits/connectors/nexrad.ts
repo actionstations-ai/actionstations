@@ -247,6 +247,46 @@ export const nexradConnector: Connector = {
   terms:
     'Open use. Data that has been cropped or reprocessed must not be presented as the original archive file.',
   hosts: [NEXRAD_HOST],
+  options: [
+    {
+      key: 'site',
+      label: 'Radar site',
+      type: 'text',
+      help: 'Four-letter NEXRAD radar id, such as KTLX for Oklahoma City, from the NWS radar map; when left empty the radar nearest the centre of the area is used.',
+      example: 'KTLX',
+    },
+    {
+      key: 'stepMin',
+      label: 'Minutes between frames',
+      type: 'number',
+      help: 'A whole number from 1 to 60; at most 144 frames are fetched, so long periods need a longer step.',
+      default: 5,
+      example: 5,
+    },
+    {
+      key: 'extentKm',
+      label: 'Range from the radar (km)',
+      type: 'number',
+      help: 'How far from the radar to keep, 25 to 460 kilometres.',
+      default: 150,
+      example: 150,
+    },
+    {
+      key: 'products',
+      label: 'Radar products',
+      type: 'text',
+      help: 'Comma-separated list of reflectivity, velocity and correlation_coefficient.',
+      default: 'reflectivity,velocity,correlation_coefficient',
+      example: 'reflectivity,velocity',
+    },
+  ],
+  area: {
+    bbox: 'optional',
+    label: 'optional',
+    help: 'Draw a box around the storm to pick the nearest radar when no radar site is given; the name is used in the dataset title.',
+    example: { label: 'Moore, OK', bbox: [-97.6, 35.25, -97.4, 35.4] },
+  },
+  exampleRange: { start: '2013-05-20T19:00:00Z', end: '2013-05-20T21:00:00Z' },
   estimate,
   fetch: fetchFrames,
 }

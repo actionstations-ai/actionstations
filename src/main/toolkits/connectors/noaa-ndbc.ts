@@ -123,6 +123,16 @@ export function makeNdbc(now: () => number = Date.now): Connector {
     terms:
       'NDBC data are public. Say where they came from; readings left out as missing stay missing.',
     hosts: [HOST],
+    options: [
+      {
+        key: 'station',
+        label: 'Buoy station id',
+        type: 'text',
+        required: true,
+        help: 'Five-character NDBC station id, such as 44025, from ndbc.noaa.gov.',
+        example: '44025',
+      },
+    ],
 
     estimate(q) {
       const { station, sources } = plan(q, now())

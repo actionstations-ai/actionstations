@@ -36,6 +36,12 @@ export function createFirmsConnector(
     terms:
       'NASA data are free to use; cite NASA FIRMS. Needs the free FIRMS map key you saved in Settings. Detections are satellite overpasses, not a continuous record.',
     hosts: ['firms.modaps.eosdis.nasa.gov'],
+    area: {
+      bbox: 'required',
+      label: 'optional',
+      help: 'Draw a box around the fire, at most 1 degree on a side. The name is used in the dataset title.',
+      example: { label: 'Example area', bbox: [-121.7, 39.7, -121.5, 39.85] },
+    },
     estimate(query) {
       roundedBbox(query.area.bbox, MAX_SPAN_DEG, SOURCE)
       return {

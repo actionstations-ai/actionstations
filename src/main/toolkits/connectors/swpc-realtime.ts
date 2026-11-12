@@ -249,6 +249,29 @@ export const swpcRealtimeConnector: Connector = {
   source: 'NOAA Space Weather Prediction Center data service',
   terms: 'US government work, public domain. Cite NOAA SWPC.',
   hosts: [SWPC_HOST],
+  options: [
+    {
+      key: 'products',
+      label: 'Feeds',
+      type: 'text',
+      help: 'Comma-separated list from kp, xray, proton, magnetometer, alerts and wind, with no spaces.',
+      default: 'kp,xray,proton,magnetometer,alerts',
+      example: 'kp,xray,alerts',
+    },
+    {
+      key: 'window',
+      label: 'How far back',
+      type: 'choice',
+      help: 'How many recent days of the X-ray, proton and magnetometer feeds to fetch.',
+      choices: [
+        { value: '1-day', label: 'The last day' },
+        { value: '3-day', label: 'The last 3 days' },
+        { value: '7-day', label: 'The last 7 days' },
+      ],
+      default: '1-day',
+      example: '1-day',
+    },
+  ],
   estimate,
   fetch: fetchRealtime,
 }

@@ -61,6 +61,35 @@ export interface ConnectorResult {
   citation?: string
 }
 
+/**
+ * One option the fetch form asks for (#1139). The form shows these to the user and puts the
+ * answers in `query.options` under `key`; a connector reads only the keys it declares.
+ */
+export interface ConnectorOption {
+  key: string
+  label: string
+  /** `choice` offers `choices`; the others are a text box, a number box or a checkbox. */
+  type: 'text' | 'number' | 'boolean' | 'choice'
+  required?: boolean
+  /** One plain sentence under the field: the format, where to find the value. */
+  help?: string
+  choices?: readonly { value: string; label: string }[]
+  /** Filled in when the form opens. */
+  default?: string | number | boolean
+  /** A value estimate() accepts, for the contract test and the field's placeholder. */
+  example: string | number | boolean
+}
+
+/** What the connector reads of the area: its name, a box, both or neither. */
+export interface ConnectorAreaNeeds {
+  label?: 'required' | 'optional'
+  bbox?: 'required' | 'optional'
+  /** One plain sentence: what the area name or box should be. */
+  help?: string
+  /** An area estimate() accepts, for the contract test. */
+  example?: { label?: string; bbox?: [number, number, number, number] }
+}
+
 export interface Connector {
   /** Lowercase id a toolkit names, e.g. "nws-storm-reports". */
   id: string
@@ -74,6 +103,12 @@ export interface Connector {
   contact?: 'required'
   /** Least milliseconds between requests, for archives with a published rate limit. */
   minIntervalMs?: number
+  /** The options the fetch form asks for (#1139); none when the period and area are enough. */
+  options?: readonly ConnectorOption[]
+  /** What the fetch form asks of the area; nothing when the connector ignores it. */
+  area?: ConnectorAreaNeeds
+  /** A period estimate() accepts, when the connector needs a particular one (a past year). */
+  exampleRange?: { start: string; end: string }
   estimate(query: ConnectorQuery): ConnectorEstimate
   fetch(query: ConnectorQuery, ctx: FetchContext): Promise<ConnectorResult>
 }
@@ -112,10 +147,19 @@ export const connectorIds = (): string[] => [...registry.keys()].sort()
 
 export const listConnectors = (): Pick<
   Connector,
-  'id' | 'label' | 'source' | 'terms' | 'hosts'
+  'id' | 'label' | 'source' | 'terms' | 'hosts' | 'options' | 'area' | 'contact'
 >[] =>
   [...registry.values()]
-    .map(({ id, label, source, terms, hosts }) => ({ id, label, source, terms, hosts }))
+    .map(({ id, label, source, terms, hosts, options, area, contact }) => ({
+      id,
+      label,
+      source,
+      terms,
+      hosts,
+      ...(options ? { options } : {}),
+      ...(area ? { area } : {}),
+      ...(contact ? { contact } : {}),
+    }))
     .sort((a, b) => a.id.localeCompare(b.id))
 
 /** Test hook: forget every registered connector. */

@@ -28,8 +28,8 @@ Turn it on in the scenario's **Toolkits** tab (see [Toolkits](toolkits.md)). The
 
 Five sources can seed a scenario with real structure and baselines. None needs a key.
 
-- The Humanitarian Data Exchange works without setup: the app identifies itself with its own name and help@actionstations.ai. You can enter your own application name and contact in **Settings** instead.
-- ReliefWeb only answers application names it has approved. It stays off until you enter an approved name in **Settings**. Everything else works without it, including the disaster timeline from GDACS.
+- The Humanitarian Data Exchange works without setup: the app identifies itself with its own name and help@actionstations.ai. You can give your own application name and contact when you fetch instead.
+- ReliefWeb only answers application names it has approved. Give your approved name when you fetch; without one that source refuses. Everything else works without it, including the disaster timeline from GDACS.
 
 - **Operational presence (3W) by country** from the Humanitarian Data Exchange: which organizations report work in which sector and admin area.
 - **Key figures by country** from the Humanitarian Data Exchange, for the year your scenario starts in: people in need, targeted and reached by sector from the response plan, refugees and asylum seekers the country hosts (with their main countries of origin), the latest count of internally displaced people, and the appeal's requirements and funding. A series of the same figures over ten years comes with them. These are the figures OCHA's key figures pages show, from the same sources.

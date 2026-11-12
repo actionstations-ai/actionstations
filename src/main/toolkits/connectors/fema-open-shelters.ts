@@ -42,6 +42,12 @@ export const femaOpenShelters: Connector = {
   terms:
     'U.S. government work, public domain. The service offers no history: the data is the shelters open when it is fetched, not a past event. Street addresses are not kept.',
   hosts: ['gis.fema.gov'],
+  area: {
+    bbox: 'required',
+    label: 'optional',
+    help: 'Draw a box around the affected region, at most 10 degrees on a side. The name is used in the dataset title.',
+    example: { label: 'Example area', bbox: [-91, 29, -88, 31] },
+  },
   estimate(query) {
     const b = roundedBbox(query.area.bbox, MAX_SPAN_DEG, SOURCE)
     return {

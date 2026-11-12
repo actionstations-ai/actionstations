@@ -133,6 +133,23 @@ export const openfdaShortages: Connector = {
   terms:
     'openFDA data (https://open.fda.gov/terms/). The endpoint states: do not rely on openFDA to make decisions regarding medical care. It holds the current state of each record, so a fetch is a dated snapshot.',
   hosts: [HOST],
+  options: [
+    {
+      key: 'drug',
+      label: 'Drug name',
+      type: 'text',
+      help: 'Generic drug name as FDA lists it, such as amoxicillin. Give either a drug name or a class, not both.',
+      example: 'amoxicillin',
+    },
+    {
+      key: 'class',
+      label: 'Therapeutic class',
+      type: 'text',
+      help: 'Therapeutic category as FDA lists it, such as Oncology, instead of a drug name. Leave empty when you give a drug name.',
+      // Empty: the connector takes a drug name or a class, never both.
+      example: '',
+    },
+  ],
   estimate(q) {
     const s = shortageSearch(q)
     return {

@@ -13,7 +13,7 @@
 // nothing runs without consent, and the request carries only dates and alert levels.
 import { z } from 'zod'
 import { AppError } from '../../lib/errors'
-import { locationOf } from './humanitarian-hdx'
+import { LOCATION_OPTION, locationOf } from './humanitarian-hdx'
 import type { Connector, ConnectorQuery, ConnectorResult, FetchContext } from './registry'
 
 const HOST = 'www.gdacs.org'
@@ -130,6 +130,17 @@ export const gdacsEvents: Connector = {
   terms:
     'GDACS publishes its alerts for public use; cite GDACS as the source. Alert levels and severities are automatic estimates made in the first hours of an event and are revised; they are not damage assessments.',
   hosts: [HOST],
+  options: [
+    LOCATION_OPTION,
+    {
+      key: 'includeGreen',
+      label: 'Include green alerts',
+      type: 'boolean',
+      help: 'Also list green (minor) alerts, mostly small earthquakes and forest fires; off lists orange and red alerts only.',
+      default: false,
+      example: false,
+    },
+  ],
   estimate(q) {
     const iso3 = locationOf(q)
     const pages = pagesFor(q)

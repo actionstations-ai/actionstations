@@ -217,6 +217,24 @@ export const nwpsConnector: Connector = {
   terms:
     'US Government work, public domain. Observed stage covers about the last month; the forecast is the current one only.',
   hosts: ['api.water.noaa.gov'],
+  options: [
+    {
+      key: 'gauge',
+      label: 'Gauge id',
+      type: 'text',
+      required: true,
+      help: 'Five-letter NWS gauge id, such as CINO1 for the Ohio River at Cincinnati, from water.noaa.gov.',
+      example: 'CINO1',
+    },
+    {
+      key: 'neighbors',
+      label: 'Include upstream and downstream gauges',
+      type: 'boolean',
+      help: 'Also fetch the next gauge upstream and downstream on the same river.',
+      default: false,
+      example: false,
+    },
+  ],
   estimate(query) {
     const o = Options.parse(query.options)
     const per = (lid: string) => [

@@ -1,6 +1,6 @@
 // ReliefWeb connector (spec 0469 FR-9): disaster entries and report titles for a past event, to
 // build a timeline. ReliefWeb's API (api.reliefweb.int, v2) needs an approved application name
-// (since 1 November 2025); the user enters their own in Settings. It identifies an application
+// (since 1 November 2025); the user gives their own in the fetch form. It identifies an application
 // and is not a secret, but it is never logged. Without it the connector refuses and the bundled
 // sample data is used. Only titles, dates, sources and links are kept: report bodies are the
 // publishers' content and stay on ReliefWeb. The host is fixed in code.
@@ -19,7 +19,7 @@ export function appnameOf(q: ConnectorQuery): string {
   if (!APPNAME.test(a))
     throw new AppError(
       'VALIDATION',
-      'ReliefWeb needs an approved application name (Settings). Without it this source is off and the sample data is used.',
+      'ReliefWeb needs an approved application name: give yours in the fetch form. Without it this source is off and the sample data is used.',
     )
   return a
 }
@@ -62,7 +62,7 @@ async function getReports(ctx: FetchContext, url: string): Promise<Item[]> {
   if (r.status === 403)
     throw new AppError(
       'PROVIDER',
-      'ReliefWeb refused the application name; request an approved name and enter it in Settings.',
+      'ReliefWeb refused the application name; request an approved name and give it in the fetch form.',
     )
   if (r.status !== 200) throw new AppError('PROVIDER', `ReliefWeb answered ${r.status}`)
   let body: unknown
@@ -90,6 +90,21 @@ export const reliefwebReports: Connector = {
   terms:
     'ReliefWeb lists reports published by many sources; each remains the content of its publisher. Only titles, dates, source names and links are kept, for this scenario, and are not exported in packs.',
   hosts: [HOST],
+  options: [
+    {
+      key: 'applicationName',
+      label: 'ReliefWeb application name',
+      type: 'text',
+      required: true,
+      help: 'The application name ReliefWeb approved for you (3 to 60 letters, digits, dots, dashes or underscores); request one at apidoc.reliefweb.int.',
+      example: 'MyOrgExercises',
+    },
+  ],
+  area: {
+    label: 'required',
+    help: 'The country name as ReliefWeb spells it, such as Haiti or Sudan.',
+    example: { label: 'Haiti' },
+  },
   estimate(q) {
     appnameOf(q)
     countryOf(q)

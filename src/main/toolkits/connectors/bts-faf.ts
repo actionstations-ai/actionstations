@@ -326,6 +326,25 @@ export const btsFafStateFlows: Connector = {
   terms:
     'A U.S. Government work (FHWA and BTS). Tons are thousands of tons and values millions of 2017 dollars; figures for 2018 to 2024 are FAF estimates, not counts.',
   hosts: [HOST],
+  options: [
+    {
+      key: 'state',
+      label: 'State',
+      type: 'choice',
+      required: true,
+      help: 'The state whose freight flows in and out are summarized.',
+      choices: Object.entries(FAF_STATES).map(([value, [, label]]) => ({ value, label })),
+      example: 'OH',
+    },
+    {
+      key: 'year',
+      label: 'Year',
+      type: 'choice',
+      help: 'The FAF year, 2018 to 2024. Leave empty to use the year the period starts in.',
+      choices: YEARS.map((y) => ({ value: String(y), label: String(y) })),
+      example: '2022',
+    },
+  ],
   estimate(q) {
     const { name } = stateOf(q)
     const year = yearOf(q)
