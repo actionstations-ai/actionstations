@@ -128,7 +128,14 @@ async function setup() {
   return { root, scenarioId: scenario.id }
 }
 
-function decision(i: number, id: string, kind: string, minute: number, area?: string) {
+function decision(
+  i: number,
+  id: string,
+  kind: string,
+  minute: number,
+  area?: string,
+  fields: Record<string, string> = {},
+) {
   return {
     i,
     at: at(minute + 5),
@@ -140,7 +147,7 @@ function decision(i: number, id: string, kind: string, minute: number, area?: st
         time: at(minute),
         kind,
         ...(area ? { area: { id: area.toLowerCase().replace(/\W+/g, '_'), name: area } } : {}),
-        fields: {},
+        fields,
       },
     },
   }
@@ -185,7 +192,7 @@ describe('the spill_plume toolkit in live play and Evaluation', () => {
     const { root, scenarioId } = await setup()
     const plan = await metricsPlan(root, scenarioId)
     expect(plan.metrics.map((m) => m.id)).toEqual([
-      'decision_timing',
+      'spill_notification_timeliness',
       'threshold_timing',
       'protection_coverage',
       'message_consistency',
@@ -193,23 +200,26 @@ describe('the spill_plume toolkit in live play and Evaluation', () => {
     const dir = sessionFolder(root, scenarioId, SESSION)
     mkdirSync(dir, { recursive: true })
     const entries = [
-      decision(1, 'd1', 'make_notifications', 20),
-      decision(2, 'd2', 'make_notifications', 150),
+      decision(1, 'd1', 'make_notifications', 20, undefined, { who: 'national_response_center' }),
+      decision(2, 'd2', 'make_notifications', 150, undefined, {
+        who: 'state_environmental_agency',
+      }),
       decision(3, 'd3', 'deploy_protective_boom', 30, 'Heron Bay marsh'),
     ]
     writeFileSync(join(dir, 'log.jsonl'), entries.map((e) => JSON.stringify(e)).join('\n') + '\n')
     const run = await runToolkitMetrics(root, scenarioId, { sessionId: SESSION })
     const byId = Object.fromEntries(run.results.map((r) => [r.metricId, r]))
     expect(Object.keys(byId).sort()).toEqual([
-      'decision_timing',
       'message_consistency',
       'protection_coverage',
+      'spill_notification_timeliness',
       'threshold_timing',
     ])
     expect(run.skipped).toEqual([])
-    // The NRC was called at minute 20 for a 30-minute deadline: a hit. The state's 120-minute
-    // deadline was met at 150: a miss.
-    expect(byId.decision_timing!.data).toMatchObject({ hits: 1, misses: 1 })
+    // The NRC was called at minute 20 for a 30-minute deadline: met, 10 minutes early. The state
+    // was called at 150 for a 120-minute deadline: 30 minutes late.
+    expect(byId.spill_notification_timeliness!.data).toMatchObject({ met: 1, late: 1, missed: 0 })
+    expect(byId.spill_notification_timeliness!.title).toBe('Notification timeliness')
     // Boom went to the marsh at minute 30, long before the oil arrives; the far bar is never reached.
     expect(byId.protection_coverage!.data).toMatchObject({ protected: 1, unprotected: 0, late: 0 })
     expect(byId.threshold_timing!.title).toBe('Protective boom before oil arrives')

@@ -97,7 +97,7 @@ const config = (id: string): Record<string, unknown> =>
 describe('spill_plume metrics', () => {
   it('names four built-in metrics whose configuration the app accepts', () => {
     expect(toolkit.metrics.map((m) => m.id)).toEqual([
-      'decision_timing',
+      'spill_notification_timeliness',
       'threshold_timing',
       'protection_coverage',
       'message_consistency',
@@ -166,20 +166,52 @@ describe('spill_plume metrics', () => {
     expect(late.data).toMatchObject({ late: 1 })
   })
 
-  it('scores notification timeliness against the required times entered for the scenario', () => {
-    const due = (id: string, min: number) => ({
+  it('scores notification timeliness by the party each decision names', () => {
+    const due = (id: string, min: number, who: string) => ({
       id,
       time: at(min),
       kind: 'notification_due',
-      attrs: {},
+      attrs: { who },
+    })
+    const notify = (id: string, min: number, fields: Record<string, string>) => ({
+      ...act(id, min, 'make_notifications'),
+      fields,
     })
     const out = runMetric(
-      { id: 'decision_timing', config: config('decision_timing') },
+      { id: 'spill_notification_timeliness', config: config('spill_notification_timeliness') },
       {
-        events: [due('nrc', 30), due('state', 120)],
-        decisions: [act('n1', 20, 'make_notifications'), act('n2', 135, 'make_notifications')],
+        events: [
+          due('nrc', 30, 'National Response Center'),
+          due('state', 120, 'State environmental agency'),
+          due('trustees', 240, 'Natural resource trustees'),
+        ],
+        decisions: [
+          // The QI call does not meet the NRC deadline; the NRC call with the QI at 20 does.
+          notify('n0', 10, { who: slug('Qualified Individual') }),
+          notify('n1', 20, {
+            who: slug('National Response Center'),
+            also_notified: slug('Qualified Individual'),
+          }),
+          notify('n2', 135, { who: slug('State environmental agency') }),
+        ],
       },
     )
-    expect(out.data).toMatchObject({ hits: 1, misses: 1 })
+    expect(out.data).toMatchObject({ met: 1, late: 1, missed: 1, unmatched: 2 })
+    expect(out.data.byDue).toMatchObject({
+      nrc: { status: 'met', minutesEarly: 10, decisionId: 'n1' },
+      state: { status: 'late', minutesLate: 15, decisionId: 'n2' },
+      trustees: { status: 'missed' },
+    })
+  })
+
+  it('lets the player name the parties of one call-out from the same list', () => {
+    const form = toolkit.decisionForms.find((f) => f.id === 'make_notifications')!
+    const choices = form.fields.filter((f) => f.kind === 'choice')
+    expect(choices.map((f) => f.id)).toEqual(['who', 'also_notified', 'also_notified_2'])
+    for (const f of choices) {
+      expect(f.choices).toContain('Natural resource trustees')
+      expect(f.choices).toEqual(choices[0]!.choices)
+    }
+    expect(config('spill_notification_timeliness').partyFields).toEqual(choices.map((f) => f.id))
   })
 })

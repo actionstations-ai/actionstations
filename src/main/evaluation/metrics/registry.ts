@@ -38,6 +38,7 @@ import { messageConsistency, type FactStatement, type KeyFact } from './message-
 import { protectiveActionDistance } from './protective-action-distance'
 import { protectionCoverage } from './protection-coverage'
 import { reporterHandling } from './reporter-handling'
+import { spillNotificationTimeliness } from './spill-notifications'
 import { statementAccuracy, type StatementCheck } from './statement-accuracy'
 import { thresholdTiming } from './threshold-timing'
 import { triageCompletion } from './triage-completion'
@@ -129,6 +130,8 @@ registerMetric(triageCompletion, eventsAndDecisions)
 registerMetric(destinationFit, eventsAndDecisions)
 registerMetric(protectiveActionDistance, eventsAndDecisions)
 registerMetric(accountability, eventsAndDecisions)
+// Environmental response (spec 0455): required notifications matched by the party notified.
+registerMetric(spillNotificationTimeliness, eventsAndDecisions)
 // Human services (spec 0464): generic service level, time to completion and needs coverage.
 registerMetric(serviceLevel, (b) => ({ series: b.series ?? [] }))
 registerMetric(timeToCompletion, eventsAndDecisions)
@@ -165,6 +168,7 @@ export function runMetric(ref: MetricRef, bag: MetricInputBag, ctx: RunContext =
 const LIST_KEYS: Record<string, readonly string[]> = {
   decision_timing: ['decisionKinds', 'eventKinds'],
   message_consistency: ['partners'],
+  spill_notification_timeliness: ['decisionKinds', 'eventKinds', 'partyFields'],
 }
 
 /**

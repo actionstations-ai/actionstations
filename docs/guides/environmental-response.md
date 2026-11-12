@@ -62,7 +62,7 @@ Every simulated set is labeled **simulated** and repeats exactly from the same i
 | A toxic cloud with threat zones          | Simulated toxic plume | Source, release rate, wind, stability class, substance and molecular weight, up to four concentration levels                                                                                                   |
 | The output of a trajectory model you ran | Trajectory import     | A GeoJSON file from PyGNOME or WebGNOME, the model name, run date and inputs                                                                                                                                   |
 
-The **simulated oil spill** drifts with the current plus a share of the wind (3 percent by default), spreads as the slick thins, and weathers each parcel of oil by its age, with an uncertainty envelope around the best estimate. It gives the landfall time of each shoreline you draw. It also saves two datasets for scoring: when the oil reaches each shoreline and when each notification the plan requires is due, given in minutes after the release. The shorelines become the places the decision forms offer. The weathering limits by product are plausible teaching values, not the output of an oil weathering model; import real model output when the numbers matter.
+The **simulated oil spill** drifts with the current plus a share of the wind (3 percent by default), spreads as the slick thins, and weathers each parcel of oil by its age, with an uncertainty envelope around the best estimate. It gives the landfall time of each shoreline you draw. It also saves two datasets for scoring: when the oil reaches each shoreline and when each notification the plan requires is due, given as the party and the minutes after the release. Name each party as the decision form does ("National Response Center" or "NRC", "Qualified Individual" or "QI", "State environmental agency" or "State", "Natural resource trustees"). The NRC report is due immediately, so give the minutes your plan treats as immediate. The shorelines become the places the decision forms offer. The weathering limits by product are plausible teaching values, not the output of an oil weathering model; import real model output when the numbers matter.
 
 The **simulated toxic plume** uses the Gaussian plume for a continuous ground-level release with the Briggs open-country dispersion coefficients. It is an exercise illustration, not a forecast and not a protective action distance; the concentration levels are yours to set.
 
@@ -74,7 +74,7 @@ You can also fetch three public NOAA sources once, after you see the size and ag
 
 Players record structured decisions, each with a time:
 
-- **Make notifications:** who was notified and what was said.
+- **Make notifications:** who was notified (up to three parties on one call-out, from the NRC, the qualified individual, the OSRO, the Coast Guard or EPA, the state, a downstream water utility, local emergency management and the natural resource trustees) and what was said.
 - **Activate the OSRO and assign equipment:** the equipment and crews requested and the staging area.
 - **Set protection priorities:** a sensitive area, its priority and the strategy.
 - **Deploy protective boom:** the site, length in feet, strategy and the time it will be in place.
@@ -90,7 +90,7 @@ Four advisor roles can sit with the players: the scientific support coordinator 
 
 Open the scenario's Evaluation tab and choose **Compute field metrics** after a live session (see [Evaluation metrics](evaluation-metrics.md)). Each measure shows its inputs and caveats.
 
-- **Notification timeliness:** each required notification against a Make notifications decision made in the hour before it was due. A decision after the due time does not count. The measure does not check who was called, so read the notification log beside it.
+- **Notification timeliness:** each required notification against a Make notifications decision that names the same party (the NRC, the qualified individual, the state, the trustees and so on). A notification is **met** when a decision naming its party came at or before the due time, with the minutes early; **late** when the first one came after, with the minutes late; and **missed** when no decision names that party. One decision that names several parties counts for each of them, and each call counts once, so a second deadline for the same party (a follow-up report) needs a second call. Calls that met no requirement, such as a party the plan does not list or an extra call, are listed separately. A decision saved before the form asked who was called names no party: it counts for none and is reported as naming no party. No order between the parties is checked.
 - **Protective boom before oil arrives:** a Deploy protective boom decision for a shoreline against the time the oil reaches it.
 - **Sensitive areas protected before landfall:** boom, an intake closure or a fishery or shoreline closure that names the area, made before the oil arrives. A decision that names no area protects nothing.
 - **Message consistency** across the responsible party, the unified command and the Joint Information Center, for the key facts you enter.
