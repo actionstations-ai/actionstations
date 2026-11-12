@@ -11,6 +11,7 @@ import { call } from '../../lib/api'
 import { errorText } from '../../lib/errors'
 import { queryClient, useIpcQuery } from '../../lib/query'
 import { CaseFetch } from './CaseFetch'
+import { CaseSimulate } from './CaseSimulate'
 import { sizeText } from './case-fetch-form'
 import './case-data.css'
 
@@ -178,25 +179,32 @@ function CaseClock(
   )
 }
 
-/** The connectors the scenario's enabled toolkits name, in the registry's order. */
-function useScenarioConnectors(projectPath: string, scenarioId: string) {
+/**
+ * The connectors the scenario's enabled toolkits name, and the simulations they offer (each
+ * simulation names its toolkits), in the registry's order.
+ */
+function useScenarioSources(projectPath: string, scenarioId: string) {
   const kits = useIpcQuery('toolkits:list', { projectPath, scenarioId })
   const all = useIpcQuery('case:connectors', undefined)
-  const named = new Set(
-    (kits.data?.toolkits ?? []).filter((l) => l.enabled).flatMap((l) => l.toolkit.connectors),
-  )
+  const gens = useIpcQuery('case:generators', undefined)
+  const on = (kits.data?.toolkits ?? []).filter((l) => l.enabled)
+  const named = new Set(on.flatMap((l) => l.toolkit.connectors))
+  const onIds = new Set(on.map((l) => l.toolkit.id))
+  const generators = gens.data ?? []
   return {
-    loading: kits.isLoading || all.isLoading,
+    loading: kits.isLoading || all.isLoading || gens.isLoading,
     connectors: (all.data ?? []).filter((c) => named.has(c.id)),
+    generators,
+    offered: generators.filter((g) => g.toolkits.some((t) => onIds.has(t))),
   }
 }
 
 export function CaseDataPanel(props: { projectPath: string; scenario: Scenario }) {
   const target = { projectPath: props.projectPath, scenarioId: props.scenario.id }
   const summary = useIpcQuery('case:get', target)
-  const { loading, connectors } = useScenarioConnectors(target.projectPath, target.scenarioId)
+  const sources = useScenarioSources(target.projectPath, target.scenarioId)
   const refresh = () => void queryClient.invalidateQueries({ queryKey: ['case:get'] })
-  if (summary.isLoading || loading) return <p role="status">Loading case data…</p>
+  if (summary.isLoading || sources.loading) return <p role="status">Loading case data…</p>
   const manifest = summary.data?.manifest
   const datasets = manifest?.datasets ?? []
   return (
@@ -208,14 +216,20 @@ export function CaseDataPanel(props: { projectPath: string; scenario: Scenario }
           ` This scenario holds ${sizeText(summary.data.bytes)} of ${sizeText(summary.data.limitBytes)}.`}
       </p>
       <Datasets {...target} datasets={datasets} onChange={refresh} />
-      {connectors.length ? (
-        <CaseFetch {...target} connectors={connectors} onDone={refresh} />
+      {sources.connectors.length ? (
+        <CaseFetch {...target} connectors={sources.connectors} onDone={refresh} />
       ) : (
         <p className="muted">
           None of this scenario&apos;s toolkits can fetch a real past event. Turn on a toolkit that
           names a source under Toolkits.
         </p>
       )}
+      <CaseSimulate
+        {...target}
+        offered={sources.offered}
+        all={sources.generators}
+        onDone={refresh}
+      />
       {datasets.length > 0 && (
         <CaseClock
           key={JSON.stringify(manifest?.timeMapping ?? null)}

@@ -283,5 +283,62 @@ export const shutoffEventGenerator: SimulatedGenerator<ShutoffEventParams> = {
   id: 'wildfire-shutoff-event',
   label: 'Power shutoff event (simulated, fictional circuits and customers)',
   params: ShutoffEventParams,
+  description:
+    'A public safety power shutoff for a fictional utility: circuits with customers by class, medical baseline customers and critical facilities, a gust series per circuit against its threshold, patrol and restoration times, and the notification windows. Writes the circuits, gust series and windows the shutoff measures read.',
+  toolkits: ['wildfire'],
+  example: {
+    utility: 'Pinecrest Valley Electric',
+    eventStart: '2026-10-10T22:30:00Z',
+    eventHours: 16,
+    peakGustMph: 58,
+    seed: 4,
+    circuitCount: 2,
+    circuits: [
+      {
+        id: 'PV-1101',
+        area: 'Cinder Canyon and Ridgeview',
+        customers: { residential: 2400, commercial: 120, agricultural: 35 },
+        medicalBaseline: 64,
+        critical: [{ name: 'Ridgeview Water Pump Station', kind: 'water' }],
+        gustThresholdMph: 45,
+      },
+      {
+        id: 'PV-1102',
+        area: 'Pine Hollow',
+        customers: { residential: 1300, commercial: 40, agricultural: 80 },
+        medicalBaseline: 31,
+        critical: [{ name: 'Pine Hollow Care Home', kind: 'care_home' }],
+        gustThresholdMph: 50,
+      },
+    ],
+    patrolHours: 3,
+    stepMinutes: 30,
+  } satisfies z.input<typeof ShutoffEventParams>,
+  fields: {
+    utility: { label: 'Utility', help: 'Fictional utility name.' },
+    eventStart: {
+      label: 'Gusts reach threshold (UTC)',
+      help: 'When gusts first reach the threshold on the first circuit.',
+    },
+    eventHours: { label: 'Event length (hours)', help: '4 to 72.' },
+    peakGustMph: { label: 'Peak gust (mph)', help: '30 to 100.' },
+    seed: {
+      label: 'Seed',
+      help: 'Any whole number; the same seed gives the same circuits and gusts.',
+    },
+    circuitCount: {
+      label: 'Circuits to make',
+      help: 'Fictional circuits made when none are given below, 1 to 12.',
+    },
+    circuits: {
+      label: 'Circuits',
+      help: 'Optional. Each item: id, area, customers (residential, commercial, agricultural), medicalBaseline, critical facilities (name, kind: hospital, care_home, water, cell_site or other) and gustThresholdMph. Ids must be unique.',
+    },
+    patrolHours: {
+      label: 'Patrol (hours)',
+      help: 'Hours a patrol takes before a circuit can be restored, 0.5 to 12.',
+    },
+    stepMinutes: { label: 'Step (minutes)', help: 'Minutes between gust readings, 10 to 120.' },
+  },
   generate: generateShutoff,
 }

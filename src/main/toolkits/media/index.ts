@@ -218,6 +218,47 @@ export function registerMediaToolkit(): void {
       id: 'media-social-spread',
       label: 'Media environment: simulated social spread and sentiment',
       params: SpreadGeneratorParams,
+      description:
+        "Grows one post's views, likes, reposts and replies along a curve, slowed by the corrections, labels or takedowns you add. Writes the counters and the reply sentiment mix as time series.",
+      toolkits: ['media_environment'],
+      example: {
+        startAt: '2026-11-03T12:00:00Z',
+        stepMin: 10,
+        untilMin: 720,
+        id: 'social-spread',
+        spread: {
+          seed: 3,
+          reach: 100000,
+          peakAtMin: 90,
+          likeRate: 0.03,
+          repostRate: 0.01,
+          replyRate: 0.004,
+          narratives: [
+            { label: 'The plant is hiding a leak', weight: 2, isFalse: true },
+            { label: 'Roads near the plant are closed', weight: 1, isFalse: false },
+          ],
+          responses: [{ atMin: 40, kind: 'correction' }],
+        },
+      } satisfies z.input<typeof SpreadGeneratorParams>,
+      fields: {
+        startAt: {
+          label: 'Post appears (UTC)',
+          help: 'When the post goes up; minute 0 of the series.',
+        },
+        stepMin: { label: 'Step (minutes)', help: 'Minutes between points, 1 to 240.' },
+        untilMin: {
+          label: 'Length (minutes)',
+          help: 'How long to follow the post, up to 4320 (three days).',
+        },
+        id: {
+          label: 'Dataset name',
+          help: 'Lowercase letters, digits and hyphens; the datasets are named <name>-counters and <name>-sentiment.',
+        },
+        spread: {
+          label: 'Spread settings',
+          help: 'seed (integer), reach (views if nobody answers), peakAtMin (minute of fastest growth), optional rate, likeRate, repostRate and replyRate (0 to 1), mix of reply sentiment, narratives (label, weight, isFalse) and responses (atMin minutes after the post, kind: correction, label, takedown or statement).',
+        },
+      },
       generate: generateSpread,
     })
   if (!have.has('media-ground-truth'))
@@ -225,6 +266,56 @@ export function registerMediaToolkit(): void {
       id: 'media-ground-truth',
       label: 'Media environment: simulated ground truth for the communications metrics',
       params: GroundTruthGeneratorParams,
+      description:
+        'Writes the events the communications measures compare decisions with: the first public signal, reporter queries with their deadlines from the news cycle, errors found in coverage, and items to verify with their hidden truth.',
+      toolkits: ['media_environment'],
+      example: {
+        startAt: '2026-11-03T12:00:00Z',
+        news: {
+          seed: 11,
+          triggerAtMin: 30,
+          startMinuteOfDay: 480,
+          severity: 4,
+          visibility: 'regional',
+          responses: [{ atMin: 75, kind: 'holding_statement' }],
+          silenceAfterMin: 60,
+        },
+        errors: [
+          {
+            id: 'error-1',
+            atMin: 120,
+            channel: 'Website',
+            label: 'Evacuation radius misstated in the web article',
+          },
+        ],
+        items: [
+          {
+            id: 'item-1',
+            atMin: 55,
+            truth: 'misattributed',
+            label: 'Viewer video said to show the incident',
+          },
+          { id: 'item-2', atMin: 70, truth: 'authentic', label: 'Photo from an employee on site' },
+        ],
+      } satisfies z.input<typeof GroundTruthGeneratorParams>,
+      fields: {
+        startAt: {
+          label: 'Exercise start (UTC)',
+          help: 'Exercise minute 0; every minute below counts from it.',
+        },
+        news: {
+          label: 'News cycle settings',
+          help: 'seed (integer), triggerAtMin (exercise minute of the first public signal), startMinuteOfDay (0 to 1439 at exercise minute 0), severity (1 to 5), visibility (local, regional or national), responses (atMin, kind: holding_statement, correction, press_conference or reporter_response) and silenceAfterMin.',
+        },
+        errors: {
+          label: 'Errors found',
+          help: 'Each item: id, atMin (exercise minute), channel the error spread on, label. Leave empty for one error on the first web article.',
+        },
+        items: {
+          label: 'Items to verify',
+          help: 'Each item: id, atMin (exercise minute), truth (authentic, misattributed, manipulated, synthetic, satire or unverifiable), label. Leave empty for one misattributed video and one authentic photo.',
+        },
+      },
       generate: generateMediaGroundTruth,
     })
   if (!have.has('media-news-cycle'))
@@ -232,6 +323,31 @@ export function registerMediaToolkit(): void {
       id: 'media-news-cycle',
       label: 'Media environment: simulated news cycle',
       params: NewsGeneratorParams,
+      description:
+        'Schedules how coverage of an incident develops from the first public signal: wire items, local TV, a web article, the print edition, reporter calls and emails with deadlines, and follow-ups that react to your responses. Writes the schedule as dated text entries.',
+      toolkits: ['media_environment'],
+      example: {
+        startAt: '2026-11-03T12:00:00Z',
+        news: {
+          seed: 11,
+          triggerAtMin: 30,
+          startMinuteOfDay: 480,
+          severity: 4,
+          visibility: 'regional',
+          responses: [{ atMin: 75, kind: 'holding_statement' }],
+          silenceAfterMin: 60,
+        },
+      } satisfies z.input<typeof NewsGeneratorParams>,
+      fields: {
+        startAt: {
+          label: 'Exercise start (UTC)',
+          help: 'Exercise minute 0; every minute in the settings counts from it.',
+        },
+        news: {
+          label: 'News cycle settings',
+          help: 'seed (integer), triggerAtMin (exercise minute of the first public signal), startMinuteOfDay (0 to 1439 at exercise minute 0), severity (1 to 5), visibility (local, regional or national), responses (atMin, kind: holding_statement, correction, press_conference or reporter_response) and silenceAfterMin.',
+        },
+      },
       generate: generateNews,
     })
 }

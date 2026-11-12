@@ -51,6 +51,43 @@ const arrivalsGenerator: SimulatedGenerator<z.output<typeof ArrivalsParams>> = {
   id: 'humanitarian-arrivals',
   label: 'Simulated arrivals and registration at a site',
   params: ArrivalsParams,
+  description:
+    'Simulates people arriving at a displacement site each day, with a surge, and the registration team working through them. Writes daily arrivals, people registered and the backlog, and the moment the backlog passes the threshold.',
+  toolkits: ['humanitarian'],
+  example: {
+    startDate: '2026-10-13T00:00:00Z',
+    seed: 1,
+    days: 14,
+    arrivalsPerDay: 800,
+    surgeMultiple: 1.5,
+    surgeStartDay: 3,
+    surgeDays: 4,
+    registrationPerDay: 900,
+    backlogThreshold: 1500,
+  } satisfies z.input<typeof ArrivalsParams>,
+  fields: {
+    startDate: { label: 'Start (UTC)' },
+    seed: {
+      label: 'Random seed',
+      help: 'Any whole number from 0; the same seed gives the same data.',
+    },
+    days: { label: 'Days simulated', help: '2 to 120 days.' },
+    arrivalsPerDay: { label: 'Arrivals per day', help: 'Base arrivals per day before any surge.' },
+    surgeMultiple: {
+      label: 'Surge size',
+      help: 'Extra arrivals while the surge lasts, as a multiple of the base rate, 0 to 10.',
+    },
+    surgeStartDay: { label: 'Surge starts (day)', help: 'Day from the start, counting from 0.' },
+    surgeDays: { label: 'Surge length (days)' },
+    registrationPerDay: {
+      label: 'Registrations per day',
+      help: 'People the registration team can register in a day.',
+    },
+    backlogThreshold: {
+      label: 'Backlog threshold (people)',
+      help: 'The backlog that counts as registration falling behind.',
+    },
+  },
   generate(p) {
     const t0 = Date.parse(p.startDate)
     const rows = simulateArrivals(p)
@@ -128,6 +165,40 @@ const impactGenerator: SimulatedGenerator<z.output<typeof ImpactParams>> = {
   id: 'humanitarian-impact',
   label: 'Simulated sudden-onset impact by admin area',
   params: ImpactParams,
+  description:
+    'Simulates a sudden-onset disaster across admin areas: people affected in each, areas whose access is cut, and impact reports that arrive later from each area. Writes the area reports and the impact and access-cut events.',
+  toolkits: ['humanitarian'],
+  example: {
+    startDate: '2026-10-13T00:00:00Z',
+    seed: 1,
+    areas: [
+      { name: 'Karun North', population: 220_000, severity: 0.55 },
+      { name: 'Karun South', population: 180_000, severity: 0.4 },
+      { name: 'Bel Ravi', population: 90_000, severity: 0.7 },
+      { name: 'Hadar', population: 60_000, severity: 0.8 },
+    ],
+    accessCutAbove: 0.75,
+    firstReportHours: 18,
+  } satisfies z.input<typeof ImpactParams>,
+  fields: {
+    startDate: { label: 'Start (UTC)' },
+    seed: {
+      label: 'Random seed',
+      help: 'Any whole number from 0; the same seed gives the same data.',
+    },
+    areas: {
+      label: 'Admin areas',
+      help: 'Each item: name, population and severity (share of the population affected, 0 to 1).',
+    },
+    accessCutAbove: {
+      label: 'Access cut above severity',
+      help: 'Areas with severity above this, 0 to 1, have their access cut.',
+    },
+    firstReportHours: {
+      label: 'First report (hours)',
+      help: 'Hours until the first area reports, 1 to 240; later areas report later.',
+    },
+  },
   generate(p) {
     const t0 = Date.parse(p.startDate)
     const impact = simulateImpact(p)
@@ -240,6 +311,43 @@ const threeWGenerator: SimulatedGenerator<z.output<typeof ThreeWParams>> = {
   id: 'humanitarian-3w',
   label: 'Simulated partner reporting into a 3W table',
   params: ThreeWParams,
+  description:
+    'Simulates fictional partner organizations reporting where they work into a 3W (who does what where) table, some of them late. Writes the partner reports, the area and sector cells where nobody works, and partners reporting per cell by day.',
+  toolkits: ['humanitarian'],
+  example: {
+    startDate: '2026-10-13T00:00:00Z',
+    seed: 1,
+    areas: ['Karun North', 'Karun South', 'Bel Ravi', 'Hadar'],
+    sectors: ['Health', 'WASH', 'Shelter', 'Food security'],
+    partners: 6,
+    presence: 0.35,
+    reportDelayDays: 2,
+    days: 10,
+    needPerCell: 20_000,
+  } satisfies z.input<typeof ThreeWParams>,
+  fields: {
+    startDate: { label: 'Start (UTC)' },
+    seed: {
+      label: 'Random seed',
+      help: 'Any whole number from 0; the same seed gives the same data.',
+    },
+    areas: { label: 'Areas', help: 'One admin area per line, 1 to 12.' },
+    sectors: { label: 'Sectors', help: 'One sector or cluster per line, 1 to 8.' },
+    partners: { label: 'Partners', help: 'Fictional partner organizations reporting, 1 to 8.' },
+    presence: {
+      label: 'Presence',
+      help: 'Chance that a partner works in a given area and sector, 0 to 1.',
+    },
+    reportDelayDays: {
+      label: 'Report delay (days)',
+      help: 'Median days a partner takes to report, 0.1 to 30.',
+    },
+    days: { label: 'Days simulated', help: '2 to 60 days.' },
+    needPerCell: {
+      label: 'People in need per cell',
+      help: 'People in need in each area and sector, used for the gap events.',
+    },
+  },
   generate(p) {
     const t0 = Date.parse(p.startDate)
     const { reports, cells } = simulateThreeW(p)
@@ -307,6 +415,33 @@ const campOutbreakGenerator: SimulatedGenerator<z.output<typeof CampOutbreakPara
   id: 'humanitarian-camp-outbreak',
   label: 'Simulated outbreak in a displacement site',
   params: CampOutbreakParams,
+  description:
+    'Simulates an infectious disease outbreak in a displacement site with an SEIR model. Writes cases, deaths and cumulative cases per day, the first report, and the day cases reach the declaration threshold.',
+  toolkits: ['humanitarian', 'epidemiology'],
+  example: {
+    startDate: '2026-10-13T00:00:00Z',
+    seed: 1,
+    population: 18_400,
+    r0: 2.4,
+    days: 45,
+    caseFatality: 0.02,
+    declarationCases: 20,
+  } satisfies z.input<typeof CampOutbreakParams>,
+  fields: {
+    startDate: { label: 'Start (UTC)' },
+    seed: {
+      label: 'Random seed',
+      help: 'Any whole number from 0; the same seed gives the same data.',
+    },
+    population: { label: 'Site population', help: 'People in the site, 500 to 500,000.' },
+    r0: { label: 'R0', help: 'Basic reproduction number, 0.5 to 10.' },
+    days: { label: 'Days simulated', help: '7 to 120 days.' },
+    caseFatality: { label: 'Case fatality', help: 'Deaths over cases, as a share, 0 to 0.5.' },
+    declarationCases: {
+      label: 'Declaration threshold (cases)',
+      help: 'Cumulative cases at which the site health team would declare an outbreak response.',
+    },
+  },
   generate(p) {
     const t0 = Date.parse(p.startDate)
     const run = runCompartment({
@@ -412,6 +547,56 @@ const pipelineGenerator: SimulatedGenerator<z.output<typeof PipelineParams>> = {
   id: 'humanitarian-pipeline',
   label: 'Simulated supply pipeline with lead times and a break',
   params: PipelineParams,
+  description:
+    'Simulates the supply pipeline for one commodity: stock on hand consumed each day, shipments arriving, one optionally held at customs, and the break when stock runs out. Writes stock and days of stock by day and the break, last order day and customs hold events.',
+  toolkits: ['humanitarian', 'logistics'],
+  example: {
+    startDate: '2026-10-13T00:00:00Z',
+    seed: 1,
+    commodity: 'Fortified wheat flour',
+    unit: 'tonnes',
+    stockOnHand: 420,
+    dailyConsumption: 28,
+    shipments: [
+      { day: 12, quantity: 200 },
+      { day: 30, quantity: 600 },
+    ],
+    leadTimeDays: 21,
+    horizonDays: 45,
+    customsHoldShipmentIndex: 1,
+    holdDays: 10,
+  } satisfies z.input<typeof PipelineParams>,
+  fields: {
+    startDate: { label: 'Start (UTC)' },
+    seed: {
+      label: 'Random seed',
+      help: 'Any whole number from 0; the same seed gives the same data.',
+    },
+    commodity: { label: 'Commodity' },
+    unit: { label: 'Unit', help: 'Unit the stock is counted in, such as tonnes.' },
+    stockOnHand: { label: 'Stock on hand', help: 'Stock at the start, in the unit above.' },
+    dailyConsumption: {
+      label: 'Daily consumption',
+      help: 'Stock used per day, in the unit above.',
+    },
+    shipments: {
+      label: 'Shipments',
+      help: 'Each item: day (days after the start it arrives) and quantity (in the unit above).',
+    },
+    leadTimeDays: {
+      label: 'Lead time (days)',
+      help: 'Days from order to arrival, which sets the last day an order can still prevent the break.',
+    },
+    horizonDays: { label: 'Days simulated', help: '7 to 365 days.' },
+    customsHoldShipmentIndex: {
+      label: 'Shipment held at customs',
+      help: 'Optional. Position of the held shipment in the list, counting from 0.',
+    },
+    holdDays: {
+      label: 'Customs hold (days)',
+      help: 'Days the held shipment arrives late, 0 to 120.',
+    },
+  },
   generate(p) {
     const t0 = Date.parse(p.startDate)
     const sim = simulatePipeline(p)
@@ -503,6 +688,34 @@ const threatGenerator: SimulatedGenerator<z.output<typeof ThreatParams>> = {
   id: 'humanitarian-security-threat',
   label: 'Simulated threat level on a corridor (decision timing reference)',
   params: ThreatParams,
+  description:
+    'Simulates a staff security threat level on a road corridor that rises from none to serious, as a reference for decision timing. Writes the threat level by hour and the onset and serious-threat events.',
+  toolkits: ['humanitarian'],
+  example: {
+    startDate: '2026-10-13T00:00:00Z',
+    seed: 1,
+    area: 'Karun to Hadar corridor',
+    onsetHours: 6,
+    escalationHours: 8,
+    hours: 48,
+  } satisfies z.input<typeof ThreatParams>,
+  fields: {
+    startDate: { label: 'Start (UTC)' },
+    seed: {
+      label: 'Random seed',
+      help: 'Any whole number from 0; the same seed gives the same data.',
+    },
+    area: { label: 'Area or corridor' },
+    onsetHours: {
+      label: 'First sign (hours)',
+      help: 'Hours from the start to the first sign of the threat (level 1).',
+    },
+    escalationHours: {
+      label: 'Escalation (hours)',
+      help: 'Hours from the first sign to a serious threat (level 3).',
+    },
+    hours: { label: 'Hours simulated', help: '6 to 720 hours.' },
+  },
   generate(p) {
     const t0 = Date.parse(p.startDate)
     const level = (h: number): number =>

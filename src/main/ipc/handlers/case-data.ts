@@ -2,7 +2,8 @@
 // showed the size and the user consented. The renderer sends a connector id, never an address.
 import { shell } from 'electron'
 import { planFetch, runFetch } from '../../case-data/acquire'
-import { listGenerators, runGenerator } from '../../case-data/generators'
+import { allGenerators, runGenerator } from '../../case-data/generators'
+import { generatorForm } from '../../case-data/generator-form'
 import { MB, caseBytes, readManifest, removeDataset, saveTimeMapping } from '../../case-data/store'
 import { packAppVersion } from '../../packs/app-version'
 import { requireProject } from '../../project/guard'
@@ -80,7 +81,7 @@ export default defineHandlers({
 
   'case:connectors': () => listConnectors().map(connectorInfo),
 
-  'case:generators': () => listGenerators(),
+  'case:generators': () => allGenerators().map(generatorForm),
 
   'case:plan-fetch': async ({ projectPath, scenarioId, connectorId, query }) => {
     const root = await requireProject(projectPath)

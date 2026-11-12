@@ -104,6 +104,53 @@ function responseEvents(
   return out
 }
 
+const SPREAD_EXAMPLE = {
+  premises: {
+    seed: 7,
+    county: 'Tamarack County',
+    center: { lat: 44.3, lon: -93.9 },
+    radiusKm: 40,
+    hubs: 4,
+    inventory: [
+      { species: 'turkeys', farms: 14, meanHead: 30000 },
+      { species: 'layers', farms: 6, meanHead: 90000 },
+      { species: 'swine', farms: 25, meanHead: 2500 },
+      { species: 'dairy cattle', farms: 20, meanHead: 300 },
+    ],
+  },
+  index: ['P-001'],
+  spread: {
+    seed: 11,
+    startDate: '2026-10-19T00:00:00Z',
+    days: 40,
+    baseDailyProb: 0.03,
+    kernelScaleKm: 3,
+    maxKernelKm: 12,
+    linksPerPremises: 1.2,
+    movementDailyProb: 0.02,
+    latentDays: 2,
+    detectionDelayDays: [2, 5],
+    depopulationDelayDays: 1,
+    controlsFromDay: 6,
+    controlEffect: 0.2,
+  },
+} satisfies z.input<typeof SpreadGeneratorParams>
+
+const SPREAD_FIELDS = {
+  premises: {
+    label: 'Fictional premises',
+    help: 'JSON object: seed (whole number), county (a fictional name), center ({ lat, lon }), radiusKm (5 to 200), hubs (1 to 12) and inventory, a list of { species, farms, meanHead } lines.',
+  },
+  index: {
+    label: 'Index premises',
+    help: 'Premises codes infected on day 0, such as P-001 (up to 5). Leave empty to start at the first premises.',
+  },
+  spread: {
+    label: 'Spread settings',
+    help: 'JSON object: seed, startDate (ISO), days (5 to 120), baseDailyProb and movementDailyProb (0 to 1 per day), kernelScaleKm and maxKernelKm, linksPerPremises, latentDays, detectionDelayDays ([min, max]), depopulationDelayDays, controlsFromDay and controlEffect (0 to 1, the share of movement spread left once controls start).',
+  },
+}
+
 function spreadFor(p: z.output<typeof SpreadGeneratorParams>) {
   const premises = generatePremises(p.premises)
   const index = p.index.length ? p.index : [premises[0]!.id]
@@ -114,6 +161,11 @@ const spreadGenerator: SimulatedGenerator<z.output<typeof SpreadGeneratorParams>
   id: 'animal-premises-spread',
   label: 'Simulated premises and spread (fictional premises, distance and movement links)',
   params: SpreadGeneratorParams,
+  description:
+    'Fictional premises for a county from a farm inventory, and an infection spreading between them by distance and along movement links, with controls that cut movement from a chosen day. It writes the premises map, presumptive positives, samples due and permit requests for scoring, the confirmed premises curve and the tracing links.',
+  toolkits: ['animal_disease'],
+  example: SPREAD_EXAMPLE,
+  fields: SPREAD_FIELDS,
   generate(p) {
     const { premises, run } = spreadFor(p)
     const t0 = Date.parse(run.params.startDate)
@@ -204,6 +256,32 @@ const depopGenerator: SimulatedGenerator<z.output<typeof DepopGeneratorParams>> 
   id: 'animal-depop-capacity',
   label: 'Simulated depopulation and disposal schedule (crews, methods, disposal sites)',
   params: DepopGeneratorParams,
+  description:
+    'The same simulated outbreak, then depopulation crews and disposal sites working through the infected premises as a queue. It writes depopulation completions for scoring against the 24-hour goal, the schedule by premises and the head still waiting.',
+  toolkits: ['animal_disease'],
+  example: {
+    ...SPREAD_EXAMPLE,
+    crews: 4,
+    methods: DEFAULT_METHODS,
+    disposalSites: DEFAULT_SITES,
+    mobilizationHours: 4,
+  } satisfies z.input<typeof DepopGeneratorParams>,
+  fields: {
+    ...SPREAD_FIELDS,
+    crews: { label: 'Depopulation crews', help: 'Crews working at once, 1 to 200.' },
+    methods: {
+      label: 'Depopulation methods',
+      help: 'JSON list of { id, species (the species it may be used for), headPerCrewHour }.',
+    },
+    disposalSites: {
+      label: 'Disposal sites',
+      help: 'JSON list of { id, capacityHeadPerDay, travelHours (by road from the premises) }.',
+    },
+    mobilizationHours: {
+      label: 'Mobilization (hours)',
+      help: 'Hours from a presumptive positive until a crew can start, 0 to 72.',
+    },
+  },
   generate(p) {
     const { premises, run } = spreadFor(p)
     const byId = new Map(premises.map((q) => [q.id, q]))

@@ -268,5 +268,51 @@ export const trajectoryImportGenerator: SimulatedGenerator<TrajectoryImportParam
   id: 'trajectory-import',
   label: 'Imported trajectory (a model run made outside the app)',
   params: TrajectoryImportParams,
+  description:
+    'Imports a trajectory computed outside the app, such as a GeoJSON from PyGNOME or WebGNOME. Writes, for each output time, the best-estimate and uncertainty outlines and the center of the oil, the track of the centers and a note that the app did not compute it.',
+  toolkits: ['spill_plume'],
+  example: {
+    content: JSON.stringify({
+      type: 'FeatureCollection',
+      features: [0, 1].flatMap((step) =>
+        [
+          [-88.1, 30.3],
+          [-88.097, 30.301],
+          [-88.102, 30.303],
+          [-88.099, 30.297],
+        ].map(([lon, lat], i) => ({
+          type: 'Feature',
+          geometry: { type: 'Point', coordinates: [lon! + step * 0.02, lat! + step * 0.01] },
+          properties: {
+            current_time: 1793793600 + step * 3600,
+            spill_type: i === 3 ? 'UNCERTAIN' : 'FORECAST',
+          },
+        })),
+      ),
+    }),
+    model: 'WebGNOME',
+    runDate: '2026-11-03',
+    inputs: 'Wind from 135 degrees at 6 m/s; 4,200 bbl diesel over 4 hours',
+    id: 'trajectory',
+  } satisfies z.input<typeof TrajectoryImportParams>,
+  fields: {
+    content: {
+      label: 'Trajectory file',
+      help: 'The text of a GeoJSON file: a FeatureCollection or an array of them, with Point or MultiPoint features timed by current_time, time, timestamp, datetime or t. spill_type UNCERTAIN marks the uncertainty cloud.',
+    },
+    model: {
+      label: 'Model',
+      help: 'The model that made the file, such as WebGNOME or PyGNOME 1.1.',
+    },
+    runDate: { label: 'Run date', help: 'When the model was run, YYYY-MM-DD.' },
+    inputs: {
+      label: 'Model inputs',
+      help: 'The winds, currents and release the run used, in your words (up to 400 characters).',
+    },
+    id: {
+      label: 'Dataset name',
+      help: 'Lowercase letters, digits and hyphens; a second import into the same scenario needs another name.',
+    },
+  },
   generate: importTrajectory,
 }

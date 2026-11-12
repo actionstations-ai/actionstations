@@ -1,5 +1,6 @@
 // Simulated case-data generators of the EMS, fire and hazmat toolkits (spec 0456 FR-9). Importing
 // this module registers them. The framework labels everything they produce as simulated.
+import type { z } from 'zod'
 import { registerGenerator, type GeneratedDataset } from '../../case-data/generators'
 import { CallLoadParams, generateCallLoad } from './call-load'
 import {
@@ -229,17 +230,194 @@ registerGenerator({
   id: 'mci-casualties',
   label: 'Simulated mass casualty incident',
   params: CasualtyParams,
+  description:
+    'Fictional patients from a mass casualty incident in the priority mix you set, triaged by START or SALT as the first units arrive, then carried by the ambulances you list to the hospitals that can take them. It writes the triage counts over time, the triage and transport timeline, the patients sent to each hospital and the ground truth the triage and transport measures score against.',
+  toolkits: ['mci_triage', 'dispatch'],
+  example: {
+    incident: 'Route 9 school bus collision',
+    startTime: '2026-10-21T10:11:00Z',
+    method: 'START',
+    mix: { immediate: 4, delayed: 9, minor: 12, expectant: 3 },
+    childShare: 0.4,
+    seed: 1,
+    firstUnitMinutes: 8,
+    secondsPerPatient: 40,
+    hospitals: [
+      {
+        name: 'Alder Creek Regional Medical Center',
+        trauma: true,
+        burn: true,
+        pediatric: false,
+        receiveLimit: 10,
+        driveMinutes: 18,
+      },
+      {
+        name: 'Juniper Childrens Hospital',
+        trauma: true,
+        burn: false,
+        pediatric: true,
+        receiveLimit: 6,
+        driveMinutes: 25,
+      },
+      {
+        name: 'Fenwick Community Hospital',
+        trauma: false,
+        burn: false,
+        pediatric: false,
+        receiveLimit: 30,
+        driveMinutes: 8,
+      },
+    ],
+    ambulances: [
+      { unit: 'Medic 4', arriveMinutes: 8 },
+      { unit: 'Medic 9', arriveMinutes: 12 },
+      { unit: 'Medic 12', arriveMinutes: 18 },
+      { unit: 'Medic 15', arriveMinutes: 25 },
+    ],
+  } satisfies z.input<typeof CasualtyParams>,
+  fields: {
+    incident: { label: 'Incident name', help: 'A short name used in every dataset label.' },
+    startTime: {
+      label: 'Call received (UTC)',
+      help: 'When the call came in, as an ISO date and time.',
+    },
+    method: { label: 'Triage method', help: 'START (JumpSTART for children) or SALT.' },
+    mix: {
+      label: 'Patients by priority',
+      help: 'JSON object with the number of immediate, delayed, minor and expectant patients; at least one in total.',
+    },
+    childShare: { label: 'Share of children', help: 'Share of patients who are children, 0 to 1.' },
+    seed: {
+      label: 'Random seed',
+      help: 'Any whole number; the same seed gives the same patients.',
+    },
+    firstUnitMinutes: {
+      label: 'First unit on scene (minutes)',
+      help: 'Minutes from the call to the first unit, 1 to 60.',
+    },
+    secondsPerPatient: { label: 'Triage time per patient (seconds)', help: '10 to 300 seconds.' },
+    hospitals: {
+      label: 'Hospitals',
+      help: 'JSON list of { name, trauma, burn, pediatric (true or false), receiveLimit (patients it can take), driveMinutes }.',
+    },
+    ambulances: {
+      label: 'Ambulances',
+      help: 'JSON list of { unit, arriveMinutes } giving each unit and when it arrives after the call.',
+    },
+  },
   generate: casualtyDatasets,
 })
 registerGenerator({
   id: 'hazmat-release',
   label: 'Simulated hazmat release',
   params: ReleaseParams,
+  description:
+    'A release of a material from a container, with the isolation zone and the downwind protective action zone for each stretch of wind, and when the wind would carry the plume front to each listed place. It writes the zones as map features, the wind series, the arrival at places and the ground truth for scoring; arrival is distance divided by wind speed, not a dispersion model.',
+  toolkits: ['hazmat', 'spill_plume'],
+  example: {
+    incident: 'Tank car at Harlan Spur',
+    material: 'Exercise material X-17 (fictional)',
+    container: 'Rail tank car',
+    amount: '20,000 gallons',
+    distanceSource: 'fictional',
+    edition: '',
+    isolationDistance: 300,
+    protectiveDistance: 1500,
+    unit: 'ft',
+    lat: 41.5,
+    lon: -81.7,
+    startTime: '2026-10-21T11:00:00Z',
+    durationMinutes: 120,
+    wind: { fromDeg: 270, speed: 8, unit: 'mph' },
+    shifts: [{ atMinutes: 20, fromDeg: 225 }],
+    places: [
+      { name: 'Elm Street school', bearingDeg: 90, distance: 1400 },
+      { name: 'Mill Street clinic', bearingDeg: 20, distance: 1200 },
+    ],
+  } satisfies z.input<typeof ReleaseParams>,
+  fields: {
+    incident: { label: 'Incident name', help: 'A short name used in every dataset label.' },
+    material: {
+      label: 'Material',
+      help: 'The material released; a fictional name when the distances are invented.',
+    },
+    container: { label: 'Container', help: 'For example rail tank car, cargo tank or drum.' },
+    amount: { label: 'Amount', help: 'Free text with a unit, for example 20,000 gallons.' },
+    distanceSource: {
+      label: 'Distances from',
+      help: 'entered (copied from a guidebook, give the edition) or fictional (invented exercise values).',
+    },
+    edition: {
+      label: 'Guidebook edition',
+      help: 'Required when the distances are entered from a guidebook.',
+    },
+    isolationDistance: {
+      label: 'Isolation distance',
+      help: 'Radius of the isolation zone, in the unit below.',
+    },
+    protectiveDistance: {
+      label: 'Protective action distance',
+      help: 'Downwind length of the protective action zone, in the unit below.',
+    },
+    unit: {
+      label: 'Distance unit',
+      help: 'ft, m, mi or km; also the unit of the place distances.',
+    },
+    lat: { label: 'Latitude', help: 'Release point, decimal degrees.' },
+    lon: { label: 'Longitude', help: 'Release point, decimal degrees (west is negative).' },
+    startTime: { label: 'Release time (UTC)', help: 'As an ISO date and time.' },
+    durationMinutes: { label: 'Duration (minutes)', help: '10 to 1,440 minutes.' },
+    wind: {
+      label: 'Wind',
+      help: 'JSON object: fromDeg (direction the wind blows from, 0 to 360), speed, unit (mph, kt, m/s or km/h).',
+    },
+    shifts: {
+      label: 'Wind shifts',
+      help: 'JSON list of { atMinutes, fromDeg, speed (optional) }: from that minute the wind is as given (up to 6).',
+    },
+    places: {
+      label: 'Places to check',
+      help: 'JSON list of { name, bearingDeg (from the release point), distance (in the distance unit) }, up to 12.',
+    },
+  },
   generate: releaseDatasets,
 })
 registerGenerator({
   id: 'dispatch-call-load',
   label: 'Simulated dispatch call load',
   params: CallLoadParams,
+  description:
+    'Calls arriving at a dispatch center minute by minute from a mix of call types and priorities, with an optional surge. It writes the calls per minute and the list of calls with invented addresses.',
+  toolkits: ['dispatch'],
+  example: {
+    startTime: '2026-10-21T10:00:00Z',
+    minutes: 120,
+    baselinePerMinute: 0.4,
+    surge: { atMinute: 20, lengthMinutes: 30, multiplier: 4 },
+    mix: [
+      { type: 'Chest pain', priority: 'P1', share: 8 },
+      { type: 'Fall, injury', priority: 'P2', share: 22 },
+      { type: 'Sick person', priority: 'P3', share: 24 },
+      { type: 'Motor vehicle collision', priority: 'P2', share: 10 },
+    ],
+    seed: 1,
+  } satisfies z.input<typeof CallLoadParams>,
+  fields: {
+    startTime: { label: 'Start (UTC)', help: 'The first minute, as an ISO date and time.' },
+    minutes: { label: 'Length (minutes)', help: '5 to 480 minutes.' },
+    baselinePerMinute: {
+      label: 'Normal calls per minute',
+      help: 'Average calls a minute outside the surge, 0.05 to 10.',
+    },
+    surge: {
+      label: 'Surge',
+      help: 'Optional JSON object: atMinute (when it starts), lengthMinutes and multiplier (1 to 20 times the normal rate).',
+    },
+    mix: {
+      label: 'Call mix',
+      help: 'JSON list of { type, priority (such as P1), share (relative weight) }.',
+    },
+    seed: { label: 'Random seed', help: 'Any whole number; the same seed gives the same calls.' },
+  },
   generate: callLoadDatasets,
 })

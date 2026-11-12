@@ -77,6 +77,39 @@ export const syntheticFraudGenerator: SimulatedGenerator<z.infer<typeof Syntheti
   id: 'ai-synthetic-fraud',
   label: 'Simulated deepfake payment fraud (transfers, approvals, settlement)',
   params: SyntheticFraudParams,
+  description:
+    'A payment fraud that starts with a video call from a synthetic executive: a run of transfer requests, when each one settles, and the moment the fraud is discovered. It writes the ground-truth events the AI incident measures score holds and recalls against.',
+  toolkits: ['ai_incidents', 'governance'],
+  example: {
+    start: '2026-11-03T14:00:00Z',
+    seed: 4,
+    transfers: 3,
+    amountEach: 480_000,
+    currency: 'USD',
+    discoveryMinute: 190,
+    settleAfterMinutes: 120,
+  } satisfies z.input<typeof SyntheticFraudParams>,
+  fields: {
+    start: {
+      label: 'First exposure (UTC)',
+      help: 'When the synthetic video call happens, as an ISO date and time.',
+    },
+    seed: {
+      label: 'Random seed',
+      help: 'Any whole number from 0 to 1,000,000; the same seed gives the same timeline.',
+    },
+    transfers: { label: 'Transfers', help: 'Number of transfer requests, 1 to 8.' },
+    amountEach: { label: 'Amount per transfer', help: 'In whole units of the currency below.' },
+    currency: { label: 'Currency', help: 'A currency code such as USD or EUR.' },
+    discoveryMinute: {
+      label: 'Discovered after (minutes)',
+      help: 'Minutes from the first request to the moment the fraud is discovered.',
+    },
+    settleAfterMinutes: {
+      label: 'Settles after (minutes)',
+      help: 'Minutes from a payment release until it settles and can no longer be held.',
+    },
+  },
   generate(p): GeneratedDataset[] {
     const events = fraudEvents(p)
     return [
@@ -147,6 +180,64 @@ export const modelIncidentGenerator: SimulatedGenerator<z.infer<typeof ModelInci
   id: 'ai-model-incident',
   label: 'Simulated AI system incident (harmful-output drift, awareness, disclosure clocks)',
   params: ModelIncidentParams,
+  description:
+    'A deployed AI system whose daily harmful-output rate drifts upward after a change, then the day the organization becomes aware and the customer and regulator notice deadlines that follow. It writes the daily rate series and the incident events the disclosure measures read.',
+  toolkits: ['ai_incidents', 'governance'],
+  example: {
+    start: '2026-11-03T14:00:00Z',
+    seed: 5,
+    days: 30,
+    baseRatePct: 0.6,
+    shiftedRatePct: 4.2,
+    changeDay: 14,
+    rampDays: 5,
+    noisePct: 0.25,
+    awarenessDay: 20,
+    role: 'provider',
+    regulatorDueDays: 15,
+    customerDueDays: 3,
+  } satisfies z.input<typeof ModelIncidentParams>,
+  fields: {
+    start: { label: 'Series start (UTC)', help: 'Day 0 of the series, as an ISO date and time.' },
+    seed: {
+      label: 'Random seed',
+      help: 'Any whole number from 0 to 1,000,000; the same seed gives the same series.',
+    },
+    days: { label: 'Days', help: 'Length of the daily series, 10 to 120.' },
+    baseRatePct: {
+      label: 'Normal harmful-output rate (%)',
+      help: 'Percent of sampled outputs that are harmful before the change.',
+    },
+    shiftedRatePct: {
+      label: 'Rate after the change (%)',
+      help: 'Percent of sampled outputs that are harmful once the drift has fully set in.',
+    },
+    changeDay: { label: 'Change starts (day)', help: 'Zero-based day the rate starts to climb.' },
+    rampDays: {
+      label: 'Ramp (days)',
+      help: 'Days the rate takes to climb from the normal level to the new one, 1 to 30.',
+    },
+    noisePct: {
+      label: 'Day-to-day noise (%)',
+      help: 'Standard deviation of the daily rate, in percentage points, 0 to 20.',
+    },
+    awarenessDay: {
+      label: 'Organization aware (day)',
+      help: 'Zero-based day the organization becomes aware; the notice clocks start here.',
+    },
+    role: {
+      label: 'Organization role',
+      help: 'provider, deployer or victim. Only a provider has the regulator report clock.',
+    },
+    regulatorDueDays: {
+      label: 'Regulator report due (days)',
+      help: 'Days after awareness the regulator report is due (provider only).',
+    },
+    customerDueDays: {
+      label: 'Customer notice due (days)',
+      help: 'Days after awareness the organization aims to notify customers.',
+    },
+  },
   generate(p): GeneratedDataset[] {
     const t0 = Date.parse(p.start)
     const series = evaluationSeries(p)

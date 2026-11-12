@@ -29,11 +29,29 @@ export interface GeneratedDataset {
   shape?: 'modeled-series' | 'ground-truth'
 }
 
+/** How the simulation form names one top-level input (#1141). */
+export interface GeneratorField {
+  label: string
+  /** One plain sentence: the unit, the range, what it changes. */
+  help?: string
+}
+
 export interface SimulatedGenerator<P = unknown> {
   /** Lowercase id, e.g. "storm-track". */
   id: string
   label: string
   params: z.ZodType<P>
+  /** One or two plain sentences on what it simulates, shown in the form (#1141). */
+  description?: string
+  /** The toolkits (pack toolkit ids) whose scenarios are offered this simulation (#1141). */
+  toolkits?: readonly string[]
+  /**
+   * A complete, valid set of inputs (#1141): the form opens with it, and the contract test runs
+   * the generator on it. Place names in it are fictional or real geography only.
+   */
+  example?: unknown
+  /** Labels and help for the top-level inputs, by key (#1141). */
+  fields?: Readonly<Record<string, GeneratorField>>
   /** Pure and deterministic: the same parameters give the same data. */
   generate(params: P): GeneratedDataset[]
 }
@@ -52,6 +70,13 @@ export const listGenerators = (): { id: string; label: string }[] =>
   [...registry.values()]
     .map(({ id, label }) => ({ id, label }))
     .sort((a, b) => a.id.localeCompare(b.id))
+
+/** One generator by id, or undefined. */
+export const findGenerator = (id: string): SimulatedGenerator | undefined => registry.get(id)
+
+/** Every generator, for the simulation form and the contract test. */
+export const allGenerators = (): SimulatedGenerator[] =>
+  [...registry.values()].sort((a, b) => a.id.localeCompare(b.id))
 
 /** Test hook. */
 export const clearGenerators = (): void => registry.clear()
@@ -98,7 +123,13 @@ export async function runGenerator(
 ): Promise<CaseManifest> {
   const g = registry.get(generatorId)
   if (!g) throw new AppError('NOT_FOUND', `No generator named ${generatorId}`)
-  const params = g.params.parse(rawParams)
+  const parsed = g.params.safeParse(rawParams)
+  if (!parsed.success) {
+    const issue = parsed.error.issues[0]
+    const where = issue?.path.length ? `${issue.path.join('.')}: ` : ''
+    throw new AppError('VALIDATION', `${where}${issue?.message ?? 'The inputs are not valid'}`)
+  }
+  const params = parsed.data
   const generated = g.generate(params)
   const files = generated.map((d) => {
     validateData(d)

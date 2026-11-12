@@ -125,6 +125,72 @@ export const spaceWeatherEventGenerator: SimulatedGenerator<SpaceEventParams> = 
   id: 'space-weather-event',
   label: 'Simulated space weather event (flare, radiation, CME, Kp, GIC, GNSS)',
   params: SpaceEventParams as z.ZodType<SpaceEventParams>,
+  description:
+    'A flare, a radiation storm and a CME whose arrival drives a geomagnetic storm of the G level you set. Writes X-ray, proton, solar wind, Kp, magnetometer, transformer neutral current and GNSS series, the SWPC watches, warnings and alerts in order, and the series the timing measures read.',
+  toolkits: ['space_weather'],
+  example: {
+    flareTime: '2026-11-05T09:00:00Z',
+    flareClass: 'X2.1',
+    peakS: 3,
+    peakG: 4,
+    cmeSpeedKmS: 1500,
+    arrivalUncertaintyHours: 6,
+    stormDurationHours: 24,
+    conditionKp: 7,
+    groundConductivityFactor: 1,
+    site: 'Harbor 345 kV T2',
+    receivers: [
+      {
+        name: 'Harbor central office',
+        class: 'disciplined_oscillator',
+        holdoverHours: 8,
+        errorLimitM: 5,
+      },
+      { name: 'Pine Ridge tower', class: 'multi_frequency', errorLimitM: 5 },
+    ],
+    scintillationHours: 48,
+  } satisfies z.input<typeof SpaceEventParams>,
+  fields: {
+    flareTime: {
+      label: 'Flare time (UTC)',
+      help: 'The eruption; every other time follows from it.',
+    },
+    flareClass: { label: 'Flare class', help: 'Peak GOES X-ray class, such as M5 or X2.1.' },
+    peakS: { label: 'Peak S level', help: 'Radiation storm level, 0 (none) to 5.' },
+    peakG: { label: 'Peak G level', help: 'Geomagnetic storm level, 0 (none) to 5.' },
+    cmeSpeedKmS: {
+      label: 'CME speed (km/s)',
+      help: '300 to 3500; the transit time to Earth follows from it.',
+    },
+    arrivalUncertaintyHours: {
+      label: 'Arrival window (± hours)',
+      help: 'The forecast arrival window is plus or minus this many hours, 1 to 24.',
+    },
+    stormDurationHours: {
+      label: 'Storm decay (hours)',
+      help: 'Hours from the peak back to quiet, 6 to 72.',
+    },
+    conditionKp: {
+      label: 'Procedure Kp',
+      help: "Kp at which the grid operating procedure's condition is met, 4 to 9.",
+    },
+    groundConductivityFactor: {
+      label: 'Ground conductivity factor',
+      help: 'Scales the neutral current; 1 is the reference, 0.1 to 5.',
+    },
+    site: {
+      label: 'Monitored transformer',
+      help: 'The transformer or substation whose neutral current is written.',
+    },
+    receivers: {
+      label: 'GNSS receivers',
+      help: 'Each item: name, class (single_frequency, multi_frequency or disciplined_oscillator), holdoverHours (required for a disciplined oscillator) and errorLimitM, the horizontal error in meters above which GNSS is not usable.',
+    },
+    scintillationHours: {
+      label: 'Disturbed ionosphere (hours)',
+      help: 'Hours the ionosphere stays disturbed after the Kp peak; leave empty for a default from the G level.',
+    },
+  },
   generate(p) {
     const e = simulateEvent(p)
     const out: GeneratedDataset[] = [

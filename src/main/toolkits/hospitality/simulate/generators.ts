@@ -43,6 +43,53 @@ export const outbreakGenerator: SimulatedGenerator<ReturnType<typeof OutbreakAtS
   id: 'hosp-outbreak-at-sea',
   label: 'Simulated gastroenteritis outbreak on a voyage (cases, thresholds, reports)',
   params: OutbreakAtSeaParams,
+  description:
+    'Simulates a gastroenteritis outbreak among passengers and crew over a voyage, with isolation and cleaning that prevent a share of later cases. Writes daily cases, a medical log with role codes, the 2 and 3 percent crossings, the reports the ship would send and the report points before arrival.',
+  toolkits: ['outbreak_at_sea', 'guest_emergency', 'epidemiology'],
+  example: {
+    seed: 1,
+    startDate: '2026-11-01T17:00:00Z',
+    voyageDays: 7,
+    passengers: 2410,
+    crew: 980,
+    passengerAttackRate: 0.04,
+    crewAttackRate: 0.022,
+    peakDay: 4,
+    spreadDays: 1.3,
+    isolationStartDay: 4.5,
+    isolationEffect: 0.4,
+  } satisfies OutbreakAtSeaParams,
+  fields: {
+    seed: { label: 'Random seed', help: 'Any whole number; the same seed gives the same data.' },
+    startDate: { label: 'Embarkation (UTC)' },
+    voyageDays: { label: 'Voyage days', help: 'Length of the voyage, 3 to 14 days.' },
+    passengers: { label: 'Passengers', help: 'Passengers on board, 100 to 10,000.' },
+    crew: { label: 'Crew', help: 'Crew on board, 20 to 4,000.' },
+    passengerAttackRate: {
+      label: 'Passenger attack rate',
+      help: 'Share of passengers ill by the end of the voyage before isolation, 0 to 0.3.',
+    },
+    crewAttackRate: {
+      label: 'Crew attack rate',
+      help: 'Share of crew ill by the end of the voyage before isolation, 0 to 0.3.',
+    },
+    peakDay: {
+      label: 'Peak day',
+      help: 'Voyage day (from 0) of peak onset for passengers; crew peak half a day later.',
+    },
+    spreadDays: {
+      label: 'Spread (days)',
+      help: 'How widely onsets spread around the peak, 0.3 to 4 days.',
+    },
+    isolationStartDay: {
+      label: 'Isolation starts (voyage day)',
+      help: 'Day isolation and cleaning take effect; must be before the voyage ends.',
+    },
+    isolationEffect: {
+      label: 'Isolation effect',
+      help: 'Share of later cases isolation and cleaning prevent, 0 to 0.95.',
+    },
+  },
   generate(p) {
     const sim = simulateOutbreak(p)
     const span = range(sim.startMs, sim.arrivalMs)
@@ -155,6 +202,36 @@ export const musterGenerator: SimulatedGenerator<ReturnType<typeof MusterParams.
   id: 'hosp-muster',
   label: 'Simulated muster with unaccounted persons (counts over time)',
   params: MusterParams,
+  description:
+    'Simulates a ship muster in which some passengers and crew do not reach a station on their own and are found later. Writes the muster events, the count of persons not yet accounted for every 5 minutes, and a roster of those persons by code.',
+  toolkits: ['guest_emergency'],
+  example: {
+    seed: 1,
+    start: '2026-11-03T20:30:00Z',
+    passengers: 2410,
+    crew: 980,
+    unaccountedPassengers: 22,
+    unaccountedCrew: 9,
+    lastFoundMin: 75,
+  } satisfies MusterParams,
+  fields: {
+    seed: { label: 'Random seed', help: 'Any whole number; the same seed gives the same data.' },
+    start: { label: 'Alarm time (UTC)' },
+    passengers: { label: 'Passengers', help: 'Passengers on board, 10 to 10,000.' },
+    crew: { label: 'Crew', help: 'Crew on board, 5 to 4,000.' },
+    unaccountedPassengers: {
+      label: 'Passengers unaccounted for',
+      help: 'Passengers who do not reach a station on their own and are found later, 0 to 500.',
+    },
+    unaccountedCrew: {
+      label: 'Crew unaccounted for',
+      help: 'Crew who do not reach a station on their own and are found later, 0 to 200.',
+    },
+    lastFoundMin: {
+      label: 'Last person found (minutes)',
+      help: 'Latest minute after the alarm when the last person is found, 30 to 240.',
+    },
+  },
   generate(p) {
     const sim = simulateMuster(p)
     const end = sim.startMs + sim.completeMin * MIN
@@ -218,6 +295,44 @@ export const hurricaneGenerator: SimulatedGenerator<ReturnType<typeof HurricaneP
   id: 'hosp-hurricane',
   label: 'Simulated hurricane approach: closures, winds and guest departures',
   params: HurricaneParams,
+  description:
+    'Simulates a hurricane approaching a resort property: the airport counter and causeway close, winds arrive, and guests depart along a curve set by how fast the front office starts. Writes the closure and wind events and cumulative guest departures by hour.',
+  toolkits: ['guest_emergency', 'weather'],
+  example: {
+    seed: 1,
+    start: '2026-09-17T12:00:00Z',
+    guests: 600,
+    airportClosesHour: 10,
+    causewayClosesHour: 12,
+    windsArriveHour: 14,
+    startLagHours: 1,
+    departureShare: 0.7,
+  } satisfies HurricaneParams,
+  fields: {
+    seed: { label: 'Random seed', help: 'Any whole number; the same seed gives the same data.' },
+    start: { label: 'First advisory (UTC)', help: 'The advisory the plan reads first.' },
+    guests: { label: 'Guests', help: 'Guests in house, 20 to 20,000.' },
+    airportClosesHour: {
+      label: 'Airport closes (hour)',
+      help: 'Hours after the first advisory when the airport counter closes, 2 to 48.',
+    },
+    causewayClosesHour: {
+      label: 'Causeway closes (hour)',
+      help: 'Hours after the first advisory when the causeway closes, 2 to 48.',
+    },
+    windsArriveHour: {
+      label: 'Winds arrive (hour)',
+      help: 'Hours after the first advisory when tropical storm winds arrive, 4 to 72.',
+    },
+    startLagHours: {
+      label: 'Departure start lag (hours)',
+      help: 'Hours the front office takes to start departures, 0 to 12; shifts the whole curve.',
+    },
+    departureShare: {
+      label: 'Share of guests who leave',
+      help: 'Share of guests who leave if departures run well, 0.1 to 1.',
+    },
+  },
   generate(p) {
     const sim = simulateHurricane(p)
     const end = sim.startMs + sim.params.windsArriveHour * HOUR
@@ -253,6 +368,33 @@ export const towerFireGenerator: SimulatedGenerator<ReturnType<typeof TowerFireP
   id: 'hosp-tower-fire',
   label: 'Simulated tower fire: floors, guests accounted for over time',
   params: TowerFireParams,
+  description:
+    'Simulates a fire in a hotel tower: the alarm, the fire department arriving, each floor cleared, and guests accounted for against a registered list that misses late check-ins. Writes the fire events and floor status snapshots at set minutes.',
+  toolkits: ['guest_emergency'],
+  example: {
+    seed: 1,
+    start: '2026-11-03T19:45:00Z',
+    topFloor: 16,
+    firstFloor: 10,
+    fireFloor: 14,
+    guestsPerFloor: 60,
+    lateCheckIns: 4,
+  } satisfies TowerFireParams,
+  fields: {
+    seed: { label: 'Random seed', help: 'Any whole number; the same seed gives the same data.' },
+    start: { label: 'Alarm time (UTC)' },
+    topFloor: { label: 'Top floor', help: 'Highest guest floor, 6 to 60.' },
+    firstFloor: { label: 'First guest floor', help: 'Lowest floor simulated, 2 to 20.' },
+    fireFloor: { label: 'Fire floor', help: 'Floor where the fire starts, 3 to 60.' },
+    guestsPerFloor: {
+      label: 'Guests per floor',
+      help: 'Registered guests on a typical floor, 10 to 200.',
+    },
+    lateCheckIns: {
+      label: 'Late check-ins',
+      help: 'Guests missing from the in-house list because they checked in late, 0 to 100.',
+    },
+  },
   generate(p) {
     const sim = simulateTowerFire(p)
     const lastMin = Math.max(...sim.floors.map((f) => f.clearMin + Math.ceil(f.lateFound * 3) + 1))
@@ -306,6 +448,32 @@ export const cyberOutageGenerator: SimulatedGenerator<ReturnType<typeof CyberOut
     id: 'hosp-reservation-cyber',
     label: 'Simulated reservation and keycard outage timeline and desk queue',
     params: CyberOutageParams,
+    description:
+      'Simulates a cyber attack that takes down the reservation system and keycard encoders at a hotel, through the ransom note to restoration. Writes the outage events and the guests waiting at the front desk by hour.',
+    toolkits: ['guest_emergency', 'governance'],
+    example: {
+      seed: 1,
+      start: '2026-11-07T14:10:00Z',
+      arrivalsPerHour: 45,
+      keycardsRestoredHour: 9,
+      reservationsRestoredHour: 30,
+    } satisfies CyberOutageParams,
+    fields: {
+      seed: { label: 'Random seed', help: 'Any whole number; the same seed gives the same data.' },
+      start: { label: 'First symptom (UTC)' },
+      arrivalsPerHour: {
+        label: 'Arrivals per hour',
+        help: 'Guests expected to arrive each hour during the outage, 5 to 500.',
+      },
+      keycardsRestoredHour: {
+        label: 'Keycards restored (hour)',
+        help: 'Hours after the first symptom when keycard encoding works again, 1 to 72.',
+      },
+      reservationsRestoredHour: {
+        label: 'Reservations restored (hour)',
+        help: 'Hours after the first symptom when the reservation system is back, 1 to 120.',
+      },
+    },
     generate(p) {
       const sim = simulateCyberOutage(p)
       const last = sim.events[sim.events.length - 1]!
