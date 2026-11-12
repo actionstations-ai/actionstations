@@ -130,7 +130,7 @@ describe('clinical care toolkit', () => {
       JSON.parse(readFileSync(resolve('packs/toolkits/clinical_care.json'), 'utf8')),
     )
 
-  it('parses and offers the nine structured decisions of FR-12', () => {
+  it('parses and offers the nine structured decisions of FR-12 and the controller log', () => {
     expect(toolkit().decisionForms.map((d) => d.id)).toEqual([
       'assign_nurse',
       'call_rapid_response',
@@ -141,6 +141,7 @@ describe('clinical care toolkit', () => {
       'request_transfer',
       'disclose_event',
       'notify',
+      'log_clinical_event',
     ])
   })
 

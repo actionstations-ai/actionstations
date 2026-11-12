@@ -158,7 +158,7 @@ A model-led expert review written from the perspective of a CMIO/CNIO with hospi
 
 **Caveats:**
 
-- The consequence rules are a teaching table, not a model, and are not yet wired into play: only their tests call them.
+- The consequence rules are a teaching table, not a model. They were not wired into play at the time of this review; they now run in live play and Facilitate, and the discrepancies are released as back-entry advances.
 - The "messages replayed before the identity check" rule fires on any replay, whether or not an identity check was decided first; read it as "replay adds expected duplicates".
 - There is no health informatics user guide yet; the toolkit is described only in the toolkits guide and the profile.
 - SAFER attestation years and the Joint Commission chapter text were not read in their primary form this session.

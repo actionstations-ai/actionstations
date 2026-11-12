@@ -54,6 +54,18 @@ Figures are drawn from data, never from AI images, each with a text summary and 
 - **Reconciliation progress:** items entered and remaining by unit.
 - **Downtime timeline:** the events of the downtime in order, such as the declaration, each system's return and the end of reconciliation.
 
+## Simulated downtime
+
+The app can generate a downtime for a fictional hospital: choose the time the systems fail, how long they stay down, the number of beds, which feeds stop (laboratory results, orders, registration, pharmacy, radiology), whether the messages queued in the interface engine are lost, the units, how many synthetic patients and how many critical results arrive while the systems are down. It writes the hourly message queue by feed (for the message queue figure) and the events of the downtime: the outage, the units, each critical result, the recovery with its backlog by feed, and the paper each unit has to enter. Everything is labeled **simulated** and repeats exactly with the same seed. It is a teaching table, not a model of real systems.
+
+The downtime then follows the players' decisions:
+
+- **Restore order, message dispositions and result release change the case.** Opening the EHR to clinicians before the lab interface makes the results backlog larger (results are missed and tests ordered again); letting results flow before the identity check raises the chance a result files to the wrong patient; replaying messages adds the duplicate records back-entry is expected to create; discarding a message class puts its orders and results at risk; holding results until they are validated delays them but lowers the wrong-patient chance. The latest decision of each kind counts, so a revised restore order replaces the first.
+- **The facilitator sees why.** The Live tab in Facilitate shows a **Simulated downtime** section whenever the scenario has this data: each figure before and after the decisions, every rule that fired with its reason, back-entry by unit and the discrepancies. To overrule a rule, record **Override a consequence rule**; the rule stays listed as overridden and stops changing the case.
+- **Discrepancies arrive on their own.** Each scenario seeds at least a duplicate registration, a result filed to the wrong patient and an order sent twice. As units report reconciliation progress, each falls due at its point of the back-entry, from 10 to 80 percent complete. In a session with devices it arrives on every team's messages from Health information management, once; without devices Facilitate marks it due for you to read out. Nothing more falls due once reconciliation is closed. A unit that has not reported counts with its simulated paper, so the discrepancies come as the whole hospital's back-entry advances.
+
+The case clock starts at the outage unless you set your own in Case data, so the exercise clock's 0:00 is the moment the systems fail. Times entered on the forms are read on that clock.
+
 ## Decisions in live play
 
 Players record structured decisions, each with a time:
@@ -65,8 +77,17 @@ Players record structured decisions, each with a time:
 - **Open a duplicate or overlay merge**, or freeze two records.
 - **Isolate devices**, naming the device class, the units and the manual alternative.
 - **Notify** a person, team or outside party.
+- **Report a unit on downtime procedures:** the unit is working on paper, with what is still missing.
+- **Communicate a critical result:** the patient, the test, who was told and whether it was read back.
 - **Report reconciliation progress** for one unit (items entered and checked, items remaining, discrepancies found), and **Close reconciliation** with what is still open.
 - **Return to normal** for one or more systems.
+
+Two forms are for the people running the exercise rather than the players:
+
+- **Log a systems event (controller):** record something that happened in the simulated hospital that no form covers, so the measures count it: a unit on downtime procedures, a critical result, an order or result lost, delayed or duplicated (with the message class and how many), or a duplicate record.
+- **Override a consequence rule (facilitator):** stop one of the downtime model's rules from changing the case, or let it apply again (see below).
+
+Record them from the Decisions section of the Live tab in Facilitate, with or without devices.
 
 Three advisor roles can sit with the players: a clinical informatics liaison (what the EHR and the downtime tools can and cannot do), an interface analyst liaison (what replaying, holding or discarding a message class would do) and a health information management liaison (what paper must be kept and what a merge does to the legal record).
 
@@ -82,7 +103,15 @@ Open the scenario's Evaluation tab and choose **Compute field metrics** after a 
 - **Restore order against the clinician priority list:** a rank correlation and the share of pairs in the same order. The default list is identity check, lab interface, EHR, pharmacy interface: downtime registrations are matched first, results catch up next so the chart is complete when clinicians return, and the pharmacy interface and cabinet profiles follow once paper orders are back-entered and verified. The list is the clinicians' judgment for the scenario, not a standard; change it for your hospital and read the score with the reasons players gave. Names are compared loosely, so "Lab interface" matches lab_interface.
 - **Notification clocks met** for the HIPAA breach notification rule.
 
-The measures that count units, results and records read them from the scenario's case data. When a scenario does not carry them, the measure says so and the others still run.
+Where each measure's events come from:
+
+- **Units on procedures:** the units come from the simulated downtime (or from the controller's log); a unit is on procedures when someone records **Report a unit on downtime procedures** for it. Use the unit names the scenario lists.
+- **Orders and results:** at recovery the simulated downtime counts each failed feed's queued messages: lost when the queue was lost or the class was discarded, delayed when it was held or no one decided, on time when it was replayed, and re-ordered tests as duplicated when the EHR opened before the lab interface. The controller's log adds any others.
+- **Critical results:** the simulated critical results (or ones the controller logs) are answered by **Communicate a critical result**; each call answers the earliest unanswered result before it for the patient it names, by name or record number.
+- **Reconciliation:** the simulated paper per unit, replaced by each unit's own progress report, from recovery to the close.
+- **Duplicate records:** the duplicate registrations that surfaced during back-entry and any the controller logs, shown beside the number the downtime model expected.
+
+The clinical care measures for the same exercise (see [Nursing and clinical care](nursing.md)) read the same simulated outage.
 
 ## Clocks and requirements
 
@@ -104,7 +133,7 @@ The pack's README lists dated seeds from past incidents (a health system's weeks
 
 - Start the exercise before the declaration. The gap between the first help desk ticket and the downtime declaration is often where the lessons are.
 - Script the paper. A downtime census printed at 02:00 that a unit is still using at 09:00, a label sheet that runs out, or a phoned critical result with no read-back makes the paper period concrete.
-- Give recovery its own phase. Reconciliation is where duplicates, wrong-patient results and orders sent twice surface; deliver them as injects while part of the back-entry is still open so players can act on them.
+- Give recovery its own phase and ask each unit to report its back-entry progress regularly. Reconciliation is where duplicates, wrong-patient results and orders sent twice surface, and they arrive as the reports come in, while part of the back-entry is still open, so players can act on them.
 - The SAFER Guide on contingency planning recommends paper forms on each unit for at least 8 hours of care, a communication method that does not depend on the EHR, and unannounced downtime drills at least once a year. These make good objectives.
 - Ask a CMIO or CNIO to set the restore priority and read the scenario before you run it.
 

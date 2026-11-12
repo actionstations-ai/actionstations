@@ -109,6 +109,7 @@ import { callFromRow, isCallInject } from './inject-call'
 import { hostRoster, rosterView } from './regional-roster'
 import { Seats, type Seat } from './seats'
 import { runSessionEndHooks } from './end-hooks'
+import { runDecisionHooks } from './decision-hooks'
 import { requireConsent, isRemote } from './connection'
 import {
   attachController,
@@ -729,7 +730,37 @@ function makeDecisions(getActive: () => Active, roles: readonly Role[]): Decisio
     now: () => Date.now(),
     newId: () => `dec-${toHex(getActive().crypto.random(6))}`,
     changed: () => emitChanged('decisions'),
+    recorded: async (record, records) => {
+      const a = getActive()
+      await runDecisionHooks({
+        root: a.root,
+        scenarioId: a.session.scenarioId,
+        record,
+        records,
+        readLog: () => readAll(a.log.path),
+        messagePlayers: (persona, text) => messageEveryTeam(a, roles, persona, text),
+      })
+    },
   })
+}
+
+/** A message from an outside party to every team (and every role without a team). */
+async function messageEveryTeam(
+  a: Active,
+  roles: readonly Role[],
+  persona: string,
+  text: string,
+): Promise<void> {
+  const channels = new Set(
+    roles.map((r) => {
+      const team = teamSlug(r.team)
+      return team ? `team:${team}` : `role:${r.id}`
+    }),
+  )
+  for (const channel of channels)
+    await a.messages
+      .sendControllerMessage({ channel, text, persona })
+      .catch((err: unknown) => console.error('[live] message to players:', err))
 }
 
 /** The map on devices: what is read, uploaded and sent for it (spec 0436 FR-8). */

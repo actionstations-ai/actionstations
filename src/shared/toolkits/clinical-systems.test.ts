@@ -23,15 +23,19 @@ describe('clinical_systems toolkit', () => {
   it('keeps stable decision form ids', () => {
     expect(toolkit.decisionForms.map((f) => f.id)).toEqual([
       'declare_downtime',
+      'report_unit_on_downtime',
       'set_restore_order',
       'message_disposition',
       'result_release',
+      'communicate_critical_result',
       'record_merge',
       'isolate_devices',
       'notify',
       'return_to_normal',
       'reconcile_unit',
       'close_reconciliation',
+      'override_consequence',
+      'log_systems_event',
     ])
   })
 

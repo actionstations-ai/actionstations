@@ -195,6 +195,30 @@
       ]
     },
     {
+      "id": "report_unit_on_downtime",
+      "label": "Report a unit on downtime procedures",
+      "description": "Record that one unit is working on paper: forms, downtime reports and labels in hand and staff told.",
+      "fields": [
+        {
+          "id": "unit",
+          "label": "Unit (as named on the unit list)",
+          "kind": "text",
+          "required": true
+        },
+        {
+          "id": "notes",
+          "label": "What is still missing",
+          "kind": "text"
+        },
+        {
+          "id": "time",
+          "label": "Time the unit was on procedures",
+          "kind": "time",
+          "required": true
+        }
+      ]
+    },
+    {
       "id": "set_restore_order",
       "label": "Set restore order",
       "description": "Rank the systems and interfaces in the order they come back, with the reason for the sequence.",
@@ -278,6 +302,43 @@
           "id": "reason",
           "label": "Reason",
           "kind": "text"
+        },
+        {
+          "id": "time",
+          "label": "Time",
+          "kind": "time",
+          "required": true
+        }
+      ]
+    },
+    {
+      "id": "communicate_critical_result",
+      "label": "Communicate a critical result",
+      "description": "Record that a critical result was phoned to the responsible clinician and read back.",
+      "fields": [
+        {
+          "id": "patient",
+          "label": "Patient (name or record number)",
+          "kind": "text",
+          "required": true
+        },
+        {
+          "id": "test",
+          "label": "Test and value",
+          "kind": "text"
+        },
+        {
+          "id": "to",
+          "label": "Told to",
+          "kind": "text",
+          "required": true
+        },
+        {
+          "id": "read_back",
+          "label": "Read back",
+          "kind": "choice",
+          "choices": ["Yes", "No"],
+          "required": true
         },
         {
           "id": "time",
@@ -437,6 +498,96 @@
           "id": "open_items",
           "label": "Open items",
           "kind": "text"
+        },
+        {
+          "id": "time",
+          "label": "Time",
+          "kind": "time",
+          "required": true
+        }
+      ]
+    },
+    {
+      "id": "override_consequence",
+      "label": "Override a consequence rule (facilitator)",
+      "description": "For the facilitator: stop one of the downtime model's consequence rules from changing the simulated case, or let it apply again.",
+      "fields": [
+        {
+          "id": "rule",
+          "label": "Rule",
+          "kind": "choice",
+          "required": true,
+          "choices": [
+            "EHR opened to clinicians before the lab interface",
+            "Results flow before the identity check",
+            "Messages replayed before the identity check",
+            "A message class was discarded",
+            "Results held until validated"
+          ]
+        },
+        {
+          "id": "action",
+          "label": "Action",
+          "kind": "choice",
+          "required": true,
+          "choices": ["Override the rule", "Let the rule apply"]
+        },
+        {
+          "id": "reason",
+          "label": "Reason",
+          "kind": "text"
+        },
+        {
+          "id": "time",
+          "label": "Time",
+          "kind": "time",
+          "required": true
+        }
+      ]
+    },
+    {
+      "id": "log_systems_event",
+      "label": "Log a systems event (controller)",
+      "description": "For the controller: record something that happened in the simulated hospital so the measures can count it, such as a unit going onto paper, a critical result, a lost order or a duplicate record.",
+      "fields": [
+        {
+          "id": "event",
+          "label": "Event",
+          "kind": "choice",
+          "required": true,
+          "choices": [
+            "Unit on downtime procedures",
+            "Critical result reported",
+            "Order or result lost",
+            "Order or result delayed",
+            "Order or result duplicated",
+            "Duplicate record created"
+          ]
+        },
+        {
+          "id": "unit",
+          "label": "Unit",
+          "kind": "text"
+        },
+        {
+          "id": "patient",
+          "label": "Patient (name or record number)",
+          "kind": "text"
+        },
+        {
+          "id": "detail",
+          "label": "Test or detail",
+          "kind": "text"
+        },
+        {
+          "id": "message_class",
+          "label": "Message class (for orders and results)",
+          "kind": "text"
+        },
+        {
+          "id": "count",
+          "label": "How many",
+          "kind": "number"
         },
         {
           "id": "time",

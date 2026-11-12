@@ -88,6 +88,7 @@ describe('registration', () => {
       'request_transfer',
       'disclose_event',
       'notify',
+      'log_clinical_event',
     ])
     const triage = forms
       .find((f) => f.id === 'triage_arrival')!

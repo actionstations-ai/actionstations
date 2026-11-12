@@ -25,6 +25,7 @@ import { SimcellPanel } from './SimcellPanel'
 import { tallySourceFromVotes } from '@shared/branching/vote-input'
 import { useLiveVotes } from './live/use-live-votes'
 import { LiveDecisionsSection } from './live/LiveDecisions'
+import { ClinicalDowntimeSection } from './live/ClinicalDowntime'
 import { LiveSurveysSection } from './live/SurveySend'
 import { VotePanel } from './live/VotePanel'
 import { VOTES } from './live/vote-strings'
@@ -359,6 +360,11 @@ export function SidePanel(props: {
           scenario={props.scenario}
           state={state}
           update={update}
+        />
+        <ClinicalDowntimeSection
+          projectPath={props.projectPath}
+          scenario={props.scenario}
+          state={state}
         />
         <SessionsList projectPath={props.projectPath} scenario={props.scenario} />
       </Tabs.Content>

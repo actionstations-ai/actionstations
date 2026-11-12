@@ -60,6 +60,8 @@ Clinical figures are drawn from data, never from AI images, each with a text sum
 
 The **simulated patient trajectory** generator draws a patient's vital signs and labs over 30 minutes to 8 hours, at a step of 5 to 60 minutes, from a named course: sepsis, hemorrhage, respiratory failure, a cardiac event, post-operative deterioration or hypoglycemia. You can schedule what the nurse does (reassess, escalate, treat or delay) at given minutes, and the course changes with it. The patient's name and details come from the seed, and the same seed gives the same patient. Everything is labeled **simulated**; it is a teaching course, not a physiologic model.
 
+The trajectory also records the two moments the escalation measure is timed from: the first early warning score that calls for an urgent review (the neutral score's Medium band or higher) and the first critical lab value. Name the patient on the rapid response call as the trajectory names them.
+
 ## Unfolding case studies
 
 Open **Case studies** in the project.
@@ -89,6 +91,8 @@ Players record structured decisions, each with a time:
 - **Disclose event:** the disclosure lead, to whom, the time of the conversation and what is said.
 - **Notify** a person or agency.
 
+**Log a clinical event (controller)** is for the person running the exercise, not the players. When a scripted event happens, such as an abnormal early warning score, a critical lab, a triage victim arriving, an infection case found, a harm event, the outage or the evacuation priority list you will compare against, record it here with the patient, victim or room as the scenario names them and the expected answer where there is one. The measures then compare the players' decisions with it. Record it from the Decisions section of the Live tab in Facilitate, with or without devices.
+
 Five advisor roles can sit with the players: a clinical educator, a rapid response team lead, a physician advisor who plays the covering provider, an infection preventionist and a simulation facilitator.
 
 ## What the evaluation shows
@@ -105,7 +109,13 @@ Open the scenario's Evaluation tab and choose **Compute field metrics** after a 
 - **Disclosure timing:** minutes from a harm event to the disclosure conversation, against 60 minutes. The AHRQ CANDOR toolkit describes an initial conversation within an hour as a goal, not a rule.
 - **Outage to downtime declaration:** minutes from the outage to the declaration, against 30 minutes. It covers recognition and escalation only; the time from the declaration to every unit on paper is a separate measure in the clinical systems toolkit.
 
-The measures that compare decisions with scripted events (an abnormal score, a critical lab, a triage victim, an infection case, a harm event, an outage) read those events from the scenario's case data. When a scenario does not carry them, the measure says so and the others still run. Patients are matched by the name typed on the form, so use the names as they appear on the scenario's lists.
+Where the events the measures compare with come from:
+
+- **Abnormal score and critical lab:** from a simulated patient trajectory, or the controller's log.
+- **Outage:** from the simulated downtime of the clinical systems toolkit (see [Health informatics and clinical IT](health-informatics.md)), or the controller's log.
+- **Triage victims, the evacuation priority list, infection cases and harm events:** from the controller's log, each when it happens in the exercise.
+
+Times are read on the case clock: the time typed on a form, or the exercise time it was recorded at. With simulated data the exercise clock's 0:00 is the start of the simulated case unless you set your own case clock. Decisions recorded in Facilitate without devices count as well as those sent from devices. Patients are matched by the name typed on the form, so use the names as they appear on the scenario's lists and in the controller's log.
 
 For evaluation guides, the toolkit names critical tasks a nurse can be observed doing, grouped under core capabilities: assign beds, nurses and supplies and keep ratios within the plan; triage and reassess casualties; isolate and cohort and notify public health; escalate a staffing shortage with a number and a request; give an SBAR report with read-back and notify the provider of a critical result; reassess vital signs and the score at the stated interval and keep the census current.
 

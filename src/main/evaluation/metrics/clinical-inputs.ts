@@ -4,7 +4,9 @@
 //   unit_listed, unit_on_downtime (area = unit)    critical_result (attrs.communicatedAt)
 //   order_result_record (attrs.messageClass, attrs.outcome)
 //   reconciliation (area = unit, attrs.done, attrs.remaining), reconciliation_closed
-//   duplicate_record_created
+//   duplicate_record_created, duplicate_records_expected (attrs.count)
+// The clinical input provider (toolkits/clinical-systems/play.ts) supplies these from the
+// downtime generator, the players' and controller's forms and the downtime model.
 import type {
   CriticalResultInputs,
   DowntimeProceduresInputs,
@@ -41,13 +43,26 @@ export function pickDowntime(b: MetricInputBag): DowntimeProceduresInputs {
 
 const OUTCOMES = ['ok', 'lost', 'delayed', 'duplicated'] as const
 
+/** Most records one event may stand for (`attrs.count`), so a bad count cannot stall a run. */
+const MAX_RECORDS_PER_EVENT = 50_000
+
+/** One record per order or result; an event with `attrs.count` stands for that many. */
 export function pickSafeCare(b: MetricInputBag): SafeCareInputs {
   return {
-    records: events(b, 'order_result_record').map((e) => ({
-      id: e.id,
-      messageClass: String(e.attrs.messageClass ?? 'unclassified'),
-      outcome: OUTCOMES.find((o) => o === e.attrs.outcome) ?? 'ok',
-    })),
+    records: events(b, 'order_result_record').flatMap((e) => {
+      const n = Math.min(
+        MAX_RECORDS_PER_EVENT,
+        Math.max(1, Math.round(attrNum(e.attrs.count) || 1)),
+      )
+      const record = {
+        messageClass: String(e.attrs.messageClass ?? 'unclassified'),
+        outcome: OUTCOMES.find((o) => o === e.attrs.outcome) ?? 'ok',
+      }
+      return Array.from({ length: n }, (_, i) => ({
+        id: n === 1 ? e.id : `${e.id}#${i + 1}`,
+        ...record,
+      }))
+    }),
   }
 }
 
@@ -90,9 +105,14 @@ export function pickReconciliation(b: MetricInputBag): ReconciliationInputs {
   }
 }
 
-export const pickDuplicates = (b: MetricInputBag): DuplicateRecordInputs => ({
-  created: events(b, 'duplicate_record_created').length,
-})
+/** Duplicates that surfaced, and the downtime model's expectation when the scenario has one. */
+export function pickDuplicates(b: MetricInputBag): DuplicateRecordInputs {
+  const expected = events(b, 'duplicate_records_expected')[0]
+  return {
+    created: events(b, 'duplicate_record_created').length,
+    ...(expected ? { expected: attrNum(expected.attrs.count) } : {}),
+  }
+}
 
 /** The players' latest "set restore order" decision; the priority comes from the config. */
 export function pickRestoreOrder(b: MetricInputBag): RestoreOrderInputs {
