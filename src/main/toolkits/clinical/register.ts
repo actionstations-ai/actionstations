@@ -1,8 +1,9 @@
 // The clinical care toolkit's app code, registered once at startup from src/main/index.ts (spec
-// 0452): its metrics, the input provider that feeds the judgment profile with case study runs and
-// the simulated patient generator. Figure kinds register with the figures module and field lint
-// rules with the lint registry (lint-rules.ts); decision forms need no code, since the toolkit's
-// forms reach live play through the toolkit decision form provider. Safe to call twice.
+// 0452): its metrics, the input providers that feed the judgment profile with case study runs and
+// the event measures with the clinical case (issue #1131), and the simulated patient generator.
+// Figure kinds register with the figures module and field lint rules with the lint registry
+// (lint-rules.ts); decision forms need no code, since the toolkit's forms reach live play through
+// the toolkit decision form provider. Safe to call twice.
 import { generatorIds } from '../../case-data/generators'
 import { listRuns } from '../../casestudy/store'
 import { registerMetric } from '../../evaluation/metrics/registry'
@@ -25,6 +26,7 @@ import {
 } from '../../evaluation/metrics/clinical-judgment'
 import { registerMetricInputProvider, type MetricInputProvider } from '../metrics'
 import { clinicalTrajectoryGenerator } from './generators'
+import { clinicalInputsProvider } from '../clinical-systems/play'
 import { registerGenerator } from '../../case-data/generators'
 
 const eventsAndDecisions = (b: {
@@ -65,6 +67,16 @@ export const CLINICAL_METRIC_IDS = [
   'downtime_workflow_time',
 ] as const
 
+/** The clinical care measures that compare decisions with events. */
+export const CLINICAL_EVENT_METRIC_IDS = [
+  'time_to_escalation',
+  'triage_accuracy',
+  'evacuation_order',
+  'infection_control_decisions',
+  'disclosure_timing',
+  'downtime_workflow_time',
+] as const
+
 export function registerClinicalToolkit(): void {
   registerMetric(clinicalJudgmentProfile, judgmentRuns)
   registerMetric(handoffQuality, eventsAndDecisions)
@@ -76,6 +88,10 @@ export function registerClinicalToolkit(): void {
   registerMetric(disclosureTiming, eventsAndDecisions)
   registerMetric(downtimeWorkflowTime, eventsAndDecisions)
   registerMetricInputProvider('clinical_judgment_profile', judgmentRunsProvider)
+  // The measures that compare decisions with events read the simulated patients, the downtime
+  // model and the controller's log, on the case clock (issue #1131).
+  for (const id of CLINICAL_EVENT_METRIC_IDS)
+    registerMetricInputProvider(id, clinicalInputsProvider)
   if (!generatorIds().includes(clinicalTrajectoryGenerator.id))
     registerGenerator(clinicalTrajectoryGenerator)
 }

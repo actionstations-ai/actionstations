@@ -4,7 +4,8 @@
 // from the evaluation record), runs the metric registry and stores the results with the
 // evaluation, where the Evaluation tab and the after-action report read them.
 import type { EvaluationRecord } from '@shared/schemas/evaluation'
-import type { MetricResult } from '@shared/schemas/metrics'
+import type { DecisionRecord } from '@shared/schemas/decisions'
+import type { MetricDecision, MetricResult } from '@shared/schemas/metrics'
 import type { Toolkit, ToolkitMetric } from '@shared/toolkits'
 import { caseDir, readManifest } from '../case-data/store'
 import { syncAarDocument, readAar } from '../aar/store'
@@ -21,6 +22,7 @@ import {
   type MetricInputBag,
 } from '../evaluation/metrics/registry'
 import { readEvaluation, saveMetricResults } from '../evaluation/store'
+import { readFacilitatorState } from '../facilitator/state'
 import { logFile, newestSessionId, readAll } from '../live/log-read'
 import { getScenario } from '../scenario/store'
 import { resolveToolkits } from './registry'
@@ -108,6 +110,8 @@ export type MetricInputProvider = (ctx: {
   root: string
   scenarioId: string
   ref: ToolkitMetric
+  /** What the generic loader read: the decisions and, when the metric names one, ground truth. */
+  bag?: MetricInputBag
 }) => Promise<Partial<MetricInputBag>>
 
 const providers = new Map<string, MetricInputProvider>()
@@ -138,14 +142,40 @@ async function inputBag(
   if (truth) bag.events = await readGroundTruth(dir, truth)
   const series = await datasetFile(root, scenarioId, ref.series)
   if (series) bag.series = await readModeledSeries(dir, series)
-  const extra = await providers.get(ref.id)?.({ root, scenarioId, ref })
+  const extra = await providers.get(ref.id)?.({ root, scenarioId, ref, bag })
   return extra ? { ...bag, ...extra } : bag
 }
 
+/** A decision the facilitator file holds, in the shape the metrics read. */
+function fromRecord(r: DecisionRecord): MetricDecision {
+  return {
+    id: r.id,
+    time: r.time,
+    kind: r.kind,
+    ...(r.area ? { area: r.area.name } : {}),
+    fields: r.fields,
+    ...(r.exerciseTime ? { exerciseTime: r.exerciseTime } : {}),
+  }
+}
+
+/**
+ * The decisions of the session log, and those the facilitator recorded in Facilitate without
+ * devices (kept in the facilitator file). A decision in both counts once; with a session, a
+ * file decision from before the session started belongs to an earlier run and is left out.
+ */
 async function sessionDecisions(root: string, scenarioId: string, sessionId: string | undefined) {
-  if (!sessionId) return []
-  const entries = await readAll(logFile(root, scenarioId, sessionId)).catch(() => [])
-  return decisionsFromLog(entries as LogEntryLike[])
+  const entries = sessionId
+    ? ((await readAll(logFile(root, scenarioId, sessionId)).catch(() => [])) as LogEntryLike[])
+    : []
+  const logged = new Set(
+    entries.map((e) => (e.data.structured as { id?: unknown } | undefined)?.id).filter(Boolean),
+  )
+  const since = entries[0] ? Date.parse(entries[0].at) : -Infinity
+  const saved = await readFacilitatorState(root, scenarioId)
+    .then((s) => s.decisionRecords ?? [])
+    .catch(() => [])
+  const extra = saved.filter((r) => !logged.has(r.id) && Date.parse(r.time) >= since)
+  return [...decisionsFromLog(entries), ...extra.map(fromRecord)]
 }
 
 /**

@@ -86,6 +86,8 @@ export interface LogEntryLike {
   i: number
   at: string
   kind: string
+  /** Exercise clock ("H:MM") of the entry. */
+  ex?: string
   data: Record<string, unknown>
 }
 
@@ -116,6 +118,7 @@ export function decisionsFromLog(entries: LogEntryLike[]): MetricDecision[] {
       kind: parsed.data.kind,
       ...(parsed.data.area ? { area: parsed.data.area } : {}),
       fields: parsed.data.fields,
+      ...(e.ex ? { exerciseTime: e.ex } : {}),
     })
     if (d.success) out.push(d.data)
   }

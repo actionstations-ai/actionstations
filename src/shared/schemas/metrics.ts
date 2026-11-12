@@ -24,6 +24,8 @@ export const MetricDecision = z.object({
   kind: z.string().min(1).max(80),
   area: z.string().max(200).optional(),
   fields: z.record(z.string(), z.unknown()).default({}),
+  /** The exercise clock ("H:MM") when it was recorded, when the log has it. */
+  exerciseTime: z.string().max(8).optional(),
 })
 export type MetricDecision = z.infer<typeof MetricDecision>
 

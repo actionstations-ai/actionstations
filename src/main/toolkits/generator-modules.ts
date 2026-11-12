@@ -3,6 +3,7 @@
 // (src/main/index.ts, such as the clinical care toolkit) do not need a line.
 import './ai/register-generators'
 import './animal_disease/register-generators'
+import './clinical-systems/register-generators'
 import './epidemiology/register-generators'
 import './governance/register-generators'
 import './ems/generators'

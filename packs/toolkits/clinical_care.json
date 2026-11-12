@@ -198,22 +198,19 @@
       "label": "Time to escalation",
       "config": {
         "targetMinutes": 15
-      },
-      "groundTruth": "clinical-events"
+      }
     },
     {
       "id": "triage_accuracy",
       "label": "Triage accuracy",
-      "config": {},
-      "groundTruth": "clinical-events"
+      "config": {}
     },
     {
       "id": "evacuation_order",
       "label": "Evacuation order against the priority list",
       "config": {
         "topN": 3
-      },
-      "groundTruth": "clinical-events"
+      }
     },
     {
       "id": "staffing_ratio_exceedances",
@@ -225,16 +222,14 @@
     {
       "id": "infection_control_decisions",
       "label": "Infection control decisions",
-      "config": {},
-      "groundTruth": "clinical-events"
+      "config": {}
     },
     {
       "id": "disclosure_timing",
       "label": "Disclosure timing",
       "config": {
         "targetMinutes": 60
-      },
-      "groundTruth": "clinical-events"
+      }
     },
     {
       "id": "downtime_workflow_time",
@@ -242,8 +237,7 @@
       "config": {
         "decisionKind": "declare_downtime",
         "targetMinutes": 30
-      },
-      "groundTruth": "clinical-events"
+      }
     }
   ],
   "decisionForms": [
@@ -528,6 +522,54 @@
           "label": "What is said",
           "kind": "text",
           "required": true
+        },
+        {
+          "id": "time",
+          "label": "Time",
+          "kind": "time",
+          "required": true
+        }
+      ]
+    },
+    {
+      "id": "log_clinical_event",
+      "label": "Log a clinical event (controller)",
+      "description": "For the controller: record an event of the scenario that the measures compare decisions with, such as an abnormal early warning score, a critical lab, a triage victim, an infection case, a harm event, the outage or the evacuation priority key.",
+      "fields": [
+        {
+          "id": "event",
+          "label": "Event",
+          "kind": "choice",
+          "required": true,
+          "choices": [
+            "Abnormal early warning score",
+            "Critical lab result",
+            "Triage victim arrives",
+            "Infection case found",
+            "Harm event",
+            "Outage begins",
+            "Evacuation priority key"
+          ]
+        },
+        {
+          "id": "patient",
+          "label": "Patient, victim or room (as named in the scenario)",
+          "kind": "text"
+        },
+        {
+          "id": "detail",
+          "label": "Test, organism, event title or system",
+          "kind": "text"
+        },
+        {
+          "id": "expected",
+          "label": "Expected answer (triage category, isolation action, or the priority list first to last)",
+          "kind": "text"
+        },
+        {
+          "id": "precautions",
+          "label": "Expected precautions (infection case)",
+          "kind": "text"
         },
         {
           "id": "time",

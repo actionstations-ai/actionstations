@@ -43,6 +43,8 @@ export interface DecisionDeps {
   now: () => number
   newId: () => string
   changed: () => void
+  /** Called after a decision is logged, with every decision so far; never fails the decision. */
+  recorded?: (record: DecisionRecord, all: DecisionRecord[]) => Promise<void>
 }
 
 /** What the facilitator enters (the same pieces a device sends). */
@@ -195,6 +197,9 @@ export class Decisions {
     })
     this.records.push(record)
     this.deps.changed()
+    await this.deps.recorded?.(record, this.list()).catch((err: unknown) => {
+      console.error('[live] after a decision:', err)
+    })
   }
 
   private async anomaly(ref: string, seq: number, what: string): Promise<void> {
