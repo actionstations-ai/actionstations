@@ -26,14 +26,15 @@ Turn it on in the scenario's **Toolkits** tab (see [Toolkits](toolkits.md)). The
 
 ## Data you can bring in
 
-Four sources can seed a scenario with real structure and baselines. None needs a key.
+Five sources can seed a scenario with real structure and baselines. None needs a key.
 
 - The Humanitarian Data Exchange works without setup: the app identifies itself with its own name and help@actionstations.ai. You can enter your own application name and contact in **Settings** instead.
-- ReliefWeb only answers application names it has approved. It stays off until you enter an approved name in **Settings**, and until then the app uses sample data.
+- ReliefWeb only answers application names it has approved. It stays off until you enter an approved name in **Settings**. Everything else works without it, including the disaster timeline from GDACS.
 
 - **Operational presence (3W) by country** from the Humanitarian Data Exchange: which organizations report work in which sector and admin area.
 - **Key figures by country** from the Humanitarian Data Exchange, for the year your scenario starts in: people in need, targeted and reached by sector from the response plan, refugees and asylum seekers the country hosts (with their main countries of origin), the latest count of internally displaced people, and the appeal's requirements and funding. A series of the same figures over ten years comes with them. These are the figures OCHA's key figures pages show, from the same sources.
-- **ReliefWeb report titles** for a country and period, for a timeline. Only titles, dates, sources and links are kept.
+- **Disaster events** for a country and period from GDACS, the Global Disaster Alert and Coordination System run by the European Commission and UN OCHA: earthquakes, tropical cyclones, floods, volcanic eruptions, droughts and forest fires, each with its alert level, severity, affected countries, GLIDE number and a link to the GDACS report. An event that lasts appears at its onset and at its last update. By default you get orange and red alerts, the events at a humanitarian scale; green alerts can be added for the smaller ones (there can be hundreds a week, so keep the period short). Give the country as a three-letter ISO code. Alert levels are GDACS's automatic estimates from the first hours of an event, not damage assessments.
+- **ReliefWeb report titles** for a country and period, if you have an approved application name. They add the situation reports and flash updates that agencies published to the GDACS timeline. Only titles, dates, sources and links are kept.
 - **Aid worker security incident counts** from the Aid Worker Security Database, for one country (two-letter code) or worldwide, for the ten years up to your scenario: major incidents per year, aid workers killed, wounded, kidnapped and detained, national and international staff, and the most common means and context of attack. Only these counts are kept; incident details, places and names are never stored. The latest incidents are provisional, and the summary says how many are not yet verified.
 
 For the Humanitarian Data Exchange sources, the licence of each source dataset is read when you fetch and kept with the data; data under a licence that does not allow redistribution stays in your scenario and is left out of exported packs. You see an estimate of the size before you agree, and the app sends nothing about your plans to any of these services.

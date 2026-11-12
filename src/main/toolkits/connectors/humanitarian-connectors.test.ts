@@ -8,6 +8,7 @@ import { join } from 'node:path'
 import { describe, expect, it } from 'vitest'
 import { SeriesFile, TextFile } from '@shared/schemas/case-data'
 import { awsdIncidentCounts, awsdUrl, countryOf, yearsOf } from './humanitarian-awsd'
+import { eventsUrl, gdacsEvents } from './humanitarian-gdacs'
 import { figuresUrls, hdxKeyFigures } from './humanitarian-hapi-figures'
 import { hdxOperationalPresence, identifier, presenceUrl } from './humanitarian-hdx'
 import { appnameOf, reliefwebReports, reportsUrl } from './humanitarian-reliefweb'
@@ -119,6 +120,104 @@ describe('hdx-operational-presence', () => {
     await expect(hdxOperationalPresence.fetch(hdxQ, ctx)).rejects.not.toThrow(
       /exercise-app|contact@example/,
     )
+  })
+})
+
+describe('gdacs-events', () => {
+  // A real GDACS search (orange and red alerts, February and March 2023), trimmed to the fields
+  // the connector reads: Cyclone Freddy and the Kahramanmaraş earthquakes among others.
+  const gdQ: ConnectorQuery = {
+    range: { start: '2023-02-01T00:00:00Z', end: '2023-03-31T00:00:00Z' },
+    area: { label: 'Türkiye' },
+    options: { location: 'tur' },
+  }
+  const search = { 'geteventlist/SEARCH': fixture('gdacs-events-2023-02.json') }
+
+  it('asks for orange and red alerts in the period, with no key and no place in the request', () => {
+    const url = new URL(eventsUrl(gdQ, 1))
+    expect(url.host).toBe('www.gdacs.org')
+    expect(url.searchParams.get('fromDate')).toBe('2023-02-01')
+    expect(url.searchParams.get('toDate')).toBe('2023-03-31')
+    expect(url.searchParams.get('alertlevel')).toBe('Orange;Red')
+    expect(url.searchParams.has('country')).toBe(false)
+    expect(
+      new URL(
+        eventsUrl({ ...gdQ, options: { ...gdQ.options, includeGreen: true } }, 2),
+      ).searchParams.get('alertlevel'),
+    ).toBe('Green;Orange;Red')
+    expect(() => gdacsEvents.estimate({ ...gdQ, options: {} })).toThrow(/three-letter/)
+  })
+
+  it('keeps the events that affect the country, oldest first', async () => {
+    const { ctx, urls } = recorded(search)
+    const out = await gdacsEvents.fetch(gdQ, ctx)
+    expect(urls).toHaveLength(1)
+    const entries = JSON.parse(String(out.files[0]!.data)) as {
+      t: string
+      title: string
+      text: string
+    }[]
+    expect(TextFile.safeParse(entries).success).toBe(true)
+    expect(entries.map((e) => e.t)).toEqual([
+      '2023-02-06T01:17:35Z',
+      '2023-02-06T01:28:17Z',
+      '2023-02-06T10:24:49Z',
+      '2023-02-06T12:02:11Z',
+      '2023-02-20T17:04:29Z',
+    ])
+    expect(entries[0]).toMatchObject({ title: 'Earthquake: Earthquake in Türkiye' })
+    expect(entries[0]!.text).toMatch(
+      /^Red alert\. Magnitude 7\.8M, Depth:17\.925km\. Countries: Türkiye\./,
+    )
+    expect(entries[0]!.text).toMatch(/GLIDE EQ-2023-\d+-TUR/)
+    expect(out.datasets[0]).toMatchObject({ id: 'gdacs-timeline', kind: 'text' })
+    expect(out.modified).toMatch(/^Orange and red alerts/)
+    expect(out.citation).toMatch(/Joint Research Centre and UN OCHA/)
+  })
+
+  it('records an event that lasts by its onset and its last update', async () => {
+    const out = await gdacsEvents.fetch(
+      { ...gdQ, options: { location: 'MOZ' } },
+      recorded(search).ctx,
+    )
+    const entries = JSON.parse(String(out.files[0]!.data)) as { t: string; title: string }[]
+    const freddy = entries.filter((e) => e.title.includes('FREDDY'))
+    expect(freddy.map((e) => e.t)).toEqual(['2023-02-06T06:00:00Z', '2023-03-12T00:00:00Z'])
+    expect(freddy[0]!.title).toMatch(/^Tropical cyclone: /)
+  })
+
+  it('reads further pages only while they are full, and says when it stopped early', async () => {
+    const full = JSON.stringify({
+      type: 'FeatureCollection',
+      features: Array.from({ length: 100 }, (_, i) => ({
+        properties: {
+          eventtype: 'EQ',
+          eventid: i,
+          alertlevel: 'Green',
+          fromdate: '2023-02-10T00:00:00',
+          affectedcountries: [{ iso3: 'TUR' }],
+        },
+      })),
+    })
+    const green = { ...gdQ, options: { ...gdQ.options, includeGreen: true } }
+    const many = recorded({ 'geteventlist/SEARCH': full })
+    const out = await gdacsEvents.fetch(green, many.ctx)
+    expect(many.urls).toHaveLength(10)
+    expect(out.modified).toMatch(/stopped there/)
+    expect(JSON.parse(String(out.files[0]!.data))).toHaveLength(100)
+    const none = recorded({ 'geteventlist/SEARCH': '' }, 204)
+    const empty = await gdacsEvents.fetch(gdQ, none.ctx)
+    expect(none.urls).toHaveLength(1)
+    expect(JSON.parse(String(empty.files[0]!.data))).toEqual([])
+  })
+
+  it('refuses an answer that is not the event list', async () => {
+    await expect(gdacsEvents.fetch(gdQ, recorded(search, 500).ctx)).rejects.toThrow(
+      /GDACS answered 500/,
+    )
+    await expect(
+      gdacsEvents.fetch(gdQ, recorded({ 'geteventlist/SEARCH': '{"features":3}' }).ctx),
+    ).rejects.toThrow(/unexpected shape/)
   })
 })
 
