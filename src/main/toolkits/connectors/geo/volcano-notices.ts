@@ -74,6 +74,15 @@ export const volcanoNotices: Connector = {
   terms:
     'U.S. government work, public domain. Cite the USGS volcano observatory that sent each notice.',
   hosts: [HANS_HOST],
+  options: [
+    {
+      key: 'volcano',
+      label: 'Volcano',
+      type: 'text',
+      help: 'Optional volcano name, or part of it, such as Kilauea or Shishaldin; notices for every volcano when left empty.',
+      example: 'Kilauea',
+    },
+  ],
   estimate(q) {
     checkRange(q, 366)
     return {

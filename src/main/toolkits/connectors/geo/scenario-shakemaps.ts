@@ -25,6 +25,9 @@ export const scenarioShakemaps = makeEventConnector({
     `U.S. Geological Survey ShakeMap scenario ${id}, https://earthquake.usgs.gov/scenarios/eventpage/${id}. A scenario, not a real earthquake.`,
   catalogCitation:
     'U.S. Geological Survey ShakeMap scenario catalog, https://earthquake.usgs.gov/scenarios/. Scenarios, not real earthquakes.',
+  eventIdExample: 'caribe25puertorico_2_se',
+  eventIdHelp:
+    'Optional scenario id, such as caribe25puertorico_2_se, from the scenario page on earthquake.usgs.gov/scenarios; leave empty to list the largest scenarios in the area.',
 })
 
 export const registerScenarioShakemaps = (): void => registerConnector(scenarioShakemaps)

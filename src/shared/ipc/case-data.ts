@@ -61,20 +61,47 @@ export const CaseKeys = z.object({
 })
 export type CaseKeys = z.infer<typeof CaseKeys>
 
+/** One option the fetch form asks for (#1139), as the connector declares it. */
+export const ConnectorOptionInfo = z.object({
+  key: z.string(),
+  label: z.string(),
+  type: z.enum(['text', 'number', 'boolean', 'choice']),
+  required: z.boolean().optional(),
+  help: z.string().optional(),
+  choices: z.array(z.object({ value: z.string(), label: z.string() })).optional(),
+  default: z.union([z.string(), z.number(), z.boolean()]).optional(),
+  example: z.union([z.string(), z.number(), z.boolean()]),
+})
+export type ConnectorOptionInfo = z.infer<typeof ConnectorOptionInfo>
+
+export const ConnectorInfo = z.object({
+  id: z.string(),
+  label: z.string(),
+  source: z.string(),
+  terms: z.string(),
+  hosts: z.array(z.string()),
+  options: z.array(ConnectorOptionInfo).optional(),
+  area: z
+    .object({
+      label: z.enum(['required', 'optional']).optional(),
+      bbox: z.enum(['required', 'optional']).optional(),
+      help: z.string().optional(),
+      example: z
+        .object({
+          label: z.string().optional(),
+          bbox: z.tuple([z.number(), z.number(), z.number(), z.number()]).optional(),
+        })
+        .optional(),
+    })
+    .optional(),
+  /** The archive asks for a contact address, set under Settings, Case data. */
+  contact: z.literal('required').optional(),
+})
+export type ConnectorInfo = z.infer<typeof ConnectorInfo>
+
 export const caseDataChannels = {
   'case:get': channel(S, CaseSummary),
-  'case:connectors': channel(
-    z.void(),
-    z.array(
-      z.object({
-        id: z.string(),
-        label: z.string(),
-        source: z.string(),
-        terms: z.string(),
-        hosts: z.array(z.string()),
-      }),
-    ),
-  ),
+  'case:connectors': channel(z.void(), z.array(ConnectorInfo)),
   'case:generators': channel(z.void(), z.array(z.object({ id: z.string(), label: z.string() }))),
   'case:plan-fetch': channel(
     S.extend({ connectorId: z.string().min(1).max(64), query: CaseFetchQuery }),

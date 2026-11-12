@@ -25,14 +25,13 @@ conditions, keeps its dates, places and values as given, and never calls simulat
 
 ## Fetching a real past event
 
-A toolkit can offer to find a real past event by date and place. Fetching happens once:
+A toolkit can offer to find a real past event by date and place. Open the scenario's **Case data** tab. It lists the datasets the scenario already carries, each labeled historical or simulated with its source, retrieval date and size, and lets you remove one. Fetching happens once:
 
-1. You choose the period and the area.
-2. The app shows each dataset it would fetch, its size, the archive it would contact and the
-   terms the data is published under. Nothing has been requested yet.
-3. You agree, and only then does the app contact that archive. No account or key is needed, and
-   nothing about your plans is sent. The request says only which app is asking.
-4. The data is saved in the scenario. From then on the scenario works offline, including during
+1. Under **Fetch a real past event**, choose a source. The list holds the archives the scenario's toolkits name; turn a toolkit on under **Toolkits** to add its sources.
+2. Give the period (in UTC), the area and the source's own settings, such as a station number, a two-letter state code or a three-letter country code. Each says what it expects, and the form tells you what is missing.
+3. Choose **Check size and terms**. The app shows each dataset it would fetch, its size, the room left in the scenario, the archive it would contact and the terms the data is published under. Nothing has been requested yet.
+4. Choose **Agree and fetch**, and only then does the app contact that archive. Most archives need no account or key, and nothing about your plans is sent. The request says only which app is asking.
+5. The data is saved in the scenario. From then on the scenario works offline, including during
    the exercise.
 
 Each request is recorded in a fetch log in the scenario's case folder, with the address (without
@@ -60,7 +59,8 @@ shown in step 2 tells you in advance. Images are cropped to your area and times.
 
 ## Exercise clock and case clock
 
-A scenario with case data maps exercise time to case time:
+A scenario with case data maps exercise time to case time. Set it under **Case clock** on the
+**Case data** tab:
 
 - a **start offset**: how far into the event the case data stands at the start of the exercise;
 - a **speed**: case minutes per exercise minute. At 1 the case clock keeps pace with the

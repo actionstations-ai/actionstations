@@ -47,6 +47,21 @@ export const hhsEmpower: Connector = {
   terms:
     'U.S. government data, de-identified and aggregated by county. Counts are Medicare beneficiaries only and are updated monthly; the person-level file is restricted and is not used.',
   hosts: ['services2.arcgis.com'],
+  options: [
+    {
+      key: 'state',
+      label: 'State or territory',
+      type: 'text',
+      required: true,
+      help: 'Two-letter state or territory code, such as OH or PR.',
+      example: 'OH',
+    },
+  ],
+  area: {
+    label: 'optional',
+    help: 'The place the counts stand for; the state code is used when left empty.',
+    example: { label: 'Ohio' },
+  },
   estimate(query) {
     stateOf(query)
     return {

@@ -18,6 +18,12 @@ export const nwsFimConnector: Connector = {
   terms:
     'US Government work. Experimental model output: an approximation of extent for the current forecast, not a flood zone or an official determination.',
   hosts: ['maps.water.noaa.gov'],
+  area: {
+    bbox: 'required',
+    label: 'optional',
+    help: 'Draw a box around the river reach, at most half a degree on a side. The name is used in the dataset title.',
+    example: { label: 'Example area', bbox: [-95.5, 29.7, -95.3, 29.85] },
+  },
   estimate(query) {
     roundedBbox(query.area.bbox, MAX_SPAN_DEG, SOURCE)
     return {

@@ -158,6 +158,7 @@ export const nceiSwpcArchiveConnector: Connector = {
   source: 'NOAA NCEI archive of Space Weather Prediction Center daily products',
   terms: 'US government work, public domain. Cite NOAA SWPC and NCEI.',
   hosts: [NCEI_SWPC_HOST],
+  exampleRange: { start: '2024-05-09T00:00:00Z', end: '2024-05-13T00:00:00Z' },
   estimate,
   fetch: fetchArchive,
 }

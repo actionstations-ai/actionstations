@@ -88,6 +88,12 @@ export const cdcSvi: Connector = {
   terms:
     'Published by CDC/ATSDR for public use; cite the CDC/ATSDR SVI 2022 database. Estimates come from the 2018-2022 American Community Survey and carry its margins of error.',
   hosts: ['onemap.cdc.gov'],
+  area: {
+    bbox: 'required',
+    label: 'optional',
+    help: 'Draw a box around the community, at most 2 degrees on a side. The name is used in the dataset title.',
+    example: { label: 'Example area', bbox: [-83.2, 39.8, -82.8, 40.1] },
+  },
   estimate(query) {
     const b = roundedBbox(query.area.bbox, MAX_SPAN_DEG, SOURCE)
     return {

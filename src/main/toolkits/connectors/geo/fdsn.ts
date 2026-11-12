@@ -120,6 +120,49 @@ export const fdsnWaveforms: Connector = {
   terms:
     'Waveform data are free to use; cite the network and the data center. Data centers ask for at most three simultaneous downloads.',
   hosts: Object.values(FDSN_CENTERS).map((c) => c.host),
+  options: [
+    {
+      key: 'center',
+      label: 'Data center',
+      type: 'choice',
+      help: 'The data center that holds the network; most networks are at EarthScope, Southern and Northern California networks also at SCEDC and NCEDC.',
+      choices: Object.entries(FDSN_CENTERS).map(([value, c]) => ({ value, label: c.name })),
+      default: 'earthscope',
+      example: 'scedc',
+    },
+    {
+      key: 'network',
+      label: 'Network code',
+      type: 'text',
+      required: true,
+      help: 'One or two letters or digits, such as CI or IU, from the data center station lists.',
+      example: 'CI',
+    },
+    {
+      key: 'stations',
+      label: 'Stations',
+      type: 'text',
+      required: true,
+      help: 'Up to six station codes separated by commas, such as CLC,WBM, from the data center station lists.',
+      example: 'CLC,WBM',
+    },
+    {
+      key: 'channel',
+      label: 'Channel',
+      type: 'text',
+      help: 'Three-character channel code; BHZ (broadband vertical) when left empty.',
+      default: 'BHZ',
+      example: 'BHZ',
+    },
+    {
+      key: 'location',
+      label: 'Location code',
+      type: 'text',
+      help: 'Two-character location code such as 00, or -- for none; every location when left empty.',
+      example: '00',
+    },
+  ],
+  exampleRange: { start: '2019-07-06T03:19:00Z', end: '2019-07-06T03:39:00Z' },
   estimate(q) {
     const r = parseWaveformQuery(q)
     const perStation = Math.round(Math.min(r.seconds, MAX_POINTS) * 40 * 2)

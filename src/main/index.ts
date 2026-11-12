@@ -2,6 +2,7 @@ import { app, BrowserWindow, session, shell } from 'electron'
 import { existsSync } from 'node:fs'
 import { join } from 'node:path'
 import { registerIpc } from './ipc'
+import { registerAllToolkitCode } from './toolkits/register-all'
 import { allowPermissionCheck, allowPermissionRequest, isArmed } from './hotwash/permissions'
 import { stopAll as stopHotwashRecordings } from './hotwash/recorder'
 import { jobs } from './jobs/manager'
@@ -26,28 +27,7 @@ import { listAdapterKinds } from './providers/registry'
 import { shutdownRenderPool } from './render/window'
 import { initPacks } from './packs/state'
 import { initTemplateRegistry } from './render/template-registry'
-import { registerFloodingToolkit } from './toolkits/flooding'
-import { registerGeoscienceToolkits } from './toolkits/geoscience/register'
-import { registerClinicalToolkit } from './toolkits/clinical/register'
-import { registerClinicalSystemsToolkit } from './toolkits/clinical-systems/register'
-import { registerMediaToolkit } from './toolkits/media'
-import { registerWeatherToolkit } from './toolkits/weather'
 import { installToolkitDecisionForms } from './toolkits/decision-forms'
-import { registerAnimalDiseaseToolkit } from './toolkits/animal_disease/register'
-import { registerEpidemiologyToolkit } from './toolkits/epidemiology/register'
-import { registerAiIncidentsToolkit } from './toolkits/ai/register'
-import { registerHospitalityToolkit } from './toolkits/hospitality/register'
-import { registerJusticeToolkit } from './toolkits/justice/register'
-import { registerLabSafetyToolkit } from './toolkits/lab_safety/register'
-import { registerPharmacyToolkit } from './toolkits/pharmacy/register'
-import { registerLogisticsToolkit } from './toolkits/logistics/register'
-import { registerSpaceWeatherToolkit } from './toolkits/space_weather/register'
-import { registerGovernanceToolkit } from './toolkits/governance/register'
-import { registerHumanServicesToolkit } from './toolkits/human-services/register'
-import { registerWildfireToolkit } from './toolkits/wildfire/register'
-import { registerHumanitarianToolkit } from './toolkits/humanitarian/register'
-import { registerSpillConnectors } from './toolkits/connectors/spill'
-import { registerStructuresToolkit } from './toolkits/structures/register'
 import { toolProcesses } from './setup/processes'
 import { checkMapCatalogAtStartup } from './maps/auto-check'
 import { scheduleStartupCheck } from './updates/check'
@@ -232,30 +212,10 @@ void app.whenReady().then(async () => {
   registerMediaProtocol()
   registerAppProtocol(rendererRoot(import.meta.dirname))
   registerIpc(isAppUrl)
-  // Code-backed parts of the bundled toolkits (generators, connectors).
-  registerGeoscienceToolkits()
-  registerMediaToolkit()
-  registerFloodingToolkit()
-  registerWeatherToolkit()
-  registerClinicalToolkit()
-  registerClinicalSystemsToolkit()
+  // Code-backed parts of the bundled toolkits (generators, connectors, metrics).
+  registerAllToolkitCode()
   // Decision forms for live play and Facilitate come from the scenario's toolkits (spec 0448).
   installToolkitDecisionForms()
-  // Code-backed parts of the bundled toolkits (generators, connectors).
-  registerEpidemiologyToolkit()
-  registerAiIncidentsToolkit()
-  registerHospitalityToolkit()
-  registerJusticeToolkit()
-  registerLabSafetyToolkit()
-  registerAnimalDiseaseToolkit()
-  registerPharmacyToolkit()
-  registerLogisticsToolkit()
-  registerSpaceWeatherToolkit()
-  registerGovernanceToolkit()
-  registerHumanServicesToolkit()
-  registerWildfireToolkit()
-  registerHumanitarianToolkit()
-  registerStructuresToolkit()
   const devIcon = app.isPackaged ? undefined : devIconPath()
   if (devIcon && process.platform === 'darwin') app.dock?.setIcon(devIcon)
   if (!app.isPackaged) console.log(`[providers] adapters: ${listAdapterKinds().join(', ')}`)
@@ -268,7 +228,6 @@ void app.whenReady().then(async () => {
   // enabled packs' domains. Never fetches. A failure leaves the app running without packs.
   // Inject types from user and pack templates (#261): registered now and after every pack change.
   initTemplateRegistry()
-  registerSpillConnectors()
   await initPacks().catch((e: unknown) => console.error('[packs]', e))
   createMainWindow()
   // Opt-in update check (#442): only with the setting on, at most once a day, after the window

@@ -236,6 +236,18 @@ export const openCadCalls: Connector = {
   terms:
     'Published by each city as open data. Only hourly counts and response time percentiles are kept; no address, location, call type text or narrative is fetched or stored.',
   hosts: Object.values(CAD_CITIES).map((c) => c.host),
+  options: [
+    {
+      key: 'city',
+      label: 'City',
+      type: 'choice',
+      required: true,
+      help: 'The city whose open data portal publishes police calls for service.',
+      choices: Object.entries(CAD_CITIES).map(([value, c]) => ({ value, label: c.label })),
+      example: 'seattle',
+    },
+  ],
+  exampleRange: { start: '2024-01-01T00:00:00Z', end: '2024-01-07T00:00:00Z' },
   estimate(query) {
     const city = cityOf(query)
     const { start, end } = periodOf(query)

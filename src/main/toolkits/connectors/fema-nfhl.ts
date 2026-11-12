@@ -21,6 +21,12 @@ export const femaNfhlConnector: Connector = {
   terms:
     'US Government work. Effective regulatory zones for planning an exercise only; not a flood determination or an insurance rating.',
   hosts: ['hazards.fema.gov'],
+  area: {
+    bbox: 'required',
+    label: 'optional',
+    help: 'Draw a box around the neighbourhood or site, at most half a degree on a side. The name is used in the dataset title.',
+    example: { label: 'Example area', bbox: [-90.1, 29.9, -89.95, 30.0] },
+  },
   estimate(query) {
     const b = roundedBbox(query.area.bbox, MAX_SPAN_DEG, SOURCE)
     const span = Math.max(b[2] - b[0], b[3] - b[1])

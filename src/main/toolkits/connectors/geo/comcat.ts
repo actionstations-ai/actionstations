@@ -267,6 +267,10 @@ export interface EventConnectorConfig {
   labelPrefix: string
   citation: (eventId: string) => string
   catalogCitation: string
+  /** A real event id of this catalog, for the fetch form's example. */
+  eventIdExample: string
+  /** Where the user finds an event id, for the fetch form. */
+  eventIdHelp: string
 }
 
 export function makeEventConnector(cfg: EventConnectorConfig): Connector {
@@ -277,6 +281,37 @@ export function makeEventConnector(cfg: EventConnectorConfig): Connector {
     source: cfg.source,
     terms: cfg.terms,
     hosts: [COMCAT_HOST],
+    options: [
+      {
+        key: 'eventId',
+        label: 'Event id',
+        type: 'text',
+        help: cfg.eventIdHelp,
+        example: cfg.eventIdExample,
+      },
+      {
+        key: 'products',
+        label: 'Event products',
+        type: 'text',
+        help: 'For one event: a comma-separated list from shakemap, dyfi and pager, with no spaces; all three when left empty.',
+        default: 'shakemap,dyfi,pager',
+        example: 'shakemap,dyfi,pager',
+      },
+      {
+        key: 'minMagnitude',
+        label: 'Smallest magnitude',
+        type: 'number',
+        help: 'For a list of events: the smallest magnitude to include, 0 to 9.9.',
+        default: 5,
+        example: 5,
+      },
+    ],
+    area: {
+      bbox: 'optional',
+      label: 'optional',
+      help: 'Draw a box to list only the events inside it; leave it empty to search everywhere.',
+      example: { label: 'Southern California', bbox: [-119, 33, -115, 36] },
+    },
     estimate(q) {
       const id = eventIdOf(q)
       const products = productsOf(q)
@@ -474,6 +509,9 @@ export const comcat: Connector = makeEventConnector({
     `U.S. Geological Survey, event ${id}, ShakeMap, Did You Feel It? and PAGER products, https://earthquake.usgs.gov/earthquakes/eventpage/${id}`,
   catalogCitation:
     'U.S. Geological Survey, Earthquake Catalog (ComCat), https://earthquake.usgs.gov/earthquakes/search/',
+  eventIdExample: 'ci38457511',
+  eventIdHelp:
+    'Optional USGS event id, such as ci38457511 for the 2019 Ridgecrest earthquake, from the event page on earthquake.usgs.gov; leave empty to list the largest events in the period and area.',
 })
 
 export const registerComcat = (): void => registerConnector(comcat)

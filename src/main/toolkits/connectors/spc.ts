@@ -159,6 +159,23 @@ export const spcConnector: Connector = {
   terms:
     'US government work, public domain. Preliminary reports; times of many reports are estimated by the reporting office.',
   hosts: [SPC_HOST],
+  options: [
+    {
+      key: 'kinds',
+      label: 'Report kinds',
+      type: 'text',
+      help: 'Comma-separated list of tornado, wind and hail; all three when left empty.',
+      default: 'tornado,wind,hail',
+      example: 'tornado,hail',
+    },
+  ],
+  area: {
+    bbox: 'optional',
+    label: 'optional',
+    help: 'Draw a box to keep only the reports inside it; leave it empty for the whole country.',
+    example: { label: 'Central Oklahoma', bbox: [-98.5, 34.8, -96.8, 36.0] },
+  },
+  exampleRange: { start: '2024-05-06T12:00:00Z', end: '2024-05-08T12:00:00Z' },
   estimate,
   fetch: fetchReports,
 }

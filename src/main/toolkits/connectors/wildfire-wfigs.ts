@@ -149,6 +149,41 @@ export const wfigsPerimetersConnector: Connector = {
   terms:
     'Public interagency fire perimeter data from the National Interagency Fire Center. Perimeters are mapped polygons at a time, not a continuous record of the fire. Cite the NIFC and the retrieval date.',
   hosts: ['services3.arcgis.com'],
+  options: [
+    {
+      key: 'name',
+      label: 'Fire name',
+      type: 'text',
+      required: true,
+      help: 'The incident name without the word Fire, such as Camp, as NIFC lists it (letters, digits and spaces).',
+      example: 'Camp',
+    },
+    {
+      key: 'year',
+      label: 'Year',
+      type: 'number',
+      required: true,
+      help: 'The year of the fire, 2000 or later; not used for the current season.',
+      example: 2018,
+    },
+    {
+      key: 'source',
+      label: 'Season',
+      type: 'choice',
+      help: 'Past seasons come from the perimeter history; the current season from the live interagency perimeters.',
+      choices: [
+        { value: 'historical', label: 'A past season' },
+        { value: 'current', label: 'The current season' },
+      ],
+      default: 'historical',
+      example: 'historical',
+    },
+  ],
+  area: {
+    label: 'optional',
+    help: 'The place the fire stands for in the exercise, kept with the data.',
+    example: { label: 'Paradise, CA' },
+  },
   estimate(query) {
     yearOf(query.options)
     safeName(query.options.name, SOURCE)

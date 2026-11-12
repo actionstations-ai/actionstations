@@ -69,6 +69,12 @@ export const quaternaryFaults: Connector = {
   source: 'USGS Quaternary Fault and Fold Database (earthquake.usgs.gov)',
   terms: 'U.S. government work, public domain. Cite the USGS Quaternary Fault and Fold Database.',
   hosts: [QFAULT_HOST],
+  area: {
+    bbox: 'required',
+    label: 'optional',
+    help: 'Draw a box around the region, at most 6 degrees on a side.',
+    example: { label: 'Los Angeles basin', bbox: [-118.7, 33.6, -117.6, 34.4] },
+  },
   estimate(q) {
     faultsUrl(requireBbox(q))
     return {
@@ -156,6 +162,16 @@ export const landslideAssessments: Connector = {
   source: 'USGS Landslide Hazards Program (ScienceBase)',
   terms: 'U.S. government work, public domain. Cite the USGS assessment and its ScienceBase item.',
   hosts: [SCIENCEBASE_HOST],
+  options: [
+    {
+      key: 'fire',
+      label: 'Fire name',
+      type: 'text',
+      required: true,
+      help: 'The fire the USGS assessed, such as Cedar Ridge or Thomas, as named on ScienceBase.',
+      example: 'Thomas',
+    },
+  ],
   estimate(q) {
     if (!patternOption(q, 'fire', FIRE, 'fire name'))
       throw new AppError('VALIDATION', 'Name the fire (for example Cedar Ridge)')

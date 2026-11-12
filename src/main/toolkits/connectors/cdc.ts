@@ -139,6 +139,29 @@ export const cdcNwss: Connector = {
   terms:
     'U.S. government work, public domain. Weekly levels per sampling site; categories use pathogen-specific cut-offs published by CDC.',
   hosts: [HOST],
+  options: [
+    {
+      key: 'pathogen',
+      label: 'Pathogen',
+      type: 'choice',
+      help: 'The virus measured in wastewater.',
+      choices: NWSS_PATHOGENS.map((p) => ({ value: p, label: p })),
+      default: 'SARS-CoV-2',
+      example: 'SARS-CoV-2',
+    },
+    {
+      key: 'site',
+      label: 'Sampling site',
+      type: 'text',
+      help: 'Optional NWSS site id such as ID:1508, from the CDC wastewater data; leave empty for every site in the state.',
+      example: 'ID:1508',
+    },
+  ],
+  area: {
+    label: 'required',
+    help: 'The state, territory or jurisdiction name as CDC spells it, such as Ohio.',
+    example: { label: 'Ohio' },
+  },
   estimate(q) {
     const rows = weeksIn(q) * (siteOf(q) ? 1 : SITES_GUESS)
     pathogenOf(q)
@@ -288,6 +311,21 @@ export const cdcNndss: Connector = {
   terms:
     'Provisional weekly counts published by CDC (a U.S. government work). Counts are revised as jurisdictions report; each week is shown as published.',
   hosts: [HOST],
+  options: [
+    {
+      key: 'disease',
+      label: 'Disease',
+      type: 'text',
+      required: true,
+      help: 'The disease name exactly as the NNDSS weekly tables list it, such as Measles, Indigenous.',
+      example: 'Measles, Indigenous',
+    },
+  ],
+  area: {
+    label: 'required',
+    help: 'The state or territory name as NNDSS spells it, such as Ohio.',
+    example: { label: 'Ohio' },
+  },
   estimate(q) {
     jurisdiction(q)
     diseaseOf(q)

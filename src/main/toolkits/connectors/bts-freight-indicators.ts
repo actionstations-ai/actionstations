@@ -153,6 +153,17 @@ export const btsFreightIndicators: Connector = {
   terms:
     'A U.S. Government work in the public domain, as the dataset states; BTS asks to be credited as the source. The latest week is often an estimate and later weeks can be revised.',
   hosts: [HOST],
+  options: [
+    {
+      key: 'indicator',
+      label: 'Indicator',
+      type: 'choice',
+      required: true,
+      help: 'The freight or supply chain series to fetch from the BTS dashboard.',
+      choices: Object.entries(FREIGHT_INDICATORS).map(([value, i]) => ({ value, label: i.label })),
+      example: 'containerships-awaiting-berth',
+    },
+  ],
   estimate(q) {
     const [key, ind] = indicatorOf(q)
     indicatorsUrl(q)

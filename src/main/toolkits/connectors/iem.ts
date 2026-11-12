@@ -134,6 +134,21 @@ export const iemWarningsConnector: Connector = {
   source: 'Iowa Environmental Mesonet VTEC archive of National Weather Service warnings',
   terms: TERMS,
   hosts: [IEM_HOST],
+  options: [
+    {
+      key: 'wfo',
+      label: 'Forecast office',
+      type: 'text',
+      help: 'Optional three-letter NWS forecast office id, such as ILN for Wilmington, OH, from weather.gov; every office when left empty.',
+      example: 'ILN',
+    },
+  ],
+  area: {
+    bbox: 'optional',
+    label: 'optional',
+    help: 'Draw a box to keep only the warnings that touch it; leave it empty for every warning the office issued.',
+    example: { label: 'Dayton, OH', bbox: [-84.4, 39.6, -84.0, 39.9] },
+  },
   estimate: warningEstimate,
   fetch: fetchWarnings,
 }
@@ -229,6 +244,29 @@ export const iemSoundingsConnector: Connector = {
   source: 'Iowa Environmental Mesonet archive of National Weather Service radiosonde reports',
   terms: TERMS,
   hosts: [IEM_HOST],
+  options: [
+    {
+      key: 'station',
+      label: 'Upper-air station',
+      type: 'text',
+      required: true,
+      help: 'Four-letter radiosonde station id, such as KILN for Wilmington, OH, from the IEM upper-air station list.',
+      example: 'KILN',
+    },
+    {
+      key: 'name',
+      label: 'Station name',
+      type: 'text',
+      help: 'Optional name shown on the sounding chart, up to 80 characters; the station id when left empty.',
+      example: 'Wilmington, OH',
+    },
+  ],
+  area: {
+    label: 'optional',
+    help: 'The place the soundings stand for, kept with the data.',
+    example: { label: 'Southwest Ohio' },
+  },
+  exampleRange: { start: '2024-01-01T00:00:00Z', end: '2024-01-05T00:00:00Z' },
   estimate: soundingEstimate,
   fetch: fetchSoundings,
 }

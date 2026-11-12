@@ -6,11 +6,17 @@
 // baseline: how many people a response plan counts in need, how much of an appeal is funded.
 //
 // The app identifies itself as the HDX connector does (humanitarian-hdx.ts): its own name and
-// contact unless the user enters theirs in Settings. The licence of each source dataset is read
+// contact unless the user gives theirs in the fetch form. The licence of each source dataset is read
 // at fetch time and stored with the data. Hosts are fixed in code; nothing runs without consent.
 import { z } from 'zod'
 import { AppError } from '../../lib/errors'
-import { identifier, locationOf, readLicences } from './humanitarian-hdx'
+import {
+  HAPI_IDENTITY_OPTIONS,
+  identifier,
+  LOCATION_OPTION,
+  locationOf,
+  readLicences,
+} from './humanitarian-hdx'
 import { getJson } from './json'
 import type { Connector, ConnectorQuery, ConnectorResult, FetchContext } from './registry'
 
@@ -271,6 +277,7 @@ export const hdxKeyFigures: Connector = {
   terms:
     'Published by OCHA, UNHCR, IOM and FTS through HDX. The licence of each source dataset is read when you fetch and kept with the data; data under a licence that does not allow redistribution stays in this scenario and is not exported in packs.',
   hosts: [HAPI, HDX],
+  options: [LOCATION_OPTION, ...HAPI_IDENTITY_OPTIONS],
   estimate(q) {
     figuresUrls(q)
     const place = locationOf(q)

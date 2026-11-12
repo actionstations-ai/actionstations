@@ -31,6 +31,41 @@ async function caseKeys() {
   }
 }
 
+/** A connector as the fetch form reads it: plain copies of its declarations (#1139). */
+function connectorInfo(c: ReturnType<typeof listConnectors>[number]) {
+  const { options, area, contact, ...rest } = c
+  return {
+    ...rest,
+    hosts: [...c.hosts],
+    ...(options
+      ? {
+          options: options.map(({ choices, ...o }) => ({
+            ...o,
+            ...(choices ? { choices: choices.map((x) => ({ ...x })) } : {}),
+          })),
+        }
+      : {}),
+    ...(area
+      ? {
+          area: {
+            ...area,
+            ...(area.example
+              ? {
+                  example: {
+                    ...area.example,
+                    ...(area.example.bbox
+                      ? { bbox: [...area.example.bbox] as typeof area.example.bbox }
+                      : {}),
+                  },
+                }
+              : {}),
+          },
+        }
+      : {}),
+    ...(contact ? { contact } : {}),
+  }
+}
+
 const limitMb = async (): Promise<number> => (await getSettings()).caseData.maxMbPerScenario
 
 export default defineHandlers({
@@ -43,7 +78,7 @@ export default defineHandlers({
     }
   },
 
-  'case:connectors': () => listConnectors().map((c) => ({ ...c, hosts: [...c.hosts] })),
+  'case:connectors': () => listConnectors().map(connectorInfo),
 
   'case:generators': () => listGenerators(),
 
