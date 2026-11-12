@@ -83,6 +83,37 @@ const networkGenerator: SimulatedGenerator<z.output<typeof NetworkParams>> = {
   id: 'logistics-network',
   label: 'Simulated supply network and disruption',
   params: NetworkParams,
+  description:
+    'Simulates a supply network of fictional suppliers, carriers and distribution centers through a supplier failure or a lane disruption that hits the first item and the first center. Writes days of supply on hand by item and center, and the failure, restart, below-reorder and stock-out events.',
+  toolkits: ['logistics'],
+  example: {
+    seed: 1,
+    startDate: '2026-11-01T00:00:00Z',
+    days: 42,
+    items: 3,
+    centers: 2,
+    disruption: 'supplier_failure',
+    disruptionDay: 7,
+    disruptionDays: 28,
+    severity: 1,
+  } satisfies z.input<typeof NetworkParams>,
+  fields: {
+    seed: { label: 'Random seed', help: 'Any whole number; the same seed gives the same data.' },
+    startDate: { label: 'Start (UTC)' },
+    days: { label: 'Days simulated', help: '10 to 90 days.' },
+    items: { label: 'Items', help: 'Items tracked, 1 to 5.' },
+    centers: { label: 'Distribution centers', help: '1 to 4.' },
+    disruption: { label: 'Disruption' },
+    disruptionDay: {
+      label: 'Disruption starts (day)',
+      help: 'Day from 0 the disruption starts; item 1 and distribution center 1 are the ones hit.',
+    },
+    disruptionDays: { label: 'Disruption length (days)', help: '1 to 60 days.' },
+    severity: {
+      label: 'Severity',
+      help: 'Share of the failed supplier’s shipments lost, 0 to 1.',
+    },
+  },
   generate(raw) {
     const n = simulateNetwork(raw)
     const zones = n.items.flatMap((it) => n.centers.map((c) => zoneName(it.name, c)))
@@ -124,6 +155,35 @@ const traceGenerator: SimulatedGenerator<z.output<typeof TraceParams>> = {
   id: 'logistics-trace',
   label: 'Simulated traceability records for a food lot',
   params: TraceParams,
+  description:
+    'Simulates traceability records (receiving, shipping and transformation) for a food lot moving through distribution centers to fictional customers, with missing references and an unrecorded repack. Writes the records and the recall signal with the true trace answer.',
+  toolkits: ['logistics'],
+  example: {
+    seed: 1,
+    startDate: '2026-11-04T00:00:00Z',
+    centers: 3,
+    customers: 24,
+    lot: 'MLW-261104-A',
+    product: 'Spring mix, 5 oz clamshell',
+    missingReferences: 2,
+    unrecordedRepack: true,
+  } satisfies z.input<typeof TraceParams>,
+  fields: {
+    seed: { label: 'Random seed', help: 'Any whole number; the same seed gives the same data.' },
+    startDate: { label: 'Start (UTC)' },
+    centers: { label: 'Distribution centers', help: '2 to 4.' },
+    customers: { label: 'Customers', help: 'Ship-to customers, 4 to 60.' },
+    lot: { label: 'Lot code', help: 'The lot under recall, 3 to 40 characters.' },
+    product: { label: 'Product' },
+    missingReferences: {
+      label: 'Shipments missing a reference',
+      help: 'Shipments left without a reference document, 0 to 10.',
+    },
+    unrecordedRepack: {
+      label: 'Unrecorded repack',
+      help: 'One center repacks under a new lot code and writes no transformation record.',
+    },
+  },
   generate(raw) {
     const set = generateTraceRecords(raw)
     const t0 = Date.parse(TraceParams.parse(raw).startDate)

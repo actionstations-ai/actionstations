@@ -68,5 +68,50 @@ export const clinicalDowntimeGenerator: SimulatedGenerator<Params> = {
   id: 'clinical-downtime',
   label: 'Simulated EHR and interface downtime (clinical systems toolkit)',
   params: ClinicalDowntimeParams,
+  description:
+    'A fictional hospital whose EHR and interfaces fail for a set number of hours: messages queue (or are lost) by feed, critical results arrive while the systems are down, and each unit has paper to enter after recovery. It writes the hourly interface queues and the downtime events that live play and the evaluation read.',
+  toolkits: ['clinical_systems', 'clinical_care'],
+  example: {
+    seed: 1,
+    beds: 300,
+    start: '2026-11-12T02:00:00Z',
+    durationHours: 6,
+    failedFeeds: ['lab_results', 'orders', 'adt', 'pharmacy'],
+    dataLost: false,
+    units: ['4 West', '5 East', 'Intensive care unit', 'Emergency department'],
+    patientCount: 12,
+    extraDiscrepancies: 0,
+    criticalResults: 3,
+  } satisfies z.input<typeof ClinicalDowntimeParams>,
+  fields: {
+    seed: {
+      label: 'Random seed',
+      help: 'Any whole number; the same seed gives the same downtime.',
+    },
+    beds: {
+      label: 'Beds',
+      help: 'Hospital size, 10 to 2,000 beds; message volumes scale with it.',
+    },
+    start: { label: 'Failure time (UTC)', help: 'When the systems fail, as an ISO date and time.' },
+    durationHours: { label: 'Downtime (hours)', help: 'Hours until the systems return, 1 to 72.' },
+    failedFeeds: {
+      label: 'Failed feeds',
+      help: 'Interfaces that stop: lab_results, orders, adt, pharmacy, radiology (1 to 5).',
+    },
+    dataLost: {
+      label: 'Queued messages lost',
+      help: 'On: messages that arrive during the failure are lost instead of queued, so they must be re-entered.',
+    },
+    units: { label: 'Units', help: 'Names of the nursing units working on paper, 1 to 20.' },
+    patientCount: { label: 'Patients', help: 'Synthetic patients in the case, 2 to 60.' },
+    extraDiscrepancies: {
+      label: 'Extra discrepancies',
+      help: 'Additional record mismatches seeded for reconciliation after recovery, 0 to 6.',
+    },
+    criticalResults: {
+      label: 'Critical results during downtime',
+      help: 'Critical lab results that arrive while systems are down and must be phoned, 0 to 12.',
+    },
+  },
   generate: clinicalDowntimeDatasets,
 }

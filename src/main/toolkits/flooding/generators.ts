@@ -74,6 +74,106 @@ export const riverEventGenerator: SimulatedGenerator<z.infer<typeof RiverEventPa
   id: 'flood-river-event',
   label: 'Simulated river flood (rise and fall, forecasts, extent)',
   params: RiverEventParams,
+  description:
+    'A river flood that rises and falls at each gauge, travels downstream at the wave speed, and is forecast at each issuance (forecasts can change category), with a flood extent over the floodplain you draw and the assets it reaches. It writes gauge records, stage and forecast series, the extent with exposure counts, and the zone series the flood measures score actions against.',
+  toolkits: ['flooding'],
+  example: {
+    river: 'Cedar River',
+    start: '2026-11-05T12:00:00Z',
+    stepMinutes: 60,
+    durationHours: 120,
+    crestAtHour: 60,
+    recessionHours: 48,
+    waveSpeedMph: 3,
+    gauges: [
+      {
+        id: 'MLFM7',
+        name: 'Cedar River at Milford',
+        mile: 0,
+        baseStage: 6,
+        crestStage: 16,
+        categories: { action: 12, flood: 14, minor: 14, moderate: 17, major: 21 },
+        lonLat: [-90.1, 38],
+      },
+      {
+        id: 'RBDM7',
+        name: 'Cedar River at Riverbend',
+        mile: 30,
+        baseStage: 8,
+        crestStage: 17.8,
+        categories: { action: 12, flood: 14, minor: 14, moderate: 17, major: 21 },
+        lonLat: [-89.7, 37.9],
+      },
+    ],
+    issuances: [
+      { atHour: 36, crestStage: 14.5, crestAtHour: 66 },
+      { atHour: 54, crestStage: 16, crestAtHour: 60 },
+    ],
+    floodplain: [
+      {
+        stage: 14,
+        ring: [
+          [-90.1, 38],
+          [-90.09, 38],
+          [-90.09, 38.01],
+          [-90.1, 38.01],
+        ],
+      },
+      {
+        stage: 15.5,
+        ring: [
+          [-90.1, 38],
+          [-90.08, 38],
+          [-90.08, 38.02],
+          [-90.1, 38.02],
+        ],
+      },
+    ],
+    assets: [
+      { id: 'a1', name: 'Mill Road crossing', kind: 'road', floodsAtStage: 14, count: 1 },
+      { id: 'a2', name: 'Water plant', kind: 'facility', floodsAtStage: 17, count: 1 },
+      { id: 'a3', name: 'East Bend homes', kind: 'population', floodsAtStage: 16, count: 340 },
+    ],
+    extentEveryHours: 6,
+  } satisfies z.input<typeof RiverEventParams>,
+  fields: {
+    river: { label: 'River', help: 'River name used in the labels.' },
+    start: { label: 'Start (UTC)', help: 'Hour 0 of the event, as an ISO date and time.' },
+    stepMinutes: { label: 'Step (minutes)', help: 'Time between stage values, 15 to 360.' },
+    durationHours: { label: 'Duration (hours)', help: '24 to 480 hours.' },
+    crestAtHour: {
+      label: 'Crest at first gauge (hour)',
+      help: 'Hours from the start to the crest at the first gauge.',
+    },
+    recessionHours: {
+      label: 'Recession (hours)',
+      help: 'Hours the river takes to fall back after the crest.',
+    },
+    waveSpeedMph: {
+      label: 'Wave speed (mph)',
+      help: 'Speed of the flood wave between gauges, 0.5 to 15 miles per hour.',
+    },
+    gauges: {
+      label: 'Gauges',
+      help: 'JSON list from upstream to downstream (1 to 6) of { id (3 to 10 letters and digits), name, mile (downstream of the first), baseStage, crestStage (feet), categories ({ action, flood, minor, moderate, major } stages in feet), lonLat ([lon, lat], optional) }.',
+    },
+    issuances: {
+      label: 'Forecast issuances',
+      help: 'JSON list (up to 8) of { atHour (when issued), crestStage and crestAtHour (the forecast crest at the first gauge; both optional, the true crest when absent) }.',
+    },
+    floodplain: {
+      label: 'Floodplain extents',
+      help: 'JSON list of rising levels { stage (feet at the first gauge), ring (a polygon as [lon, lat] points) }, up to 12.',
+    },
+    assets: {
+      label: 'Assets at risk',
+      help: 'JSON list of { id, name, kind (structure, road, facility or population), floodsAtStage (feet at the first gauge), count (people for population, else 1) }.',
+    },
+    extentEveryHours: {
+      label: 'Extent every (hours)',
+      help: 'Hours between extent snapshots, 1 to 48.',
+    },
+  },
   generate(p) {
     const out: GeneratedDataset[] = []
     const truth = riverSeries(p)
@@ -196,6 +296,62 @@ export const flashEventGenerator: SimulatedGenerator<z.infer<typeof FlashEventPa
   id: 'flood-flash-event',
   label: 'Simulated flash flood (rain, small-basin response, warning polygon)',
   params: FlashEventParams,
+  description:
+    'A flash flood in a small basin: a burst of rain, the stream gauge responding within the hour, and an optional flash flood warning polygon with its damage tag. It writes the gauge record, rainfall and stage series, the first flooding report for scoring and the warning polygon.',
+  toolkits: ['flooding', 'weather'],
+  example: {
+    basin: 'Cedar Creek basin',
+    gauge: {
+      id: 'CCRM7',
+      name: 'Cedar Creek at the camp road',
+      baseStage: 1.2,
+      peakStage: 11.4,
+      categories: { action: 5, minor: 8, moderate: 10, major: 13 },
+      lonLat: [-90.17, 38.12],
+    },
+    start: '2026-11-05T00:00:00Z',
+    stepMinutes: 15,
+    durationHours: 12,
+    rainPeakHour: 3,
+    rainDurationHours: 3,
+    rainTotalInches: 4.5,
+    responseLagMinutes: 60,
+    warning: {
+      issuedAtHour: 3.5,
+      validHours: 2,
+      tag: 'considerable',
+      ring: [
+        [-90.2, 38.1],
+        [-90.15, 38.1],
+        [-90.15, 38.15],
+        [-90.2, 38.15],
+      ],
+    },
+  } satisfies z.input<typeof FlashEventParams>,
+  fields: {
+    basin: { label: 'Basin', help: 'Basin name used in the labels.' },
+    gauge: {
+      label: 'Stream gauge',
+      help: 'JSON object: id (3 to 10 letters and digits), name, baseStage and peakStage (feet), categories ({ action, flood, minor, moderate, major } stages in feet), lonLat ([lon, lat], optional).',
+    },
+    start: { label: 'Start (UTC)', help: 'Hour 0 of the event, as an ISO date and time.' },
+    stepMinutes: { label: 'Step (minutes)', help: 'Time between values, 5 to 60.' },
+    durationHours: { label: 'Duration (hours)', help: '2 to 48 hours.' },
+    rainPeakHour: {
+      label: 'Heaviest rain (hour)',
+      help: 'Hours after the start when the heaviest rain falls.',
+    },
+    rainDurationHours: { label: 'Rain duration (hours)', help: '0.5 to 24 hours.' },
+    rainTotalInches: { label: 'Rain total (inches)', help: 'Total rainfall over the basin.' },
+    responseLagMinutes: {
+      label: 'Response lag (minutes)',
+      help: 'Minutes from the rain peak to the stage peak; small basins respond in under an hour.',
+    },
+    warning: {
+      label: 'Flash flood warning',
+      help: 'Optional JSON object: issuedAtHour, validHours (up to 6), tag (base, considerable or catastrophic) and ring (the polygon as [lon, lat] points).',
+    },
+  },
   generate(p) {
     const { rain, stage } = flashSeries(p)
     const g = p.gauge
@@ -338,6 +494,37 @@ export const replayForecastGenerator: SimulatedGenerator<ReplayParams> = {
   id: 'flood-replay-forecast',
   label: 'Simulated forecasts for a replayed event (built from its observed rise)',
   params: ReplayParams,
+  description:
+    'Forecasts for a replayed real flood, built from its observed rise because the real forecasts are not archived: each issuance follows the observed series with a crest error that fades after the crest. It writes one forecast series per issuance.',
+  toolkits: ['flooding'],
+  example: {
+    gauge: { id: 'EADM7', name: 'Mississippi River at St. Louis' },
+    observed: [
+      { t: '2019-06-01T00:00:00Z', v: 30 },
+      { t: '2019-06-02T00:00:00Z', v: 36.5 },
+      { t: '2019-06-03T00:00:00Z', v: 42.1 },
+      { t: '2019-06-04T00:00:00Z', v: 45 },
+      { t: '2019-06-05T00:00:00Z', v: 41.8 },
+    ],
+    issuances: [
+      { atHour: 24, crestBiasFt: -2 },
+      { atHour: 48, crestBiasFt: 0 },
+    ],
+  } satisfies z.input<typeof ReplayParams>,
+  fields: {
+    gauge: {
+      label: 'Gauge',
+      help: 'JSON object: id (the NWS gauge id, 3 to 10 letters and digits) and name.',
+    },
+    observed: {
+      label: 'Observed stage',
+      help: 'JSON list of { t (ISO time), v (stage in feet) }, oldest first, at least 3 points; usually filled from the case data.',
+    },
+    issuances: {
+      label: 'Forecast issuances',
+      help: 'JSON list (1 to 8) of { atHour (hours after the first observation), crestBiasFt (feet the forecast crest is off by, negative when too low) }.',
+    },
+  },
   generate(p) {
     return replayForecasts(p).map((f) => ({
       id: `forecast-${p.gauge.id}-${f.n}`,

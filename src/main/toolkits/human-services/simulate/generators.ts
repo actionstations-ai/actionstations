@@ -58,6 +58,63 @@ const surgeGenerator: SimulatedGenerator<z.output<typeof SurgeParams>> = {
   id: 'hs-contact-surge',
   label: 'Simulated crisis line contact surge',
   params: SurgeParams,
+  description:
+    'Simulates a crisis line contact surge across calls, texts and chats: the surge rises and decays, counselors call out, contacts reroute after the network timers and some give up. Writes the queue by contact type at each interval and the surge, staffing, timer and rerouting events.',
+  toolkits: ['crisis_line'],
+  example: {
+    seed: 1,
+    startTime: '2026-11-03T12:00:00Z',
+    hours: 12,
+    intervalMin: 15,
+    baselinePerHour: { calls: 60, texts: 35, chats: 12 },
+    surgeStartHour: 4,
+    multiplier: 2,
+    decayHours: 8,
+    counselors: { calls: 11, texts: 7, chats: 3 },
+    shortfall: { counselors: 2, startHour: 5, durationHours: 6 },
+    contactsPerCounselorHour: { calls: 5, texts: 4, chats: 4 },
+    rerouting: { enabled: true, callSec: 120, textChatSec: 300, spanishShare: 0.08 },
+    abandonAfterSec: { calls: 300, texts: 900, chats: 600 },
+  } satisfies z.input<typeof SurgeParams>,
+  fields: {
+    seed: { label: 'Random seed', help: 'Any whole number; the same seed gives the same data.' },
+    startTime: { label: 'Start (UTC)' },
+    hours: { label: 'Hours simulated', help: '2 to 72 hours.' },
+    intervalMin: { label: 'Interval (minutes)', help: 'Length of each reporting interval.' },
+    baselinePerHour: {
+      label: 'Baseline contacts per hour',
+      help: 'Contacts per hour before the surge: an object with calls, texts and chats.',
+    },
+    surgeStartHour: { label: 'Surge starts (hour)', help: 'Hours after the start, 0 to 70.' },
+    multiplier: {
+      label: 'Surge multiplier',
+      help: 'Peak calls as a multiple of baseline, 1 to 10; texts and chats surge a little harder.',
+    },
+    decayHours: {
+      label: 'Surge decay (hours)',
+      help: 'Hours for the surge excess to fall to 37 percent of its peak, 0.5 to 72.',
+    },
+    counselors: {
+      label: 'Counselors',
+      help: 'Counselors on each channel before any shortfall: an object with calls, texts and chats.',
+    },
+    shortfall: {
+      label: 'Staff shortfall',
+      help: 'Counselors lost to call-outs: an object with counselors, startHour and durationHours.',
+    },
+    contactsPerCounselorHour: {
+      label: 'Contacts per counselor hour',
+      help: 'Contacts one counselor handles per hour: an object with calls, texts and chats.',
+    },
+    rerouting: {
+      label: 'Rerouting',
+      help: 'An object with enabled, callSec and textChatSec (seconds before a contact reroutes) and spanishShare (share of contacts in Spanish, which cannot reroute).',
+    },
+    abandonAfterSec: {
+      label: 'Abandon after (seconds)',
+      help: 'Seconds after which a waiting contact gives up: an object with calls, texts and chats.',
+    },
+  },
   generate(p) {
     const run = runSurge(p)
     const t0 = Date.parse(p.startTime)
@@ -133,6 +190,52 @@ const shelterGenerator: SimulatedGenerator<z.output<typeof ShelterParams>> = {
   id: 'hs-shelter-population',
   label: 'Simulated shelter population and needs',
   params: ShelterParams,
+  description:
+    'Simulates evacuees arriving at shelters that open in turn, with residents who have functional and access needs and a hazard that reaches the county. Writes shelter population against capacity, hazard wind at each site, and the shelter events and needs recorded.',
+  toolkits: ['mass_care'],
+  example: {
+    seed: 1,
+    startTime: '2026-11-02T12:00:00Z',
+    hours: 48,
+    sites: [
+      { name: 'Eastside High School (simulated)', capacity: 220, opensHour: 2 },
+      { name: 'Ridge Middle School (simulated)', capacity: 300, opensHour: 8 },
+    ],
+    evacuees: 400,
+    peakHour: 14,
+    spreadHours: 6,
+    hazardArrivalHour: 18,
+    needsRates: {
+      electricity_for_medical_equipment: 0.04,
+      communication_access: 0.03,
+      personal_assistance: 0.05,
+      medication_support: 0.08,
+      supervision: 0.015,
+    },
+  } satisfies z.input<typeof ShelterParams>,
+  fields: {
+    seed: { label: 'Random seed', help: 'Any whole number; the same seed gives the same data.' },
+    startTime: { label: 'Start (UTC)' },
+    hours: { label: 'Hours simulated', help: '6 to 240 hours.' },
+    sites: {
+      label: 'Shelters',
+      help: 'Shelters in the order they fill. Each item: name, capacity and opensHour (hours after the start).',
+    },
+    evacuees: { label: 'Evacuees', help: 'People who come to the shelters, 10 to 50,000.' },
+    peakHour: { label: 'Peak arrivals (hour)', help: 'Hours after the start when arrivals peak.' },
+    spreadHours: {
+      label: 'Arrival spread (hours)',
+      help: 'Standard deviation of arrivals around the peak, 1 to 48 hours.',
+    },
+    hazardArrivalHour: {
+      label: 'Hazard arrives (hour)',
+      help: 'Hours after the start when the hazard reaches the county.',
+    },
+    needsRates: {
+      label: 'Share of residents with each need',
+      help: 'An object of shares from 0 to 1: electricity_for_medical_equipment, communication_access, personal_assistance, medication_support and supervision.',
+    },
+  },
   generate(p) {
     const run = runShelters(p)
     const t0 = Date.parse(p.startTime)
@@ -222,6 +325,54 @@ const reunificationGenerator: SimulatedGenerator<z.output<typeof ReunificationPa
   id: 'hs-reunification-flow',
   label: 'Simulated reunification arrivals and verification',
   params: ReunificationParams,
+  description:
+    'Simulates a school reunification: guardians arrive over time, check-in leads verify identity, students are released, and some guardians cannot be verified or never arrive. Writes the site events and cumulative arrival, verification and release counts.',
+  toolkits: ['reunification_child_welfare'],
+  example: {
+    seed: 1,
+    startTime: '2026-11-03T15:10:00Z',
+    students: 120,
+    medianArrivalMin: 35,
+    arrivalSigma: 0.6,
+    checkInLeads: 4,
+    verifyMedianMin: 2,
+    unverifiableShare: 0.04,
+    unaccompaniedShare: 0.03,
+    retrievalMin: 5,
+  } satisfies z.input<typeof ReunificationParams>,
+  fields: {
+    seed: { label: 'Random seed', help: 'Any whole number; the same seed gives the same data.' },
+    startTime: { label: 'Site activated (UTC)' },
+    students: { label: 'Students', help: 'Students at the reunification site, 5 to 2,000.' },
+    medianArrivalMin: {
+      label: 'Median guardian arrival (minutes)',
+      help: 'Median minutes after activation when a guardian arrives.',
+    },
+    arrivalSigma: {
+      label: 'Arrival spread',
+      help: 'Log-scale spread of arrivals, 0.1 to 2; larger means a longer tail.',
+    },
+    checkInLeads: {
+      label: 'Check-in leads',
+      help: 'Staff verifying identity at the same time, 1 to 50.',
+    },
+    verifyMedianMin: {
+      label: 'Median verification (minutes)',
+      help: 'Median minutes one verification takes.',
+    },
+    unverifiableShare: {
+      label: 'Share unverifiable',
+      help: 'Share of guardians who cannot be verified at the desk, 0 to 1.',
+    },
+    unaccompaniedShare: {
+      label: 'Share with no guardian',
+      help: 'Share of students for whom no guardian arrives within the exercise, 0 to 1.',
+    },
+    retrievalMin: {
+      label: 'Retrieval (minutes)',
+      help: 'Minutes from verification to release, 0 to 60.',
+    },
+  },
   generate(p) {
     const run = runReunification(p)
     const t0 = Date.parse(p.startTime)
@@ -303,6 +454,38 @@ const displacedGenerator: SimulatedGenerator<z.output<typeof DisplacedParams>> =
   id: 'hs-displaced-children',
   label: 'Simulated displaced children in care',
   params: DisplacedParams,
+  description:
+    'Simulates children in foster care and other placements displaced by a disaster, located over time at a pace that depends on the placement type, with a share never located. Writes the plan and location events and the count of children by status.',
+  toolkits: ['reunification_child_welfare'],
+  example: {
+    seed: 1,
+    startTime: '2026-11-04T08:00:00Z',
+    children: 86,
+    placementMix: [0.5, 0.25, 0.15, 0.1],
+    counties: ['Bayfront', 'Ridge'],
+    midpointHours: 20,
+    neverLocatedShare: 0.06,
+    hours: 72,
+  } satisfies z.input<typeof DisplacedParams>,
+  fields: {
+    seed: { label: 'Random seed', help: 'Any whole number; the same seed gives the same data.' },
+    startTime: { label: 'Plan activated (UTC)' },
+    children: { label: 'Children in care', help: 'Children to locate, 5 to 5,000.' },
+    placementMix: {
+      label: 'Placement mix',
+      help: 'Four shares in the order foster home, kinship, group home, other; they should add to 1.',
+    },
+    counties: { label: 'Counties', help: 'One county name per line, 1 to 8.' },
+    midpointHours: {
+      label: 'Half located (hours)',
+      help: 'Hour when half the located foster home children are located, 1 to 240.',
+    },
+    neverLocatedShare: {
+      label: 'Share never located',
+      help: 'Share of children not located within the run, 0 to 1.',
+    },
+    hours: { label: 'Hours simulated', help: '6 to 240 hours.' },
+  },
   generate(p) {
     const run = runDisplaced(p)
     const t0 = Date.parse(p.startTime)

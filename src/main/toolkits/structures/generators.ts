@@ -24,6 +24,59 @@ export const monitoringGenerator: SimulatedGenerator<MonitoringParams> = {
   id: 'structures-monitoring',
   label: 'Simulated structural monitoring (sensor series, alarm crossings, failure onset)',
   params: MonitoringParams,
+  description:
+    'A sensor on a structure (crack width, tilt, settlement, shoring load, strain or vibration) drifts, then fails along the shape you choose, with dropouts. Writes the sensor series, and the failure onset, alarm and action crossings as scoring events.',
+  toolkits: ['structures'],
+  example: {
+    sensorId: 'LC-14',
+    sensorType: 'shoring_load',
+    unit: 'kN',
+    location: 'level 8, east bay',
+    start: '2026-11-09T12:00:00Z',
+    stepMinutes: 10,
+    durationHours: 6,
+    baseline: 120,
+    driftPerHour: 1,
+    noise: 2,
+    failureOnsetHour: 3,
+    failureShape: 'accelerating',
+    failureMagnitude: 190,
+    dropouts: [{ fromHour: 4, toHour: 4.5 }],
+    alarmLevel: 150,
+    actionLevel: 180,
+    seed: 7,
+  } satisfies z.input<typeof MonitoringParams>,
+  fields: {
+    sensorId: { label: 'Sensor id' },
+    sensorType: { label: 'Sensor type' },
+    unit: { label: 'Unit', help: 'Unit of the readings, e.g. kN, mm or degrees.' },
+    location: { label: 'Location', help: 'Where the sensor is, as the site names it.' },
+    start: { label: 'Start (UTC)' },
+    stepMinutes: { label: 'Step (minutes)', help: 'Minutes between readings, 1 to 60.' },
+    durationHours: { label: 'Length (hours)', help: '1 to 72.' },
+    baseline: { label: 'Baseline', help: 'Reading at the start, in the unit.' },
+    driftPerHour: {
+      label: 'Drift per hour',
+      help: 'Slow change per hour before the failure (curing, temperature, loading).',
+    },
+    noise: { label: 'Noise', help: 'Standard deviation of the noise, in the unit.' },
+    failureOnsetHour: {
+      label: 'Failure begins (hour)',
+      help: 'Hours after the start; leave empty for a series with no failure.',
+    },
+    failureShape: { label: 'Failure shape' },
+    failureMagnitude: {
+      label: 'Failure magnitude',
+      help: 'How far above the pre-failure level the reading is at the end of the series, in the unit.',
+    },
+    dropouts: {
+      label: 'Dropouts',
+      help: 'Each item: fromHour and toHour (hours after the start) when the sensor reports nothing.',
+    },
+    alarmLevel: { label: 'Alarm level', help: 'In the unit.' },
+    actionLevel: { label: 'Action level', help: 'In the unit; at or above the alarm level.' },
+    seed: { label: 'Seed', help: 'Any whole number; the same seed gives the same noise.' },
+  },
   generate(p) {
     const r = simulateMonitoring(p)
     const sensor = p.sensorId.toLowerCase().replace(/[^a-z0-9]+/g, '-')
@@ -113,6 +166,53 @@ export const damageStatesGenerator: SimulatedGenerator<DamageParams> = {
   id: 'structures-damage-states',
   label: 'Simulated post-earthquake building list (fictional buildings, shaking, damage states)',
   params: DamageParams,
+  description:
+    'A list of fictional buildings of several construction types with the shaking at each and a damage state drawn from a simple fragility relation. Writes the buildings as a map layer and the correct placard (INSPECTED, RESTRICTED USE or UNSAFE) for each as ground truth.',
+  toolkits: ['structures', 'seismic'],
+  example: {
+    city: 'Westport',
+    buildingCount: 40,
+    widthM: 4000,
+    heightM: 3000,
+    peakAt: [1200, 1000],
+    peakMmi: 8.5,
+    fallPerKm: 0.6,
+    origin: [-81.69, 41.48],
+    start: '2026-11-06T08:00:00Z',
+    seed: 11,
+  } satisfies z.input<typeof DamageParams>,
+  fields: {
+    city: { label: 'City', help: 'Fictional city name used in the labels.' },
+    buildingCount: { label: 'Buildings', help: 'Number of fictional buildings, 10 to 300.' },
+    widthM: { label: 'Area width (m)', help: 'Meters across the evaluated area, 200 to 20,000.' },
+    heightM: { label: 'Area height (m)', help: 'Meters north to south, 200 to 20,000.' },
+    peakAt: {
+      label: 'Strongest shaking at',
+      help: 'Two numbers [east, north]: meters from the lower left corner of the area.',
+    },
+    peakMmi: {
+      label: 'Peak intensity (MMI)',
+      help: 'Modified Mercalli intensity at the peak, 3 to 11.',
+    },
+    fallPerKm: {
+      label: 'Intensity fall per km',
+      help: 'MMI lost per kilometer from the peak, 0 to 3.',
+    },
+    earthquakeMagnitude: {
+      label: 'Earthquake magnitude',
+      help: 'Optional, 3 to 9.5: take the shaking from a simulated earthquake at the peak point instead of the two settings above.',
+    },
+    shakeGrid: {
+      label: 'ShakeMap grid',
+      help: 'Optional intensity grid from the earth science toolkit: west, south, east, north, cols, rows and values (north row first, cols × rows numbers). Overrides the other shaking settings.',
+    },
+    origin: {
+      label: 'Map origin',
+      help: 'Two numbers [longitude, latitude] of the lower left corner, to place buildings on a map.',
+    },
+    start: { label: 'Program start (UTC)' },
+    seed: { label: 'Seed', help: 'Any whole number; the same seed gives the same buildings.' },
+  },
   generate(p) {
     const { buildings } = buildProgram(p)
     const shares = truthShares(buildings)
@@ -212,6 +312,49 @@ export const siteEventGenerator: SimulatedGenerator<SiteEventParams> = {
   label:
     'Simulated site emergency timeline (collapse, responders, reportable event, secondary hazards)',
   params: SiteEventParams,
+  description:
+    'A collapse or injury at a work site with its clock: a first sign players could have seen, responders arriving, the reportable event and when the employer learned of it, and secondary hazards. Writes the timeline as ground truth for the timing measures.',
+  toolkits: ['structures'],
+  example: {
+    site: 'Pier Street Mid-rise',
+    start: '2026-11-09T12:00:00Z',
+    collapseAtMinute: 0,
+    reportedSign: { atMinute: -90, text: 'Shoring post on level 8 visibly bowed' },
+    reportable: 'In-patient hospitalization',
+    learnedAtMinute: 30,
+    firstRespondersMinute: 9,
+    secondaryHazards: [
+      { hazard: 'Natural gas leak', atMinute: 20, controlledBy: 'structures_shutoff' },
+    ],
+  } satisfies z.input<typeof SiteEventParams>,
+  fields: {
+    site: { label: 'Site', help: 'Fictional site name.' },
+    start: { label: 'Start (UTC)' },
+    collapseAtMinute: {
+      label: 'Collapse at (minute)',
+      help: 'Minutes after the start that the collapse or injury happens.',
+    },
+    reportedSign: {
+      label: 'First sign',
+      help: 'Optional: atMinute (minutes after the start, may be negative) and text describing the sign players could have seen.',
+    },
+    reportable: {
+      label: 'Reportable event',
+      help: 'The OSHA-reportable outcome: a fatality must be reported within 8 hours, the others within 24.',
+    },
+    learnedAtMinute: {
+      label: 'Employer learns at (minute)',
+      help: 'Minutes after the start; the reporting clock starts here.',
+    },
+    firstRespondersMinute: {
+      label: 'Responders arrive (minute)',
+      help: 'Minutes after the start, 1 to 240.',
+    },
+    secondaryHazards: {
+      label: 'Secondary hazards',
+      help: 'Each item: hazard, atMinute, and controlledBy, the decision form kind that controls it (e.g. structures_shutoff).',
+    },
+  },
   generate(p) {
     const at = (m: number): string =>
       new Date(Date.parse(p.start) + m * 60_000).toISOString().replace('.000Z', 'Z')
@@ -270,6 +413,60 @@ export const inspectionProgramGenerator: SimulatedGenerator<ProgramParams> = {
   id: 'structures-inspection-program',
   label: 'Simulated inspection program (building records, evaluators, requests and traps)',
   params: ProgramParams,
+  description:
+    'A full post-earthquake inspection program: the building list and damage states, what an evaluator would see in each building, an evaluator roster, requests from owners, neighbors and the EOC, and any traps you switch on. Writes the records, roster and requests, and the correct placards and traps as ground truth.',
+  toolkits: ['structures', 'seismic'],
+  example: {
+    city: 'Westport',
+    buildingCount: 40,
+    widthM: 4000,
+    heightM: 3000,
+    peakAt: [1200, 1000],
+    peakMmi: 8.5,
+    fallPerKm: 0.6,
+    origin: [-81.69, 41.48],
+    start: '2026-11-06T08:00:00Z',
+    seed: 11,
+    evaluatorCount: 12,
+    traps: { conflictingPlacards: true, unsafeAdjacent: false, ownerRefuses: true },
+  } satisfies z.input<typeof ProgramParams>,
+  fields: {
+    city: { label: 'City', help: 'Fictional city name used in the labels.' },
+    buildingCount: { label: 'Buildings', help: 'Number of fictional buildings, 10 to 300.' },
+    widthM: { label: 'Area width (m)', help: 'Meters across the evaluated area, 200 to 20,000.' },
+    heightM: { label: 'Area height (m)', help: 'Meters north to south, 200 to 20,000.' },
+    peakAt: {
+      label: 'Strongest shaking at',
+      help: 'Two numbers [east, north]: meters from the lower left corner of the area.',
+    },
+    peakMmi: {
+      label: 'Peak intensity (MMI)',
+      help: 'Modified Mercalli intensity at the peak, 3 to 11.',
+    },
+    fallPerKm: {
+      label: 'Intensity fall per km',
+      help: 'MMI lost per kilometer from the peak, 0 to 3.',
+    },
+    earthquakeMagnitude: {
+      label: 'Earthquake magnitude',
+      help: 'Optional, 3 to 9.5: take the shaking from a simulated earthquake at the peak point instead of the two settings above.',
+    },
+    shakeGrid: {
+      label: 'ShakeMap grid',
+      help: 'Optional intensity grid from the earth science toolkit: west, south, east, north, cols, rows and values (north row first, cols × rows numbers). Overrides the other shaking settings.',
+    },
+    origin: {
+      label: 'Map origin',
+      help: 'Two numbers [longitude, latitude] of the lower left corner, to place buildings on a map.',
+    },
+    start: { label: 'Program start (UTC)' },
+    seed: { label: 'Seed', help: 'Any whole number; the same seed gives the same buildings.' },
+    evaluatorCount: { label: 'Evaluators', help: 'Evaluators on the roster, 2 to 40.' },
+    traps: {
+      label: 'Traps',
+      help: 'Three true or false switches: conflictingPlacards (one condition placarded two ways), unsafeAdjacent (an unsafe building next to one being walked), ownerRefuses (an owner who refuses to leave). All off by default.',
+    },
+  },
   generate(p) {
     const program = buildProgram(p)
     const at = (m: number): string =>

@@ -37,6 +37,14 @@ A toolkit can offer to find a real past event by date and place. Open the scenar
 Each request is recorded in a fetch log in the scenario's case folder, with the address (without
 its query), the status and the number of bytes.
 
+## Generating simulated data
+
+For a fictional event, a toolkit can generate the data instead. On the **Case data** tab, under **Generate simulated data**:
+
+1. Choose a simulation. The list holds the simulations of the scenario's toolkits that are on; tick **Show simulations from every toolkit** to see them all.
+2. The form opens with a complete example, so the simulation runs as it is. Change the inputs you need: each says its unit and range. Times are in UTC. Inputs that hold several items at once, such as a list of shelters or a storm track, are edited as JSON; keep the brackets, quotes and commas, or choose **Start again from the example**.
+3. Choose **Run simulation**. The app checks the inputs and says what is wrong in words. The data is written to the scenario, labeled simulated, and repeats exactly with the same inputs and seed. Nothing leaves your computer.
+
 ### Sources for oil and chemical spills
 
 The spill and plume toolkit can fetch three public NOAA sources, each from one fixed address:

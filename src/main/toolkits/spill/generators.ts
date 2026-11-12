@@ -240,6 +240,76 @@ export const spillSimulationGenerator: SimulatedGenerator<SpillSimulationParams>
   id: 'spill-simulation',
   label: 'Simulated oil spill (drift, weathering, landfall)',
   params: SpillSimulationParams,
+  description:
+    'A fictional release drifts with the current and a share of the wind, spreads and weathers, with an uncertainty envelope and the landfall time on each shoreline you draw. Writes the trajectory map, a mass balance series, landfall notes, and the oil arrival and notification deadlines the timing measures read.',
+  toolkits: ['spill_plume'],
+  example: {
+    start: '2026-11-04T12:00:00Z',
+    origin: { lat: 30.3, lon: -88.1 },
+    product: 'diesel',
+    volume: 4200,
+    unit: 'bbl',
+    releaseHours: 4,
+    hours: 48,
+    stepHours: 2,
+    windFromDeg: 135,
+    windMs: 6,
+    currentTowardDeg: 300,
+    currentMs: 0.2,
+    seaStateFactor: 1,
+    recovery: { startHour: 6, perHour: 60 },
+    shorelines: [
+      {
+        id: 'marsh',
+        name: 'Heron Bay marsh',
+        esi: '10A',
+        points: [
+          { lat: 30.4, lon: -88.4 },
+          { lat: 30.4, lon: -87.9 },
+        ],
+      },
+    ],
+    notifications: [
+      { who: 'National Response Center', minutes: 30 },
+      { who: 'State environmental agency', minutes: 60 },
+    ],
+  } satisfies z.input<typeof SpillSimulationParams>,
+  fields: {
+    start: { label: 'Release time (UTC)' },
+    origin: { label: 'Release point', help: 'An object with lat and lon in decimal degrees.' },
+    product: { label: 'Product' },
+    volume: { label: 'Volume', help: 'Total volume released, in the unit below.' },
+    unit: { label: 'Volume unit', help: 'bbl (barrels), gal (US gallons) or m3 (cubic meters).' },
+    releaseHours: {
+      label: 'Release duration (hours)',
+      help: '0 for an instant release, up to 240.',
+    },
+    hours: { label: 'Hours to model', help: 'Up to 240.' },
+    stepHours: { label: 'Step (hours)', help: 'Hours between output times, up to 24.' },
+    windFromDeg: { label: 'Wind from (degrees)', help: 'Direction the wind blows from, 0 to 360.' },
+    windMs: { label: 'Wind speed (m/s)', help: '0 to 60.' },
+    currentTowardDeg: {
+      label: 'Current toward (degrees)',
+      help: 'Direction the current flows toward, 0 to 360.',
+    },
+    currentMs: { label: 'Current speed (m/s)', help: '0 to 5.' },
+    seaStateFactor: {
+      label: 'Sea state factor',
+      help: 'Scales spreading and dispersion; 1 is moderate, 0.1 to 4.',
+    },
+    recovery: {
+      label: 'Recovery',
+      help: 'Optional: startHour (hours after the release) and perHour, the volume skimmers recover each hour in the volume unit.',
+    },
+    shorelines: {
+      label: 'Shorelines',
+      help: 'Each item: id, name, optional esi class (such as 10A), and points, a line of at least two {lat, lon}.',
+    },
+    notifications: {
+      label: 'Required notifications',
+      help: 'Each item: who (as the decision form names the party, such as National Response Center) and minutes after the release the notice is due.',
+    },
+  },
   generate: generateSpill,
 }
 
@@ -312,6 +382,46 @@ export const toxicPlumeGenerator: SimulatedGenerator<ToxicPlumeParams> = {
   id: 'toxic-plume',
   label: 'Simulated toxic plume (Gaussian, threat zones by level)',
   params: ToxicPlumeParams,
+  description:
+    'A continuous ground-level release spreading downwind as a Gaussian plume. Writes the threat zones around the source for each concentration level you set, as an illustration and not a protective action distance.',
+  toolkits: ['spill_plume', 'hazmat'],
+  example: {
+    start: '2026-11-04T12:00:00Z',
+    source: { lat: 30.3, lon: -88.1 },
+    releaseGramsPerSecond: 2000,
+    windFromDeg: 250,
+    windMs: 3,
+    stability: 'D',
+    molecularWeight: 70.9,
+    substance: 'Chlorine',
+    levels: [
+      { label: 'Red', ppm: 20 },
+      { label: 'Orange', ppm: 2 },
+      { label: 'Yellow', ppm: 0.5 },
+    ],
+    hours: 1,
+  } satisfies z.input<typeof ToxicPlumeParams>,
+  fields: {
+    start: { label: 'Release start (UTC)' },
+    source: { label: 'Source', help: 'An object with lat and lon in decimal degrees.' },
+    releaseGramsPerSecond: { label: 'Release rate (g/s)', help: 'Grams per second, steady.' },
+    windFromDeg: { label: 'Wind from (degrees)', help: 'Direction the wind blows from, 0 to 360.' },
+    windMs: { label: 'Wind speed (m/s)', help: '0.5 to 40.' },
+    stability: {
+      label: 'Stability class',
+      help: 'Pasquill class: A (very unstable, sunny) to F (stable, clear night); D is neutral.',
+    },
+    molecularWeight: {
+      label: 'Molecular weight (g/mol)',
+      help: 'Used to convert to ppm, e.g. 70.9 for chlorine.',
+    },
+    substance: { label: 'Substance' },
+    levels: {
+      label: 'Concentration levels',
+      help: 'One to four items: label (such as Red) and ppm; each draws a zone where the concentration is at or above it.',
+    },
+    hours: { label: 'Duration (hours)', help: 'How long the zones stand, up to 48.' },
+  },
   generate: generatePlume,
 }
 

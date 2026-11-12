@@ -99,10 +99,41 @@ export const ConnectorInfo = z.object({
 })
 export type ConnectorInfo = z.infer<typeof ConnectorInfo>
 
+/**
+ * One top-level input of a simulation as the form shows it (#1141): a text box, a date and time
+ * (UTC), a number, a checkbox, a choice, a list of choices, a list of lines, or JSON for nested
+ * inputs. Built in main from the generator's input schema and its labels.
+ */
+export const GeneratorInput = z.object({
+  key: z.string(),
+  label: z.string(),
+  help: z.string().optional(),
+  kind: z.enum(['text', 'datetime', 'number', 'boolean', 'choice', 'choices', 'lines', 'json']),
+  required: z.boolean(),
+  integer: z.boolean().optional(),
+  min: z.number().optional(),
+  max: z.number().optional(),
+  choices: z
+    .array(z.object({ value: z.union([z.string(), z.number()]), label: z.string() }))
+    .optional(),
+})
+export type GeneratorInput = z.infer<typeof GeneratorInput>
+
+export const GeneratorInfo = z.object({
+  id: z.string(),
+  label: z.string(),
+  description: z.string().optional(),
+  toolkits: z.array(z.string()),
+  inputs: z.array(GeneratorInput),
+  /** A complete, valid set of inputs the form opens with. */
+  example: z.record(z.string(), z.unknown()),
+})
+export type GeneratorInfo = z.infer<typeof GeneratorInfo>
+
 export const caseDataChannels = {
   'case:get': channel(S, CaseSummary),
   'case:connectors': channel(z.void(), z.array(ConnectorInfo)),
-  'case:generators': channel(z.void(), z.array(z.object({ id: z.string(), label: z.string() }))),
+  'case:generators': channel(z.void(), z.array(GeneratorInfo)),
   'case:plan-fetch': channel(
     S.extend({ connectorId: z.string().min(1).max(64), query: CaseFetchQuery }),
     CaseFetchPlan,

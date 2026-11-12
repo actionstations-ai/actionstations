@@ -40,6 +40,14 @@ test('case data: choose a source, fill its options, see size and terms before an
     await expect(plan).toContainText('www.gdacs.org')
     await expect(plan).toContainText('cite GDACS as the source')
     await expect(plan.getByRole('button', { name: 'Agree and fetch' })).toBeEnabled()
+    await plan.getByRole('button', { name: 'Cancel' }).click()
+
+    // A simulation of the humanitarian toolkit runs from its example and lists its datasets.
+    const sim = page.getByRole('combobox', { name: 'Simulation' })
+    await sim.selectOption({ label: 'Simulated arrivals and registration at a site' })
+    await page.getByRole('button', { name: 'Run simulation' }).click()
+    const table = page.getByRole('table', { name: 'Case data in this scenario' })
+    await expect(table.getByText('Simulated').first()).toBeVisible({ timeout: 15_000 })
     if (process.env.CASE_DATA_SHOT)
       await page.screenshot({ path: process.env.CASE_DATA_SHOT, fullPage: true })
   } finally {

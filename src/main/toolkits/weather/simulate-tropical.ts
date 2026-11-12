@@ -167,6 +167,40 @@ export const tropicalGenerator: SimulatedGenerator<TropicalParams> = {
   id: 'weather-tropical-cyclone',
   label: 'Simulated tropical cyclone (weather toolkit)',
   params: TropicalParams,
+  description:
+    'A tropical cyclone on a straight track with a simple intensity history and a parametric wind field. Writes the track as best-track-like fixes and the sustained wind at each place over time, with the hour tropical-storm-force winds (34 kt) arrive.',
+  toolkits: ['weather'],
+  example: {
+    name: 'Marlena',
+    start: '2026-09-10T00:00:00Z',
+    hours: 72,
+    track: { startLat: 24, startLon: -90, landfallLat: 29.4, landfallLon: -89.2, landfallHour: 48 },
+    intensity: { startKt: 50, peakKt: 115, peakHour: 40 },
+    rmaxKm: 35,
+    places: [
+      { name: 'Venice, LA', lat: 29.28, lon: -89.35 },
+      { name: 'New Orleans, LA', lat: 29.95, lon: -90.07 },
+      { name: 'Gulfport, MS', lat: 30.37, lon: -89.09 },
+    ],
+  } satisfies z.input<typeof TropicalParams>,
+  fields: {
+    name: { label: 'Storm name', help: 'A fictional name, 2 to 20 letters.' },
+    start: { label: 'Start (UTC)' },
+    hours: { label: 'Hours', help: 'Length of the period, 12 to 120; must run past landfall.' },
+    track: {
+      label: 'Track',
+      help: 'startLat and startLon, landfallLat and landfallLon in decimal degrees, and landfallHour (hours after the start).',
+    },
+    intensity: {
+      label: 'Intensity',
+      help: 'startKt and peakKt (maximum sustained wind in knots) and peakHour, at or before landfall.',
+    },
+    rmaxKm: { label: 'Radius of maximum wind (km)', help: '10 to 120.' },
+    places: {
+      label: 'Places',
+      help: 'One to ten items: name, lat and lon. Each gets its wind over time and the arrival of tropical-storm-force winds.',
+    },
+  },
   generate: generateTropical,
 }
 

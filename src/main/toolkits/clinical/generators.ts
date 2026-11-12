@@ -116,5 +116,36 @@ export const clinicalTrajectoryGenerator: SimulatedGenerator<Params> = {
   id: 'clinical-trajectory',
   label: 'Simulated patient trajectory (clinical care toolkit)',
   params: Params,
+  description:
+    'One fictional patient on a named course (sepsis, hemorrhage, respiratory failure and others) whose vital signs and labs change over the shift, and whose course the learner actions bend. It writes the vitals and lab series and the escalation events: the first early warning score that needs an urgent review and the first critical lab value.',
+  toolkits: ['clinical_care'],
+  example: {
+    kind: 'sepsis',
+    seed: 1,
+    start: '2026-11-12T07:00:00Z',
+    durationMin: 240,
+    stepMin: 15,
+    actions: [
+      { atMin: 60, action: 'reassess' },
+      { atMin: 90, action: 'escalate' },
+    ],
+  } satisfies z.input<typeof Params>,
+  fields: {
+    kind: {
+      label: 'Trajectory',
+      help: 'sepsis, hemorrhage, respiratory_failure, cardiac_event, postoperative_deterioration or hypoglycemia.',
+    },
+    seed: {
+      label: 'Random seed',
+      help: 'Any whole number; the same seed gives the same patient and values.',
+    },
+    start: { label: 'Start (UTC)', help: 'Minute 0 of the case, as an ISO date and time.' },
+    durationMin: { label: 'Length (minutes)', help: '30 to 480 minutes.' },
+    stepMin: { label: 'Vital signs every (minutes)', help: '5 to 60 minutes between readings.' },
+    actions: {
+      label: 'Learner actions',
+      help: 'JSON list of { atMin, action }, where action is reassess, escalate, treat or delay (up to 12). Each changes the course from that minute.',
+    },
+  },
   generate: clinicalTrajectoryDatasets,
 }

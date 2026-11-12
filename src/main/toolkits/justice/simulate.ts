@@ -47,6 +47,31 @@ export const justiceCallSurgeGenerator: SimulatedGenerator<z.output<typeof surge
   id: 'justice-call-surge',
   label: 'Simulated call surge with dispatched units and arrival times',
   params: surgeParams,
+  description:
+    'Simulates a burst of calls handled by a fixed number of units: the unit that frees up first takes the next call, so response time grows when every unit is busy. Writes each call received and each unit arrival with its response time.',
+  toolkits: ['justice', 'dispatch'],
+  example: {
+    startTime: '2026-10-28T14:00:00Z',
+    seed: 7,
+    calls: 40,
+    units: 8,
+    medianResponseMin: 6,
+    windowMin: 20,
+  } satisfies z.input<typeof surgeParams>,
+  fields: {
+    startTime: { label: 'Start (UTC)' },
+    seed: { label: 'Random seed', help: 'Any whole number; the same seed gives the same data.' },
+    calls: { label: 'Calls', help: 'Calls in the surge, 1 to 500.' },
+    units: { label: 'Units', help: 'Units available to respond, 1 to 60.' },
+    medianResponseMin: {
+      label: 'Median response (minutes)',
+      help: 'Median minutes from call received to first unit arriving when a unit is free, 1 to 60.',
+    },
+    windowMin: {
+      label: 'Arrival window (minutes)',
+      help: 'Minutes over which the calls arrive, 1 to 240.',
+    },
+  },
   generate(p) {
     const rng = makeRng(p.seed)
     const t0 = Date.parse(p.startTime)
@@ -112,6 +137,55 @@ export const justiceIncidentTimelineGenerator: SimulatedGenerator<z.output<typeo
     params: timelineParams.refine((p) => p.agencies.every((a) => a.joinMin >= a.arrivalMin), {
       message: 'an agency cannot join unified command before it arrives',
     }),
+    description:
+      'Simulates the milestones of a multi-agency incident: first arrival, command named, command post staffed, mutual aid, the first public statement, the family center opening, and each agency arriving and joining unified command. Writes the milestone events, timed in minutes from the first report.',
+    toolkits: ['justice'],
+    example: {
+      startTime: '2026-10-28T14:00:00Z',
+      firstArrivalMin: 4,
+      commandNamedMin: 11,
+      commandPostStaffedMin: 16,
+      mutualAidRequestedMin: 24,
+      firstStatementMin: 33,
+      familyCenterOpenMin: 50,
+      agencies: [
+        { agency: 'Marston Police Department', arrivalMin: 4, joinMin: 11 },
+        { agency: 'Marston County Sheriff’s Office', arrivalMin: 6, joinMin: 16 },
+        { agency: 'Marston County Fire and EMS', arrivalMin: 8, joinMin: 19 },
+        { agency: 'State Patrol', arrivalMin: 21, joinMin: 35 },
+      ],
+    } satisfies z.input<typeof timelineParams>,
+    fields: {
+      startTime: { label: 'First report (UTC)' },
+      firstArrivalMin: {
+        label: 'First arrival (minutes)',
+        help: 'Minutes after the first report.',
+      },
+      commandNamedMin: {
+        label: 'Command named (minutes)',
+        help: 'Minutes after the first report.',
+      },
+      commandPostStaffedMin: {
+        label: 'Command post staffed (minutes)',
+        help: 'Minutes after the first report.',
+      },
+      mutualAidRequestedMin: {
+        label: 'Mutual aid requested (minutes)',
+        help: 'Minutes after the first report.',
+      },
+      firstStatementMin: {
+        label: 'First public statement (minutes)',
+        help: 'Minutes after the first report.',
+      },
+      familyCenterOpenMin: {
+        label: 'Family center open (minutes)',
+        help: 'Minutes after the first report.',
+      },
+      agencies: {
+        label: 'Agencies',
+        help: 'Each item: agency (name), arrivalMin and joinMin (minutes after the first report when it arrives and joins unified command; joining cannot come before arriving).',
+      },
+    },
     generate(p) {
       const t0 = Date.parse(p.startTime)
       const at = (m: number): string => iso(t0, m)
@@ -203,6 +277,38 @@ export const justiceJailCountGenerator: SimulatedGenerator<z.output<typeof jailP
   id: 'justice-jail-count',
   label: 'Simulated jail count with housing movement and a discrepancy',
   params: jailParams,
+  description:
+    'Simulates a jail count taken after people move between housing areas, where a move left out of the log leaves a difference the count cannot explain. Writes the movement events and the expected and counted population of each area.',
+  toolkits: ['justice'],
+  example: {
+    startTime: '2026-10-28T14:00:00Z',
+    areas: [
+      { area: 'Housing Unit 1', population: 58 },
+      { area: 'Housing Unit 2', population: 60 },
+      { area: 'Housing Unit 4', population: 64 },
+      { area: 'Medical', population: 0 },
+    ],
+    moves: [
+      { from: 'Housing Unit 4', to: 'Medical', people: 2, atMin: 8, logged: true },
+      { from: 'Housing Unit 1', to: 'Housing Unit 2', people: 1, atMin: 12, logged: false },
+    ],
+    countAtMin: 20,
+  } satisfies z.input<typeof jailParams>,
+  fields: {
+    startTime: { label: 'Start (UTC)' },
+    areas: {
+      label: 'Housing areas',
+      help: 'Each item: area (name) and population (people expected there at the start).',
+    },
+    moves: {
+      label: 'Moves',
+      help: 'Each item: from and to (area names), people, atMin (minutes after the start) and logged (false for a move missing from the log).',
+    },
+    countAtMin: {
+      label: 'Count taken (minutes)',
+      help: 'Minutes after the start when the count is taken, 0 to 240.',
+    },
+  },
   generate(p) {
     const t0 = Date.parse(p.startTime)
     const actual: Record<string, number> = Object.fromEntries(
@@ -276,6 +382,25 @@ const outageParams = START.extend({
 export const justiceCourtOutageGenerator: SimulatedGenerator<z.output<typeof outageParams>> = {
   id: 'justice-court-outage',
   label: 'Simulated court outage with systems, dependencies and restoration order',
+  description:
+    'Simulates an outage of court systems (telephones, public website, case management and e-filing) and their return in the order you set, which must respect what each system needs first. Writes the system down and restored events with each recovery time objective.',
+  toolkits: ['justice'],
+  example: {
+    startTime: '2026-10-28T14:00:00Z',
+    restorationOrder: ['telephones', 'public_website', 'case_management', 'e_filing'],
+    restoredAtHours: [3, 16, 52, 60],
+  } satisfies z.input<typeof outageParams>,
+  fields: {
+    startTime: { label: 'Outage start (UTC)' },
+    restorationOrder: {
+      label: 'Restoration order',
+      help: 'Each system once, in the order restored; case management needs telephones, and e-filing needs case management and the public website.',
+    },
+    restoredAtHours: {
+      label: 'Restored at (hours)',
+      help: 'Hours after the outage began when each system returns, one per system in the order above, never decreasing.',
+    },
+  },
   params: outageParams
     .refine((p) => new Set(p.restorationOrder).size === p.restorationOrder.length, {
       message: 'a system appears once in the restoration order',
@@ -331,6 +456,26 @@ const auditParams = START.extend({
 export const justiceEvidenceAuditGenerator: SimulatedGenerator<z.output<typeof auditParams>> = {
   id: 'justice-evidence-audit',
   label: 'Simulated evidence audit with a configurable discrepancy',
+  description:
+    'Simulates a property and evidence room audit that finds some items missing and some present but not logged. Writes the audit start, each discrepancy and the audit result.',
+  toolkits: ['justice'],
+  example: {
+    startTime: '2026-10-28T14:00:00Z',
+    seed: 11,
+    items: 412,
+    missing: 3,
+    notLogged: 2,
+  } satisfies z.input<typeof auditParams>,
+  fields: {
+    startTime: { label: 'Audit start (UTC)' },
+    seed: { label: 'Random seed', help: 'Any whole number; the same seed gives the same data.' },
+    items: { label: 'Items audited', help: 'Items the log says are in the room, 1 to 2,000.' },
+    missing: { label: 'Items missing', help: 'Items in the log but not found, 0 to 200.' },
+    notLogged: {
+      label: 'Items not logged',
+      help: 'Items found but missing from the log, 0 to 200.',
+    },
+  },
   params: auditParams.refine((p) => p.missing + p.notLogged <= p.items, {
     message: 'discrepancies cannot exceed the items audited',
   }),

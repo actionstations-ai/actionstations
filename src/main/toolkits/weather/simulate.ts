@@ -493,6 +493,47 @@ export const convectiveGenerator: SimulatedGenerator<ConvectiveParams> = {
   id: 'weather-convective',
   label: 'Simulated convective event (weather toolkit)',
   params: ConvectiveParams,
+  description:
+    "A supercell, line or multicell storm crossing a radar's view, with an optional tornado. Writes radar frames (reflectivity, velocity, correlation coefficient), storm reports along the track, the warning a simulated office issues, a sounding, analysis and model grids, and a station's observations as the storm passes.",
+  toolkits: ['weather'],
+  example: {
+    start: '2026-05-12T19:00:00Z',
+    durationMin: 120,
+    stepMin: 10,
+    radar: { lat: 39.42, lon: -83.82, id: 'KSIM', name: 'Simulated radar' },
+    extentKm: 120,
+    storm: {
+      mode: 'supercell',
+      startBearingDeg: 250,
+      startRangeKm: 90,
+      motionFromDeg: 280,
+      speedKt: 30,
+      peakDbz: 62,
+      tornado: { startMin: 60, endMin: 80, rating: 'EF2' },
+      hailInches: 1.75,
+    },
+    warningLeadMin: 12,
+    seed: 1,
+  } satisfies z.input<typeof ConvectiveParams>,
+  fields: {
+    start: { label: 'Start (UTC)' },
+    durationMin: { label: 'Length (minutes)', help: '30 to 360.' },
+    stepMin: { label: 'Radar step (minutes)', help: 'Minutes between radar frames, 1 to 15.' },
+    radar: {
+      label: 'Radar',
+      help: 'An object with lat and lon of the radar in decimal degrees, an id (3 to 8 characters) and a name.',
+    },
+    extentKm: { label: 'Radar extent (km)', help: 'Range shown around the radar, 50 to 300.' },
+    storm: {
+      label: 'Storm',
+      help: 'mode (supercell, line or multicell), startBearingDeg and startRangeKm from the radar, motionFromDeg and speedKt, peakDbz (45 to 75), hailInches, and an optional tornado with startMin, endMin (minutes after the start) and rating EF0 to EF4.',
+    },
+    warningLeadMin: {
+      label: 'Warning lead (minutes)',
+      help: 'How many minutes before the tornado starts the simulated office issues its warning, 0 to 40.',
+    },
+    seed: { label: 'Seed', help: 'Any whole number; the same seed gives the same frames.' },
+  },
   generate: generateConvective,
 }
 

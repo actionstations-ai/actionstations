@@ -5,7 +5,7 @@ import { cleanup, render, screen, within } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { QueryClientProvider } from '@tanstack/react-query'
 import { afterEach, describe, expect, it, vi } from 'vitest'
-import { CaseFetchPlan, type ConnectorInfo } from '@shared/ipc/case-data'
+import { CaseFetchPlan, type ConnectorInfo, type GeneratorInfo } from '@shared/ipc/case-data'
 import { CaseDataset } from '@shared/schemas/case-data'
 import { Scenario } from '@shared/schemas'
 import { ToolkitSchema } from '@shared/toolkits'
@@ -64,6 +64,34 @@ const connectors: ConnectorInfo[] = [
   },
   { id: 'noaa-esi', label: 'Shoreline classes', source: 'NOAA', terms: 't', hosts: ['x.gov'] },
 ]
+const generators: GeneratorInfo[] = [
+  {
+    id: 'humanitarian-arrivals',
+    label: 'Displacement and arrivals at a site',
+    description: 'Arrivals and registration at a site, day by day.',
+    toolkits: ['humanitarian'],
+    inputs: [
+      { key: 'startDate', label: 'First day', kind: 'datetime', required: false },
+      {
+        key: 'days',
+        label: 'Days',
+        kind: 'number',
+        integer: true,
+        min: 2,
+        max: 120,
+        required: false,
+      },
+    ],
+    example: { startDate: '2026-10-13T00:00:00Z', days: 14 },
+  },
+  {
+    id: 'spill-simulation',
+    label: 'Oil spill',
+    toolkits: ['spill_plume'],
+    inputs: [{ key: 'volume', label: 'Volume', kind: 'number', required: true }],
+    example: { volume: 4200 },
+  },
+]
 const dataset = CaseDataset.parse({
   id: 'gdacs-timeline',
   kind: 'text',
@@ -102,6 +130,8 @@ function setup(datasets: CaseDataset[] = []) {
     }),
     'toolkits:list': () => toolkits,
     'case:connectors': () => connectors,
+    'case:generators': () => generators,
+    'case:generate': () => ({ version: 1, datasets: [] }),
     'case:plan-fetch': () => plan,
     'case:fetch': () => ({ version: 1, datasets: [dataset] }),
     'case:remove-dataset': () => ({ version: 1, datasets: [] }),
@@ -183,6 +213,42 @@ describe('CaseDataPanel (#1139)', () => {
         timeMapping: { caseStart: '2023-02-01T00:00:00Z', startOffsetMin: 0, speed: 4, jumps: [] },
       },
     ])
+  })
+
+  it('runs a simulation of a toolkit that is on, starting from its example', async () => {
+    const ttx = setup()
+    const select = await screen.findByRole('combobox', { name: /^simulation/i })
+    expect(
+      within(select)
+        .getAllByRole('option')
+        .map((o) => o.textContent),
+    ).toEqual(['Choose a simulation…', 'Displacement and arrivals at a site'])
+    await userEvent.selectOptions(select, 'humanitarian-arrivals')
+    const days = screen.getByRole('textbox', { name: /days/i })
+    expect((days as HTMLInputElement).value).toBe('14')
+    await userEvent.clear(days)
+    await userEvent.type(days, '200')
+    await userEvent.click(screen.getByRole('button', { name: /run simulation/i }))
+    expect(screen.getByRole('alert').textContent).toMatch(/Days must be at most 120/)
+    expect(ttx.calls('case:generate')).toEqual([])
+    await userEvent.clear(days)
+    await userEvent.type(days, '21')
+    await userEvent.click(screen.getByRole('button', { name: /run simulation/i }))
+    expect(ttx.calls('case:generate')).toEqual([
+      {
+        projectPath: PATH,
+        scenarioId: 'S1',
+        generatorId: 'humanitarian-arrivals',
+        params: { startDate: '2026-10-13T00:00:00Z', days: 21 },
+      },
+    ])
+  })
+
+  it('lists every simulation when asked', async () => {
+    setup()
+    await userEvent.click(await screen.findByRole('checkbox', { name: /every toolkit/i }))
+    const select = screen.getByRole('combobox', { name: /^simulation/i })
+    expect(within(select).getAllByRole('option')).toHaveLength(3)
   })
 
   it('says so when no toolkit that is on can fetch', async () => {
