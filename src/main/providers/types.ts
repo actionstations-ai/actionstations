@@ -80,7 +80,7 @@ export interface ChatResponse {
   latencyMs: number
   /** How structured output was obtained. */
   structuredVia?: 'tool_use' | 'json_schema' | 'json_object' | 'prompt'
-  /** Placeholders in the reply that this project never issued (REDACTION_UNKNOWN, #433). */
+  /** Placeholders the model invented, replaced with stand-ins (REDACTION_UNKNOWN, #433, #1145). */
   unknownPlaceholders?: string[]
 }
 

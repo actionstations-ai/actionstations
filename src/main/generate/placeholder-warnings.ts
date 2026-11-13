@@ -7,7 +7,7 @@ export const REDACTION_UNKNOWN = 'REDACTION_UNKNOWN'
 
 /** The log line for placeholders in a reply that this project never issued. */
 export function unknownPlaceholderLog(names: string[]): string {
-  return `${REDACTION_UNKNOWN}: the reply used placeholders this project never issued (${names.join(', ')}); they were left as written`
+  return `${REDACTION_UNKNOWN}: the reply invented placeholders this project never issued (${names.join(', ')}); each was replaced with a neutral stand-in (a staff member, contact-…@example.org, 555-01xx)`
 }
 
 export interface PlaceholderFinding {
@@ -51,7 +51,8 @@ export function recordPlaceholderWarnings(
       severity: 'warning',
       message,
       source: 'lint',
-      suggestion: 'Replace the invented placeholder with the real value, or regenerate the row.',
+      suggestion:
+        'Check the stand-ins where the reply invented a person, number or address, and write the value the exercise needs.',
     })
   }
 }

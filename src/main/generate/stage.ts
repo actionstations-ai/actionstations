@@ -188,9 +188,29 @@ function newRun(
   }
 }
 
+/** Adds prompt-cache tokens to a run, leaving the fields out while a provider reports none (#1144). */
+export function addCacheTokens(
+  run: StageRun,
+  usage: { cacheReadTokens?: number | undefined; cacheWriteTokens?: number | undefined },
+): void {
+  if (usage.cacheReadTokens)
+    run.cacheReadTokens = (run.cacheReadTokens ?? 0) + usage.cacheReadTokens
+  if (usage.cacheWriteTokens)
+    run.cacheWriteTokens = (run.cacheWriteTokens ?? 0) + usage.cacheWriteTokens
+}
+
+/** Adds one run's tokens and cost to another (a retry, a stage made of several calls). */
+export const sumTokens = (into: StageRun, run: StageRun): void => {
+  into.inputTokens = (into.inputTokens ?? 0) + (run.inputTokens ?? 0)
+  into.outputTokens = (into.outputTokens ?? 0) + (run.outputTokens ?? 0)
+  addCacheTokens(into, run)
+  into.costUsd = (into.costUsd ?? 0) + (run.costUsd ?? 0)
+}
+
 function account(run: StageRun, res: ChatResponse): void {
   run.inputTokens = (run.inputTokens ?? 0) + res.usage.inputTokens
   run.outputTokens = (run.outputTokens ?? 0) + res.usage.outputTokens
+  addCacheTokens(run, res.usage)
   run.costUsd = (run.costUsd ?? 0) + (res.costUsd ?? 0)
   if (res.model) run.model = res.model
 }
