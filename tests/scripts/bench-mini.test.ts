@@ -1055,6 +1055,25 @@ describe('partial credit for continuous criteria (#612)', () => {
     expect(withShape.score).toBeGreaterThan(saved.score)
   })
 
+  it('gives no lint credit on re-scoring when the phase had no rows, as a live run does', () => {
+    const saved = (metrics: Record<string, number>) => ({
+      ok: true,
+      firstTry: true,
+      score: 0,
+      criteria: [{ id: 'lintLow', label: 'x', met: false }],
+      metrics,
+    })
+    const credit = (p: any) => p.criteria.find((c: any) => c.id === 'lintLow')?.credit
+    const ctx = { suite: mini, gold }
+    expect(
+      credit(regradeProbe('longContext', saved({ rows: 0, lintPenaltyPer10Rows: 0 }), ctx)),
+    ).toBe(0)
+    expect(credit(regradeProbe('longContext', saved({ rows: 0 }), ctx))).toBe(0)
+    expect(
+      credit(regradeProbe('longContext', saved({ rows: 10, lintPenaltyPer10Rows: 0 }), ctx)),
+    ).toBe(1)
+  })
+
   it('re-scores saved runs offline with the new scoring version and the same completion', () => {
     const repeat = (covered: number) => ({
       seed: 11,

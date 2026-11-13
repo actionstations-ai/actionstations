@@ -1,4 +1,4 @@
-# ADR-0074: The Mini gives partial credit on continuous criteria
+# ADR-0173: The Mini gives partial credit on continuous criteria
 
 Builds on ADR-0072. Issues #612, #613, #614.
 

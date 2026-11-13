@@ -15,6 +15,7 @@ import { existsSync, readdirSync, readFileSync, writeFileSync } from 'node:fs'
 import { dirname, join, resolve } from 'node:path'
 import { pathToFileURL } from 'node:url'
 import { loadExample, loadSuite, ROOT, scenarioIdFor, slug } from '../corpus.mjs'
+import { round1 } from '../score/util.mjs'
 import { phaseShape, phaseView, qualityOf, rangeOf, regradeProbe, speedOf } from './score.mjs'
 import { restampRun, runFilesIn } from './restamp.mjs'
 import { LEVEL_LABEL, verdictOf } from './verdict.mjs'
@@ -63,14 +64,14 @@ function regradeRepeat(repeat, ctx, shape) {
     ...repeat,
     probes,
     quality,
-    score: Math.round(quality.score * repeat.completion) / 100,
+    score: round1((quality.score * repeat.completion) / 100),
   }
 }
 
 /** The result with quality and the score from the regraded repeats (completion is untouched). */
 function resultWith(result, repeats) {
   const quality = rangeOf(repeats.map((r) => r.quality.score))
-  const value = Math.round(quality.value * result.completion.value) / 100
+  const value = round1((quality.value * result.completion.value) / 100)
   const scores = repeats.map((r) => r.score)
   return {
     ...result,

@@ -1,6 +1,6 @@
 # Spec 0445: Tabletop Mini Benchmark, a screening benchmark that runs in minutes
 
-Issues: #604, #606, #612, #613, #614 · Status: Approved by the owner (delegated, 2026-11-03), building · Builds on: spec 0434 (local model benchmark), spec 0444 (Tabletop Benchmark), ADR-0071 (the Mini), ADR-0072 (requirement-based scoring, no time cap), ADR-0074 (partial credit, uncertain bands, failure evidence)
+Issues: #604, #606, #612, #613, #614 · Status: Approved by the owner (delegated, 2026-11-03), building · Builds on: spec 0434 (local model benchmark), spec 0444 (Tabletop Benchmark), ADR-0071 (the Mini), ADR-0072 (requirement-based scoring, no time cap), ADR-0173 (partial credit, uncertain bands, failure evidence)
 
 ## Summary
 

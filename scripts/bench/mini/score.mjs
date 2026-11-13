@@ -339,7 +339,10 @@ export function scoreLongContext({ obs, scenario, phaseId, grounding, suite, gol
       tagGroupsPresent: measures.tagGroups.present,
       tagGroupsTotal: measures.tagGroups.total,
       lintFindings: lint.findings,
-      lintPenaltyPer10Rows: round1(lint.penaltyPer10Rows ?? 0),
+      // Left out when unknown (no rows): a saved 0 would read as no penalty on re-scoring.
+      ...(lint.penaltyPer10Rows === undefined
+        ? {}
+        : { lintPenaltyPer10Rows: round1(lint.penaltyPer10Rows) }),
       citationsResolved: round1(cit.resolution),
       citationsCovered: round1(cit.coverage),
       ...((cit.grounding?.claimBearing ?? 0) > 0
@@ -471,7 +474,8 @@ export function regradeProbe(key, probe, { suite, gold, measured = {} }) {
           m.tagGroupsTotal === undefined
             ? measured.tagGroups
             : { present: m.tagGroupsPresent, total: m.tagGroupsTotal },
-        lintPenaltyPer10Rows: m.lintPenaltyPer10Rows,
+        // Unknown, or saved as 0 for a phase with no rows by older runs: no credit, as live.
+        lintPenaltyPer10Rows: m.rows ? (m.lintPenaltyPer10Rows ?? Infinity) : Infinity,
         resolved: m.citationsResolved,
         covered: m.citationsCovered,
         supported: m.citationsSupported,
