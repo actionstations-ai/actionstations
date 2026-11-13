@@ -75,3 +75,9 @@ A registered entity must test its incident response plan at least annually and r
 ## Reference library
 
 A reference library carries the select agent regulations (42 CFR part 73, 2025 edition), the Federal Select Agent Program's incident response plan guidance, Biosafety in Microbiological and Biomedical Laboratories (6th edition) and the NIH Guidelines for Research Involving Recombinant or Synthetic Nucleic Acid Molecules. The draft NIH biosafety policy is linked because it may still change, and the select agent theft, loss or release form (Form 3) is linked because it is a web form.
+
+## Example project
+
+The Research laboratories and biosafety pack includes an example project, **Halvorsen State University Biosafety Program**, with one exercise, _Hairline Crack_: on a Tuesday morning in October a centrifuge tube cracks in the shared third-floor BSL-2 suite in the Lindgren Life Sciences Building and a graduate student reports a possible exposure; the protocol, the clinic physician and a sponsor give conflicting advice, and the IBC chair must decide whether the event goes to the NIH.
+
+Turn the pack on under **Packs**, then open a copy from **Projects → Examples**. The organization, its people and its businesses are fictional; the exercise comes with its injects, media, Situation Manual, evaluation guides and controller handbook, ready to read or run.

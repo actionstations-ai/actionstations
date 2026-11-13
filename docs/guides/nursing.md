@@ -140,3 +140,9 @@ The separate **Nursing reference library** pack carries the AHRQ TeamSTEPPS pock
 - Patients, trajectories and scores are teaching material, not calibrated to any population, and not a clinical reference.
 - The CNO is labeled Operations Section Chief, which is common under the Hospital Incident Command System but not fixed; rename the role to match your plan.
 - Nothing connects to a real EHR, monitor, staffing system or student record system.
+
+## Example project
+
+The Nursing and clinical care pack includes an example project, **Mariner Bay Medical Center: Hurricane Vertical Evacuation of NICU and ICU**, with one exercise, _Clearance Time_: a Category 3 hurricane is forecast to bring tropical-storm-force winds to Corpus Christi at 18:00 the next day; the horizontal evacuation deadline is 12 hours before that, the hospital's elevators and staffing are marginal, and the nurses must move 12 NICU infants and 19 ICU patients upward in priority order while keeping handoffs, ratios and family communication intact.
+
+Turn the pack on under **Packs**, then open a copy from **Projects → Examples**. The organization, its people and its businesses are fictional; the exercise comes with its injects, media, Situation Manual, evaluation guides and controller handbook, ready to read or run.

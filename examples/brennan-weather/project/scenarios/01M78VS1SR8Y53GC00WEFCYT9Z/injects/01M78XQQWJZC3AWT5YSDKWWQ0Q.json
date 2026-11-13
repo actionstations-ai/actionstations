@@ -1,0 +1,327 @@
+{
+  "id": "01M78XQQWJZC3AWT5YSDKWWQ0Q",
+  "mselRowId": "I-07b",
+  "type": "alarm_summary",
+  "title": "Siren Poll 22:42: North Zone Sounding 10/12, Pine Hollow Silent",
+  "deliveryMode": "display_main_screen",
+  "fields": {
+    "systemName": "BCEMA WARNING SYSTEMS — ALARM SUMMARY (ENCODER POS-2)",
+    "site": "Brennan County Communications (911) Position 2 — mirrored to BCEMA EOC warning desk",
+    "clock": "22:43:07",
+    "date": "11-Dec-2026",
+    "operator": "POS-2 / TELECOMMUNICATOR 2",
+    "filter": "All zones · Sirens + BrennanAlert + IPAWS + CAD radio · Active + Acked · last 60 min",
+    "counts": {
+      "critical": 2,
+      "high": 3,
+      "medium": 5,
+      "low": 2
+    },
+    "alarms": [
+      {
+        "time": "22:43:04",
+        "priority": "high",
+        "tag": "RADIO SO-214",
+        "source": "CAD radio log · Sheriff patrol unit",
+        "description": "SO-214 staged at Ashford bypass, outside polygon: \"Want me to run the PA through Pine Hollow and Riverbend?\" No reply sent yet",
+        "value": "REQUEST",
+        "state": "active"
+      },
+      {
+        "time": "22:42:58",
+        "priority": "high",
+        "tag": "IPAWS-WEA-DRAFT",
+        "source": "IPAWS console · EOC-SUPPORT-1",
+        "description": "WEA draft opened from template \"Tornado Warning — take cover now\", area NORTH ZONE. Clerk note: \"Pine Hollow no siren, voice calls not done till 22:54. Push to whole north end? 30 sec to every phone.\"",
+        "value": "NOT SENT",
+        "state": "active"
+      },
+      {
+        "time": "22:42:45",
+        "priority": "medium",
+        "tag": "NORTH-TOR-01",
+        "source": "BrennanAlert console",
+        "description": "Voice campaign NORTH-TOR-01 in progress: 812 of 4,960 calls completed; estimated finish 22:54",
+        "value": "812/4,960",
+        "state": "active"
+      },
+      {
+        "time": "22:42:30",
+        "priority": "critical",
+        "tag": "N-07",
+        "source": "Encoder POS-2 · ZONE-N",
+        "description": "N-07 PINE HOLLOW: NO RESPONSE TO ACTIVATE",
+        "value": "NO ACK",
+        "state": "active"
+      },
+      {
+        "time": "22:42:30",
+        "priority": "critical",
+        "tag": "N-11",
+        "source": "Encoder POS-2 · ZONE-N",
+        "description": "N-11 CLARKS RIVER BRIDGE: NO ROTATION, BATTERY LOW",
+        "value": "17.9 VDC",
+        "state": "active"
+      },
+      {
+        "time": "22:42:30",
+        "priority": "low",
+        "tag": "ZONE-N",
+        "source": "Encoder POS-2",
+        "description": "NORTH ZONE SOUNDING, 3-MIN STEADY TONE",
+        "value": "10/12",
+        "state": "active"
+      },
+      {
+        "time": "22:42:30",
+        "priority": "low",
+        "tag": "ZONE-C/S/E",
+        "source": "Encoder POS-2",
+        "description": "CENTRAL / SOUTH / EAST: STANDBY",
+        "value": "34/34",
+        "state": "acked"
+      },
+      {
+        "time": "22:42:00",
+        "priority": "medium",
+        "tag": "NORTH-TOR-01",
+        "source": "BrennanAlert console",
+        "description": "Campaign NORTH-TOR-01 launched to NORTH zone subscribers (text, voice, email)",
+        "value": "4,960",
+        "state": "acked"
+      },
+      {
+        "time": "22:41:41",
+        "priority": "medium",
+        "tag": "ZONE-N",
+        "source": "Encoder POS-2",
+        "description": "NORTH ZONE ACTIVATE command sent, 3-MIN STEADY, repeat every 10 min",
+        "value": "SENT",
+        "state": "acked"
+      },
+      {
+        "time": "22:41:12",
+        "priority": "high",
+        "tag": "NWWS-TORPAH",
+        "source": "NOAA Weather Wire receiver",
+        "description": "TORPAH received: TO.W.0071 Northern Brennan Co until 11:15 PM CST, RADAR INDICATED, CONSIDERABLE",
+        "value": "KPAH",
+        "state": "acked"
+      },
+      {
+        "time": "21:54:30",
+        "priority": "medium",
+        "tag": "N-11",
+        "source": "Encoder POS-2 · ZONE-N",
+        "description": "N-11 CLARKS RIVER BRIDGE: BATTERY LOW / NO ROTATION (open since Nov 2026 test)",
+        "value": "18.2 VDC",
+        "state": "acked"
+      },
+      {
+        "time": "21:54:30",
+        "priority": "medium",
+        "tag": "N-07",
+        "source": "Encoder POS-2 · ZONE-N",
+        "description": "N-07 PINE HOLLOW: NO RESPONSE / ROTATION FAULT (parts on order)",
+        "value": "NO ACK",
+        "state": "acked"
+      }
+    ],
+    "footer": "*** EXERCISE — SIMULATED DATA *** TOR WARNING 0071 IN EFFECT · NORTH 10/12 SOUNDING · NEXT REPEAT 22:51:41 · 44/46 READY · 2 UNACKED REQUESTS"
+  },
+  "variant": "dark",
+  "instructorNote": "This inject puts two quick fixes in front of the players. The clerk wants to send a WEA that would duplicate the NWS warning (BWN 5 rules this out), and the patrol offers to drive into the warned area. Watch for the Warning Officer to refuse the WEA, log the N-07 and N-11 failures with times, and reach the parks another way (park manager phone tree, NOAA Weather Radios, a Channel 6 mention), and for the Field Incident Commander to keep SO-214 outside the polygon.",
+  "citations": [
+    {
+      "documentId": "01M78VRZS9YA4B9N7KSFQ74871",
+      "documentTitle": "Brennan County — Facilities, Populations and Warning Systems",
+      "headingPath": "BCFPWS › 3. Warning systems",
+      "quote": "- **Sirens:** 46 sirens in four zones (North 12, Central 16, South 10, East 8). Encoder at 911 Position 2, backup at the EOC. Polling reports battery and rotation faults; two North zone sirens (N-07 a",
+      "chunkId": 4
+    },
+    {
+      "documentId": "01M78VRZSEQB263A174HAR8J6D",
+      "documentTitle": "BCEMA-SOP-02: Warning and Notification",
+      "headingPath": "BWN › 5. County WEA through IPAWS",
+      "quote": "BCEMA is an IPAWS alerting authority. The NWS sends WEA for tornado warnings itself, so the county never duplicates a tornado warning by WEA. The county may send its own WEA for: - opening of communit",
+      "chunkId": 31
+    },
+    {
+      "documentId": "01M78VRZSEQB263A174HAR8J6D",
+      "documentTitle": "BCEMA-SOP-02: Warning and Notification",
+      "headingPath": "BWN › 3. Outdoor warning sirens",
+      "quote": "The county's 46 sirens are in four zones: North (Corwin and the Clarks River bottoms, 12 sirens), Central (Ashford, 16), South (Hollis and the state line, 10) and East (Lake area, 8). Activation is fr",
+      "chunkId": 29
+    },
+    {
+      "documentId": "01M78VRZS9YA4B9N7KSFQ74871",
+      "documentTitle": "Brennan County — Facilities, Populations and Warning Systems",
+      "headingPath": "BCFPWS › 1. Places and people at risk",
+      "quote": "| Site | Location | People | Notes | |---|---|---|---| | Ridgeline Distribution warehouse | Corwin Industrial Park, KY 80 | Up to 310 on the overnight shift (22:00–06:30) | Tilt-up concrete walls, lon",
+      "chunkId": 2
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template"
+    ]
+  },
+  "assets": [
+    {
+      "id": "01M79CM1ZTW1GADRS4SVRV850R",
+      "kind": "image",
+      "path": "scenarios/01M78VS1SR8Y53GC00WEFCYT9Z/media/01M78XQQWJZC3AWT5YSDKWWQ0Q/01M79CM1ZTW1GADRS4SVRV850R.png",
+      "role": "rendered",
+      "width": 1280,
+      "height": 811,
+      "sha256": "66209c8bdbb1ba84a0146cfa5b28df588349cb83aa14d241028c2c4b57e1676c",
+      "provenance": {
+        "provider": "template",
+        "templateId": "alarm_summary",
+        "templateVersion": "1",
+        "createdAt": "2026-11-13T02:43:37.939Z"
+      }
+    }
+  ],
+  "versions": [
+    {
+      "at": "2026-11-12T22:24:44.199Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "Siren Poll 22:42: North Zone Sounding 10/12, Pine Hollow Silent",
+        "type": "alarm_summary",
+        "fields": {
+          "systemName": "BCEMA WARNING SYSTEMS — ALARM SUMMARY (ENCODER POS-2)",
+          "site": "Brennan County Communications (911) Position 2 — mirrored to BCEMA EOC warning desk",
+          "clock": "22:43:07",
+          "date": "11-Dec-2026",
+          "operator": "POS-2 / TELECOMMUNICATOR 2",
+          "filter": "All zones · Sirens + BrennanAlert + IPAWS + CAD radio · Active + Acked · last 60 min",
+          "counts": {
+            "critical": 2,
+            "high": 3,
+            "medium": 5,
+            "low": 2
+          },
+          "alarms": [
+            {
+              "time": "22:43:04",
+              "priority": "high",
+              "tag": "RADIO SO-214",
+              "source": "CAD radio log · Sheriff patrol unit",
+              "description": "SO-214 staged at Ashford bypass, outside polygon: \"Want me to run the PA through Pine Hollow and Riverbend?\" No reply sent yet",
+              "value": "REQUEST",
+              "state": "active"
+            },
+            {
+              "time": "22:42:58",
+              "priority": "high",
+              "tag": "IPAWS-WEA-DRAFT",
+              "source": "IPAWS console · EOC-SUPPORT-1",
+              "description": "WEA draft opened from template \"Tornado Warning — take cover now\", area NORTH ZONE. Clerk note: \"Pine Hollow no siren, voice calls not done till 22:54. Push to whole north end? 30 sec to every phone.\"",
+              "value": "NOT SENT",
+              "state": "active"
+            },
+            {
+              "time": "22:42:45",
+              "priority": "medium",
+              "tag": "NORTH-TOR-01",
+              "source": "BrennanAlert console",
+              "description": "Voice campaign NORTH-TOR-01 in progress: 812 of 4,960 calls completed; estimated finish 22:54",
+              "value": "812/4,960",
+              "state": "active"
+            },
+            {
+              "time": "22:42:30",
+              "priority": "critical",
+              "tag": "N-07",
+              "source": "Encoder POS-2 · ZONE-N",
+              "description": "N-07 PINE HOLLOW: NO RESPONSE TO ACTIVATE",
+              "value": "NO ACK",
+              "state": "active"
+            },
+            {
+              "time": "22:42:30",
+              "priority": "critical",
+              "tag": "N-11",
+              "source": "Encoder POS-2 · ZONE-N",
+              "description": "N-11 CLARKS RIVER BRIDGE: NO ROTATION, BATTERY LOW",
+              "value": "17.9 VDC",
+              "state": "active"
+            },
+            {
+              "time": "22:42:30",
+              "priority": "low",
+              "tag": "ZONE-N",
+              "source": "Encoder POS-2",
+              "description": "NORTH ZONE SOUNDING, 3-MIN STEADY TONE",
+              "value": "10/12",
+              "state": "active"
+            },
+            {
+              "time": "22:42:30",
+              "priority": "low",
+              "tag": "ZONE-C/S/E",
+              "source": "Encoder POS-2",
+              "description": "CENTRAL / SOUTH / EAST: STANDBY",
+              "value": "34/34",
+              "state": "acked"
+            },
+            {
+              "time": "22:42:00",
+              "priority": "medium",
+              "tag": "NORTH-TOR-01",
+              "source": "BrennanAlert console",
+              "description": "Campaign NORTH-TOR-01 launched to NORTH zone subscribers (text, voice, email)",
+              "value": "4,960",
+              "state": "acked"
+            },
+            {
+              "time": "22:41:41",
+              "priority": "medium",
+              "tag": "ZONE-N",
+              "source": "Encoder POS-2",
+              "description": "NORTH ZONE ACTIVATE command sent, 3-MIN STEADY, repeat every 10 min",
+              "value": "SENT",
+              "state": "acked"
+            },
+            {
+              "time": "22:41:12",
+              "priority": "high",
+              "tag": "NWWS-TORPAH",
+              "source": "NOAA Weather Wire receiver",
+              "description": "TORPAH received: TO.W.0071 Northern Brennan Co until 11:15 PM CST, RADAR INDICATED, CONSIDERABLE",
+              "value": "KPAH",
+              "state": "acked"
+            },
+            {
+              "time": "21:54:30",
+              "priority": "medium",
+              "tag": "N-11",
+              "source": "Encoder POS-2 · ZONE-N",
+              "description": "N-11 CLARKS RIVER BRIDGE: BATTERY LOW / NO ROTATION (open since Nov 2026 test)",
+              "value": "18.2 VDC",
+              "state": "acked"
+            },
+            {
+              "time": "21:54:30",
+              "priority": "medium",
+              "tag": "N-07",
+              "source": "Encoder POS-2 · ZONE-N",
+              "description": "N-07 PINE HOLLOW: NO RESPONSE / ROTATION FAULT (parts on order)",
+              "value": "NO ACK",
+              "state": "acked"
+            }
+          ],
+          "footer": "*** EXERCISE — SIMULATED DATA *** TOR WARNING 0071 IN EFFECT · NORTH 10/12 SOUNDING · NEXT REPEAT 22:51:41 · 44/46 READY · 2 UNACKED REQUESTS"
+        },
+        "instructorNote": "This inject puts two quick fixes in front of the players. The clerk wants to send a WEA that would duplicate the NWS warning (BWN 5 rules this out), and the patrol offers to drive into the warned area. Watch for the Warning Officer to refuse the WEA, log the N-07 and N-11 failures with times, and reach the parks another way (park manager phone tree, NOAA Weather Radios, a Channel 6 mention), and for the Field Incident Commander to keep SO-214 outside the polygon.",
+        "deliveryMode": "display_main_screen"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-11-13T02:43:38.107Z"
+}

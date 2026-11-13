@@ -73,3 +73,9 @@ The **Hospitality, tourism and cruise reference library** pack holds the CDC Ves
 ## Before you use it
 
 Ask a cruise or hotel safety manager and a public health professional with maritime experience to review the documents and the numbers. The material is a teaching aid and not a substitute for the line's own plans.
+
+## Example project
+
+The Hospitality, tourism and cruise pack includes an example project, **Halcyon Reach Cruises: Norovirus on MV Halcyon Dawn**, with one exercise, _Same Count, Every Channel_: a norovirus outbreak spreads through MV Halcyon Dawn on the last four days of a seven-night voyage back to Galveston; the ship must hit the 2 and 3 percent special reports and the 24-hour and 4-hour reports on time, keep guest, family and media counts identical, handle a death on board, and decide whether the next 2,980 guests can board after a 3.5-hour turnaround.
+
+Turn the pack on under **Packs**, then open a copy from **Projects → Examples**. The organization, its people and its businesses are fictional; the exercise comes with its injects, media, Situation Manual, evaluation guides and controller handbook, ready to read or run.

@@ -1,0 +1,176 @@
+{
+  "id": "01M79596JQJJQ73013ZRSYZ6XK",
+  "mselRowId": "I-05b",
+  "type": "phone_call",
+  "title": "Bridge Call: Lakeshore Reports North Shore Tie Open",
+  "deliveryMode": "play_audio",
+  "fields": {
+    "orgName": "Northern Lakes Transmission Operations",
+    "systemName": "Recorded Line - Entity Conference Bridge, NLTO Control Room",
+    "callId": "CR-20270316-142210-0044",
+    "direction": "Inbound",
+    "caller": {
+      "name": "Dale, System Operator",
+      "number": "218-555-0162",
+      "label": "Lakeshore Power Cooperative, Operations Desk"
+    },
+    "callee": {
+      "name": "Walter Nakamura",
+      "number": "Entity Conference Bridge",
+      "label": "NLTO Control Room Shift Supervisor (Day)"
+    },
+    "startTime": "03/16/2027 14:22:10",
+    "duration": "0:54",
+    "transcript": [
+      {
+        "speaker": "LAKESHORE",
+        "offset": "0:00",
+        "text": "NLTO, Lakeshore here, it's Dale on the desk. You got a second? Something just came up on our board.",
+        "prompt": false
+      },
+      {
+        "speaker": "LAKESHORE",
+        "offset": "0:09",
+        "text": "Our board's showing the 345 kV tie toward North Shore open. Breaker's showing open on our end. I think it tripped on GIC. The timing's right in the middle of your K7, so... that'd make sense.",
+        "prompt": false
+      },
+      {
+        "speaker": "LAKESHORE",
+        "offset": "0:24",
+        "text": "Is your end open too? Because if we've lost that tie, your North Shore number is wrong. You'd better check your flows before you lean on that interface any harder.",
+        "prompt": false
+      },
+      {
+        "speaker": "LAKESHORE",
+        "offset": "0:38",
+        "text": "I just came on the desk and I'm still getting the picture, but I'm looking at it right now and it's open. RC, are you seeing this too? Can somebody confirm the far end for me?",
+        "prompt": true
+      }
+    ],
+    "voiceStyles": {
+      "LAKESHORE": "Man in his late 20s, quick and a little breathless, sure of what he sees on his screen, phones ringing faintly in the background of a small co-op control room"
+    },
+    "injectId": "I-05b"
+  },
+  "variant": "default",
+  "instructorNote": "This is a red herring: the tie is out for Lakeshore's planned outage LPC-0309-345-07 (logged 9 March for 16 March, 08:00–18:00), and the new desk operator missed the hand-over note. Players should see that NLTO's one-line still shows North Shore at 425 MW. Watch whether the CRSS checks SCADA breaker status and the UMRC outage schedule before any switching or limit change, and whether the RCSM corrects the record on the bridge and asks Lakeshore to confirm.",
+  "citations": [
+    {
+      "documentId": "01M793R1CP8FSDJTZMVBXZXCKW",
+      "documentTitle": "Northern Lakes Transmission Operations: System and Control Room Description",
+      "headingPath": "Northern Lakes Transmission Oper… › 2. Network",
+      "quote": "- 4,100 miles of line: 345 kV (780 miles), 230 kV (1,900), 115 kV (1,420). - 38 substations. Key substations: Iron Range (345/230 kV, 3 autotransformers), Hartley (345 kV switching, 2 autotransformers",
+      "chunkId": 12
+    },
+    {
+      "documentId": "01M793R1CQ0HWFM5EDVA13Z46E",
+      "documentTitle": "UMRC-SOP-12: GMD Forecasting, Notification and Wide-Area Coordination",
+      "headingPath": "UGFNWC › 6. Wide-area operations",
+      "quote": "During a G3 or higher storm the RC runs a conference bridge every hour. Each TOP in the footprint reports: the condition under its procedure, the highest neutral current and where, the reactive reserv",
+      "chunkId": 24
+    },
+    {
+      "documentId": "01M793R1CP8FSDJTZMVBXZXCKW",
+      "documentTitle": "Northern Lakes Transmission Operations: System and Control Room Description",
+      "headingPath": "Northern Lakes Transmission Oper… › 4. Time and communications",
+      "quote": "GPS-disciplined clocks serve the substation protection and phasor equipment. Holdover clocks are fitted at 14 substations (24-hour holdover); a backup time source from a network time server over the f",
+      "chunkId": 14
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template",
+      "tts"
+    ],
+    "voiceLines": [
+      {
+        "speaker": "LAKESHORE",
+        "voiceStyle": "Male system operator in his late 20s, Upper Midwest accent, quick and a little breathless, friendly but urgent, sure of what he sees on his screen, speaking into a desk phone in a small co-op control room",
+        "text": "NLTO, Lakeshore here, it's Dale on the desk. You got a second? Something just came up on our board."
+      },
+      {
+        "speaker": "LAKESHORE",
+        "voiceStyle": "Male system operator in his late 20s, Upper Midwest accent, quick and a little breathless, confident, building momentum as he explains his theory",
+        "text": "Our board's showing the three forty-five kV tie toward North Shore open. Breaker's showing open on our end. I think it tripped on G-I-C. The timing's right in the middle of your K-seven, so... that'd make sense."
+      },
+      {
+        "speaker": "LAKESHORE",
+        "voiceStyle": "Male system operator in his late 20s, Upper Midwest accent, faster now, earnest and slightly pushy, warning tone",
+        "text": "Is your end open too? Because if we've lost that tie, your North Shore number is wrong. You'd better check your flows before you lean on that interface any harder."
+      },
+      {
+        "speaker": "LAKESHORE",
+        "voiceStyle": "Male system operator in his late 20s, Upper Midwest accent, slightly flustered admission at first, then insistent and asking for help, rising inflection on the questions",
+        "text": "I just came on the desk and I'm still getting the picture, but I'm looking at it right now and it's open. R-C, are you seeing this too? Can somebody confirm the far end for me?"
+      }
+    ],
+    "postFx": [
+      "phone"
+    ]
+  },
+  "assets": [],
+  "versions": [
+    {
+      "at": "2026-11-13T00:35:46.231Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "Bridge Call: Lakeshore Reports North Shore Tie Open",
+        "type": "phone_call",
+        "fields": {
+          "orgName": "Northern Lakes Transmission Operations",
+          "systemName": "Recorded Line - Entity Conference Bridge, NLTO Control Room",
+          "callId": "CR-20270316-142210-0044",
+          "direction": "Inbound",
+          "caller": {
+            "name": "Dale, System Operator",
+            "number": "218-555-0162",
+            "label": "Lakeshore Power Cooperative, Operations Desk"
+          },
+          "callee": {
+            "name": "Walter Nakamura",
+            "number": "Entity Conference Bridge",
+            "label": "NLTO Control Room Shift Supervisor (Day)"
+          },
+          "startTime": "03/16/2027 14:22:10",
+          "duration": "0:54",
+          "transcript": [
+            {
+              "speaker": "LAKESHORE",
+              "offset": "0:00",
+              "text": "NLTO, Lakeshore here, it's Dale on the desk. You got a second? Something just came up on our board.",
+              "prompt": false
+            },
+            {
+              "speaker": "LAKESHORE",
+              "offset": "0:09",
+              "text": "Our board's showing the 345 kV tie toward North Shore open. Breaker's showing open on our end. I think it tripped on GIC. The timing's right in the middle of your K7, so... that'd make sense.",
+              "prompt": false
+            },
+            {
+              "speaker": "LAKESHORE",
+              "offset": "0:24",
+              "text": "Is your end open too? Because if we've lost that tie, your North Shore number is wrong. You'd better check your flows before you lean on that interface any harder.",
+              "prompt": false
+            },
+            {
+              "speaker": "LAKESHORE",
+              "offset": "0:38",
+              "text": "I just came on the desk and I'm still getting the picture, but I'm looking at it right now and it's open. RC, are you seeing this too? Can somebody confirm the far end for me?",
+              "prompt": true
+            }
+          ],
+          "voiceStyles": {
+            "LAKESHORE": "Man in his late 20s, quick and a little breathless, sure of what he sees on his screen, phones ringing faintly in the background of a small co-op control room"
+          },
+          "injectId": "I-05b"
+        },
+        "instructorNote": "This is a red herring: the tie is out for Lakeshore's planned outage LPC-0309-345-07 (logged 9 March for 16 March, 08:00–18:00), and the new desk operator missed the hand-over note. Players should see that NLTO's one-line still shows North Shore at 425 MW. Watch whether the CRSS checks SCADA breaker status and the UMRC outage schedule before any switching or limit change, and whether the RCSM corrects the record on the bridge and asks Lakeshore to confirm.",
+        "deliveryMode": "play_audio"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-11-13T01:54:39.335Z"
+}

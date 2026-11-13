@@ -54,3 +54,9 @@ The worksheet lists the five criteria the Justice Department recommends: a reaso
 ## Before you run it
 
 A practitioner should review the scenario before it is used for training: a law enforcement trainer who has run multi-agency exercises, a court administrator, and for jail scenarios a corrections practitioner.
+
+## Example project
+
+The Law enforcement, corrections and courts pack includes an example project, **Wren County Sheriff's Office: a missing child and the AMBER Alert decision**, with one exercise, _North Gate_: on a Saturday afternoon at the Wren County Fall Festival a six-year-old child is reported taken to a vehicle. The Sheriff's Office, Alder Falls PD and the Oregon State Police must form unified command, decide whether the five AMBER Alert criteria are met and how fast, keep the tip line and 911 center working through a surge, and tell the family, the partners and the public the same thing.
+
+Turn the pack on under **Packs**, then open a copy from **Projects → Examples**. The organization, its people and its businesses are fictional; the exercise comes with its injects, media, Situation Manual, evaluation guides and controller handbook, ready to read or run.

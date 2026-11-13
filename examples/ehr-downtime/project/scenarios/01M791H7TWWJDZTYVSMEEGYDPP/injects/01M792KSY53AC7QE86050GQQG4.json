@@ -1,0 +1,284 @@
+{
+  "id": "01M792KSY53AC7QE86050GQQG4",
+  "mselRowId": "I-03",
+  "type": "status_board",
+  "title": "House Supervisor Downtime Tracker, 03:15",
+  "deliveryMode": "hand_to_role",
+  "fields": {
+    "organization": "Lakemont Community Hospital",
+    "facility": "House Supervisor's Office / Command Center (Boardroom, ext. 5520)",
+    "title": "Unit Downtime Tracker (EXERCISE: all patients and record numbers are fictional)",
+    "incidentName": "Lakechart / Interface Engine Downtime, 02/09/2027",
+    "asOf": "03:15 Tue 02/09/2027",
+    "operationalPeriod": "02/09 0240–0800",
+    "preparedBy": "House Supervisor (night shift)",
+    "resources": [
+      {
+        "name": "Pediatrics",
+        "status": "unknown",
+        "notes": "NOT REPORTED. No on-procedures time received. Unit has not called back.",
+        "owner": "Pediatrics charge nurse",
+        "updated": "—"
+      },
+      {
+        "name": "Behavioral Health",
+        "status": "unknown",
+        "notes": "NOT REPORTED. No on-procedures time received. Unit has not called back.",
+        "owner": "Behavioral Health charge nurse",
+        "updated": "—"
+      },
+      {
+        "name": "ED: ZZ-Trauma Tuesday 1 / D-004117",
+        "status": "yellow",
+        "notes": "Highway 53 rollover, arrived by ambulance with no ID. Registered on paper from the downtime pad. Trauma bay is asking blood bank for type and crossmatch. Not yet linked to a real identity.",
+        "owner": "ED Registration (Jodi Raske)",
+        "updated": "03:12"
+      },
+      {
+        "name": "ED: ZZ-Trauma Tuesday 2 / D-004118",
+        "status": "yellow",
+        "notes": "Highway 53 rollover, same ambulance, no ID. Registered on paper from the downtime pad. Trauma bay is asking blood bank for type and crossmatch. Not yet linked to a real identity.",
+        "owner": "ED Registration (Jodi Raske)",
+        "updated": "03:12"
+      },
+      {
+        "name": "ED registration desk: message at command center door",
+        "status": "yellow",
+        "notes": "Jodi Raske at 03:14: \"I registered both of them on paper from the downtime pad. Who do I tell, so these numbers get matched later?\" Not answered yet.",
+        "owner": "ED Registration (Jodi Raske)",
+        "updated": "03:14"
+      },
+      {
+        "name": "ICU",
+        "status": "green",
+        "notes": "On procedures 02:58 ✔. Downtime cart at the station. Census and MAR printed from the downtime viewer.",
+        "owner": "ICU charge nurse",
+        "updated": "02:58"
+      },
+      {
+        "name": "Emergency Department",
+        "status": "green",
+        "notes": "On procedures 03:01 ✔. Paper tracking board in use. 22 patients at 02:40, plus 2 trauma arrivals since then.",
+        "owner": "ED charge nurse",
+        "updated": "03:01"
+      },
+      {
+        "name": "Med-Surg Level 3",
+        "status": "green",
+        "notes": "On procedures 03:04 ✔. Paper runner assigned.",
+        "owner": "Med-Surg charge nurse",
+        "updated": "03:04"
+      },
+      {
+        "name": "Labor & Delivery",
+        "status": "green",
+        "notes": "On procedures 03:07 ✔. One patient in active labor.",
+        "owner": "L&D charge nurse",
+        "updated": "03:07"
+      },
+      {
+        "name": "Lakechart (EHR) PROD",
+        "status": "red",
+        "notes": "DOWN since 02:10. Cause not known.",
+        "owner": "Clinical Systems (A. Desai, ext. 5503)",
+        "updated": "02:49"
+      },
+      {
+        "name": "Interface engine",
+        "status": "red",
+        "notes": "DOWN since 02:10. All channels stopped. Messages are being held at the source systems until about 10:10.",
+        "owner": "Clinical Systems (A. Desai, ext. 5503)",
+        "updated": "03:00"
+      },
+      {
+        "name": "Downtime viewer (read-only)",
+        "status": "yellow",
+        "notes": "UP, but data is current only as of 23:20. Printed census and MARs are missing the 00:00 and 02:00 med passes and any admissions after 23:20.",
+        "owner": "Clinical Systems",
+        "updated": "02:49"
+      }
+    ],
+    "legend": {
+      "green": "OK: unit has reported its on-procedures time / system working",
+      "yellow": "DEGRADED: stale data, or an item still open that needs an owner",
+      "red": "DOWN: system unavailable"
+    }
+  },
+  "variant": "default",
+  "instructorNote": "This tests whether the House Supervisor calls units that are past 15 minutes without a report, and how downtime patient identities are tracked. Watch whether the House Supervisor calls Pediatrics and Behavioral Health right away and records their on-procedures times. Also watch whether the AOC has the command board log D-004117/D-004118 and the ZZ-Trauma aliases for HIM to match later, and confirms that blood bank specimens carry the D- number and armband.",
+  "citations": [
+    {
+      "documentId": "01M791H5T4QRTQAQ9XEEV0T7D6",
+      "documentTitle": "Lakemont Community Hospital — Information Systems Downtime and Recovery Plan",
+      "headingPath": "Lakemont Community Hospital — In… › 3. Downtime levels",
+      "quote": "| Level | Meaning | Examples | Who declares | |---|---|---|---| | 1 | Degraded; clinicians can still chart | Slow response, one interface delayed | Clinical Systems Lead | | 2 | EHR read-only or inter",
+      "chunkId": 4
+    },
+    {
+      "documentId": "01M791H5T6P0TB6KXSN6Y8MDY3",
+      "documentTitle": "Lakemont Community Hospital — Downtime Procedures SOP (IS-14-A)",
+      "headingPath": "IS-14-A › 8. Patient identity",
+      "quote": "- Two identifiers at every contact. For unidentified patients, trauma names use the downtime convention \"ZZ-Trauma\" followed by the day of the week and a number (for example ZZ-Trauma Tuesday 1). Thes",
+      "chunkId": 19
+    },
+    {
+      "documentId": "01M791H5T6P0TB6KXSN6Y8MDY3",
+      "documentTitle": "Lakemont Community Hospital — Downtime Procedures SOP (IS-14-A)",
+      "headingPath": "IS-14-A › 1. Starting downtime on a unit",
+      "quote": "When the overhead page or the House Supervisor's call announces downtime, the charge nurse: 1. Prints the census and last printed MAR from the downtime viewer if it is up; otherwise uses the binder co",
+      "chunkId": 12
+    },
+    {
+      "documentId": "01M791H5T6P0TB6KXSN6Y8MDY3",
+      "documentTitle": "Lakemont Community Hospital — Downtime Procedures SOP (IS-14-A)",
+      "headingPath": "IS-14-A › 6. Emergency department",
+      "quote": "- The ED uses a paper tracking board on the wall (magnetic whiteboard with 28 spaces). Triage is on the downtime triage form with an ESI level. Registration assigns an \"ED-D\" encounter number from the",
+      "chunkId": 17
+    },
+    {
+      "documentId": "01M791H5T7614JBPY8N3FD39RH",
+      "documentTitle": "Lakemont Community Hospital — Restore, Reconciliation and Breach Assessment SOP (IS-14-C)",
+      "headingPath": "IS-14-C › 3. Results release",
+      "quote": "Results held during downtime are released after validation. Critical results received by phone during downtime are logged on paper and re-entered. A result that arrives in the EHR on a patient who was",
+      "chunkId": 26
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template"
+    ]
+  },
+  "assets": [
+    {
+      "id": "01M79E2MBVJMG8EBW9S2HC1NYC",
+      "kind": "image",
+      "path": "scenarios/01M791H7TWWJDZTYVSMEEGYDPP/media/01M792KSY53AC7QE86050GQQG4/01M79E2MBVJMG8EBW9S2HC1NYC.png",
+      "role": "rendered",
+      "width": 816,
+      "height": 1056,
+      "sha256": "3c00fb73203874dbdba634fe055962f1de20ef6a2c60ec83fa4ca2a14c0b9fff",
+      "provenance": {
+        "provider": "template",
+        "templateId": "status_board",
+        "templateVersion": "1",
+        "createdAt": "2026-11-13T03:09:04.062Z"
+      }
+    }
+  ],
+  "versions": [
+    {
+      "at": "2026-11-12T23:49:08.330Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "House Supervisor Downtime Tracker, 03:15",
+        "type": "status_board",
+        "fields": {
+          "organization": "Lakemont Community Hospital",
+          "facility": "House Supervisor's Office / Command Center (Boardroom, ext. 5520)",
+          "title": "Unit Downtime Tracker (EXERCISE: all patients and record numbers are fictional)",
+          "incidentName": "Lakechart / Interface Engine Downtime, 02/09/2027",
+          "asOf": "03:15 Tue 02/09/2027",
+          "operationalPeriod": "02/09 0240–0800",
+          "preparedBy": "House Supervisor (night shift)",
+          "resources": [
+            {
+              "name": "Pediatrics",
+              "status": "unknown",
+              "notes": "NOT REPORTED. No on-procedures time received. Unit has not called back.",
+              "owner": "Pediatrics charge nurse",
+              "updated": "—"
+            },
+            {
+              "name": "Behavioral Health",
+              "status": "unknown",
+              "notes": "NOT REPORTED. No on-procedures time received. Unit has not called back.",
+              "owner": "Behavioral Health charge nurse",
+              "updated": "—"
+            },
+            {
+              "name": "ED: ZZ-Trauma Tuesday 1 / D-004117",
+              "status": "yellow",
+              "notes": "Highway 53 rollover, arrived by ambulance with no ID. Registered on paper from the downtime pad. Trauma bay is asking blood bank for type and crossmatch. Not yet linked to a real identity.",
+              "owner": "ED Registration (Jodi Raske)",
+              "updated": "03:12"
+            },
+            {
+              "name": "ED: ZZ-Trauma Tuesday 2 / D-004118",
+              "status": "yellow",
+              "notes": "Highway 53 rollover, same ambulance, no ID. Registered on paper from the downtime pad. Trauma bay is asking blood bank for type and crossmatch. Not yet linked to a real identity.",
+              "owner": "ED Registration (Jodi Raske)",
+              "updated": "03:12"
+            },
+            {
+              "name": "ED registration desk: message at command center door",
+              "status": "yellow",
+              "notes": "Jodi Raske at 03:14: \"I registered both of them on paper from the downtime pad. Who do I tell, so these numbers get matched later?\" Not answered yet.",
+              "owner": "ED Registration (Jodi Raske)",
+              "updated": "03:14"
+            },
+            {
+              "name": "ICU",
+              "status": "green",
+              "notes": "On procedures 02:58 ✔. Downtime cart at the station. Census and MAR printed from the downtime viewer.",
+              "owner": "ICU charge nurse",
+              "updated": "02:58"
+            },
+            {
+              "name": "Emergency Department",
+              "status": "green",
+              "notes": "On procedures 03:01 ✔. Paper tracking board in use. 22 patients at 02:40, plus 2 trauma arrivals since then.",
+              "owner": "ED charge nurse",
+              "updated": "03:01"
+            },
+            {
+              "name": "Med-Surg Level 3",
+              "status": "green",
+              "notes": "On procedures 03:04 ✔. Paper runner assigned.",
+              "owner": "Med-Surg charge nurse",
+              "updated": "03:04"
+            },
+            {
+              "name": "Labor & Delivery",
+              "status": "green",
+              "notes": "On procedures 03:07 ✔. One patient in active labor.",
+              "owner": "L&D charge nurse",
+              "updated": "03:07"
+            },
+            {
+              "name": "Lakechart (EHR) PROD",
+              "status": "red",
+              "notes": "DOWN since 02:10. Cause not known.",
+              "owner": "Clinical Systems (A. Desai, ext. 5503)",
+              "updated": "02:49"
+            },
+            {
+              "name": "Interface engine",
+              "status": "red",
+              "notes": "DOWN since 02:10. All channels stopped. Messages are being held at the source systems until about 10:10.",
+              "owner": "Clinical Systems (A. Desai, ext. 5503)",
+              "updated": "03:00"
+            },
+            {
+              "name": "Downtime viewer (read-only)",
+              "status": "yellow",
+              "notes": "UP, but data is current only as of 23:20. Printed census and MARs are missing the 00:00 and 02:00 med passes and any admissions after 23:20.",
+              "owner": "Clinical Systems",
+              "updated": "02:49"
+            }
+          ],
+          "legend": {
+            "green": "OK: unit has reported its on-procedures time / system working",
+            "yellow": "DEGRADED: stale data, or an item still open that needs an owner",
+            "red": "DOWN: system unavailable"
+          }
+        },
+        "instructorNote": "This tests whether the House Supervisor calls units that are past 15 minutes without a report, and how downtime patient identities are tracked. Watch whether the House Supervisor calls Pediatrics and Behavioral Health right away and records their on-procedures times. Also watch whether the AOC has the command board log D-004117/D-004118 and the ZZ-Trauma aliases for HIM to match later, and confirms that blood bank specimens carry the D- number and armband.",
+        "deliveryMode": "hand_to_role"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-11-13T03:09:04.378Z"
+}

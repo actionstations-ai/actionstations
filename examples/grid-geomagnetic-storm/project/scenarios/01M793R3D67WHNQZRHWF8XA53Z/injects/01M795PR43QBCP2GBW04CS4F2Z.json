@@ -1,0 +1,257 @@
+{
+  "id": "01M795PR43QBCP2GBW04CS4F2Z",
+  "mselRowId": "I-15",
+  "type": "chat_transcript",
+  "title": "UMRC Bridge Chat: Proposal to End the GMD Warning at 0715 UTC",
+  "deliveryMode": "hand_to_role",
+  "fields": {
+    "channelName": "GMD Entity Bridge",
+    "workspace": "UMRC",
+    "topic": "UMRC GMD level: EMERGENCY — serial UMRC-GMD-2027-033 — next call 02:15 CDT (0715 UTC)",
+    "participants": [
+      "UMRC GMD Analyst",
+      "UMRC Shift Manager",
+      "NLTO EMS GIC Feed",
+      "NLTO Control Room",
+      "Superior Range Electric",
+      "Lakeshore Power Cooperative",
+      "Red River Valley TOP"
+    ],
+    "dateLabel": "Today",
+    "messages": [
+      {
+        "sender": "UMRC GMD Analyst",
+        "senderTitle": "Reliability Coordinator, on-call engineering",
+        "time": "01:52",
+        "text": "@UMRC Shift Manager, cc all TOPs: WARK05 expired at 0600 UTC (01:00 CDT), and SWPC has no active geomagnetic warning. Estimated Kp has been 4, 3, 3 since 23:00 CDT, so three hours at Kp 4 or lower. I propose we end the GMD warning on the 02:15 call and send termination at 0715 UTC. Please get each TOP's agreement on the bridge.",
+        "important": true,
+        "reactions": [
+          {
+            "kind": "eyes",
+            "count": 4
+          }
+        ]
+      },
+      {
+        "sender": "NLTO EMS GIC Feed",
+        "senderTitle": "Automated: NLTO EMS neutral-current monitors",
+        "time": "01:53",
+        "text": "GIC NEUTRAL CURRENT TREND, 22:30–01:50 CDT (10 s scan, hourly max shown)\n22:30–23:30 HARTLEY_AT1_GIC_NEUT max 14 A | all others < 12 A\n23:30–00:30 HARTLEY_AT1_GIC_NEUT max 21 A | all others < 12 A\n00:35:10 HARTLEY_AT1_GIC_NEUT 29 A\n00:36:00 HARTLEY_AT1_GIC_NEUT 18 A\n00:36–01:50 HARTLEY_AT1_GIC_NEUT max 16 A\nIRON_RANGE_AT1/AT3, HARTLEY_AT2, CLOQUET_AT1/AT2, NORTH_SHORE_AT1, VIRGINIA_AT1: < 12 A since 22:30\nIRON_RANGE_AT2 DGA GAS ALARM (H2): LATCHED since 17:46:50, not reset",
+        "important": false,
+        "reactions": []
+      },
+      {
+        "sender": "Superior Range Electric",
+        "senderTitle": "TOP shift supervisor",
+        "time": "01:55",
+        "text": "Superior Range agrees with termination at 0715Z. Our neutrals have been under 10 A since about 22:00, and our capacitor banks come out at 02:30.",
+        "important": false,
+        "reactions": [
+          {
+            "kind": "check",
+            "count": 2
+          }
+        ]
+      },
+      {
+        "sender": "Red River Valley TOP",
+        "senderTitle": "TOP system operator",
+        "time": "01:56",
+        "text": "+1 from Red River. All quiet here since midnight.",
+        "important": false,
+        "reactions": [
+          {
+            "kind": "check",
+            "count": 1
+          }
+        ]
+      },
+      {
+        "sender": "Lakeshore Power Cooperative",
+        "senderTitle": "TOP system operator",
+        "time": "01:57",
+        "text": "Lakeshore is OK with it in principle. Our bank that hit 160 A is still on DGA watch, so we will check it before it goes back to normal loading. LPC-0309-345-07 is back in service as of 18:05.",
+        "important": false,
+        "reactions": [
+          {
+            "kind": "like",
+            "count": 1
+          }
+        ]
+      },
+      {
+        "sender": "UMRC Shift Manager",
+        "senderTitle": "Reliability Coordinator Shift Manager",
+        "time": "01:58",
+        "text": "Thanks. Superior Range, Red River and Lakeshore have answered. NLTO, I need your agreement or your objection before the 02:15 call so the termination notice can go out on time. Every TOP will have to confirm on the call how many of its own entities it told.",
+        "important": true,
+        "reactions": [
+          {
+            "kind": "alert",
+            "count": 1
+          }
+        ]
+      }
+    ]
+  },
+  "variant": "teams",
+  "instructorNote": "Termination pressure inject: three TOPs have already agreed, but NLTO's own termination conditions (NGDOP 8) are not met. Hartley AT1 was at 29 A at 00:35, so the 3 hours below 25 A only began at 00:36 and run until about 03:36. Watch whether the CRSS objects or asks for a later time instead of going along with the others, whether the RCSM checks each condition and asks every TOP before ending the warning, and whether the RE flags the latched Iron Range T2 gas alarm for review before T2 is restored.",
+  "citations": [
+    {
+      "documentId": "01M793R1CKPE6S3EAJK06CD962",
+      "documentTitle": "NLTO-OP-31: Geomagnetic Disturbance Operating Procedure",
+      "headingPath": "NGDOP › 8. Termination",
+      "quote": "The procedure is terminated when SWPC's warnings have expired, Kp has been 4 or lower for 3 consecutive hours, neutral currents at all monitored transformers have been below 25 amperes for 3 hours, an",
+      "chunkId": 9
+    },
+    {
+      "documentId": "01M793R1CQ0HWFM5EDVA13Z46E",
+      "documentTitle": "UMRC-SOP-12: GMD Forecasting, Notification and Wide-Area Coordination",
+      "headingPath": "UGFNWC › 5. Dissemination checks",
+      "quote": "For every message the Shift Manager confirms that each of the TOPs received it (by acknowledgment on the Notification System). Entities that do not acknowledge within 30 minutes are called. The RC log",
+      "chunkId": 23
+    },
+    {
+      "documentId": "01M793R1CQ0HWFM5EDVA13Z46E",
+      "documentTitle": "UMRC-SOP-12: GMD Forecasting, Notification and Wide-Area Coordination",
+      "headingPath": "UGFNWC › 2. Roles",
+      "quote": "- **Shift Manager** (on duty: Hugo Villanueva for the day shift): decides the RC's GMD level. - **RC Operations Director:** Marguerite Kaplan (515-555-0132). - **GMD analyst:** a member of the enginee",
+      "chunkId": 20
+    },
+    {
+      "documentId": "01M793R1CQ0HWFM5EDVA13Z46E",
+      "documentTitle": "UMRC-SOP-12: GMD Forecasting, Notification and Wide-Area Coordination",
+      "headingPath": "UGFNWC › 4. RC notification levels",
+      "quote": "| RC level | Trigger | Message | |---|---|---| | Information | SWPC Geomagnetic Storm Watch G1 or G2 | A notice to all TOPs: the watch, the days, the highest level, and \"no action required beyond moni",
+      "chunkId": 22
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template"
+    ]
+  },
+  "assets": [
+    {
+      "id": "01M799TEPRGD9P32V163SB1TN6",
+      "kind": "image",
+      "path": "scenarios/01M793R3D67WHNQZRHWF8XA53Z/media/01M795PR43QBCP2GBW04CS4F2Z/01M799TEPRGD9P32V163SB1TN6.png",
+      "role": "rendered",
+      "width": 1520,
+      "height": 2270,
+      "sha256": "7715cd322a0e4c852053e836b61d7e940e4e3be301d61c685fff3399192cb6b2",
+      "provenance": {
+        "provider": "template",
+        "templateId": "chat_transcript",
+        "templateVersion": "1",
+        "createdAt": "2026-11-13T01:54:41.850Z"
+      }
+    }
+  ],
+  "versions": [
+    {
+      "at": "2026-11-13T00:43:12.573Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "UMRC Bridge Chat: Proposal to End the GMD Warning at 0715 UTC",
+        "type": "chat_transcript",
+        "fields": {
+          "channelName": "GMD Entity Bridge",
+          "workspace": "UMRC",
+          "topic": "UMRC GMD level: EMERGENCY — serial UMRC-GMD-2027-033 — next call 02:15 CDT (0715 UTC)",
+          "participants": [
+            "UMRC GMD Analyst",
+            "UMRC Shift Manager",
+            "NLTO EMS GIC Feed",
+            "NLTO Control Room",
+            "Superior Range Electric",
+            "Lakeshore Power Cooperative",
+            "Red River Valley TOP"
+          ],
+          "dateLabel": "Today",
+          "messages": [
+            {
+              "sender": "UMRC GMD Analyst",
+              "senderTitle": "Reliability Coordinator, on-call engineering",
+              "time": "01:52",
+              "text": "@UMRC Shift Manager, cc all TOPs: WARK05 expired at 0600 UTC (01:00 CDT), and SWPC has no active geomagnetic warning. Estimated Kp has been 4, 3, 3 since 23:00 CDT, so three hours at Kp 4 or lower. I propose we end the GMD warning on the 02:15 call and send termination at 0715 UTC. Please get each TOP's agreement on the bridge.",
+              "important": true,
+              "reactions": [
+                {
+                  "kind": "eyes",
+                  "count": 4
+                }
+              ]
+            },
+            {
+              "sender": "NLTO EMS GIC Feed",
+              "senderTitle": "Automated: NLTO EMS neutral-current monitors",
+              "time": "01:53",
+              "text": "GIC NEUTRAL CURRENT TREND, 22:30–01:50 CDT (10 s scan, hourly max shown)\n22:30–23:30 HARTLEY_AT1_GIC_NEUT max 14 A | all others < 12 A\n23:30–00:30 HARTLEY_AT1_GIC_NEUT max 21 A | all others < 12 A\n00:35:10 HARTLEY_AT1_GIC_NEUT 29 A\n00:36:00 HARTLEY_AT1_GIC_NEUT 18 A\n00:36–01:50 HARTLEY_AT1_GIC_NEUT max 16 A\nIRON_RANGE_AT1/AT3, HARTLEY_AT2, CLOQUET_AT1/AT2, NORTH_SHORE_AT1, VIRGINIA_AT1: < 12 A since 22:30\nIRON_RANGE_AT2 DGA GAS ALARM (H2): LATCHED since 17:46:50, not reset",
+              "important": false,
+              "reactions": []
+            },
+            {
+              "sender": "Superior Range Electric",
+              "senderTitle": "TOP shift supervisor",
+              "time": "01:55",
+              "text": "Superior Range agrees with termination at 0715Z. Our neutrals have been under 10 A since about 22:00, and our capacitor banks come out at 02:30.",
+              "important": false,
+              "reactions": [
+                {
+                  "kind": "check",
+                  "count": 2
+                }
+              ]
+            },
+            {
+              "sender": "Red River Valley TOP",
+              "senderTitle": "TOP system operator",
+              "time": "01:56",
+              "text": "+1 from Red River. All quiet here since midnight.",
+              "important": false,
+              "reactions": [
+                {
+                  "kind": "check",
+                  "count": 1
+                }
+              ]
+            },
+            {
+              "sender": "Lakeshore Power Cooperative",
+              "senderTitle": "TOP system operator",
+              "time": "01:57",
+              "text": "Lakeshore is OK with it in principle. Our bank that hit 160 A is still on DGA watch, so we will check it before it goes back to normal loading. LPC-0309-345-07 is back in service as of 18:05.",
+              "important": false,
+              "reactions": [
+                {
+                  "kind": "like",
+                  "count": 1
+                }
+              ]
+            },
+            {
+              "sender": "UMRC Shift Manager",
+              "senderTitle": "Reliability Coordinator Shift Manager",
+              "time": "01:58",
+              "text": "Thanks. Superior Range, Red River and Lakeshore have answered. NLTO, I need your agreement or your objection before the 02:15 call so the termination notice can go out on time. Every TOP will have to confirm on the call how many of its own entities it told.",
+              "important": true,
+              "reactions": [
+                {
+                  "kind": "alert",
+                  "count": 1
+                }
+              ]
+            }
+          ]
+        },
+        "instructorNote": "Termination pressure inject: three TOPs have already agreed, but NLTO's own termination conditions (NGDOP 8) are not met. Hartley AT1 was at 29 A at 00:35, so the 3 hours below 25 A only began at 00:36 and run until about 03:36. Watch whether the CRSS objects or asks for a later time instead of going along with the others, whether the RCSM checks each condition and asks every TOP before ending the warning, and whether the RE flags the latched Iron Range T2 gas alarm for review before T2 is restored.",
+        "deliveryMode": "hand_to_role"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-11-13T01:54:42.009Z"
+}

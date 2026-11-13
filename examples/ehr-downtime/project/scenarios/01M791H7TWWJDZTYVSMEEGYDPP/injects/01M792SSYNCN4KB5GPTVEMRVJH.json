@@ -1,0 +1,252 @@
+{
+  "id": "01M792SSYNCN4KB5GPTVEMRVJH",
+  "mselRowId": "I-09",
+  "type": "phone_call",
+  "title": "Core Lab: Two Critical Results, No Read-Back Yet",
+  "deliveryMode": "read_aloud",
+  "fields": {
+    "orgName": "Lakemont Community Hospital",
+    "systemName": "Recorded Line - Boardroom Command Center (ext. 5520)",
+    "callId": "CR-20270209-040512-0251",
+    "direction": "Internal",
+    "caller": {
+      "name": "Maren Halvorsen",
+      "number": "ext. 5410",
+      "label": "Core Lab Technologist, Critical Value Desk"
+    },
+    "callee": {
+      "name": "Tomas Nygaard",
+      "number": "ext. 5520",
+      "label": "Laboratory Manager (Boardroom command center, on speaker)"
+    },
+    "startTime": "02/09/2027 04:05:12",
+    "duration": "1:24",
+    "transcript": [
+      {
+        "speaker": "Core Lab Tech",
+        "offset": "0:00",
+        "text": "Tomas Nygaard, it's Maren Halvorsen at the critical value desk. I've got two criticals and I can't close either one.",
+        "prompt": false
+      },
+      {
+        "speaker": "Core Lab Tech",
+        "offset": "0:07",
+        "text": "First one. Potassium, 6.9. Downtime accession DT-20270209-031. Drawn 03:44, resulted 04:02. The green requisition says Med-Surg Level 3, bed 14, Marlys Tollefson.",
+        "prompt": false
+      },
+      {
+        "speaker": "Core Lab Tech",
+        "offset": "0:19",
+        "text": "I called Med-Surg. The unit clerk says she went up to ICU at 01:15. But the 23:20 downtime census still has her in bed 14. So I don't know who the requisition came from, or who has her now.",
+        "prompt": false
+      },
+      {
+        "speaker": "Core Lab Tech",
+        "offset": "0:33",
+        "text": "Second one. Blood culture flagged positive at 03:58, gram-positive cocci in clusters, on an ICU patient. The bottle was collected before the outage, so it has a Lakechart label, but I can't see which nurse has that bed tonight.",
+        "prompt": false
+      },
+      {
+        "speaker": "Core Lab Tech",
+        "offset": "0:46",
+        "text": "Both are on the Critical Result Call Log. Neither has a read-back yet. The potassium clock started at 04:02. Where do I call?",
+        "prompt": true
+      },
+      {
+        "speaker": "Pharmacy Tech (text to Pharmacy Operations Manager, 04:06)",
+        "offset": "0:58",
+        "text": "Override pulls are up to 23 across the floors. ICU cabinet controlled count: hydromorphone 2 mg/mL, expected 18, found 17. Two nurses witnessed. Nothing on the Downtime Medication Log explains it.",
+        "prompt": false
+      },
+      {
+        "speaker": "Core Lab Tech",
+        "offset": "1:12",
+        "text": "Are you still there? I've got more ED tubes on the counter. I need a name and an extension for both of these.",
+        "prompt": true
+      }
+    ],
+    "voiceStyles": {
+      "Core Lab Tech": "Woman in her 30s, calm but clipped, reading from a log sheet, analyzer hum in the background",
+      "Pharmacy Tech (text to Pharmacy Operations Manager, 04:06)": "Read flatly by the facilitator as a text message on the Pharmacy Operations Manager's phone"
+    },
+    "injectId": "I-09"
+  },
+  "variant": "default",
+  "instructorNote": "This tests critical-result handling and controlled-substance discrepancy reporting when the census is out of date. Watch whether the Laboratory Manager makes sure both criticals reach the patient's current nurse in ICU, with read-back, a check against the armband rather than the 23:20 census, and a log entry within 60 minutes of resulting. Also watch whether the Pharmacy Operations Manager reports the hydromorphone count to command right away instead of reconciling it quietly, and whether the House Supervisor tracks both items.",
+  "citations": [
+    {
+      "documentId": "01M791H5T6P0TB6KXSN6Y8MDY3",
+      "documentTitle": "Lakemont Community Hospital — Downtime Procedures SOP (IS-14-A)",
+      "headingPath": "IS-14-A › 3. Laboratory",
+      "quote": "- The laboratory switches to manual requisitions (green). The analyzers continue to run; results print at the lab and are hand-delivered by runner or phoned. - Critical values are called to the unit c",
+      "chunkId": 14
+    },
+    {
+      "documentId": "01M791H5T7614JBPY8N3FD39RH",
+      "documentTitle": "Lakemont Community Hospital — Restore, Reconciliation and Breach Assessment SOP (IS-14-C)",
+      "headingPath": "IS-14-C › 4. Reconciliation",
+      "quote": "Reconciliation brings paper records in line with the electronic record. For each unit: - entering nurses and clerks key orders, MAR entries, vital signs and notes from paper; - a second person checks ",
+      "chunkId": 27
+    },
+    {
+      "documentId": "01M791H5T9913NQR8TVBHP3J1Z",
+      "documentTitle": "Lakemont Community Hospital — Clinical Systems, Interfaces and Vendors",
+      "headingPath": "Lakemont Community Hospital — Cl… › 7. People",
+      "quote": "- Clinical Systems Lead: Marcus Ellery, ext. 5502. - On-call systems analysts: Ananya Desai (nights, ext. 5503) and Kyle Brandvold (days, ext. 5504). - Record Integrity Specialist: Elena Moreau, ext. ",
+      "chunkId": 39
+    },
+    {
+      "documentId": "01M791H5T6P0TB6KXSN6Y8MDY3",
+      "documentTitle": "Lakemont Community Hospital — Downtime Procedures SOP (IS-14-A)",
+      "headingPath": "IS-14-A › 8. Patient identity",
+      "quote": "- Two identifiers at every contact. For unidentified patients, trauma names use the downtime convention \"ZZ-Trauma\" followed by the day of the week and a number (for example ZZ-Trauma Tuesday 1). Thes",
+      "chunkId": 19
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template",
+      "tts"
+    ],
+    "voiceLines": [
+      {
+        "speaker": "Core Lab Tech",
+        "voiceStyle": "Woman in her early 30s, Upper Midwest accent, calm but clipped and efficient, sounds like she is reading from a log sheet, slightly tired from the night shift, steady pace with brief pauses between items",
+        "text": "Tomas Nygaard, it's Maren Halvorsen at the critical value desk. I've got two criticals, and I can't close either one."
+      },
+      {
+        "speaker": "Core Lab Tech",
+        "voiceStyle": "Woman in her early 30s, Upper Midwest accent, calm but clipped, reading numbers carefully off a sheet, deliberate over the digits",
+        "text": "First one. Potassium, six point nine. Downtime accession D-T, two-zero-two-seven, zero-two-zero-nine, dash, zero-three-one. Drawn oh-three-forty-four, resulted oh-four-oh-two. The green requisition says Med-Surg Level 3, bed fourteen, Marlys Tollefson."
+      },
+      {
+        "speaker": "Core Lab Tech",
+        "voiceStyle": "Woman in her early 30s, Upper Midwest accent, clipped, a note of frustration creeping in, slightly faster",
+        "text": "I called Med-Surg. The unit clerk says she went up to ICU at oh-one-fifteen. But the twenty-three-twenty downtime census still has her in bed fourteen. So... I don't know who the requisition came from, or who has her now."
+      },
+      {
+        "speaker": "Core Lab Tech",
+        "voiceStyle": "Woman in her early 30s, Upper Midwest accent, calm and clipped, matter-of-fact, reading from the log",
+        "text": "Second one. Blood culture flagged positive at oh-three-fifty-eight, gram-positive cocci in clusters, on an ICU patient. The bottle was collected before the outage, so it has a Lakechart label, but I can't see which nurse has that bed tonight."
+      },
+      {
+        "speaker": "Core Lab Tech",
+        "voiceStyle": "Woman in her early 30s, Upper Midwest accent, firm and pressed, urgency rising, ends on a direct question",
+        "text": "Both are on the Critical Result Call Log. Neither has a read-back yet. The potassium clock started at oh-four-oh-two. Where do I call?"
+      },
+      {
+        "speaker": "Pharmacy Tech (text to Pharmacy Operations Manager, 04:06)",
+        "voiceStyle": "Neutral adult facilitator voice, flat and even, reading a text message aloud without emotion, moderate pace",
+        "text": "Override pulls are up to twenty-three across the floors. ICU cabinet controlled count: hydromorphone, two milligrams per mL. Expected eighteen, found seventeen. Two nurses witnessed. Nothing on the Downtime Medication Log explains it."
+      },
+      {
+        "speaker": "Core Lab Tech",
+        "voiceStyle": "Woman in her early 30s, Upper Midwest accent, impatient and clipped after a pause, slightly louder as if leaning toward the phone, busy and pressured",
+        "text": "Are you still there? I've got more E-D tubes on the counter. I need a name and an extension for both of these."
+      }
+    ],
+    "postFx": [
+      "phone"
+    ]
+  },
+  "assets": [
+    {
+      "id": "01M79CPZT44JPBFNCGB3VQBWKZ",
+      "kind": "image",
+      "path": "scenarios/01M791H7TWWJDZTYVSMEEGYDPP/media/01M792SSYNCN4KB5GPTVEMRVJH/01M79CPZT44JPBFNCGB3VQBWKZ.png",
+      "role": "rendered",
+      "width": 816,
+      "height": 1056,
+      "sha256": "8334ed5c5b18e188119a90b6fb2a5d1220ec955c4a627603c72fcb6ec9761e84",
+      "provenance": {
+        "provider": "template",
+        "templateId": "phone_call",
+        "templateVersion": "1",
+        "createdAt": "2026-11-13T02:45:14.037Z"
+      }
+    }
+  ],
+  "versions": [
+    {
+      "at": "2026-11-12T23:52:44.016Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "Core Lab: Two Critical Results, No Read-Back Yet",
+        "type": "phone_call",
+        "fields": {
+          "orgName": "Lakemont Community Hospital",
+          "systemName": "Recorded Line - Boardroom Command Center (ext. 5520)",
+          "callId": "CR-20270209-040512-0251",
+          "direction": "Internal",
+          "caller": {
+            "name": "Maren Halvorsen",
+            "number": "ext. 5410",
+            "label": "Core Lab Technologist, Critical Value Desk"
+          },
+          "callee": {
+            "name": "Tomas Nygaard",
+            "number": "ext. 5520",
+            "label": "Laboratory Manager (Boardroom command center, on speaker)"
+          },
+          "startTime": "02/09/2027 04:05:12",
+          "duration": "1:24",
+          "transcript": [
+            {
+              "speaker": "Core Lab Tech",
+              "offset": "0:00",
+              "text": "Tomas Nygaard, it's Maren Halvorsen at the critical value desk. I've got two criticals and I can't close either one.",
+              "prompt": false
+            },
+            {
+              "speaker": "Core Lab Tech",
+              "offset": "0:07",
+              "text": "First one. Potassium, 6.9. Downtime accession DT-20270209-031. Drawn 03:44, resulted 04:02. The green requisition says Med-Surg Level 3, bed 14, Marlys Tollefson.",
+              "prompt": false
+            },
+            {
+              "speaker": "Core Lab Tech",
+              "offset": "0:19",
+              "text": "I called Med-Surg. The unit clerk says she went up to ICU at 01:15. But the 23:20 downtime census still has her in bed 14. So I don't know who the requisition came from, or who has her now.",
+              "prompt": false
+            },
+            {
+              "speaker": "Core Lab Tech",
+              "offset": "0:33",
+              "text": "Second one. Blood culture flagged positive at 03:58, gram-positive cocci in clusters, on an ICU patient. The bottle was collected before the outage, so it has a Lakechart label, but I can't see which nurse has that bed tonight.",
+              "prompt": false
+            },
+            {
+              "speaker": "Core Lab Tech",
+              "offset": "0:46",
+              "text": "Both are on the Critical Result Call Log. Neither has a read-back yet. The potassium clock started at 04:02. Where do I call?",
+              "prompt": true
+            },
+            {
+              "speaker": "Pharmacy Tech (text to Pharmacy Operations Manager, 04:06)",
+              "offset": "0:58",
+              "text": "Override pulls are up to 23 across the floors. ICU cabinet controlled count: hydromorphone 2 mg/mL, expected 18, found 17. Two nurses witnessed. Nothing on the Downtime Medication Log explains it.",
+              "prompt": false
+            },
+            {
+              "speaker": "Core Lab Tech",
+              "offset": "1:12",
+              "text": "Are you still there? I've got more ED tubes on the counter. I need a name and an extension for both of these.",
+              "prompt": true
+            }
+          ],
+          "voiceStyles": {
+            "Core Lab Tech": "Woman in her 30s, calm but clipped, reading from a log sheet, analyzer hum in the background",
+            "Pharmacy Tech (text to Pharmacy Operations Manager, 04:06)": "Read flatly by the facilitator as a text message on the Pharmacy Operations Manager's phone"
+          },
+          "injectId": "I-09"
+        },
+        "instructorNote": "This tests critical-result handling and controlled-substance discrepancy reporting when the census is out of date. Watch whether the Laboratory Manager makes sure both criticals reach the patient's current nurse in ICU, with read-back, a check against the armband rather than the 23:20 census, and a log entry within 60 minutes of resulting. Also watch whether the Pharmacy Operations Manager reports the hydromorphone count to command right away instead of reconciling it quietly, and whether the House Supervisor tracks both items.",
+        "deliveryMode": "read_aloud"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-11-13T02:45:14.270Z"
+}

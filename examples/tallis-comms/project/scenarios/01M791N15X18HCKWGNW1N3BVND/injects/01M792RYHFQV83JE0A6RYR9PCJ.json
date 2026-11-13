@@ -1,0 +1,385 @@
+{
+  "id": "01M792RYHFQV83JE0A6RYR9PCJ",
+  "mselRowId": "I-15",
+  "type": "phone_call",
+  "title": "Cardinal Forensics on the Bridge: Preliminary Count of 412,000",
+  "deliveryMode": "play_audio",
+  "fields": {
+    "orgName": "Tallis Home Products, Inc.",
+    "systemName": "Recorded Line - Crisis Bridge, Conference Room 3B",
+    "callId": "CR-20270309-101503-0066",
+    "direction": "Inbound",
+    "caller": {
+      "name": "Cardinal Forensics lead analyst",
+      "number": "(937) 555-0148",
+      "label": "Cardinal Forensics (on retainer)"
+    },
+    "callee": {
+      "name": "Lena Hartmann, CISO",
+      "number": "(937) 555-0149 (code 4100)",
+      "label": "Tallis crisis bridge line"
+    },
+    "startTime": "03/09/2027 10:15:03",
+    "duration": "2:14",
+    "transcript": [
+      {
+        "speaker": "CARDINAL",
+        "offset": "0:00",
+        "text": "Cardinal Forensics joining the bridge. Is the CISO on? I've got a number for you.",
+        "prompt": false
+      },
+      {
+        "speaker": "CISO",
+        "offset": "0:05",
+        "text": "I'm here. Counsel and Corporate Communications are in the room too. Go ahead.",
+        "prompt": false
+      },
+      {
+        "speaker": "CARDINAL",
+        "offset": "0:09",
+        "text": "CartBridge delivered the March 2 to 8 audit logs to us at 10:02. We've done a first pass. Preliminary count: 412,000 unique customer IDs were exported. Four hundred twelve thousand.",
+        "prompt": false
+      },
+      {
+        "speaker": "CARDINAL",
+        "offset": "0:22",
+        "text": "That was 83 separate sessions, all using the key cartbridge-integration-prod. The first one starts March 2 at 05:12 Eastern. The last one ends March 8 at 23:47 Eastern.",
+        "prompt": false
+      },
+      {
+        "speaker": "CARDINAL",
+        "offset": "0:36",
+        "text": "This morning's session, the 06:40 to 07:05 one your SOC caught, returned 31,000 rows. Every one of those 31,000 is already in the 412,000. So it's not on top of the total.",
+        "prompt": false
+      },
+      {
+        "speaker": "CARDINAL",
+        "offset": "0:49",
+        "text": "And to be clear about the forum figure: 1.9 million is your whole registered web store base. It isn't what was taken. Nothing we have shows anywhere near 1.9 million leaving.",
+        "prompt": false
+      },
+      {
+        "speaker": "CARDINAL",
+        "offset": "1:01",
+        "text": "The schema matches the proxy headers you had at 08:55. Name, email, ship address, bill address, phone, order count, the bcrypt password hash, the Lakeview Payments token, card last four and card brand. No full card number. No CVV. Not in any of the 83 sessions.",
+        "prompt": false
+      },
+      {
+        "speaker": "CARDINAL",
+        "offset": "1:21",
+        "text": "Confidence on the count is high. But we're still checking that no other API client pulled customer data in the same window. Until that's finished, please treat 412,000 as preliminary, subject to verification. Don't let it go out as final. Also, the FBI Cincinnati Field Office called us at 09:50 after seeing the forum post and asked for a Tallis contact. CISA's regional office left the same request.",
+        "prompt": false
+      },
+      {
+        "speaker": "CARDINAL",
+        "offset": "1:38",
+        "text": "I'll email a written summary to the CISO and the General Counsel within ten minutes, with the session list attached. Who else do you want on that email?",
+        "prompt": true
+      },
+      {
+        "speaker": "CARDINAL",
+        "offset": "1:58",
+        "text": "Understood. Next update from us when the other-client check is done, and I'll call the bridge before I send anything. Cardinal dropping off.",
+        "prompt": false
+      }
+    ],
+    "voiceStyles": {
+      "CARDINAL": "Man in his 40s, calm and precise, reads numbers slowly and repeats the key figure, keyboard faintly audible",
+      "CISO": "Woman in her 50s, clipped and focused, speaking on a conference room speakerphone"
+    },
+    "injectId": "I-15"
+  },
+  "variant": "default",
+  "instructorNote": "This call gives the cell the real figure: 412,000 accounts, preliminary. Watch for three things. Does the CISO confirm it by replying on the draft? Does WRITER log it on the fact sheet (\"10:15 – 412,000 accounts, March 2–8, preliminary (Cardinal/CISO)\")? Does WRITER flag every live product that still carries old facts: the 08:20 newsroom page, the care script, IR, Brightwater and the wire? Also watch whether WRITER drafts the customer email linking only to a tallishome.example page with no password button, notes that it takes about 62 minutes at the 400,000-per-hour limit, and holds it until LEGAL and the CISO agree on the text. At the prompt turn, the CISO names who gets the summary.",
+  "citations": [
+    {
+      "documentId": "01M791MZ5V0HHAJ0J2R7KKEXX6",
+      "documentTitle": "TLC-COM-03: Systems, Customer Data and Media Directory",
+      "headingPath": "TSCDMD › 2. Customer data systems",
+      "quote": "- **Web store.** Built and hosted by the vendor CartBridge Commerce (fictional) on its cloud. Holds 1.9 million registered accounts: name, email address, shipping and billing address, phone number if ",
+      "chunkId": 31
+    },
+    {
+      "documentId": "01M791MZ5PNQX3GYDBEAX99A9W",
+      "documentTitle": "TLC-COM-01: Crisis Communications Plan",
+      "headingPath": "TCCP › 3. Approval route",
+      "quote": "Nothing goes out unless it follows this route, and the approver and the time are written on the statement log. 1. **Writer drafts** from the fact sheet. 2. **CISO confirms facts** (technical statement",
+      "chunkId": 4
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template",
+      "tts"
+    ],
+    "voiceLines": [
+      {
+        "speaker": "CARDINAL",
+        "voiceStyle": "Calm, precise American man in his 40s, a forensics lead analyst on a phone line. Measured pace that slows down for numbers, steady and professional, keyboard faintly audible behind him",
+        "text": "Cardinal Forensics joining the bridge. Is the CISO on? I've got a number for you."
+      },
+      {
+        "speaker": "CISO",
+        "voiceStyle": "American woman in her 50s, a chief information security officer. Clipped, focused and businesslike, slightly roomy sound as if speaking into a conference room speakerphone",
+        "text": "I'm here. Counsel and Corporate Communications are in the room too. Go ahead."
+      },
+      {
+        "speaker": "CARDINAL",
+        "voiceStyle": "Calm, precise American man in his 40s, a forensics lead analyst on a phone line. Slows down and stresses the key figure, then repeats it deliberately",
+        "text": "CartBridge delivered the March second to eighth audit logs to us at ten-oh-two. We've done a first pass. Preliminary count: four hundred twelve thousand unique customer IDs were exported. ... Four hundred twelve thousand."
+      },
+      {
+        "speaker": "CARDINAL",
+        "voiceStyle": "Calm, precise American man in his 40s, a forensics lead analyst on a phone line. Methodical, reads the key name and timestamps carefully, keyboard faintly audible",
+        "text": "That was eighty-three separate sessions, all using the key cart-bridge integration prod. The first one starts March second at oh-five-twelve Eastern. The last one ends March eighth at twenty-three forty-seven Eastern."
+      },
+      {
+        "speaker": "CARDINAL",
+        "voiceStyle": "Calm, precise American man in his 40s, a forensics lead analyst on a phone line. Explanatory and reassuring but exact",
+        "text": "This morning's session, the oh-six-forty to oh-seven-oh-five one your SOC caught, returned thirty-one thousand rows. Every one of those thirty-one thousand is already in the four hundred twelve thousand. So it's not on top of the total."
+      },
+      {
+        "speaker": "CARDINAL",
+        "voiceStyle": "Calm, precise American man in his 40s, a forensics lead analyst on a phone line. Firm and emphatic, correcting a misconception",
+        "text": "And to be clear about the forum figure: one point nine million is your whole registered web store base. It isn't what was taken. Nothing we have shows anywhere near one point nine million leaving."
+      },
+      {
+        "speaker": "CARDINAL",
+        "voiceStyle": "Calm, precise American man in his 40s, a forensics lead analyst on a phone line. Lists the data fields one at a time, then stresses the negatives slowly",
+        "text": "The schema matches the proxy headers you had at oh-eight-fifty-five. Name, email, ship address, bill address, phone, order count, the bcrypt password hash, the Lakeview Payments token, card last four and card brand. ... No full card number. No CVV. Not in any of the eighty-three sessions."
+      },
+      {
+        "speaker": "CARDINAL",
+        "voiceStyle": "Calm, precise American man in his 40s, a forensics lead analyst on a phone line. Careful and cautionary, slightly slower on the final warning",
+        "text": "Confidence on the count is high. But we're still checking that no other API client pulled customer data in the same window. Until that's finished, please treat four hundred twelve thousand as preliminary, subject to verification. Don't let it go out as final."
+      },
+      {
+        "speaker": "CARDINAL",
+        "voiceStyle": "Calm, precise American man in his 40s, a forensics lead analyst on a phone line. Practical, ends on a genuine question and pauses for an answer",
+        "text": "I'll email a written summary to the CISO and the General Counsel within ten minutes, with the session list attached. Who else do you want on that email?"
+      },
+      {
+        "speaker": "CARDINAL",
+        "voiceStyle": "Calm, precise American man in his 40s, a forensics lead analyst on a phone line. Brisk and professional, wrapping up the call",
+        "text": "Understood. Next update from us when the other-client check is done, and I'll call the bridge before I send anything. Cardinal dropping off."
+      }
+    ],
+    "postFx": [
+      "phone"
+    ]
+  },
+  "assets": [
+    {
+      "id": "01M79BR9SKX3X1JNBG4ZYVJ3VQ",
+      "kind": "image",
+      "path": "scenarios/01M791N15X18HCKWGNW1N3BVND/media/01M792RYHFQV83JE0A6RYR9PCJ/01M79BR9SKX3X1JNBG4ZYVJ3VQ.png",
+      "role": "rendered",
+      "width": 816,
+      "height": 1056,
+      "sha256": "69557ddb56183fd62cda06ea79cf8e1762d56ca3733983efd56a4640a2e473d9",
+      "provenance": {
+        "provider": "template",
+        "templateId": "phone_call",
+        "templateVersion": "1",
+        "createdAt": "2026-11-13T02:28:28.443Z"
+      }
+    }
+  ],
+  "versions": [
+    {
+      "at": "2026-11-12T23:52:12.973Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "Cardinal Forensics on the Bridge: Preliminary Count of 412,000",
+        "type": "phone_call",
+        "fields": {
+          "orgName": "Tallis Home Products, Inc.",
+          "systemName": "Recorded Line - Crisis Bridge, Conference Room 3B",
+          "callId": "CR-20270309-101503-0066",
+          "direction": "Inbound",
+          "caller": {
+            "name": "Cardinal Forensics lead analyst",
+            "number": "(937) 555-0148",
+            "label": "Cardinal Forensics (on retainer)"
+          },
+          "callee": {
+            "name": "Lena Hartmann, CISO",
+            "number": "(937) 555-0149 (code 4100)",
+            "label": "Tallis crisis bridge line"
+          },
+          "startTime": "03/09/2027 10:15:03",
+          "duration": "2:14",
+          "transcript": [
+            {
+              "speaker": "CARDINAL",
+              "offset": "0:00",
+              "text": "Cardinal Forensics joining the bridge. Is the CISO on? I've got a number for you.",
+              "prompt": false
+            },
+            {
+              "speaker": "CISO",
+              "offset": "0:05",
+              "text": "I'm here. Counsel and Corporate Communications are in the room too. Go ahead.",
+              "prompt": false
+            },
+            {
+              "speaker": "CARDINAL",
+              "offset": "0:09",
+              "text": "CartBridge delivered the March 2 to 8 audit logs to us at 10:02. We've done a first pass. Preliminary count: 412,000 unique customer IDs were exported. Four hundred twelve thousand.",
+              "prompt": false
+            },
+            {
+              "speaker": "CARDINAL",
+              "offset": "0:22",
+              "text": "That was 83 separate sessions, all using the key cartbridge-integration-prod. The first one starts March 2 at 05:12 Eastern. The last one ends March 8 at 23:47 Eastern.",
+              "prompt": false
+            },
+            {
+              "speaker": "CARDINAL",
+              "offset": "0:36",
+              "text": "This morning's session, the 06:40 to 07:05 one your SOC caught, returned 31,000 rows. Every one of those 31,000 is already in the 412,000. So it's not on top of the total.",
+              "prompt": false
+            },
+            {
+              "speaker": "CARDINAL",
+              "offset": "0:49",
+              "text": "And to be clear about the forum figure: 1.9 million is your whole registered web store base. It isn't what was taken. Nothing we have shows anywhere near 1.9 million leaving.",
+              "prompt": false
+            },
+            {
+              "speaker": "CARDINAL",
+              "offset": "1:01",
+              "text": "The schema matches the proxy headers you had at 08:55. Name, email, ship address, bill address, phone, order count, the bcrypt password hash, the Lakeview Payments token, card last four and card brand. No full card number. No CVV. Not in any of the 83 sessions.",
+              "prompt": false
+            },
+            {
+              "speaker": "CARDINAL",
+              "offset": "1:21",
+              "text": "Confidence on the count is high. But we're still checking that no other API client pulled customer data in the same window. Until that's finished, please treat 412,000 as preliminary, subject to verification. Don't let it go out as final.",
+              "prompt": false
+            },
+            {
+              "speaker": "CARDINAL",
+              "offset": "1:38",
+              "text": "I'll email a written summary to the CISO and the General Counsel within ten minutes, with the session list attached. Who else do you want on that email?",
+              "prompt": true
+            },
+            {
+              "speaker": "CARDINAL",
+              "offset": "1:58",
+              "text": "Understood. Next update from us when the other-client check is done, and I'll call the bridge before I send anything. Cardinal dropping off.",
+              "prompt": false
+            }
+          ],
+          "voiceStyles": {
+            "CARDINAL": "Man in his 40s, calm and precise, reads numbers slowly and repeats the key figure, keyboard faintly audible",
+            "CISO": "Woman in her 50s, clipped and focused, speaking on a conference room speakerphone"
+          },
+          "injectId": "I-15"
+        },
+        "instructorNote": "This call gives the cell the real figure: 412,000 accounts, preliminary. Watch for three things. Does the CISO confirm it by replying on the draft? Does WRITER log it on the fact sheet (\"10:15 – 412,000 accounts, March 2–8, preliminary (Cardinal/CISO)\")? Does WRITER flag every live product that still carries old facts: the 08:20 newsroom page, the care script, IR, Brightwater and the wire? Also watch whether WRITER drafts the customer email linking only to a tallishome.example page with no password button, notes that it takes about 62 minutes at the 400,000-per-hour limit, and holds it until LEGAL and the CISO agree on the text. At the prompt turn, the CISO names who gets the summary.",
+        "deliveryMode": "play_audio"
+      }
+    },
+    {
+      "at": "2026-11-13T01:29:34.470Z",
+      "by": "user",
+      "note": "Corrected by hand for the shipped example",
+      "snapshot": {
+        "title": "Cardinal Forensics on the Bridge: Preliminary Count of 412,000",
+        "type": "phone_call",
+        "fields": {
+          "orgName": "Tallis Home Products, Inc.",
+          "systemName": "Recorded Line - Crisis Bridge, Conference Room 3B",
+          "callId": "CR-20270309-101503-0066",
+          "direction": "Inbound",
+          "caller": {
+            "name": "Cardinal Forensics lead analyst",
+            "number": "(937) 555-0148",
+            "label": "Cardinal Forensics (on retainer)"
+          },
+          "callee": {
+            "name": "Lena Hartmann, CISO",
+            "number": "(937) 555-0149 (code 4100)",
+            "label": "Tallis crisis bridge line"
+          },
+          "startTime": "03/09/2027 10:15:03",
+          "duration": "2:14",
+          "transcript": [
+            {
+              "speaker": "CARDINAL",
+              "offset": "0:00",
+              "text": "Cardinal Forensics joining the bridge. Is the CISO on? I've got a number for you.",
+              "prompt": false
+            },
+            {
+              "speaker": "CISO",
+              "offset": "0:05",
+              "text": "I'm here. Counsel and Corporate Communications are in the room too. Go ahead.",
+              "prompt": false
+            },
+            {
+              "speaker": "CARDINAL",
+              "offset": "0:09",
+              "text": "CartBridge delivered the March 2 to 8 audit logs to us at 10:02. We've done a first pass. Preliminary count: 412,000 unique customer IDs were exported. Four hundred twelve thousand.",
+              "prompt": false
+            },
+            {
+              "speaker": "CARDINAL",
+              "offset": "0:22",
+              "text": "That was 83 separate sessions, all using the key cartbridge-integration-prod. The first one starts March 2 at 05:12 Eastern. The last one ends March 8 at 23:47 Eastern.",
+              "prompt": false
+            },
+            {
+              "speaker": "CARDINAL",
+              "offset": "0:36",
+              "text": "This morning's session, the 06:40 to 07:05 one your SOC caught, returned 31,000 rows. Every one of those 31,000 is already in the 412,000. So it's not on top of the total.",
+              "prompt": false
+            },
+            {
+              "speaker": "CARDINAL",
+              "offset": "0:49",
+              "text": "And to be clear about the forum figure: 1.9 million is your whole registered web store base. It isn't what was taken. Nothing we have shows anywhere near 1.9 million leaving.",
+              "prompt": false
+            },
+            {
+              "speaker": "CARDINAL",
+              "offset": "1:01",
+              "text": "The schema matches the proxy headers you had at 08:55. Name, email, ship address, bill address, phone, order count, the bcrypt password hash, the Lakeview Payments token, card last four and card brand. No full card number. No CVV. Not in any of the 83 sessions.",
+              "prompt": false
+            },
+            {
+              "speaker": "CARDINAL",
+              "offset": "1:21",
+              "text": "Confidence on the count is high. But we're still checking that no other API client pulled customer data in the same window. Until that's finished, please treat 412,000 as preliminary, subject to verification. Don't let it go out as final. Also, the FBI Cincinnati Field Office called us at 09:50 after seeing the forum post and asked for a Tallis contact. CISA's regional office left the same request.",
+              "prompt": false
+            },
+            {
+              "speaker": "CARDINAL",
+              "offset": "1:38",
+              "text": "I'll email a written summary to the CISO and the General Counsel within ten minutes, with the session list attached. Who else do you want on that email?",
+              "prompt": true
+            },
+            {
+              "speaker": "CARDINAL",
+              "offset": "1:58",
+              "text": "Understood. Next update from us when the other-client check is done, and I'll call the bridge before I send anything. Cardinal dropping off.",
+              "prompt": false
+            }
+          ],
+          "voiceStyles": {
+            "CARDINAL": "Man in his 40s, calm and precise, reads numbers slowly and repeats the key figure, keyboard faintly audible",
+            "CISO": "Woman in her 50s, clipped and focused, speaking on a conference room speakerphone"
+          },
+          "injectId": "I-15"
+        },
+        "instructorNote": "This call gives the cell the real figure: 412,000 accounts, preliminary. Watch for three things. Does the CISO confirm it by replying on the draft? Does WRITER log it on the fact sheet (\"10:15 – 412,000 accounts, March 2–8, preliminary (Cardinal/CISO)\")? Does WRITER flag every live product that still carries old facts: the 08:20 newsroom page, the care script, IR, Brightwater and the wire? Also watch whether WRITER drafts the customer email linking only to a tallishome.example page with no password button, notes that it takes about 62 minutes at the 400,000-per-hour limit, and holds it until LEGAL and the CISO agree on the text. At the prompt turn, the CISO names who gets the summary.",
+        "deliveryMode": "play_audio"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-11-13T02:28:28.694Z"
+}

@@ -1,0 +1,98 @@
+{
+  "id": "01M795KRZQTWCDR91CY09C0EVW",
+  "mselRowId": "I-13",
+  "type": "time_jump_card",
+  "title": "TIME JUMP: Past the Peak, 23:00 CDT",
+  "deliveryMode": "read_aloud",
+  "fields": {
+    "exerciseTime": "3:00",
+    "newTime": "23:00 CDT",
+    "jumpLabel": "+7 hours (16:00 → 23:00 CDT)",
+    "injectId": "I-13",
+    "scenarioTitle": "Aurora Over Texas — GIC, Conservative Operations & Timing Holdover",
+    "narration": "THIS IS AN EXERCISE. The exercise clock is now 05:00, three hours after STARTEX. In the scenario it is 23:00 CDT on Tuesday 16 March 2027, and this phase runs through the night into Wednesday morning, 17 March 2027. Since 16:00, Kp peaked at 9 (G5, Extreme) at 17:47. It fell to 7 by 20:00 and to 5 by 21:00, and the SWPC real-time estimate now reads 4. The WARK08 warning expired at 0300 UTC, which is 22:00 CDT. At 21:55 CDT the control room received: '*** EXERCISE *** Space Weather Message Code: WARK05, Serial Number: 0161, Issue Time: 2027 Mar 17 0255 UTC. WARNING: Geomagnetic K-index of 5 expected. Valid From: 2027 Mar 17 0300 UTC. Valid To: 2027 Mar 17 0600 UTC. Warning Condition: Persistence. NOAA Scale: G1 - Minor. *** EXERCISE ***' Neutral currents are down: HARTLEY_AT1 14 A, CLOQUET_AT1 6 A, all others below 10 A. Iron Range T2: read only the line that matches the Manager's decision at 17:47. IF T2 WAS TAKEN OUT: T2 has been isolated since the switching just before 18:00. An oil sample was drawn at 20:30 and the lab result is due Wednesday at 08:00. Iron Range T1 and T3 are loaded to 81 and 77 percent of emergency rating. IF T2 STAYED IN SERVICE: T2 neutral current is 9 A and the hot-spot is back to 71 C. The DGA hydrogen alarm is still latched, and the trend is flat. Line HARTLEY–IRON RANGE 345-1 has been open since 16:20. The Hartley crew confirmed that CB 3H22 is mechanically closed and that 345-2 is carrying load, but nobody has explained the 21 Z1 target. The Hartley AT-1 crew went home at 20:00. Arrowhead and North Shore stay on the reduced schedules agreed on the UMRC bridge. Load is 2,410 MW. The UMRC is still at Emergency, and the next call is at 23:30. The storm is past its peak. Now the room has to decide what comes back first and prove when the storm is over.",
+    "worldState": [
+      "Scenario time 23:00 CDT, Tuesday 16 March 2027 (0400 UTC, Wednesday 17 March 2027).",
+      "Kp peak was 9 (G5) at 17:47 CDT. Kp 7 at 20:00, Kp 5 at 21:00, real-time estimate 4 at 23:00.",
+      "WARK08 (Kp 8 or greater) expired at 0300 UTC / 22:00 CDT.",
+      "WARK05 Serial 0161 (G1 - Minor, Persistence) is ACTIVE, valid 0300–0600 UTC (22:00 CDT Tuesday to 01:00 CDT Wednesday).",
+      "Neutral currents: HARTLEY_AT1 14 A, CLOQUET_AT1 6 A, all other monitored autotransformers below 10 A.",
+      "Iron Range T2: status as the Manager chose at 17:47 (isolated and waiting on the oil sample result due 08:00 Wednesday, OR in service at 9 A and 71 C with the hydrogen alarm still latched).",
+      "Line HARTLEY–IRON RANGE 345-1 has been OPEN since 16:20. CB 3H22 is mechanically CLOSED and 345-2 is carrying load. The 21 Z1 target has not been explained.",
+      "Hartley AT-1 replacement crew released at 20:00. All six planned 345 kV outages are still deferred.",
+      "Arrowhead and North Shore stay on the reduced schedules agreed on the UMRC bridge. Operating reserve stays at +200 MW. The Cloquet SVC and the Iron Range and Hartley capacitor banks stay on line.",
+      "System load is 2,410 MW.",
+      "UMRC is at Emergency. The next bridge call is at 23:30 CDT."
+    ],
+    "facilitatorNote": "Before reading, confirm which T2 branch the Manager chose at 17:47 and read only that line. Termination is not yet met under NGDOP 8: WARK05 is active until 01:00 CDT, Kp has been 4 or lower for less than 3 hours, and the RC has not agreed. Watch whether the room keeps the procedure in force while it plans restoration."
+  },
+  "variant": "default",
+  "instructorNote": "This card moves the room into termination and restoration. Watch whether the CRSS keeps NGDOP in force and logs the current Kp, the active WARK05 and the neutral currents against the NGDOP 8 termination conditions. Watch whether the TOM sets the restoration order (line 345-1 first, closed only with UMRC agreement, then T2, then the six deferred outages). Also watch whether the RE opens the 3H22/21 Z1 trip as a post-event review item without changing any settings, and whether the RCSM puts these requests on the 23:30 bridge agenda.",
+  "citations": [
+    {
+      "documentId": "01M793R1CKPE6S3EAJK06CD962",
+      "documentTitle": "NLTO-OP-31: Geomagnetic Disturbance Operating Procedure",
+      "headingPath": "NGDOP › 8. Termination",
+      "quote": "The procedure is terminated when SWPC's warnings have expired, Kp has been 4 or lower for 3 consecutive hours, neutral currents at all monitored transformers have been below 25 amperes for 3 hours, an",
+      "chunkId": 9
+    },
+    {
+      "documentId": "01M793R1CQ0HWFM5EDVA13Z46E",
+      "documentTitle": "UMRC-SOP-12: GMD Forecasting, Notification and Wide-Area Coordination",
+      "headingPath": "UGFNWC › 8. Ending and learning",
+      "quote": "The RC ends the warning when SWPC's warnings have expired and Kp has been 4 or lower for 3 hours and the TOPs agree. It then sends a termination message and a post-event data request; each TOP returns",
+      "chunkId": 26
+    },
+    {
+      "documentId": "01M793R1CKPE6S3EAJK06CD962",
+      "documentTitle": "NLTO-OP-31: Geomagnetic Disturbance Operating Procedure",
+      "headingPath": "NGDOP › 4. Conditions and actions",
+      "quote": "| Condition | Predetermined trigger | Actions | |---|---|---| | **Condition 1: Watch** | SWPC Geomagnetic Storm Watch for G3 or higher, or a CME discussion with an arrival window in the next 36 hours,",
+      "chunkId": 5
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template"
+    ]
+  },
+  "assets": [],
+  "versions": [
+    {
+      "at": "2026-11-13T00:41:32.110Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "TIME JUMP: Past the Peak, 23:00 CDT",
+        "type": "time_jump_card",
+        "fields": {
+          "exerciseTime": "3:00",
+          "newTime": "23:00 CDT",
+          "jumpLabel": "+7 hours (16:00 → 23:00 CDT)",
+          "injectId": "I-13",
+          "scenarioTitle": "Aurora Over Texas — GIC, Conservative Operations & Timing Holdover",
+          "narration": "THIS IS AN EXERCISE. The exercise clock is now 05:00, three hours after STARTEX. In the scenario it is 23:00 CDT on Tuesday 16 March 2027, and this phase runs through the night into Wednesday morning, 17 March 2027. Since 16:00, Kp peaked at 9 (G5, Extreme) at 17:47. It fell to 7 by 20:00 and to 5 by 21:00, and the SWPC real-time estimate now reads 4. The WARK08 warning expired at 0300 UTC, which is 22:00 CDT. At 21:55 CDT the control room received: '*** EXERCISE *** Space Weather Message Code: WARK05, Serial Number: 0161, Issue Time: 2027 Mar 17 0255 UTC. WARNING: Geomagnetic K-index of 5 expected. Valid From: 2027 Mar 17 0300 UTC. Valid To: 2027 Mar 17 0600 UTC. Warning Condition: Persistence. NOAA Scale: G1 - Minor. *** EXERCISE ***' Neutral currents are down: HARTLEY_AT1 14 A, CLOQUET_AT1 6 A, all others below 10 A. Iron Range T2: read only the line that matches the Manager's decision at 17:47. IF T2 WAS TAKEN OUT: T2 has been isolated since the switching just before 18:00. An oil sample was drawn at 20:30 and the lab result is due Wednesday at 08:00. Iron Range T1 and T3 are loaded to 81 and 77 percent of emergency rating. IF T2 STAYED IN SERVICE: T2 neutral current is 9 A and the hot-spot is back to 71 C. The DGA hydrogen alarm is still latched, and the trend is flat. Line HARTLEY–IRON RANGE 345-1 has been open since 16:20. The Hartley crew confirmed that CB 3H22 is mechanically closed and that 345-2 is carrying load, but nobody has explained the 21 Z1 target. The Hartley AT-1 crew went home at 20:00. Arrowhead and North Shore stay on the reduced schedules agreed on the UMRC bridge. Load is 2,410 MW. The UMRC is still at Emergency, and the next call is at 23:30. The storm is past its peak. Now the room has to decide what comes back first and prove when the storm is over.",
+          "worldState": [
+            "Scenario time 23:00 CDT, Tuesday 16 March 2027 (0400 UTC, Wednesday 17 March 2027).",
+            "Kp peak was 9 (G5) at 17:47 CDT. Kp 7 at 20:00, Kp 5 at 21:00, real-time estimate 4 at 23:00.",
+            "WARK08 (Kp 8 or greater) expired at 0300 UTC / 22:00 CDT.",
+            "WARK05 Serial 0161 (G1 - Minor, Persistence) is ACTIVE, valid 0300–0600 UTC (22:00 CDT Tuesday to 01:00 CDT Wednesday).",
+            "Neutral currents: HARTLEY_AT1 14 A, CLOQUET_AT1 6 A, all other monitored autotransformers below 10 A.",
+            "Iron Range T2: status as the Manager chose at 17:47 (isolated and waiting on the oil sample result due 08:00 Wednesday, OR in service at 9 A and 71 C with the hydrogen alarm still latched).",
+            "Line HARTLEY–IRON RANGE 345-1 has been OPEN since 16:20. CB 3H22 is mechanically CLOSED and 345-2 is carrying load. The 21 Z1 target has not been explained.",
+            "Hartley AT-1 replacement crew released at 20:00. All six planned 345 kV outages are still deferred.",
+            "Arrowhead and North Shore stay on the reduced schedules agreed on the UMRC bridge. Operating reserve stays at +200 MW. The Cloquet SVC and the Iron Range and Hartley capacitor banks stay on line.",
+            "System load is 2,410 MW.",
+            "UMRC is at Emergency. The next bridge call is at 23:30 CDT."
+          ],
+          "facilitatorNote": "Before reading, confirm which T2 branch the Manager chose at 17:47 and read only that line. Termination is not yet met under NGDOP 8: WARK05 is active until 01:00 CDT, Kp has been 4 or lower for less than 3 hours, and the RC has not agreed. Watch whether the room keeps the procedure in force while it plans restoration."
+        },
+        "instructorNote": "This card moves the room into termination and restoration. Watch whether the CRSS keeps NGDOP in force and logs the current Kp, the active WARK05 and the neutral currents against the NGDOP 8 termination conditions. Watch whether the TOM sets the restoration order (line 345-1 first, closed only with UMRC agreement, then T2, then the six deferred outages). Also watch whether the RE opens the 3H22/21 Z1 trip as a post-event review item without changing any settings, and whether the RCSM puts these requests on the 23:30 bridge agenda.",
+        "deliveryMode": "read_aloud"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-11-13T01:54:41.512Z"
+}

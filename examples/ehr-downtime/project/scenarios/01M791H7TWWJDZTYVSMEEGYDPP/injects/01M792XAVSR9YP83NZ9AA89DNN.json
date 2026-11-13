@@ -1,0 +1,107 @@
+{
+  "id": "01M792XAVSR9YP83NZ9AA89DNN",
+  "mselRowId": "I-11",
+  "type": "time_jump_card",
+  "title": "Time Jump: 04:40, Two and a Half Hours Down",
+  "deliveryMode": "read_aloud",
+  "fields": {
+    "exerciseTime": "2:00",
+    "newTime": "04:40 CST",
+    "jumpLabel": "+60 minutes since the 03:40 card",
+    "narration": "EXERCISE: all patients and record numbers are fictional. It is now 04:40 on Tuesday, February 9, 2027. It is still minus 21 degrees outside, and the roads into Duluth are glazed with ice. Lakechart and the interface engine are still red and down, two and a half hours after the 02:10 failure. Dr. Priya Raman has reached the Boardroom command center. Nearly sixteen thousand messages are held in the source systems, and that hold runs out at about 10:10. Northpine still has no confirmed arrival time for the replacement controller, and Relaywell has not called back. The ED is up to 25 patients, including the two unidentified rollover patients. Every unit is working on paper from a census printed at 23:20. Nobody has explained the service-account login, so any downtime level you have set can only be provisional. The two-hour window for the diversion decision is closing now. Command, the board is yours.",
+    "worldState": [
+      "Clock: 04:40 CST, Tuesday, February 9, 2027. Outside: -21°F, roads into Duluth glazed with ice.",
+      "LAKECHART PROD — RED — DOWN. INTERFACE ENGINE — RED — DOWN. Down since 02:10 (2 hr 30 min). No change on the array: controller A FAULT, controller B takeover ABORTED.",
+      "Interface monitor, 04:40, messages held at source (about 15,890 in total): ADT 208 | ORM orders 2,700 | ORU results 6,300 | medication administration 3,900 | charges 2,630 | ELR, immunizations and HIE outbound 150.",
+      "The 8-hour source hold runs out at about 10:10. After that, queues start dropping messages.",
+      "Northpine case P1-20270209-0417: the decision on hosted web and printing failover is still open. The replacement controller module and technician have NO confirmed arrival time.",
+      "Relaywell ticket RW-88213: no callback yet. The expected callback window (about 05:02) has not arrived and nobody from Relaywell has made contact.",
+      "Dr. Priya Raman and Marcus Ellery are both in the Boardroom command center (ext. 5520).",
+      "ED census: 25 patients, including ZZ-Trauma Tuesday 1 (D-004117) and ZZ-Trauma Tuesday 2 (D-004118).",
+      "All units are on paper procedures. The downtime viewer still reads 'READ-ONLY — Data current as of 23:20'. Admissions and transfers after 23:20 are missing from every printed census and MAR.",
+      "Northstar ticket NSM-27-00562: the svc-rptexport interactive logon at 03:30:41 is still unexplained. The account has not been disabled. The 60-minute rule-in/rule-out window ended at 03:40 with no outcome recorded.",
+      "The downtime level stays PROVISIONAL until the security question is answered.",
+      "Diversion of elective admissions or ambulances: the decision from the Incident Commander and the ED Medical Director is due now."
+    ],
+    "facilitatorNote": "Give command a few minutes to rebuild the board before the next card. Check that the IC writes down the provisional level and why it is provisional, the security question, and an actual diversion decision (divert, partial divert or hold open), with a time and an owner. Check that the CSL updates the queue counts, both vendor case numbers and the missed callbacks against the 10:10 hold limit.",
+    "scenarioTitle": "Cold Storage — EHR Storage Failure & Downtime Continuity",
+    "injectId": "I-11"
+  },
+  "variant": "default",
+  "instructorNote": "This is a checkpoint card that makes command restate the situation. Watch whether the IC treats the expired 60-minute window as a reason to run the event as a suspected security incident at a provisional level, and whether the diversion decision gets made or just drifts. The CSL should tie the growing queues to the 10:10 hold limit and to the vendor callbacks that never came.",
+  "citations": [
+    {
+      "documentId": "01M791H5T4QRTQAQ9XEEV0T7D6",
+      "documentTitle": "Lakemont Community Hospital — Information Systems Downtime and Recovery Plan",
+      "headingPath": "Lakemont Community Hospital — In… › 4. First hour checklist",
+      "quote": "1. The first person to notice loss of the EHR calls the IS Help Desk (ext. 5500). The help desk technician checks the status dashboard and pages the on-call systems analyst. 2. The on-call analyst con",
+      "chunkId": 5
+    },
+    {
+      "documentId": "01M791H5T9913NQR8TVBHP3J1Z",
+      "documentTitle": "Lakemont Community Hospital — Clinical Systems, Interfaces and Vendors",
+      "headingPath": "Lakemont Community Hospital — Cl… › 7. People",
+      "quote": "- Clinical Systems Lead: Marcus Ellery, ext. 5502. - On-call systems analysts: Ananya Desai (nights, ext. 5503) and Kyle Brandvold (days, ext. 5504). - Record Integrity Specialist: Elena Moreau, ext. ",
+      "chunkId": 39
+    },
+    {
+      "documentId": "01M791H5T9913NQR8TVBHP3J1Z",
+      "documentTitle": "Lakemont Community Hospital — Clinical Systems, Interfaces and Vendors",
+      "headingPath": "Lakemont Community Hospital — Cl… › 2. Interface classes",
+      "quote": "Messages are grouped for downtime decisions into classes: - **ADT** (admit, discharge, transfer, registration): about 2,400 per day. - **Orders** (to lab, radiology, pharmacy): about 22,000 per day. -",
+      "chunkId": 34
+    },
+    {
+      "documentId": "01M791H5T4QRTQAQ9XEEV0T7D6",
+      "documentTitle": "Lakemont Community Hospital — Information Systems Downtime and Recovery Plan",
+      "headingPath": "Lakemont Community Hospital — In… › 3. Downtime levels",
+      "quote": "| Level | Meaning | Examples | Who declares | |---|---|---|---| | 1 | Degraded; clinicians can still chart | Slow response, one interface delayed | Clinical Systems Lead | | 2 | EHR read-only or inter",
+      "chunkId": 4
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template"
+    ]
+  },
+  "assets": [],
+  "versions": [
+    {
+      "at": "2026-11-12T23:54:16.680Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "Time Jump: 04:40, Two and a Half Hours Down",
+        "type": "time_jump_card",
+        "fields": {
+          "exerciseTime": "2:00",
+          "newTime": "04:40 CST",
+          "jumpLabel": "+60 minutes since the 03:40 card",
+          "narration": "EXERCISE: all patients and record numbers are fictional. It is now 04:40 on Tuesday, February 9, 2027. It is still minus 21 degrees outside, and the roads into Duluth are glazed with ice. Lakechart and the interface engine are still red and down, two and a half hours after the 02:10 failure. Dr. Priya Raman has reached the Boardroom command center. Nearly sixteen thousand messages are held in the source systems, and that hold runs out at about 10:10. Northpine still has no confirmed arrival time for the replacement controller, and Relaywell has not called back. The ED is up to 25 patients, including the two unidentified rollover patients. Every unit is working on paper from a census printed at 23:20. Nobody has explained the service-account login, so any downtime level you have set can only be provisional. The two-hour window for the diversion decision is closing now. Command, the board is yours.",
+          "worldState": [
+            "Clock: 04:40 CST, Tuesday, February 9, 2027. Outside: -21°F, roads into Duluth glazed with ice.",
+            "LAKECHART PROD — RED — DOWN. INTERFACE ENGINE — RED — DOWN. Down since 02:10 (2 hr 30 min). No change on the array: controller A FAULT, controller B takeover ABORTED.",
+            "Interface monitor, 04:40, messages held at source (about 15,890 in total): ADT 208 | ORM orders 2,700 | ORU results 6,300 | medication administration 3,900 | charges 2,630 | ELR, immunizations and HIE outbound 150.",
+            "The 8-hour source hold runs out at about 10:10. After that, queues start dropping messages.",
+            "Northpine case P1-20270209-0417: the decision on hosted web and printing failover is still open. The replacement controller module and technician have NO confirmed arrival time.",
+            "Relaywell ticket RW-88213: no callback yet. The expected callback window (about 05:02) has not arrived and nobody from Relaywell has made contact.",
+            "Dr. Priya Raman and Marcus Ellery are both in the Boardroom command center (ext. 5520).",
+            "ED census: 25 patients, including ZZ-Trauma Tuesday 1 (D-004117) and ZZ-Trauma Tuesday 2 (D-004118).",
+            "All units are on paper procedures. The downtime viewer still reads 'READ-ONLY — Data current as of 23:20'. Admissions and transfers after 23:20 are missing from every printed census and MAR.",
+            "Northstar ticket NSM-27-00562: the svc-rptexport interactive logon at 03:30:41 is still unexplained. The account has not been disabled. The 60-minute rule-in/rule-out window ended at 03:40 with no outcome recorded.",
+            "The downtime level stays PROVISIONAL until the security question is answered.",
+            "Diversion of elective admissions or ambulances: the decision from the Incident Commander and the ED Medical Director is due now."
+          ],
+          "facilitatorNote": "Give command a few minutes to rebuild the board before the next card. Check that the IC writes down the provisional level and why it is provisional, the security question, and an actual diversion decision (divert, partial divert or hold open), with a time and an owner. Check that the CSL updates the queue counts, both vendor case numbers and the missed callbacks against the 10:10 hold limit.",
+          "scenarioTitle": "Cold Storage — EHR Storage Failure & Downtime Continuity",
+          "injectId": "I-11"
+        },
+        "instructorNote": "This is a checkpoint card that makes command restate the situation. Watch whether the IC treats the expired 60-minute window as a reason to run the event as a suspected security incident at a provisional level, and whether the diversion decision gets made or just drifts. The CSL should tie the growing queues to the 10:10 hold limit and to the vendor callbacks that never came.",
+        "deliveryMode": "read_aloud"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-11-13T02:45:14.868Z"
+}

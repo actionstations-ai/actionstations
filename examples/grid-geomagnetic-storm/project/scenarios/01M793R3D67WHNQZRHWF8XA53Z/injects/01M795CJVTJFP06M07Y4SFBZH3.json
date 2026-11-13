@@ -1,0 +1,190 @@
+{
+  "id": "01M795CJVTJFP06M07Y4SFBZH3",
+  "mselRowId": "I-09",
+  "type": "gnss_timing_status",
+  "title": "GNSS Timing: North Shore, Iron Range, Cloquet in Holdover",
+  "deliveryMode": "display_main_screen",
+  "fields": {
+    "organization": "Northern Lakes Transmission Operations: NLTO Fiber and Telecommunications Timing Team, GNSS timing monitor (Duluth control center)",
+    "asOf": "2027 Mar 16 2110 UTC",
+    "summary": "3 of 14 substation GPS clocks lost lock between 2104 and 2109 UTC and are in holdover. 11 are locked, and the Duluth backup network time source is available but not selected. Wide-area screen: IRON_RANGE–ARROWHEAD phase angle rose from 23.8° to 26.1° over 6 minutes while ARROWHEAD_IFC stayed flat at 620 MW. NORTH_SHORE PMU frequency is offset by 0.03 Hz, and no other PMU shows the offset.",
+    "sites": [
+      {
+        "site": "NORTH_SHORE",
+        "source": "GPS (internal oscillator)",
+        "state": "HOLDOVER: lock lost 2104:12 UTC (16:04:12 CDT)",
+        "satellites": "3 (C/N0 −14 dB)",
+        "timeError": "Not verified. Last fix taken under degraded tracking.",
+        "holdoverRemaining": "23 h 54 m (ends 17 Mar 2104 UTC / 16:04 CDT Wed)"
+      },
+      {
+        "site": "IRON_RANGE",
+        "source": "GPS (internal oscillator)",
+        "state": "HOLDOVER: lock lost 2106:40 UTC (16:06:40 CDT)",
+        "satellites": "2",
+        "timeError": "Not verified. Model estimate ±0.3 µs.",
+        "holdoverRemaining": "23 h 56 m (ends 17 Mar 2106 UTC / 16:06 CDT Wed)"
+      },
+      {
+        "site": "CLOQUET",
+        "source": "GPS (internal oscillator)",
+        "state": "HOLDOVER: lock lost 2109:05 UTC (16:09:05 CDT)",
+        "satellites": "3",
+        "timeError": "Not verified. Model estimate ±0.1 µs.",
+        "holdoverRemaining": "23 h 59 m (ends 17 Mar 2109 UTC / 16:09 CDT Wed)"
+      },
+      {
+        "site": "HARTLEY",
+        "source": "GPS",
+        "state": "LOCKED (CAUTION: tracking reduced)",
+        "satellites": "6 (C/N0 −8 dB)",
+        "timeError": "0.4 µs",
+        "holdoverRemaining": "24 h 00 m (not in use)"
+      },
+      {
+        "site": "VIRGINIA",
+        "source": "GPS",
+        "state": "LOCKED",
+        "satellites": "7",
+        "timeError": "0.2 µs",
+        "holdoverRemaining": "24 h 00 m (not in use)"
+      },
+      {
+        "site": "Remaining 9 substations (aggregate)",
+        "source": "GPS",
+        "state": "LOCKED",
+        "satellites": "6–9",
+        "timeError": "≤0.3 µs",
+        "holdoverRemaining": "24 h 00 m (not in use)"
+      },
+      {
+        "site": "DULUTH CONTROL CENTER: backup network time server (fiber ring)",
+        "source": "Network time over fiber ring",
+        "state": "AVAILABLE, NOT SELECTED at any site",
+        "satellites": "n/a (terrestrial)",
+        "timeError": "<0.1 µs to the reference",
+        "holdoverRemaining": "n/a"
+      }
+    ],
+    "footer": "EXERCISE — simulated timing data for 16 Mar 2027 scenario use only. Alarm threshold: >1 µs error or loss of lock at 3 or more sites. Switching a site to the network time source puts a time step in the PMU and relay event recorder data."
+  },
+  "instructorNote": "This tests whether TIME and CRSS take the time-source step in NGDOP 7 in order. Before the engineer switches anything, TIME should tell CRSS which three sites and PMU feeds are suspect. Then the sites move to the Duluth network time source one at a time, never during switching or a relay event review, and each holdover start goes in the log against the 24-hour limit (16:04, 16:06 and 16:09 CDT Wednesday). Watch whether CRSS marks the IRON_RANGE and NORTH_SHORE PMU angles as suspect instead of treating them as a real flow change, and reports this on the 16:30 UMRC call.",
+  "citations": [
+    {
+      "documentId": "01M793R1CKPE6S3EAJK06CD962",
+      "documentTitle": "NLTO-OP-31: Geomagnetic Disturbance Operating Procedure",
+      "headingPath": "NGDOP › 7. Time source",
+      "quote": "Substation clocks and phasor measurement units use GPS time. A geomagnetic storm of G4 or higher can degrade GNSS. NLTO has holdover clocks at 14 substations with 24 hours of holdover and a backup net",
+      "chunkId": 8
+    },
+    {
+      "documentId": "01M793R1CP8FSDJTZMVBXZXCKW",
+      "documentTitle": "Northern Lakes Transmission Operations: System and Control Room Description",
+      "headingPath": "Northern Lakes Transmission Oper… › 4. Time and communications",
+      "quote": "GPS-disciplined clocks serve the substation protection and phasor equipment. Holdover clocks are fitted at 14 substations (24-hour holdover); a backup time source from a network time server over the f",
+      "chunkId": 14
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template"
+    ]
+  },
+  "assets": [
+    {
+      "id": "01M799TD2CR1BP3JAJJG4VE7Z8",
+      "kind": "image",
+      "path": "scenarios/01M793R3D67WHNQZRHWF8XA53Z/media/01M795CJVTJFP06M07Y4SFBZH3/01M799TD2CR1BP3JAJJG4VE7Z8.png",
+      "role": "rendered",
+      "width": 1520,
+      "height": 1876,
+      "sha256": "e3bcfc084ad2a418b3ac6bb808f7fc10d2588e63176aed1c210f4ef66cd8b507",
+      "provenance": {
+        "provider": "template",
+        "templateId": "gnss_timing_status",
+        "templateVersion": "1",
+        "createdAt": "2026-11-13T01:54:40.172Z"
+      }
+    }
+  ],
+  "versions": [
+    {
+      "at": "2026-11-13T00:37:38.444Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "GNSS Timing: North Shore, Iron Range, Cloquet in Holdover",
+        "type": "gnss_timing_status",
+        "fields": {
+          "organization": "Northern Lakes Transmission Operations: NLTO Fiber and Telecommunications Timing Team, GNSS timing monitor (Duluth control center)",
+          "asOf": "2027 Mar 16 2110 UTC",
+          "summary": "3 of 14 substation GPS clocks lost lock between 2104 and 2109 UTC and are in holdover. 11 are locked, and the Duluth backup network time source is available but not selected. Wide-area screen: IRON_RANGE–ARROWHEAD phase angle rose from 23.8° to 26.1° over 6 minutes while ARROWHEAD_IFC stayed flat at 620 MW. NORTH_SHORE PMU frequency is offset by 0.03 Hz, and no other PMU shows the offset.",
+          "sites": [
+            {
+              "site": "NORTH_SHORE",
+              "source": "GPS (internal oscillator)",
+              "state": "HOLDOVER: lock lost 2104:12 UTC (16:04:12 CDT)",
+              "satellites": "3 (C/N0 −14 dB)",
+              "timeError": "Not verified. Last fix taken under degraded tracking.",
+              "holdoverRemaining": "23 h 54 m (ends 17 Mar 2104 UTC / 16:04 CDT Wed)"
+            },
+            {
+              "site": "IRON_RANGE",
+              "source": "GPS (internal oscillator)",
+              "state": "HOLDOVER: lock lost 2106:40 UTC (16:06:40 CDT)",
+              "satellites": "2",
+              "timeError": "Not verified. Model estimate ±0.3 µs.",
+              "holdoverRemaining": "23 h 56 m (ends 17 Mar 2106 UTC / 16:06 CDT Wed)"
+            },
+            {
+              "site": "CLOQUET",
+              "source": "GPS (internal oscillator)",
+              "state": "HOLDOVER: lock lost 2109:05 UTC (16:09:05 CDT)",
+              "satellites": "3",
+              "timeError": "Not verified. Model estimate ±0.1 µs.",
+              "holdoverRemaining": "23 h 59 m (ends 17 Mar 2109 UTC / 16:09 CDT Wed)"
+            },
+            {
+              "site": "HARTLEY",
+              "source": "GPS",
+              "state": "LOCKED (CAUTION: tracking reduced)",
+              "satellites": "6 (C/N0 −8 dB)",
+              "timeError": "0.4 µs",
+              "holdoverRemaining": "24 h 00 m (not in use)"
+            },
+            {
+              "site": "VIRGINIA",
+              "source": "GPS",
+              "state": "LOCKED",
+              "satellites": "7",
+              "timeError": "0.2 µs",
+              "holdoverRemaining": "24 h 00 m (not in use)"
+            },
+            {
+              "site": "Remaining 9 substations (aggregate)",
+              "source": "GPS",
+              "state": "LOCKED",
+              "satellites": "6–9",
+              "timeError": "≤0.3 µs",
+              "holdoverRemaining": "24 h 00 m (not in use)"
+            },
+            {
+              "site": "DULUTH CONTROL CENTER: backup network time server (fiber ring)",
+              "source": "Network time over fiber ring",
+              "state": "AVAILABLE, NOT SELECTED at any site",
+              "satellites": "n/a (terrestrial)",
+              "timeError": "<0.1 µs to the reference",
+              "holdoverRemaining": "n/a"
+            }
+          ],
+          "footer": "EXERCISE — simulated timing data for 16 Mar 2027 scenario use only. Alarm threshold: >1 µs error or loss of lock at 3 or more sites. Switching a site to the network time source puts a time step in the PMU and relay event recorder data."
+        },
+        "instructorNote": "This tests whether TIME and CRSS take the time-source step in NGDOP 7 in order. Before the engineer switches anything, TIME should tell CRSS which three sites and PMU feeds are suspect. Then the sites move to the Duluth network time source one at a time, never during switching or a relay event review, and each holdover start goes in the log against the 24-hour limit (16:04, 16:06 and 16:09 CDT Wednesday). Watch whether CRSS marks the IRON_RANGE and NORTH_SHORE PMU angles as suspect instead of treating them as a real flow change, and reports this on the 16:30 UMRC call.",
+        "deliveryMode": "display_main_screen"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-11-13T01:54:40.334Z"
+}

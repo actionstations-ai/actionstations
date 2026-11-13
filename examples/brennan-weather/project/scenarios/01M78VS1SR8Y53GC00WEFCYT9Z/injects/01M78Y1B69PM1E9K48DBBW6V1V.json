@@ -1,0 +1,226 @@
+{
+  "id": "01M78Y1B69PM1E9K48DBBW6V1V",
+  "mselRowId": "I-14",
+  "type": "cad_radio_traffic",
+  "title": "Radio Log 23:45: Engine 31 at the Candle Plant, Unit 12 at Pine Hollow",
+  "deliveryMode": "hand_to_role",
+  "fields": {
+    "agency": "Brennan County Communications (911)",
+    "incidentName": "Corwin Wax & Candle collapse (CAD #26-118402) / Pine Hollow lot 14 entrapment (CAD #26-118403). No incident name announced by command",
+    "marking": "EXERCISE - NOT A REAL INCIDENT",
+    "preparedBy": "Telecommunicator, Position 1",
+    "from": "23:45:05",
+    "to": "23:48:40",
+    "traffic": [
+      {
+        "time": "23:45:05",
+        "channel": "Fire Dispatch",
+        "from": "Engine 31",
+        "to": "Brennan",
+        "flag": "Emergency",
+        "message": "Engine 31 to Brennan. On scene at Corwin Wax & Candle. East roof span down over the production floor. Two victims pulled out walking, at least 20 still unaccounted for, voices under the steel. Strong gas odor, and we're shutting the meter now. We need heavy rescue and at least four ALS units. Who has command out here?"
+      },
+      {
+        "time": "23:45:30",
+        "channel": "Fire Dispatch",
+        "from": "Brennan",
+        "to": "Engine 31",
+        "flag": "Priority",
+        "message": "Engine 31, Brennan copies. Roof collapse, two out walking, 20-plus unaccounted, gas odor, meter being shut. Request for heavy rescue and four ALS received. Stand by on command, checking with the EOC. 23:45."
+      },
+      {
+        "time": "23:46:05",
+        "channel": "Sheriff Dispatch",
+        "from": "Unit 12",
+        "to": "Brennan",
+        "flag": "Emergency",
+        "message": "Unit 12 at the Pine Hollow entrance. Trees across the only road in. I'm on foot to lot 14. Three homes overturned that I can see. I need a saw crew and EMS."
+      },
+      {
+        "time": "23:46:25",
+        "channel": "Sheriff Dispatch",
+        "from": "Brennan",
+        "to": "Unit 12",
+        "flag": "Priority",
+        "message": "Unit 12, Brennan copies. On foot to lot 14, road blocked by trees, three homes overturned. Saw crew and EMS requested. Be advised lot 14 matches the caller who lost her connection at 23:36, an adult and two children reported under the trailer."
+      },
+      {
+        "time": "23:47:10",
+        "channel": "Fire Dispatch",
+        "from": "Engine 31",
+        "to": "Brennan",
+        "flag": "Emergency",
+        "message": "Engine 31, Brennan. Meter's off, still smelling gas near the melt room, so we're keeping everyone clear of the east side. Plant lead says 71 at the loading dock. I've got four on my crew and I'm working the voices. I need to know who I'm handing off to and where incoming units stage."
+      },
+      {
+        "time": "23:47:25",
+        "channel": "Fire Dispatch",
+        "from": "Brennan",
+        "to": "Engine 31",
+        "flag": "Priority",
+        "message": "Engine 31, copy. Gas meter secured, odor continuing, 71 accounted for at the dock. Command and staging not yet assigned. Will advise."
+      },
+      {
+        "time": "23:48:00",
+        "channel": "EOC line (phone)",
+        "from": "McCracken County EM duty officer",
+        "to": "Brennan County EOC",
+        "flag": "Priority",
+        "message": "We have a heavy rescue company and two ALS ambulances ready to roll from Paducah. Graves and Marshall are calling me about the same thing. Nobody's told us where staging is, who our people report to, or what channel to be on. We won't send units into a debris field blind. Give me a staging location and a contact and they're moving."
+      },
+      {
+        "time": "23:48:40",
+        "channel": "Sheriff Dispatch",
+        "from": "Unit 12",
+        "to": "Brennan",
+        "flag": "Routine",
+        "message": "Unit 12. Over the first tree, about a quarter mile in. Lines down across the lane, I'm going around. Will advise from lot 14."
+      }
+    ],
+    "notes": "Fire Dispatch and Sheriff Dispatch are both being worked from Positions 1 and 2 while 9 calls are holding, so Engine 31's second transmission waited about 20 seconds for a reply. As of 23:48:40, no incident commander, staging area or tactical channel has been named for Corwin or Pine Hollow, and every unit is still on a dispatch channel. The McCracken County request came in on the EOC phone line, not by radio, and is waiting on a staging location and point of contact. Graves and Marshall County EMAs have not called Brennan directly. North-end cell sites are on battery, so cell callbacks into Pine Hollow are unreliable."
+  },
+  "instructorNote": "This inject tests whether the Field Incident Commander quickly sets up NIMS command: Corwin Command at the plant (with unified command with the Sheriff if needed), a separate Pine Hollow Division under Unit 12, one staging area outside the damage path with ICS 211 check-in, and one tactical channel. It also tests whether the EM Director formally requests mutual aid from McCracken, Graves and Marshall, notifies the KYEM Area 1 Manager and logs it all in WebEOC. Check that 911 then relays the command names and channel. If nobody gives McCracken a staging location and contact, their units do not move.",
+  "citations": [
+    {
+      "documentId": "01M78VRZSB53VPS15HQ301KR5C",
+      "documentTitle": "Brennan County Emergency Operations Plan — Annex H: Severe Weather and Tornado",
+      "headingPath": "Brennan County Emergency Operati… › 5. Direction, control and coordination",
+      "quote": "The EOC is at the Brennan County Public Safety Building, 900 Industrial Parkway, Ashford. The alternate EOC is the Corwin Fire Station 3 training room. Field incident command follows NIMS. The EOC coo",
+      "chunkId": 16
+    },
+    {
+      "documentId": "01M78VRZSB53VPS15HQ301KR5C",
+      "documentTitle": "Brennan County Emergency Operations Plan — Annex H: Severe Weather and Tornado",
+      "headingPath": "Brennan County Emergency Operati… › 4. Organization and responsibilities",
+      "quote": "- **EM Director (Dana Whitfield):** activates the EOC, decides countywide siren activation outside NWS warnings, requests state assistance, advises the County Judge/Executive on a local emergency decl",
+      "chunkId": 15
+    },
+    {
+      "documentId": "01M78VRZS9YA4B9N7KSFQ74871",
+      "documentTitle": "Brennan County — Facilities, Populations and Warning Systems",
+      "headingPath": "BCFPWS › 6. Partners",
+      "quote": "- NWS Weather Forecast Office Paducah: warning-coordination meteorologist, NWSChat room \"pahchat\", EM hotline. - Kentucky Emergency Management, Area 1 Manager; Kentucky State Police Post 1. - McCracke",
+      "chunkId": 7
+    },
+    {
+      "documentId": "01M78VRZS9YA4B9N7KSFQ74871",
+      "documentTitle": "Brennan County — Facilities, Populations and Warning Systems",
+      "headingPath": "BCFPWS › 4. Emergency operations",
+      "quote": "- **EOC:** Brennan County Public Safety Building, 900 Industrial Parkway, Ashford. Positions for 14; generator; satellite phone; NWSChat, WebEOC (Kentucky's statewide instance) and BrennanAlert consol",
+      "chunkId": 5
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template"
+    ]
+  },
+  "assets": [
+    {
+      "id": "01M79CM3FP6FAG8F3N1BEP9W8Q",
+      "kind": "image",
+      "path": "scenarios/01M78VS1SR8Y53GC00WEFCYT9Z/media/01M78Y1B69PM1E9K48DBBW6V1V/01M79CM3FP6FAG8F3N1BEP9W8Q.png",
+      "role": "rendered",
+      "width": 1056,
+      "height": 816,
+      "sha256": "6446f6f04500b5a79627abda0035a5d6df182b7794671bd267de904ede01277b",
+      "provenance": {
+        "provider": "template",
+        "templateId": "cad_radio_traffic",
+        "templateVersion": "1",
+        "createdAt": "2026-11-13T02:43:39.493Z"
+      }
+    }
+  ],
+  "versions": [
+    {
+      "at": "2026-11-12T22:29:12.973Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "Radio Log 23:45: Engine 31 at the Candle Plant, Unit 12 at Pine Hollow",
+        "type": "cad_radio_traffic",
+        "fields": {
+          "agency": "Brennan County Communications (911)",
+          "incidentName": "Corwin Wax & Candle collapse (CAD #26-118402) / Pine Hollow lot 14 entrapment (CAD #26-118403). No incident name announced by command",
+          "marking": "EXERCISE - NOT A REAL INCIDENT",
+          "preparedBy": "Telecommunicator, Position 1",
+          "from": "23:45:05",
+          "to": "23:48:40",
+          "traffic": [
+            {
+              "time": "23:45:05",
+              "channel": "Fire Dispatch",
+              "from": "Engine 31",
+              "to": "Brennan",
+              "flag": "Emergency",
+              "message": "Engine 31 to Brennan. On scene at Corwin Wax & Candle. East roof span down over the production floor. Two victims pulled out walking, at least 20 still unaccounted for, voices under the steel. Strong gas odor, and we're shutting the meter now. We need heavy rescue and at least four ALS units. Who has command out here?"
+            },
+            {
+              "time": "23:45:30",
+              "channel": "Fire Dispatch",
+              "from": "Brennan",
+              "to": "Engine 31",
+              "flag": "Priority",
+              "message": "Engine 31, Brennan copies. Roof collapse, two out walking, 20-plus unaccounted, gas odor, meter being shut. Request for heavy rescue and four ALS received. Stand by on command, checking with the EOC. 23:45."
+            },
+            {
+              "time": "23:46:05",
+              "channel": "Sheriff Dispatch",
+              "from": "Unit 12",
+              "to": "Brennan",
+              "flag": "Emergency",
+              "message": "Unit 12 at the Pine Hollow entrance. Trees across the only road in. I'm on foot to lot 14. Three homes overturned that I can see. I need a saw crew and EMS."
+            },
+            {
+              "time": "23:46:25",
+              "channel": "Sheriff Dispatch",
+              "from": "Brennan",
+              "to": "Unit 12",
+              "flag": "Priority",
+              "message": "Unit 12, Brennan copies. On foot to lot 14, road blocked by trees, three homes overturned. Saw crew and EMS requested. Be advised lot 14 matches the caller who lost her connection at 23:36, an adult and two children reported under the trailer."
+            },
+            {
+              "time": "23:47:10",
+              "channel": "Fire Dispatch",
+              "from": "Engine 31",
+              "to": "Brennan",
+              "flag": "Emergency",
+              "message": "Engine 31, Brennan. Meter's off, still smelling gas near the melt room, so we're keeping everyone clear of the east side. Plant lead says 71 at the loading dock. I've got four on my crew and I'm working the voices. I need to know who I'm handing off to and where incoming units stage."
+            },
+            {
+              "time": "23:47:25",
+              "channel": "Fire Dispatch",
+              "from": "Brennan",
+              "to": "Engine 31",
+              "flag": "Priority",
+              "message": "Engine 31, copy. Gas meter secured, odor continuing, 71 accounted for at the dock. Command and staging not yet assigned. Will advise."
+            },
+            {
+              "time": "23:48:00",
+              "channel": "EOC line (phone)",
+              "from": "McCracken County EM duty officer",
+              "to": "Brennan County EOC",
+              "flag": "Priority",
+              "message": "We have a heavy rescue company and two ALS ambulances ready to roll from Paducah. Graves and Marshall are calling me about the same thing. Nobody's told us where staging is, who our people report to, or what channel to be on. We won't send units into a debris field blind. Give me a staging location and a contact and they're moving."
+            },
+            {
+              "time": "23:48:40",
+              "channel": "Sheriff Dispatch",
+              "from": "Unit 12",
+              "to": "Brennan",
+              "flag": "Routine",
+              "message": "Unit 12. Over the first tree, about a quarter mile in. Lines down across the lane, I'm going around. Will advise from lot 14."
+            }
+          ],
+          "notes": "Fire Dispatch and Sheriff Dispatch are both being worked from Positions 1 and 2 while 9 calls are holding, so Engine 31's second transmission waited about 20 seconds for a reply. As of 23:48:40, no incident commander, staging area or tactical channel has been named for Corwin or Pine Hollow, and every unit is still on a dispatch channel. The McCracken County request came in on the EOC phone line, not by radio, and is waiting on a staging location and point of contact. Graves and Marshall County EMAs have not called Brennan directly. North-end cell sites are on battery, so cell callbacks into Pine Hollow are unreliable."
+        },
+        "instructorNote": "This inject tests whether the Field Incident Commander quickly sets up NIMS command: Corwin Command at the plant (with unified command with the Sheriff if needed), a separate Pine Hollow Division under Unit 12, one staging area outside the damage path with ICS 211 check-in, and one tactical channel. It also tests whether the EM Director formally requests mutual aid from McCracken, Graves and Marshall, notifies the KYEM Area 1 Manager and logs it all in WebEOC. Check that 911 then relays the command names and channel. If nobody gives McCracken a staging location and contact, their units do not move.",
+        "deliveryMode": "hand_to_role"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-11-13T02:43:39.725Z"
+}

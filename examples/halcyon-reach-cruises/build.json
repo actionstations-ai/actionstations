@@ -1,0 +1,47 @@
+{
+  "id": "halcyon-reach-cruises",
+  "title": "Halcyon Reach Cruises: Norovirus on MV Halcyon Dawn",
+  "domainProfile": "hospitality",
+  "summary": "A mid-size Galveston cruise line, its 2,980-passenger ship and its simulated outbreak, medical-reporting and guest-communication plans, with an exercise generated from them: a norovirus outbreak on a seven-night western Caribbean voyage, the CDC report clocks, a death on board and the decision whether to board the next voyage after a 3.5-hour turnaround.",
+  "notice": "EXERCISE MATERIAL — for training use. Halcyon Reach Cruises, MV Halcyon Dawn, their people, guests, counts and itinerary are simulated; the public sources consulted for realism are listed in reference/halcyon-reach-cruises/SOURCES.md. The CDC and the other agencies are real, and nothing here is a CDC product or advice.",
+  "project": {
+    "name": "Halcyon Reach Cruises, MV Halcyon Dawn",
+    "orgName": "Halcyon Reach Cruises",
+    "orgType": "hospitality",
+    "toolkits": ["outbreak_at_sea", "guest_emergency"],
+    "brand": {
+      "city": "Galveston",
+      "region": "Galveston County, Texas",
+      "aliases": {
+        "org": "Halcyon Reach Cruises",
+        "orgShort": "Halcyon Reach",
+        "orgDomain": "halcyonreach.example",
+        "ship": "MV Halcyon Dawn"
+      }
+    }
+  },
+  "documents": { "dir": "reference/halcyon-reach-cruises", "exclude": ["SOURCES.md"] },
+  "media": { "aiImagesPerScenario": 2, "ttsPerScenario": 2 },
+  "scenarios": [
+    {
+      "key": "outbreak-at-sea",
+      "startWallClock": "18:00",
+      "threatFamily": "infrastructure_failure",
+      "summary": "A norovirus outbreak spreads through MV Halcyon Dawn on the last four days of a seven-night voyage back to Galveston; the ship must hit the 2 and 3 percent special reports and the 24-hour and 4-hour reports on time, keep guest, family and media counts identical, handle a death on board, and decide whether the next 2,980 guests can board after a 3.5-hour turnaround.",
+      "userPrompt": "Thursday, February 18, 2027 (all times Central ship time). MV Halcyon Dawn, Captain Anneliese Moreau, sails from Cozumel at 18:00 on the seven-night western Caribbean voyage that left Galveston on February 14 with 2,980 passengers and 1,120 crew and is due back in Galveston at 07:00 on Sunday, February 21. At 18:00 the signed medical log, signed by Chief Medical Officer Dr. Fiona Gallagher, shows 41 passenger cases (1.4 percent) and 9 crew cases (0.8 percent) of acute gastroenteritis; stool specimens from 12 ill guests went ashore at Cozumel to a contracted laboratory, results due Friday 14:00. Overnight cases climb: 52 at 24:00, and at about 05:10 on Friday the 60th passenger case (2.0 percent of 2,980) is recorded, which requires a special report to the CDC Vessel Sanitation Program with a phone call (the plan says within 1 hour), isolation of cases for 48 hours after symptoms stop, closure of self-service stations, a guest letter within 4 hours, and the shoreside crisis call at 08:00. Pressure points: the formal-night gala dinner on Friday with a crew-served buffet, and whether to cancel the show lounge matinee and kids club craft; at 09:00 a passenger posts a video from the Lido deck calling the ship a 'plague ship' with '300 sick' (the true count is 61), and a Houston TV desk calls; the family hotline (800-555-0120) opens; at 14:00 the laboratory confirms norovirus GII, which changes no count or report; the 24-hour report window to the VSP is 19:00 Friday to 07:00 Saturday (counts at 19:00 are 74 passengers and 17 crew; the crew reach 23 cases, 2.0 percent of 1,120, at 22:00 Friday, which needs its own special report); at 08:30 Saturday the passenger count reaches 90 (3.0 percent), an outbreak, requiring a second special report, notice to the flag state, and the shoreside crisis team; Saturday 15:00 a guest in her eighties with a cardiac history (cabin code, not a name) dies in the medical center, a death in the 15 days before arrival that the Master must report to the CDC quarantine station for Houston, a notification to next of kin through Guest Care Director Beatriz Calderón-Fitch, and a media question linking the death to the outbreak (the cause of death is not known to the ship); the 4-hour update is due by 03:00 Sunday if the count changed (it has: 118 passengers, 4.0 percent, and 31 crew); Sunday at 07:00 the ship arrives, the VSP and the Houston quarantine station board; the 3.5-hour turnaround (last guest ashore 10:30, next boarding 14:00, 1,490 cabins, 380 stewards, a full terminal clean at chlorine 1,000 ppm that the stewards cannot finish in time) and the boarding decision for 2,980 booked guests: board on time with an attestation, delay boarding in 2-hour blocks, shorten or cancel, with the first guest message due at least 4 hours before the planned boarding time, travel agents, the terminal operator at the Port of Galveston and the Galveston County Health District to be told. Message consistency is tested across the guest letter, the family hotline script, the media statement and the crew notice: each must state the same signed count and time. The SimCell plays the CDC VSP and the Houston quarantine station, the port, the flag state, the laboratory, guests, a guest's family, reporters, travel agents and the terminal operator.",
+      "audience": [
+        "Master (Captain)",
+        "Chief Medical Officer",
+        "Hotel Director",
+        "VP Fleet Operations (shoreside crisis lead)",
+        "Director of Public Health and Vessel Sanitation",
+        "VP Communications"
+      ],
+      "constraints": [
+        "Every email address of the line uses the exercise domain halcyonreach.example; outside parties use fictional domains; never a real cruise line, vessel, airline, agency or newspaper domain; guests appear as cabin codes or role codes, never real names.",
+        "Counts are cumulative persons for the voyage with the denominators 2,980 passengers and 1,120 crew (2 percent is 60 and 23, 3 percent is 90 and 34); CDC reports are marked as exercise products and follow the 24 to 36 hour, 4-hour, special report and immediate report rules; guest letters give no medical advice beyond the ship's instructions.",
+        "Player roles are only those in the audience list; the CDC, the port, the flag state, the laboratory, guests, families, reporters, travel agents and the terminal operator are played by the SimCell."
+      ]
+    }
+  ]
+}

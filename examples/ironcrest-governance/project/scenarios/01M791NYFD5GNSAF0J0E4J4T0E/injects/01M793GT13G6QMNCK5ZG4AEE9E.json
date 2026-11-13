@@ -1,0 +1,346 @@
+{
+  "id": "01M793GT13G6QMNCK5ZG4AEE9E",
+  "mselRowId": "I-20",
+  "type": "phone_call",
+  "title": "Northbridge Payroll: April 2 Pay File, 10:00 CT Cut-off",
+  "deliveryMode": "play_audio",
+  "fields": {
+    "orgName": "Ironcrest Machinery Corporation",
+    "systemName": "Recorded Line - CMT Bridge, Conference 7700",
+    "callId": "CR-20270326-090004-0047",
+    "direction": "Inbound",
+    "caller": {
+      "name": "Client Services Manager, Northbridge Payroll",
+      "number": "312-555-0147",
+      "label": "Northbridge Payroll client services, ticket NP-451377"
+    },
+    "callee": {
+      "name": "HR Operations Lead, Office of the CHRO",
+      "number": "(815) 555-0121",
+      "label": "Ironcrest CHRO office, bridged to the CMT (code 7700)"
+    },
+    "startTime": "03/26/2027 09:00:04",
+    "duration": "2:18",
+    "transcript": [
+      {
+        "speaker": "NORTHBRIDGE",
+        "offset": "0:00",
+        "text": "Good morning, this is client services at Northbridge Payroll, calling on ticket N-P four five one three seven seven. I'll be direct. We have nothing from Ironcrest for the April second pay date, and our cut-off is ten o'clock Central. That's an hour from now.",
+        "prompt": false
+      },
+      {
+        "speaker": "NORTHBRIDGE",
+        "offset": "0:16",
+        "text": "If we don't have a file by ten, about eight thousand six hundred forty people don't get paid next Friday. Your HR system feed came in at seven-twelve and again at eight-thirty-one, and both failed validation on a checksum mismatch. We can't process either one.",
+        "prompt": false
+      },
+      {
+        "speaker": "CHRO OFFICE",
+        "offset": "0:34",
+        "text": "Understood. Our HR system is still isolated. What can you actually run for us before ten?",
+        "prompt": false
+      },
+      {
+        "speaker": "NORTHBRIDGE",
+        "offset": "0:40",
+        "text": "Two options. One, we re-run your March nineteenth cycle exactly as it was. Same people, same hours, same amounts. Two, you send us that March nineteenth file with manual adjustments, and we load it. Either way I need a written instruction from an authorized officer on the ticket before ten.",
+        "prompt": false
+      },
+      {
+        "speaker": "NORTHBRIDGE",
+        "offset": "0:58",
+        "text": "And one more thing. We've read the paper. Given the bank details that were leaked, do you want us to freeze all direct-deposit changes submitted since Monday? We've seen twenty-three of them. That's well above your normal week. If we freeze them, those employees get paid to the account on file before the change.",
+        "prompt": false
+      },
+      {
+        "speaker": "CHRO OFFICE",
+        "offset": "1:20",
+        "text": "I'm putting this on the bridge for Finance and the CEO. What we can do here is manual adjustments for about one hundred forty known changes: new hires, terminations, and the overtime from the manual-mode shifts at the plants. We can have that done by nine-fifty, but only if Finance signs off. I'm emailing the same thing to the CFO now.",
+        "prompt": false
+      },
+      {
+        "speaker": "CHRO OFFICE",
+        "offset": "1:42",
+        "text": "Treasury, a question for you as well. Is the payroll funding wire to the payroll account confirmed? The bank portal still needs single sign-on, and single sign-on is down.",
+        "prompt": true
+      },
+      {
+        "speaker": "NORTHBRIDGE",
+        "offset": "1:55",
+        "text": "I'll hold the ticket open. I need three answers in writing before ten: which option, the officer who approves it, and freeze or no freeze on those twenty-three changes. If I don't have them by ten, the April second cycle doesn't run.",
+        "prompt": true
+      }
+    ],
+    "voiceStyles": {
+      "NORTHBRIDGE": "Woman in her 40s, calm and businesslike but firm, a busy service center behind her, speaks with clear time pressure",
+      "CHRO OFFICE": "Man in his 30s, tired after a night shift, quick and focused, slightly hoarse"
+    },
+    "injectId": "I-20"
+  },
+  "variant": "default",
+  "instructorNote": "Decision point: the CFO and CHRO choose and document how the pay file goes (March 19 cycle as-is, with the verified manual adjustments, or held) and what happens to the 23 direct-deposit changes. Watch whether the choice weighs unpaid employees against bank-detail fraud, whether treasury confirms the funding wire through the bank's out-of-band procedure instead of the SSO portal, whether the BCM logs payroll against its RTO, and whether the CEO approves an employee message that matches the fact sheet.",
+  "citations": [
+    {
+      "documentId": "01M791NWETPNJ2B6DP42BR9D8C",
+      "documentTitle": "ICM-BCM-02: Business Impact Analysis and Recovery Order",
+      "headingPath": "IBIARO › 6. Key suppliers and vendors",
+      "quote": "The company's cloud provider, the payroll provider (Northbridge Payroll, fictional), the outside data center and network carriers, the warehouse software vendor, the steel supplier, the forensic firm ",
+      "chunkId": 16
+    },
+    {
+      "documentId": "01M791NWETPNJ2B6DP42BR9D8C",
+      "documentTitle": "ICM-BCM-02: Business Impact Analysis and Recovery Order",
+      "headingPath": "IBIARO › 4. Recovery order",
+      "quote": "1. Safety and life safety at all sites (plant security, fire and gas systems are on separate networks and are not affected by IT failures, and are verified first). 2. Identity and the network core (di",
+      "chunkId": 14
+    },
+    {
+      "documentId": "01M791NWEVAZDEE6NB6D1690HB",
+      "documentTitle": "ICM-CMP-01: Crisis Management Plan",
+      "headingPath": "ICMP › 4. Call tree",
+      "quote": "The CMT is called through the mass notification service from the Corporate Security desk, (815) 555-0120, which is staffed 24 hours. The CMT bridge is (815) 555-0121, code 7700. If email is unavailabl",
+      "chunkId": 23
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template",
+      "tts"
+    ],
+    "voiceLines": [
+      {
+        "speaker": "NORTHBRIDGE",
+        "voiceStyle": "Woman in her 40s, General American accent, calm and businesslike but firm, steady brisk pace, clear time pressure in her voice, faint murmur of a busy service center behind her",
+        "text": "Good morning, this is client services at Northbridge Payroll, calling on ticket N-P, four five one, three seven seven. I'll be direct. We have nothing from Ironcrest for the April second pay date, and our cut-off is ten o'clock Central. That's an hour from now."
+      },
+      {
+        "speaker": "NORTHBRIDGE",
+        "voiceStyle": "Woman in her 40s, General American accent, calm and businesslike but firm, steady brisk pace, clear time pressure in her voice, faint murmur of a busy service center behind her",
+        "text": "If we don't have a file by ten, about eight thousand six hundred forty people don't get paid next Friday. Your HR system feed came in at seven-twelve, and again at eight-thirty-one, and both failed validation on a checksum mismatch. We can't process either one."
+      },
+      {
+        "speaker": "CHRO OFFICE",
+        "voiceStyle": "Man in his 30s, Midwestern American accent, tired after an overnight shift, slightly hoarse, quick and focused, clipped sentences",
+        "text": "Understood. Our HR system is still isolated. What can you actually run for us before ten?"
+      },
+      {
+        "speaker": "NORTHBRIDGE",
+        "voiceStyle": "Woman in her 40s, General American accent, calm and businesslike but firm, steady brisk pace, clear time pressure in her voice, faint murmur of a busy service center behind her",
+        "text": "Two options. One, we re-run your March nineteenth cycle exactly as it was. Same people, same hours, same amounts. Two, you send us that March nineteenth file with manual adjustments, and we load it. Either way, I need a written instruction from an authorized officer on the ticket before ten."
+      },
+      {
+        "speaker": "NORTHBRIDGE",
+        "voiceStyle": "Woman in her 40s, General American accent, calm and businesslike but firm, slightly lower and more careful on this point, clear time pressure, faint murmur of a busy service center behind her",
+        "text": "And one more thing. We've read the paper. Given the bank details that were leaked, do you want us to freeze all direct-deposit changes submitted since Monday? We've seen twenty-three of them. That's well above your normal week. If we freeze them, those employees get paid to the account on file before the change."
+      },
+      {
+        "speaker": "CHRO OFFICE",
+        "voiceStyle": "Man in his 30s, Midwestern American accent, tired after an overnight shift, slightly hoarse, quick and focused, speaking fast as he works",
+        "text": "I'm putting this on the bridge for Finance and the CEO. What we can do here is manual adjustments for about one hundred forty known changes: new hires, terminations, and the overtime from the manual-mode shifts at the plants. We can have that done by nine-fifty, but only if Finance signs off. I'm emailing the same thing to the CFO now."
+      },
+      {
+        "speaker": "CHRO OFFICE",
+        "voiceStyle": "Man in his 30s, Midwestern American accent, tired and slightly hoarse, quick, a note of frustration, addressing others on the bridge",
+        "text": "Treasury, a question for you as well. Is the payroll funding wire to the payroll account confirmed? The bank portal still needs single sign-on, and single sign-on is down."
+      },
+      {
+        "speaker": "NORTHBRIDGE",
+        "voiceStyle": "Woman in her 40s, General American accent, firm and deliberate, slowing slightly to stress each point, unmistakable deadline pressure",
+        "text": "I'll hold the ticket open. I need three answers in writing before ten: which option, the officer who approves it, and freeze or no freeze on those twenty-three changes. If I don't have them by ten, the April second cycle doesn't run."
+      }
+    ],
+    "postFx": [
+      "phone"
+    ]
+  },
+  "assets": [
+    {
+      "id": "01M79BVTH5TW0BN0V9A1BBXDJK",
+      "kind": "image",
+      "path": "scenarios/01M791NYFD5GNSAF0J0E4J4T0E/media/01M793GT13G6QMNCK5ZG4AEE9E/01M79BVTH5TW0BN0V9A1BBXDJK.png",
+      "role": "rendered",
+      "width": 816,
+      "height": 1056,
+      "sha256": "1b5adcace4d2b93060f194d97a5c9a2c6803f9cc2a5da3116a9dc5412dcb4922",
+      "provenance": {
+        "provider": "template",
+        "templateId": "phone_call",
+        "templateVersion": "1",
+        "createdAt": "2026-11-13T02:30:23.883Z"
+      }
+    }
+  ],
+  "versions": [
+    {
+      "at": "2026-11-13T00:05:13.908Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "Northbridge Payroll: April 2 Pay File, 10:00 CT Cut-off",
+        "type": "phone_call",
+        "fields": {
+          "orgName": "Ironcrest Machinery Corporation",
+          "systemName": "Recorded Line - CMT Bridge, Conference 7700",
+          "callId": "CR-20270326-090004-0047",
+          "direction": "Inbound",
+          "caller": {
+            "name": "Client Services Manager, Northbridge Payroll",
+            "number": "312-555-0147",
+            "label": "Northbridge Payroll client services, ticket NP-451377"
+          },
+          "callee": {
+            "name": "HR Operations Lead, Office of the CHRO",
+            "number": "(815) 555-0121",
+            "label": "Ironcrest CHRO office, bridged to the CMT (code 7700)"
+          },
+          "startTime": "03/26/2027 09:00:04",
+          "duration": "2:18",
+          "transcript": [
+            {
+              "speaker": "NORTHBRIDGE",
+              "offset": "0:00",
+              "text": "Good morning, this is client services at Northbridge Payroll, calling on ticket N-P four five one three seven seven. I'll be direct. We have nothing from Ironcrest for the April second pay date, and our cut-off is ten o'clock Central. That's an hour from now.",
+              "prompt": false
+            },
+            {
+              "speaker": "NORTHBRIDGE",
+              "offset": "0:16",
+              "text": "If we don't have a file by ten, about eight thousand six hundred forty people don't get paid next Friday. Your HR system feed came in at seven-twelve and again at eight-thirty-one, and both failed validation on a checksum mismatch. We can't process either one.",
+              "prompt": false
+            },
+            {
+              "speaker": "CHRO OFFICE",
+              "offset": "0:34",
+              "text": "Understood. Our HR system is still isolated. What can you actually run for us before ten?",
+              "prompt": false
+            },
+            {
+              "speaker": "NORTHBRIDGE",
+              "offset": "0:40",
+              "text": "Two options. One, we re-run your March nineteenth cycle exactly as it was. Same people, same hours, same amounts. Two, you send us that March nineteenth file with manual adjustments, and we load it. Either way I need a written instruction from an authorized officer on the ticket before ten.",
+              "prompt": false
+            },
+            {
+              "speaker": "NORTHBRIDGE",
+              "offset": "0:58",
+              "text": "And one more thing. We've read the paper. Given the bank details that were leaked, do you want us to freeze all direct-deposit changes submitted since Monday? We've seen twenty-three of them. That's well above your normal week. If we freeze them, those employees get paid to the account on file before the change.",
+              "prompt": false
+            },
+            {
+              "speaker": "CHRO OFFICE",
+              "offset": "1:20",
+              "text": "I'm putting this on the bridge for Finance and the CEO. What we can do here is manual adjustments for about one hundred forty known changes: new hires, terminations, and the overtime from the manual-mode shifts at the plants. We can have that done by nine-fifty, but only if Finance signs off. I'm emailing the same thing to the CFO now.",
+              "prompt": false
+            },
+            {
+              "speaker": "CHRO OFFICE",
+              "offset": "1:42",
+              "text": "Treasury, a question for you as well. Is the payroll funding wire to the payroll account confirmed? The bank portal still needs single sign-on, and single sign-on is down.",
+              "prompt": true
+            },
+            {
+              "speaker": "NORTHBRIDGE",
+              "offset": "1:55",
+              "text": "I'll hold the ticket open. I need three answers in writing before ten: which option, the officer who approves it, and freeze or no freeze on those twenty-three changes. If I don't have them by ten, the April second cycle doesn't run.",
+              "prompt": true
+            }
+          ],
+          "voiceStyles": {
+            "NORTHBRIDGE": "Woman in her 40s, calm and businesslike but firm, a busy service center behind her, speaks with clear time pressure",
+            "CHRO OFFICE": "Man in his 30s, tired after a night shift, quick and focused, slightly hoarse"
+          },
+          "injectId": "I-20"
+        },
+        "instructorNote": "This is a pressure inject. The CFO and the CHRO should choose and document the March 19 file plus the roughly 140 verified adjustments, send it by 10:00, and freeze the 23 direct-deposit changes until each is verified by callback. Watch whether treasury confirms the funding wire through the bank's out-of-band procedure instead of the SSO portal. Also watch whether the BCM logs payroll on cycle inside its 48-hour RTO, and whether the CEO approves an employee message that matches the fact sheet.",
+        "deliveryMode": "play_audio"
+      }
+    },
+    {
+      "at": "2026-11-13T01:33:17.065Z",
+      "by": "user",
+      "note": "Corrected by hand for the shipped example",
+      "snapshot": {
+        "title": "Northbridge Payroll: April 2 Pay File, 10:00 CT Cut-off",
+        "type": "phone_call",
+        "fields": {
+          "orgName": "Ironcrest Machinery Corporation",
+          "systemName": "Recorded Line - CMT Bridge, Conference 7700",
+          "callId": "CR-20270326-090004-0047",
+          "direction": "Inbound",
+          "caller": {
+            "name": "Client Services Manager, Northbridge Payroll",
+            "number": "312-555-0147",
+            "label": "Northbridge Payroll client services, ticket NP-451377"
+          },
+          "callee": {
+            "name": "HR Operations Lead, Office of the CHRO",
+            "number": "(815) 555-0121",
+            "label": "Ironcrest CHRO office, bridged to the CMT (code 7700)"
+          },
+          "startTime": "03/26/2027 09:00:04",
+          "duration": "2:18",
+          "transcript": [
+            {
+              "speaker": "NORTHBRIDGE",
+              "offset": "0:00",
+              "text": "Good morning, this is client services at Northbridge Payroll, calling on ticket N-P four five one three seven seven. I'll be direct. We have nothing from Ironcrest for the April second pay date, and our cut-off is ten o'clock Central. That's an hour from now.",
+              "prompt": false
+            },
+            {
+              "speaker": "NORTHBRIDGE",
+              "offset": "0:16",
+              "text": "If we don't have a file by ten, about eight thousand six hundred forty people don't get paid next Friday. Your HR system feed came in at seven-twelve and again at eight-thirty-one, and both failed validation on a checksum mismatch. We can't process either one.",
+              "prompt": false
+            },
+            {
+              "speaker": "CHRO OFFICE",
+              "offset": "0:34",
+              "text": "Understood. Our HR system is still isolated. What can you actually run for us before ten?",
+              "prompt": false
+            },
+            {
+              "speaker": "NORTHBRIDGE",
+              "offset": "0:40",
+              "text": "Two options. One, we re-run your March nineteenth cycle exactly as it was. Same people, same hours, same amounts. Two, you send us that March nineteenth file with manual adjustments, and we load it. Either way I need a written instruction from an authorized officer on the ticket before ten.",
+              "prompt": false
+            },
+            {
+              "speaker": "NORTHBRIDGE",
+              "offset": "0:58",
+              "text": "And one more thing. We've read the paper. Given the bank details that were leaked, do you want us to freeze all direct-deposit changes submitted since Monday? We've seen twenty-three of them. That's well above your normal week. If we freeze them, those employees get paid to the account on file before the change.",
+              "prompt": false
+            },
+            {
+              "speaker": "CHRO OFFICE",
+              "offset": "1:20",
+              "text": "I'm putting this on the bridge for Finance and the CEO. What we can do here is manual adjustments for about one hundred forty known changes: new hires, terminations, and the overtime from the manual-mode shifts at the plants. We can have that done by nine-fifty, but only if Finance signs off. I'm emailing the same thing to the CFO now.",
+              "prompt": false
+            },
+            {
+              "speaker": "CHRO OFFICE",
+              "offset": "1:42",
+              "text": "Treasury, a question for you as well. Is the payroll funding wire to the payroll account confirmed? The bank portal still needs single sign-on, and single sign-on is down.",
+              "prompt": true
+            },
+            {
+              "speaker": "NORTHBRIDGE",
+              "offset": "1:55",
+              "text": "I'll hold the ticket open. I need three answers in writing before ten: which option, the officer who approves it, and freeze or no freeze on those twenty-three changes. If I don't have them by ten, the April second cycle doesn't run.",
+              "prompt": true
+            }
+          ],
+          "voiceStyles": {
+            "NORTHBRIDGE": "Woman in her 40s, calm and businesslike but firm, a busy service center behind her, speaks with clear time pressure",
+            "CHRO OFFICE": "Man in his 30s, tired after a night shift, quick and focused, slightly hoarse"
+          },
+          "injectId": "I-20"
+        },
+        "instructorNote": "Decision point: the CFO and CHRO choose and document how the pay file goes (March 19 cycle as-is, with the verified manual adjustments, or held) and what happens to the 23 direct-deposit changes. Watch whether the choice weighs unpaid employees against bank-detail fraud, whether treasury confirms the funding wire through the bank's out-of-band procedure instead of the SSO portal, whether the BCM logs payroll against its RTO, and whether the CEO approves an employee message that matches the fact sheet.",
+        "deliveryMode": "play_audio"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-11-13T02:30:24.125Z"
+}

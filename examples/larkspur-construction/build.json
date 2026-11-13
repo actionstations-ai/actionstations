@@ -1,0 +1,47 @@
+{
+  "id": "larkspur-construction",
+  "title": "Larkspur Constructors: Trench Cave-in on the Stillwater Creek Interceptor",
+  "domainProfile": "construction",
+  "summary": "A Dayton, Ohio utility contractor, its sewer interceptor project and its simulated plans, with an exercise generated from them: a trench failure that traps a pipe layer, a gas service struck minutes earlier, a monitoring alarm on the adjacent 1924 print shop, and the OSHA, owner and insurer clocks running.",
+  "notice": "EXERCISE MATERIAL — for training use. Larkspur Constructors, the Stillwater Regional Sewer District, the project, its people, subcontractors, utilities and neighbors are simulated; the public sources consulted for realism are listed in reference/larkspur-construction/SOURCES.md. Nothing here is a safety evaluation of any real site.",
+  "project": {
+    "name": "Larkspur Constructors, Stillwater Creek Interceptor Phase 2",
+    "orgName": "Larkspur Constructors, Inc.",
+    "orgType": "construction",
+    "toolkits": ["structures", "media_environment"],
+    "brand": {
+      "city": "Dayton",
+      "region": "Montgomery County, Ohio",
+      "aliases": {
+        "org": "Larkspur Constructors, Inc.",
+        "orgShort": "Larkspur",
+        "orgDomain": "larkspurconstructors.example",
+        "owner": "Stillwater Regional Sewer District"
+      }
+    }
+  },
+  "documents": { "dir": "reference/larkspur-construction", "exclude": ["SOURCES.md"] },
+  "media": { "aiImagesPerScenario": 2, "ttsPerScenario": 2 },
+  "scenarios": [
+    {
+      "key": "trench-cave-in",
+      "startWallClock": "09:45",
+      "threatFamily": "infrastructure_failure",
+      "summary": "On a wet April morning a 13-foot trench through saturated sandy fill fails beside a struck gas service, trapping a pipe layer while crack gauges on the adjacent 1924 print shop approach the action level; Larkspur must stop work, evacuate neighbors, support the fire department's rescue and meet the OSHA, owner and insurer clocks.",
+      "userPrompt": "A Wednesday in mid-April 2027, 0.6 inch of rain overnight. At 06:45 foreman and competent person Tomas Reyes inspected the trench at stations 14+00 to 18+00 (13 feet deep, 10-by-20-foot trench box, Type C soil, seepage noted at 16+00) and cleared work. The exercise starts at 09:45 with Site Superintendent Marcus Hale, Safety Director Priya Venkataraman and about 70 workers on site; crack gauges CG-1 to CG-3 on the Harlan & Weir print shop read 0.03, 0.05 and 0.09 inch (alarm 0.12, action 0.25). At 10:12 excavator E-7 (operator Gordon Pruitt) tears an unmarked gas service line at station 16+00 (the drawings show it, the field marks did not); gas hisses and smells in the trench; at 10:14 the 4-inch main pressure is at 55 psi upstream. At 10:20, while crews move out and the superintendent calls Valley Gas, the south trench wall at 16+05 slumps and shifts the trench box; pipe layer Luis Marquez is buried to the chest and a second worker climbs out injured. Pressure points: stop work and who has the authority; 911 with no street address (cross streets only); whether to evacuate the print shop (14 employees), the apartment house (9 residents), the church hall preschool (22 children, 4 staff) and the day-care play yard before the fire department arrives; rescuers must not dig in an unstable, gassed trench; the exclusion zone and the 300-foot gas standoff; crack gauge CG-3 passes the 0.12 inch alarm at 10:24 and the 0.25 inch action level at 11:05 as vibration and dewatering continue; whether the Engineer of Record Helen Brandvold, PE, can be reached and what she allows (shoring, shutting the dewatering pump); extrication at 12:10 and transport; Marquez is pronounced dead at the trauma center at 13:20, starting the OSHA 8-hour fatality clock (a second worker's hospitalization has its own 24-hour clock; the clock starts when a supervisor learned of it, not when the Safety Director did); notice to the owner's representative Joseph Albrecht within an hour and the written report within 5 working days; the insurer claims line and surety; notifying the Marquez family in person before any name is released; a local TV helicopter and a bystander's video post at 10:50 saying 'sewer workers buried, gas everywhere'; the Dayton building official's decision on the print shop; evidence preservation; and the restart conditions. The SimCell plays 911 and Dayton Fire Rescue 2, the battalion chief, Valley Gas, the OSHA area office, the building official Fiona Castellanos, the owner's representative, the insurer, the media and neighbors.",
+      "audience": [
+        "Site Superintendent",
+        "Safety Director",
+        "Project Manager",
+        "Project Executive (spokesperson)",
+        "Competent Person (foreman)",
+        "Engineer of Record (advisor to the team)"
+      ],
+      "constraints": [
+        "Every email address of Larkspur uses the exercise domain larkspurconstructors.example; the owner uses stillwatersewer.example; outside parties use fictional domains; never a real agency, company or newspaper domain.",
+        "Placards and building status are written as words (INSPECTED, RESTRICTED USE, UNSAFE), never a color alone; the competent person, superintendent or Safety Director stops work, the Engineer of Record decides structural adequacy and only the building official declares a building unsafe; OSHA clocks are 8 hours (fatality) and 24 hours (hospitalization); every product is marked as an exercise.",
+        "Player roles are only those in the audience list; Dayton Fire Rescue, 911, the utilities, OSHA, the building official, the owner, the insurer, reporters and neighbors are played by the SimCell."
+      ]
+    }
+  ]
+}

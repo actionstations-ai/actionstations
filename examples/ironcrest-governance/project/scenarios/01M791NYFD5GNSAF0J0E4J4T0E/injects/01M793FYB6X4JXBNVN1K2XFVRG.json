@@ -1,0 +1,353 @@
+{
+  "id": "01M793FYB6X4JXBNVN1K2XFVRG",
+  "mselRowId": "I-19",
+  "type": "siem_alert",
+  "title": "SIEM Alert #SIEM-78106: Vendor Account svc_wmsvendor Brought Back by Restore",
+  "deliveryMode": "hand_to_role",
+  "fields": {
+    "product": "Watchtower Correlate SIEM",
+    "tenant": "Ironcrest Machinery Corp. (fictional) – Corporate IT",
+    "alertId": "SIEM-78106",
+    "severity": "critical",
+    "riskScore": 96,
+    "rule": "Disabled compromised account re-created with privileged group membership and MFA bypass",
+    "ruleDescription": "A watchlisted account (svc_wmsvendor, disabled after compromise) was re-created and enabled by a configuration restore, inherited Domain Admins rights, and has an active legacy-protocol MFA bypass on the remote-access gateway. No logon observed yet.",
+    "status": "New – escalated to CISO",
+    "assignee": "Unassigned",
+    "firstSeen": "03/26/2027 08:12:04",
+    "lastSeen": "03/26/2027 08:15:02",
+    "eventCount": 6,
+    "source": {
+      "host": "ICM-ERPINT-01",
+      "ip": "10.40.12.21",
+      "user": "svc_erprestore",
+      "zone": "Rockford DC – ERP integration (restore staging)"
+    },
+    "dest": {
+      "host": "ICM-RA-01",
+      "ip": "10.40.1.10",
+      "service": "RDP-GW remote-access policy / Active Directory",
+      "zone": "Perimeter – remote access"
+    },
+    "tactics": [
+      "T1098 Account Manipulation",
+      "T1078.002 Valid Accounts: Domain Accounts",
+      "T1556 Modify Authentication Process",
+      "T1133 External Remote Services"
+    ],
+    "details": [
+      {
+        "key": "Restore job",
+        "value": "ERP integration configuration staged from backup 2027-03-24T02:00 (not on Blackwater Cyber's cleared list; only the Wed 07:05 MES snapshot is cleared)"
+      },
+      {
+        "key": "Re-created identity",
+        "value": "svc_wmsvendor – Joliet warehouse software vendor support account"
+      },
+      {
+        "key": "Account state",
+        "value": "ENABLED"
+      },
+      {
+        "key": "Group membership",
+        "value": "Domain Admins (inherited from restored ACL set)"
+      },
+      {
+        "key": "ICM-RA-01 policy for svc_wmsvendor",
+        "value": "Legacy-protocol MFA bypass = ALLOWED"
+      },
+      {
+        "key": "Watchlist match",
+        "value": "svc_wmsvendor – used for unauthorized domain-admin session 2027-03-22 23:14:52 CT from 203.0.113.87"
+      },
+      {
+        "key": "Logon activity",
+        "value": "No logon observed yet"
+      },
+      {
+        "key": "krbtgt status",
+        "value": "Reset 1 of 2 done 03:20 CT; reset 2 scheduled 09:20 CT"
+      },
+      {
+        "key": "Case note 08:25 CT (SOC desk)",
+        "value": "Inbound call, Joliet warehouse software vendor support desk: \"We heard you disabled our account. To restart the Joliet warehouse system and reprint carrier labels we need a new named-user account. First a P1 support ticket, then a signed Remote Access Request on your letterhead from an officer, then a 4-hour change window. Our engineer's earliest window is 13:00 CT. Your ticket number will start WSV- once you raise it.\""
+      },
+      {
+        "key": "Case note 08:27 CT (CMT bridge)",
+        "value": "Joliet site lead: \"Every hour we wait is about 170 parts orders we won't ship. Ninety minutes of picking gets us nowhere without labels.\""
+      }
+    ],
+    "rawEvent": "2027-03-26T08:11:37-05:00 ICM-ERPINT-01 RestoreAgent: Job ERPINT-CFG-0326-01 started. Source=backup 2027-03-24T02:00 Target=ERP integration config set\n2027-03-26T08:12:04-05:00 ICM-DC-01 Security 4720: A user account was created. Target=IRONCREST\\svc_wmsvendor Subject=IRONCREST\\svc_erprestore\n2027-03-26T08:12:05-05:00 ICM-DC-01 Security 4722: A user account was enabled. Target=IRONCREST\\svc_wmsvendor\n2027-03-26T08:12:09-05:00 ICM-DC-01 Security 4728: A member was added to a security-enabled global group. Member=svc_wmsvendor Group=Domain Admins Source=restored ACL set\n2027-03-26T08:14:41-05:00 ICM-RA-01 PolicySync: user=svc_wmsvendor auth_policy=legacy-protocol mfa_bypass=ALLOWED status=ACTIVE\n2027-03-26T08:15:02-05:00 ICM-RA-01 Auth: user=svc_wmsvendor logon_events_since_sync=0",
+    "relatedAlerts": [
+      {
+        "time": "03/26/2027 03:20:11",
+        "title": "krbtgt password reset 1 of 2 completed (IRONCREST domain)",
+        "severity": "info"
+      },
+      {
+        "time": "03/25/2027 15:18:00",
+        "title": "SIEM-77412 Cloud email suite – authentication anomaly (0 successful sign-ins)",
+        "severity": "high"
+      },
+      {
+        "time": "03/25/2027 14:25:00",
+        "title": "Network isolation applied – Rockford data center and plant links",
+        "severity": "critical"
+      }
+    ],
+    "analyst": "soc.shift.lead"
+  },
+  "variant": "default",
+  "instructorNote": "This is a technical hurdle: the ERP restore has brought back the attackers' way in. Watch whether the CISO disables svc_wmsvendor again, removes its Domain Admins rights, blocks the MFA bypass on ICM-RA-01 and holds the ERP integration until Blackwater checks the restored configuration. Players should give the vendor a new named, MFA-protected, time-limited account only under a ticket and a signed request, while the BCM records the delay against Joliet's 15:30 RTO and its 60% minimum service level (about 2,460 orders) and flags the likely miss to the CMT. Note also that the configuration was restored from the 02:00 backup before Blackwater Cyber cleared it, which breaks the IBIARO 4 rule.",
+  "citations": [
+    {
+      "documentId": "01M791NWETPNJ2B6DP42BR9D8C",
+      "documentTitle": "ICM-BCM-02: Business Impact Analysis and Recovery Order",
+      "headingPath": "IBIARO › 4. Recovery order",
+      "quote": "1. Safety and life safety at all sites (plant security, fire and gas systems are on separate networks and are not affected by IT failures, and are verified first). 2. Identity and the network core (di",
+      "chunkId": 14
+    },
+    {
+      "documentId": "01M791NWETPNJ2B6DP42BR9D8C",
+      "documentTitle": "ICM-BCM-02: Business Impact Analysis and Recovery Order",
+      "headingPath": "IBIARO › 6. Key suppliers and vendors",
+      "quote": "The company's cloud provider, the payroll provider (Northbridge Payroll, fictional), the outside data center and network carriers, the warehouse software vendor, the steel supplier, the forensic firm ",
+      "chunkId": 16
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template"
+    ]
+  },
+  "assets": [
+    {
+      "id": "01M79BVTBX7GSA936PSF6EV651",
+      "kind": "image",
+      "path": "scenarios/01M791NYFD5GNSAF0J0E4J4T0E/media/01M793FYB6X4JXBNVN1K2XFVRG/01M79BVTBX7GSA936PSF6EV651.png",
+      "role": "rendered",
+      "width": 1280,
+      "height": 1261,
+      "sha256": "0022d76102690b2f43eb88323266121b21568fa0558de7b14702655dd8d51f08",
+      "provenance": {
+        "provider": "template",
+        "templateId": "siem_alert",
+        "templateVersion": "1",
+        "createdAt": "2026-11-13T02:30:23.660Z"
+      }
+    }
+  ],
+  "versions": [
+    {
+      "at": "2026-11-13T00:04:34.457Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "SIEM Alert #SIEM-78106: Vendor Account svc_wmsvendor Brought Back by Restore",
+        "type": "siem_alert",
+        "fields": {
+          "product": "Watchtower Correlate SIEM",
+          "tenant": "Ironcrest Machinery Corp. (fictional) – Corporate IT",
+          "alertId": "SIEM-78106",
+          "severity": "critical",
+          "riskScore": 96,
+          "rule": "Disabled compromised account re-created with privileged group membership and MFA bypass",
+          "ruleDescription": "A watchlisted account (svc_wmsvendor, disabled after compromise) was re-created and enabled by a configuration restore, inherited Domain Admins rights, and has an active legacy-protocol MFA bypass on the remote-access gateway. No logon observed yet.",
+          "status": "New – escalated to CISO",
+          "assignee": "Unassigned",
+          "firstSeen": "03/26/2027 08:12:04",
+          "lastSeen": "03/26/2027 08:15:02",
+          "eventCount": 6,
+          "source": {
+            "host": "ICM-ERPINT-01",
+            "ip": "10.40.12.21",
+            "user": "svc_erprestore",
+            "zone": "Rockford DC – ERP integration (restore staging)"
+          },
+          "dest": {
+            "host": "ICM-RA-01",
+            "ip": "10.40.1.10",
+            "service": "RDP-GW remote-access policy / Active Directory",
+            "zone": "Perimeter – remote access"
+          },
+          "tactics": [
+            "T1098 Account Manipulation",
+            "T1078.002 Valid Accounts: Domain Accounts",
+            "T1556 Modify Authentication Process",
+            "T1133 External Remote Services"
+          ],
+          "details": [
+            {
+              "key": "Restore job",
+              "value": "ERP integration configuration staged from backup 2027-03-24T02:00 (not on Blackwater Cyber's cleared list; only the Wed 07:05 MES snapshot is cleared)"
+            },
+            {
+              "key": "Re-created identity",
+              "value": "svc_wmsvendor – Joliet warehouse software vendor support account"
+            },
+            {
+              "key": "Account state",
+              "value": "ENABLED"
+            },
+            {
+              "key": "Group membership",
+              "value": "Domain Admins (inherited from restored ACL set)"
+            },
+            {
+              "key": "ICM-RA-01 policy for svc_wmsvendor",
+              "value": "Legacy-protocol MFA bypass = ALLOWED"
+            },
+            {
+              "key": "Watchlist match",
+              "value": "svc_wmsvendor – used for unauthorized domain-admin session 2027-03-22 23:14:52 CT from 203.0.113.87"
+            },
+            {
+              "key": "Logon activity",
+              "value": "No logon observed yet"
+            },
+            {
+              "key": "krbtgt status",
+              "value": "Reset 1 of 2 done 03:20 CT; reset 2 scheduled 09:20 CT"
+            },
+            {
+              "key": "Case note 08:25 CT (SOC desk)",
+              "value": "Inbound call, Joliet warehouse software vendor support desk: \"We heard you disabled our account. To restart the Joliet warehouse system and reprint carrier labels we need a new named-user account. First a P1 support ticket, then a signed Remote Access Request on your letterhead from an officer, then a 4-hour change window. Our engineer's earliest window is 13:00 CT. Your ticket number will start WSV- once you raise it.\""
+            },
+            {
+              "key": "Case note 08:27 CT (CMT bridge)",
+              "value": "Joliet site lead: \"Every hour we wait is about 170 parts orders we won't ship. Ninety minutes of picking gets us nowhere without labels.\""
+            }
+          ],
+          "rawEvent": "2027-03-26T08:11:37-05:00 ICM-ERPINT-01 RestoreAgent: Job ERPINT-CFG-0326-01 started. Source=backup 2027-03-24T02:00 Target=ERP integration config set\n2027-03-26T08:12:04-05:00 ICM-DC-01 Security 4720: A user account was created. Target=IRONCREST\\svc_wmsvendor Subject=IRONCREST\\svc_erprestore\n2027-03-26T08:12:05-05:00 ICM-DC-01 Security 4722: A user account was enabled. Target=IRONCREST\\svc_wmsvendor\n2027-03-26T08:12:09-05:00 ICM-DC-01 Security 4728: A member was added to a security-enabled global group. Member=svc_wmsvendor Group=Domain Admins Source=restored ACL set\n2027-03-26T08:14:41-05:00 ICM-RA-01 PolicySync: user=svc_wmsvendor auth_policy=legacy-protocol mfa_bypass=ALLOWED status=ACTIVE\n2027-03-26T08:15:02-05:00 ICM-RA-01 Auth: user=svc_wmsvendor logon_events_since_sync=0",
+          "relatedAlerts": [
+            {
+              "time": "03/26/2027 03:20:11",
+              "title": "krbtgt password reset 1 of 2 completed (IRONCREST domain)",
+              "severity": "info"
+            },
+            {
+              "time": "03/25/2027 15:18:00",
+              "title": "SIEM-77412 Cloud email suite – authentication anomaly (0 successful sign-ins)",
+              "severity": "high"
+            },
+            {
+              "time": "03/25/2027 14:25:00",
+              "title": "Network isolation applied – Rockford data center and plant links",
+              "severity": "critical"
+            }
+          ],
+          "analyst": "soc.shift.lead"
+        },
+        "instructorNote": "This is a technical hurdle: the ERP restore has brought back the attackers' way in. Watch whether the CISO disables svc_wmsvendor again, removes its Domain Admins rights, blocks the MFA bypass on ICM-RA-01 and holds the ERP integration until Blackwater checks the restored configuration. Players should give the vendor a new named, MFA-protected, time-limited account only under a ticket and a signed request, while the BCM records the delay against Joliet's 15:30 RTO and its 60% minimum service level (about 2,460 orders) and flags the likely miss to the CMT.",
+        "deliveryMode": "hand_to_role"
+      }
+    },
+    {
+      "at": "2026-11-13T01:33:17.053Z",
+      "by": "user",
+      "note": "Corrected by hand for the shipped example",
+      "snapshot": {
+        "title": "SIEM Alert #SIEM-78106: Vendor Account svc_wmsvendor Brought Back by Restore",
+        "type": "siem_alert",
+        "fields": {
+          "product": "Watchtower Correlate SIEM",
+          "tenant": "Ironcrest Machinery Corp. (fictional) – Corporate IT",
+          "alertId": "SIEM-78106",
+          "severity": "critical",
+          "riskScore": 96,
+          "rule": "Disabled compromised account re-created with privileged group membership and MFA bypass",
+          "ruleDescription": "A watchlisted account (svc_wmsvendor, disabled after compromise) was re-created and enabled by a configuration restore, inherited Domain Admins rights, and has an active legacy-protocol MFA bypass on the remote-access gateway. No logon observed yet.",
+          "status": "New – escalated to CISO",
+          "assignee": "Unassigned",
+          "firstSeen": "03/26/2027 08:12:04",
+          "lastSeen": "03/26/2027 08:15:02",
+          "eventCount": 6,
+          "source": {
+            "host": "ICM-ERPINT-01",
+            "ip": "10.40.12.21",
+            "user": "svc_erprestore",
+            "zone": "Rockford DC – ERP integration (restore staging)"
+          },
+          "dest": {
+            "host": "ICM-RA-01",
+            "ip": "10.40.1.10",
+            "service": "RDP-GW remote-access policy / Active Directory",
+            "zone": "Perimeter – remote access"
+          },
+          "tactics": [
+            "T1098 Account Manipulation",
+            "T1078.002 Valid Accounts: Domain Accounts",
+            "T1556 Modify Authentication Process",
+            "T1133 External Remote Services"
+          ],
+          "details": [
+            {
+              "key": "Restore job",
+              "value": "ERP integration configuration staged from backup 2027-03-24T02:00 (not on Blackwater Cyber's cleared list; only the Wed 07:05 MES snapshot is cleared)"
+            },
+            {
+              "key": "Re-created identity",
+              "value": "svc_wmsvendor – Joliet warehouse software vendor support account"
+            },
+            {
+              "key": "Account state",
+              "value": "ENABLED"
+            },
+            {
+              "key": "Group membership",
+              "value": "Domain Admins (inherited from restored ACL set)"
+            },
+            {
+              "key": "ICM-RA-01 policy for svc_wmsvendor",
+              "value": "Legacy-protocol MFA bypass = ALLOWED"
+            },
+            {
+              "key": "Watchlist match",
+              "value": "svc_wmsvendor – used for unauthorized domain-admin session 2027-03-22 23:14:52 CT from 203.0.113.87"
+            },
+            {
+              "key": "Logon activity",
+              "value": "No logon observed yet"
+            },
+            {
+              "key": "krbtgt status",
+              "value": "Reset 1 of 2 done 03:20 CT; reset 2 scheduled 09:20 CT"
+            },
+            {
+              "key": "Case note 08:25 CT (SOC desk)",
+              "value": "Inbound call, Joliet warehouse software vendor support desk: \"We heard you disabled our account. To restart the Joliet warehouse system and reprint carrier labels we need a new named-user account. First a P1 support ticket, then a signed Remote Access Request on your letterhead from an officer, then a 4-hour change window. Our engineer's earliest window is 13:00 CT. Your ticket number will start WSV- once you raise it.\""
+            },
+            {
+              "key": "Case note 08:27 CT (CMT bridge)",
+              "value": "Joliet site lead: \"Every hour we wait is about 170 parts orders we won't ship. Ninety minutes of picking gets us nowhere without labels.\""
+            }
+          ],
+          "rawEvent": "2027-03-26T08:11:37-05:00 ICM-ERPINT-01 RestoreAgent: Job ERPINT-CFG-0326-01 started. Source=backup 2027-03-24T02:00 Target=ERP integration config set\n2027-03-26T08:12:04-05:00 ICM-DC-01 Security 4720: A user account was created. Target=IRONCREST\\svc_wmsvendor Subject=IRONCREST\\svc_erprestore\n2027-03-26T08:12:05-05:00 ICM-DC-01 Security 4722: A user account was enabled. Target=IRONCREST\\svc_wmsvendor\n2027-03-26T08:12:09-05:00 ICM-DC-01 Security 4728: A member was added to a security-enabled global group. Member=svc_wmsvendor Group=Domain Admins Source=restored ACL set\n2027-03-26T08:14:41-05:00 ICM-RA-01 PolicySync: user=svc_wmsvendor auth_policy=legacy-protocol mfa_bypass=ALLOWED status=ACTIVE\n2027-03-26T08:15:02-05:00 ICM-RA-01 Auth: user=svc_wmsvendor logon_events_since_sync=0",
+          "relatedAlerts": [
+            {
+              "time": "03/26/2027 03:20:11",
+              "title": "krbtgt password reset 1 of 2 completed (IRONCREST domain)",
+              "severity": "info"
+            },
+            {
+              "time": "03/25/2027 15:18:00",
+              "title": "SIEM-77412 Cloud email suite – authentication anomaly (0 successful sign-ins)",
+              "severity": "high"
+            },
+            {
+              "time": "03/25/2027 14:25:00",
+              "title": "Network isolation applied – Rockford data center and plant links",
+              "severity": "critical"
+            }
+          ],
+          "analyst": "soc.shift.lead"
+        },
+        "instructorNote": "This is a technical hurdle: the ERP restore has brought back the attackers' way in. Watch whether the CISO disables svc_wmsvendor again, removes its Domain Admins rights, blocks the MFA bypass on ICM-RA-01 and holds the ERP integration until Blackwater checks the restored configuration. Players should give the vendor a new named, MFA-protected, time-limited account only under a ticket and a signed request, while the BCM records the delay against Joliet's 15:30 RTO and its 60% minimum service level (about 2,460 orders) and flags the likely miss to the CMT. Note also that the configuration was restored from the 02:00 backup before Blackwater Cyber cleared it, which breaks the IBIARO 4 rule.",
+        "deliveryMode": "hand_to_role"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-11-13T02:30:23.871Z"
+}

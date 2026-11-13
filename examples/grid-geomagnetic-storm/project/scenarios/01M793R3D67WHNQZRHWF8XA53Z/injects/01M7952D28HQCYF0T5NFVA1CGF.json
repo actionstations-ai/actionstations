@@ -1,0 +1,135 @@
+{
+  "id": "01M7952D28HQCYF0T5NFVA1CGF",
+  "mselRowId": "I-01b",
+  "type": "swpc_message",
+  "title": "SWPC SUMX01: X2.1 Flare Summary (R3)",
+  "deliveryMode": "hand_to_role",
+  "fields": {
+    "messageCode": "SUMX01",
+    "serialNumber": "1187",
+    "issueTime": "2027 Mar 16 0015 UTC",
+    "productKind": "SUMMARY",
+    "headline": "X-ray Event exceeded X1",
+    "details": [
+      {
+        "label": "Begin Time",
+        "value": "2027 Mar 15 2318 UTC"
+      },
+      {
+        "label": "Maximum Time",
+        "value": "2027 Mar 15 2331 UTC"
+      },
+      {
+        "label": "End Time",
+        "value": "2027 Mar 15 2349 UTC"
+      },
+      {
+        "label": "X-ray Class",
+        "value": "X2.1"
+      },
+      {
+        "label": "Optional: Location",
+        "value": "N14W08"
+      }
+    ],
+    "noaaScale": "R3 - Strong",
+    "potentialImpacts": [
+      {
+        "heading": "Area of Impact",
+        "text": "Large portions of the sunlit side of Earth, strongest at the sub-solar point."
+      },
+      {
+        "heading": "Radio",
+        "text": "Wide area blackout of HF radio communication for about an hour."
+      }
+    ],
+    "footer": "*** EXERCISE *** Exercise product. Not an official NOAA message."
+  },
+  "instructorNote": "This is a noise inject. Hand the page to the CRSS and RE along with a Harbor Terminal forward titled \"RADIO BLACKOUT R3 — do we need to do anything?\" and two EMS alarm lines: \"02:31:40 CDT IRON_RANGE_AT2_GIC_NEUT COMM FAIL — RTU poll missed\" and \"02:31:50 CDT IRON_RANGE_AT2_GIC_NEUT RTN NORMAL 0.4 A\". Watch whether they log the summary as Monday evening's flare that is already over and is not a new NGDOP trigger, answer the Harbor Terminal over the hotline, treat the one missed 10-second poll as a communications blip, confirm all 9 GIC monitors report and open a ticket on the RTU, all without raising the condition.",
+  "citations": [
+    {
+      "documentId": "01M793R1CP8FSDJTZMVBXZXCKW",
+      "documentTitle": "Northern Lakes Transmission Operations: System and Control Room Description",
+      "headingPath": "Northern Lakes Transmission Oper… › 4. Time and communications",
+      "quote": "GPS-disciplined clocks serve the substation protection and phasor equipment. Holdover clocks are fitted at 14 substations (24-hour holdover); a backup time source from a network time server over the f",
+      "chunkId": 14
+    },
+    {
+      "documentId": "01M793R1CKPE6S3EAJK06CD962",
+      "documentTitle": "NLTO-OP-31: Geomagnetic Disturbance Operating Procedure",
+      "headingPath": "NGDOP › 4. Conditions and actions",
+      "quote": "| Condition | Predetermined trigger | Actions | |---|---|---| | **Condition 1: Watch** | SWPC Geomagnetic Storm Watch for G3 or higher, or a CME discussion with an arrival window in the next 36 hours,",
+      "chunkId": 5
+    },
+    {
+      "documentId": "01M793R1CP8FSDJTZMVBXZXCKW",
+      "documentTitle": "Northern Lakes Transmission Operations: System and Control Room Description",
+      "headingPath": "Northern Lakes Transmission Oper… › 3. Control room",
+      "quote": "Two control rooms (primary Duluth, backup Virginia, 60 miles away) use an energy management system (EMS) with SCADA, a state estimator and contingency analysis. Neutral current monitors report to the ",
+      "chunkId": 13
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template"
+    ]
+  },
+  "assets": [],
+  "versions": [
+    {
+      "at": "2026-11-13T00:31:53.360Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "SWPC SUMX01: X2.1 Flare Summary (R3)",
+        "type": "swpc_message",
+        "fields": {
+          "messageCode": "SUMX01",
+          "serialNumber": "1187",
+          "issueTime": "2027 Mar 16 0015 UTC",
+          "productKind": "SUMMARY",
+          "headline": "X-ray Event exceeded X1",
+          "details": [
+            {
+              "label": "Begin Time",
+              "value": "2027 Mar 15 2318 UTC"
+            },
+            {
+              "label": "Maximum Time",
+              "value": "2027 Mar 15 2331 UTC"
+            },
+            {
+              "label": "End Time",
+              "value": "2027 Mar 15 2349 UTC"
+            },
+            {
+              "label": "X-ray Class",
+              "value": "X2.1"
+            },
+            {
+              "label": "Optional: Location",
+              "value": "N14W08"
+            }
+          ],
+          "noaaScale": "R3 - Strong",
+          "potentialImpacts": [
+            {
+              "heading": "Area of Impact",
+              "text": "Large portions of the sunlit side of Earth, strongest at the sub-solar point."
+            },
+            {
+              "heading": "Radio",
+              "text": "Wide area blackout of HF radio communication for about an hour."
+            }
+          ],
+          "footer": "*** EXERCISE *** Exercise product. Not an official NOAA message."
+        },
+        "instructorNote": "This is a noise inject. Hand the page to the CRSS and RE along with a Harbor Terminal forward titled \"RADIO BLACKOUT R3 — do we need to do anything?\" and two EMS alarm lines: \"02:31:40 CDT IRON_RANGE_AT2_GIC_NEUT COMM FAIL — RTU poll missed\" and \"02:31:50 CDT IRON_RANGE_AT2_GIC_NEUT RTN NORMAL 0.4 A\". Watch whether they log the summary as Monday evening's flare that is already over and is not a new NGDOP trigger, answer the Harbor Terminal over the hotline, treat the one missed 10-second poll as a communications blip, confirm all 9 GIC monitors report and open a ticket on the RTU, all without raising the condition.",
+        "deliveryMode": "hand_to_role"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-11-13T01:54:37.921Z"
+}

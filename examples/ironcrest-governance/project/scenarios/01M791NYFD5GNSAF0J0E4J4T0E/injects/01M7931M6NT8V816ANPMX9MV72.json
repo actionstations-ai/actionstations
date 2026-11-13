@@ -1,0 +1,283 @@
+{
+  "id": "01M7931M6NT8V816ANPMX9MV72",
+  "mselRowId": "I-10",
+  "type": "gov_materiality_worksheet",
+  "title": "Harrow Fenn: Materiality Worksheet, 19:00 CT Disclosure Committee",
+  "deliveryMode": "hand_to_role",
+  "fields": {
+    "marking": "EXERCISE · EXERCISE · EXERCISE — PRIVILEGED AND CONFIDENTIAL · ATTORNEY-CLIENT COMMUNICATION",
+    "exerciseAid": "Exercise aid, not legal advice. Check the current rule and your counsel.",
+    "company": "Ironcrest Machinery Corporation (fictional), Rockford, Illinois",
+    "incident": "MES and file server ransomware with data exfiltration (Disclosure Committee: record to complete tonight)",
+    "discoveredAt": "Thursday, March 25, 2027, 2:05 p.m. CT (3:05 p.m. ET), when the SOC found ransomware encrypting the file servers and MES at the Rockford data center",
+    "asOf": "Thursday, March 25, 2027, 7:00 p.m. CT (8:00 p.m. ET)",
+    "preparedBy": "Harrow Fenn LLP, partner, cyber and securities (cyberdesk@harrowfenn.example), for the Ironcrest Disclosure Committee (chair: General Counsel and Corporate Secretary)",
+    "factsKnown": [
+      "MES servers ICM-MES-01 and ICM-MES-02 and file servers ICM-FS-03 and ICM-FS-04 at the Rockford data center are encrypted (.ironmelt). A ransom note demands 18 million dollars in cryptocurrency within 72 hours and threatens to publish 1.2 TB of data.",
+      "The network was isolated at 2:25 p.m. CT, and the CEO declared Level 3 at 2:50 p.m. CT. The ERP integration account is locked. The cause (encryption or the isolation) is not yet known.",
+      "Rockford, Beloit and Dubuque are running controllers in manual mode with no work orders and no lot tracking, so product built tonight cannot be traced. Finished-goods buffer: 5 days at each plant. The largest customers hold under 10 days of inventory.",
+      "The Joliet warehouse system is offline. Nothing has shipped since 3:30 p.m. CT, against a normal day of about 4,100 parts orders. The dealer portal shows no order status or parts lookup.",
+      "Blackwater Cyber: the last clean MES backup is the Wednesday 7:05 a.m. snapshot, 31 hours old, against a 15-minute RPO. 3 of 7 database volumes on the Dubuque replica ICM-MES-DBQ-01 are encrypted. No backup has been cleared for restore. The persistence sweep needs 12 to 18 hours.",
+      "The MES recovery tracker passed its 4-hour checkpoint at 6:05 p.m. CT without recovery starting. The 8-hour RTO falls at 10:05 p.m. CT.",
+      "Exfiltration is CONFIRMED. About 940 GB left the Engineering Released share (ICM-FS-04) and an HR export folder (ICM-FS-03) on the night of Tuesday, March 23, 2027.",
+      "Outside parties are asking. Fieldmark Equipment wants written supply status tonight (its contract requires notice within 72 hours, and penalties start after 5 days). Granite Peak Machinery wants the same before its 7:00 a.m. meeting. The Rock River Gazette has said it will publish at 8:00 p.m. CT, and a public social media post about the dealer portal is circulating. The agent bank has asked about Monday's revolver draw, and the external audit partner has asked for a call before this meeting."
+    ],
+    "factsUnknown": [
+      "Which engineering drawings and how many personnel records were taken, and whether customer data was involved.",
+      "Whether the 1.2 TB claim includes sources beyond the 940 GB identified.",
+      "The state of the Beloit file server and whether the ERP integration is encrypted.",
+      "When a clean backup will be cleared, and how long an MES restore will take after that.",
+      "Blue Heron Mutual's position on coverage and on the vendors already engaged (limit 50 million dollars, retention 2 million)."
+    ],
+    "quantitative": [
+      {
+        "factor": "CFO preliminary impact range (dated)",
+        "estimate": "To be entered by the CFO: low / high, with date and time",
+        "note": "'Not yet determined' is acceptable only with the facts and the plan to determine them."
+      },
+      {
+        "factor": "Lost production, all plants",
+        "estimate": "About 8.5 million dollars of sales per full day",
+        "note": "The committee enters the number of days assumed and the reason. Finished-goods buffer is 5 days per plant."
+      },
+      {
+        "factor": "Lost production by plant",
+        "estimate": "Rockford, Beloit, Dubuque: to be entered",
+        "note": "Rockford makes 38 percent of the company's transmissions."
+      },
+      {
+        "factor": "Joliet parts distribution",
+        "estimate": "About 4,100 parts orders per day not shipped since 3:30 p.m. CT",
+        "note": "Revenue at risk at quarter end, six days out."
+      },
+      {
+        "factor": "Ransom demand",
+        "estimate": "18 million dollars in cryptocurrency",
+        "note": "Paying or not paying does not remove the duty to determine materiality."
+      },
+      {
+        "factor": "Response, restoration, notification and legal costs",
+        "estimate": "To be entered",
+        "note": "Includes Blackwater Cyber, Harrow Fenn LLP and any notice to individuals whose HR records were taken. Insurance retention is 2 million dollars."
+      },
+      {
+        "factor": "Customer contract exposure",
+        "estimate": "To be entered",
+        "note": "Fieldmark's penalty clause starts after 5 days of disruption."
+      },
+      {
+        "factor": "Planning threshold (a prompt, not a rule)",
+        "estimate": "60 million dollars expected pre-tax impact, or 2 percent of annual pre-tax income",
+        "note": "A smaller impact can be material for a qualitative reason."
+      }
+    ],
+    "qualitative": [
+      {
+        "factor": "Confirmed exfiltration from Engineering and HR shares",
+        "assessment": "To be assessed: intellectual property exposure, employees' personal data and the publication threat."
+      },
+      {
+        "factor": "Supply to Fieldmark Equipment and Granite Peak Machinery",
+        "assessment": "To be assessed: OEM and dealer relationships, contract notice and force majeure questions."
+      },
+      {
+        "factor": "Reputation",
+        "assessment": "To be assessed: a public post and a press inquiry are already circulating, and both make inaccurate claims."
+      },
+      {
+        "factor": "Litigation and regulatory exposure",
+        "assessment": "To be assessed: employee data claims, customer claims, securities exposure and state notification duties."
+      },
+      {
+        "factor": "Product traceability",
+        "assessment": "To be assessed: units built without lot tracking at three plants."
+      }
+    ],
+    "openQuestions": [
+      "[1] Determination: material / not material / not yet determined. If not yet determined, list the information awaited and the time the committee will meet again.",
+      "[4] Recommended by the committee chair; CEO concurrence; CFO concurrence. Record names and times.",
+      "[6] 8-K choice: Item 1.05 / Item 8.01 / no filing yet. Compute the filing deadline in Central and Eastern time against the 5:30 p.m. ET EDGAR cut-off, and confirm that Lakeline Filing and the EDGAR access codes are available.",
+      "Has the Corporate Secretary closed the trading window for directors, officers and CMT members, and told the 10b5-1 plan administrator? Record the time.",
+      "Do the board briefing, any filing, the holding statement and the customer letters use the same figures as the CCO fact sheet?"
+    ],
+    "determination": "not yet determined",
+    "basis": "No determination had been recorded when this worksheet was circulated at 7:00 p.m. CT. The committee chair enters the determination, the quantitative and qualitative factors weighed, the facts known at the time and the basis, with CEO and CFO concurrence. Under IDCCI 4, the determination is made without unreasonable delay on the facts known now and may be revisited as facts change.",
+    "continuedInvestigation": "Counsel's cover note: Please do not adjourn this to tomorrow's board meeting or wait for Blackwater's final report. Also confirm that the trading window is closed and that the 10b5-1 plan administrator has been told. The investigation continues under counsel's direction, and the determination does not wait for it to finish. Facts that arrive later go into a revised record and, if a filing has been made, an 8-K/A."
+  },
+  "instructorNote": "This is the key decision inject. The determination shows \"not yet determined\" only because nothing was recorded before the meeting. Watch whether the GC records all five IDCCI 4 elements with CEO and CFO concurrence. Also check that the committee weighs at least 42.5 million dollars (5 days × 8.5 million) plus response costs, together with the strong qualitative factors. If it finds the incident material, it should compute an Item 1.05 deadline of Wednesday, March 31, 2027, 5:30 p.m. ET (4:30 p.m. CT). If it chooses \"not yet determined\", it must name the missing information and set a time to reconvene. Either way, confirm that the trading window is closed and that the 10b5-1 administrator has been told.",
+  "citations": [
+    {
+      "documentId": "01M791NWEX7JTKWMS6TART9E7B",
+      "documentTitle": "ICM-LEG-03: Disclosure Controls for Cybersecurity Incidents",
+      "headingPath": "IDCCI › 4. The materiality determination",
+      "quote": "The committee makes the determination without unreasonable delay after the company discovers the incident. It does not wait for the investigation to end, for the end of the quarter or for the insurer'",
+      "chunkId": 33
+    },
+    {
+      "documentId": "01M791NWEX7JTKWMS6TART9E7B",
+      "documentTitle": "ICM-LEG-03: Disclosure Controls for Cybersecurity Incidents",
+      "headingPath": "IDCCI › 9. Trading restrictions",
+      "quote": "When a possibly material incident is being assessed, the Corporate Secretary closes the trading window for directors, officers and the CMT members, and tells the 10b5-1 plan administrator. Employees w",
+      "chunkId": 38
+    },
+    {
+      "documentId": "01M791NWETPNJ2B6DP42BR9D8C",
+      "documentTitle": "ICM-BCM-02: Business Impact Analysis and Recovery Order",
+      "headingPath": "IBIARO › 6. Key suppliers and vendors",
+      "quote": "The company's cloud provider, the payroll provider (Northbridge Payroll, fictional), the outside data center and network carriers, the warehouse software vendor, the steel supplier, the forensic firm ",
+      "chunkId": 16
+    },
+    {
+      "documentId": "01M791NWEX7JTKWMS6TART9E7B",
+      "documentTitle": "ICM-LEG-03: Disclosure Controls for Cybersecurity Incidents",
+      "headingPath": "IDCCI › 5. Form 8-K",
+      "quote": "- **Item 1.05, Material Cybersecurity Incidents.** Describes the material aspects of the nature, scope and timing of the incident and the material or reasonably likely material impact on the company, ",
+      "chunkId": 34
+    },
+    {
+      "documentId": "01M791NWEX7JTKWMS6TART9E7B",
+      "documentTitle": "ICM-LEG-03: Disclosure Controls for Cybersecurity Incidents",
+      "headingPath": "IDCCI › 1. Purpose",
+      "quote": "This procedure makes sure Ironcrest decides promptly whether a cybersecurity incident is material and, if so, files a Form 8-K Item 1.05 within four business days after the determination. It is part o",
+      "chunkId": 30
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template"
+    ]
+  },
+  "assets": [
+    {
+      "id": "01M79BVQG8BRPE1XYVYWG84MS7",
+      "kind": "image",
+      "path": "scenarios/01M791NYFD5GNSAF0J0E4J4T0E/media/01M7931M6NT8V816ANPMX9MV72/01M79BVQG8BRPE1XYVYWG84MS7.png",
+      "role": "rendered",
+      "width": 816,
+      "height": 1056,
+      "sha256": "c2ebdc7d4d687f7a6b6c17f889001c2ba5bb26186064b2d2a11b670a4a9d83b7",
+      "provenance": {
+        "provider": "template",
+        "templateId": "gov_materiality_worksheet",
+        "templateVersion": "1",
+        "createdAt": "2026-11-13T02:30:20.786Z"
+      }
+    }
+  ],
+  "versions": [
+    {
+      "at": "2026-11-12T23:58:15.187Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "Harrow Fenn: Materiality Worksheet, 19:00 CT Disclosure Committee",
+        "type": "gov_materiality_worksheet",
+        "fields": {
+          "marking": "EXERCISE · EXERCISE · EXERCISE — PRIVILEGED AND CONFIDENTIAL · ATTORNEY-CLIENT COMMUNICATION",
+          "exerciseAid": "Exercise aid, not legal advice. Check the current rule and your counsel.",
+          "company": "Ironcrest Machinery Corporation (fictional), Rockford, Illinois",
+          "incident": "MES and file server ransomware with data exfiltration (Disclosure Committee: record to complete tonight)",
+          "discoveredAt": "Thursday, March 25, 2027, 2:05 p.m. CT (3:05 p.m. ET), when the SOC found ransomware encrypting the file servers and MES at the Rockford data center",
+          "asOf": "Thursday, March 25, 2027, 7:00 p.m. CT (8:00 p.m. ET)",
+          "preparedBy": "Harrow Fenn LLP, partner, cyber and securities (cyberdesk@harrowfenn.example), for the Ironcrest Disclosure Committee (chair: General Counsel and Corporate Secretary)",
+          "factsKnown": [
+            "MES servers ICM-MES-01 and ICM-MES-02 and file servers ICM-FS-03 and ICM-FS-04 at the Rockford data center are encrypted (.ironmelt). A ransom note demands 18 million dollars in cryptocurrency within 72 hours and threatens to publish 1.2 TB of data.",
+            "The network was isolated at 2:25 p.m. CT, and the CEO declared Level 3 at 2:50 p.m. CT. The ERP integration account is locked. The cause (encryption or the isolation) is not yet known.",
+            "Rockford, Beloit and Dubuque are running controllers in manual mode with no work orders and no lot tracking, so product built tonight cannot be traced. Finished-goods buffer: 5 days at each plant. The largest customers hold under 10 days of inventory.",
+            "The Joliet warehouse system is offline. Nothing has shipped since 3:30 p.m. CT, against a normal day of about 4,100 parts orders. The dealer portal shows no order status or parts lookup.",
+            "Blackwater Cyber: the last clean MES backup is the Wednesday 7:05 a.m. snapshot, 31 hours old, against a 15-minute RPO. 3 of 7 database volumes on the Dubuque replica ICM-MES-DBQ-01 are encrypted. No backup has been cleared for restore. The persistence sweep needs 12 to 18 hours.",
+            "The MES recovery tracker passed its 4-hour checkpoint at 6:05 p.m. CT without recovery starting. The 8-hour RTO falls at 10:05 p.m. CT.",
+            "Exfiltration is CONFIRMED. About 940 GB left the Engineering Released share (ICM-FS-04) and an HR export folder (ICM-FS-03) on the night of Tuesday, March 23, 2027.",
+            "Outside parties are asking. Fieldmark Equipment wants written supply status tonight (its contract requires notice within 72 hours, and penalties start after 5 days). Granite Peak Machinery wants the same before its 7:00 a.m. meeting. The Rock River Gazette has said it will publish at 8:00 p.m. CT, and a public social media post about the dealer portal is circulating. The agent bank has asked about Monday's revolver draw, and the external audit partner has asked for a call before this meeting."
+          ],
+          "factsUnknown": [
+            "Which engineering drawings and how many personnel records were taken, and whether customer data was involved.",
+            "Whether the 1.2 TB claim includes sources beyond the 940 GB identified.",
+            "The state of the Beloit file server and whether the ERP integration is encrypted.",
+            "When a clean backup will be cleared, and how long an MES restore will take after that.",
+            "Blue Heron Mutual's position on coverage and on the vendors already engaged (limit 50 million dollars, retention 2 million)."
+          ],
+          "quantitative": [
+            {
+              "factor": "CFO preliminary impact range (dated)",
+              "estimate": "To be entered by the CFO: low / high, with date and time",
+              "note": "'Not yet determined' is acceptable only with the facts and the plan to determine them."
+            },
+            {
+              "factor": "Lost production, all plants",
+              "estimate": "About 8.5 million dollars of sales per full day",
+              "note": "The committee enters the number of days assumed and the reason. Finished-goods buffer is 5 days per plant."
+            },
+            {
+              "factor": "Lost production by plant",
+              "estimate": "Rockford, Beloit, Dubuque: to be entered",
+              "note": "Rockford makes 38 percent of the company's transmissions."
+            },
+            {
+              "factor": "Joliet parts distribution",
+              "estimate": "About 4,100 parts orders per day not shipped since 3:30 p.m. CT",
+              "note": "Revenue at risk at quarter end, six days out."
+            },
+            {
+              "factor": "Ransom demand",
+              "estimate": "18 million dollars in cryptocurrency",
+              "note": "Paying or not paying does not remove the duty to determine materiality."
+            },
+            {
+              "factor": "Response, restoration, notification and legal costs",
+              "estimate": "To be entered",
+              "note": "Includes Blackwater Cyber, Harrow Fenn LLP and any notice to individuals whose HR records were taken. Insurance retention is 2 million dollars."
+            },
+            {
+              "factor": "Customer contract exposure",
+              "estimate": "To be entered",
+              "note": "Fieldmark's penalty clause starts after 5 days of disruption."
+            },
+            {
+              "factor": "Planning threshold (a prompt, not a rule)",
+              "estimate": "60 million dollars expected pre-tax impact, or 2 percent of annual pre-tax income",
+              "note": "A smaller impact can be material for a qualitative reason."
+            }
+          ],
+          "qualitative": [
+            {
+              "factor": "Confirmed exfiltration from Engineering and HR shares",
+              "assessment": "To be assessed: intellectual property exposure, employees' personal data and the publication threat."
+            },
+            {
+              "factor": "Supply to Fieldmark Equipment and Granite Peak Machinery",
+              "assessment": "To be assessed: OEM and dealer relationships, contract notice and force majeure questions."
+            },
+            {
+              "factor": "Reputation",
+              "assessment": "To be assessed: a public post and a press inquiry are already circulating, and both make inaccurate claims."
+            },
+            {
+              "factor": "Litigation and regulatory exposure",
+              "assessment": "To be assessed: employee data claims, customer claims, securities exposure and state notification duties."
+            },
+            {
+              "factor": "Product traceability",
+              "assessment": "To be assessed: units built without lot tracking at three plants."
+            }
+          ],
+          "openQuestions": [
+            "[1] Determination: material / not material / not yet determined. If not yet determined, list the information awaited and the time the committee will meet again.",
+            "[4] Recommended by the committee chair; CEO concurrence; CFO concurrence. Record names and times.",
+            "[6] 8-K choice: Item 1.05 / Item 8.01 / no filing yet. Compute the filing deadline in Central and Eastern time against the 5:30 p.m. ET EDGAR cut-off, and confirm that Lakeline Filing and the EDGAR access codes are available.",
+            "Has the Corporate Secretary closed the trading window for directors, officers and CMT members, and told the 10b5-1 plan administrator? Record the time.",
+            "Do the board briefing, any filing, the holding statement and the customer letters use the same figures as the CCO fact sheet?"
+          ],
+          "determination": "not yet determined",
+          "basis": "No determination had been recorded when this worksheet was circulated at 7:00 p.m. CT. The committee chair enters the determination, the quantitative and qualitative factors weighed, the facts known at the time and the basis, with CEO and CFO concurrence. Under IDCCI 4, the determination is made without unreasonable delay on the facts known now and may be revisited as facts change.",
+          "continuedInvestigation": "Counsel's cover note: Please do not adjourn this to tomorrow's board meeting or wait for Blackwater's final report. Also confirm that the trading window is closed and that the 10b5-1 plan administrator has been told. The investigation continues under counsel's direction, and the determination does not wait for it to finish. Facts that arrive later go into a revised record and, if a filing has been made, an 8-K/A."
+        },
+        "instructorNote": "This is the key decision inject. The determination shows \"not yet determined\" only because nothing was recorded before the meeting. Watch whether the GC records all five IDCCI 4 elements with CEO and CFO concurrence. Also check that the committee weighs at least 42.5 million dollars (5 days × 8.5 million) plus response costs, together with the strong qualitative factors. If it finds the incident material, it should compute an Item 1.05 deadline of Wednesday, March 31, 2027, 5:30 p.m. ET (4:30 p.m. CT). If it chooses \"not yet determined\", it must name the missing information and set a time to reconvene. Either way, confirm that the trading window is closed and that the 10b5-1 administrator has been told.",
+        "deliveryMode": "hand_to_role"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-11-13T02:30:21.026Z"
+}

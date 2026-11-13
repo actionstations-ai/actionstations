@@ -1,0 +1,361 @@
+{
+  "id": "01M794FYP2C20BWG1XA78PH3N2",
+  "mselRowId": "I-01",
+  "type": "email_header_analysis",
+  "title": "Quarantine Digest: \"Project escrow – confidential\" Invite",
+  "deliveryMode": "hand_to_role",
+  "fields": {
+    "orgName": "Tamarack Precision Components – Security Operations (SOC Digest)",
+    "caseId": "SOC-2027-0914-007",
+    "analyst": "R. Delgado",
+    "analyzedAt": "09/14/2027 09:52 EDT",
+    "subject": "Project escrow – confidential: finish the Querétaro machining acquisition",
+    "displayFrom": "\"Office of the CFO – Project Escrow\" <escrow-desk@tmrk-advisory.example>",
+    "recipient": "treasury.analyst@tamarackprecision.example",
+    "verdict": "suspicious",
+    "checks": [
+      {
+        "label": "SPF",
+        "result": "pass",
+        "detail": "Pass for tmrk-advisory.example. The sending server is authorized by the sender's own domain, not by tamarackprecision.example."
+      },
+      {
+        "label": "DKIM",
+        "result": "pass",
+        "detail": "Valid signature, d=tmrk-advisory.example, s=sel1. The signature is valid for the outside domain only."
+      },
+      {
+        "label": "DMARC alignment (tamarackprecision.example)",
+        "result": "none",
+        "detail": "From domain is tmrk-advisory.example. No alignment with tamarackprecision.example. The outside domain publishes no DMARC policy."
+      },
+      {
+        "label": "Sender reputation",
+        "result": "warn",
+        "detail": "No reputation hits. Gateway has no prior mail history for tmrk-advisory.example. That is why the message was delivered and not blocked."
+      },
+      {
+        "label": "Lookalike domain",
+        "result": "warn",
+        "detail": "\"tmrk-advisory\" shortens \"Tamarack\". The display name claims the Office of the CFO."
+      },
+      {
+        "label": "Meeting organizer",
+        "result": "warn",
+        "detail": "Platform banner: \"Organizer is outside the Tamarack tenant. Participants from outside the organization will join as External.\""
+      },
+      {
+        "label": "Attachment scan",
+        "result": "pass",
+        "detail": "invite.ics (calendar file, 10:05–10:35 EDT). No macro, no executable. Contains an external meeting join link."
+      }
+    ],
+    "hops": [
+      {
+        "from": "tmrk-advisory-sender (203.0.113.47)",
+        "by": "mail.tmrk-advisory.example",
+        "time": "Tue, 14 Sep 2027 09:40:03 -0400",
+        "flag": true
+      },
+      {
+        "from": "mail.tmrk-advisory.example (203.0.113.47)",
+        "by": "mx1.tamarackprecision.example (email security gateway)",
+        "time": "Tue, 14 Sep 2027 09:40:09 -0400",
+        "flag": false
+      },
+      {
+        "from": "mx1.tamarackprecision.example",
+        "by": "mailstore.tamarackprecision.example",
+        "time": "Tue, 14 Sep 2027 09:40:12 -0400",
+        "flag": false
+      }
+    ],
+    "headers": [
+      {
+        "name": "Return-Path",
+        "value": "<bounce@tmrk-advisory.example>",
+        "flag": true,
+        "note": "Outside domain. Not tamarackprecision.example."
+      },
+      {
+        "name": "Received",
+        "value": "from mail.tmrk-advisory.example (203.0.113.47) by mx1.tamarackprecision.example; Tue, 14 Sep 2027 09:40:09 -0400",
+        "flag": true,
+        "note": "Comes from an outside server with no prior history."
+      },
+      {
+        "name": "Authentication-Results",
+        "value": "mx1.tamarackprecision.example; spf=pass smtp.mailfrom=tmrk-advisory.example; dkim=pass header.d=tmrk-advisory.example; dmarc=none header.from=tmrk-advisory.example",
+        "flag": true,
+        "note": "All of these pass for the outside domain. None of them shows that the sender is Tamarack."
+      },
+      {
+        "name": "From",
+        "value": "\"Office of the CFO – Project Escrow\" <escrow-desk@tmrk-advisory.example>",
+        "flag": true,
+        "note": "The display name impersonates the CFO's office."
+      },
+      {
+        "name": "Reply-To",
+        "value": "<escrow-desk@tmrk-advisory.example>",
+        "flag": false,
+        "note": "Same as From."
+      },
+      {
+        "name": "To",
+        "value": "<treasury.analyst@tamarackprecision.example>",
+        "flag": false,
+        "note": "Sent to one recipient only: the Treasury Analyst. No CC to the Treasury Manager or the Controller."
+      },
+      {
+        "name": "Date",
+        "value": "Tue, 14 Sep 2027 09:40:02 -0400",
+        "flag": false,
+        "note": "30 minutes after the CFO's flight departed at 09:10."
+      },
+      {
+        "name": "Subject",
+        "value": "Project escrow – confidential: finish the Querétaro machining acquisition",
+        "flag": true,
+        "note": "Names a confidential internal deal and an escrow payment step."
+      },
+      {
+        "name": "Message-ID",
+        "value": "<20270914134002.7f3a91@mail.tmrk-advisory.example>",
+        "flag": false,
+        "note": "Created on the outside server."
+      },
+      {
+        "name": "X-Priority",
+        "value": "1 (Highest)",
+        "flag": true,
+        "note": "Marked as urgent."
+      },
+      {
+        "name": "Content-Type",
+        "value": "multipart/mixed; attachment: invite.ics (text/calendar; method=REQUEST)",
+        "flag": true,
+        "note": "The meeting invitation comes from outside the Tamarack tenant. Joiners will show as External."
+      },
+      {
+        "name": "X-TPC-Gateway-Banner",
+        "value": "[EXTERNAL SENDER] Delivered 09:40:12 EDT; copy to SOC digest",
+        "flag": false,
+        "note": "Delivered with the banner. Nothing was quarantined."
+      }
+    ],
+    "conclusion": "The sender's domain is a lookalike, and the message comes from outside the company although it claims to be from the Office of the CFO. SPF and DKIM pass for tmrk-advisory.example, but nothing ties the sender to tamarackprecision.example. The invite.ics file opens a meeting set up outside the Tamarack tenant, from 10:05 to 10:35 EDT. The body reads \"Strictly confidential. Seven people know about this. The CFO will join from travel to close the escrow step. Do not forward.\" It combines secrecy, urgency and an executive name in a payment context. TPC-FIN-04 section 3 treats that combination as a fraud pattern. A meeting that the requester arranged does not count as verification. The executive travel calendar shows the CFO in flight since 09:10 with no Wi-Fi. Verdict: suspicious, with possible executive impersonation. Recommended actions: keep the .ics file, the full headers and the platform's admin logs. Tell the recipient and the Treasury Manager. Verify any payment request linked to this meeting by calling back a directory number."
+  },
+  "variant": "default",
+  "instructorNote": "This page is a clue. Watch for the CISO's team to treat this as an external meeting on an internal-looking subject. They should keep the .ics file and the headers, not just rely on the SPF and DKIM passes. Also watch for the Treasury Manager to call the analyst and tell her that the meeting is not an instruction. Any money request from it needs a callback to a directory number, and the CFO can't be reached in flight (TCSP 6).",
+  "citations": [
+    {
+      "documentId": "01M793JZB6T2RERPATP9SE15M2",
+      "documentTitle": "TPC-REF-01: Company, Systems and People",
+      "headingPath": "TCSP › 6. Who is traveling",
+      "quote": "Executive travel is recorded in each assistant's calendar. In the week of the exercise the CFO, Marcus Delacroix-Hume, is on a flight from Greenville to Querétaro (departs 09:10, lands 12:50 Eastern, ",
+      "chunkId": 16
+    },
+    {
+      "documentId": "01M793JZB96097WHBG0K74HSVJ",
+      "documentTitle": "TPC-FIN-04: Payment Authorization, Callback Verification and Wire Recall",
+      "headingPath": "TPC-FIN-04: Payment Authorizatio… › 3. Callback verification",
+      "quote": "A callback on a known number is required for: any new beneficiary or beneficiary account, any change to bank details, any payment over $250,000 that is not on the approved vendor payment calendar, and",
+      "chunkId": 29
+    },
+    {
+      "documentId": "01M793JZB6T2RERPATP9SE15M2",
+      "documentTitle": "TPC-REF-01: Company, Systems and People",
+      "headingPath": "TCSP › 4. Communications and security tools",
+      "quote": "- **Meeting platform:** Tamarack uses a commercial video meeting service. Meetings created inside the Tamarack tenant show authenticated participants; guests join as \"external\". The platform's admin l",
+      "chunkId": 14
+    },
+    {
+      "documentId": "01M793JZB96097WHBG0K74HSVJ",
+      "documentTitle": "TPC-FIN-04: Payment Authorization, Callback Verification and Wire Recall",
+      "headingPath": "TPC-FIN-04: Payment Authorizatio… › 4. Executive requests",
+      "quote": "An instruction from the CFO, CEO, General Counsel or any executive to make a payment outside the workflow is not carried out until the executive is reached on their own directory mobile phone by the a",
+      "chunkId": 30
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template"
+    ]
+  },
+  "assets": [
+    {
+      "id": "01M79C7NCMPAWT5Q1GHYDS86RS",
+      "kind": "image",
+      "path": "scenarios/01M793K1BQ4A90FK0DT2D867QV/media/01M794FYP2C20BWG1XA78PH3N2/01M79C7NCMPAWT5Q1GHYDS86RS.png",
+      "role": "rendered",
+      "width": 816,
+      "height": 1056,
+      "sha256": "c4b83eb9016d95a2cd7e2d321efb00ea41a97aad3381b033832e0307c087504a",
+      "provenance": {
+        "provider": "template",
+        "templateId": "email_header_analysis",
+        "templateVersion": "1",
+        "createdAt": "2026-11-13T02:36:51.832Z"
+      }
+    }
+  ],
+  "versions": [
+    {
+      "at": "2026-11-13T00:22:05.525Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "Quarantine Digest: \"Project escrow – confidential\" Invite",
+        "type": "email_header_analysis",
+        "fields": {
+          "orgName": "Tamarack Precision Components – Security Operations (SOC Digest)",
+          "caseId": "SOC-2027-0914-007",
+          "analyst": "R. Delgado",
+          "analyzedAt": "09/14/2027 09:52 EDT",
+          "subject": "Project escrow – confidential: finish the Querétaro machining acquisition",
+          "displayFrom": "\"Office of the CFO – Project Escrow\" <escrow-desk@tmrk-advisory.example>",
+          "recipient": "treasury.analyst@tamarackprecision.example",
+          "verdict": "suspicious",
+          "checks": [
+            {
+              "label": "SPF",
+              "result": "pass",
+              "detail": "Pass for tmrk-advisory.example. The sending server is authorized by the sender's own domain, not by tamarackprecision.example."
+            },
+            {
+              "label": "DKIM",
+              "result": "pass",
+              "detail": "Valid signature, d=tmrk-advisory.example, s=sel1. The signature is valid for the outside domain only."
+            },
+            {
+              "label": "DMARC alignment (tamarackprecision.example)",
+              "result": "none",
+              "detail": "From domain is tmrk-advisory.example. No alignment with tamarackprecision.example. The outside domain publishes no DMARC policy."
+            },
+            {
+              "label": "Sender reputation",
+              "result": "warn",
+              "detail": "No reputation hits. Gateway has no prior mail history for tmrk-advisory.example. That is why the message was delivered and not blocked."
+            },
+            {
+              "label": "Lookalike domain",
+              "result": "warn",
+              "detail": "\"tmrk-advisory\" shortens \"Tamarack\". The display name claims the Office of the CFO."
+            },
+            {
+              "label": "Meeting organizer",
+              "result": "warn",
+              "detail": "Platform banner: \"Organizer is outside the Tamarack tenant. Participants from outside the organization will join as External.\""
+            },
+            {
+              "label": "Attachment scan",
+              "result": "pass",
+              "detail": "invite.ics (calendar file, 10:05–10:35 EDT). No macro, no executable. Contains an external meeting join link."
+            }
+          ],
+          "hops": [
+            {
+              "from": "tmrk-advisory-sender (203.0.113.47)",
+              "by": "mail.tmrk-advisory.example",
+              "time": "Tue, 14 Sep 2027 09:40:03 -0400",
+              "flag": true
+            },
+            {
+              "from": "mail.tmrk-advisory.example (203.0.113.47)",
+              "by": "mx1.tamarackprecision.example (email security gateway)",
+              "time": "Tue, 14 Sep 2027 09:40:09 -0400",
+              "flag": false
+            },
+            {
+              "from": "mx1.tamarackprecision.example",
+              "by": "mailstore.tamarackprecision.example",
+              "time": "Tue, 14 Sep 2027 09:40:12 -0400",
+              "flag": false
+            }
+          ],
+          "headers": [
+            {
+              "name": "Return-Path",
+              "value": "<bounce@tmrk-advisory.example>",
+              "flag": true,
+              "note": "Outside domain. Not tamarackprecision.example."
+            },
+            {
+              "name": "Received",
+              "value": "from mail.tmrk-advisory.example (203.0.113.47) by mx1.tamarackprecision.example; Tue, 14 Sep 2027 09:40:09 -0400",
+              "flag": true,
+              "note": "Comes from an outside server with no prior history."
+            },
+            {
+              "name": "Authentication-Results",
+              "value": "mx1.tamarackprecision.example; spf=pass smtp.mailfrom=tmrk-advisory.example; dkim=pass header.d=tmrk-advisory.example; dmarc=none header.from=tmrk-advisory.example",
+              "flag": true,
+              "note": "All of these pass for the outside domain. None of them shows that the sender is Tamarack."
+            },
+            {
+              "name": "From",
+              "value": "\"Office of the CFO – Project Escrow\" <escrow-desk@tmrk-advisory.example>",
+              "flag": true,
+              "note": "The display name impersonates the CFO's office."
+            },
+            {
+              "name": "Reply-To",
+              "value": "<escrow-desk@tmrk-advisory.example>",
+              "flag": false,
+              "note": "Same as From."
+            },
+            {
+              "name": "To",
+              "value": "<treasury.analyst@tamarackprecision.example>",
+              "flag": false,
+              "note": "Sent to one recipient only: the Treasury Analyst. No CC to the Treasury Manager or the Controller."
+            },
+            {
+              "name": "Date",
+              "value": "Tue, 14 Sep 2027 09:40:02 -0400",
+              "flag": false,
+              "note": "30 minutes after the CFO's flight departed at 09:10."
+            },
+            {
+              "name": "Subject",
+              "value": "Project escrow – confidential: finish the Querétaro machining acquisition",
+              "flag": true,
+              "note": "Names a confidential internal deal and an escrow payment step."
+            },
+            {
+              "name": "Message-ID",
+              "value": "<20270914134002.7f3a91@mail.tmrk-advisory.example>",
+              "flag": false,
+              "note": "Created on the outside server."
+            },
+            {
+              "name": "X-Priority",
+              "value": "1 (Highest)",
+              "flag": true,
+              "note": "Marked as urgent."
+            },
+            {
+              "name": "Content-Type",
+              "value": "multipart/mixed; attachment: invite.ics (text/calendar; method=REQUEST)",
+              "flag": true,
+              "note": "The meeting invitation comes from outside the Tamarack tenant. Joiners will show as External."
+            },
+            {
+              "name": "X-TPC-Gateway-Banner",
+              "value": "[EXTERNAL SENDER] Delivered 09:40:12 EDT; copy to SOC digest",
+              "flag": false,
+              "note": "Delivered with the banner. Nothing was quarantined."
+            }
+          ],
+          "conclusion": "The sender's domain is a lookalike, and the message comes from outside the company although it claims to be from the Office of the CFO. SPF and DKIM pass for tmrk-advisory.example, but nothing ties the sender to tamarackprecision.example. The invite.ics file opens a meeting set up outside the Tamarack tenant, from 10:05 to 10:35 EDT. The body reads \"Strictly confidential. Seven people know about this. The CFO will join from travel to close the escrow step. Do not forward.\" It combines secrecy, urgency and an executive name in a payment context. TPC-FIN-04 section 3 treats that combination as a fraud pattern. A meeting that the requester arranged does not count as verification. The executive travel calendar shows the CFO in flight since 09:10 with no Wi-Fi. Verdict: suspicious, with possible executive impersonation. Recommended actions: keep the .ics file, the full headers and the platform's admin logs. Tell the recipient and the Treasury Manager. Verify any payment request linked to this meeting by calling back a directory number."
+        },
+        "instructorNote": "This page is a clue. Watch for the CISO's team to treat this as an external meeting on an internal-looking subject. They should keep the .ics file and the headers, not just rely on the SPF and DKIM passes. Also watch for the Treasury Manager to call the analyst and tell her that the meeting is not an instruction. Any money request from it needs a callback to a directory number, and the CFO can't be reached in flight (TCSP 6).",
+        "deliveryMode": "hand_to_role"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-11-13T02:36:52.122Z"
+}

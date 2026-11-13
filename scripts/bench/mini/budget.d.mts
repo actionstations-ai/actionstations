@@ -9,3 +9,7 @@ export function scenarioBudget(opts?: { phases?: number; root?: string; scenario
   stages: any[]
 }
 export function bundledScenarios(root?: string): any[]
+/** True when a hosted model (Claude) drafted the scenario; such examples are left out of the budget. */
+export function draftedInTheCloud(scenario: {
+  provenance: { model?: string; providerRef?: { model?: string } }[]
+}): boolean

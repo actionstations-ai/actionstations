@@ -1,0 +1,106 @@
+{
+  "id": "01M792J90NV5XP2T12A5KQRXR4",
+  "mselRowId": "I-06",
+  "type": "time_jump_card",
+  "title": "TIME JUMP — 08:30 ET, Ten Minutes After the Holding Statement",
+  "deliveryMode": "read_aloud",
+  "fields": {
+    "exerciseTime": "1:00",
+    "newTime": "08:30 AM ET",
+    "jumpLabel": "+10 minutes",
+    "narration": "It is now 08:30 Eastern Time on Tuesday, March 9, 2027. Ten minutes ago, at 08:20, the holding statement went up on the newsroom page and the company accounts through two-person approval in the social tool. The wording you published is now public, and people are quoting it, screenshotting it and replying to it. The volume has jumped. Since 07:30, mentions of 'Tallis hack' or 'Tallis breach' have gone from 31 to 1,860, and the breach-forum screenshot is now on more than 40 accounts. Customer Care has 96 calls waiting, up from 14 when the cell opened. The CartBridge integration key is still suspended and warehouse order sync is still failing. Cardinal Forensics still cannot give you a count, because the March 2 to 8 logs are still in CartBridge cold storage. Pre-market trading has started, and the market opens at 09:30. The TechSignal Daily deadline is 10:30, two hours from now.",
+    "worldState": [
+      "Clock: 08:30 ET, Tuesday, March 9, 2027. Market opens at 09:30 ET; pre-market trading is active.",
+      "The holding statement has been live since 08:20 ET on the newsroom page and all company social accounts. Its wording cannot be taken back, only corrected or updated.",
+      "Social listening: 'Tallis hack' / 'Tallis breach' mentions at 1,860, up from 31 at 07:30. The forum screenshot ('TALLIS HOME 1.9M FULLZ – passwords + cards – fresh') is on more than 40 accounts, including @DataLeakWatcher_x.",
+      "Customer care queue: 96 waiting calls, up from 14 at 07:30. A normal Tuesday stays under 40 in the first hour. The 300-call threshold for the web banner and moving 40 agents from the order desk has not been reached.",
+      "Key cartbridge-integration-prod is still suspended under INC-27-0309-01. Warehouse order sync from the web store is still failing.",
+      "CartBridge case CB-558217: the March 2–8 API audit logs are still in cold storage. The vendor needs a P1 portal ticket from the named account owner and a signed Data Access Authorization, then 4–6 hours to release the logs.",
+      "Cardinal Forensics: 38 of the 40 checked sample rows are real Tallis accounts. The 'pwd' values are bcrypt hashes and the 'card' values are Lakeview Payments tokens. There is still no count of affected accounts.",
+      "TechSignal Daily (Ines Okonkwo) still has a 10:30 ET deadline for an on-the-record comment."
+    ],
+    "facilitatorNote": "Before reading the narration, read back the exact holding statement the cell published at 08:20, word for word, including any 'no payment information' line, and keep that wording for the correction rows in Phase 2. Then ask each role in turn: what time did the statement promise for the next update, and is it on the statement log? Which published line does not match a time-stamped line on the fact sheet? Have the CartBridge P1 ticket and the signed Data Access Authorization (CB-DAA-02) been sent, and by whom?",
+    "scenarioTitle": "Sample Rows — Web Store Export, Correction & Disclosure",
+    "injectId": "I-06"
+  },
+  "variant": "default",
+  "instructorNote": "This card resets the cell on the statement that is now public, in the first ten minutes before the wrong line is found. Watch whether COMMS brings everyone back to the fact sheet and the next-update time on the log, whether WRITER checks each published line against the time-stamped fact sheet and spots the 'payment information' problem, since tokens were exposed, and whether CISO confirms that the CartBridge P1 ticket and the signed Data Access Authorization have gone out.",
+  "citations": [
+    {
+      "documentId": "01M791MZ5V0HHAJ0J2R7KKEXX6",
+      "documentTitle": "TLC-COM-03: Systems, Customer Data and Media Directory",
+      "headingPath": "TSCDMD › 3. Publishing and listening systems",
+      "quote": "The newsroom page and the website banner are changed by Corporate Communications in 10 minutes. Company accounts are run from the social tool with two-person approval. Social listening runs 24 hours w",
+      "chunkId": 32
+    },
+    {
+      "documentId": "01M791MZ5PNQX3GYDBEAX99A9W",
+      "documentTitle": "TLC-COM-01: Crisis Communications Plan",
+      "headingPath": "TCCP › 2. The team",
+      "quote": "| Role | Name | Duty | Office / mobile | |---|---|---|---| | Chief Communications Officer (COMMS) | Marcus Delaney | Owns strategy, approves every external statement, decides when to hold a press conf",
+      "chunkId": 3
+    },
+    {
+      "documentId": "01M791MZ5V0HHAJ0J2R7KKEXX6",
+      "documentTitle": "TLC-COM-03: Systems, Customer Data and Media Directory",
+      "headingPath": "TSCDMD › 2. Customer data systems",
+      "quote": "- **Web store.** Built and hosted by the vendor CartBridge Commerce (fictional) on its cloud. Holds 1.9 million registered accounts: name, email address, shipping and billing address, phone number if ",
+      "chunkId": 31
+    },
+    {
+      "documentId": "01M791MZ5TMRENEGVVE344C0E4",
+      "documentTitle": "TLC-COM-02: Message Playbook for a Customer Data Incident",
+      "headingPath": "TMPCDI › 8. Customer Care script (summary)",
+      "quote": "Agents answer from the macro approved by COMMS and Legal. They say: \"We are investigating; we have no confirmation that your account is involved; here is what you can do.\" They do not guess, do not fo",
+      "chunkId": 28
+    },
+    {
+      "documentId": "01M791MZ5PNQX3GYDBEAX99A9W",
+      "documentTitle": "TLC-COM-01: Crisis Communications Plan",
+      "headingPath": "TCCP › 3. Approval route",
+      "quote": "Nothing goes out unless it follows this route, and the approver and the time are written on the statement log. 1. **Writer drafts** from the fact sheet. 2. **CISO confirms facts** (technical statement",
+      "chunkId": 4
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template"
+    ]
+  },
+  "assets": [],
+  "versions": [
+    {
+      "at": "2026-11-12T23:48:10.619Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "TIME JUMP — 08:30 ET, Ten Minutes After the Holding Statement",
+        "type": "time_jump_card",
+        "fields": {
+          "exerciseTime": "1:00",
+          "newTime": "08:30 AM ET",
+          "jumpLabel": "+10 minutes",
+          "narration": "It is now 08:30 Eastern Time on Tuesday, March 9, 2027. Ten minutes ago, at 08:20, the holding statement went up on the newsroom page and the company accounts through two-person approval in the social tool. The wording you published is now public, and people are quoting it, screenshotting it and replying to it. The volume has jumped. Since 07:30, mentions of 'Tallis hack' or 'Tallis breach' have gone from 31 to 1,860, and the breach-forum screenshot is now on more than 40 accounts. Customer Care has 96 calls waiting, up from 14 when the cell opened. The CartBridge integration key is still suspended and warehouse order sync is still failing. Cardinal Forensics still cannot give you a count, because the March 2 to 8 logs are still in CartBridge cold storage. Pre-market trading has started, and the market opens at 09:30. The TechSignal Daily deadline is 10:30, two hours from now.",
+          "worldState": [
+            "Clock: 08:30 ET, Tuesday, March 9, 2027. Market opens at 09:30 ET; pre-market trading is active.",
+            "The holding statement has been live since 08:20 ET on the newsroom page and all company social accounts. Its wording cannot be taken back, only corrected or updated.",
+            "Social listening: 'Tallis hack' / 'Tallis breach' mentions at 1,860, up from 31 at 07:30. The forum screenshot ('TALLIS HOME 1.9M FULLZ – passwords + cards – fresh') is on more than 40 accounts, including @DataLeakWatcher_x.",
+            "Customer care queue: 96 waiting calls, up from 14 at 07:30. A normal Tuesday stays under 40 in the first hour. The 300-call threshold for the web banner and moving 40 agents from the order desk has not been reached.",
+            "Key cartbridge-integration-prod is still suspended under INC-27-0309-01. Warehouse order sync from the web store is still failing.",
+            "CartBridge case CB-558217: the March 2–8 API audit logs are still in cold storage. The vendor needs a P1 portal ticket from the named account owner and a signed Data Access Authorization, then 4–6 hours to release the logs.",
+            "Cardinal Forensics: 38 of the 40 checked sample rows are real Tallis accounts. The 'pwd' values are bcrypt hashes and the 'card' values are Lakeview Payments tokens. There is still no count of affected accounts.",
+            "TechSignal Daily (Ines Okonkwo) still has a 10:30 ET deadline for an on-the-record comment."
+          ],
+          "facilitatorNote": "Before reading the narration, read back the exact holding statement the cell published at 08:20, word for word, including any 'no payment information' line, and keep that wording for the correction rows in Phase 2. Then ask each role in turn: what time did the statement promise for the next update, and is it on the statement log? Which published line does not match a time-stamped line on the fact sheet? Have the CartBridge P1 ticket and the signed Data Access Authorization (CB-DAA-02) been sent, and by whom?",
+          "scenarioTitle": "Sample Rows — Web Store Export, Correction & Disclosure",
+          "injectId": "I-06"
+        },
+        "instructorNote": "This card resets the cell on the statement that is now public, in the first ten minutes before the wrong line is found. Watch whether COMMS brings everyone back to the fact sheet and the next-update time on the log, whether WRITER checks each published line against the time-stamped fact sheet and spots the 'payment information' problem, since tokens were exposed, and whether CISO confirms that the CartBridge P1 ticket and the signed Data Access Authorization have gone out.",
+        "deliveryMode": "read_aloud"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-11-13T02:28:26.286Z"
+}

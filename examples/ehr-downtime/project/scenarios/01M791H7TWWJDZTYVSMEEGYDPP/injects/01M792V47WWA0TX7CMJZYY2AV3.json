@@ -1,0 +1,216 @@
+{
+  "id": "01M792V47WWA0TX7CMJZYY2AV3",
+  "mselRowId": "I-09b",
+  "type": "field_report",
+  "title": "Med-Surg Level 3: Two Carlsons, One MRN",
+  "deliveryMode": "hand_to_role",
+  "fields": {
+    "organization": "Lakemont Community Hospital — Med-Surg Level 3 / Health Information Management",
+    "formTitle": "Downtime Patient Identity Event Report",
+    "reportNo": "PIE-2027-0209-01",
+    "date": "02/09/2027 (Tuesday)",
+    "time": "04:06-04:15",
+    "location": "Med-Surg Level 3 nurses' station; Rooms 309 and 311",
+    "inspector": "Patrice Dahlberg, Unit Clerk, Med-Surg Level 3",
+    "unit": "Med-Surg Level 3 (on downtime procedures since 03:04)",
+    "reportType": "safety",
+    "weather": "Indoor event. Outside: clear, -21°F",
+    "summary": "Two patients with the same last name are on the unit. Walter Carlson, 81, Room 309, was admitted Monday 02/08 and is on the 23:20 downtime census. Wendell Carlson, 79, Room 311, was admitted at 23:50 and is NOT on the census. The admitting label printed for Wendell carries Walter's MRN, and it is already on two of Wendell's downtime order sheets. At 04:06 the night pharmacy run delivered one med bag labelled with that MRN, name line 'CARLSON, W'. Nobody can say which patient it is for. The bag has not been opened or given.",
+    "findings": [
+      {
+        "item": "Census match — Walter Carlson, Rm 309",
+        "condition": "ok",
+        "notes": "On 23:20 census. Armband name and DOB match the MAR."
+      },
+      {
+        "item": "Census match — Wendell Carlson, Rm 311",
+        "condition": "failed",
+        "notes": "Admitted 23:50, after the 23:20 viewer refresh. Not on the census or the printed MAR."
+      },
+      {
+        "item": "Admitting label, Wendell",
+        "condition": "failed",
+        "notes": "Label shows Walter's MRN. Used on 2 order sheets before anyone caught it."
+      },
+      {
+        "item": "Armband, Wendell",
+        "condition": "deficient",
+        "notes": "Name and DOB correct. MRN field matches the wrong label."
+      },
+      {
+        "item": "Downtime order sheets (2)",
+        "condition": "deficient",
+        "notes": "Both carry Walter's MRN on the label. One also has Wendell's handwritten name."
+      },
+      {
+        "item": "Pharmacy med bag, 04:06 run",
+        "condition": "deficient",
+        "notes": "Labelled with the shared MRN, 'CARLSON, W'. Unopened, held at the nurses' station."
+      },
+      {
+        "item": "Lab specimens sent on either Carlson since 23:50",
+        "condition": "not_inspected",
+        "notes": "Not yet checked with the Core Lab."
+      }
+    ],
+    "actionsTaken": [
+      "04:08 Stopped all label printing and placing for both Carlsons",
+      "04:09 Put the med bag in a sealed bag at the nurses' station, marked DO NOT GIVE — IDENTITY HOLD",
+      "04:10 Told the charge nurse; both charts placed together on the hold shelf",
+      "04:12 Called HIM, ext. 5430; transferred to Record Integrity Specialist Elena Moreau, ext. 5431",
+      "04:15 Brought both order sheets to the House Supervisor"
+    ],
+    "recommendations": [
+      "Per Elena Moreau (04:13): do not put another label on either chart",
+      "Per Elena Moreau: give Wendell Carlson a D- number from the downtime pad and handwrite his full name and date of birth on every sheet",
+      "Per Elena Moreau: both charts stay frozen until she reviews the master patient index",
+      "Decision needed from House Supervisor: who receives the held med bag, and who checks it against the armband"
+    ],
+    "photosNote": "No photos. Original order sheets (2) and the empty label backing are attached to this report.",
+    "signature": "Patrice Dahlberg, Unit Clerk, Med-Surg Level 3",
+    "marking": "EXERCISE · EXERCISE · EXERCISE — all patients and record numbers are fictional"
+  },
+  "variant": "default",
+  "instructorNote": "This is a core patient-identity inject: one record number now has two people's data on it, so it is a possible overlay. Check that the CNO stops use of the shared MRN, has a D- number assigned to Wendell, and keeps the med bag on hold until it is checked against the armband. Also check that the LPM flags both Carlsons in pharmacy and the Core Lab for identity review before any queued messages are replayed.",
+  "citations": [
+    {
+      "documentId": "01M791H5T6P0TB6KXSN6Y8MDY3",
+      "documentTitle": "Lakemont Community Hospital — Downtime Procedures SOP (IS-14-A)",
+      "headingPath": "IS-14-A › 8. Patient identity",
+      "quote": "- Two identifiers at every contact. For unidentified patients, trauma names use the downtime convention \"ZZ-Trauma\" followed by the day of the week and a number (for example ZZ-Trauma Tuesday 1). Thes",
+      "chunkId": 19
+    },
+    {
+      "documentId": "01M791H5T6P0TB6KXSN6Y8MDY3",
+      "documentTitle": "Lakemont Community Hospital — Downtime Procedures SOP (IS-14-A)",
+      "headingPath": "IS-14-A › 1. Starting downtime on a unit",
+      "quote": "When the overhead page or the House Supervisor's call announces downtime, the charge nurse: 1. Prints the census and last printed MAR from the downtime viewer if it is up; otherwise uses the binder co",
+      "chunkId": 12
+    },
+    {
+      "documentId": "01M791H5T9913NQR8TVBHP3J1Z",
+      "documentTitle": "Lakemont Community Hospital — Clinical Systems, Interfaces and Vendors",
+      "headingPath": "Lakemont Community Hospital — Cl… › 7. People",
+      "quote": "- Clinical Systems Lead: Marcus Ellery, ext. 5502. - On-call systems analysts: Ananya Desai (nights, ext. 5503) and Kyle Brandvold (days, ext. 5504). - Record Integrity Specialist: Elena Moreau, ext. ",
+      "chunkId": 39
+    },
+    {
+      "documentId": "01M791H5T7614JBPY8N3FD39RH",
+      "documentTitle": "Lakemont Community Hospital — Restore, Reconciliation and Breach Assessment SOP (IS-14-C)",
+      "headingPath": "IS-14-C › 3. Results release",
+      "quote": "Results held during downtime are released after validation. Critical results received by phone during downtime are logged on paper and re-entered. A result that arrives in the EHR on a patient who was",
+      "chunkId": 26
+    },
+    {
+      "documentId": "01M791H5T4QRTQAQ9XEEV0T7D6",
+      "documentTitle": "Lakemont Community Hospital — Information Systems Downtime and Recovery Plan",
+      "headingPath": "Lakemont Community Hospital — In… › 6. Downtime viewer and backups",
+      "quote": "- A read-only downtime viewer holds a copy of each admitted patient's problem list, allergies, active orders, medication administration record (MAR) and last 24 hours of results, refreshed every 4 hou",
+      "chunkId": 7
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template"
+    ]
+  },
+  "assets": [
+    {
+      "id": "01M79CQ01R7DH5KAQNW91FYHT3",
+      "kind": "image",
+      "path": "scenarios/01M791H7TWWJDZTYVSMEEGYDPP/media/01M792V47WWA0TX7CMJZYY2AV3/01M79CQ01R7DH5KAQNW91FYHT3.png",
+      "role": "rendered",
+      "width": 816,
+      "height": 1056,
+      "sha256": "432b1468894f5ad6eebbe316650af2b117d0dec88da3477da08ada0f7d227fca",
+      "provenance": {
+        "provider": "template",
+        "templateId": "field_report",
+        "templateVersion": "1",
+        "createdAt": "2026-11-13T02:45:14.278Z"
+      }
+    }
+  ],
+  "versions": [
+    {
+      "at": "2026-11-12T23:53:42.202Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "Med-Surg Level 3: Two Carlsons, One MRN",
+        "type": "field_report",
+        "fields": {
+          "organization": "Lakemont Community Hospital — Med-Surg Level 3 / Health Information Management",
+          "formTitle": "Downtime Patient Identity Event Report",
+          "reportNo": "PIE-2027-0209-01",
+          "date": "02/09/2027 (Tuesday)",
+          "time": "04:06-04:15",
+          "location": "Med-Surg Level 3 nurses' station; Rooms 309 and 311",
+          "inspector": "Patrice Dahlberg, Unit Clerk, Med-Surg Level 3",
+          "unit": "Med-Surg Level 3 (on downtime procedures since 03:04)",
+          "reportType": "safety",
+          "weather": "Indoor event. Outside: clear, -21°F",
+          "summary": "Two patients with the same last name are on the unit. Walter Carlson, 81, Room 309, was admitted Monday 02/08 and is on the 23:20 downtime census. Wendell Carlson, 79, Room 311, was admitted at 23:50 and is NOT on the census. The admitting label printed for Wendell carries Walter's MRN, and it is already on two of Wendell's downtime order sheets. At 04:06 the night pharmacy run delivered one med bag labelled with that MRN, name line 'CARLSON, W'. Nobody can say which patient it is for. The bag has not been opened or given.",
+          "findings": [
+            {
+              "item": "Census match — Walter Carlson, Rm 309",
+              "condition": "ok",
+              "notes": "On 23:20 census. Armband name and DOB match the MAR."
+            },
+            {
+              "item": "Census match — Wendell Carlson, Rm 311",
+              "condition": "failed",
+              "notes": "Admitted 23:50, after the 23:20 viewer refresh. Not on the census or the printed MAR."
+            },
+            {
+              "item": "Admitting label, Wendell",
+              "condition": "failed",
+              "notes": "Label shows Walter's MRN. Used on 2 order sheets before anyone caught it."
+            },
+            {
+              "item": "Armband, Wendell",
+              "condition": "deficient",
+              "notes": "Name and DOB correct. MRN field matches the wrong label."
+            },
+            {
+              "item": "Downtime order sheets (2)",
+              "condition": "deficient",
+              "notes": "Both carry Walter's MRN on the label. One also has Wendell's handwritten name."
+            },
+            {
+              "item": "Pharmacy med bag, 04:06 run",
+              "condition": "deficient",
+              "notes": "Labelled with the shared MRN, 'CARLSON, W'. Unopened, held at the nurses' station."
+            },
+            {
+              "item": "Lab specimens sent on either Carlson since 23:50",
+              "condition": "not_inspected",
+              "notes": "Not yet checked with the Core Lab."
+            }
+          ],
+          "actionsTaken": [
+            "04:08 Stopped all label printing and placing for both Carlsons",
+            "04:09 Put the med bag in a sealed bag at the nurses' station, marked DO NOT GIVE — IDENTITY HOLD",
+            "04:10 Told the charge nurse; both charts placed together on the hold shelf",
+            "04:12 Called HIM, ext. 5430; transferred to Record Integrity Specialist Elena Moreau, ext. 5431",
+            "04:15 Brought both order sheets to the House Supervisor"
+          ],
+          "recommendations": [
+            "Per Elena Moreau (04:13): do not put another label on either chart",
+            "Per Elena Moreau: give Wendell Carlson a D- number from the downtime pad and handwrite his full name and date of birth on every sheet",
+            "Per Elena Moreau: both charts stay frozen until she reviews the master patient index",
+            "Decision needed from House Supervisor: who receives the held med bag, and who checks it against the armband"
+          ],
+          "photosNote": "No photos. Original order sheets (2) and the empty label backing are attached to this report.",
+          "signature": "Patrice Dahlberg, Unit Clerk, Med-Surg Level 3",
+          "marking": "EXERCISE · EXERCISE · EXERCISE — all patients and record numbers are fictional"
+        },
+        "instructorNote": "This is a core patient-identity inject: one record number now has two people's data on it, so it is a possible overlay. Check that the CNO stops use of the shared MRN, has a D- number assigned to Wendell, and keeps the med bag on hold until it is checked against the armband. Also check that the LPM flags both Carlsons in pharmacy and the Core Lab for identity review before any queued messages are replayed.",
+        "deliveryMode": "hand_to_role"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-11-13T02:45:14.510Z"
+}

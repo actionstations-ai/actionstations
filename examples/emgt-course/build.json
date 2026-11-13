@@ -1,0 +1,53 @@
+{
+  "id": "emgt-course",
+  "title": "EMGT 4320 Exercise Design and Evaluation, Marlowe State University",
+  "domainProfile": "campus",
+  "summary": "A university emergency management course run as an exercise lab: syllabus, role rubrics, a rotation plan and the campus flood annex and notification SOP, with an exercise generated for the week-11 session in which student teams in six seats (incident commander, communications, campus police, student affairs, facilities and a student evaluator) respond to a flash flood that closes the lower campus and forces a residence hall evacuation.",
+  "notice": "EXERCISE MATERIAL — for training use. Marlowe State University, the town of Marlowe, the course, its people, offices, media and sites are simulated; Athens County, Ohio and the public agencies are real. No student records are included. The public sources consulted for realism are listed in reference/emgt-course/SOURCES.md.",
+  "project": {
+    "name": "EMGT 4320 Exercise Design and Evaluation",
+    "orgName": "Marlowe State University",
+    "orgType": "campus",
+    "toolkits": ["flooding", "mass_care"],
+    "brand": {
+      "city": "Marlowe",
+      "region": "Athens County, Ohio",
+      "aliases": {
+        "org": "Marlowe State University",
+        "orgShort": "MSU",
+        "orgDomain": "marlowestate.example",
+        "localTv": "Channel 9"
+      }
+    }
+  },
+  "documents": {
+    "dir": "reference/emgt-course",
+    "exclude": ["SOURCES.md"]
+  },
+  "media": {
+    "aiImagesPerScenario": 2,
+    "ttsPerScenario": 2
+  },
+  "scenarios": [
+    {
+      "key": "sugar-camp-flash-flood",
+      "startWallClock": "05:30",
+      "threatFamily": "natural_hazard",
+      "summary": "On a wet spring morning Sugar Camp Run rises 1.5 feet an hour through the Marlowe State campus; the students must close Dairy Lane, order Riverside Hall evacuated before its basement floods, open Kessler Fieldhouse as a shelter and keep every message consistent while rumors spread.",
+      "userPrompt": "A Thursday in late March 2027, run in the Week 11 lab of EMGT 4320 with student teams in the six seats. At 05:30 the NWS Charleston forecast office has a flash flood watch in effect for Athens County after 2 inches of rain overnight with 2 to 3 more inches forecast by noon; the Mill Street gauge on Sugar Camp Run reads 4.2 ft and rising (action stage 5.0, flood stage 7.0). Director of Emergency Management Renata Voss is the incident commander seat; the EOC is the Campus Services Building room 108. Timeline: 06:10 the gauge reads 5.0, Level 2; 06:40 an NWS flash flood warning for the Sugar Camp Run basin is issued, and the stage reaches 6.5 so Campus Police must close the Dairy Lane crossing (it floods at 8.0, and the central plant's fuel delivery truck is due at 08:00); 07:15 the stage is 7.0 and the Sugar Run Apartments (210 residents, 45 minute clearance) go on advisory; the Ohio River Forecast Center forecast crest is 10.8 ft at about 10:30, so the Riverside Hall (680 residents, 90 minute clearance, elevators lost when power is isolated) evacuation must be ordered by about 08:00 to be empty 30 minutes before the basement floods at 10.5; Facilities must move the truck fleet out of Lot C before 8.5 and library network gear and Special Collections boxes before 10.5 (2 and 3 hours); Kessler Fieldhouse takes 25 minutes to open by day and 40 at night (1,800 capacity, generator 36 hours), the Student Union ballroom (400) is the alternate once the count reaches 1,500; at 07:50 a viral post says Riverside Hall is already under water and trapped students are on the roof, a false rumor the PIO must check with Campus Police and correct on the same channel; a reporter from Channel 9 and the student newspaper The Hilltop call for a statement; parents call the 555-0150 line; two students with oxygen concentrators and a deaf student need support in the shelter; a student is not on any list at 09:30 and a parent says they are in Riverside Hall; the Clery Compliance Officer Hannah Fitch must classify the alerts as emergency notifications; the Red Cross chapter is asked to take over management after 12 hours; the Marlowe building inspector must clear Riverside Hall before reoccupation. The exercise runs in two phases for class time (05:30 to 09:30 and 09:30 to 13:00 exercise time) with a time jump. Evaluators and instructors score decisions against the role rubrics, not the outcome, and the exercise is no-fault. Do not name or invent any real student, record or accommodation.",
+      "audience": [
+        "Incident Commander (Emergency Manager)",
+        "Public Information Officer (Director of University Communications)",
+        "Chief of Campus Police",
+        "Dean of Students (Housing and Mass Care)",
+        "Associate Vice President for Facilities",
+        "Student Evaluator"
+      ],
+      "constraints": [
+        "Every email address of the university uses the exercise domain marlowestate.example; the local TV station, newspapers, the Red Cross chapter contact and any parent use fictional exercise domains; never a real agency, company or newspaper domain.",
+        "Alerts follow the MSU Alert templates (160-character texts, what, where, what to do, next update) and the Clery emergency notification wording; NWS products follow the real format and are marked as exercise products; times are Eastern Daylight Time.",
+        "Player roles are only those in the audience list; NWS Charleston, the Ohio River Forecast Center, Marlowe Police and Fire, the Ohio Emergency Management Agency, the Red Cross, reporters, parents and residents are played by the SimCell. No student names, grades or accommodations appear in any inject."
+      ]
+    }
+  ]
+}

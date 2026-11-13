@@ -1,0 +1,247 @@
+{
+  "id": "01M7939C7MJF93Z7ZB3GZNWYCA",
+  "mselRowId": "I-18",
+  "type": "system_log",
+  "title": "Interface Log: Restart Replays a Release on PF1-27279-L2-A, Pallet D-2291 at Door 12",
+  "deliveryMode": "hand_to_role",
+  "fields": {
+    "systemName": "MES-WMS-INTF",
+    "host": "PFC-OPS-02",
+    "os": "Windows Server 2019",
+    "logSource": "IFC MES>WMS-DAL / interface event log",
+    "exportedBy": "PINECREST\\it.oncall",
+    "exportedAt": "10/12/2027 09:19 AM",
+    "timezone": "PDT (UTC-7)",
+    "lines": [
+      {
+        "ts": "2027-10-12 09:11:48",
+        "level": "INFO",
+        "msg": "CHG PFC-IT-48230 window opened; user svc_ifc; stopping service IFC MES>WMS-DAL",
+        "highlight": false
+      },
+      {
+        "ts": "2027-10-12 09:12:04",
+        "level": "NOTICE",
+        "msg": "IFC MES>WMS-DAL service restart (change ticket PFC-IT-48230, user svc_ifc)",
+        "highlight": false
+      },
+      {
+        "ts": "2027-10-12 09:12:06",
+        "level": "INFO",
+        "msg": "startup: replay directory scan .\\ifc\\replay\\ : 1 file found (HOLDREL_20271011_2215.dat)",
+        "highlight": false
+      },
+      {
+        "ts": "2027-10-12 09:12:31",
+        "level": "INFO",
+        "msg": "queue flush: 3 pending msgs sent to WMS-DAL",
+        "highlight": false
+      },
+      {
+        "ts": "2027-10-12 09:12:33",
+        "level": "INFO",
+        "msg": "WMS-DAL ACK: 3 of 3 msgs accepted",
+        "highlight": false
+      },
+      {
+        "ts": "2027-10-12 09:12:40",
+        "level": "INFO",
+        "msg": "REPLAY file HOLDREL_20271011_2215.dat seq 4471: LOT PF1-27279-L2-A ACTION=RELEASE (routine QA micro release, 10/11 22:15)",
+        "highlight": true
+      },
+      {
+        "ts": "2027-10-12 09:13:02",
+        "level": "INFO",
+        "msg": "WMS-DAL LOT PF1-27279-L2-A STATUS=AVAILABLE/PICKABLE",
+        "highlight": true
+      },
+      {
+        "ts": "2027-10-12 09:13:03",
+        "level": "INFO",
+        "msg": "replay complete: 1 record applied, 0 rejected; service state RUNNING",
+        "highlight": false
+      },
+      {
+        "ts": "2027-10-12 09:15:22",
+        "level": "INFO",
+        "msg": "WMS-DAL event: PICK SCAN pallet D-2291 LOT PF1-27279-L2-A QTY 56 CS -> Cornerstone store route DAL-R07, outbound door 12",
+        "highlight": true
+      },
+      {
+        "ts": "2027-10-12 09:17:09",
+        "level": "WARN",
+        "msg": "WMS-DAL event: LOAD SUSPENDED pallet D-2291 at door 12 by DC supervisor; reason text: 'RED HOLD TAG ON PALLET'",
+        "highlight": true
+      },
+      {
+        "ts": "2027-10-12 09:17:40",
+        "level": "INFO",
+        "msg": "WMS-DAL inquiry: LOT PF1-27279-L2-A STATUS=AVAILABLE/PICKABLE; pallet D-2291 LOC DOOR-12 STAGED",
+        "highlight": false
+      },
+      {
+        "ts": "2027-10-12 09:18:00",
+        "level": "INFO",
+        "msg": "heartbeat WMS-DAL OK; queue depth 0",
+        "highlight": false
+      }
+    ],
+    "classification": "INTERNAL - RECALL EVIDENCE",
+    "pageLabel": "Page 1 of 1"
+  },
+  "variant": "printout",
+  "instructorNote": "Hand this out while the SimCell plays the Dallas DC manager's call: \"Your interface just un-held one of your lots on my screen. The pallet is at door 12, out of the cooler, and the WMS still says AVAILABLE. Do I trust the screen or the tag? And this costs me the people who were counting the 3,000.\" Watch for LOG to send D-2291 back to the 34–38°F quarantine cooler, re-tag it, treat the tag as the hold of record and log time out of the cooler. Watch for TRACE to re-apply the MES hold, confirm WMS-DAL shows HOLD within 10 minutes, have IT block unreviewed replay files, add the event to the Gaps tab and tell RECALL that the Dallas physical count is still not confirmed.",
+  "citations": [
+    {
+      "documentId": "01M791PSSB1ZJ85S8M91S49WYH",
+      "documentTitle": "PFC-QA-03: Lot Coding and Traceability Records",
+      "headingPath": "PLCTR › 4. Systems",
+      "quote": "- **Manufacturing execution system (MES):** records transformation, lot genealogy and holds. A hold in the MES blocks a lot from shipping and from being picked in the DCs within 10 minutes through the",
+      "chunkId": 5
+    },
+    {
+      "documentId": "01M791PSSEBMSYNZ68A0SFSX31",
+      "documentTitle": "PFC-OPS-02: Plant, Distribution Network and Cold Chain",
+      "headingPath": "PPDNCC › 7. Systems and people at the DC",
+      "quote": "Each DC has a WMS, a labeling station and a records clerk on the day shift; the night shift of 12 people handles receiving. Radio scanners read the lot code on the case label. DC managers send a hold ",
+      "chunkId": 17
+    },
+    {
+      "documentId": "01M791PSSHKAJ1RJKR05116S3D",
+      "documentTitle": "PFC-FS-01: Product Hold, Trace and Recall Plan",
+      "headingPath": "PPHTRP › 6. Disposal, returns and effectiveness",
+      "quote": "Held product is segregated, tagged, and held in the cooler at 34 to 38 degrees Fahrenheit until disposition. The Director of Logistics arranges returns or destruction with a certificate. The Coordinat",
+      "chunkId": 34
+    },
+    {
+      "documentId": "01M791PSSHKAJ1RJKR05116S3D",
+      "documentTitle": "PFC-FS-01: Product Hold, Trace and Recall Plan",
+      "headingPath": "PPHTRP › 4. Decisions and who makes them",
+      "quote": "1. **Hold.** The Recall Coordinator or the Plant Manager may place a hold on any lot at any time, without waiting for approval. Target: lots on hold in the MES within 30 minutes of a signal and physic",
+      "chunkId": 32
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template"
+    ]
+  },
+  "assets": [
+    {
+      "id": "01M79BYJV9NCBSVFZ4JPFYCJCQ",
+      "kind": "image",
+      "path": "scenarios/01M791PVSMDEFH6JWJBQPC6C4M/media/01M7939C7MJF93Z7ZB3GZNWYCA/01M79BYJV9NCBSVFZ4JPFYCJCQ.png",
+      "role": "rendered",
+      "width": 816,
+      "height": 1056,
+      "sha256": "8483200568e9270d41501327a0862f7cd9ce6c6cecf56dde93bf592548f06d0a",
+      "provenance": {
+        "provider": "template",
+        "templateId": "system_log",
+        "templateVersion": "1",
+        "createdAt": "2026-11-13T02:31:54.351Z"
+      }
+    }
+  ],
+  "versions": [
+    {
+      "at": "2026-11-13T00:01:00.778Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "Interface Log: Restart Replays a Release on PF1-27279-L2-A, Pallet D-2291 at Door 12",
+        "type": "system_log",
+        "fields": {
+          "systemName": "MES-WMS-INTF",
+          "host": "PFC-OPS-02",
+          "os": "Windows Server 2019",
+          "logSource": "IFC MES>WMS-DAL / interface event log",
+          "exportedBy": "PINECREST\\it.oncall",
+          "exportedAt": "10/12/2027 09:19 AM",
+          "timezone": "PDT (UTC-7)",
+          "lines": [
+            {
+              "ts": "2027-10-12 09:11:48",
+              "level": "INFO",
+              "msg": "CHG PFC-IT-48230 window opened; user svc_ifc; stopping service IFC MES>WMS-DAL",
+              "highlight": false
+            },
+            {
+              "ts": "2027-10-12 09:12:04",
+              "level": "NOTICE",
+              "msg": "IFC MES>WMS-DAL service restart (change ticket PFC-IT-48230, user svc_ifc)",
+              "highlight": false
+            },
+            {
+              "ts": "2027-10-12 09:12:06",
+              "level": "INFO",
+              "msg": "startup: replay directory scan .\\ifc\\replay\\ : 1 file found (HOLDREL_20271011_2215.dat)",
+              "highlight": false
+            },
+            {
+              "ts": "2027-10-12 09:12:31",
+              "level": "INFO",
+              "msg": "queue flush: 3 pending msgs sent to WMS-DAL",
+              "highlight": false
+            },
+            {
+              "ts": "2027-10-12 09:12:33",
+              "level": "INFO",
+              "msg": "WMS-DAL ACK: 3 of 3 msgs accepted",
+              "highlight": false
+            },
+            {
+              "ts": "2027-10-12 09:12:40",
+              "level": "INFO",
+              "msg": "REPLAY file HOLDREL_20271011_2215.dat seq 4471: LOT PF1-27279-L2-A ACTION=RELEASE (routine QA micro release, 10/11 22:15)",
+              "highlight": true
+            },
+            {
+              "ts": "2027-10-12 09:13:02",
+              "level": "INFO",
+              "msg": "WMS-DAL LOT PF1-27279-L2-A STATUS=AVAILABLE/PICKABLE",
+              "highlight": true
+            },
+            {
+              "ts": "2027-10-12 09:13:03",
+              "level": "INFO",
+              "msg": "replay complete: 1 record applied, 0 rejected; service state RUNNING",
+              "highlight": false
+            },
+            {
+              "ts": "2027-10-12 09:15:22",
+              "level": "INFO",
+              "msg": "WMS-DAL event: PICK SCAN pallet D-2291 LOT PF1-27279-L2-A QTY 56 CS -> Cornerstone store route DAL-R07, outbound door 12",
+              "highlight": true
+            },
+            {
+              "ts": "2027-10-12 09:17:09",
+              "level": "WARN",
+              "msg": "WMS-DAL event: LOAD SUSPENDED pallet D-2291 at door 12 by DC supervisor; reason text: 'RED HOLD TAG ON PALLET'",
+              "highlight": true
+            },
+            {
+              "ts": "2027-10-12 09:17:40",
+              "level": "INFO",
+              "msg": "WMS-DAL inquiry: LOT PF1-27279-L2-A STATUS=AVAILABLE/PICKABLE; pallet D-2291 LOC DOOR-12 STAGED",
+              "highlight": false
+            },
+            {
+              "ts": "2027-10-12 09:18:00",
+              "level": "INFO",
+              "msg": "heartbeat WMS-DAL OK; queue depth 0",
+              "highlight": false
+            }
+          ],
+          "classification": "INTERNAL - RECALL EVIDENCE",
+          "pageLabel": "Page 1 of 1"
+        },
+        "instructorNote": "Hand this out while the SimCell plays the Dallas DC manager's call: \"Your interface just un-held one of your lots on my screen. The pallet is at door 12, out of the cooler, and the WMS still says AVAILABLE. Do I trust the screen or the tag? And this costs me the people who were counting the 3,000.\" Watch for LOG to send D-2291 back to the 34–38°F quarantine cooler, re-tag it, treat the tag as the hold of record and log time out of the cooler. Watch for TRACE to re-apply the MES hold, confirm WMS-DAL shows HOLD within 10 minutes, have IT block unreviewed replay files, add the event to the Gaps tab and tell RECALL that the Dallas physical count is still not confirmed.",
+        "deliveryMode": "hand_to_role"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-11-13T02:31:54.583Z"
+}

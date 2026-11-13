@@ -1,0 +1,476 @@
+{
+  "id": "01M794NB16GXQ3GD6X6QWYQ1M5",
+  "mselRowId": "I-01",
+  "type": "scada_hmi",
+  "title": "Leak Alarm on PLC-2: Prairie Bend Crossing MP 214.3",
+  "deliveryMode": "display_main_screen",
+  "fields": {
+    "systemName": "PRAIRIE LINE — PRAIRIE BEND SEGMENT MP 196–231",
+    "site": "Ironbark Pipeline Control Center, Tulsa",
+    "clock": "05:52:14",
+    "date": "12-NOV-2026",
+    "operator": "PCC_DAY_CONTROLLER",
+    "state": "critical",
+    "stateText": "CPM LEAK ALARM — MP 214.3 CROSSING",
+    "mode": "REMOTE / PCC TULSA",
+    "equipment": [
+      {
+        "tag": "PL-MAINLINE-PUMPS",
+        "label": "Mainline pumps (upstream of segment)",
+        "kind": "pump",
+        "state": "running",
+        "value": "ON LINE",
+        "units": "",
+        "setpoint": "31,000 bbl/d",
+        "note": "No trip"
+      },
+      {
+        "tag": "FT-196",
+        "label": "Segment inlet flow MP 196",
+        "kind": "sensor",
+        "state": "online",
+        "value": "1,292",
+        "units": "bbl/h",
+        "setpoint": "",
+        "note": "Steady"
+      },
+      {
+        "tag": "BV-2131",
+        "label": "Mill Ridge Station block valve MP 213.1",
+        "kind": "valve",
+        "state": "open",
+        "value": "100",
+        "units": "% open",
+        "setpoint": "",
+        "note": "Remote available, no movement"
+      },
+      {
+        "tag": "PT-2131S",
+        "label": "Mill Ridge Station suction pressure MP 213.1",
+        "kind": "sensor",
+        "state": "alarm",
+        "value": "861",
+        "units": "psi",
+        "setpoint": "",
+        "note": "Trending down"
+      },
+      {
+        "tag": "PT-2143",
+        "label": "River crossing pressure MP 214.3",
+        "kind": "sensor",
+        "state": "alarm",
+        "value": "835",
+        "units": "psi",
+        "setpoint": "",
+        "note": "Rate of change -46 psi in 2 min (limit 40)"
+      },
+      {
+        "tag": "BV-2156",
+        "label": "Sandhill Valve MP 215.6",
+        "kind": "valve",
+        "state": "open",
+        "value": "100",
+        "units": "% open",
+        "setpoint": "",
+        "note": "Remote available, no movement"
+      },
+      {
+        "tag": "PT-2156",
+        "label": "Sandhill Valve pressure MP 215.6",
+        "kind": "sensor",
+        "state": "alarm",
+        "value": "812",
+        "units": "psi",
+        "setpoint": "",
+        "note": "Trending down"
+      },
+      {
+        "tag": "FT-231",
+        "label": "Segment outlet flow MP 231",
+        "kind": "sensor",
+        "state": "online",
+        "value": "1,269",
+        "units": "bbl/h",
+        "setpoint": "",
+        "note": "Below inlet"
+      },
+      {
+        "tag": "CPM-PB",
+        "label": "Computational pipeline monitoring, Prairie Bend",
+        "kind": "unit",
+        "state": "alarm",
+        "value": "1.8",
+        "units": "% imbalance",
+        "setpoint": "1.5 % limit",
+        "note": "Confidence MEDIUM, location NOT RESOLVED"
+      },
+      {
+        "tag": "WO-PB",
+        "label": "Maintenance work orders, MP 196–231",
+        "kind": "unit",
+        "state": "online",
+        "value": "0",
+        "units": "active",
+        "setpoint": "",
+        "note": "No field work on segment"
+      }
+    ],
+    "readings": [
+      {
+        "label": "Crossing pressure MP 214.3",
+        "value": "835",
+        "units": "psi",
+        "alarm": true
+      },
+      {
+        "label": "Crossing pressure at 05:50:14",
+        "value": "881",
+        "units": "psi",
+        "alarm": false
+      },
+      {
+        "label": "Rate of change MP 214.3",
+        "value": "-46",
+        "units": "psi / 2 min",
+        "alarm": true
+      },
+      {
+        "label": "CPM flow imbalance",
+        "value": "1.8",
+        "units": "%",
+        "alarm": true
+      },
+      {
+        "label": "Inlet flow MP 196",
+        "value": "1,292",
+        "units": "bbl/h",
+        "alarm": false
+      },
+      {
+        "label": "Outlet flow MP 231",
+        "value": "1,269",
+        "units": "bbl/h",
+        "alarm": false
+      },
+      {
+        "label": "Mill Ridge suction pressure",
+        "value": "861",
+        "units": "psi",
+        "alarm": true
+      },
+      {
+        "label": "Sandhill Valve pressure",
+        "value": "812",
+        "units": "psi",
+        "alarm": true
+      },
+      {
+        "label": "CPM leak location",
+        "value": "NOT RESOLVED",
+        "units": "",
+        "alarm": true
+      }
+    ],
+    "alarms": [
+      {
+        "time": "05:52:11",
+        "priority": "3",
+        "tag": "PT-2156",
+        "text": "SANDHILL VALVE MP 215.6 PRESSURE TREND LOW",
+        "acked": false
+      },
+      {
+        "time": "05:52:11",
+        "priority": "3",
+        "tag": "PT-2131S",
+        "text": "MILL RIDGE STN MP 213.1 SUCTION PRESSURE TREND LOW",
+        "acked": false
+      },
+      {
+        "time": "05:52:11",
+        "priority": "1",
+        "tag": "CPM-PB",
+        "text": "CPM FLOW IMBALANCE 1.8 % (LIMIT 1.5 %) SEG MP 196–231 CONF MEDIUM LOC NOT RESOLVED",
+        "acked": false
+      },
+      {
+        "time": "05:52:09",
+        "priority": "1",
+        "tag": "PT-2143",
+        "text": "RATE-OF-CHANGE HI MP 214.3 CROSSING -46 PSI / 2 MIN (LIMIT 40) — 835 PSI",
+        "acked": false
+      }
+    ],
+    "statusItems": [
+      "PLC-2 CONSOLE ONLINE",
+      "RTU MP 213.1 MILL RIDGE ONLINE",
+      "RTU MP 215.6 SANDHILL ONLINE",
+      "CPM ENGINE ONLINE",
+      "HISTORIAN ONLINE",
+      "SCADA TRENDS AVAILABLE"
+    ],
+    "hmiNode": "PLC-2"
+  },
+  "instructorNote": "After you show the screen, speak the controller's line: \"Jordan, I've got a rate-of-change and an imbalance at the river crossing. Could be a transient. Do I hold rate?\" Watch whether the CCSS treats it as a possible leak signal under Response Plan section 4, step 1. The CCSS should check the SCADA trends, start and log a rule-out clock from 05:52, ban any restart or rate test, and copy the alarm times exactly into a new incident log.",
+  "citations": [
+    {
+      "documentId": "01M793Q4354YA8XX7SVEK2Z432",
+      "documentTitle": "Ironbark Pipeline Company: Response Plan for the Prairie Bend Segment",
+      "headingPath": "Ironbark Pipeline Company: Respo… › 1. The system",
+      "quote": "Ironbark Pipeline Company operates the Prairie Line, a 12.75-inch crude oil pipeline of 286 miles from the Hollis Gathering Terminal in Oklahoma to the Wabash Junction Terminal in Missouri. The Prairi",
+      "chunkId": 20
+    },
+    {
+      "documentId": "01M793Q4354YA8XX7SVEK2Z432",
+      "documentTitle": "Ironbark Pipeline Company: Response Plan for the Prairie Bend Segment",
+      "headingPath": "Ironbark Pipeline Company: Respo… › 4. Release detection and first actions",
+      "quote": "1. A leak alarm in the Control Center (a pressure drop of 40 psi in 2 minutes with a flow imbalance of more than 1.5 percent) is checked against SCADA trends. The controller may not restart the line f",
+      "chunkId": 23
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template"
+    ]
+  },
+  "assets": [
+    {
+      "id": "01M799PEZQEH7JBWXR2S3C3BTJ",
+      "kind": "image",
+      "path": "scenarios/01M793Q63KRFJ03E29APF688DQ/media/01M794NB16GXQ3GD6X6QWYQ1M5/01M799PEZQEH7JBWXR2S3C3BTJ.png",
+      "role": "rendered",
+      "width": 1920,
+      "height": 1080,
+      "sha256": "2fb466996101516866d0bfe502a14aecefb023aa7b8c329b8a096991f6d26b2a",
+      "provenance": {
+        "provider": "template",
+        "templateId": "scada_hmi",
+        "templateVersion": "2",
+        "createdAt": "2026-11-13T01:52:31.054Z"
+      }
+    }
+  ],
+  "versions": [
+    {
+      "at": "2026-11-13T00:25:30.992Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "Leak Alarm on PLC-2: Prairie Bend Crossing MP 214.3",
+        "type": "scada_hmi",
+        "fields": {
+          "systemName": "PRAIRIE LINE — PRAIRIE BEND SEGMENT MP 196–231",
+          "site": "Ironbark Pipeline Control Center, Tulsa",
+          "clock": "05:52:14",
+          "date": "12-NOV-2026",
+          "operator": "PCC_DAY_CONTROLLER",
+          "state": "critical",
+          "stateText": "CPM LEAK ALARM — MP 214.3 CROSSING",
+          "mode": "REMOTE / PCC TULSA",
+          "equipment": [
+            {
+              "tag": "PL-MAINLINE-PUMPS",
+              "label": "Mainline pumps (upstream of segment)",
+              "kind": "pump",
+              "state": "running",
+              "value": "ON LINE",
+              "units": "",
+              "setpoint": "31,000 bbl/d",
+              "note": "No trip"
+            },
+            {
+              "tag": "FT-196",
+              "label": "Segment inlet flow MP 196",
+              "kind": "sensor",
+              "state": "online",
+              "value": "1,292",
+              "units": "bbl/h",
+              "setpoint": "",
+              "note": "Steady"
+            },
+            {
+              "tag": "BV-2131",
+              "label": "Mill Ridge Station block valve MP 213.1",
+              "kind": "valve",
+              "state": "open",
+              "value": "100",
+              "units": "% open",
+              "setpoint": "",
+              "note": "Remote available, no movement"
+            },
+            {
+              "tag": "PT-2131S",
+              "label": "Mill Ridge Station suction pressure MP 213.1",
+              "kind": "sensor",
+              "state": "alarm",
+              "value": "861",
+              "units": "psi",
+              "setpoint": "",
+              "note": "Trending down"
+            },
+            {
+              "tag": "PT-2143",
+              "label": "River crossing pressure MP 214.3",
+              "kind": "sensor",
+              "state": "alarm",
+              "value": "835",
+              "units": "psi",
+              "setpoint": "",
+              "note": "Rate of change -46 psi in 2 min (limit 40)"
+            },
+            {
+              "tag": "BV-2156",
+              "label": "Sandhill Valve MP 215.6",
+              "kind": "valve",
+              "state": "open",
+              "value": "100",
+              "units": "% open",
+              "setpoint": "",
+              "note": "Remote available, no movement"
+            },
+            {
+              "tag": "PT-2156",
+              "label": "Sandhill Valve pressure MP 215.6",
+              "kind": "sensor",
+              "state": "alarm",
+              "value": "812",
+              "units": "psi",
+              "setpoint": "",
+              "note": "Trending down"
+            },
+            {
+              "tag": "FT-231",
+              "label": "Segment outlet flow MP 231",
+              "kind": "sensor",
+              "state": "online",
+              "value": "1,269",
+              "units": "bbl/h",
+              "setpoint": "",
+              "note": "Below inlet"
+            },
+            {
+              "tag": "CPM-PB",
+              "label": "Computational pipeline monitoring, Prairie Bend",
+              "kind": "unit",
+              "state": "alarm",
+              "value": "1.8",
+              "units": "% imbalance",
+              "setpoint": "1.5 % limit",
+              "note": "Confidence MEDIUM, location NOT RESOLVED"
+            },
+            {
+              "tag": "WO-PB",
+              "label": "Maintenance work orders, MP 196–231",
+              "kind": "unit",
+              "state": "online",
+              "value": "0",
+              "units": "active",
+              "setpoint": "",
+              "note": "No field work on segment"
+            }
+          ],
+          "readings": [
+            {
+              "label": "Crossing pressure MP 214.3",
+              "value": "835",
+              "units": "psi",
+              "alarm": true
+            },
+            {
+              "label": "Crossing pressure at 05:50:14",
+              "value": "881",
+              "units": "psi",
+              "alarm": false
+            },
+            {
+              "label": "Rate of change MP 214.3",
+              "value": "-46",
+              "units": "psi / 2 min",
+              "alarm": true
+            },
+            {
+              "label": "CPM flow imbalance",
+              "value": "1.8",
+              "units": "%",
+              "alarm": true
+            },
+            {
+              "label": "Inlet flow MP 196",
+              "value": "1,292",
+              "units": "bbl/h",
+              "alarm": false
+            },
+            {
+              "label": "Outlet flow MP 231",
+              "value": "1,269",
+              "units": "bbl/h",
+              "alarm": false
+            },
+            {
+              "label": "Mill Ridge suction pressure",
+              "value": "861",
+              "units": "psi",
+              "alarm": true
+            },
+            {
+              "label": "Sandhill Valve pressure",
+              "value": "812",
+              "units": "psi",
+              "alarm": true
+            },
+            {
+              "label": "CPM leak location",
+              "value": "NOT RESOLVED",
+              "units": "",
+              "alarm": true
+            }
+          ],
+          "alarms": [
+            {
+              "time": "05:52:11",
+              "priority": "3",
+              "tag": "PT-2156",
+              "text": "SANDHILL VALVE MP 215.6 PRESSURE TREND LOW",
+              "acked": false
+            },
+            {
+              "time": "05:52:11",
+              "priority": "3",
+              "tag": "PT-2131S",
+              "text": "MILL RIDGE STN MP 213.1 SUCTION PRESSURE TREND LOW",
+              "acked": false
+            },
+            {
+              "time": "05:52:11",
+              "priority": "1",
+              "tag": "CPM-PB",
+              "text": "CPM FLOW IMBALANCE 1.8 % (LIMIT 1.5 %) SEG MP 196–231 CONF MEDIUM LOC NOT RESOLVED",
+              "acked": false
+            },
+            {
+              "time": "05:52:09",
+              "priority": "1",
+              "tag": "PT-2143",
+              "text": "RATE-OF-CHANGE HI MP 214.3 CROSSING -46 PSI / 2 MIN (LIMIT 40) — 835 PSI",
+              "acked": false
+            }
+          ],
+          "statusItems": [
+            "PLC-2 CONSOLE ONLINE",
+            "RTU MP 213.1 MILL RIDGE ONLINE",
+            "RTU MP 215.6 SANDHILL ONLINE",
+            "CPM ENGINE ONLINE",
+            "HISTORIAN ONLINE",
+            "SCADA TRENDS AVAILABLE"
+          ],
+          "hmiNode": "PLC-2"
+        },
+        "instructorNote": "After you show the screen, speak the controller's line: \"Jordan, I've got a rate-of-change and an imbalance at the river crossing. Could be a transient. Do I hold rate?\" Watch whether the CCSS treats it as a possible leak signal under Response Plan section 4, step 1. The CCSS should check the SCADA trends, start and log a rule-out clock from 05:52, ban any restart or rate test, and copy the alarm times exactly into a new incident log.",
+        "deliveryMode": "display_main_screen"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-11-13T01:52:31.224Z"
+}

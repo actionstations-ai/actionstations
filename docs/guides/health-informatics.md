@@ -142,3 +142,9 @@ The pack's README lists dated seeds from past incidents (a health system's weeks
 - Nothing connects to a real EHR, interface engine, master patient index or device. All messages and records are synthetic.
 - HL7 v2 is a licensed standard. The app writes realistic messages and checks their shape; it does not carry the standard's text.
 - The app does not decide whether an exercise satisfies a CMS, HIPAA or accreditation requirement.
+
+## Example project
+
+The Health informatics and clinical IT pack includes an example project, **Lakemont Community Hospital: 24-Hour Unplanned EHR Downtime**, with one exercise, _Cold Storage_: on a cold February night a storage failure at the primary data center takes Lakechart and the interface engine down; the standby engine is stale, labs and orders are queuing, the cause cannot yet be ruled out as malicious, and the hospital must get 14 units onto paper, decide the restore order, handle duplicate records and reconcile for up to 24 hours.
+
+Turn the pack on under **Packs**, then open a copy from **Projects → Examples**. The organization, its people and its businesses are fictional; the exercise comes with its injects, media, Situation Manual, evaluation guides and controller handbook, ready to read or run.

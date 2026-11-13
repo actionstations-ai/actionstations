@@ -1,0 +1,109 @@
+{
+  "id": "01M793CM9BAZJT47S0AH48FMQK",
+  "mselRowId": "END",
+  "type": "endex_card",
+  "title": "ENDEX: 10:00, Letters Going Out, Hot Wash",
+  "deliveryMode": "read_aloud",
+  "fields": {
+    "exerciseTime": "4:00",
+    "endTime": "10:00 AM",
+    "resolution": "ENDEX. It is 10:00 Pacific Time, Tuesday, October 12, 2027. Recall letters are going out from the corrected reconciliation table: 38,600 cases across PF1-27277-L2-B, PF1-27278-L2-A, PF1-27278-L2-B, PF1-27279-L2-A and PF1-27279-L2-B, with 164 cases listed in the Gaps tab. Harvest Table, Cornerstone and Rivermark Kits have acknowledged, Westline has acknowledged for 29 of its 31 delivery points, and Line 2 stays down while lab confirmation is still 20 to 44 hours away. This ends the exercise.",
+    "finalState": [
+      "Acknowledgments: Harvest Table 09:31, Cornerstone 09:40, Rivermark Kits 09:52 (downstream list promised by 21:00, 104 cases still unmatched). Westline: 29 of 31 delivery points. Two school-district central kitchens have not responded, with call-backs set for 10:30 and 14:00.",
+      "Letters use one set of numbers: 38,600 cases, five PF1 lot codes, and 164 cases in the Gaps tab (60 from pallet P-0417 keyed as PF1-27279-L2-8, plus 104 unmatched at Rivermark).",
+      "Physical holds are confirmed at Stockton and Phoenix. Dallas is still counting, and pallet D-2291 is back in quarantine.",
+      "The MES-to-WMS interface on PFC-OPS-02 is running, with someone manually reviewing every replay file. Notice to Trellis Mutual (claim TM-27-PC-0618) is confirmed.",
+      "Line 2 is down pending swab results. Lab confirmation for work order CAL-27-114582 is 20 to 44 hours away."
+    ],
+    "hotWashTransition": "Thank you, everyone. That ends play. Close the bridge, put down your phones, and stop editing the shared folder. Dr. Brooks will read the hot-wash notes on the interface replay, the manual re-label at the plant dock and Rivermark's paper receiving, and then we go around the table.",
+    "hotWashMethod": "Dr. Brooks reads the after-event measures from PPHTRP section 7: time from signal to hold, time to trace and the share traced, time to notify, and how consistent the counts were across documents. Then each seat names one strength and one gap.",
+    "hotWashQuestions": [
+      "The signal arrived at 05:50 and the MES hold was placed at 06:12. When was product actually held at each DC, counting the Dallas queue, pallet P-0417 and the 09:12 replay that released PF1-27279-L2-A?",
+      "Which document carried which number this morning (38,600; 38,540; about 40,000; 38,556 in REV C)? What should stop a number from reaching a letter, a release, the insurer or FDA before the Recall Coordinator reviews it?",
+      "Against the PFC-FS-04 targets (DCs within 30 minutes, customers within 4 hours of the decision, every acknowledgment within 24 hours), where did we meet the target and where did we fall behind?",
+      "At 10:00, what share of the 38,600 cases is traced to ship-to level? What would close the 164-case Gaps tab sooner: plant dock re-labels, the interface replay files or Rivermark's clipboards?",
+      "Which decision would you make earlier with only a presumptive result, and which pressure (customer deadlines, the leaked draft, the social posts, the reporter) pulled you away from the notification order?"
+    ],
+    "facilitatorNote": "Stop play firmly, because some seats will still be drafting letters. Collect the decision log, REV B and REV C of the reconciliation table, and the draft release for the count-consistency review. Make sure every seat gives both a strength and a gap. Note whether anyone treated ticket PFC-IT-48213 as a real security incident or caught the RA SENSOR FAULT and spinach-post noise.",
+    "scenarioTitle": "Presumptive: Lot Trace, Holds & Recall Notification",
+    "injectId": "END"
+  },
+  "variant": "default",
+  "instructorNote": "This card ends play and sets up the debrief. Dr. Brooks reads the PPHTRP section 7 measures, and each seat names one strength and one gap. Listen for whether players can say when the holds actually took effect, separate from when the MES hold was placed, and whether they recognize that the counts were inconsistent from one document to the next.",
+  "citations": [
+    {
+      "documentId": "01M791PSSB1ZJ85S8M91S49WYH",
+      "documentTitle": "PFC-QA-03: Lot Coding and Traceability Records",
+      "headingPath": "PLCTR › 4. Systems",
+      "quote": "- **Manufacturing execution system (MES):** records transformation, lot genealogy and holds. A hold in the MES blocks a lot from shipping and from being picked in the DCs within 10 minutes through the",
+      "chunkId": 5
+    },
+    {
+      "documentId": "01M791PSSHKAJ1RJKR05116S3D",
+      "documentTitle": "PFC-FS-01: Product Hold, Trace and Recall Plan",
+      "headingPath": "PPHTRP › 7. Measures used after an event",
+      "quote": "Time from signal to hold; time from signal to recall decision; time to complete trace and the share of the shipments traced; time to notify customers; reconciliation of counts; consistency of lot code",
+      "chunkId": 35
+    },
+    {
+      "documentId": "01M791PSSGK4QSR0X463MMNVXQ",
+      "documentTitle": "PFC-FS-04: Recall Notification, Regulatory Contact and Public Statements",
+      "headingPath": "PFC-FS-04: Recall Notification,… › 2. Order and timing",
+      "quote": "| Step | Who | Target | |---|---|---| | Hold notice to Plant 1 and the three DCs | Recall Coordinator, by phone and email | within 30 minutes of a signal | | Call to the FDA and the California Departm",
+      "chunkId": 21
+    },
+    {
+      "documentId": "01M791PSSB1ZJ85S8M91S49WYH",
+      "documentTitle": "PFC-QA-03: Lot Coding and Traceability Records",
+      "headingPath": "PLCTR › 5. What the trace produces",
+      "quote": "The Traceability and Systems Lead produces one sortable spreadsheet with these columns: lot code, product, quantity and unit (cases), ship date, ship-from location, ship-to customer, ship-to location ",
+      "chunkId": 6
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template"
+    ]
+  },
+  "assets": [],
+  "versions": [
+    {
+      "at": "2026-11-13T00:02:37.183Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "ENDEX: 10:00, Letters Going Out, Hot Wash",
+        "type": "endex_card",
+        "fields": {
+          "exerciseTime": "4:00",
+          "endTime": "10:00 AM",
+          "resolution": "ENDEX. It is 10:00 Pacific Time, Tuesday, October 12, 2027. Recall letters are going out from the corrected reconciliation table: 38,600 cases across PF1-27277-L2-B, PF1-27278-L2-A, PF1-27278-L2-B, PF1-27279-L2-A and PF1-27279-L2-B, with 164 cases listed in the Gaps tab. Harvest Table, Cornerstone and Rivermark Kits have acknowledged, Westline has acknowledged for 29 of its 31 delivery points, and Line 2 stays down while lab confirmation is still 20 to 44 hours away. This ends the exercise.",
+          "finalState": [
+            "Acknowledgments: Harvest Table 09:31, Cornerstone 09:40, Rivermark Kits 09:52 (downstream list promised by 21:00, 104 cases still unmatched). Westline: 29 of 31 delivery points. Two school-district central kitchens have not responded, with call-backs set for 10:30 and 14:00.",
+            "Letters use one set of numbers: 38,600 cases, five PF1 lot codes, and 164 cases in the Gaps tab (60 from pallet P-0417 keyed as PF1-27279-L2-8, plus 104 unmatched at Rivermark).",
+            "Physical holds are confirmed at Stockton and Phoenix. Dallas is still counting, and pallet D-2291 is back in quarantine.",
+            "The MES-to-WMS interface on PFC-OPS-02 is running, with someone manually reviewing every replay file. Notice to Trellis Mutual (claim TM-27-PC-0618) is confirmed.",
+            "Line 2 is down pending swab results. Lab confirmation for work order CAL-27-114582 is 20 to 44 hours away."
+          ],
+          "hotWashTransition": "Thank you, everyone. That ends play. Close the bridge, put down your phones, and stop editing the shared folder. Dr. Brooks will read the hot-wash notes on the interface replay, the manual re-label at the plant dock and Rivermark's paper receiving, and then we go around the table.",
+          "hotWashMethod": "Dr. Brooks reads the after-event measures from PPHTRP section 7: time from signal to hold, time to trace and the share traced, time to notify, and how consistent the counts were across documents. Then each seat names one strength and one gap.",
+          "hotWashQuestions": [
+            "The signal arrived at 05:50 and the MES hold was placed at 06:12. When was product actually held at each DC, counting the Dallas queue, pallet P-0417 and the 09:12 replay that released PF1-27279-L2-A?",
+            "Which document carried which number this morning (38,600; 38,540; about 40,000; 38,556 in REV C)? What should stop a number from reaching a letter, a release, the insurer or FDA before the Recall Coordinator reviews it?",
+            "Against the PFC-FS-04 targets (DCs within 30 minutes, customers within 4 hours of the decision, every acknowledgment within 24 hours), where did we meet the target and where did we fall behind?",
+            "At 10:00, what share of the 38,600 cases is traced to ship-to level? What would close the 164-case Gaps tab sooner: plant dock re-labels, the interface replay files or Rivermark's clipboards?",
+            "Which decision would you make earlier with only a presumptive result, and which pressure (customer deadlines, the leaked draft, the social posts, the reporter) pulled you away from the notification order?"
+          ],
+          "facilitatorNote": "Stop play firmly, because some seats will still be drafting letters. Collect the decision log, REV B and REV C of the reconciliation table, and the draft release for the count-consistency review. Make sure every seat gives both a strength and a gap. Note whether anyone treated ticket PFC-IT-48213 as a real security incident or caught the RA SENSOR FAULT and spinach-post noise.",
+          "scenarioTitle": "Presumptive: Lot Trace, Holds & Recall Notification",
+          "injectId": "END"
+        },
+        "instructorNote": "This card ends play and sets up the debrief. Dr. Brooks reads the PPHTRP section 7 measures, and each seat names one strength and one gap. Listen for whether players can say when the holds actually took effect, separate from when the MES hold was placed, and whether they recognize that the counts were inconsistent from one document to the next.",
+        "deliveryMode": "read_aloud"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-11-13T02:31:55.341Z"
+}

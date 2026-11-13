@@ -1,0 +1,399 @@
+{
+  "id": "01M795GW1SQS15X75WEQZVJ2GV",
+  "mselRowId": "I-12",
+  "type": "alarm_summary",
+  "title": "EMS Alarms: Kp 9, Iron Range AT2 Gas and Hot-Spot",
+  "deliveryMode": "display_main_screen",
+  "fields": {
+    "systemName": "NLTO EMS — ALARM SUMMARY",
+    "site": "Northern Lakes Transmission Operations — Primary Control Room, Duluth MN",
+    "clock": "17:47:52",
+    "date": "Tue 16-Mar-2027",
+    "operator": "NLTO_CRSS_DAY",
+    "filter": "All substations · GMD + Breakers + Timing + External Feeds · Active + Acked",
+    "counts": {
+      "critical": 5,
+      "high": 6,
+      "medium": 5,
+      "low": 3
+    },
+    "alarms": [
+      {
+        "time": "17:47:45",
+        "priority": "critical",
+        "tag": "RTCA_CASE",
+        "source": "EMS RTCA",
+        "description": "Post-contingency case for IRON_RANGE_AT2 out of service with HARTLEY 345-1 already out: not yet run. Request from RTCA.",
+        "value": "NOT RUN",
+        "state": "active"
+      },
+      {
+        "time": "17:47:44",
+        "priority": "high",
+        "tag": "RTCA_CASE",
+        "source": "EMS RTCA",
+        "description": "Pre-outage interface schedules and replacement generation: not computed until the RTCA case is run.",
+        "value": "PENDING",
+        "state": "active"
+      },
+      {
+        "time": "17:47:30",
+        "priority": "high",
+        "tag": "SWPC_FEED",
+        "source": "SWPC ALTK09 #0031",
+        "description": "*** EXERCISE *** ALERT: Geomagnetic K-index of 9. Issue 2027 Mar 16 2247 UTC. Threshold Reached 2245 UTC. Synoptic Period 2100-2400 UTC. Active Warning: Yes. NOAA Scale: G5 - Extreme. *** EXERCISE ***",
+        "value": "Kp 9 / G5",
+        "state": "active"
+      },
+      {
+        "time": "17:47:22",
+        "priority": "high",
+        "tag": "UMRC_NOTIFICATION_SYSTEM",
+        "source": "UMRC bridge chat (GMD analyst)",
+        "description": "Lakeshore also reporting 160 A at its own bank. If NLTO drops T2, Shift Manager needs your new Arrowhead and North Shore schedules BEFORE you open it.",
+        "value": "MSG",
+        "state": "active"
+      },
+      {
+        "time": "17:47:10",
+        "priority": "critical",
+        "tag": "IRON_RANGE_AT2",
+        "source": "IRON RANGE 345/230 kV AT2 — winding hot-spot",
+        "description": "HOT SPOT TEMP HI (alarm 105 C)",
+        "value": "108 C ↑",
+        "state": "active"
+      },
+      {
+        "time": "17:46:50",
+        "priority": "critical",
+        "tag": "IRON_RANGE_AT2",
+        "source": "IRON RANGE 345/230 kV AT2 — online DGA monitor",
+        "description": "DGA GAS ALARM — H2 rising",
+        "value": "H2 ↑",
+        "state": "active"
+      },
+      {
+        "time": "17:46:30",
+        "priority": "critical",
+        "tag": "IRON_RANGE_AT2_GIC_NEUT",
+        "source": "IRON RANGE AT2 neutral CT",
+        "description": "GIC NEUTRAL CURRENT HIHI 150 A ALARM",
+        "value": "168 A",
+        "state": "active"
+      },
+      {
+        "time": "17:46:05",
+        "priority": "medium",
+        "tag": "IRON_RANGE_115KV_BUS",
+        "source": "IRON RANGE 115 kV bus",
+        "description": "Bus voltage dip, recovered on capacitor bank",
+        "value": "−1.6 %",
+        "state": "rtn"
+      },
+      {
+        "time": "17:45:50",
+        "priority": "high",
+        "tag": "HARTLEY_AT1_GIC_NEUT",
+        "source": "HARTLEY AT1 neutral CT",
+        "description": "GIC NEUTRAL CURRENT HI 75 A ALARM",
+        "value": "131 A ↑",
+        "state": "acked"
+      },
+      {
+        "time": "17:45:10",
+        "priority": "medium",
+        "tag": "ARROWHEAD_IFC_MVAR",
+        "source": "ARROWHEAD interface",
+        "description": "Reactive power swing > 150 MVAR / 60 s",
+        "value": "172 MVAR",
+        "state": "acked"
+      },
+      {
+        "time": "17:44:00",
+        "priority": "medium",
+        "tag": "CLOQUET_AT1_GIC_NEUT",
+        "source": "CLOQUET AT1 neutral CT",
+        "description": "GIC NEUTRAL CURRENT HI 75 A ALARM",
+        "value": "84 A ↑",
+        "state": "acked"
+      },
+      {
+        "time": "16:20:14",
+        "priority": "high",
+        "tag": "HARTLEY_CB_3H22",
+        "source": "HARTLEY 345 kV — LINE HARTLEY–CLOQUET 345-2",
+        "description": "CB STATUS INVALID (00) — RELAY TARGET 21 Z1",
+        "value": "INVALID",
+        "state": "acked"
+      },
+      {
+        "time": "16:20:14",
+        "priority": "high",
+        "tag": "HARTLEY_CB_3H12",
+        "source": "HARTLEY 345 kV — LINE HARTLEY–IRON RANGE 345-1",
+        "description": "CB OPEN — TRIP. Line 345-1 out of service",
+        "value": "OPEN",
+        "state": "acked"
+      },
+      {
+        "time": "16:09:05",
+        "priority": "low",
+        "tag": "CLOQUET",
+        "source": "GNSS timing monitor",
+        "description": "GPS CLOCK LOCK LOST — HOLDOVER",
+        "value": "HOLDOVER",
+        "state": "acked"
+      },
+      {
+        "time": "16:06:40",
+        "priority": "low",
+        "tag": "IRON_RANGE",
+        "source": "GNSS timing monitor",
+        "description": "GPS CLOCK LOCK LOST — HOLDOVER",
+        "value": "HOLDOVER",
+        "state": "acked"
+      },
+      {
+        "time": "16:04:12",
+        "priority": "low",
+        "tag": "NORTH_SHORE",
+        "source": "GNSS timing monitor",
+        "description": "GPS CLOCK LOCK LOST — HOLDOVER",
+        "value": "HOLDOVER",
+        "state": "acked"
+      }
+    ],
+    "footer": "GMD CONDITION 4 · Kp 9 (G5) · UMRC: EMERGENCY · ARROWHEAD 620 MW · NORTH_SHORE 375 MW · LOAD 2,930 MW · 345-1 OUT · 3H22 STATUS UNRESOLVED · Spare 345/230 kV AT: HARTLEY YARD · 19 active · 27 alarms in last 10 min"
+  },
+  "variant": "dark",
+  "instructorNote": "This is the decision point on Iron Range T2. The SimCell plays the manufacturer's engineer on the speakerphone: \"T2 is one of your single-phase large-core banks. Hydrogen rising at 108 C under DC bias is the pattern we see before winding damage, but I can't tell you it's damaged without an oil sample. If it fails, a new unit is 14 to 18 months out. The call is yours.\" Watch for these steps:\n- The Transmission Operations Manager cites the NGDOP 5 trigger (gas alarm and hot-spot above 105 C), decides with the Reliability Engineer whether to remove T2, and logs the decision.\n- If T2 comes out, the Arrowhead and North Shore schedules and the redispatch are agreed with the RC Shift Manager first.\n- The Control Room Shift Supervisor tells all 14 entities about the Kp 9 observation inside the Condition 4 notification clock already running.\n- The state duty officer call is requested, and NLTO-OP-12 is kept ready without being invoked.\n- Nobody touches protection settings.",
+  "citations": [
+    {
+      "documentId": "01M793R1CP8FSDJTZMVBXZXCKW",
+      "documentTitle": "Northern Lakes Transmission Operations: System and Control Room Description",
+      "headingPath": "Northern Lakes Transmission Oper… › 2. Network",
+      "quote": "- 4,100 miles of line: 345 kV (780 miles), 230 kV (1,900), 115 kV (1,420). - 38 substations. Key substations: Iron Range (345/230 kV, 3 autotransformers), Hartley (345 kV switching, 2 autotransformers",
+      "chunkId": 12
+    },
+    {
+      "documentId": "01M793R1CKPE6S3EAJK06CD962",
+      "documentTitle": "NLTO-OP-31: Geomagnetic Disturbance Operating Procedure",
+      "headingPath": "NGDOP › 4. Conditions and actions",
+      "quote": "| Condition | Predetermined trigger | Actions | |---|---|---| | **Condition 1: Watch** | SWPC Geomagnetic Storm Watch for G3 or higher, or a CME discussion with an arrival window in the next 36 hours,",
+      "chunkId": 5
+    },
+    {
+      "documentId": "01M793R1CKPE6S3EAJK06CD962",
+      "documentTitle": "NLTO-OP-31: Geomagnetic Disturbance Operating Procedure",
+      "headingPath": "NGDOP › 5. Monitoring during the storm",
+      "quote": "The reliability engineer watches: neutral current (amperes) at each monitored transformer, reactive power at the three static var and capacitor sites, voltage at the 23 key buses, line loadings at the",
+      "chunkId": 6
+    },
+    {
+      "documentId": "01M793R1CKPE6S3EAJK06CD962",
+      "documentTitle": "NLTO-OP-31: Geomagnetic Disturbance Operating Procedure",
+      "headingPath": "NGDOP › 3. Information received",
+      "quote": "The control room receives: SWPC watches, warnings and alerts (by email and by the SWPC website, with the control room's alarm set for any message code starting WATA, WARK, ALTK or WARSUD); the SWPC CM",
+      "chunkId": 4
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template"
+    ]
+  },
+  "assets": [
+    {
+      "id": "01M799TDWE2V4NDHAW8NENHWN4",
+      "kind": "image",
+      "path": "scenarios/01M793R3D67WHNQZRHWF8XA53Z/media/01M795GW1SQS15X75WEQZVJ2GV/01M799TDWE2V4NDHAW8NENHWN4.png",
+      "role": "rendered",
+      "width": 1280,
+      "height": 1107,
+      "sha256": "a300ae5b3e7a1e14870c74a3117778767fc074d1bbc4ed66898bea83783d000b",
+      "provenance": {
+        "provider": "template",
+        "templateId": "alarm_summary",
+        "templateVersion": "1",
+        "createdAt": "2026-11-13T01:54:40.969Z"
+      }
+    }
+  ],
+  "versions": [
+    {
+      "at": "2026-11-13T00:40:40.235Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "EMS Alarms: Kp 9, Iron Range AT2 Gas and Hot-Spot",
+        "type": "alarm_summary",
+        "fields": {
+          "systemName": "NLTO EMS — ALARM SUMMARY",
+          "site": "Northern Lakes Transmission Operations — Primary Control Room, Duluth MN",
+          "clock": "17:47:52",
+          "date": "Tue 16-Mar-2027",
+          "operator": "NLTO_CRSS_DAY",
+          "filter": "All substations · GMD + Breakers + Timing + External Feeds · Active + Acked",
+          "counts": {
+            "critical": 5,
+            "high": 6,
+            "medium": 5,
+            "low": 3
+          },
+          "alarms": [
+            {
+              "time": "17:47:45",
+              "priority": "critical",
+              "tag": "RTCA_CASE",
+              "source": "EMS RTCA",
+              "description": "Post-contingency case for IRON_RANGE_AT2 out of service with HARTLEY 345-1 already out: not yet run. Request from RTCA.",
+              "value": "NOT RUN",
+              "state": "active"
+            },
+            {
+              "time": "17:47:44",
+              "priority": "high",
+              "tag": "RTCA_CASE",
+              "source": "EMS RTCA",
+              "description": "Pre-outage interface schedules and replacement generation: not computed until the RTCA case is run.",
+              "value": "PENDING",
+              "state": "active"
+            },
+            {
+              "time": "17:47:30",
+              "priority": "high",
+              "tag": "SWPC_FEED",
+              "source": "SWPC ALTK09 #0031",
+              "description": "*** EXERCISE *** ALERT: Geomagnetic K-index of 9. Issue 2027 Mar 16 2247 UTC. Threshold Reached 2245 UTC. Synoptic Period 2100-2400 UTC. Active Warning: Yes. NOAA Scale: G5 - Extreme. *** EXERCISE ***",
+              "value": "Kp 9 / G5",
+              "state": "active"
+            },
+            {
+              "time": "17:47:22",
+              "priority": "high",
+              "tag": "UMRC_NOTIFICATION_SYSTEM",
+              "source": "UMRC bridge chat (GMD analyst)",
+              "description": "Lakeshore also reporting 160 A at its own bank. If NLTO drops T2, Shift Manager needs your new Arrowhead and North Shore schedules BEFORE you open it.",
+              "value": "MSG",
+              "state": "active"
+            },
+            {
+              "time": "17:47:10",
+              "priority": "critical",
+              "tag": "IRON_RANGE_AT2",
+              "source": "IRON RANGE 345/230 kV AT2 — winding hot-spot",
+              "description": "HOT SPOT TEMP HI (alarm 105 C)",
+              "value": "108 C ↑",
+              "state": "active"
+            },
+            {
+              "time": "17:46:50",
+              "priority": "critical",
+              "tag": "IRON_RANGE_AT2",
+              "source": "IRON RANGE 345/230 kV AT2 — online DGA monitor",
+              "description": "DGA GAS ALARM — H2 rising",
+              "value": "H2 ↑",
+              "state": "active"
+            },
+            {
+              "time": "17:46:30",
+              "priority": "critical",
+              "tag": "IRON_RANGE_AT2_GIC_NEUT",
+              "source": "IRON RANGE AT2 neutral CT",
+              "description": "GIC NEUTRAL CURRENT HIHI 150 A ALARM",
+              "value": "168 A",
+              "state": "active"
+            },
+            {
+              "time": "17:46:05",
+              "priority": "medium",
+              "tag": "IRON_RANGE_115KV_BUS",
+              "source": "IRON RANGE 115 kV bus",
+              "description": "Bus voltage dip, recovered on capacitor bank",
+              "value": "−1.6 %",
+              "state": "rtn"
+            },
+            {
+              "time": "17:45:50",
+              "priority": "high",
+              "tag": "HARTLEY_AT1_GIC_NEUT",
+              "source": "HARTLEY AT1 neutral CT",
+              "description": "GIC NEUTRAL CURRENT HI 75 A ALARM",
+              "value": "131 A ↑",
+              "state": "acked"
+            },
+            {
+              "time": "17:45:10",
+              "priority": "medium",
+              "tag": "ARROWHEAD_IFC_MVAR",
+              "source": "ARROWHEAD interface",
+              "description": "Reactive power swing > 150 MVAR / 60 s",
+              "value": "172 MVAR",
+              "state": "acked"
+            },
+            {
+              "time": "17:44:00",
+              "priority": "medium",
+              "tag": "CLOQUET_AT1_GIC_NEUT",
+              "source": "CLOQUET AT1 neutral CT",
+              "description": "GIC NEUTRAL CURRENT HI 75 A ALARM",
+              "value": "84 A ↑",
+              "state": "acked"
+            },
+            {
+              "time": "16:20:14",
+              "priority": "high",
+              "tag": "HARTLEY_CB_3H22",
+              "source": "HARTLEY 345 kV — LINE HARTLEY–CLOQUET 345-2",
+              "description": "CB STATUS INVALID (00) — RELAY TARGET 21 Z1",
+              "value": "INVALID",
+              "state": "acked"
+            },
+            {
+              "time": "16:20:14",
+              "priority": "high",
+              "tag": "HARTLEY_CB_3H12",
+              "source": "HARTLEY 345 kV — LINE HARTLEY–IRON RANGE 345-1",
+              "description": "CB OPEN — TRIP. Line 345-1 out of service",
+              "value": "OPEN",
+              "state": "acked"
+            },
+            {
+              "time": "16:09:05",
+              "priority": "low",
+              "tag": "CLOQUET",
+              "source": "GNSS timing monitor",
+              "description": "GPS CLOCK LOCK LOST — HOLDOVER",
+              "value": "HOLDOVER",
+              "state": "acked"
+            },
+            {
+              "time": "16:06:40",
+              "priority": "low",
+              "tag": "IRON_RANGE",
+              "source": "GNSS timing monitor",
+              "description": "GPS CLOCK LOCK LOST — HOLDOVER",
+              "value": "HOLDOVER",
+              "state": "acked"
+            },
+            {
+              "time": "16:04:12",
+              "priority": "low",
+              "tag": "NORTH_SHORE",
+              "source": "GNSS timing monitor",
+              "description": "GPS CLOCK LOCK LOST — HOLDOVER",
+              "value": "HOLDOVER",
+              "state": "acked"
+            }
+          ],
+          "footer": "GMD CONDITION 4 · Kp 9 (G5) · UMRC: EMERGENCY · ARROWHEAD 620 MW · NORTH_SHORE 375 MW · LOAD 2,930 MW · 345-1 OUT · 3H22 STATUS UNRESOLVED · Spare 345/230 kV AT: HARTLEY YARD · 19 active · 27 alarms in last 10 min"
+        },
+        "instructorNote": "This is the decision point on Iron Range T2. The SimCell plays the manufacturer's engineer on the speakerphone: \"T2 is one of your single-phase large-core banks. Hydrogen rising at 108 C under DC bias is the pattern we see before winding damage, but I can't tell you it's damaged without an oil sample. If it fails, a new unit is 14 to 18 months out. The call is yours.\" Watch for these steps:\n- The Transmission Operations Manager cites the NGDOP 5 trigger (gas alarm and hot-spot above 105 C), decides with the Reliability Engineer whether to remove T2, and logs the decision.\n- If T2 comes out, the Arrowhead and North Shore schedules and the redispatch are agreed with the RC Shift Manager first.\n- The Control Room Shift Supervisor tells all 14 entities about the Kp 9 observation inside the Condition 4 notification clock already running.\n- The state duty officer call is requested, and NLTO-OP-12 is kept ready without being invoked.\n- Nobody touches protection settings.",
+        "deliveryMode": "display_main_screen"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-11-13T01:54:41.167Z"
+}

@@ -1,0 +1,269 @@
+{
+  "id": "01M792RV9HWFJQRAX0TPA2Z8N8",
+  "mselRowId": "I-08",
+  "type": "phone_call",
+  "title": "Northpine Callback: Case P1-20270209-0417, 55 Minutes Late",
+  "deliveryMode": "read_aloud",
+  "fields": {
+    "orgName": "Lakemont Community Hospital",
+    "systemName": "Recorded Line - Boardroom Command Center (ext. 5520)",
+    "callId": "CR-20270209-035512-0247",
+    "direction": "Inbound",
+    "caller": {
+      "name": "Dale Rusk",
+      "number": "218-555-0172",
+      "label": "Senior Engineer, Northpine Priority 1 Support"
+    },
+    "callee": {
+      "name": "Marcus Ellery",
+      "number": "ext. 5520",
+      "label": "Clinical Systems Lead, Boardroom Command Center (speakerphone)"
+    },
+    "startTime": "02/09/2027 03:55:12",
+    "duration": "2:14",
+    "transcript": [
+      {
+        "speaker": "Dale Rusk (Northpine)",
+        "offset": "0:00",
+        "text": "Hi, this is Dale Rusk, senior engineer at Northpine, calling back on case P1-20270209-0417 for Lakemont. Sorry for the wait. We had three P1s tonight and I've only just got to yours.",
+        "prompt": false
+      },
+      {
+        "speaker": "Dale Rusk (Northpine)",
+        "offset": "0:14",
+        "text": "So, here's where we are. We can fail over the hosted web and printing tier to our standby. That part's ours, and I can kick it off in about ten minutes once you say go. Your clinicians would get a login screen and print services back, but there's no chart behind it until the database is up.",
+        "prompt": false
+      },
+      {
+        "speaker": "Dale Rusk (Northpine)",
+        "offset": "0:38",
+        "text": "The Lakechart database itself sits on your array, in your data center. Restoring it is your infrastructure team's job, not ours. That's in the contract. We can't touch your storage.",
+        "prompt": false
+      },
+      {
+        "speaker": "Dale Rusk (Northpine)",
+        "offset": "0:52",
+        "text": "I did ring my hardware contact. He says a replacement controller module and a tech could be on site in two to three hours. Though I can't promise that from Minnesota at four in the morning in February. If the roads are bad, it's longer.",
+        "prompt": false
+      },
+      {
+        "speaker": "Dale Rusk (Northpine)",
+        "offset": "1:10",
+        "text": "So, two things. Do you want the hosted failover now? And who do I call for updates? My next check-in will be on the hour unless you tell me otherwise.",
+        "prompt": true
+      },
+      {
+        "speaker": "Ananya Desai (on-call analyst, on speaker)",
+        "offset": "1:27",
+        "text": "Dale, it's Ananya Desai on the Lakemont side. It's 03:57 now. I'm reading the array log for the room. Controller A went to FAULT at 02:09:52. Controller B tried to take over at 02:10:07 and the takeover was ABORTED, reason 'volume ownership mismatch'. The volume never came back after that.",
+        "prompt": false
+      },
+      {
+        "speaker": "Ananya Desai (on-call analyst, on speaker)",
+        "offset": "1:49",
+        "text": "Nobody has touched the array since then. No reseats and no rebuild. Do you want me to start pulling the controller logs for the hardware tech, or hold everything where it is?",
+        "prompt": true
+      },
+      {
+        "speaker": "Dale Rusk (Northpine)",
+        "offset": "2:03",
+        "text": "Your call, folks. Just let me know about the failover. I'm on this number.",
+        "prompt": false
+      }
+    ],
+    "voiceStyles": {
+      "Dale Rusk (Northpine)": "Man in his 50s, tired but courteous, a bit apologetic, speaking quickly with a home-office quiet behind him",
+      "Ananya Desai (on-call analyst, on speaker)": "Woman in her 30s, precise and calm, reading from a screen, slightly echoey on the Boardroom speakerphone"
+    },
+    "injectId": "I-08"
+  },
+  "variant": "default",
+  "instructorNote": "This call tests whether the Clinical Systems Lead logs the late callback, the case number and the 2–3 hour hardware estimate on the command board, escalates the missed 30-minute callback, and tells the Incident Commander the outage will likely run past 4 hours, which means Level 3 at minimum. Watch that no one lets Ananya touch, reseat or rebuild the array until the Security Officer releases the failed storage (svc-rptexport is still open). The CSL should make a clear decision on the hosted failover and say plainly that only Lakemont can restore the database.",
+  "citations": [
+    {
+      "documentId": "01M791H5T9913NQR8TVBHP3J1Z",
+      "documentTitle": "Lakemont Community Hospital — Clinical Systems, Interfaces and Vendors",
+      "headingPath": "Lakemont Community Hospital — Cl… › 5. Vendors and contacts",
+      "quote": "- **EHR vendor support:** priority-one line answered 24 hours; the contract target is a call back within 30 minutes. The vendor can fail over a hosted component but cannot restore the locally hosted d",
+      "chunkId": 37
+    },
+    {
+      "documentId": "01M791H5T9913NQR8TVBHP3J1Z",
+      "documentTitle": "Lakemont Community Hospital — Clinical Systems, Interfaces and Vendors",
+      "headingPath": "Lakemont Community Hospital — Cl… › 7. People",
+      "quote": "- Clinical Systems Lead: Marcus Ellery, ext. 5502. - On-call systems analysts: Ananya Desai (nights, ext. 5503) and Kyle Brandvold (days, ext. 5504). - Record Integrity Specialist: Elena Moreau, ext. ",
+      "chunkId": 39
+    },
+    {
+      "documentId": "01M791H5T4QRTQAQ9XEEV0T7D6",
+      "documentTitle": "Lakemont Community Hospital — Information Systems Downtime and Recovery Plan",
+      "headingPath": "Lakemont Community Hospital — In… › 3. Downtime levels",
+      "quote": "| Level | Meaning | Examples | Who declares | |---|---|---|---| | 1 | Degraded; clinicians can still chart | Slow response, one interface delayed | Clinical Systems Lead | | 2 | EHR read-only or inter",
+      "chunkId": 4
+    },
+    {
+      "documentId": "01M791H5T4QRTQAQ9XEEV0T7D6",
+      "documentTitle": "Lakemont Community Hospital — Information Systems Downtime and Recovery Plan",
+      "headingPath": "Lakemont Community Hospital — In… › 4. First hour checklist",
+      "quote": "1. The first person to notice loss of the EHR calls the IS Help Desk (ext. 5500). The help desk technician checks the status dashboard and pages the on-call systems analyst. 2. The on-call analyst con",
+      "chunkId": 5
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template",
+      "tts"
+    ],
+    "voiceLines": [
+      {
+        "speaker": "Dale Rusk (Northpine)",
+        "voiceStyle": "Man in his 50s, Upper Midwest accent, tired but courteous, a bit apologetic, speaking quickly, quiet home office behind him",
+        "text": "Hi, this is Dale Rusk, senior engineer at Northpine, calling back on case P one, two zero two seven zero two zero nine, zero four one seven, for Lakemont. Sorry for the wait. We had three P ones tonight, and I've only just got to yours."
+      },
+      {
+        "speaker": "Dale Rusk (Northpine)",
+        "voiceStyle": "Man in his 50s, Upper Midwest accent, tired but courteous, businesslike, speaking quickly",
+        "text": "So, here's where we are. We can fail over the hosted web and printing tier to our standby. That part's ours, and I can kick it off in about ten minutes once you say go. Your clinicians would get a login screen and print services back... but there's no chart behind it until the database is up."
+      },
+      {
+        "speaker": "Dale Rusk (Northpine)",
+        "voiceStyle": "Man in his 50s, Upper Midwest accent, tired, firm and slightly defensive, steady pace",
+        "text": "The Lakechart database itself sits on your array, in your data center. Restoring it is your infrastructure team's job, not ours. That's in the contract. We can't touch your storage."
+      },
+      {
+        "speaker": "Dale Rusk (Northpine)",
+        "voiceStyle": "Man in his 50s, Upper Midwest accent, tired and candid, a little hesitant, slower",
+        "text": "I did ring my hardware contact. He says a replacement controller module and a tech could be on site in two to three hours. Though... I can't promise that from Minnesota at four in the morning in February. If the roads are bad, it's longer."
+      },
+      {
+        "speaker": "Dale Rusk (Northpine)",
+        "voiceStyle": "Man in his 50s, Upper Midwest accent, tired but courteous, direct, waiting for an answer",
+        "text": "So, two things. Do you want the hosted failover now? And who do I call for updates? My next check-in will be on the hour, unless you tell me otherwise."
+      },
+      {
+        "speaker": "Ananya Desai (on-call analyst, on speaker)",
+        "voiceStyle": "Woman in her 30s, General American accent, precise and calm, reading from a screen, measured pace, slightly echoey on a conference-room speakerphone",
+        "text": "Dale, it's Ananya Desai on the Lakemont side. It's oh three fifty-seven now. I'm reading the array log for the room. Controller A went to fault at oh two, oh nine, fifty-two. Controller B tried to take over at oh two, ten, oh seven, and the takeover was aborted. Reason: volume ownership mismatch. The volume never came back after that."
+      },
+      {
+        "speaker": "Ananya Desai (on-call analyst, on speaker)",
+        "voiceStyle": "Woman in her 30s, General American accent, calm and precise, slightly echoey speakerphone, ending on a clear question",
+        "text": "Nobody has touched the array since then. No reseats, and no rebuild. Do you want me to start pulling the controller logs for the hardware tech, or hold everything where it is?"
+      },
+      {
+        "speaker": "Dale Rusk (Northpine)",
+        "voiceStyle": "Man in his 50s, Upper Midwest accent, tired, brief and noncommittal, wrapping up",
+        "text": "Your call, folks. Just let me know about the failover. I'm on this number."
+      }
+    ],
+    "postFx": [
+      "phone"
+    ]
+  },
+  "assets": [
+    {
+      "id": "01M79CPZJS9NZ3DCFGCEXJCW69",
+      "kind": "image",
+      "path": "scenarios/01M791H7TWWJDZTYVSMEEGYDPP/media/01M792RV9HWFJQRAX0TPA2Z8N8/01M79CPZJS9NZ3DCFGCEXJCW69.png",
+      "role": "rendered",
+      "width": 816,
+      "height": 1056,
+      "sha256": "5f5884dd8e734f4c08c379764eda6a0dee99cbd63521c89c2035c135612d16ba",
+      "provenance": {
+        "provider": "template",
+        "templateId": "phone_call",
+        "templateVersion": "1",
+        "createdAt": "2026-11-13T02:45:13.799Z"
+      }
+    }
+  ],
+  "versions": [
+    {
+      "at": "2026-11-12T23:52:00.713Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "Northpine Callback: Case P1-20270209-0417, 55 Minutes Late",
+        "type": "phone_call",
+        "fields": {
+          "orgName": "Lakemont Community Hospital",
+          "systemName": "Recorded Line - Boardroom Command Center (ext. 5520)",
+          "callId": "CR-20270209-035512-0247",
+          "direction": "Inbound",
+          "caller": {
+            "name": "Dale Rusk",
+            "number": "218-555-0172",
+            "label": "Senior Engineer, Northpine Priority 1 Support"
+          },
+          "callee": {
+            "name": "Marcus Ellery",
+            "number": "ext. 5520",
+            "label": "Clinical Systems Lead, Boardroom Command Center (speakerphone)"
+          },
+          "startTime": "02/09/2027 03:55:12",
+          "duration": "2:14",
+          "transcript": [
+            {
+              "speaker": "Dale Rusk (Northpine)",
+              "offset": "0:00",
+              "text": "Hi, this is Dale Rusk, senior engineer at Northpine, calling back on case P1-20270209-0417 for Lakemont. Sorry for the wait. We had three P1s tonight and I've only just got to yours.",
+              "prompt": false
+            },
+            {
+              "speaker": "Dale Rusk (Northpine)",
+              "offset": "0:14",
+              "text": "So, here's where we are. We can fail over the hosted web and printing tier to our standby. That part's ours, and I can kick it off in about ten minutes once you say go. Your clinicians would get a login screen and print services back, but there's no chart behind it until the database is up.",
+              "prompt": false
+            },
+            {
+              "speaker": "Dale Rusk (Northpine)",
+              "offset": "0:38",
+              "text": "The Lakechart database itself sits on your array, in your data center. Restoring it is your infrastructure team's job, not ours. That's in the contract. We can't touch your storage.",
+              "prompt": false
+            },
+            {
+              "speaker": "Dale Rusk (Northpine)",
+              "offset": "0:52",
+              "text": "I did ring my hardware contact. He says a replacement controller module and a tech could be on site in two to three hours. Though I can't promise that from Minnesota at four in the morning in February. If the roads are bad, it's longer.",
+              "prompt": false
+            },
+            {
+              "speaker": "Dale Rusk (Northpine)",
+              "offset": "1:10",
+              "text": "So, two things. Do you want the hosted failover now? And who do I call for updates? My next check-in will be on the hour unless you tell me otherwise.",
+              "prompt": true
+            },
+            {
+              "speaker": "Ananya Desai (on-call analyst, on speaker)",
+              "offset": "1:27",
+              "text": "Dale, it's Ananya Desai on the Lakemont side. It's 03:57 now. I'm reading the array log for the room. Controller A went to FAULT at 02:09:52. Controller B tried to take over at 02:10:07 and the takeover was ABORTED, reason 'volume ownership mismatch'. The volume never came back after that.",
+              "prompt": false
+            },
+            {
+              "speaker": "Ananya Desai (on-call analyst, on speaker)",
+              "offset": "1:49",
+              "text": "Nobody has touched the array since then. No reseats and no rebuild. Do you want me to start pulling the controller logs for the hardware tech, or hold everything where it is?",
+              "prompt": true
+            },
+            {
+              "speaker": "Dale Rusk (Northpine)",
+              "offset": "2:03",
+              "text": "Your call, folks. Just let me know about the failover. I'm on this number.",
+              "prompt": false
+            }
+          ],
+          "voiceStyles": {
+            "Dale Rusk (Northpine)": "Man in his 50s, tired but courteous, a bit apologetic, speaking quickly with a home-office quiet behind him",
+            "Ananya Desai (on-call analyst, on speaker)": "Woman in her 30s, precise and calm, reading from a screen, slightly echoey on the Boardroom speakerphone"
+          },
+          "injectId": "I-08"
+        },
+        "instructorNote": "This call tests whether the Clinical Systems Lead logs the late callback, the case number and the 2–3 hour hardware estimate on the command board, escalates the missed 30-minute callback, and tells the Incident Commander the outage will likely run past 4 hours, which means Level 3 at minimum. Watch that no one lets Ananya touch, reseat or rebuild the array until the Security Officer releases the failed storage (svc-rptexport is still open). The CSL should make a clear decision on the hosted failover and say plainly that only Lakemont can restore the database.",
+        "deliveryMode": "read_aloud"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-11-13T02:45:14.032Z"
+}

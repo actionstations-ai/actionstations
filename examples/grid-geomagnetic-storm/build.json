@@ -1,0 +1,53 @@
+{
+  "id": "grid-geomagnetic-storm",
+  "title": "Northern Lakes Transmission Operations and the Upper Midwest Reliability Coordinator: severe geomagnetic storm",
+  "domainProfile": "space_weather",
+  "summary": "A fictional high-latitude transmission operator (345 kV system, GIC monitors on 9 autotransformers, holdover clocks) and its reliability coordinator, with an exercise generated from their simulated plans: a G4 to G5 geomagnetic storm after a coronal mass ejection, with a NERC-style operating procedure applied ahead of the Kp conditions, rising neutral currents, a transformer gas alarm and GNSS time degradation.",
+  "notice": "EXERCISE MATERIAL — for training use. Northern Lakes Transmission Operations, the reliability coordinator, their people, customers and sites are simulated; NOAA-style products in the exercise are marked as exercise products; the public sources consulted for realism are listed in reference/grid-geomagnetic-storm/SOURCES.md.",
+  "project": {
+    "name": "Northern Lakes Transmission Operations",
+    "orgName": "Northern Lakes Transmission Operations",
+    "orgType": "space_weather",
+    "toolkits": ["space_weather"],
+    "brand": {
+      "city": "Duluth",
+      "region": "Minnesota",
+      "aliases": {
+        "org": "Northern Lakes Transmission Operations",
+        "orgShort": "NLTO",
+        "orgDomain": "nlto-grid.example",
+        "rc": "Upper Midwest Reliability Coordinator"
+      }
+    }
+  },
+  "documents": {
+    "dir": "reference/grid-geomagnetic-storm",
+    "exclude": ["SOURCES.md"]
+  },
+  "media": {
+    "aiImagesPerScenario": 2,
+    "ttsPerScenario": 2
+  },
+  "scenarios": [
+    {
+      "key": "g5-storm",
+      "startWallClock": "02:00",
+      "threatFamily": "natural_hazard",
+      "summary": "After an X-class flare and a fast CME, a geomagnetic storm reaches G5 over about 18 hours; NLTO must apply its GMD procedure ahead of the Kp conditions, watch neutral currents and a transformer gas alarm, handle GNSS time degradation, and keep its messages and the reliability coordinator's consistent.",
+      "userPrompt": "Tuesday 16 March 2027, Central Daylight Time (UTC minus 5). The exercise starts at 02:00 in the NLTO control room in Duluth (day shift supervisor Walter Nakamura comes on at 06:00; reliability engineer Dr. Imani Okeke, Transmission Operations Manager Gloria Banerjee, Communications Manager Tess Lindholm) with the Upper Midwest Reliability Coordinator (Shift Manager Hugo Villanueva). The state of the sun: an X-class flare on Monday evening (a brief radio blackout, R3) with a fast halo CME. SWPC issued a Geomagnetic Storm Watch for G3 (WATA50) at 22:30 Monday for Tuesday, and at 02:10 Tuesday its CME discussion gives an arrival window of 11:00 to 17:00 CDT. The Kp record of a real severe storm is replayed (case data) and shifted to the dates here. Timeline: 13:24 sudden impulse detected at the solar wind monitor (WARSUD); 14:06 Kp 7 observed (G3 alert); 15:10 Kp 8 (G4); a K-index warning for Kp 8 or greater was issued at 14:40; 17:47 Kp 9 (G5) with the highest neutral current of 168 amperes at the Iron Range T2 autotransformer; Kp returns to 4 by 23:00 Tuesday evening; the exercise ends Wednesday morning with termination of the procedure. Pressure points: apply NLTO-OP-31 conditions before the Kp condition is reached (Condition 1 on the watch, Condition 2 on the Kp 6 warning, Condition 3 on Kp 7 or 75 amperes, Condition 4 on Kp 8 or 150 amperes), recording the basis and the time; defer 6 planned 345 kV outages (one is a 14-hour transformer replacement at Hartley); bring the Cloquet static var compensator and capacitor banks on line; reduce transfers across the Arrowhead (1,000 MW limit) and North Shore (600 MW limit) interfaces by 10 percent then another 10 percent; the Iron Range T2 gas alarm and a hot-spot reading 108 C force the Manager on call to decide on removing the transformer from service while the spare is at Hartley; 3 of the 14 substation GPS clocks lose lock after 16:00 and the control room must switch time sources and declare holdover; the 14 entities must be told within 60 minutes each time (UMRC, six neighboring TOPs, Taconite Ridge, Lake Superior Hydro, Baraga Wind Farm, the Minnesota duty officer, Mesabi Taconite Works, Duluth Harbor Terminal, the NLTO timing team and an executive on call); the RC runs hourly calls and raises its level from Alert to Warning to Emergency; a line trip at 16:20 on a 345 kV line and a relay misoperation at Hartley complicate the picture; social posts claim a nationwide blackout and a grid attack and aurora is seen as far south as Texas; the Mesabi Taconite Works duty manager asks whether to shut a furnace; the exercise should not give engineering advice about protection settings. Decisions the exercise should record: applying and terminating the operating procedure, dissemination to entities, grid operating actions (reduce transfers, bring reactive resources on line, defer outages), holdover and time source switches, customer notices, public messages. The SimCell plays NOAA SWPC forecasters, the reliability coordinator, neighboring operators, generator operators, the state duty officer, Mesabi Taconite Works, the transformer manufacturer's engineer, reporters and the public.",
+      "audience": [
+        "Control Room Shift Supervisor",
+        "Reliability Engineer",
+        "Transmission Operations Manager",
+        "Communications Manager",
+        "Reliability Coordinator Shift Manager",
+        "Substation and Timing Engineer"
+      ],
+      "constraints": [
+        "Every NLTO email address uses the exercise domain nlto-grid.example; the reliability coordinator uses umrc-grid.example; customers and neighbors use fictional domains; never a real utility, grid operator or newspaper domain.",
+        "Space weather products follow the SWPC layout and message codes (WATA, WARK, ALTK, WARSUD) with UTC times and are marked as exercise products; G levels map to Kp as G1 5, G2 6, G3 7, G4 8, G5 9; local times are Central Daylight Time; messages do not give engineering advice about protection settings.",
+        "Player roles are only those in the audience list; NOAA SWPC, neighboring operators, generator owners, the state duty officer, customers, the transformer manufacturer, reporters and the public are played by the SimCell."
+      ]
+    }
+  ]
+}

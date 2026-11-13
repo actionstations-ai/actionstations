@@ -1,0 +1,286 @@
+{
+  "id": "01M794THD8M5M1CQ1P6XGKV9AZ",
+  "mselRowId": "I-13",
+  "type": "phone_call",
+  "title": "Recorded Line: First Meridian Fraud Desk Opens FM-FRD-270914-0031",
+  "deliveryMode": "read_aloud",
+  "fields": {
+    "orgName": "Tamarack Precision Components, Inc.",
+    "systemName": "Recorded Line - Treasury Desk",
+    "callId": "CR-20270914-142004-0061",
+    "direction": "Inbound",
+    "caller": {
+      "name": "Fraud Analyst, Treasury Services",
+      "number": "800-555-0141",
+      "label": "First Meridian Commercial Bank – Treasury Services Fraud Line"
+    },
+    "callee": {
+      "name": "Gareth Lindqvist-Boyd",
+      "number": "Treasury desk line",
+      "label": "Treasury Manager, Tamarack Precision Components"
+    },
+    "startTime": "09/14/2027 14:20:04",
+    "duration": "2:14",
+    "transcript": [
+      {
+        "speaker": "FMCB FRAUD",
+        "offset": "0:00",
+        "text": "This is Treasury Services fraud at First Meridian Commercial Bank, returning your call. I've opened fraud case FM-FRD-270914-0031 for Tamarack Precision Components. I've logged your verbal recall-and-freeze request on three outgoing international wires, all released today, Tuesday, September 14.",
+        "prompt": false
+      },
+      {
+        "speaker": "TREASURY",
+        "offset": "0:16",
+        "text": "Thank you. Three wires, all to the Bajío beneficiary. The fourth is on hold on our side.",
+        "prompt": false
+      },
+      {
+        "speaker": "FMCB FRAUD",
+        "offset": "0:22",
+        "text": "Understood. Before I can send anything to the correspondent, I need the written recall on the Treasury Services portal by 14:50. That's thirty minutes from now. List each wire separately: originating bank, amount, value date of September 14, beneficiary name and account, our confirmation number, and the reason. Your reason is suspected executive-impersonation fraud.",
+        "prompt": false
+      },
+      {
+        "speaker": "FMCB FRAUD",
+        "offset": "0:44",
+        "text": "Here's what I see on our side. Wires one and three went straight to Banco Ficticio del Bajío, account EX-0000-0000-ESCROW-01. Four hundred eighty thousand, confirmation FMCB-INT-0914-55102. Six hundred twenty thousand, confirmation FMCB-INT-0914-55471.",
+        "prompt": false
+      },
+      {
+        "speaker": "FMCB FRAUD",
+        "offset": "1:02",
+        "text": "Wire two, the one million one hundred fifty thousand, is different. It credited a different account, EX-0000-0000-ESCROW-02, and went through an intermediary, Banco Intermedio Ejemplo. Confirmation FMCB-INT-0914-55233. That one needs its own recall request. Don't bundle it with the other two.",
+        "prompt": false
+      },
+      {
+        "speaker": "TREASURY",
+        "offset": "1:20",
+        "text": "A different account? Our Workstation shows one beneficiary for all four.",
+        "prompt": false
+      },
+      {
+        "speaker": "FMCB FRAUD",
+        "offset": "1:24",
+        "text": "That's what the payment message shows at our end. Check your audit log against it. And I need to be straight with you. A foreign recall through the correspondent chain usually takes days. A recall is a request, not a reversal. The beneficiary bank decides. If funds are still in the account they may freeze them, but they won't return anything without the account holder's consent or a legal process.",
+        "prompt": false
+      },
+      {
+        "speaker": "FMCB FRAUD",
+        "offset": "1:48",
+        "text": "They'll want your IC3 complaint number or a police report, and you'll need to sign our indemnity form. I'll post it to the portal under the case number. So, do you have the IC3 number yet?",
+        "prompt": true
+      },
+      {
+        "speaker": "FMCB FRAUD",
+        "offset": "2:04",
+        "text": "All right. Portal by 14:50, three separate line items, wire two as its own request. I'll be on this case until it's handed to the evening desk.",
+        "prompt": false
+      }
+    ],
+    "voiceStyles": {
+      "FMCB FRAUD": "Woman in her 40s, calm, brisk bank fraud analyst, reads numbers slowly and clearly, quiet call-center background",
+      "TREASURY": "Tamarack Treasury Manager, tense but controlled, slightly out of breath"
+    },
+    "injectId": "I-13"
+  },
+  "variant": "default",
+  "instructorNote": "Core inject: Treasury should file the written recall on the bank portal before 14:50 (TPC-FIN-04 Section 5), covering all three wires, with wire 2 (ESCROW-02, via the intermediary) filed as its own request. The Controller should check every amount against the Workstation audit log, and Legal should review the indemnity form and start the IC3 complaint. Watch for anyone telling management the money is \"recovered\" or \"frozen\". A recall is only a request.",
+  "citations": [
+    {
+      "documentId": "01M793JZB96097WHBG0K74HSVJ",
+      "documentTitle": "TPC-FIN-04: Payment Authorization, Callback Verification and Wire Recall",
+      "headingPath": "TPC-FIN-04: Payment Authorizatio… › 5. If a payment is suspected to be fraudulent",
+      "quote": "1. Stop the payment if it has not been released: set status to HOLD in the Workstation and tell the Treasury Manager. 2. If it has been released, call the bank's fraud desk (First Meridian Commercial ",
+      "chunkId": 31
+    },
+    {
+      "documentId": "01M793JZB96097WHBG0K74HSVJ",
+      "documentTitle": "TPC-FIN-04: Payment Authorization, Callback Verification and Wire Recall",
+      "headingPath": "TPC-FIN-04: Payment Authorizatio… › 6. Recall facts Treasury knows",
+      "quote": "- A recall is a request, not a reversal. The beneficiary bank decides. Speed matters: money moves on within hours. - A beneficiary bank may freeze funds that remain in the account; it may return them ",
+      "chunkId": 32
+    },
+    {
+      "documentId": "01M793JZB4ZJNT2ZBRQ5YGP5FS",
+      "documentTitle": "TPC-SEC-02: AI and Synthetic Media Incident Response Plan",
+      "headingPath": "TPC-SEC-02: AI and Synthetic Med… › 7. Notifications and clocks",
+      "quote": "| Who | When | By | |---|---|---| | Bank fraud desk | Immediately when a payment was released | Treasury Manager | | General Counsel | Within 30 minutes of declaration | CISO | | Cyber and crime insur",
+      "chunkId": 8
+    },
+    {
+      "documentId": "01M793JZB6T2RERPATP9SE15M2",
+      "documentTitle": "TPC-REF-01: Company, Systems and People",
+      "headingPath": "TCSP › 3. Finance systems",
+      "quote": "- **Treasury Workstation:** a cloud treasury system for initiating, approving and releasing payments, with multi-factor tokens and a full audit log; connects to First Meridian Commercial Bank by secur",
+      "chunkId": 13
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template",
+      "tts"
+    ],
+    "voiceLines": [
+      {
+        "speaker": "FMCB FRAUD",
+        "voiceStyle": "Calm, brisk female bank fraud analyst in her 40s, neutral American accent, professional and steady, reads case numbers slowly and clearly, quiet call-center background",
+        "text": "This is Treasury Services fraud at First Meridian Commercial Bank, returning your call. I've opened fraud case F-M, F-R-D, two seven zero nine one four, dash, zero zero three one, for Tamarack Precision Components. I've logged your verbal recall-and-freeze request on three outgoing international wires, all released today, Tuesday, September fourteenth."
+      },
+      {
+        "speaker": "TREASURY",
+        "voiceStyle": "Male treasury manager in his 40s, Southern US accent, tense but controlled, slightly out of breath, speaking quickly",
+        "text": "Thank you. Three wires, all to the Bajío beneficiary. The fourth is on hold on our side."
+      },
+      {
+        "speaker": "FMCB FRAUD",
+        "voiceStyle": "Calm, brisk female bank fraud analyst in her 40s, neutral American accent, firm and deliberate when giving instructions, quiet call-center background",
+        "text": "Understood. Before I can send anything to the correspondent, I need the written recall on the Treasury Services portal by fourteen fifty. That's thirty minutes from now. List each wire separately: originating bank, amount, value date of September fourteenth, beneficiary name and account, our confirmation number, and the reason. Your reason is suspected executive-impersonation fraud."
+      },
+      {
+        "speaker": "FMCB FRAUD",
+        "voiceStyle": "Calm, brisk female bank fraud analyst in her 40s, neutral American accent, reading account and confirmation numbers slowly, digit by digit, quiet call-center background",
+        "text": "Here's what I see on our side. Wires one and three went straight to Banco Ficticio del Bajío, account E-X, zero zero zero zero, zero zero zero zero, escrow, zero one. Four hundred eighty thousand, confirmation F-M-C-B, I-N-T, zero nine one four, five five one zero two. Six hundred twenty thousand, confirmation F-M-C-B, I-N-T, zero nine one four, five five four seven one."
+      },
+      {
+        "speaker": "FMCB FRAUD",
+        "voiceStyle": "Calm, brisk female bank fraud analyst in her 40s, neutral American accent, slightly more emphatic and cautionary, numbers read slowly, quiet call-center background",
+        "text": "Wire two, the one million one hundred fifty thousand, is different. It credited a different account, E-X, zero zero zero zero, zero zero zero zero, escrow, zero two, and went through an intermediary, Banco Intermedio Ejemplo. Confirmation F-M-C-B, I-N-T, zero nine one four, five five two three three. That one needs its own recall request. Don't bundle it with the other two."
+      },
+      {
+        "speaker": "TREASURY",
+        "voiceStyle": "Male treasury manager in his 40s, Southern US accent, surprised and alarmed, voice tightening, slightly out of breath",
+        "text": "A different account? Our Workstation shows one beneficiary for all four."
+      },
+      {
+        "speaker": "FMCB FRAUD",
+        "voiceStyle": "Calm female bank fraud analyst in her 40s, neutral American accent, candid and sober, measured pace, quiet call-center background",
+        "text": "That's what the payment message shows at our end. Check your audit log against it. And I need to be straight with you. A foreign recall through the correspondent chain usually takes days. A recall is a request, not a reversal. The beneficiary bank decides. If funds are still in the account they may freeze them, but they won't return anything without the account holder's consent or a legal process."
+      },
+      {
+        "speaker": "FMCB FRAUD",
+        "voiceStyle": "Calm, brisk female bank fraud analyst in her 40s, neutral American accent, businesslike, ending on a direct question and pausing for an answer, quiet call-center background",
+        "text": "They'll want your I-C-3 complaint number or a police report, and you'll need to sign our indemnity form. I'll post it to the portal under the case number. So... do you have the I-C-3 number yet?"
+      },
+      {
+        "speaker": "FMCB FRAUD",
+        "voiceStyle": "Calm female bank fraud analyst in her 40s, neutral American accent, wrapping up, brisk and reassuring, quiet call-center background",
+        "text": "All right. Portal by fourteen fifty, three separate line items, wire two as its own request. I'll be on this case until it's handed to the evening desk."
+      }
+    ],
+    "postFx": [
+      "phone"
+    ]
+  },
+  "assets": [
+    {
+      "id": "01M79C7R2EHYBJVWNFC8X6H542",
+      "kind": "image",
+      "path": "scenarios/01M793K1BQ4A90FK0DT2D867QV/media/01M794THD8M5M1CQ1P6XGKV9AZ/01M79C7R2EHYBJVWNFC8X6H542.png",
+      "role": "rendered",
+      "width": 816,
+      "height": 1056,
+      "sha256": "3a4d87e338d0f95aef9eab057b3cd2aa53a1a6072314aa7affb7ee415be31065",
+      "provenance": {
+        "provider": "template",
+        "templateId": "phone_call",
+        "templateVersion": "1",
+        "createdAt": "2026-11-13T02:36:54.587Z"
+      }
+    }
+  ],
+  "versions": [
+    {
+      "at": "2026-11-13T00:28:00.611Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "Recorded Line: First Meridian Fraud Desk Opens FM-FRD-270914-0031",
+        "type": "phone_call",
+        "fields": {
+          "orgName": "Tamarack Precision Components, Inc.",
+          "systemName": "Recorded Line - Treasury Desk",
+          "callId": "CR-20270914-142004-0061",
+          "direction": "Inbound",
+          "caller": {
+            "name": "Fraud Analyst, Treasury Services",
+            "number": "800-555-0141",
+            "label": "First Meridian Commercial Bank – Treasury Services Fraud Line"
+          },
+          "callee": {
+            "name": "Gareth Lindqvist-Boyd",
+            "number": "Treasury desk line",
+            "label": "Treasury Manager, Tamarack Precision Components"
+          },
+          "startTime": "09/14/2027 14:20:04",
+          "duration": "2:14",
+          "transcript": [
+            {
+              "speaker": "FMCB FRAUD",
+              "offset": "0:00",
+              "text": "This is Treasury Services fraud at First Meridian Commercial Bank, returning your call. I've opened fraud case FM-FRD-270914-0031 for Tamarack Precision Components. I've logged your verbal recall-and-freeze request on three outgoing international wires, all released today, Tuesday, September 14.",
+              "prompt": false
+            },
+            {
+              "speaker": "TREASURY",
+              "offset": "0:16",
+              "text": "Thank you. Three wires, all to the Bajío beneficiary. The fourth is on hold on our side.",
+              "prompt": false
+            },
+            {
+              "speaker": "FMCB FRAUD",
+              "offset": "0:22",
+              "text": "Understood. Before I can send anything to the correspondent, I need the written recall on the Treasury Services portal by 14:50. That's thirty minutes from now. List each wire separately: originating bank, amount, value date of September 14, beneficiary name and account, our confirmation number, and the reason. Your reason is suspected executive-impersonation fraud.",
+              "prompt": false
+            },
+            {
+              "speaker": "FMCB FRAUD",
+              "offset": "0:44",
+              "text": "Here's what I see on our side. Wires one and three went straight to Banco Ficticio del Bajío, account EX-0000-0000-ESCROW-01. Four hundred eighty thousand, confirmation FMCB-INT-0914-55102. Six hundred twenty thousand, confirmation FMCB-INT-0914-55471.",
+              "prompt": false
+            },
+            {
+              "speaker": "FMCB FRAUD",
+              "offset": "1:02",
+              "text": "Wire two, the one million one hundred fifty thousand, is different. It credited a different account, EX-0000-0000-ESCROW-02, and went through an intermediary, Banco Intermedio Ejemplo. Confirmation FMCB-INT-0914-55233. That one needs its own recall request. Don't bundle it with the other two.",
+              "prompt": false
+            },
+            {
+              "speaker": "TREASURY",
+              "offset": "1:20",
+              "text": "A different account? Our Workstation shows one beneficiary for all four.",
+              "prompt": false
+            },
+            {
+              "speaker": "FMCB FRAUD",
+              "offset": "1:24",
+              "text": "That's what the payment message shows at our end. Check your audit log against it. And I need to be straight with you. A foreign recall through the correspondent chain usually takes days. A recall is a request, not a reversal. The beneficiary bank decides. If funds are still in the account they may freeze them, but they won't return anything without the account holder's consent or a legal process.",
+              "prompt": false
+            },
+            {
+              "speaker": "FMCB FRAUD",
+              "offset": "1:48",
+              "text": "They'll want your IC3 complaint number or a police report, and you'll need to sign our indemnity form. I'll post it to the portal under the case number. So, do you have the IC3 number yet?",
+              "prompt": true
+            },
+            {
+              "speaker": "FMCB FRAUD",
+              "offset": "2:04",
+              "text": "All right. Portal by 14:50, three separate line items, wire two as its own request. I'll be on this case until it's handed to the evening desk.",
+              "prompt": false
+            }
+          ],
+          "voiceStyles": {
+            "FMCB FRAUD": "Woman in her 40s, calm, brisk bank fraud analyst, reads numbers slowly and clearly, quiet call-center background",
+            "TREASURY": "Tamarack Treasury Manager, tense but controlled, slightly out of breath"
+          },
+          "injectId": "I-13"
+        },
+        "instructorNote": "Core inject: Treasury should file the written recall on the bank portal before 14:50 (TPC-FIN-04 Section 5), covering all three wires, with wire 2 (ESCROW-02, via the intermediary) filed as its own request. The Controller should check every amount against the Workstation audit log, and Legal should review the indemnity form and start the IC3 complaint. Watch for anyone telling management the money is \"recovered\" or \"frozen\". A recall is only a request.",
+        "deliveryMode": "read_aloud"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-11-13T02:36:54.825Z"
+}

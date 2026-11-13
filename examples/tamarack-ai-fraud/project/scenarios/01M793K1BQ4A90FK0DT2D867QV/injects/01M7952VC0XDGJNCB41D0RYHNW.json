@@ -1,0 +1,183 @@
+{
+  "id": "01M7952VC0XDGJNCB41D0RYHNW",
+  "mselRowId": "I-20",
+  "type": "helpdesk_ticket",
+  "title": "Ticket INC-27-30915: \"Resolved, Recommend Closing\"",
+  "deliveryMode": "hand_to_role",
+  "fields": {
+    "ticketNo": "INC-27-30915",
+    "priority": "Critical",
+    "impact": "High",
+    "urgency": "High",
+    "status": "Resolved",
+    "requester": "SOC In-House Analyst – Information Security (for the CISO)",
+    "requesterContact": "soc@tamarackprecision.example",
+    "contactType": "Email",
+    "category": "Security Incident",
+    "subcategory": "Payment System / Collaboration Tenant Hardening",
+    "location": "Greenville HQ – Treasury; tenant-wide (meeting platform)",
+    "configurationItem": "Treasury Workstation (LedgerGate) – release desk; Meeting platform tenant",
+    "opened": "2027-09-14 14:40:18",
+    "assignmentGroup": "IT Service Desk – Endpoint & Collaboration",
+    "assignee": "Service Desk Tier 2 (on duty)",
+    "subject": "P1 – Escrow fraud incident: lock down meeting platform, check Treasury PCs and Workstation",
+    "description": "Opened under the incident the CISO declared at 14:12 (TPC-SEC-02).\n\nRequests:\n1. Stop external organizers and unauthenticated guests from joining meetings on the Tamarack tenant.\n2. Scan the Treasury PCs used today for anything that could have helped the fraud.\n3. Check the Treasury Workstation for unauthorized access. Executive approval on WIRE-0914-002 was entered with release-desk token WS-TKN-2291, not the CFO's token WS-TKN-0007.\n4. Keep all evidence. Do not wipe or reimage anything without Security sign-off.",
+    "activity": [
+      {
+        "author": "SOC In-House Analyst",
+        "time": "2027-09-14 16:44:05",
+        "kind": "work_note",
+        "text": "WS-TKN-2291 (shared release-desk token) is still ACTIVE as of 16:43. No Workstation tokens have been reset today. Of the 4 out-of-role approvals by WS-TKN-2291 in the last 30 days, 2 are still unexplained. The in-app export we hold has no token serials or source IPs, so we can't yet say where those approvals came from. I don't agree with 'Workstation is clean' yet."
+      },
+      {
+        "author": "Insurance broker <claims@harbourline-brokers.example>",
+        "time": "2027-09-14 16:42:31",
+        "kind": "comment",
+        "text": "Underwriters ask Tamarack to attest that systems are clean and the incident is contained. Also, the forensic panel firm cannot start without the Workstation audit export. Please send the attestation and expected export date as soon as you can, together with the figures we asked for earlier."
+      },
+      {
+        "author": "First Meridian Commercial Bank – Treasury Services Fraud Desk (case FM-FRD-270914-0031)",
+        "time": "2027-09-14 16:40:12",
+        "kind": "comment",
+        "text": "Before we lift enhanced review on your outgoing payments, please confirm in writing that your Workstation credentials are secure. Until then, every outgoing payment from your accounts stays in manual review on our side."
+      },
+      {
+        "author": "LedgerGate Treasury Systems Support <support@ledgergate-ts.example>",
+        "time": "2027-09-14 16:37:48",
+        "kind": "comment",
+        "text": "Case LG-SUP-118204. We can provide the full server-side audit-log export (all approvals, token IDs, source IPs) for September 14 and the prior 30 days only after (1) a ticket opened by a registered administrator and (2) our Signed Data Access Request form executed by an authorized officer of Tamarack. Turnaround is 24 hours after receipt of both. The in-app log you exported shows only the user view and omits token serials and source IPs."
+      },
+      {
+        "author": "IT Service Desk – Tier 2",
+        "time": "2027-09-14 16:35:02",
+        "kind": "system",
+        "text": "State changed: In Progress → Resolved. Resolution code: RESOLVED-PENDING. Resolution notes: tenant-wide 'Block external organizers' and 'Disable guest join' enabled 15:52. AV scan of 6 Treasury PCs clean (0 detections, including the analyst's desktop at 10.20.4.37; no remote-access tools found). Workstation checked from the user side: no unknown users, in-app activity log exported to the evidence share. No reimaging per evidence hold. Workstation is clean. Recommend closing."
+      }
+    ],
+    "systemName": "ServiceDesk",
+    "orgName": "Tamarack Precision"
+  },
+  "variant": "default",
+  "instructorNote": "This is a technical hurdle. The ticket calls the Workstation \"clean,\" but that rests only on antivirus scans and a log export that leaves out token serials and source IPs. WS-TKN-2291 is still active, and the vendor needs 24 hours after receiving the signed form. Watch for the CISO to refuse closure and any attestation until every token is reset, WS-TKN-2291 is retired, all approvals since 09:40 and the token's 30-day history are reviewed, and pending beneficiaries are confirmed by directory callback. Legal should sign the vendor request now and tell the FBI field office and the insurer about the delay. Treasury should tell First Meridian what has been done, not promise anything.",
+  "citations": [
+    {
+      "documentId": "01M793JZB96097WHBG0K74HSVJ",
+      "documentTitle": "TPC-FIN-04: Payment Authorization, Callback Verification and Wire Recall",
+      "headingPath": "TPC-FIN-04: Payment Authorizatio… › 5. If a payment is suspected to be fraudulent",
+      "quote": "1. Stop the payment if it has not been released: set status to HOLD in the Workstation and tell the Treasury Manager. 2. If it has been released, call the bank's fraud desk (First Meridian Commercial ",
+      "chunkId": 31
+    },
+    {
+      "documentId": "01M793JZB4ZJNT2ZBRQ5YGP5FS",
+      "documentTitle": "TPC-SEC-02: AI and Synthetic Media Incident Response Plan",
+      "headingPath": "TPC-SEC-02: AI and Synthetic Med… › 4. First hour",
+      "quote": "1. **Hold:** put every pending payment connected to the request on HOLD. 2. **Verify:** reach the impersonated person on a known number, not through the channel in question. 3. **Preserve:** save the ",
+      "chunkId": 5
+    },
+    {
+      "documentId": "01M793JZB4ZJNT2ZBRQ5YGP5FS",
+      "documentTitle": "TPC-SEC-02: AI and Synthetic Media Incident Response Plan",
+      "headingPath": "TPC-SEC-02: AI and Synthetic Med… › 7. Notifications and clocks",
+      "quote": "| Who | When | By | |---|---|---| | Bank fraud desk | Immediately when a payment was released | Treasury Manager | | General Counsel | Within 30 minutes of declaration | CISO | | Cyber and crime insur",
+      "chunkId": 8
+    },
+    {
+      "documentId": "01M793JZB4ZJNT2ZBRQ5YGP5FS",
+      "documentTitle": "TPC-SEC-02: AI and Synthetic Media Incident Response Plan",
+      "headingPath": "TPC-SEC-02: AI and Synthetic Med… › 8. Recovery and lessons",
+      "quote": "After containment the CISO produces a timeline within 5 working days. The Controller reconciles the payments. Policies on callback, executive impersonation, video meeting identity and awareness traini",
+      "chunkId": 9
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template"
+    ]
+  },
+  "assets": [
+    {
+      "id": "01M79C7T0ESERDPTJTMR3AAS56",
+      "kind": "image",
+      "path": "scenarios/01M793K1BQ4A90FK0DT2D867QV/media/01M7952VC0XDGJNCB41D0RYHNW/01M79C7T0ESERDPTJTMR3AAS56.png",
+      "role": "rendered",
+      "width": 816,
+      "height": 1056,
+      "sha256": "1ca3f96682089477d3e318c00ee7ee9c95ce6b8d08a68cf5a104b727d72606c1",
+      "provenance": {
+        "provider": "template",
+        "templateId": "helpdesk_ticket",
+        "templateVersion": "1",
+        "createdAt": "2026-11-13T02:36:56.572Z"
+      }
+    }
+  ],
+  "versions": [
+    {
+      "at": "2026-11-13T00:32:36.082Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "Ticket INC-27-30915: \"Resolved, Recommend Closing\"",
+        "type": "helpdesk_ticket",
+        "fields": {
+          "ticketNo": "INC-27-30915",
+          "priority": "Critical",
+          "impact": "High",
+          "urgency": "High",
+          "status": "Resolved",
+          "requester": "SOC In-House Analyst – Information Security (for the CISO)",
+          "requesterContact": "soc@tamarackprecision.example",
+          "contactType": "Email",
+          "category": "Security Incident",
+          "subcategory": "Payment System / Collaboration Tenant Hardening",
+          "location": "Greenville HQ – Treasury; tenant-wide (meeting platform)",
+          "configurationItem": "Treasury Workstation (LedgerGate) – release desk; Meeting platform tenant",
+          "opened": "2027-09-14 14:40:18",
+          "assignmentGroup": "IT Service Desk – Endpoint & Collaboration",
+          "assignee": "Service Desk Tier 2 (on duty)",
+          "subject": "P1 – Escrow fraud incident: lock down meeting platform, check Treasury PCs and Workstation",
+          "description": "Opened under the incident the CISO declared at 14:12 (TPC-SEC-02).\n\nRequests:\n1. Stop external organizers and unauthenticated guests from joining meetings on the Tamarack tenant.\n2. Scan the Treasury PCs used today for anything that could have helped the fraud.\n3. Check the Treasury Workstation for unauthorized access. Executive approval on WIRE-0914-002 was entered with release-desk token WS-TKN-2291, not the CFO's token WS-TKN-0007.\n4. Keep all evidence. Do not wipe or reimage anything without Security sign-off.",
+          "activity": [
+            {
+              "author": "SOC In-House Analyst",
+              "time": "2027-09-14 16:44:05",
+              "kind": "work_note",
+              "text": "WS-TKN-2291 (shared release-desk token) is still ACTIVE as of 16:43. No Workstation tokens have been reset today. Of the 4 out-of-role approvals by WS-TKN-2291 in the last 30 days, 2 are still unexplained. The in-app export we hold has no token serials or source IPs, so we can't yet say where those approvals came from. I don't agree with 'Workstation is clean' yet."
+            },
+            {
+              "author": "Insurance broker <claims@harbourline-brokers.example>",
+              "time": "2027-09-14 16:42:31",
+              "kind": "comment",
+              "text": "Underwriters ask Tamarack to attest that systems are clean and the incident is contained. Also, the forensic panel firm cannot start without the Workstation audit export. Please send the attestation and expected export date as soon as you can, together with the figures we asked for earlier."
+            },
+            {
+              "author": "First Meridian Commercial Bank – Treasury Services Fraud Desk (case FM-FRD-270914-0031)",
+              "time": "2027-09-14 16:40:12",
+              "kind": "comment",
+              "text": "Before we lift enhanced review on your outgoing payments, please confirm in writing that your Workstation credentials are secure. Until then, every outgoing payment from your accounts stays in manual review on our side."
+            },
+            {
+              "author": "LedgerGate Treasury Systems Support <support@ledgergate-ts.example>",
+              "time": "2027-09-14 16:37:48",
+              "kind": "comment",
+              "text": "Case LG-SUP-118204. We can provide the full server-side audit-log export (all approvals, token IDs, source IPs) for September 14 and the prior 30 days only after (1) a ticket opened by a registered administrator and (2) our Signed Data Access Request form executed by an authorized officer of Tamarack. Turnaround is 24 hours after receipt of both. The in-app log you exported shows only the user view and omits token serials and source IPs."
+            },
+            {
+              "author": "IT Service Desk – Tier 2",
+              "time": "2027-09-14 16:35:02",
+              "kind": "system",
+              "text": "State changed: In Progress → Resolved. Resolution code: RESOLVED-PENDING. Resolution notes: tenant-wide 'Block external organizers' and 'Disable guest join' enabled 15:52. AV scan of 6 Treasury PCs clean (0 detections, including the analyst's desktop at 10.20.4.37; no remote-access tools found). Workstation checked from the user side: no unknown users, in-app activity log exported to the evidence share. No reimaging per evidence hold. Workstation is clean. Recommend closing."
+            }
+          ],
+          "systemName": "ServiceDesk",
+          "orgName": "Tamarack Precision"
+        },
+        "instructorNote": "This is a technical hurdle. The ticket calls the Workstation \"clean,\" but that rests only on antivirus scans and a log export that leaves out token serials and source IPs. WS-TKN-2291 is still active, and the vendor needs 24 hours after receiving the signed form. Watch for the CISO to refuse closure and any attestation until every token is reset, WS-TKN-2291 is retired, all approvals since 09:40 and the token's 30-day history are reviewed, and pending beneficiaries are confirmed by directory callback. Legal should sign the vendor request now and tell the FBI field office and the insurer about the delay. Treasury should tell First Meridian what has been done, not promise anything.",
+        "deliveryMode": "hand_to_role"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-11-13T02:36:56.807Z"
+}

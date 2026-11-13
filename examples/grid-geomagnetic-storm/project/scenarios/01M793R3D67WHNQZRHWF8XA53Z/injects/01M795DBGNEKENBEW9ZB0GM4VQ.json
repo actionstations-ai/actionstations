@@ -1,0 +1,336 @@
+{
+  "id": "01M795DBGNEKENBEW9ZB0GM4VQ",
+  "mselRowId": "I-10",
+  "type": "alarm_summary",
+  "title": "EMS Alarms: Hartley 345-1 Trip, 3H22 Status Invalid",
+  "deliveryMode": "display_main_screen",
+  "fields": {
+    "systemName": "NLTO EMS — ALARM SUMMARY",
+    "site": "Northern Lakes Transmission Operations — Primary Control Room, Duluth",
+    "clock": "16:22:31",
+    "operator": "NLTO_CRSS_DAY",
+    "filter": "All substations · 345 kV + GIC · Active + Unacknowledged",
+    "counts": {
+      "critical": 2,
+      "high": 5,
+      "medium": 4,
+      "low": 2
+    },
+    "alarms": [
+      {
+        "time": "16:22:05",
+        "priority": "medium",
+        "tag": "RTCA_CASE",
+        "source": "EMS CONTINGENCY ANALYSIS",
+        "description": "RTCA results are stale. Last solve 16:15:00 was before the topology change. Rerun required",
+        "value": "STALE",
+        "state": "active"
+      },
+      {
+        "time": "16:21:40",
+        "priority": "high",
+        "tag": "IRON_RANGE_AT2_GIC_NEUT",
+        "source": "IRON RANGE AT2",
+        "description": "Neutral current HI-HI 150 A",
+        "value": "152 A ↑",
+        "state": "active"
+      },
+      {
+        "time": "16:21:10",
+        "priority": "medium",
+        "tag": "HARTLEY_AT1_GIC_NEUT",
+        "source": "HARTLEY AT1",
+        "description": "Neutral current HI, rising",
+        "value": "124 A ↑",
+        "state": "active"
+      },
+      {
+        "time": "16:20:45",
+        "priority": "high",
+        "tag": "SE_TOPOLOGY",
+        "source": "EMS STATE ESTIMATOR",
+        "description": "Breaker status 3H22 is suspect. Flow is measured on branch HARTLEY–CLOQUET 345-2 while its status is INVALID",
+        "value": "MISMATCH 184 MW",
+        "state": "active"
+      },
+      {
+        "time": "16:20:30",
+        "priority": "high",
+        "tag": "ARROWHEAD_IFC_MVAR",
+        "source": "ARROWHEAD INTERFACE",
+        "description": "Reactive power swing > 150 MVAR / 60 s",
+        "value": "172 MVAR",
+        "state": "active"
+      },
+      {
+        "time": "16:20:22",
+        "priority": "low",
+        "tag": "IRON_RANGE_115KV_BUS",
+        "source": "IRON RANGE 115 kV",
+        "description": "Bus voltage dip 1.4 %, recovered on cap bank",
+        "value": "115.6 kV",
+        "state": "rtn"
+      },
+      {
+        "time": "16:20:18",
+        "priority": "medium",
+        "tag": "HARTLEY_345-2_MW",
+        "source": "HARTLEY 345 kV",
+        "description": "LINE HARTLEY–CLOQUET 345-2, Hartley-end MW telemetry. Quality GOOD, breaker status INVALID",
+        "value": "184 MW",
+        "state": "active"
+      },
+      {
+        "time": "16:20:16.0",
+        "priority": "high",
+        "tag": "PMU_HARTLEY_ANGLE",
+        "source": "WIDE-AREA / PMU HARTLEY",
+        "description": "PMU HARTLEY ANGLE STEP (time source IRON_RANGE: HOLDOVER)",
+        "value": "9.2°",
+        "state": "active"
+      },
+      {
+        "time": "16:20:15.0",
+        "priority": "low",
+        "tag": "CLOQUET_CB_3C21",
+        "source": "CLOQUET 345 kV",
+        "description": "CLOQUET CB 3C21 CLOSED; LINE HARTLEY–CLOQUET 345-2",
+        "value": "186 MW",
+        "state": "active"
+      },
+      {
+        "time": "16:20:14.6",
+        "priority": "high",
+        "tag": "IRON_RANGE_CB_3I11",
+        "source": "IRON RANGE 345 kV",
+        "description": "IRON RANGE 345 kV CB 3I11 OPEN — TRIP — LINE HARTLEY–IRON RANGE 345-1",
+        "value": "OPEN",
+        "state": "active"
+      },
+      {
+        "time": "16:20:14.5",
+        "priority": "medium",
+        "tag": "HARTLEY_345-1_MW",
+        "source": "HARTLEY 345 kV",
+        "description": "LINE HARTLEY–IRON RANGE 345-1, MW at both ends",
+        "value": "0 MW / 0 MW",
+        "state": "active"
+      },
+      {
+        "time": "16:20:14.4",
+        "priority": "critical",
+        "tag": "HARTLEY_CB_3H22",
+        "source": "HARTLEY 345 kV",
+        "description": "HARTLEY 345 kV CB 3H22 STATUS INVALID (00) — RELAY TARGET 21 Z1 — LINE HARTLEY–CLOQUET 345-2",
+        "value": "INVALID (00)",
+        "state": "active"
+      },
+      {
+        "time": "16:20:14.3",
+        "priority": "critical",
+        "tag": "HARTLEY_CB_3H12",
+        "source": "HARTLEY 345 kV",
+        "description": "HARTLEY 345 kV CB 3H12 OPEN — TRIP — LINE HARTLEY–IRON RANGE 345-1",
+        "value": "OPEN",
+        "state": "active"
+      }
+    ],
+    "footer": "13 alarms in last 3 min · One-line: 345-2 drawn half grey and half live · Voice log 16:22, Hartley yard foreman (radio): \"Control, Hartley yard. 3H12 is open and the flags are down. The 3H22 relay panel shows a trip target, but the breaker's mechanical indicator says CLOSED and I can hear the line humming. 3H12 looks clean to me. My guys can close it back in ten minutes if you give the word. We're just standing around out here anyway.\""
+  },
+  "variant": "dark",
+  "instructorNote": "This inject tests whether the CRSS can work out the true topology from breaker status and MW at both line ends rather than from the PMU angle step, which comes from a clock in holdover. The correct read is that 345-1 is open and 345-2 is closed but showing a bad status. Watch for any order to the crew to reclose 3H12: in Condition 3 and above, that needs agreement from the UMRC. The RE should rerun contingency analysis with 345-1 out and log the relay misoperation for review, without changing any protection settings.",
+  "citations": [
+    {
+      "documentId": "01M793R1CKPE6S3EAJK06CD962",
+      "documentTitle": "NLTO-OP-31: Geomagnetic Disturbance Operating Procedure",
+      "headingPath": "NGDOP › 4. Conditions and actions",
+      "quote": "| Condition | Predetermined trigger | Actions | |---|---|---| | **Condition 1: Watch** | SWPC Geomagnetic Storm Watch for G3 or higher, or a CME discussion with an arrival window in the next 36 hours,",
+      "chunkId": 5
+    },
+    {
+      "documentId": "01M793R1CKPE6S3EAJK06CD962",
+      "documentTitle": "NLTO-OP-31: Geomagnetic Disturbance Operating Procedure",
+      "headingPath": "NGDOP › 5. Monitoring during the storm",
+      "quote": "The reliability engineer watches: neutral current (amperes) at each monitored transformer, reactive power at the three static var and capacitor sites, voltage at the 23 key buses, line loadings at the",
+      "chunkId": 6
+    },
+    {
+      "documentId": "01M793R1CQ0HWFM5EDVA13Z46E",
+      "documentTitle": "UMRC-SOP-12: GMD Forecasting, Notification and Wide-Area Coordination",
+      "headingPath": "UGFNWC › 6. Wide-area operations",
+      "quote": "During a G3 or higher storm the RC runs a conference bridge every hour. Each TOP in the footprint reports: the condition under its procedure, the highest neutral current and where, the reactive reserv",
+      "chunkId": 24
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template"
+    ]
+  },
+  "assets": [
+    {
+      "id": "01M799TD7YJ7CSPYP9AQABKAMZ",
+      "kind": "image",
+      "path": "scenarios/01M793R3D67WHNQZRHWF8XA53Z/media/01M795DBGNEKENBEW9ZB0GM4VQ/01M799TD7YJ7CSPYP9AQABKAMZ.png",
+      "role": "rendered",
+      "width": 1280,
+      "height": 884,
+      "sha256": "3ff822027f1475f35cd1520cc959178f4ea32f63743f35d5b6b8704ead1a3ef7",
+      "provenance": {
+        "provider": "template",
+        "templateId": "alarm_summary",
+        "templateVersion": "1",
+        "createdAt": "2026-11-13T01:54:40.342Z"
+      }
+    }
+  ],
+  "versions": [
+    {
+      "at": "2026-11-13T00:38:48.506Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "EMS Alarms: Hartley 345-1 Trip, 3H22 Status Invalid",
+        "type": "alarm_summary",
+        "fields": {
+          "systemName": "NLTO EMS — ALARM SUMMARY",
+          "site": "Northern Lakes Transmission Operations — Primary Control Room, Duluth",
+          "clock": "16:22:31",
+          "operator": "NLTO_CRSS_DAY",
+          "filter": "All substations · 345 kV + GIC · Active + Unacknowledged",
+          "counts": {
+            "critical": 2,
+            "high": 5,
+            "medium": 4,
+            "low": 2
+          },
+          "alarms": [
+            {
+              "time": "16:22:05",
+              "priority": "medium",
+              "tag": "RTCA_CASE",
+              "source": "EMS CONTINGENCY ANALYSIS",
+              "description": "RTCA results are stale. Last solve 16:15:00 was before the topology change. Rerun required",
+              "value": "STALE",
+              "state": "active"
+            },
+            {
+              "time": "16:21:40",
+              "priority": "high",
+              "tag": "IRON_RANGE_AT2_GIC_NEUT",
+              "source": "IRON RANGE AT2",
+              "description": "Neutral current HI-HI 150 A",
+              "value": "152 A ↑",
+              "state": "active"
+            },
+            {
+              "time": "16:21:10",
+              "priority": "medium",
+              "tag": "HARTLEY_AT1_GIC_NEUT",
+              "source": "HARTLEY AT1",
+              "description": "Neutral current HI, rising",
+              "value": "124 A ↑",
+              "state": "active"
+            },
+            {
+              "time": "16:20:45",
+              "priority": "high",
+              "tag": "SE_TOPOLOGY",
+              "source": "EMS STATE ESTIMATOR",
+              "description": "Breaker status 3H22 is suspect. Flow is measured on branch HARTLEY–CLOQUET 345-2 while its status is INVALID",
+              "value": "MISMATCH 184 MW",
+              "state": "active"
+            },
+            {
+              "time": "16:20:30",
+              "priority": "high",
+              "tag": "ARROWHEAD_IFC_MVAR",
+              "source": "ARROWHEAD INTERFACE",
+              "description": "Reactive power swing > 150 MVAR / 60 s",
+              "value": "172 MVAR",
+              "state": "active"
+            },
+            {
+              "time": "16:20:22",
+              "priority": "low",
+              "tag": "IRON_RANGE_115KV_BUS",
+              "source": "IRON RANGE 115 kV",
+              "description": "Bus voltage dip 1.4 %, recovered on cap bank",
+              "value": "115.6 kV",
+              "state": "rtn"
+            },
+            {
+              "time": "16:20:18",
+              "priority": "medium",
+              "tag": "HARTLEY_345-2_MW",
+              "source": "HARTLEY 345 kV",
+              "description": "LINE HARTLEY–CLOQUET 345-2, Hartley-end MW telemetry. Quality GOOD, breaker status INVALID",
+              "value": "184 MW",
+              "state": "active"
+            },
+            {
+              "time": "16:20:16.0",
+              "priority": "high",
+              "tag": "PMU_HARTLEY_ANGLE",
+              "source": "WIDE-AREA / PMU HARTLEY",
+              "description": "PMU HARTLEY ANGLE STEP (time source IRON_RANGE: HOLDOVER)",
+              "value": "9.2°",
+              "state": "active"
+            },
+            {
+              "time": "16:20:15.0",
+              "priority": "low",
+              "tag": "CLOQUET_CB_3C21",
+              "source": "CLOQUET 345 kV",
+              "description": "CLOQUET CB 3C21 CLOSED; LINE HARTLEY–CLOQUET 345-2",
+              "value": "186 MW",
+              "state": "active"
+            },
+            {
+              "time": "16:20:14.6",
+              "priority": "high",
+              "tag": "IRON_RANGE_CB_3I11",
+              "source": "IRON RANGE 345 kV",
+              "description": "IRON RANGE 345 kV CB 3I11 OPEN — TRIP — LINE HARTLEY–IRON RANGE 345-1",
+              "value": "OPEN",
+              "state": "active"
+            },
+            {
+              "time": "16:20:14.5",
+              "priority": "medium",
+              "tag": "HARTLEY_345-1_MW",
+              "source": "HARTLEY 345 kV",
+              "description": "LINE HARTLEY–IRON RANGE 345-1, MW at both ends",
+              "value": "0 MW / 0 MW",
+              "state": "active"
+            },
+            {
+              "time": "16:20:14.4",
+              "priority": "critical",
+              "tag": "HARTLEY_CB_3H22",
+              "source": "HARTLEY 345 kV",
+              "description": "HARTLEY 345 kV CB 3H22 STATUS INVALID (00) — RELAY TARGET 21 Z1 — LINE HARTLEY–CLOQUET 345-2",
+              "value": "INVALID (00)",
+              "state": "active"
+            },
+            {
+              "time": "16:20:14.3",
+              "priority": "critical",
+              "tag": "HARTLEY_CB_3H12",
+              "source": "HARTLEY 345 kV",
+              "description": "HARTLEY 345 kV CB 3H12 OPEN — TRIP — LINE HARTLEY–IRON RANGE 345-1",
+              "value": "OPEN",
+              "state": "active"
+            }
+          ],
+          "footer": "13 alarms in last 3 min · One-line: 345-2 drawn half grey and half live · Voice log 16:22, Hartley yard foreman (radio): \"Control, Hartley yard. 3H12 is open and the flags are down. The 3H22 relay panel shows a trip target, but the breaker's mechanical indicator says CLOSED and I can hear the line humming. 3H12 looks clean to me. My guys can close it back in ten minutes if you give the word. We're just standing around out here anyway.\""
+        },
+        "instructorNote": "This inject tests whether the CRSS can work out the true topology from breaker status and MW at both line ends rather than from the PMU angle step, which comes from a clock in holdover. The correct read is that 345-1 is open and 345-2 is closed but showing a bad status. Watch for any order to the crew to reclose 3H12: in Condition 3 and above, that needs agreement from the UMRC. The RE should rerun contingency analysis with 345-1 out and log the relay misoperation for review, without changing any protection settings.",
+        "deliveryMode": "display_main_screen"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-11-13T01:54:40.512Z"
+}

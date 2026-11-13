@@ -1,0 +1,250 @@
+{
+  "id": "01M795AF3ASWYHPZY6JCMQKD6R",
+  "mselRowId": "I-06b",
+  "type": "system_log",
+  "title": "UMRC Notification ACK Report: Baraga Wind Farm Not Acknowledged",
+  "deliveryMode": "hand_to_role",
+  "fields": {
+    "systemName": "UMRC_NOTIFICATION_SYSTEM — ACK REPORT UMRC-GMD-2027-033",
+    "host": "UMRC-SOP-12",
+    "os": "Red Hat Enterprise Linux 8",
+    "logSource": "/var/log/notifsys/ack_tracker.log",
+    "exportedBy": "rcsm.day",
+    "exportedAt": "2027-03-16 15:44 CDT",
+    "timezone": "CDT (UTC-5)",
+    "lines": [
+      {
+        "ts": "2027-03-16 15:14:02",
+        "level": "NOTICE",
+        "msg": "MSG UMRC-GMD-2027-033 level=EMERGENCY queued; distribution=TOP+GO+NEIGHBOR; recipients=22; channels=EMAIL,VOICE,SMS",
+        "highlight": false
+      },
+      {
+        "ts": "2027-03-16 15:14:09",
+        "level": "INFO",
+        "msg": "Dispatch complete: sent 2014 UTC (15:14 CDT) to 22 recipients; next RC call stated in message: 1545 CDT (2045 UTC)",
+        "highlight": false
+      },
+      {
+        "ts": "2027-03-16 15:15:31",
+        "level": "INFO",
+        "msg": "ACK received: NORTHERN LAKES TRANSMISSION OPERATIONS (TOP) via EMAIL, NLTO-OP-12",
+        "highlight": false
+      },
+      {
+        "ts": "2027-03-16 15:16:04",
+        "level": "INFO",
+        "msg": "ACK received: SUPERIOR RANGE ELECTRIC (TOP) via VOICE keypad",
+        "highlight": false
+      },
+      {
+        "ts": "2027-03-16 15:17:48",
+        "level": "INFO",
+        "msg": "ACK received: LAKESHORE POWER COOPERATIVE (TOP) via EMAIL",
+        "highlight": false
+      },
+      {
+        "ts": "2027-03-16 15:19:12",
+        "level": "INFO",
+        "msg": "ACK received: TACONITE RIDGE GENERATING STATION (GO) via VOICE keypad; LAKE SUPERIOR HYDRO (GO) via EMAIL",
+        "highlight": false
+      },
+      {
+        "ts": "2027-03-16 15:14:11",
+        "level": "WARN",
+        "msg": "EMAIL to BARAGA WIND FARM (GO): SMTP 451 4.4.1 deferred, connection timed out to recipient mail host; retry scheduled",
+        "highlight": true
+      },
+      {
+        "ts": "2027-03-16 15:14:40",
+        "level": "WARN",
+        "msg": "VOICE to BARAGA WIND FARM (GO) control desk line: no answer after 6 rings; message left on voicemail",
+        "highlight": false
+      },
+      {
+        "ts": "2027-03-16 15:14:42",
+        "level": "WARN",
+        "msg": "SMS to BARAGA WIND FARM (GO) on-call: carrier delivery receipt not returned",
+        "highlight": false
+      },
+      {
+        "ts": "2027-03-16 15:29:15",
+        "level": "WARN",
+        "msg": "EMAIL retry 3/3 to BARAGA WIND FARM (GO): SMTP 4.4.1 deferred; giving up",
+        "highlight": false
+      },
+      {
+        "ts": "2027-03-16 15:44:00",
+        "level": "NOTICE",
+        "msg": "ACK summary UMRC-GMD-2027-033: ACK 21/22",
+        "highlight": false
+      },
+      {
+        "ts": "2027-03-16 15:44:00",
+        "level": "ALERT",
+        "msg": "NOT ACKNOWLEDGED > 30 min: BARAGA WIND FARM (GO) — ops@baragawind.example. Action per UGFNWC 5: call entity; log entity, time sent, time acknowledged",
+        "highlight": true
+      },
+      {
+        "ts": "2027-03-16 15:44:01",
+        "level": "WARN",
+        "msg": "Linked check: prior WARNING notice to BARAGA WIND FARM (GO): ACK not recorded",
+        "highlight": true
+      }
+    ],
+    "classification": "UMRC INTERNAL — RC OPERATIONS RECORD",
+    "pageLabel": "Page 1 of 1"
+  },
+  "variant": "printout",
+  "instructorNote": "Hand this out together with NLTO's binder tally: 12 of 14 entities ticked, with Baraga Wind Farm and Duluth Harbor Terminal blank, and the NGDOP 60-minute clock running out at 16:10. If players reach Baraga on the satellite phone, play the operator: \"Our email server went down at lunch and we've been on a cell hotspot. We never saw Warning or Emergency. Is there anything you need us to do with the turbines?\" Watch for these steps: the RCSM calls Baraga and logs the entity, the time sent and the time acknowledged under UGFNWC 5, and asks NLTO to confirm how many entities it has told. The CRSS gives someone the job of reaching Baraga by phone and Duluth Harbor Terminal by hotline before 16:10, and the Condition 3/4 status and next call time are passed by voice and logged.",
+  "citations": [
+    {
+      "documentId": "01M793R1CKPE6S3EAJK06CD962",
+      "documentTitle": "NLTO-OP-31: Geomagnetic Disturbance Operating Procedure",
+      "headingPath": "NGDOP › 6. Entities told",
+      "quote": "NLTO tells these 14 entities when it applies the procedure and when it ends it, within 60 minutes of each: the reliability coordinator (UMRC), the six neighboring transmission operators, the three gen",
+      "chunkId": 7
+    },
+    {
+      "documentId": "01M793R1CQ0HWFM5EDVA13Z46E",
+      "documentTitle": "UMRC-SOP-12: GMD Forecasting, Notification and Wide-Area Coordination",
+      "headingPath": "UGFNWC › 5. Dissemination checks",
+      "quote": "For every message the Shift Manager confirms that each of the TOPs received it (by acknowledgment on the Notification System). Entities that do not acknowledge within 30 minutes are called. The RC log",
+      "chunkId": 23
+    },
+    {
+      "documentId": "01M793R1CQ0HWFM5EDVA13Z46E",
+      "documentTitle": "UMRC-SOP-12: GMD Forecasting, Notification and Wide-Area Coordination",
+      "headingPath": "UGFNWC › 2. Roles",
+      "quote": "- **Shift Manager** (on duty: Hugo Villanueva for the day shift): decides the RC's GMD level. - **RC Operations Director:** Marguerite Kaplan (515-555-0132). - **GMD analyst:** a member of the enginee",
+      "chunkId": 20
+    },
+    {
+      "documentId": "01M793R1CP8FSDJTZMVBXZXCKW",
+      "documentTitle": "Northern Lakes Transmission Operations: System and Control Room Description",
+      "headingPath": "Northern Lakes Transmission Oper… › 4. Time and communications",
+      "quote": "GPS-disciplined clocks serve the substation protection and phasor equipment. Holdover clocks are fitted at 14 substations (24-hour holdover); a backup time source from a network time server over the f",
+      "chunkId": 14
+    },
+    {
+      "documentId": "01M793R1CQ0HWFM5EDVA13Z46E",
+      "documentTitle": "UMRC-SOP-12: GMD Forecasting, Notification and Wide-Area Coordination",
+      "headingPath": "UGFNWC › 4. RC notification levels",
+      "quote": "| RC level | Trigger | Message | |---|---|---| | Information | SWPC Geomagnetic Storm Watch G1 or G2 | A notice to all TOPs: the watch, the days, the highest level, and \"no action required beyond moni",
+      "chunkId": 22
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template"
+    ]
+  },
+  "assets": [],
+  "versions": [
+    {
+      "at": "2026-11-13T00:36:32.699Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "UMRC Notification ACK Report: Baraga Wind Farm Not Acknowledged",
+        "type": "system_log",
+        "fields": {
+          "systemName": "UMRC_NOTIFICATION_SYSTEM — ACK REPORT UMRC-GMD-2027-033",
+          "host": "UMRC-SOP-12",
+          "os": "Red Hat Enterprise Linux 8",
+          "logSource": "/var/log/notifsys/ack_tracker.log",
+          "exportedBy": "rcsm.day",
+          "exportedAt": "2027-03-16 15:44 CDT",
+          "timezone": "CDT (UTC-5)",
+          "lines": [
+            {
+              "ts": "2027-03-16 15:14:02",
+              "level": "NOTICE",
+              "msg": "MSG UMRC-GMD-2027-033 level=EMERGENCY queued; distribution=TOP+GO+NEIGHBOR; recipients=22; channels=EMAIL,VOICE,SMS",
+              "highlight": false
+            },
+            {
+              "ts": "2027-03-16 15:14:09",
+              "level": "INFO",
+              "msg": "Dispatch complete: sent 2014 UTC (15:14 CDT) to 22 recipients; next RC call stated in message: 1545 CDT (2045 UTC)",
+              "highlight": false
+            },
+            {
+              "ts": "2027-03-16 15:15:31",
+              "level": "INFO",
+              "msg": "ACK received: NORTHERN LAKES TRANSMISSION OPERATIONS (TOP) via EMAIL, NLTO-OP-12",
+              "highlight": false
+            },
+            {
+              "ts": "2027-03-16 15:16:04",
+              "level": "INFO",
+              "msg": "ACK received: SUPERIOR RANGE ELECTRIC (TOP) via VOICE keypad",
+              "highlight": false
+            },
+            {
+              "ts": "2027-03-16 15:17:48",
+              "level": "INFO",
+              "msg": "ACK received: LAKESHORE POWER COOPERATIVE (TOP) via EMAIL",
+              "highlight": false
+            },
+            {
+              "ts": "2027-03-16 15:19:12",
+              "level": "INFO",
+              "msg": "ACK received: TACONITE RIDGE GENERATING STATION (GO) via VOICE keypad; LAKE SUPERIOR HYDRO (GO) via EMAIL",
+              "highlight": false
+            },
+            {
+              "ts": "2027-03-16 15:14:11",
+              "level": "WARN",
+              "msg": "EMAIL to BARAGA WIND FARM (GO): SMTP 451 4.4.1 deferred, connection timed out to recipient mail host; retry scheduled",
+              "highlight": true
+            },
+            {
+              "ts": "2027-03-16 15:14:40",
+              "level": "WARN",
+              "msg": "VOICE to BARAGA WIND FARM (GO) control desk line: no answer after 6 rings; message left on voicemail",
+              "highlight": false
+            },
+            {
+              "ts": "2027-03-16 15:14:42",
+              "level": "WARN",
+              "msg": "SMS to BARAGA WIND FARM (GO) on-call: carrier delivery receipt not returned",
+              "highlight": false
+            },
+            {
+              "ts": "2027-03-16 15:29:15",
+              "level": "WARN",
+              "msg": "EMAIL retry 3/3 to BARAGA WIND FARM (GO): SMTP 4.4.1 deferred; giving up",
+              "highlight": false
+            },
+            {
+              "ts": "2027-03-16 15:44:00",
+              "level": "NOTICE",
+              "msg": "ACK summary UMRC-GMD-2027-033: ACK 21/22",
+              "highlight": false
+            },
+            {
+              "ts": "2027-03-16 15:44:00",
+              "level": "ALERT",
+              "msg": "NOT ACKNOWLEDGED > 30 min: BARAGA WIND FARM (GO) — ops@baragawind.example. Action per UGFNWC 5: call entity; log entity, time sent, time acknowledged",
+              "highlight": true
+            },
+            {
+              "ts": "2027-03-16 15:44:01",
+              "level": "WARN",
+              "msg": "Linked check: prior WARNING notice to BARAGA WIND FARM (GO): ACK not recorded",
+              "highlight": true
+            }
+          ],
+          "classification": "UMRC INTERNAL — RC OPERATIONS RECORD",
+          "pageLabel": "Page 1 of 1"
+        },
+        "instructorNote": "Hand this out together with NLTO's binder tally: 12 of 14 entities ticked, with Baraga Wind Farm and Duluth Harbor Terminal blank, and the NGDOP 60-minute clock running out at 16:10. If players reach Baraga on the satellite phone, play the operator: \"Our email server went down at lunch and we've been on a cell hotspot. We never saw Warning or Emergency. Is there anything you need us to do with the turbines?\" Watch for these steps: the RCSM calls Baraga and logs the entity, the time sent and the time acknowledged under UGFNWC 5, and asks NLTO to confirm how many entities it has told. The CRSS gives someone the job of reaching Baraga by phone and Duluth Harbor Terminal by hotline before 16:10, and the Condition 3/4 status and next call time are passed by voice and logged.",
+        "deliveryMode": "hand_to_role"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-11-13T01:54:39.726Z"
+}

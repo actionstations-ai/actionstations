@@ -1,0 +1,132 @@
+{
+  "id": "01M794Q53QD2CCMJKKZ6NPVBDM",
+  "mselRowId": "I-01b",
+  "type": "helpdesk_ticket",
+  "title": "Ticket WJT-27-04418: Wabash Junction Tank Gauge Recalibration",
+  "deliveryMode": "hand_to_role",
+  "fields": {
+    "ticketNo": "WJT-27-04418",
+    "priority": "Moderate",
+    "impact": "Low",
+    "urgency": "Medium",
+    "status": "New",
+    "requester": "D. Kessler, Terminal Operator, Wabash Junction Terminal",
+    "requesterContact": "wjt.operations@ironbarkpipeline.example",
+    "contactType": "Self-service",
+    "category": "Terminal Instrumentation",
+    "subcategory": "Tank Gauging / Level Transmitter",
+    "location": "Wabash Junction Terminal (MO), north crude tank and receipt manifold",
+    "configurationItem": "LT-WJT-N01 (radar level transmitter, north crude tank)",
+    "opened": "2026-11-12 05:55:48",
+    "assignmentGroup": "Pipeline Control Center, Console PLC-2",
+    "subject": "North crude tank radar gauge reading 0.4 ft high; recalibration 07:30, please acknowledge level alarms",
+    "description": "The tank gauge radar transmitter on the north crude tank at Wabash Junction reads 0.4 ft high compared with the hand gauge taken at 05:30. The tech is scheduled for 07:30 to recalibrate.\n\nPlease acknowledge level alarms during the work window (07:30–09:00 planned). The receipt manifold HI-LEVEL alarm will probably chatter while the transmitter is out of service. We are hand gauging every 30 minutes until the transmitter is back in service.\n\nIf Console PLC-2 can sign off early, the tech can start as soon as he is on site.",
+    "activity": [
+      {
+        "author": "D. Kessler (Wabash Junction Terminal)",
+        "time": "2026-11-12 05:56:51",
+        "kind": "comment",
+        "text": "Radio to Tulsa: \"Tulsa, Wabash. Ignore that hi-level, it's the gauge again. Can you sign off the ticket so my tech can start early?\""
+      },
+      {
+        "author": "SCADA Alarm Interface",
+        "time": "2026-11-12 05:56:40",
+        "kind": "system",
+        "text": "WABASH JCT RECEIPT MANIFOLD HI-LEVEL: RETURN TO NORMAL (auto-cleared). Alarm count today: 3. Classification: NUISANCE."
+      },
+      {
+        "author": "SCADA Alarm Interface",
+        "time": "2026-11-12 05:56:02",
+        "kind": "system",
+        "text": "WABASH JCT RECEIPT MANIFOLD HI-LEVEL: ALARM. Source LT-WJT-N01. Linked to open ticket WJT-27-04418."
+      },
+      {
+        "author": "ServiceDesk",
+        "time": "2026-11-12 05:55:48",
+        "kind": "system",
+        "text": "Ticket created by D. Kessler via self-service portal. Routed to Pipeline Control Center, Console PLC-2. Priority 3 (routine). Acknowledgement requested."
+      }
+    ],
+    "systemName": "ServiceDesk",
+    "orgName": "Ironbark Pipeline"
+  },
+  "variant": "default",
+  "instructorNote": "This is a noise inject that arrives inside the leak rule-out window. Watch whether the CCSS acknowledges it briefly or hands it to another controller, keeping attention and the clock on MP 214.3. The wrong response is approving the early start, or letting this ticket pause or reset the leak rule-out. Any call about it states who is calling and the call-back number, the facility and the location (milepost).",
+  "citations": [
+    {
+      "documentId": "01M793Q432Z8K2VNW3Y13V3937",
+      "documentTitle": "SOP-IMT-01: Notifications and Incident Management Team Activation",
+      "headingPath": "SNIMTA › 3. What to say",
+      "quote": "A notification states: who is calling and the call-back number; the facility and the location (milepost, river mile and latitude and longitude); the product (medium sour crude); the estimated volume r",
+      "chunkId": 4
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template"
+    ]
+  },
+  "assets": [],
+  "versions": [
+    {
+      "at": "2026-11-13T00:25:49.276Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "Ticket WJT-27-04418: Wabash Junction Tank Gauge Recalibration",
+        "type": "helpdesk_ticket",
+        "fields": {
+          "ticketNo": "WJT-27-04418",
+          "priority": "Moderate",
+          "impact": "Low",
+          "urgency": "Medium",
+          "status": "New",
+          "requester": "D. Kessler, Terminal Operator, Wabash Junction Terminal",
+          "requesterContact": "wjt.operations@ironbarkpipeline.example",
+          "contactType": "Self-service",
+          "category": "Terminal Instrumentation",
+          "subcategory": "Tank Gauging / Level Transmitter",
+          "location": "Wabash Junction Terminal (MO), north crude tank and receipt manifold",
+          "configurationItem": "LT-WJT-N01 (radar level transmitter, north crude tank)",
+          "opened": "2026-11-12 05:55:48",
+          "assignmentGroup": "Pipeline Control Center, Console PLC-2",
+          "subject": "North crude tank radar gauge reading 0.4 ft high; recalibration 07:30, please acknowledge level alarms",
+          "description": "The tank gauge radar transmitter on the north crude tank at Wabash Junction reads 0.4 ft high compared with the hand gauge taken at 05:30. The tech is scheduled for 07:30 to recalibrate.\n\nPlease acknowledge level alarms during the work window (07:30–09:00 planned). The receipt manifold HI-LEVEL alarm will probably chatter while the transmitter is out of service. We are hand gauging every 30 minutes until the transmitter is back in service.\n\nIf Console PLC-2 can sign off early, the tech can start as soon as he is on site.",
+          "activity": [
+            {
+              "author": "D. Kessler (Wabash Junction Terminal)",
+              "time": "2026-11-12 05:56:51",
+              "kind": "comment",
+              "text": "Radio to Tulsa: \"Tulsa, Wabash. Ignore that hi-level, it's the gauge again. Can you sign off the ticket so my tech can start early?\""
+            },
+            {
+              "author": "SCADA Alarm Interface",
+              "time": "2026-11-12 05:56:40",
+              "kind": "system",
+              "text": "WABASH JCT RECEIPT MANIFOLD HI-LEVEL: RETURN TO NORMAL (auto-cleared). Alarm count today: 3. Classification: NUISANCE."
+            },
+            {
+              "author": "SCADA Alarm Interface",
+              "time": "2026-11-12 05:56:02",
+              "kind": "system",
+              "text": "WABASH JCT RECEIPT MANIFOLD HI-LEVEL: ALARM. Source LT-WJT-N01. Linked to open ticket WJT-27-04418."
+            },
+            {
+              "author": "ServiceDesk",
+              "time": "2026-11-12 05:55:48",
+              "kind": "system",
+              "text": "Ticket created by D. Kessler via self-service portal. Routed to Pipeline Control Center, Console PLC-2. Priority 3 (routine). Acknowledgement requested."
+            }
+          ],
+          "systemName": "ServiceDesk",
+          "orgName": "Ironbark Pipeline"
+        },
+        "instructorNote": "This is a noise inject that arrives inside the leak rule-out window. Watch whether the CCSS acknowledges it briefly or hands it to another controller, keeping attention and the clock on MP 214.3. The wrong response is approving the early start, or letting this ticket pause or reset the leak rule-out. Any call about it states who is calling and the call-back number, the facility and the location (milepost).",
+        "deliveryMode": "hand_to_role"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-11-13T01:52:31.471Z"
+}

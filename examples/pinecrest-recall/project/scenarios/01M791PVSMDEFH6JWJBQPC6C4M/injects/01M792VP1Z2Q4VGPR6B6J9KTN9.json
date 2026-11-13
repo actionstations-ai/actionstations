@@ -1,0 +1,264 @@
+{
+  "id": "01M792VP1Z2Q4VGPR6B6J9KTN9",
+  "mselRowId": "I-05",
+  "type": "phone_call",
+  "title": "Call: Rivermark Kits QA — Paper Receiving, Lots Without Shift Letter",
+  "deliveryMode": "read_aloud",
+  "fields": {
+    "orgName": "Pinecrest Fresh Cut, LLC",
+    "systemName": "Recorded Line - Recall Team Bridge",
+    "callId": "CR-20271012-064800-0041",
+    "direction": "Inbound",
+    "caller": {
+      "name": "Delia",
+      "number": "(559) 555-0143",
+      "label": "QA Supervisor, Rivermark Kits (co-packer), Fresno"
+    },
+    "callee": {
+      "name": "Kevin Oyelaran",
+      "number": "(831) 555-0138",
+      "label": "Traceability and Systems Lead, Pinecrest Fresh Cut"
+    },
+    "startTime": "10/12/2027 06:48:00",
+    "duration": "1:34",
+    "transcript": [
+      {
+        "speaker": "Delia (Rivermark QA)",
+        "offset": "0:00",
+        "text": "Morning, this is Delia at Rivermark QA in Fresno, returning your hold notice. Is this traceability?",
+        "prompt": false
+      },
+      {
+        "speaker": "Pinecrest",
+        "offset": "0:06",
+        "text": "",
+        "prompt": true
+      },
+      {
+        "speaker": "Delia (Rivermark QA)",
+        "offset": "0:12",
+        "text": "Okay. So, we show two thousand six hundred cases of your chopped romaine received. That part's solid, it matches the bills of lading. Our receiving is still on paper clipboards, though. And the night crew wrote some of the lots as P-F-1, two-seven-eight, L-2. No shift letter. Just 'PF1-278-L2.'",
+        "prompt": false
+      },
+      {
+        "speaker": "Pinecrest",
+        "offset": "0:31",
+        "text": "",
+        "prompt": true
+      },
+      {
+        "speaker": "Delia (Rivermark QA)",
+        "offset": "0:38",
+        "text": "Honestly, I can't tell you which Caesar kit runs used which lot until our office manager gets in at 9:00. She keeps the production sheets that tie receiving to the kit runs. And I have to tell you, some kits from Friday's run already went out to our national retail accounts.",
+        "prompt": false
+      },
+      {
+        "speaker": "Pinecrest",
+        "offset": "0:58",
+        "text": "",
+        "prompt": true
+      },
+      {
+        "speaker": "Delia (Rivermark QA)",
+        "offset": "1:06",
+        "text": "Right now I've got the romaine itself tagged in our cooler. The finished kits aren't on hold yet. So tell me. Do you want us to hold everything with romaine in it, or just the lots we can match?",
+        "prompt": false
+      },
+      {
+        "speaker": "Pinecrest",
+        "offset": "1:18",
+        "text": "",
+        "prompt": true
+      },
+      {
+        "speaker": "Delia (Rivermark QA)",
+        "offset": "1:26",
+        "text": "Okay. Send me that in writing so I can show my plant manager, and I'll get you what I can before nine.",
+        "prompt": false
+      }
+    ],
+    "voiceStyles": {
+      "Delia (Rivermark QA)": "Woman in her 40s, practical and cooperative but rushed, a bit apologetic about the paperwork. Cooler fans and forklift beepers in the background."
+    },
+    "injectId": "I-05"
+  },
+  "variant": "default",
+  "instructorNote": "This is a clue inject. It tests whether the team widens scope when lot boundaries are uncertain (PPHTRP 5): the Recall Coordinator should ask Rivermark to hold every kit that could contain the five lots, not only the lots it can match. Trace should log the 'PF1-278-L2' entries without a shift letter as gaps in the trace sheet's gap tab (PLCTR 5), keep the full lot-code format, and ask Rivermark for its downstream ship list, including Friday's shipments to retail.",
+  "citations": [
+    {
+      "documentId": "01M791PSSHKAJ1RJKR05116S3D",
+      "documentTitle": "PFC-FS-01: Product Hold, Trace and Recall Plan",
+      "headingPath": "PPHTRP › 5. Scope rules",
+      "quote": "- A lot is a production lot by line, shift and date. Any lot made on the same line within 24 hours after a positive result on that line, before sanitation was verified, is in scope. Raw material lots ",
+      "chunkId": 33
+    },
+    {
+      "documentId": "01M791PSSB1ZJ85S8M91S49WYH",
+      "documentTitle": "PFC-QA-03: Lot Coding and Traceability Records",
+      "headingPath": "PLCTR › 4. Systems",
+      "quote": "- **Manufacturing execution system (MES):** records transformation, lot genealogy and holds. A hold in the MES blocks a lot from shipping and from being picked in the DCs within 10 minutes through the",
+      "chunkId": 5
+    },
+    {
+      "documentId": "01M791PSSB1ZJ85S8M91S49WYH",
+      "documentTitle": "PFC-QA-03: Lot Coding and Traceability Records",
+      "headingPath": "PLCTR › 5. What the trace produces",
+      "quote": "The Traceability and Systems Lead produces one sortable spreadsheet with these columns: lot code, product, quantity and unit (cases), ship date, ship-from location, ship-to customer, ship-to location ",
+      "chunkId": 6
+    },
+    {
+      "documentId": "01M791PSSHKAJ1RJKR05116S3D",
+      "documentTitle": "PFC-FS-01: Product Hold, Trace and Recall Plan",
+      "headingPath": "PPHTRP › 4. Decisions and who makes them",
+      "quote": "1. **Hold.** The Recall Coordinator or the Plant Manager may place a hold on any lot at any time, without waiting for approval. Target: lots on hold in the MES within 30 minutes of a signal and physic",
+      "chunkId": 32
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template",
+      "tts"
+    ],
+    "voiceLines": [
+      {
+        "speaker": "Delia (Rivermark QA)",
+        "voiceStyle": "Practical, cooperative woman in her 40s with a neutral Central California accent, speaking a bit fast and rushed, slightly apologetic, on a phone in a cold produce plant",
+        "text": "Morning, this is Delia at Rivermark QA in Fresno, returning your hold notice. Is this traceability?"
+      },
+      {
+        "speaker": "Delia (Rivermark QA)",
+        "voiceStyle": "Practical, cooperative woman in her 40s with a neutral Central California accent, rushed, a little apologetic about the paperwork, spells out the lot code slowly and carefully",
+        "text": "Okay. So, we show two thousand six hundred cases of your chopped romaine received. That part's solid, it matches the bills of lading. Our receiving is still on paper clipboards, though. And the night crew wrote some of the lots as P, F, one... two, seven, eight... L, two. No shift letter. Just P-F-one, two-seventy-eight, L-two."
+      },
+      {
+        "speaker": "Delia (Rivermark QA)",
+        "voiceStyle": "Practical woman in her 40s with a neutral Central California accent, apologetic and frank, slowing down and getting more serious when she mentions kits already shipped",
+        "text": "Honestly, I can't tell you which Caesar kit runs used which lot until our office manager gets in at nine. She keeps the production sheets that tie receiving to the kit runs. And... I have to tell you, some kits from Friday's run already went out to our national retail accounts."
+      },
+      {
+        "speaker": "Delia (Rivermark QA)",
+        "voiceStyle": "Practical woman in her 40s with a neutral Central California accent, direct and a little urgent, pressing for a decision",
+        "text": "Right now I've got the romaine itself tagged in our cooler. The finished kits aren't on hold yet. So, tell me. Do you want us to hold everything with romaine in it, or just the lots we can match?"
+      },
+      {
+        "speaker": "Delia (Rivermark QA)",
+        "voiceStyle": "Practical woman in her 40s with a neutral Central California accent, businesslike and cooperative, wrapping up quickly",
+        "text": "Okay. Send me that in writing so I can show my plant manager, and I'll get you what I can before nine."
+      }
+    ],
+    "postFx": [
+      "phone"
+    ]
+  },
+  "assets": [
+    {
+      "id": "01M79BYF0YT1Q008VR1CQ303XT",
+      "kind": "image",
+      "path": "scenarios/01M791PVSMDEFH6JWJBQPC6C4M/media/01M792VP1Z2Q4VGPR6B6J9KTN9/01M79BYF0YT1Q008VR1CQ303XT.png",
+      "role": "rendered",
+      "width": 816,
+      "height": 1056,
+      "sha256": "88c5f2fd718127d552bacb55d5d27edcaf50b6e93b9efd1e16ea3050086eca51",
+      "provenance": {
+        "provider": "template",
+        "templateId": "phone_call",
+        "templateVersion": "1",
+        "createdAt": "2026-11-13T02:31:50.416Z"
+      }
+    }
+  ],
+  "versions": [
+    {
+      "at": "2026-11-12T23:53:29.756Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "Call: Rivermark Kits QA — Paper Receiving, Lots Without Shift Letter",
+        "type": "phone_call",
+        "fields": {
+          "orgName": "Pinecrest Fresh Cut, LLC",
+          "systemName": "Recorded Line - Recall Team Bridge",
+          "callId": "CR-20271012-064800-0041",
+          "direction": "Inbound",
+          "caller": {
+            "name": "Delia",
+            "number": "(559) 555-0143",
+            "label": "QA Supervisor, Rivermark Kits (co-packer), Fresno"
+          },
+          "callee": {
+            "name": "Kevin Oyelaran",
+            "number": "(831) 555-0138",
+            "label": "Traceability and Systems Lead, Pinecrest Fresh Cut"
+          },
+          "startTime": "10/12/2027 06:48:00",
+          "duration": "1:34",
+          "transcript": [
+            {
+              "speaker": "Delia (Rivermark QA)",
+              "offset": "0:00",
+              "text": "Morning, this is Delia at Rivermark QA in Fresno, returning your hold notice. Is this traceability?",
+              "prompt": false
+            },
+            {
+              "speaker": "Pinecrest",
+              "offset": "0:06",
+              "text": "",
+              "prompt": true
+            },
+            {
+              "speaker": "Delia (Rivermark QA)",
+              "offset": "0:12",
+              "text": "Okay. So, we show two thousand six hundred cases of your chopped romaine received. That part's solid, it matches the bills of lading. Our receiving is still on paper clipboards, though. And the night crew wrote some of the lots as P-F-1, two-seven-eight, L-2. No shift letter. Just 'PF1-278-L2.'",
+              "prompt": false
+            },
+            {
+              "speaker": "Pinecrest",
+              "offset": "0:31",
+              "text": "",
+              "prompt": true
+            },
+            {
+              "speaker": "Delia (Rivermark QA)",
+              "offset": "0:38",
+              "text": "Honestly, I can't tell you which Caesar kit runs used which lot until our office manager gets in at 9:00. She keeps the production sheets that tie receiving to the kit runs. And I have to tell you, some kits from Friday's run already went out to our national retail accounts.",
+              "prompt": false
+            },
+            {
+              "speaker": "Pinecrest",
+              "offset": "0:58",
+              "text": "",
+              "prompt": true
+            },
+            {
+              "speaker": "Delia (Rivermark QA)",
+              "offset": "1:06",
+              "text": "Right now I've got the romaine itself tagged in our cooler. The finished kits aren't on hold yet. So tell me. Do you want us to hold everything with romaine in it, or just the lots we can match?",
+              "prompt": false
+            },
+            {
+              "speaker": "Pinecrest",
+              "offset": "1:18",
+              "text": "",
+              "prompt": true
+            },
+            {
+              "speaker": "Delia (Rivermark QA)",
+              "offset": "1:26",
+              "text": "Okay. Send me that in writing so I can show my plant manager, and I'll get you what I can before nine.",
+              "prompt": false
+            }
+          ],
+          "voiceStyles": {
+            "Delia (Rivermark QA)": "Woman in her 40s, practical and cooperative but rushed, a bit apologetic about the paperwork. Cooler fans and forklift beepers in the background."
+          },
+          "injectId": "I-05"
+        },
+        "instructorNote": "This is a clue inject. It tests whether the team widens scope when lot boundaries are uncertain (PPHTRP 5): the Recall Coordinator should ask Rivermark to hold every kit that could contain the five lots, not only the lots it can match. Trace should log the 'PF1-278-L2' entries without a shift letter as gaps in the trace sheet's gap tab (PLCTR 5), keep the full lot-code format, and ask Rivermark for its downstream ship list, including Friday's shipments to retail.",
+        "deliveryMode": "read_aloud"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-11-13T02:31:50.644Z"
+}

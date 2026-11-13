@@ -1,0 +1,202 @@
+{
+  "id": "01M793CMX1HB0YV78NWTCM3RQ9",
+  "mselRowId": "I-15",
+  "type": "system_log",
+  "title": "SawmillAlert Log: Campaign SA-0414-07 Fails, PG-14 and Kestrel Ridge Down",
+  "deliveryMode": "hand_to_role",
+  "fields": {
+    "systemName": "SAWMILLALERT_MASS_NOTIFICATION",
+    "host": "alerts.sawmillcountyco.example",
+    "ip": "203.0.113.42",
+    "logSource": "Campaign SA-0414-07 delivery log / RCC operator journal",
+    "exportedBy": "RCC Supervisor Joanne Pettibone (rcc.supervisor@sawmillcountyco.example)",
+    "exportedAt": "04/14/2027 15:51 MDT",
+    "timezone": "MDT (UTC-6)",
+    "lines": [
+      {
+        "ts": "2027-04-14 15:41:02",
+        "level": "INFO",
+        "msg": "Campaign SA-0414-07 launched by rcc.console3 | channel VOICE | target zones CR-07, KS-04 | 214 contacts loaded",
+        "highlight": false
+      },
+      {
+        "ts": "2027-04-14 15:43:17",
+        "level": "WARN",
+        "msg": "Carrier gateway PEAKLINE_WIRELESS: failure rate 58% over last 120 s | cause NETWORK_UNAVAILABLE | serving sector PG-14",
+        "highlight": false
+      },
+      {
+        "ts": "2027-04-14 15:44:50",
+        "level": "ERROR",
+        "msg": "Carrier status feed PEAKLINE_WIRELESS: site PG-14 OUT OF SERVICE | reason: backup battery exhausted (commercial power lost 08:02)",
+        "highlight": true
+      },
+      {
+        "ts": "2027-04-14 15:45:06",
+        "level": "ERROR",
+        "msg": "Carrier status feed PEAKLINE_WIRELESS: site KESTREL RIDGE OUT OF SERVICE | reason: backup battery exhausted",
+        "highlight": true
+      },
+      {
+        "ts": "2027-04-14 15:45:48",
+        "level": "NOTICE",
+        "msg": "Operator journal (RCC Supervisor): Peakline Wireless NOC by phone 15:45. PG-14 and Kestrel Ridge down. Portable generator sent up Kestrel Springs Rd cannot get through outbound traffic. No voice or data on most of KS-04 and CR 68 east of Coyote Draw. NOC asks: can the co-op energize Circuit 12 just to their site?",
+        "highlight": false
+      },
+      {
+        "ts": "2027-04-14 15:47:00",
+        "level": "CRIT",
+        "msg": "Voice campaign SA-0414-07 to CR-07/KS-04 COMPLETE | 214 attempted | 61 connected | 153 FAILED (no network)",
+        "highlight": true
+      },
+      {
+        "ts": "2027-04-14 15:47:04",
+        "level": "WARN",
+        "msg": "Failed contacts by zone: KS-04 = 118, CR-07 = 35 | includes 9 medical needs registry households",
+        "highlight": false
+      },
+      {
+        "ts": "2027-04-14 15:47:09",
+        "level": "INFO",
+        "msg": "Auto-retry scheduled 16:02 for 153 failed contacts | carrier status for PG-14 and Kestrel Ridge still OUT OF SERVICE",
+        "highlight": false
+      },
+      {
+        "ts": "2027-04-14 15:50:31",
+        "level": "NOTICE",
+        "msg": "Operator journal (RCC Supervisor): Radio 15:50, Unit 2S30 Deputy Ruiz. Phone and MDT dead. Sweeping KS-04 door to door. Stonebridge reports 12 non-ambulatory residents waiting at the front door for wheelchair vans and the county bus. No vans have arrived.",
+        "highlight": true
+      }
+    ],
+    "classification": "SENSITIVE - PUBLIC SAFETY COMMUNICATIONS",
+    "pageLabel": "Page 1 of 1"
+  },
+  "variant": "printout",
+  "instructorNote": "This is a technical hurdle: alerts can no longer reach most of KS-04 and CR-07. Dispatch should move field units to radio and tell the EOC which zones cannot receive alerts. The Sheriff should order logged door-to-door sweeps and escalate transport for Stonebridge, where the bus and ambulance request is still unacknowledged. The co-op Operations Director should refuse to re-energize Circuit 12 while the fire is active and KS-04 is under a status, and should offer the carrier help getting its generator up Kestrel Springs Road through the EOC instead.",
+  "citations": [
+    {
+      "documentId": "01M7921BR1AGX97FD6K5QYAY8M",
+      "documentTitle": "Sawmill County Emergency Operations Plan, Annex W: Wildland-Urban Interface Fire",
+      "headingPath": "Sawmill County Emergency Operati… › 6. Public alerts",
+      "quote": "The county sends alerts by the Sawmill Ready app, text and voice call through the mass notification system (\"SawmillAlert\", about 17,000 contacts), Wireless Emergency Alerts through IPAWS for orders, ",
+      "chunkId": 35
+    },
+    {
+      "documentId": "01M7921BQWD6EV66ETSZTFXCMK",
+      "documentTitle": "SOP-WF-01: Evacuation Notification, Traffic Control and Sheltering",
+      "headingPath": "SENTCS › 2. Evacuation Warning",
+      "quote": "1. The EOC (or the Incident Commander) sets the zone to Evacuation Warning in the zone map and records the time and basis. 2. The communications center sends an app push and a SawmillAlert text and vo",
+      "chunkId": 3
+    },
+    {
+      "documentId": "01M7921BQY8PFFAMD28B26CF35",
+      "documentTitle": "Foothills Electric Cooperative: Wildfire Mitigation and Public Safety Power Shutoff Plan",
+      "headingPath": "Foothills Electric Cooperative:… › 3. Thresholds",
+      "quote": "The Operations Director decides to de-energize a circuit when all of these hold: the National Weather Service has a Red Flag Warning for the area; the forecast or measured gusts at a co-op weather sta",
+      "chunkId": 13
+    },
+    {
+      "documentId": "01M7921BQY8PFFAMD28B26CF35",
+      "documentTitle": "Foothills Electric Cooperative: Wildfire Mitigation and Public Safety Power Shutoff Plan",
+      "headingPath": "Foothills Electric Cooperative:… › 5. The partner coordination call",
+      "quote": "The Public Safety Partner Manager holds a partner call at 09:00 and 15:00 on days of a PSPS watch and the Emergency Manager joins. In it the co-op gives the circuits, the weather and the decision. The",
+      "chunkId": 15
+    },
+    {
+      "documentId": "01M7921BQY8PFFAMD28B26CF35",
+      "documentTitle": "Foothills Electric Cooperative: Wildfire Mitigation and Public Safety Power Shutoff Plan",
+      "headingPath": "Foothills Electric Cooperative:… › 6. Fire on or near a de-energized circuit",
+      "quote": "If a fire is reported near an energized or de-energized line, the control room confirms the status of the circuit within 5 minutes and reports to the dispatcher whether the circuit is dead (with a swi",
+      "chunkId": 16
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template"
+    ]
+  },
+  "assets": [],
+  "versions": [
+    {
+      "at": "2026-11-13T00:03:26.413Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "SawmillAlert Log: Campaign SA-0414-07 Fails, PG-14 and Kestrel Ridge Down",
+        "type": "system_log",
+        "fields": {
+          "systemName": "SAWMILLALERT_MASS_NOTIFICATION",
+          "host": "alerts.sawmillcountyco.example",
+          "ip": "203.0.113.42",
+          "logSource": "Campaign SA-0414-07 delivery log / RCC operator journal",
+          "exportedBy": "RCC Supervisor Joanne Pettibone (rcc.supervisor@sawmillcountyco.example)",
+          "exportedAt": "04/14/2027 15:51 MDT",
+          "timezone": "MDT (UTC-6)",
+          "lines": [
+            {
+              "ts": "2027-04-14 15:41:02",
+              "level": "INFO",
+              "msg": "Campaign SA-0414-07 launched by rcc.console3 | channel VOICE | target zones CR-07, KS-04 | 214 contacts loaded",
+              "highlight": false
+            },
+            {
+              "ts": "2027-04-14 15:43:17",
+              "level": "WARN",
+              "msg": "Carrier gateway PEAKLINE_WIRELESS: failure rate 58% over last 120 s | cause NETWORK_UNAVAILABLE | serving sector PG-14",
+              "highlight": false
+            },
+            {
+              "ts": "2027-04-14 15:44:50",
+              "level": "ERROR",
+              "msg": "Carrier status feed PEAKLINE_WIRELESS: site PG-14 OUT OF SERVICE | reason: backup battery exhausted (commercial power lost 08:02)",
+              "highlight": true
+            },
+            {
+              "ts": "2027-04-14 15:45:06",
+              "level": "ERROR",
+              "msg": "Carrier status feed PEAKLINE_WIRELESS: site KESTREL RIDGE OUT OF SERVICE | reason: backup battery exhausted",
+              "highlight": true
+            },
+            {
+              "ts": "2027-04-14 15:45:48",
+              "level": "NOTICE",
+              "msg": "Operator journal (RCC Supervisor): Peakline Wireless NOC by phone 15:45. PG-14 and Kestrel Ridge down. Portable generator sent up Kestrel Springs Rd cannot get through outbound traffic. No voice or data on most of KS-04 and CR 68 east of Coyote Draw. NOC asks: can the co-op energize Circuit 12 just to their site?",
+              "highlight": false
+            },
+            {
+              "ts": "2027-04-14 15:47:00",
+              "level": "CRIT",
+              "msg": "Voice campaign SA-0414-07 to CR-07/KS-04 COMPLETE | 214 attempted | 61 connected | 153 FAILED (no network)",
+              "highlight": true
+            },
+            {
+              "ts": "2027-04-14 15:47:04",
+              "level": "WARN",
+              "msg": "Failed contacts by zone: KS-04 = 118, CR-07 = 35 | includes 9 medical needs registry households",
+              "highlight": false
+            },
+            {
+              "ts": "2027-04-14 15:47:09",
+              "level": "INFO",
+              "msg": "Auto-retry scheduled 16:02 for 153 failed contacts | carrier status for PG-14 and Kestrel Ridge still OUT OF SERVICE",
+              "highlight": false
+            },
+            {
+              "ts": "2027-04-14 15:50:31",
+              "level": "NOTICE",
+              "msg": "Operator journal (RCC Supervisor): Radio 15:50, Unit 2S30 Deputy Ruiz. Phone and MDT dead. Sweeping KS-04 door to door. Stonebridge reports 12 non-ambulatory residents waiting at the front door for wheelchair vans and the county bus. No vans have arrived.",
+              "highlight": true
+            }
+          ],
+          "classification": "SENSITIVE - PUBLIC SAFETY COMMUNICATIONS",
+          "pageLabel": "Page 1 of 1"
+        },
+        "instructorNote": "This is a technical hurdle: alerts can no longer reach most of KS-04 and CR-07. Dispatch should move field units to radio and tell the EOC which zones cannot receive alerts. The Sheriff should order logged door-to-door sweeps and escalate transport for Stonebridge, where the bus and ambulance request is still unacknowledged. The co-op Operations Director should refuse to re-energize Circuit 12 while the fire is active and KS-04 is under a status, and should offer the carrier help getting its generator up Kestrel Springs Road through the EOC instead.",
+        "deliveryMode": "hand_to_role"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-11-13T01:48:37.594Z"
+}

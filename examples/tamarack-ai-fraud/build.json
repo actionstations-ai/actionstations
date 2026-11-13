@@ -1,0 +1,47 @@
+{
+  "id": "tamarack-ai-fraud",
+  "title": "Tamarack Precision Components: Deepfaked CFO and Urgent Wires",
+  "domainProfile": "ai_incidents",
+  "summary": "A Greenville, South Carolina manufacturer's finance, security, legal and communications teams and their simulated payment, AI incident and executive-verification plans, with an exercise generated from them: a deepfaked video meeting with the CFO and General Counsel drives four urgent wires while the real CFO is on a flight, then a fake CEO video reaches the press.",
+  "notice": "EXERCISE MATERIAL — for training use. Tamarack Precision Components, its banks, vendors, people and amounts are simulated; the public sources consulted for realism are listed in reference/tamarack-ai-fraud/SOURCES.md. Synthetic media in this exercise is fictional, carries a transcript and a text description, and depicts no real person.",
+  "project": {
+    "name": "Tamarack Precision Components, Finance and Security",
+    "orgName": "Tamarack Precision Components, Inc.",
+    "orgType": "ai_incidents",
+    "toolkits": ["ai_incidents", "media_environment"],
+    "brand": {
+      "city": "Greenville",
+      "region": "South Carolina",
+      "aliases": {
+        "org": "Tamarack Precision Components, Inc.",
+        "orgShort": "Tamarack",
+        "orgDomain": "tamarackprecision.example",
+        "bank": "First Meridian Commercial Bank"
+      }
+    }
+  },
+  "documents": { "dir": "reference/tamarack-ai-fraud", "exclude": ["SOURCES.md"] },
+  "media": { "aiImagesPerScenario": 2, "ttsPerScenario": 2 },
+  "scenarios": [
+    {
+      "key": "deepfake-wires",
+      "startWallClock": "09:30",
+      "threatFamily": "cyber",
+      "summary": "On a Tuesday morning in September a Tamarack treasury analyst joins a video meeting with what appears to be the CFO and the General Counsel and is told to wire money for a secret acquisition; four wires totaling $2.64 million are requested while the real CFO is unreachable on a flight, and by afternoon a fake CEO video is on social media and in a reporter's inbox.",
+      "userPrompt": "Tuesday, September 14, 2027, Greenville, South Carolina. The exercise starts at 09:30 Eastern. CFO Marcus Delacroix-Hume boarded a flight to Querétaro at 09:10 (lands 12:50 Eastern, no Wi-Fi); CEO Beatrix Aldgate-Moreno is in the building. At 09:40 Treasury Analyst Ines Okonkwo-Hart gets a calendar invitation from an external address to an urgent confidential meeting 'to finish the Querétaro machining acquisition'. At 10:05 she joins a video meeting in which a video of the CFO and of General Counsel Priscilla Aranguren (both synthetic, with cloned voices) instruct her to wire an 'escrow deposit' and to keep it confidential until the announcement; the details match the real, secret acquisition talks known to seven people. Four wires are requested: $480,000 at 10:50, $1,150,000 at 11:35, $620,000 at 13:10 (before the international 15:00 Eastern cutoff) and $390,000 at 15:00, to accounts at a bank abroad (an exercise bank, not real). Pressure points: callback is required by policy for new beneficiaries and payments over $250,000, but the CFO's phone is off in the air and the 'CFO' says to skip it; Treasury Manager Gareth Lindqvist-Boyd is at a plant visit; Controller Anjali Whitcombe is the second approver and is pushed by a chat message from a lookalike account; the $1,150,000 wire needs the CFO's level of approval (the 'CFO' approves on video; the Treasury Workstation's token is not his); the analyst releases the first three wires at 10:55, 11:40 and 13:15; the real CFO lands at 12:50, switches on his phone at 13:55 and calls the Controller at 14:05 asking about the payment approvals, which is the detection; the fourth wire is stopped before release (HOLD); the CISO Rafael Oyelaran-Pierce declares the incident at 14:12; evidence preservation of the recording, invitation, chat and Workstation audit log; the meeting-platform logs show the 'CFO' joined as an external guest from an outside address; SynthCheck returns a score of 0.71 with its 6 percent false positive and 11 percent false negative rates and there are no Content Credentials, so the detector is one input only; the bank fraud desk is called at 14:20 (recall, freeze, written recall within 30 minutes), the beneficiary bank freezes only the third wire's funds ($620,000) while the first two have moved on; the FBI IC3 report within 72 hours and a call to the field office because the loss exceeds $1 million, asking about the Financial Fraud Kill Chain; the insurer within 24 hours; the Audit Committee chair within 24 hours because the loss exceeds $1 million; the signed reconciliation (requested $2,640,000, released $2,250,000, stopped $390,000, frozen $620,000); at 16:20 a clip of a synthetic 'CEO' announcing the acquisition and layoffs at the Spartanburg plant appears on social media and a Greenville business reporter emails a request for comment before the 17:00 deadline; the Director of Corporate Communications must verify with the CEO, issue a holding statement within 60 minutes, send a takedown request with evidence to the platform's trust and safety team and message employees before or with the external statement; counts and amounts in every message must match the Controller's signed figures; and whether the real acquisition counterparties, vendors and suppliers who may be contacted by the same fraudsters must be warned. The SimCell plays the bank fraud desk and the beneficiary bank, the FBI, the insurer and broker, outside counsel, the platform trust and safety team, the reporter, employees at the Spartanburg plant, the acquisition counterparty and the meeting platform.",
+      "audience": [
+        "Treasury Manager",
+        "Controller",
+        "Chief Financial Officer",
+        "Chief Information Security Officer",
+        "General Counsel",
+        "Director of Corporate Communications"
+      ],
+      "constraints": [
+        "Every email address of the company uses the exercise domain tamarackprecision.example; outside parties use fictional domains; never a real bank, company, platform or newspaper domain; account numbers are obviously fictional.",
+        "Synthetic media items are exercise material: each carries a transcript and a text description, is marked as synthetic, and no real person's likeness or name is used; a detector score is always given with its false positive and false negative rates; amounts come only from the Controller's signed reconciliation.",
+        "Player roles are only those in the audience list; the Treasury Analyst, the real and fake executives, the bank, the FBI, the insurer, the platform, reporters and employees are played by the SimCell."
+      ]
+    }
+  ]
+}

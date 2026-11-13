@@ -13,7 +13,11 @@ import {
   scenarioIdFor,
   shippedScenario,
 } from '../../scripts/bench/corpus.mjs'
-import { scenarioBudget, PIPELINE_STAGES } from '../../scripts/bench/mini/budget.mjs'
+import {
+  draftedInTheCloud,
+  scenarioBudget,
+  PIPELINE_STAGES,
+} from '../../scripts/bench/mini/budget.mjs'
 import { rerunCall, runProbes, streamGuardOptions } from '../../scripts/bench/mini/probes.mjs'
 import { replayMiniRun, tableMarkdown } from '../../scripts/bench/mini/replay.mjs'
 import { lmsCommands, manageModel, parseMiniArgs } from '../../scripts/bench/mini/run.mjs'
@@ -120,6 +124,12 @@ describe('the scenario token budget', () => {
     expect(b.modelStages).toBe(mini.scenarioBudget.modelStages)
     expect(b.inputTokens).toBe(mini.scenarioBudget.inputTokens)
     expect(b.outputTokens).toBe(mini.scenarioBudget.outputTokens)
+  })
+
+  it('leaves out examples a hosted model drafted, whose counts include billed thinking', () => {
+    const run = (model: string) => ({ model, stage: 'rubric' })
+    expect(draftedInTheCloud({ provenance: [run('qwen3-30b-a3b-2507')] })).toBe(false)
+    expect(draftedInTheCloud({ provenance: [run('qwen3'), run('claude-opus-5-5')] })).toBe(true)
   })
 
   it('lists the same stages as the pipeline', () => {

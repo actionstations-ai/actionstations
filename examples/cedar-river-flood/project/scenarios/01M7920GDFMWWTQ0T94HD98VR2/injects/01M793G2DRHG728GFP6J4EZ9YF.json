@@ -1,0 +1,113 @@
+{
+  "id": "01M793G2DRHG728GFP6J4EZ9YF",
+  "mselRowId": "I-14",
+  "type": "scenario_update",
+  "title": "18:00 Forecast Holds at 23.4 ft; PS1 Loses Utility Power",
+  "deliveryMode": "read_aloud",
+  "fields": {
+    "exerciseTime": "2:50",
+    "scenarioTime": "22:00 CDT, Wednesday 21 April 2027",
+    "headline": "Crest holds; Pump Station 1 on diesel",
+    "deliverTo": "Levee District, Public Works, Wastewater Plant and EOC Command",
+    "narration": "At 18:27 CDT Wednesday the EOC receives the 18:00 issuance:\n\nTEST...FLOOD WARNING...TEST\nNATIONAL WEATHER SERVICE QUAD CITIES IA/IL\n600 PM CDT WED APR 21 2027\n...THIS IS AN EXERCISE MESSAGE...\nTHE FLOOD WARNING CONTINUES FOR THE CEDAR RIVER AT CEDAR FORD (CFDI4).\n* WHAT CHANGED...THE UPSTREAM CREST HAS PASSED THE INDEX GAUGES. THE FORECAST CREST IS UNCHANGED AT 23.4 FEET AT 6 AM SATURDAY, AND THE UNCERTAINTY HAS NARROWED FROM ABOUT 1.5 FEET TO ABOUT HALF A FOOT. THE RIVER STILL REACHES 19.0 FEET AROUND 2 PM THURSDAY.\n* AT 5:00 PM WEDNESDAY THE STAGE WAS 16.4 FEET.\n* MAJOR FLOODING IS FORECAST.\n* FORECAST...THE RIVER WILL RISE ABOVE 17.0 FEET AROUND 10 PM TONIGHT, ABOVE 19.0 FEET AROUND 2 PM THURSDAY, AND CREST NEAR 23.4 FEET AT 6 AM SATURDAY.\n* IMPACT...AT 19.0 FEET, THE CEDAR HOLLOW NEIGHBORHOOD FLOODS AND THE WASTEWATER PLANT ACCESS ROAD IS UNDER WATER. AT 23.0 FEET, LEVEE SEEPAGE IS EXPECTED AND HOMES BEHIND THE LEVEE ARE AT RISK.\n...TEST...$$\n\nIt is now 22:00 CDT Wednesday, and CFDI4 reads 17.0 ft. The Cedar Hollow decision stands as the Coordinator recorded it by 20:00. At 21:40 the City of Cedar Ford street crew closed the Mill Street underpass with its four barricades, and the Levee District has closed the pump station gates with the PS1 outlet flap gate seated.\n\nAt 22:04 the radio comes up: \"District, PS1. We just lost the utility feeder. The Substation 4 breaker tripped. The utility dispatcher at 319-555-0151 says a tree is down on the line in the bottoms. There's no restore time, and they won't send a crew into standing water tonight. I've switched to diesel. Both 36-inch units on line are running, and the day tank is full. The clock starts now. That's 36 hours, so I'm empty around 10:00 Friday and at half around 16:00 Thursday.\"\n\nA minute later the wastewater plant gets a text from its shift operator: \"Access road is dry, but 19.0 ft hits it tomorrow at 14:00. The generator move needs the flatbed, and that flatbed is also on the Hollow Court list.\"",
+    "keyFacts": [
+      "The forecast in force is the 18:00 Wednesday issuance, received 18:27: crest 23.4 ft at 06:00 Saturday, about ±0.5 ft. The river reaches 19.0 ft around 14:00 Thursday.",
+      "CFDI4 reads 17.0 ft at 22:00. The Mill Street underpass has been closed since 21:40, and River Road has been closed since 07:30.",
+      "PS1 has been on diesel since 22:04 with no utility restore time. Its tank reaches half around 16:00 Thursday and runs empty around 10:00 Friday.",
+      "The wastewater plant access road is dry now but goes under at 19.0 ft, around 14:00 Thursday.",
+      "There is one flatbed. The plant's generator and chemical move and the Hollow Court Care Center move both need it."
+    ],
+    "expectedAction": "EM logs the 18:00 issuance as the current basis and checks the Cedar Hollow decision against it (EOP 6.1). If no order went out by 20:00, EM records the shorter clearance time. LEV sends an ICS 213 for PS1 diesel to county Logistics before 04:00 Thursday, 12 hours before the tank reaches half (District Plan 6). PW keeps the plant access road open. EM settles the flatbed conflict so the plant can move its portable chemicals and generators above 24.0 ft before the river reaches 19.0 ft (EOP 6.5).",
+    "facilitatorNote": "Read the product block slowly, or show it on screen, then read the radio call in the operator's voice. If players ask, no second flatbed is available tonight. Utility power stays out until the SimCell says otherwise.",
+    "scenarioTitle": "Eighteen Hours — Rising Crest, Evacuation Clock & Levee Fight",
+    "injectId": "I-14"
+  },
+  "variant": "default",
+  "instructorNote": "This is a technical hurdle with two parts. Watch whether the Levee District turns the 36-hour diesel clock into a fuel request with a deadline (an ICS 213 before 04:00 Thursday). Watch whether EOC Command assigns the single flatbed to the plant move or the Hollow Court move, rather than both teams assuming they have it.",
+  "citations": [
+    {
+      "documentId": "01M7920ECZWJEHH7AGDGVH5CZT",
+      "documentTitle": "Tallis County Emergency Operations Plan, Annex F: River Flooding",
+      "headingPath": "Tallis County Emergency Operatio… › 2. Situation",
+      "quote": "The Cedar River enters Tallis County from the north and flows southeast through Cedar Ford before leaving the county. The county's forecast point is **Cedar River at Cedar Ford (NWS identifier CFDI4, ",
+      "chunkId": 13
+    },
+    {
+      "documentId": "01M7920ECZWJEHH7AGDGVH5CZT",
+      "documentTitle": "Tallis County Emergency Operations Plan, Annex F: River Flooding",
+      "headingPath": "Tallis County Emergency Operatio… › 6. Decisions and lead times",
+      "quote": "1. **Evacuation of Cedar Hollow.** The area floods at 19.0 ft. The clearance time is 12 hours (140 homes, 22 households with medical needs, a 36-bed assisted living facility, Hollow Court Care Center,",
+      "chunkId": 17
+    },
+    {
+      "documentId": "01M7920ED1TVF1QP5RHV87AY9G",
+      "documentTitle": "Levee and Drainage District No. 3: Flood Fight Plan",
+      "headingPath": "Levee and Drainage District No.… › 1. The district and its works",
+      "quote": "The district was organized in 1951 under Iowa law to protect the south side of Cedar Ford. It maintains 3.8 miles of earthen levee on the right bank of the Cedar River, two pump stations (Pump Station",
+      "chunkId": 30
+    },
+    {
+      "documentId": "01M7920ED1TVF1QP5RHV87AY9G",
+      "documentTitle": "Levee and Drainage District No. 3: Flood Fight Plan",
+      "headingPath": "Levee and Drainage District No.… › 6. Pump station operation",
+      "quote": "Pump Station 1 moves the district's interior drainage when the river is above 15 ft and the flap gate at the outlet closes. At 17 ft the Assistant Superintendent switches to diesel backup if the PUD f",
+      "chunkId": 35
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template"
+    ]
+  },
+  "assets": [
+    {
+      "id": "01M799BH5RX07TFMES0061M8RW",
+      "kind": "image",
+      "path": "scenarios/01M7920GDFMWWTQ0T94HD98VR2/media/01M793G2DRHG728GFP6J4EZ9YF/01M799BH5RX07TFMES0061M8RW.png",
+      "role": "rendered",
+      "width": 816,
+      "height": 1056,
+      "sha256": "6bf2a09d8638518e0a47758f48f80d1d8cffeb430ded5dd004fbfa1e25ec1a39",
+      "provenance": {
+        "provider": "template",
+        "templateId": "scenario_update",
+        "templateVersion": "1",
+        "createdAt": "2026-11-13T01:46:32.897Z"
+      }
+    }
+  ],
+  "versions": [
+    {
+      "at": "2026-11-13T00:04:33.286Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "18:00 Forecast Holds at 23.4 ft; PS1 Loses Utility Power",
+        "type": "scenario_update",
+        "fields": {
+          "exerciseTime": "2:50",
+          "scenarioTime": "22:00 CDT, Wednesday 21 April 2027",
+          "headline": "Crest holds; Pump Station 1 on diesel",
+          "deliverTo": "Levee District, Public Works, Wastewater Plant and EOC Command",
+          "narration": "At 18:27 CDT Wednesday the EOC receives the 18:00 issuance:\n\nTEST...FLOOD WARNING...TEST\nNATIONAL WEATHER SERVICE QUAD CITIES IA/IL\n600 PM CDT WED APR 21 2027\n...THIS IS AN EXERCISE MESSAGE...\nTHE FLOOD WARNING CONTINUES FOR THE CEDAR RIVER AT CEDAR FORD (CFDI4).\n* WHAT CHANGED...THE UPSTREAM CREST HAS PASSED THE INDEX GAUGES. THE FORECAST CREST IS UNCHANGED AT 23.4 FEET AT 6 AM SATURDAY, AND THE UNCERTAINTY HAS NARROWED FROM ABOUT 1.5 FEET TO ABOUT HALF A FOOT. THE RIVER STILL REACHES 19.0 FEET AROUND 2 PM THURSDAY.\n* AT 5:00 PM WEDNESDAY THE STAGE WAS 16.4 FEET.\n* MAJOR FLOODING IS FORECAST.\n* FORECAST...THE RIVER WILL RISE ABOVE 17.0 FEET AROUND 10 PM TONIGHT, ABOVE 19.0 FEET AROUND 2 PM THURSDAY, AND CREST NEAR 23.4 FEET AT 6 AM SATURDAY.\n* IMPACT...AT 19.0 FEET, THE CEDAR HOLLOW NEIGHBORHOOD FLOODS AND THE WASTEWATER PLANT ACCESS ROAD IS UNDER WATER. AT 23.0 FEET, LEVEE SEEPAGE IS EXPECTED AND HOMES BEHIND THE LEVEE ARE AT RISK.\n...TEST...$$\n\nIt is now 22:00 CDT Wednesday, and CFDI4 reads 17.0 ft. The Cedar Hollow decision stands as the Coordinator recorded it by 20:00. At 21:40 the City of Cedar Ford street crew closed the Mill Street underpass with its four barricades, and the Levee District has closed the pump station gates with the PS1 outlet flap gate seated.\n\nAt 22:04 the radio comes up: \"District, PS1. We just lost the utility feeder. The Substation 4 breaker tripped. The utility dispatcher at 319-555-0151 says a tree is down on the line in the bottoms. There's no restore time, and they won't send a crew into standing water tonight. I've switched to diesel. Both 36-inch units on line are running, and the day tank is full. The clock starts now. That's 36 hours, so I'm empty around 10:00 Friday and at half around 16:00 Thursday.\"\n\nA minute later the wastewater plant gets a text from its shift operator: \"Access road is dry, but 19.0 ft hits it tomorrow at 14:00. The generator move needs the flatbed, and that flatbed is also on the Hollow Court list.\"",
+          "keyFacts": [
+            "The forecast in force is the 18:00 Wednesday issuance, received 18:27: crest 23.4 ft at 06:00 Saturday, about ±0.5 ft. The river reaches 19.0 ft around 14:00 Thursday.",
+            "CFDI4 reads 17.0 ft at 22:00. The Mill Street underpass has been closed since 21:40, and River Road has been closed since 07:30.",
+            "PS1 has been on diesel since 22:04 with no utility restore time. Its tank reaches half around 16:00 Thursday and runs empty around 10:00 Friday.",
+            "The wastewater plant access road is dry now but goes under at 19.0 ft, around 14:00 Thursday.",
+            "There is one flatbed. The plant's generator and chemical move and the Hollow Court Care Center move both need it."
+          ],
+          "expectedAction": "EM logs the 18:00 issuance as the current basis and checks the Cedar Hollow decision against it (EOP 6.1). If no order went out by 20:00, EM records the shorter clearance time. LEV sends an ICS 213 for PS1 diesel to county Logistics before 04:00 Thursday, 12 hours before the tank reaches half (District Plan 6). PW keeps the plant access road open. EM settles the flatbed conflict so the plant can move its portable chemicals and generators above 24.0 ft before the river reaches 19.0 ft (EOP 6.5).",
+          "facilitatorNote": "Read the product block slowly, or show it on screen, then read the radio call in the operator's voice. If players ask, no second flatbed is available tonight. Utility power stays out until the SimCell says otherwise.",
+          "scenarioTitle": "Eighteen Hours — Rising Crest, Evacuation Clock & Levee Fight",
+          "injectId": "I-14"
+        },
+        "instructorNote": "This is a technical hurdle with two parts. Watch whether the Levee District turns the 36-hour diesel clock into a fuel request with a deadline (an ICS 213 before 04:00 Thursday). Watch whether EOC Command assigns the single flatbed to the plant move or the Hollow Court move, rather than both teams assuming they have it.",
+        "deliveryMode": "read_aloud"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-11-13T01:46:33.099Z"
+}

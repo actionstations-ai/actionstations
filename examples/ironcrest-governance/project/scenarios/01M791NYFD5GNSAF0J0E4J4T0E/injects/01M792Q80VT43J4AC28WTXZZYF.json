@@ -1,0 +1,158 @@
+{
+  "id": "01M792Q80VT43J4AC28WTXZZYF",
+  "mselRowId": "START",
+  "type": "startex_card",
+  "title": "STARTEX: Level 3 Declared, CMT Bridge Opens",
+  "deliveryMode": "read_aloud",
+  "fields": {
+    "startTime": "15:00 CT",
+    "day": "Thursday, March 25, 2027",
+    "location": "Ironcrest Machinery Corporation (fictional): Headquarters, Rockford, Illinois; Plants 1–3 in Rockford, Beloit and Dubuque; Parts Distribution Center, Joliet",
+    "weather": "Rockford overcast, 44°F, light wind. No weather issues at any site.",
+    "load": "Quarter-end push, six days before quarter end. Joliet was on track for its usual 4,100 parts orders.",
+    "staffing": "Normal three-shift production at Plants 1, 2 and 3. Crisis Management Team members are joining the bridge now.",
+    "narration": "STARTEX. This is an exercise. It is 15:00 Central Time on Thursday, March 25, 2027, six days before quarter end. All three plants were on normal three-shift production for the quarter-end push. At 13:40 Plant 3 Dubuque reported a hung MES. At 14:05 the SOC found ransomware encrypting the file servers and the MES at the Rockford data center. At 14:25 CISO Anil Deshmukh isolated the network, and at 14:50 CEO Thomas Aldridge declared Level 3. The Crisis Management Team is now joining the bridge at (815) 555-0121. This is an exercise aid, not legal advice. Check the current rule and your counsel.",
+    "status": [
+      {
+        "name": "Manufacturing execution system (MES), Rockford data center",
+        "status": "red",
+        "note": "Ransomware encrypting since at least 14:05 CT. RTO is 8 hours."
+      },
+      {
+        "name": "File servers, Rockford data center",
+        "status": "red",
+        "note": "Encryption found by the SOC at 14:05 CT."
+      },
+      {
+        "name": "Corporate network",
+        "status": "yellow",
+        "note": "Isolated at 14:25 CT by the CISO. Status of connected systems not yet confirmed."
+      },
+      {
+        "name": "Plant 3 Dubuque MES",
+        "status": "yellow",
+        "note": "Reported hung at 13:40 CT. Cause not yet confirmed."
+      },
+      {
+        "name": "Life-safety, fire and gas systems, all sites",
+        "status": "green",
+        "note": "Normal. These run on separate networks."
+      },
+      {
+        "name": "Crisis governance",
+        "status": "yellow",
+        "note": "Level 3 declared at 14:50 CT by the CEO. CMT must meet within 60 minutes of the declaration."
+      }
+    ],
+    "facilitatorNote": "Before you read, check that every role has the ICMP and IBIARO extracts and a blank one-page decision log. Do not give out MES backup age, replica status, ransom demand or which other systems are affected. Those come in later injects.",
+    "scenarioTitle": "Six Days Out: MES Ransomware, Materiality & Disclosure",
+    "injectId": "START"
+  },
+  "variant": "default",
+  "instructorNote": "This card sets the baseline and starts the clock. Watch for three things: the CEO confirms the 14:50 Level 3 declaration and that the CMT met within 60 minutes; the BCM opens the decision log with time, decision, who decided, what was known and the basis (ICMP 3); and the team accepts 14:05 as the discovery time, which means the materiality clock is already running.",
+  "citations": [
+    {
+      "documentId": "01M791NWETPNJ2B6DP42BR9D8C",
+      "documentTitle": "ICM-BCM-02: Business Impact Analysis and Recovery Order",
+      "headingPath": "IBIARO › 5. Sites and dependencies",
+      "quote": "- **Plant 1, Rockford, Illinois**, 3,200 employees, three shifts, builds 38 percent of transmissions; has a data center with the MES and PLM servers. A fire or power loss triggers the plant emergency ",
+      "chunkId": 15
+    },
+    {
+      "documentId": "01M791NWEVAZDEE6NB6D1690HB",
+      "documentTitle": "ICM-CMP-01: Crisis Management Plan",
+      "headingPath": "ICMP › 3. Activation levels",
+      "quote": "- **Level 1, Watch:** a single plant or function affected, restored within 24 hours. The COO and the function head manage; the Business Continuity Manager (BCM) logs it. - **Level 2, Alert:** more tha",
+      "chunkId": 22
+    },
+    {
+      "documentId": "01M791NWETPNJ2B6DP42BR9D8C",
+      "documentTitle": "ICM-BCM-02: Business Impact Analysis and Recovery Order",
+      "headingPath": "IBIARO › 3. Critical functions",
+      "quote": "| Function | System or site | RTO | RPO | MTPD | MASL | |---|---|---|---|---|---| | Plant control networks and machine controllers, Plants 1 to 3 | PLC networks, historians | 4 hours | 0 | 12 hours | ",
+      "chunkId": 13
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template"
+    ]
+  },
+  "assets": [
+    {
+      "id": "01M79BVMVKDZT1H9J0WKWKADBE",
+      "kind": "image",
+      "path": "scenarios/01M791NYFD5GNSAF0J0E4J4T0E/media/01M792Q80VT43J4AC28WTXZZYF/01M79BVMVKDZT1H9J0WKWKADBE.png",
+      "role": "rendered",
+      "width": 816,
+      "height": 1056,
+      "sha256": "fe307a1be31ddded6f0dca9d9b45b85b51d54b90eae409f2cc3d4966720af427",
+      "provenance": {
+        "provider": "template",
+        "templateId": "startex_card",
+        "templateVersion": "1",
+        "createdAt": "2026-11-13T02:30:18.039Z"
+      }
+    }
+  ],
+  "versions": [
+    {
+      "at": "2026-11-12T23:50:53.825Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "STARTEX: Level 3 Declared, CMT Bridge Opens",
+        "type": "startex_card",
+        "fields": {
+          "startTime": "15:00 CT",
+          "day": "Thursday, March 25, 2027",
+          "location": "Ironcrest Machinery Corporation (fictional): Headquarters, Rockford, Illinois; Plants 1–3 in Rockford, Beloit and Dubuque; Parts Distribution Center, Joliet",
+          "weather": "Rockford overcast, 44°F, light wind. No weather issues at any site.",
+          "load": "Quarter-end push, six days before quarter end. Joliet was on track for its usual 4,100 parts orders.",
+          "staffing": "Normal three-shift production at Plants 1, 2 and 3. Crisis Management Team members are joining the bridge now.",
+          "narration": "STARTEX. This is an exercise. It is 15:00 Central Time on Thursday, March 25, 2027, six days before quarter end. All three plants were on normal three-shift production for the quarter-end push. At 13:40 Plant 3 Dubuque reported a hung MES. At 14:05 the SOC found ransomware encrypting the file servers and the MES at the Rockford data center. At 14:25 CISO Anil Deshmukh isolated the network, and at 14:50 CEO Thomas Aldridge declared Level 3. The Crisis Management Team is now joining the bridge at (815) 555-0121. This is an exercise aid, not legal advice. Check the current rule and your counsel.",
+          "status": [
+            {
+              "name": "Manufacturing execution system (MES), Rockford data center",
+              "status": "red",
+              "note": "Ransomware encrypting since at least 14:05 CT. RTO is 8 hours."
+            },
+            {
+              "name": "File servers, Rockford data center",
+              "status": "red",
+              "note": "Encryption found by the SOC at 14:05 CT."
+            },
+            {
+              "name": "Corporate network",
+              "status": "yellow",
+              "note": "Isolated at 14:25 CT by the CISO. Status of connected systems not yet confirmed."
+            },
+            {
+              "name": "Plant 3 Dubuque MES",
+              "status": "yellow",
+              "note": "Reported hung at 13:40 CT. Cause not yet confirmed."
+            },
+            {
+              "name": "Life-safety, fire and gas systems, all sites",
+              "status": "green",
+              "note": "Normal. These run on separate networks."
+            },
+            {
+              "name": "Crisis governance",
+              "status": "yellow",
+              "note": "Level 3 declared at 14:50 CT by the CEO. CMT must meet within 60 minutes of the declaration."
+            }
+          ],
+          "facilitatorNote": "Before you read, check that every role has the ICMP and IBIARO extracts and a blank one-page decision log. Do not give out MES backup age, replica status, ransom demand or which other systems are affected. Those come in later injects.",
+          "scenarioTitle": "Six Days Out: MES Ransomware, Materiality & Disclosure",
+          "injectId": "START"
+        },
+        "instructorNote": "This card sets the baseline and starts the clock. Watch for three things: the CEO confirms the 14:50 Level 3 declaration and that the CMT met within 60 minutes; the BCM opens the decision log with time, decision, who decided, what was known and the basis (ICMP 3); and the team accepts 14:05 as the discovery time, which means the materiality clock is already running.",
+        "deliveryMode": "read_aloud"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-11-13T02:30:18.361Z"
+}

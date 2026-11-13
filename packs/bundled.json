@@ -1167,7 +1167,8 @@
           "triage_tag"
         ],
         "domains": ["nursing"],
-        "toolkits": ["clinical_care"]
+        "toolkits": ["clinical_care"],
+        "examples": ["gulf-coast-nursing"]
       }
     },
     {
@@ -1194,7 +1195,8 @@
           "pharmacy_temperature_log"
         ],
         "domains": ["pharmacy"],
-        "toolkits": ["pharmacy"]
+        "toolkits": ["pharmacy"],
+        "examples": ["hospital-pharmacy-shortage"]
       }
     },
     {
@@ -1204,7 +1206,8 @@
       "tags": ["campus", "education"],
       "domains": ["campus"],
       "contents": {
-        "domains": ["campus"]
+        "domains": ["campus"],
+        "examples": ["emgt-course"]
       }
     },
     {
@@ -1329,7 +1332,8 @@
       "tags": ["epidemiology", "outbreak", "public-health", "infection-prevention"],
       "domains": ["epidemiology"],
       "contents": {
-        "domains": ["epidemiology"]
+        "domains": ["epidemiology"],
+        "examples": ["foodborne-outbreak"]
       }
     },
     {
@@ -1464,7 +1468,8 @@
       "tags": ["meteorology", "weather", "forecast"],
       "domains": ["meteorology"],
       "contents": {
-        "domains": ["meteorology"]
+        "domains": ["meteorology"],
+        "examples": ["brennan-weather"]
       }
     },
     {
@@ -1492,7 +1497,8 @@
       "tags": ["healthcare", "informatics", "ehr"],
       "domains": ["health_informatics"],
       "contents": {
-        "domains": ["health_informatics"]
+        "domains": ["health_informatics"],
+        "examples": ["ehr-downtime"]
       }
     },
     {
@@ -1502,7 +1508,8 @@
       "tags": ["communications", "journalism", "public-information"],
       "domains": ["crisis_comms"],
       "contents": {
-        "domains": ["crisis_comms"]
+        "domains": ["crisis_comms"],
+        "examples": ["tallis-comms"]
       }
     },
     {
@@ -1552,7 +1559,8 @@
           "road_closure_notice",
           "sandbag_pump_request",
           "substantial_damage_letter"
-        ]
+        ],
+        "examples": ["cedar-river-flood"]
       }
     },
     {
@@ -1579,7 +1587,8 @@
           "outbreak_response_checklist",
           "pms_outage_board",
           "port_health_notification"
-        ]
+        ],
+        "examples": ["halcyon-reach-cruises"]
       }
     },
     {
@@ -1612,7 +1621,8 @@
           "cad_radio_traffic",
           "station_alert_text",
           "mutual_aid_request"
-        ]
+        ],
+        "examples": ["county-ems-mci"]
       }
     },
     {
@@ -1622,7 +1632,8 @@
       "tags": ["environmental", "oil-spill", "response"],
       "domains": ["environmental_response"],
       "contents": {
-        "domains": ["environmental_response"]
+        "domains": ["environmental_response"],
+        "examples": ["pipeline-river-spill"]
       }
     },
     {
@@ -1657,7 +1668,8 @@
       "tags": ["geoscience", "earthquake", "volcano", "tsunami"],
       "domains": ["geoscience"],
       "contents": {
-        "domains": ["geoscience"]
+        "domains": ["geoscience"],
+        "examples": ["cascadia-coast"]
       }
     },
     {
@@ -1717,7 +1729,8 @@
       "tags": ["ai", "deepfake", "fraud", "trust-and-safety"],
       "domains": ["ai_incidents"],
       "contents": {
-        "domains": ["ai_incidents"]
+        "domains": ["ai_incidents"],
+        "examples": ["tamarack-ai-fraud"]
       }
     },
     {
@@ -1739,7 +1752,8 @@
           "justice_evidence_log",
           "justice_family_notice",
           "justice_negotiation_log"
-        ]
+        ],
+        "examples": ["wren-sheriff"]
       }
     },
     {
@@ -1749,7 +1763,8 @@
       "tags": ["research-labs", "biosafety", "select-agent", "compliance"],
       "domains": ["research_labs"],
       "contents": {
-        "domains": ["research_labs"]
+        "domains": ["research_labs"],
+        "examples": ["bsl2-exposure"]
       }
     },
     {
@@ -1807,7 +1822,8 @@
       "tags": ["animal-health", "veterinary", "agriculture", "livestock"],
       "domains": ["animal_health"],
       "contents": {
-        "domains": ["animal_health"]
+        "domains": ["animal_health"],
+        "examples": ["hpai-turkey-complex"]
       }
     },
     {
@@ -1838,7 +1854,8 @@
       "domains": ["supply_chain"],
       "contents": {
         "domains": ["supply_chain"],
-        "regulations": ["fda_recall_reporting", "fsma_204_records"]
+        "regulations": ["fda_recall_reporting", "fsma_204_records"],
+        "examples": ["pinecrest-recall"]
       }
     },
     {
@@ -1864,7 +1881,8 @@
           "space_figure",
           "swpc_cme_discussion",
           "swpc_message"
-        ]
+        ],
+        "examples": ["grid-geomagnetic-storm"]
       }
     },
     {
@@ -1874,7 +1892,8 @@
       "tags": ["governance", "risk", "business-continuity", "disclosure"],
       "domains": ["governance"],
       "contents": {
-        "domains": ["governance"]
+        "domains": ["governance"],
+        "examples": ["ironcrest-governance"]
       }
     },
     {
@@ -1943,7 +1962,8 @@
           "hs_unreleased_student_tracker",
           "hs_where_is_my_child_script",
           "pfa_handout"
-        ]
+        ],
+        "examples": ["crisis-center-988"]
       }
     },
     {
@@ -1970,7 +1990,8 @@
           "wildfire_school_air_notice",
           "wildfire_shelter_notice",
           "wildfire_smoke_advisory"
-        ]
+        ],
+        "examples": ["foothills-wui-fire"]
       }
     },
     {
@@ -2008,7 +2029,8 @@
           "humanitarian_security_risk_assessment",
           "humanitarian_shipment_status",
           "humanitarian_warehouse_report"
-        ]
+        ],
+        "examples": ["cyclone-relief-ngo"]
       }
     },
     {
@@ -2017,7 +2039,11 @@
       "summary": "Construction and building safety domain: contractor, owner and design team, building department and post-disaster evaluation program, with six threat families.",
       "tags": ["construction", "engineering", "building-safety"],
       "domains": ["construction"],
-      "contents": { "domains": ["construction"], "regulations": ["osha_1904_39"] }
+      "contents": {
+        "domains": ["construction"],
+        "regulations": ["osha_1904_39"],
+        "examples": ["larkspur-construction"]
+      }
     },
     {
       "id": "ai.actionstations.toolkit-structures",

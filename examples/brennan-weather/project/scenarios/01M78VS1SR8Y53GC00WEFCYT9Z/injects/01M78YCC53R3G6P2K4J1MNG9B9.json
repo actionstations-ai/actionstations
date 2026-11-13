@@ -1,0 +1,127 @@
+{
+  "id": "01M78YCC53R3G6P2K4J1MNG9B9",
+  "mselRowId": "I-18b",
+  "type": "helpdesk_ticket",
+  "title": "IT Ticket BCIT-26-07714: Sunday Patch Window for BrennanAlert Console",
+  "deliveryMode": "hand_to_role",
+  "fields": {
+    "ticketNo": "BCIT-26-07714",
+    "priority": "Planning",
+    "impact": "Low",
+    "urgency": "Low",
+    "status": "New",
+    "requester": "Brennan County IT – Change Management (automated)",
+    "requesterContact": "helpdesk@brennancoky.example",
+    "contactType": "Monitoring",
+    "category": "Change Management",
+    "subcategory": "Scheduled Change – Monthly Security Patching (P4)",
+    "location": "BCEMA EOC – Warning Officer position, mass notification console",
+    "configurationItem": "BCEMA-EOC-WO1 / BrennanAlert integration service",
+    "opened": "2026-12-12 00:55:07",
+    "assignmentGroup": "BCIT Endpoint & Server Patching",
+    "subject": "SCHEDULED MAINTENANCE — Mass notification console workstation and BrennanAlert integration service",
+    "description": "SCHEDULED MAINTENANCE — Mass notification console workstation and BrennanAlert integration service.\n\nMonthly security patches will install Sunday 12/13 from 02:00 to 02:45 CST.\n\nWhat to expect:\n- Workstation BCEMA-EOC-WO1 will reboot automatically up to twice during the window.\n- The BrennanAlert send queue will pause during each reboot. Messages queued during a pause will release when the integration service restarts.\n- No action is needed if the window is acceptable.\n\nTo defer: reply DEFER with a business justification before Saturday 12/12 12:00 CST. Deferred changes move to the next approved maintenance window.\n\nRef CHG-1188.\n\nThis ticket was generated automatically by the change calendar. Replies go to the Change Management queue, which is staffed Monday–Friday 07:30–16:30.",
+    "activity": [
+      {
+        "author": "System",
+        "time": "2026-12-12 00:55:09",
+        "kind": "system",
+        "text": "Notification emailed to assigned stakeholder: Warning Officer (BCEMA). Reply options: ACCEPT / DEFER."
+      },
+      {
+        "author": "System",
+        "time": "2026-12-12 00:55:07",
+        "kind": "system",
+        "text": "Ticket BCIT-26-07714 created from change CHG-1188 (scheduled job: monthly stakeholder notices, run 00:55). Window: 2026-12-13 02:00–02:45 CST."
+      },
+      {
+        "author": "Change Management",
+        "time": "2026-12-09 14:12:30",
+        "kind": "work_note",
+        "text": "CHG-1188 approved at the weekly change review. Scope: monthly OS and browser security updates for county endpoints in Patch Group 3 (EOC and public safety consoles). Auto-reboot enabled, max 2. Stakeholder notice to be sent by automated job before the window."
+      }
+    ],
+    "systemName": "County ServiceDesk",
+    "orgName": "Brennan County IT"
+  },
+  "variant": "default",
+  "instructorNote": "This is a noise inject. The Warning Officer should reply DEFER, give active recovery messaging as the reason, and log the change. Watch for anyone blaming tonight's 1,142 failed texts on the patch. Those failures came from north-end cell towers losing power, and the patch window does not open until Sunday 02:00.",
+  "citations": [
+    {
+      "documentId": "01M78VRZSEQB263A174HAR8J6D",
+      "documentTitle": "BCEMA-SOP-02: Warning and Notification",
+      "headingPath": "BWN › 4. BrennanAlert (mass notification)",
+      "quote": "BrennanAlert reaches about 14,200 subscribers by text, voice call and email; voice calls take up to 12 minutes to complete for the whole county. The Warning Officer sends: 1. When a tornado warning in",
+      "chunkId": 30
+    },
+    {
+      "documentId": "01M78VRZS9YA4B9N7KSFQ74871",
+      "documentTitle": "Brennan County — Facilities, Populations and Warning Systems",
+      "headingPath": "BCFPWS › 3. Warning systems",
+      "quote": "- **Sirens:** 46 sirens in four zones (North 12, Central 16, South 10, East 8). Encoder at 911 Position 2, backup at the EOC. Polling reports battery and rotation faults; two North zone sirens (N-07 a",
+      "chunkId": 4
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template"
+    ]
+  },
+  "assets": [],
+  "versions": [
+    {
+      "at": "2026-11-12T22:35:09.985Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "IT Ticket BCIT-26-07714: Sunday Patch Window for BrennanAlert Console",
+        "type": "helpdesk_ticket",
+        "fields": {
+          "ticketNo": "BCIT-26-07714",
+          "priority": "Planning",
+          "impact": "Low",
+          "urgency": "Low",
+          "status": "New",
+          "requester": "Brennan County IT – Change Management (automated)",
+          "requesterContact": "helpdesk@brennancoky.example",
+          "contactType": "Monitoring",
+          "category": "Change Management",
+          "subcategory": "Scheduled Change – Monthly Security Patching (P4)",
+          "location": "BCEMA EOC – Warning Officer position, mass notification console",
+          "configurationItem": "BCEMA-EOC-WO1 / BrennanAlert integration service",
+          "opened": "2026-12-12 00:55:07",
+          "assignmentGroup": "BCIT Endpoint & Server Patching",
+          "subject": "SCHEDULED MAINTENANCE — Mass notification console workstation and BrennanAlert integration service",
+          "description": "SCHEDULED MAINTENANCE — Mass notification console workstation and BrennanAlert integration service.\n\nMonthly security patches will install Sunday 12/13 from 02:00 to 02:45 CST.\n\nWhat to expect:\n- Workstation BCEMA-EOC-WO1 will reboot automatically up to twice during the window.\n- The BrennanAlert send queue will pause during each reboot. Messages queued during a pause will release when the integration service restarts.\n- No action is needed if the window is acceptable.\n\nTo defer: reply DEFER with a business justification before Saturday 12/12 12:00 CST. Deferred changes move to the next approved maintenance window.\n\nRef CHG-1188.\n\nThis ticket was generated automatically by the change calendar. Replies go to the Change Management queue, which is staffed Monday–Friday 07:30–16:30.",
+          "activity": [
+            {
+              "author": "System",
+              "time": "2026-12-12 00:55:09",
+              "kind": "system",
+              "text": "Notification emailed to assigned stakeholder: Warning Officer (BCEMA). Reply options: ACCEPT / DEFER."
+            },
+            {
+              "author": "System",
+              "time": "2026-12-12 00:55:07",
+              "kind": "system",
+              "text": "Ticket BCIT-26-07714 created from change CHG-1188 (scheduled job: monthly stakeholder notices, run 00:55). Window: 2026-12-13 02:00–02:45 CST."
+            },
+            {
+              "author": "Change Management",
+              "time": "2026-12-09 14:12:30",
+              "kind": "work_note",
+              "text": "CHG-1188 approved at the weekly change review. Scope: monthly OS and browser security updates for county endpoints in Patch Group 3 (EOC and public safety consoles). Auto-reboot enabled, max 2. Stakeholder notice to be sent by automated job before the window."
+            }
+          ],
+          "systemName": "County ServiceDesk",
+          "orgName": "Brennan County IT"
+        },
+        "instructorNote": "This is a noise inject. The Warning Officer should reply DEFER, give active recovery messaging as the reason, and log the change. Watch for anyone blaming tonight's 1,142 failed texts on the patch. Those failures came from north-end cell towers losing power, and the patch window does not open until Sunday 02:00.",
+        "deliveryMode": "hand_to_role"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-11-13T02:43:41.442Z"
+}

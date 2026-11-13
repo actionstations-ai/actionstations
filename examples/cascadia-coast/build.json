@@ -1,0 +1,52 @@
+{
+  "id": "cascadia-coast",
+  "title": "Marlow County Emergency Management: Cascadia earthquake and local tsunami",
+  "domainProfile": "geoscience",
+  "summary": "A fictional Oregon coastal county (18 tsunami sirens, MarlowAlert, a 25-bed hospital and an elementary school inside the evacuation zone) and an exercise generated from its simulated plans: a magnitude 9 Cascadia earthquake on a spring-break weekday morning, a local tsunami with the first wave about 20 minutes away, a damaged bridge, and a large aftershock.",
+  "notice": "EXERCISE MATERIAL — for training use. Marlow County, its agencies, people, utilities, businesses and sites are simulated; the public sources consulted for realism are listed in reference/cascadia-coast/SOURCES.md.",
+  "project": {
+    "name": "Marlow County Emergency Management",
+    "orgName": "Marlow County Emergency Management",
+    "orgType": "geoscience",
+    "toolkits": ["seismic", "tsunami"],
+    "brand": {
+      "city": "Port Alder",
+      "region": "Marlow County, Oregon",
+      "aliases": {
+        "org": "Marlow County Emergency Management",
+        "orgShort": "MCEM",
+        "orgDomain": "marlowcountyor.example"
+      }
+    }
+  },
+  "documents": {
+    "dir": "reference/cascadia-coast",
+    "exclude": ["SOURCES.md"]
+  },
+  "media": {
+    "aiImagesPerScenario": 2,
+    "ttsPerScenario": 2
+  },
+  "scenarios": [
+    {
+      "key": "m9-local-tsunami",
+      "startWallClock": "10:00",
+      "threatFamily": "natural_hazard",
+      "summary": "A magnitude 9 Cascadia earthquake strikes 80 km off Marlow County on a Tuesday in April; shaking lasts more than four minutes, the Alder River bridge is damaged, the hospital and the elementary school are inside the zone, and the county must order evacuation, keep messages consistent and manage a damaging aftershock while the tsunami warning stays in effect.",
+      "userPrompt": "Tuesday 13 April 2027, spring break, Pacific Daylight Time. The exercise starts at 10:00 with the Marlow County EOC (Director Gwen Halvorsen, Tsunami and Warning Coordinator Priya Natarajan, PIO Dale Whitcomb) in normal status and about 3,800 visitors in the tsunami zone. At 10:14 a magnitude 9.0 earthquake ruptures the Cascadia Subduction Zone about 80 km west of Port Alder; a ShakeAlert alert reaches the 911 center and some phones with seconds of warning at the coast and the first magnitude estimate is lower than the final one. Shaking at intensity IX lasts over four minutes; power fails across the county, cell service degrades within the hour, and three of the 18 tsunami sirens (two in Port Alder and one at the state park) do not sound. At about 10:19 the National Tsunami Warning Center issues a Tsunami Warning for the Oregon coast with first arrival at Port Alder around 10:36 to 10:40; the first wave at the harbor tide gauge is observed at 10:38 and later waves are larger. Pressure points: the county must order XL and XXL evacuation without waiting for any message and keep every message to the same zone names and the same magnitude; Marlow Coast Community Hospital (25 beds) is evacuating non-ambulatory patients to the Kellerton Station 3 apron; Port Alder Elementary School (210 students) walks to Spruce Hill and reunification at Marlow Coast High School; Cedar Court assisted living (48 residents) needs vans and will not make the assembly area in time; the 1936 Highway 101 Alder River bridge is damaged and carries the gas main; the Neskin grade on Highway 6 is blocked by a landslide; Cape Marlow PUD reports about 14,500 meters out; a viral post says the tsunami is over after the first wave and people begin to walk back to the harbor; the Harbor Master asks whether to send boats to deep water with 20 minutes left; the 911 center at 118 Front Street floods and moves to the EOC backup; the first ShakeMap and PAGER estimates are revised twice; at 11:52 a magnitude 7.6 aftershock hits and the USGS aftershock forecast is released; the Building Official must prioritize placards for the hospital, the 911 center, the shelter at Marlow Coast High School and downtown masonry, and the green placard must not be read as a guarantee against aftershocks; the NTWC warning remains in effect and the county decides when to give a return order. Decisions the exercise should record: early warning actions taken at the hospital, fire stations and school with the time completed; evacuation orders and their time against the first wave; tsunami message upgrades and the county message level; road and bridge closures; building placards; public statements. The SimCell plays the National Tsunami Warning Center, the USGS earthquake information center and seismic network, Oregon Emergency Management, ODOT District 2, the Coast Guard, neighboring Tillamook and Lincoln counties, Cape Marlow PUD, the Red Cross, the ARES amateur radio group, reporters and residents.",
+      "audience": [
+        "EM Director / EOC Command",
+        "Tsunami and Warning Coordinator",
+        "Public Information Officer",
+        "911 Supervisor",
+        "Fire District and Sheriff Field Operations",
+        "Building Official and Public Works"
+      ],
+      "constraints": [
+        "Every county email address uses the exercise domain marlowcountyor.example; outside parties use fictional domains; never a real agency, company or newspaper domain.",
+        "Tsunami messages follow the National Tsunami Warning Center message levels (Warning, Advisory, Watch, Information Statement) and are marked as exercise products; the county never upgrades or cancels an NTWC message; earthquake products give magnitude and intensity as ranges or labeled versions and aftershock chances as probabilities; times are Pacific Daylight Time.",
+        "Player roles are only those in the audience list; the National Tsunami Warning Center, USGS, Oregon Emergency Management, ODOT, the Coast Guard, utilities, hospital and school staff, the Red Cross, reporters and residents are played by the SimCell."
+      ]
+    }
+  ]
+}

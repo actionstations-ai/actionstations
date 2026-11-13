@@ -1,0 +1,204 @@
+{
+  "id": "01M794C6SEAAZCN95KWAHXSA6V",
+  "mselRowId": "I-01b",
+  "type": "phone_call",
+  "title": "Call from the Purser's Desk: Two Guests Missed All-Aboard at Cozumel",
+  "deliveryMode": "read_aloud",
+  "fields": {
+    "orgName": "Halcyon Reach Cruises — MV Halcyon Dawn",
+    "systemName": "Recorded Line - Hotel Director's Office",
+    "callId": "CR-20270218-194012-0231",
+    "direction": "Internal",
+    "caller": {
+      "name": "Assistant Purser",
+      "number": "Ext. 2210",
+      "label": "Purser's Office, Guest Services Desk"
+    },
+    "callee": {
+      "name": "Hotel Director",
+      "number": "Ext. 1500",
+      "label": "Hotel Director's Office"
+    },
+    "startTime": "02/18/2027 19:40:12",
+    "duration": "0:58",
+    "transcript": [
+      {
+        "speaker": "Assistant Purser",
+        "offset": "0:00",
+        "text": "Hi, it's the Assistant Purser at the front desk. Have you got a minute? It's a quick one.",
+        "prompt": false
+      },
+      {
+        "speaker": "Hotel Director",
+        "offset": "0:05",
+        "text": "Go ahead.",
+        "prompt": false
+      },
+      {
+        "speaker": "Assistant Purser",
+        "offset": "0:07",
+        "text": "So, two guests from cabin P-7114 missed all-aboard in Cozumel. The port agent has them. They're fine, and they'll fly home from Cancún tomorrow. Security has closed out their cards, and I'm updating the manifest now.",
+        "prompt": false
+      },
+      {
+        "speaker": "Assistant Purser",
+        "offset": "0:22",
+        "text": "My question is about the board in your office. It still says 2,980 passengers. Should I change it to 2,978? Accounting wants the onboard number right for the gala headcount tomorrow night, and, well, it would make the medical percentages look a bit better too.",
+        "prompt": false
+      },
+      {
+        "speaker": "Assistant Purser",
+        "offset": "0:41",
+        "text": "I'm also sending the new number to the medical center so their log matches. Can I go ahead and change both before I go off at eight?",
+        "prompt": true
+      }
+    ],
+    "voiceStyles": {
+      "Assistant Purser": "Woman in her 30s, friendly and efficient, a bit rushed near the end of her shift, guest chatter and a ringing desk phone behind her",
+      "Hotel Director": "Calm and brief, in a quiet office"
+    },
+    "injectId": "I-01b"
+  },
+  "variant": "default",
+  "instructorNote": "This noise inject tests the denominator rule. HOTEL and CMO should refuse the change. HR-HSP-02 section 2 and the fleet definitions keep every percentage on the embarkation count of 2,980 passengers, so only the gala headcount can use the live manifest. Watch for anyone who accepts 2,978 or lets the board and the medical log show different numbers.",
+  "citations": [
+    {
+      "documentId": "01M793DS5V5XMJ53EWWKE3XRTQ",
+      "documentTitle": "HR-HSP-02: Medical Log, Case Counting and Authority Reports",
+      "headingPath": "HR-HSP-02: Medical Log, Case Cou… › 2. Persons on board at embarkation (Halcyon Dawn)",
+      "quote": "Passengers: 2,980 (the February 14 sailing was full). Crew: 1,120. All percentages use these denominators. The Purser's office confirms the denominator at embarkation and posts it on the Hotel Directo",
+      "chunkId": 13
+    },
+    {
+      "documentId": "01M793DS5W3ZMAW18YW321RER3",
+      "documentTitle": "HR-HSP-01: Outbreak Prevention and Response Plan (Acute Gastroenteritis)",
+      "headingPath": "HOPRPG › 2. Definitions the fleet uses",
+      "quote": "- **Reportable AGE case:** a passenger or crew member who reports to the medical center, or is identified by a cabin steward or supervisor, with diarrhea (three or more loose stools in 24 hours, or mo",
+      "chunkId": 22
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template",
+      "tts"
+    ],
+    "voiceLines": [
+      {
+        "speaker": "Assistant Purser",
+        "voiceStyle": "Friendly, efficient woman in her 30s with a neutral American accent, upbeat and polite, speaking fairly quickly like someone at a busy guest services desk",
+        "text": "Hi, it's the Assistant Purser at the front desk. Have you got a minute? It's a quick one."
+      },
+      {
+        "speaker": "Hotel Director",
+        "voiceStyle": "Calm male hotel director in his 50s, low and brief, unhurried, speaking from a quiet office",
+        "text": "Go ahead."
+      },
+      {
+        "speaker": "Assistant Purser",
+        "voiceStyle": "Friendly, efficient woman in her 30s with a neutral American accent, matter-of-fact and reassuring, steady pace",
+        "text": "So, two guests from cabin P, seven one one four, missed all-aboard in Cozumel. The port agent has them. They're fine, and they'll fly home from Cancún tomorrow. Security has closed out their cards, and I'm updating the manifest now."
+      },
+      {
+        "speaker": "Assistant Purser",
+        "voiceStyle": "Same woman in her 30s, casual and a little conspiratorial, light laugh in her voice on the last part, slightly rushed",
+        "text": "My question is about the board in your office. It still says two thousand, nine hundred eighty passengers. Should I change it to two thousand, nine hundred seventy-eight? Accounting wants the onboard number right for the gala headcount tomorrow night, and, well... it would make the medical percentages look a bit better too."
+      },
+      {
+        "speaker": "Assistant Purser",
+        "voiceStyle": "Same woman in her 30s, hurried and eager to wrap up near the end of her shift, upward questioning tone",
+        "text": "I'm also sending the new number to the medical center so their log matches. Can I go ahead and change both before I go off at eight?"
+      }
+    ],
+    "postFx": [
+      "phone"
+    ]
+  },
+  "assets": [
+    {
+      "id": "01M79C5VGZFDR547CHR6NRTSV8",
+      "kind": "image",
+      "path": "scenarios/01M793DV6BXG2CK1KF55JQE9A4/media/01M794C6SEAAZCN95KWAHXSA6V/01M79C5VGZFDR547CHR6NRTSV8.png",
+      "role": "rendered",
+      "width": 816,
+      "height": 1056,
+      "sha256": "50f158047b8c6c2aa2859ab4ead9f13d057d0687aa59904ba07c21aff64a187d",
+      "provenance": {
+        "provider": "template",
+        "templateId": "phone_call",
+        "templateVersion": "1",
+        "createdAt": "2026-11-13T02:35:52.630Z"
+      }
+    }
+  ],
+  "versions": [
+    {
+      "at": "2026-11-13T00:20:07.788Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "Call from the Purser's Desk: Two Guests Missed All-Aboard at Cozumel",
+        "type": "phone_call",
+        "fields": {
+          "orgName": "Halcyon Reach Cruises — MV Halcyon Dawn",
+          "systemName": "Recorded Line - Hotel Director's Office",
+          "callId": "CR-20270218-194012-0231",
+          "direction": "Internal",
+          "caller": {
+            "name": "Assistant Purser",
+            "number": "Ext. 2210",
+            "label": "Purser's Office, Guest Services Desk"
+          },
+          "callee": {
+            "name": "Hotel Director",
+            "number": "Ext. 1500",
+            "label": "Hotel Director's Office"
+          },
+          "startTime": "02/18/2027 19:40:12",
+          "duration": "0:58",
+          "transcript": [
+            {
+              "speaker": "Assistant Purser",
+              "offset": "0:00",
+              "text": "Hi, it's the Assistant Purser at the front desk. Have you got a minute? It's a quick one.",
+              "prompt": false
+            },
+            {
+              "speaker": "Hotel Director",
+              "offset": "0:05",
+              "text": "Go ahead.",
+              "prompt": false
+            },
+            {
+              "speaker": "Assistant Purser",
+              "offset": "0:07",
+              "text": "So, two guests from cabin P-7114 missed all-aboard in Cozumel. The port agent has them. They're fine, and they'll fly home from Cancún tomorrow. Security has closed out their cards, and I'm updating the manifest now.",
+              "prompt": false
+            },
+            {
+              "speaker": "Assistant Purser",
+              "offset": "0:22",
+              "text": "My question is about the board in your office. It still says 2,980 passengers. Should I change it to 2,978? Accounting wants the onboard number right for the gala headcount tomorrow night, and, well, it would make the medical percentages look a bit better too.",
+              "prompt": false
+            },
+            {
+              "speaker": "Assistant Purser",
+              "offset": "0:41",
+              "text": "I'm also sending the new number to the medical center so their log matches. Can I go ahead and change both before I go off at eight?",
+              "prompt": true
+            }
+          ],
+          "voiceStyles": {
+            "Assistant Purser": "Woman in her 30s, friendly and efficient, a bit rushed near the end of her shift, guest chatter and a ringing desk phone behind her",
+            "Hotel Director": "Calm and brief, in a quiet office"
+          },
+          "injectId": "I-01b"
+        },
+        "instructorNote": "This noise inject tests the denominator rule. HOTEL and CMO should refuse the change. HR-HSP-02 section 2 and the fleet definitions keep every percentage on the embarkation count of 2,980 passengers, so only the gala headcount can use the live manifest. Watch for anyone who accepts 2,978 or lets the board and the medical log show different numbers.",
+        "deliveryMode": "read_aloud"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-11-13T02:36:06.817Z"
+}

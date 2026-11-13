@@ -1,0 +1,111 @@
+{
+  "id": "01M794RESJGHVMRHZW91PXRZ4G",
+  "mselRowId": "I-11",
+  "type": "incident_alert_notification",
+  "title": "Duty Line Alert: CFO Denies Approvals, $2.25M Out",
+  "deliveryMode": "display_main_screen",
+  "fields": {
+    "sender": "Tamarack Precision Components — Security Duty Officer",
+    "senderShortCode": "864-555-0100",
+    "headline": "SECURITY DUTY ALERT — SUSPECTED EXECUTIVE IMPERSONATION, WIRES RELEASED",
+    "body": "Duty officer to CISO, cc General Counsel. Confirmed: real CFO reached on his directory number. He approved nothing. WIRE-0914-001/-002/-003, total $2,250,000, released 10:55, 11:40 and 13:15 to Escrow Fiduciaria Bajío SA. WIRE-0914-004 $390,000 now on HOLD. Both 'executives' in the 10:05 meeting joined as external guests from 203.0.113.84.",
+    "issuedAt": "Tue Sep 14, 2027 14:10 EDT",
+    "areaAffected": "Treasury and Finance — Greenville HQ; Treasury Workstation; meeting platform",
+    "instructions": [
+      "RISK: Treasury Analyst has asked IT whether she can 'clear the meeting chat so it doesn't spread.' IT has not acted yet.",
+      "RISK: The recording of meeting 'Project escrow – confidential' is owned by the external organizer. Retention is organizer-controlled, so it can be deleted at any time.",
+      "RISK: GC's assistant forwarded a 13:48 email 'from Priscilla Aranguren' asking Treasury to 'proceed with the final tranche.' Priscilla Aranguren says she sent no such email.",
+      "DECISION: Do you want me to open the incident under TPC-SEC-02? Bridge 864-555-0100, code 4417, can be up on your word. Reply or call the duty line."
+    ],
+    "severity": "warning",
+    "isTest": false,
+    "clock": "2:10"
+  },
+  "variant": "sms",
+  "instructorNote": "This alert pulls the confirmed facts together and pushes the CISO to declare a combined fraud and synthetic-media incident at about 14:12 under TPC-SEC-02. Watch for an explicit no-deletion order covering the chat, recording, invite, lookalike chat, 13:48 email and Workstation audit log. Also check that the General Counsel issues a legal hold, starts the IC3, insurer and Audit Committee clocks, and that the bank fraud desk call follows next.",
+  "citations": [
+    {
+      "documentId": "01M793JZB4ZJNT2ZBRQ5YGP5FS",
+      "documentTitle": "TPC-SEC-02: AI and Synthetic Media Incident Response Plan",
+      "headingPath": "TPC-SEC-02: AI and Synthetic Med… › 4. First hour",
+      "quote": "1. **Hold:** put every pending payment connected to the request on HOLD. 2. **Verify:** reach the impersonated person on a known number, not through the channel in question. 3. **Preserve:** save the ",
+      "chunkId": 5
+    },
+    {
+      "documentId": "01M793JZB4ZJNT2ZBRQ5YGP5FS",
+      "documentTitle": "TPC-SEC-02: AI and Synthetic Media Incident Response Plan",
+      "headingPath": "TPC-SEC-02: AI and Synthetic Med… › 3. Roles",
+      "quote": "| Role | Person | Duty | |---|---|---| | Incident Commander (security) | Chief Information Security Officer, Rafael Oyelaran-Pierce | Declares, leads technical response, decides on takedown requests |",
+      "chunkId": 4
+    },
+    {
+      "documentId": "01M793JZB4ZJNT2ZBRQ5YGP5FS",
+      "documentTitle": "TPC-SEC-02: AI and Synthetic Media Incident Response Plan",
+      "headingPath": "TPC-SEC-02: AI and Synthetic Med… › 7. Notifications and clocks",
+      "quote": "| Who | When | By | |---|---|---| | Bank fraud desk | Immediately when a payment was released | Treasury Manager | | General Counsel | Within 30 minutes of declaration | CISO | | Cyber and crime insur",
+      "chunkId": 8
+    },
+    {
+      "documentId": "01M793JZB96097WHBG0K74HSVJ",
+      "documentTitle": "TPC-FIN-04: Payment Authorization, Callback Verification and Wire Recall",
+      "headingPath": "TPC-FIN-04: Payment Authorizatio… › 5. If a payment is suspected to be fraudulent",
+      "quote": "1. Stop the payment if it has not been released: set status to HOLD in the Workstation and tell the Treasury Manager. 2. If it has been released, call the bank's fraud desk (First Meridian Commercial ",
+      "chunkId": 31
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template"
+    ]
+  },
+  "assets": [
+    {
+      "id": "01M79C7QF0RGABAZEKW45V7E1D",
+      "kind": "image",
+      "path": "scenarios/01M793K1BQ4A90FK0DT2D867QV/media/01M794RESJGHVMRHZW91PXRZ4G/01M79C7QF0RGABAZEKW45V7E1D.png",
+      "role": "rendered",
+      "width": 960,
+      "height": 1714,
+      "sha256": "160b8fdadf5224e626c8f0dbe032258267dd7d6ba4a9fbde5a9a08e123282a2a",
+      "provenance": {
+        "provider": "template",
+        "templateId": "incident_alert_notification",
+        "templateVersion": "1",
+        "createdAt": "2026-11-13T02:36:53.998Z"
+      }
+    }
+  ],
+  "versions": [
+    {
+      "at": "2026-11-13T00:26:30.466Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "Duty Line Alert: CFO Denies Approvals, $2.25M Out",
+        "type": "incident_alert_notification",
+        "fields": {
+          "sender": "Tamarack Precision Components — Security Duty Officer",
+          "senderShortCode": "864-555-0100",
+          "headline": "SECURITY DUTY ALERT — SUSPECTED EXECUTIVE IMPERSONATION, WIRES RELEASED",
+          "body": "Duty officer to CISO, cc General Counsel. Confirmed: real CFO reached on his directory number. He approved nothing. WIRE-0914-001/-002/-003, total $2,250,000, released 10:55, 11:40 and 13:15 to Escrow Fiduciaria Bajío SA. WIRE-0914-004 $390,000 now on HOLD. Both 'executives' in the 10:05 meeting joined as external guests from 203.0.113.84.",
+          "issuedAt": "Tue Sep 14, 2027 14:10 EDT",
+          "areaAffected": "Treasury and Finance — Greenville HQ; Treasury Workstation; meeting platform",
+          "instructions": [
+            "RISK: Treasury Analyst has asked IT whether she can 'clear the meeting chat so it doesn't spread.' IT has not acted yet.",
+            "RISK: The recording of meeting 'Project escrow – confidential' is owned by the external organizer. Retention is organizer-controlled, so it can be deleted at any time.",
+            "RISK: GC's assistant forwarded a 13:48 email 'from Priscilla Aranguren' asking Treasury to 'proceed with the final tranche.' Priscilla Aranguren says she sent no such email.",
+            "DECISION: Do you want me to open the incident under TPC-SEC-02? Bridge 864-555-0100, code 4417, can be up on your word. Reply or call the duty line."
+          ],
+          "severity": "warning",
+          "isTest": false,
+          "clock": "2:10"
+        },
+        "instructorNote": "This alert pulls the confirmed facts together and pushes the CISO to declare a combined fraud and synthetic-media incident at about 14:12 under TPC-SEC-02. Watch for an explicit no-deletion order covering the chat, recording, invite, lookalike chat, 13:48 email and Workstation audit log. Also check that the General Counsel issues a legal hold, starts the IC3, insurer and Audit Committee clocks, and that the bank fraud desk call follows next.",
+        "deliveryMode": "display_main_screen"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-11-13T02:36:54.114Z"
+}

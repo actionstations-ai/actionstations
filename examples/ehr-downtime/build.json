@@ -1,0 +1,47 @@
+{
+  "id": "ehr-downtime",
+  "title": "Lakemont Community Hospital: 24-Hour Unplanned EHR Downtime",
+  "domainProfile": "health_informatics",
+  "summary": "A 142-bed community hospital in Duluth, Minnesota and its downtime and recovery plans, with an exercise generated from them: a storage failure takes the electronic health record and the interface engine down overnight, and the hospital must declare downtime, run on paper, set a restore order, replay or discard queued messages and reconcile afterward.",
+  "notice": "EXERCISE MATERIAL — for training use. Lakemont Community Hospital, its people, systems, vendors and sites are simulated; the public sources consulted for realism are listed in reference/ehr-downtime/SOURCES.md.",
+  "project": {
+    "name": "Lakemont Community Hospital",
+    "orgName": "Lakemont Community Hospital",
+    "orgType": "health_informatics",
+    "toolkits": ["clinical_systems", "media_environment"],
+    "brand": {
+      "city": "Duluth",
+      "region": "St. Louis County, Minnesota",
+      "aliases": {
+        "org": "Lakemont Community Hospital",
+        "orgShort": "Lakemont",
+        "orgDomain": "lakemonthospital.example",
+        "ehr": "Lakechart"
+      }
+    }
+  },
+  "documents": { "dir": "reference/ehr-downtime", "exclude": ["SOURCES.md"] },
+  "media": { "aiImagesPerScenario": 2, "ttsPerScenario": 2 },
+  "scenarios": [
+    {
+      "key": "overnight-storage-failure",
+      "startWallClock": "02:40",
+      "threatFamily": "infrastructure_failure",
+      "summary": "On a cold February night a storage failure at the primary data center takes Lakechart and the interface engine down; the standby engine is stale, labs and orders are queuing, the cause cannot yet be ruled out as malicious, and the hospital must get 14 units onto paper, decide the restore order, handle duplicate records and reconcile for up to 24 hours.",
+      "userPrompt": "Tuesday, February 9, 2027, a cold night in Duluth. At 02:10 a storage controller fault at the primary data center makes the Lakechart database unavailable; clinicians see spinning screens, the IS Help Desk (ext. 5500) takes the first calls at 02:14 and on-call analyst Ananya Desai confirms at 02:25 that the EHR and the interface engine are both down and that replication to the Hermantown secondary was 40 minutes behind. The exercise starts at 02:40 with the Administrator on Call and Night House Supervisor, 98 inpatients in house, 22 patients in the ED and a woman in active labor. Marcus Ellery (Clinical Systems Lead) and CMIO Dr. Priya Raman are on their way. The target is every unit on downtime procedures within 60 minutes of declaration; the plan's downtime level (3 or 4) turns on whether Gregory Pruitt, the Privacy and Security Officer, can rule out a security cause, and at 03:30 the managed security provider reports an unrelated odd login on a service account that muddies the picture until 06:15. Pressure points: the declaration and the overhead page; units that are slow to report; the downtime viewer is 3 hours 20 minutes old; a critical potassium of 6.9 and a positive blood culture phoned by the lab (Tomas Nygaard) that need read-back inside 60 minutes; the ICU wants pump and monitor network isolation; override pulls in the automated dispensing cabinets and a controlled-substance count mismatch for Pharmacy Operations Manager Alicia Voss; unidentified trauma patients registered as ZZ-Trauma Tuesday 1 and 2 and a possible overlay between two patients named Carlson on the medical-surgical unit; the EHR vendor's priority-one line, which promises a callback in 30 minutes and does not call for 70; the interface engine vendor's on-call engineer, who calls back in about 2 hours; at 06:00 the standby engine is promoted and 31,000 queued messages must be dispositioned (replay, hold or discard) by class, including stale orders for discharged patients; the restore order against the clinician priority list (identity check, lab interface, EHR, pharmacy interface) and a request from the ED medical director to open the EHR before the lab interface is validated; at around 14:00 the EHR comes back and units report reconciliation counts hourly while the HIM Director (Janelle Brandt) tracks duplicates; the question of whether this is a reportable breach and when the 60-day clock would start; staff and the public hear about it, and a local TV reporter and a post on a community Facebook group claim that the hospital has been hacked, so Hannah Lindqvist (PIO) must keep statements consistent with what is known. The SimCell plays the EHR vendor, the interface engine vendor, the lab and radiology and pharmacy system vendors, the regional health information exchange, the Minnesota Department of Health, the St. Louis County ambulance dispatch, a neighboring hospital, the cyber insurer's breach coach, reporters and families.",
+      "audience": [
+        "Administrator on Call / Incident Commander",
+        "Clinical Systems Lead",
+        "Night House Supervisor / Chief Nursing Officer",
+        "Laboratory and Pharmacy Managers",
+        "Privacy and Security Officer",
+        "Public Information Officer"
+      ],
+      "constraints": [
+        "Every email address of the hospital uses the exercise domain lakemonthospital.example; vendors and outside parties use fictional *.example domains; never a real hospital, vendor or newspaper domain; phone numbers are 218-555-01xx.",
+        "Use the plan's downtime levels, the 60-minute targets and the restore priority list as written; paper forms are the downtime forms named in the SOP (order set, requisition, Critical Result Call Log, downtime medication log); no real patient data, only synthetic names.",
+        "Player roles are only those in the audience list; the EHR and interface vendors, the HIE, the state, neighbors, the insurer, reporters and families are played by the SimCell."
+      ]
+    }
+  ]
+}

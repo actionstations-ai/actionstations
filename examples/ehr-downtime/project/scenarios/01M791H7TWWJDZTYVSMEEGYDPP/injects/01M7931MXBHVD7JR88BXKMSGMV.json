@@ -1,0 +1,110 @@
+{
+  "id": "01M7931MXBHVD7JR88BXKMSGMV",
+  "mselRowId": "I-15",
+  "type": "email",
+  "title": "Northstar SOC: svc-rptexport Logon Traced to Backup Job",
+  "deliveryMode": "hand_to_role",
+  "fields": {
+    "fromName": "Ananya Desai",
+    "fromEmail": "ananya.desai@lakemonthospital.example",
+    "to": "Northstar Managed Security SOC; gregory.pruitt@lakemonthospital.example",
+    "cc": "Administrator on Call; Boardroom Command Center (ext. 5520)",
+    "subject": "RE: NSM-27-00562 — update on svc-rptexport",
+    "sentAt": "Tue 2/9/2027 5:40 AM",
+    "importance": "high",
+    "external": false,
+    "printedBy": "Gregory Pruitt",
+    "attachments": [
+      {
+        "name": "NSM-27-00562_svc-rptexport_events_0300-0400.csv",
+        "size": "412 KB",
+        "kind": "xls"
+      }
+    ],
+    "body": "Adding the storage timeline for the command board.\n\nThe array log shows controller A FAULT at 02:09:52. That is 80 minutes before the svc-rptexport login at 03:30. Storage failed first. Controller B takeover ABORTED at 02:10:07 ('volume ownership mismatch'), and nobody has touched the array since.\n\nThe Relaywell standby engine promotion is still planned for about 06:00. I will post on the board when it starts.\n\nAnanya\n\n-----Original Message-----\nFrom: Northstar Managed Security SOC <soc@northstar-msp.example>\nSent: Tuesday, February 9, 2027 5:38 AM\nTo: gregory.pruitt@lakemonthospital.example\nCc: IS On-Call Analyst <is-oncall@lakemonthospital.example>\nSubject: NSM-27-00562 — update on svc-rptexport\n\nHello,\n\nWe matched the 03:30 logon to the scheduler on your Hermantown backup server. Job RPTEXPORT-NIGHTLY-BKP runs at 03:30 every night as svc-rptexport. Tonight its non-interactive connection to the Lakechart database failed, and the job's fallback script (rptexport_retry.ps1) opened an interactive session to retry. That accounts for the 14 failures and the success at 03:30:41.\n\nWe found no other hosts, no new processes and no outbound data transfer in the window we reviewed (03:00–04:00 CST).\n\nWe have not yet checked whether rptexport_retry.ps1 changed recently, or whether the fallback has ever fired before.\n\nEvent export attached. The account is still enabled until you tell us otherwise.\n\nRegards,\nMarcus Feld\nSOC Analyst, Northstar Managed Security — 24-hour Security Operations Center\nTicket NSM-27-00562",
+    "signature": "Ananya Desai\nOn-Call Systems Analyst (Nights), Information Services\nLakemont Community Hospital | ext. 5503"
+  },
+  "variant": "print",
+  "instructorNote": "This is a clue, not an all-clear. Watch whether the Security Officer asks Northstar for what is still missing: the script's change history and hash, any earlier fallback runs, and any other service-account activity. She should decide whether to keep or disable svc-rptexport and record the evidence with times in her decision log, without declaring the cause ruled in or out. The IC should keep the downtime level provisional until both the security rule-out and the post-06:00 engine restart have happened.",
+  "citations": [
+    {
+      "documentId": "01M791H5T9913NQR8TVBHP3J1Z",
+      "documentTitle": "Lakemont Community Hospital — Clinical Systems, Interfaces and Vendors",
+      "headingPath": "Lakemont Community Hospital — Cl… › 5. Vendors and contacts",
+      "quote": "- **EHR vendor support:** priority-one line answered 24 hours; the contract target is a call back within 30 minutes. The vendor can fail over a hosted component but cannot restore the locally hosted d",
+      "chunkId": 37
+    },
+    {
+      "documentId": "01M791H5T4QRTQAQ9XEEV0T7D6",
+      "documentTitle": "Lakemont Community Hospital — Information Systems Downtime and Recovery Plan",
+      "headingPath": "Lakemont Community Hospital — In… › 4. First hour checklist",
+      "quote": "1. The first person to notice loss of the EHR calls the IS Help Desk (ext. 5500). The help desk technician checks the status dashboard and pages the on-call systems analyst. 2. The on-call analyst con",
+      "chunkId": 5
+    },
+    {
+      "documentId": "01M791H5T7614JBPY8N3FD39RH",
+      "documentTitle": "Lakemont Community Hospital — Restore, Reconciliation and Breach Assessment SOP (IS-14-C)",
+      "headingPath": "IS-14-C › 7. Breach risk assessment",
+      "quote": "If the cause was a security event, or if downtime left patient information exposed, the Privacy and Security Officer: 1. determines whether protected health information (PHI) was acquired, accessed, u",
+      "chunkId": 30
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template"
+    ]
+  },
+  "assets": [
+    {
+      "id": "01M79CQ1VYY00YTTHSZYS2XANK",
+      "kind": "image",
+      "path": "scenarios/01M791H7TWWJDZTYVSMEEGYDPP/media/01M7931MXBHVD7JR88BXKMSGMV/01M79CQ1VYY00YTTHSZYS2XANK.png",
+      "role": "rendered",
+      "width": 816,
+      "height": 1132,
+      "sha256": "d607833b9f1fb49727ab01038ec616cdf4ee91666b23588e11de2fb63ea22a0a",
+      "provenance": {
+        "provider": "template",
+        "templateId": "email",
+        "templateVersion": "1",
+        "createdAt": "2026-11-13T02:45:16.125Z"
+      }
+    }
+  ],
+  "versions": [
+    {
+      "at": "2026-11-12T23:56:44.455Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "Northstar SOC: svc-rptexport Logon Traced to Backup Job",
+        "type": "email",
+        "fields": {
+          "fromName": "Ananya Desai",
+          "fromEmail": "ananya.desai@lakemonthospital.example",
+          "to": "Northstar Managed Security SOC; gregory.pruitt@lakemonthospital.example",
+          "cc": "Administrator on Call; Boardroom Command Center (ext. 5520)",
+          "subject": "RE: NSM-27-00562 — update on svc-rptexport",
+          "sentAt": "Tue 2/9/2027 5:40 AM",
+          "importance": "high",
+          "external": false,
+          "printedBy": "Gregory Pruitt",
+          "attachments": [
+            {
+              "name": "NSM-27-00562_svc-rptexport_events_0300-0400.csv",
+              "size": "412 KB",
+              "kind": "xls"
+            }
+          ],
+          "body": "Adding the storage timeline for the command board.\n\nThe array log shows controller A FAULT at 02:09:52. That is 80 minutes before the svc-rptexport login at 03:30. Storage failed first. Controller B takeover ABORTED at 02:10:07 ('volume ownership mismatch'), and nobody has touched the array since.\n\nThe Relaywell standby engine promotion is still planned for about 06:00. I will post on the board when it starts.\n\nAnanya\n\n-----Original Message-----\nFrom: Northstar Managed Security SOC <soc@northstar-msp.example>\nSent: Tuesday, February 9, 2027 5:38 AM\nTo: gregory.pruitt@lakemonthospital.example\nCc: IS On-Call Analyst <is-oncall@lakemonthospital.example>\nSubject: NSM-27-00562 — update on svc-rptexport\n\nHello,\n\nWe matched the 03:30 logon to the scheduler on your Hermantown backup server. Job RPTEXPORT-NIGHTLY-BKP runs at 03:30 every night as svc-rptexport. Tonight its non-interactive connection to the Lakechart database failed, and the job's fallback script (rptexport_retry.ps1) opened an interactive session to retry. That accounts for the 14 failures and the success at 03:30:41.\n\nWe found no other hosts, no new processes and no outbound data transfer in the window we reviewed (03:00–04:00 CST).\n\nWe have not yet checked whether rptexport_retry.ps1 changed recently, or whether the fallback has ever fired before.\n\nEvent export attached. The account is still enabled until you tell us otherwise.\n\nRegards,\nMarcus Feld\nSOC Analyst, Northstar Managed Security — 24-hour Security Operations Center\nTicket NSM-27-00562",
+          "signature": "Ananya Desai\nOn-Call Systems Analyst (Nights), Information Services\nLakemont Community Hospital | ext. 5503"
+        },
+        "instructorNote": "This is a clue, not an all-clear. Watch whether the Security Officer asks Northstar for what is still missing: the script's change history and hash, any earlier fallback runs, and any other service-account activity. She should decide whether to keep or disable svc-rptexport and record the evidence with times in her decision log, without declaring the cause ruled in or out. The IC should keep the downtime level provisional until both the security rule-out and the post-06:00 engine restart have happened.",
+        "deliveryMode": "hand_to_role"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-11-13T02:45:16.372Z"
+}

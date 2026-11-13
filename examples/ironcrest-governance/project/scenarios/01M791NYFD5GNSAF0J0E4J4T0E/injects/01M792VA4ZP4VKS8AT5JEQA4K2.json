@@ -1,0 +1,128 @@
+{
+  "id": "01M792VA4ZP4VKS8AT5JEQA4K2",
+  "mselRowId": "I-06",
+  "type": "time_jump_card",
+  "title": "Time Jump: 16:00 CT, MES Heading to RED",
+  "deliveryMode": "read_aloud",
+  "fields": {
+    "exerciseTime": "1:00",
+    "newTime": "16:00 CT",
+    "jumpLabel": "+10 minutes",
+    "injectId": "I-06",
+    "scenarioTitle": "Six Days Out — MES Ransomware, Materiality & Disclosure",
+    "narration": "It is now 16:00 Central Time on Thursday, March 25, 2027. The Crisis Management Team has been on the bridge at (815) 555-0121 for one hour. Here is what has changed. The 16:00 carrier pickup at Joliet left empty. Nothing has shipped since 15:30, and the 17:30 pickup will also leave empty unless something changes. Ravi Menon's recovery tracker counts from 14:05, when the SOC found the encryption. The MES reaches its 4-hour checkpoint at 18:05 and its 8-hour RTO at 22:05. No recovery has started. Blackwater Cyber has not cleared any backup, and its persistence sweep needs 12 to 18 hours. The tracker shows the MES heading to RED. Rockford, Beloit and Dubuque are still running controllers in manual mode, with no work orders and no lot tracking. The ERP integration is still locked. Each plant holds 5 days of finished goods, and the largest customers hold under 10 days of inventory. The Disclosure Committee meets at 19:00, and Harrow Fenn LLP wants the CFO's dated impact range before then. Your working figures: a full day of lost production at all plants is about 8.5 million dollars of sales. The ransom demand is 18 million dollars. The planning threshold is 60 million dollars of expected pre-tax impact. Exercise aid, not legal advice. Check the current rule and your counsel.",
+    "worldState": [
+      "Clock: 16:00 CT, Thursday, March 25, 2027. Quarter end is six days away. The company in this scenario, Ironcrest Machinery Corporation, is fictional.",
+      "Recovery tracker start time: 14:05 CT (SOC finds encryption). Elapsed time: 1 hour 55 minutes.",
+      "MES (ICM-MES-01, ICM-MES-02): 4-hour checkpoint at 18:05. RTO of 8 hours at 22:05 tonight. MTPD of 24 hours at 14:05 Friday, March 26. Status: heading to RED. No restore has started.",
+      "Last clean MES backup: Wednesday 07:05 snapshot, 31 hours before encryption (RPO is 15 minutes). The Dubuque replica ICM-MES-DBQ-01 is partly encrypted: 3 of 7 volumes.",
+      "Blackwater Cyber has cleared no backup or replica for restore. The persistence sweep needs 12 to 18 hours from now.",
+      "Plant control networks at Rockford, Beloit and Dubuque: controllers in manual or local mode, which meets the minimum acceptable service level (MASL). There are no work orders and no lot tracking, so tonight's output cannot be traced.",
+      "ERP integration: account still locked. The cause is not yet known (encryption, or the 14:25 isolation). ERP RTO of 12 hours falls at 02:05 Friday.",
+      "Joliet: zero orders shipped since 15:30. The 16:00 pickup left empty, and the 17:30 pickup will too unless something changes. Joliet RTO of 24 hours falls at 14:05 Friday; its MASL is 60 percent of normal parts orders (about 2,460 of 4,100).",
+      "Inventory: 5 days of finished goods at each plant. The largest customers hold under 10 days.",
+      "Working figures: one full day of lost production at all plants is about 8.5 million dollars of sales. The ransom demand is 18 million dollars, due within 72 hours. The planning threshold is 60 million dollars of expected pre-tax impact, or 2 percent of annual pre-tax income.",
+      "Disclosure Committee: meets at 19:00 CT. Harrow Fenn LLP wants the CFO's dated, preliminary impact range before the meeting."
+    ],
+    "facilitatorNote": "This card opens Phase 2, The Determination. Watch for three things. First, the BCM logs elapsed time against each RTO and MTPD and marks the MES RED at the 18:05 checkpoint, not at some later point they hope for. Second, the CFO starts a dated impact range. Third, the GC confirms the 19:00 committee goes ahead and does not wait for forensics or the insurer. If anyone suggests pushing the meeting back, challenge it."
+  },
+  "variant": "default",
+  "instructorNote": "This card resets the shared facts and starts the clock on the determination. Check that the BCM measures recovery against the RTO and the time already gone, and that nobody delays the 19:00 Disclosure Committee to wait for Blackwater Cyber or the insurer.",
+  "citations": [
+    {
+      "documentId": "01M791NWETPNJ2B6DP42BR9D8C",
+      "documentTitle": "ICM-BCM-02: Business Impact Analysis and Recovery Order",
+      "headingPath": "IBIARO › 5. Sites and dependencies",
+      "quote": "- **Plant 1, Rockford, Illinois**, 3,200 employees, three shifts, builds 38 percent of transmissions; has a data center with the MES and PLM servers. A fire or power loss triggers the plant emergency ",
+      "chunkId": 15
+    },
+    {
+      "documentId": "01M791NWETPNJ2B6DP42BR9D8C",
+      "documentTitle": "ICM-BCM-02: Business Impact Analysis and Recovery Order",
+      "headingPath": "IBIARO › 7. Recording recovery",
+      "quote": "The BCM keeps the recovery tracker: the time disruption began, the time each function reached its MASL, and the RTO. A function that misses its RTO is flagged for the CMT and its customers are told. T",
+      "chunkId": 17
+    },
+    {
+      "documentId": "01M791NWETPNJ2B6DP42BR9D8C",
+      "documentTitle": "ICM-BCM-02: Business Impact Analysis and Recovery Order",
+      "headingPath": "IBIARO › 6. Key suppliers and vendors",
+      "quote": "The company's cloud provider, the payroll provider (Northbridge Payroll, fictional), the outside data center and network carriers, the warehouse software vendor, the steel supplier, the forensic firm ",
+      "chunkId": 16
+    },
+    {
+      "documentId": "01M791NWEX7JTKWMS6TART9E7B",
+      "documentTitle": "ICM-LEG-03: Disclosure Controls for Cybersecurity Incidents",
+      "headingPath": "IDCCI › 4. The materiality determination",
+      "quote": "The committee makes the determination without unreasonable delay after the company discovers the incident. It does not wait for the investigation to end, for the end of the quarter or for the insurer'",
+      "chunkId": 33
+    },
+    {
+      "documentId": "01M791NWETPNJ2B6DP42BR9D8C",
+      "documentTitle": "ICM-BCM-02: Business Impact Analysis and Recovery Order",
+      "headingPath": "IBIARO › 3. Critical functions",
+      "quote": "| Function | System or site | RTO | RPO | MTPD | MASL | |---|---|---|---|---|---| | Plant control networks and machine controllers, Plants 1 to 3 | PLC networks, historians | 4 hours | 0 | 12 hours | ",
+      "chunkId": 13
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template"
+    ]
+  },
+  "assets": [
+    {
+      "id": "01M79BVPBHC4WKW4VDRH5C04XA",
+      "kind": "image",
+      "path": "scenarios/01M791NYFD5GNSAF0J0E4J4T0E/media/01M792VA4ZP4VKS8AT5JEQA4K2/01M79BVPBHC4WKW4VDRH5C04XA.png",
+      "role": "rendered",
+      "width": 816,
+      "height": 1056,
+      "sha256": "f24bfcd4264de03f62b505028fa925a66818104358767b17d67fcbbeb9c723e4",
+      "provenance": {
+        "provider": "template",
+        "templateId": "time_jump_card",
+        "templateVersion": "1",
+        "createdAt": "2026-11-13T02:30:19.619Z"
+      }
+    }
+  ],
+  "versions": [
+    {
+      "at": "2026-11-12T23:53:10.229Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "Time Jump: 16:00 CT, MES Heading to RED",
+        "type": "time_jump_card",
+        "fields": {
+          "exerciseTime": "1:00",
+          "newTime": "16:00 CT",
+          "jumpLabel": "+10 minutes",
+          "injectId": "I-06",
+          "scenarioTitle": "Six Days Out — MES Ransomware, Materiality & Disclosure",
+          "narration": "It is now 16:00 Central Time on Thursday, March 25, 2027. The Crisis Management Team has been on the bridge at (815) 555-0121 for one hour. Here is what has changed. The 16:00 carrier pickup at Joliet left empty. Nothing has shipped since 15:30, and the 17:30 pickup will also leave empty unless something changes. Ravi Menon's recovery tracker counts from 14:05, when the SOC found the encryption. The MES reaches its 4-hour checkpoint at 18:05 and its 8-hour RTO at 22:05. No recovery has started. Blackwater Cyber has not cleared any backup, and its persistence sweep needs 12 to 18 hours. The tracker shows the MES heading to RED. Rockford, Beloit and Dubuque are still running controllers in manual mode, with no work orders and no lot tracking. The ERP integration is still locked. Each plant holds 5 days of finished goods, and the largest customers hold under 10 days of inventory. The Disclosure Committee meets at 19:00, and Harrow Fenn LLP wants the CFO's dated impact range before then. Your working figures: a full day of lost production at all plants is about 8.5 million dollars of sales. The ransom demand is 18 million dollars. The planning threshold is 60 million dollars of expected pre-tax impact. Exercise aid, not legal advice. Check the current rule and your counsel.",
+          "worldState": [
+            "Clock: 16:00 CT, Thursday, March 25, 2027. Quarter end is six days away. The company in this scenario, Ironcrest Machinery Corporation, is fictional.",
+            "Recovery tracker start time: 14:05 CT (SOC finds encryption). Elapsed time: 1 hour 55 minutes.",
+            "MES (ICM-MES-01, ICM-MES-02): 4-hour checkpoint at 18:05. RTO of 8 hours at 22:05 tonight. MTPD of 24 hours at 14:05 Friday, March 26. Status: heading to RED. No restore has started.",
+            "Last clean MES backup: Wednesday 07:05 snapshot, 31 hours before encryption (RPO is 15 minutes). The Dubuque replica ICM-MES-DBQ-01 is partly encrypted: 3 of 7 volumes.",
+            "Blackwater Cyber has cleared no backup or replica for restore. The persistence sweep needs 12 to 18 hours from now.",
+            "Plant control networks at Rockford, Beloit and Dubuque: controllers in manual or local mode, which meets the minimum acceptable service level (MASL). There are no work orders and no lot tracking, so tonight's output cannot be traced.",
+            "ERP integration: account still locked. The cause is not yet known (encryption, or the 14:25 isolation). ERP RTO of 12 hours falls at 02:05 Friday.",
+            "Joliet: zero orders shipped since 15:30. The 16:00 pickup left empty, and the 17:30 pickup will too unless something changes. Joliet RTO of 24 hours falls at 14:05 Friday; its MASL is 60 percent of normal parts orders (about 2,460 of 4,100).",
+            "Inventory: 5 days of finished goods at each plant. The largest customers hold under 10 days.",
+            "Working figures: one full day of lost production at all plants is about 8.5 million dollars of sales. The ransom demand is 18 million dollars, due within 72 hours. The planning threshold is 60 million dollars of expected pre-tax impact, or 2 percent of annual pre-tax income.",
+            "Disclosure Committee: meets at 19:00 CT. Harrow Fenn LLP wants the CFO's dated, preliminary impact range before the meeting."
+          ],
+          "facilitatorNote": "This card opens Phase 2, The Determination. Watch for three things. First, the BCM logs elapsed time against each RTO and MTPD and marks the MES RED at the 18:05 checkpoint, not at some later point they hope for. Second, the CFO starts a dated impact range. Third, the GC confirms the 19:00 committee goes ahead and does not wait for forensics or the insurer. If anyone suggests pushing the meeting back, challenge it."
+        },
+        "instructorNote": "This card resets the shared facts and starts the clock on the determination. Check that the BCM measures recovery against the RTO and the time already gone, and that nobody delays the 19:00 Disclosure Committee to wait for Blackwater Cyber or the insurer.",
+        "deliveryMode": "read_aloud"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-11-13T02:30:19.848Z"
+}

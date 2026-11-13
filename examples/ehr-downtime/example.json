@@ -1,0 +1,16 @@
+{
+  "id": "ehr-downtime",
+  "title": "Lakemont Community Hospital: 24-Hour Unplanned EHR Downtime",
+  "domainProfile": "health_informatics",
+  "summary": "A 142-bed community hospital in Duluth, Minnesota and its downtime and recovery plans, with an exercise generated from them: a storage failure takes the electronic health record and the interface engine down overnight, and the hospital must declare downtime, run on paper, set a restore order, replay or discard queued messages and reconcile afterward.",
+  "fictional": true,
+  "notice": "EXERCISE MATERIAL — for training use. Lakemont Community Hospital, its people, systems, vendors and sites are simulated; the public sources consulted for realism are listed in reference/ehr-downtime/SOURCES.md.",
+  "scenarios": [
+    {
+      "id": "01M791H7TWWJDZTYVSMEEGYDPP",
+      "title": "Cold Storage",
+      "threatFamily": "infrastructure_failure",
+      "summary": "On a cold February night a storage failure at the primary data center takes Lakechart and the interface engine down; the standby engine is stale, labs and orders are queuing, the cause cannot yet be ruled out as malicious, and the hospital must get 14 units onto paper, decide the restore order, handle duplicate records and reconcile for up to 24 hours."
+    }
+  ]
+}

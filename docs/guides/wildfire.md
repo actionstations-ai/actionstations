@@ -62,3 +62,9 @@ The report says whether the ground truth is historical, interpolated or simulate
 - Live data is never fetched during a session.
 - Real customer, circuit and zone data stay in your own project and are never sent anywhere.
 - The example notice windows come from one state. Check your own rules before relying on them.
+
+## Example project
+
+The Wildfire and power shutoff pack includes an example project, **Sawmill County and Foothills Electric Cooperative: foothills wildfire and power shutoff**, with one exercise, _One Road Out_: on a Red Flag Warning morning Foothills Electric de-energizes circuits for fire weather, and at 13:20 a wind-driven fire starts near County Road 68 and runs toward Pine Gulch and Kestrel Springs; the county must set zone statuses against clearance times, evacuate Stonebridge Assisted Living, hold the canyon road, and keep zone messages consistent with the fire agency, the Sheriff and the utility.
+
+Turn the pack on under **Packs**, then open a copy from **Projects → Examples**. The organization, its people and its businesses are fictional; the exercise comes with its injects, media, Situation Manual, evaluation guides and controller handbook, ready to read or run.

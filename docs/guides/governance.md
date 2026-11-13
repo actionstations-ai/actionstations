@@ -28,3 +28,9 @@ Turn it on in the scenario's **Toolkits** tab (see [Toolkits](toolkits.md)). The
 ## Limits
 
 The toolkit does not give legal advice, calculate materiality, or file anything. Real filings on EDGAR and real company text are not used in player documents.
+
+## Example project
+
+The Corporate governance, risk and business continuity pack includes an example project, **Ironcrest Machinery Corporation: executive team and board**, with one exercise, _Six Days Out_: on the last Thursday of the quarter, ransomware encrypts the Rockford data center and the MES, stops shipping at the Joliet distribution center and threatens to publish stolen drawings and employee data; the executive team and board must declare the crisis, decide on the ransom, determine materiality and file, and recover against the stated RTOs.
+
+Turn the pack on under **Packs**, then open a copy from **Projects → Examples**. The organization, its people and its businesses are fictional; the exercise comes with its injects, media, Situation Manual, evaluation guides and controller handbook, ready to read or run.

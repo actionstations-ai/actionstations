@@ -1,0 +1,233 @@
+{
+  "id": "01M794P8A3V9JES4D8SWMKE25P",
+  "mselRowId": "I-09",
+  "type": "system_log",
+  "title": "Medical Log 08:30 Saturday: Passenger Case 90",
+  "deliveryMode": "hand_to_role",
+  "fields": {
+    "systemName": "MEDLOG_DAWN: Medical Center Electronic Log and Ship-Shore Message Journal",
+    "host": "HR-HSP-02",
+    "logSource": "Medical log (case entries, signatures) / ship-shore message journal",
+    "exportedBy": "medctr.dod (Doctor on Duty)",
+    "exportedAt": "02/20/2027 08:44",
+    "timezone": "CST ship time (UTC-6)",
+    "classification": "CONFIDENTIAL: MEDICAL. NO NAMES. CABIN AND CREW CODES ONLY",
+    "pageLabel": "Page 1 of 1",
+    "lines": [
+      {
+        "ts": "2027-02-20 06:20",
+        "level": "INFO",
+        "msg": "Entry 06:00 SIGNED by CMO Dr. Fiona Gallagher. CUMULATIVE PASSENGERS 87 (2.9% of 2,980). CUMULATIVE CREW 24 (2.1% of 1,120). Since embarkation 14 Feb.",
+        "highlight": false
+      },
+      {
+        "ts": "2027-02-20 07:00",
+        "level": "INFO",
+        "msg": "Daily count to shoreside SENT on the 06:00 signed entry: PASSENGERS 87, CREW 24.",
+        "highlight": false
+      },
+      {
+        "ts": "2027-02-20 07:48",
+        "level": "INFO",
+        "msg": "Passenger case 88 entered: cabin code P-3157, steward-reported, onset 05:40, vomiting plus headache, embarked 14 Feb. Guest did not attend the medical center.",
+        "highlight": false
+      },
+      {
+        "ts": "2027-02-20 08:02",
+        "level": "INFO",
+        "msg": "Nausea-only presentation, cabin code P-4409: NOT COUNTED (does not meet case definition).",
+        "highlight": false
+      },
+      {
+        "ts": "2027-02-20 08:12",
+        "level": "INFO",
+        "msg": "Passenger case 89 entered: cabin code P-5023, onset 04:15, diarrhea x3, embarked 14 Feb.",
+        "highlight": false
+      },
+      {
+        "ts": "2027-02-20 08:21",
+        "level": "INFO",
+        "msg": "Crew case 25 entered: crew code C-0871, bar department, onset 07:30, vomiting plus abdominal cramps. Isolated in cabin.",
+        "highlight": false
+      },
+      {
+        "ts": "2027-02-20 08:30",
+        "level": "NOTICE",
+        "msg": "Passenger case 90 entered: cabin code P-6218, onset 06:50, diarrhea x4, embarked 14 Feb.",
+        "highlight": true
+      },
+      {
+        "ts": "2027-02-20 08:30",
+        "level": "ALERT",
+        "msg": "CUMULATIVE PASSENGERS 90 (3.0% of 2,980). CUMULATIVE CREW 25 (2.2% of 1,120). PASSENGER 3% THRESHOLD REACHED. Entry status: AWAITING CMO SIGNATURE.",
+        "highlight": true
+      },
+      {
+        "ts": "2027-02-20 08:31",
+        "level": "WARN",
+        "msg": "Current count differs from last count sent to shoreside (07:00: PASSENGERS 87 / CREW 24). Unsigned entries: 4.",
+        "highlight": false
+      },
+      {
+        "ts": "2027-02-20 08:41",
+        "level": "NOTICE",
+        "msg": "Message journal, inbound forward. FROM: SVP Brand and Marketing, brand@halcyonreach.example. TO: VP Communications. SUBJECT: FW: Dawn, 'official outbreak'? TEXT: \"Gulf 8 and a wire reporter are both asking whether the Dawn is now an 'official outbreak'. Corporate wants a statement in the next hour. Can we hold the number until after the farewell show tonight so we don't spoil the last night?\"",
+        "highlight": true
+      },
+      {
+        "ts": "2027-02-20 08:44",
+        "level": "INFO",
+        "msg": "Log exported to print by medctr.dod. Distribution: Master, CMO, Hotel Director, shoreside VP Fleet Operations, shoreside Public Health, VP Communications.",
+        "highlight": false
+      }
+    ]
+  },
+  "variant": "printout",
+  "instructorNote": "The passenger count reaches the 3 percent outbreak level. Watch for the CMO to sign case 90 and for the second special report to the VSP, with its phone call, to go out. OPS should stand up the full shoreside team, the Master should announce the outbreak to the whole ship, and HOTEL should send a guest letter that covers hygiene and isolation only. COMMS should refuse the marketing request to hold the number and use 90/25 (signed 08:30 Saturday) in every channel, and PH should flag that the count has changed, so the 4-hour update to the VSP will be due by 03:00 Sunday.",
+  "citations": [
+    {
+      "documentId": "01M793DS5W3ZMAW18YW321RER3",
+      "documentTitle": "HR-HSP-01: Outbreak Prevention and Response Plan (Acute Gastroenteritis)",
+      "headingPath": "HOPRPG › 5. Stages of response",
+      "quote": "| Trigger | Required actions | Who | |---|---|---| | First reportable case | Isolate in the cabin until symptom-free for 24 hours; cabin disinfection with chlorine solution (1,000 ppm); stool kit if t",
+      "chunkId": 25
+    },
+    {
+      "documentId": "01M793DS5V5XMJ53EWWKE3XRTQ",
+      "documentTitle": "HR-HSP-02: Medical Log, Case Counting and Authority Reports",
+      "headingPath": "HR-HSP-02: Medical Log, Case Cou… › 3. The medical log",
+      "quote": "The medical center keeps the medical log electronically and on paper. For each case: cabin or crew number (never a name in any report), date and time of presentation, symptom onset, the symptoms, the ",
+      "chunkId": 14
+    },
+    {
+      "documentId": "01M793DS5W3ZMAW18YW321RER3",
+      "documentTitle": "HR-HSP-01: Outbreak Prevention and Response Plan (Acute Gastroenteritis)",
+      "headingPath": "HOPRPG › 2. Definitions the fleet uses",
+      "quote": "- **Reportable AGE case:** a passenger or crew member who reports to the medical center, or is identified by a cabin steward or supervisor, with diarrhea (three or more loose stools in 24 hours, or mo",
+      "chunkId": 22
+    },
+    {
+      "documentId": "01M793DS5V5XMJ53EWWKE3XRTQ",
+      "documentTitle": "HR-HSP-02: Medical Log, Case Counting and Authority Reports",
+      "headingPath": "HR-HSP-02: Medical Log, Case Cou… › 5. Reports to the VSP and the quarantine station",
+      "quote": "- **24-hour report:** Sent to the VSP 24 to 36 hours before arrival at a US port. It gives the ship, the voyage dates, passengers and crew on board, and the cumulative number of cases among passengers",
+      "chunkId": 16
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template"
+    ]
+  },
+  "assets": [
+    {
+      "id": "01M79C4DPBS1G37FZ4DW4341D0",
+      "kind": "image",
+      "path": "scenarios/01M793DV6BXG2CK1KF55JQE9A4/media/01M794P8A3V9JES4D8SWMKE25P/01M79C4DPBS1G37FZ4DW4341D0.png",
+      "role": "rendered",
+      "width": 816,
+      "height": 1084,
+      "sha256": "1347d385c3080d79c58045cf60337c77f3913b993af67d18910dfcd44d0d323b",
+      "provenance": {
+        "provider": "template",
+        "templateId": "system_log",
+        "templateVersion": "1",
+        "createdAt": "2026-11-13T02:35:05.641Z"
+      }
+    }
+  ],
+  "versions": [
+    {
+      "at": "2026-11-13T00:26:04.127Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "Medical Log 08:30 Saturday: Passenger Case 90",
+        "type": "system_log",
+        "fields": {
+          "systemName": "MEDLOG_DAWN: Medical Center Electronic Log and Ship-Shore Message Journal",
+          "host": "HR-HSP-02",
+          "logSource": "Medical log (case entries, signatures) / ship-shore message journal",
+          "exportedBy": "medctr.dod (Doctor on Duty)",
+          "exportedAt": "02/20/2027 08:44",
+          "timezone": "CST ship time (UTC-6)",
+          "classification": "CONFIDENTIAL: MEDICAL. NO NAMES. CABIN AND CREW CODES ONLY",
+          "pageLabel": "Page 1 of 1",
+          "lines": [
+            {
+              "ts": "2027-02-20 06:20",
+              "level": "INFO",
+              "msg": "Entry 06:00 SIGNED by CMO Dr. Fiona Gallagher. CUMULATIVE PASSENGERS 87 (2.9% of 2,980). CUMULATIVE CREW 24 (2.1% of 1,120). Since embarkation 14 Feb.",
+              "highlight": false
+            },
+            {
+              "ts": "2027-02-20 07:00",
+              "level": "INFO",
+              "msg": "Daily count to shoreside SENT on the 06:00 signed entry: PASSENGERS 87, CREW 24.",
+              "highlight": false
+            },
+            {
+              "ts": "2027-02-20 07:48",
+              "level": "INFO",
+              "msg": "Passenger case 88 entered: cabin code P-3157, steward-reported, onset 05:40, vomiting plus headache, embarked 14 Feb. Guest did not attend the medical center.",
+              "highlight": false
+            },
+            {
+              "ts": "2027-02-20 08:02",
+              "level": "INFO",
+              "msg": "Nausea-only presentation, cabin code P-4409: NOT COUNTED (does not meet case definition).",
+              "highlight": false
+            },
+            {
+              "ts": "2027-02-20 08:12",
+              "level": "INFO",
+              "msg": "Passenger case 89 entered: cabin code P-5023, onset 04:15, diarrhea x3, embarked 14 Feb.",
+              "highlight": false
+            },
+            {
+              "ts": "2027-02-20 08:21",
+              "level": "INFO",
+              "msg": "Crew case 25 entered: crew code C-0871, bar department, onset 07:30, vomiting plus abdominal cramps. Isolated in cabin.",
+              "highlight": false
+            },
+            {
+              "ts": "2027-02-20 08:30",
+              "level": "NOTICE",
+              "msg": "Passenger case 90 entered: cabin code P-6218, onset 06:50, diarrhea x4, embarked 14 Feb.",
+              "highlight": true
+            },
+            {
+              "ts": "2027-02-20 08:30",
+              "level": "ALERT",
+              "msg": "CUMULATIVE PASSENGERS 90 (3.0% of 2,980). CUMULATIVE CREW 25 (2.2% of 1,120). PASSENGER 3% THRESHOLD REACHED. Entry status: AWAITING CMO SIGNATURE.",
+              "highlight": true
+            },
+            {
+              "ts": "2027-02-20 08:31",
+              "level": "WARN",
+              "msg": "Current count differs from last count sent to shoreside (07:00: PASSENGERS 87 / CREW 24). Unsigned entries: 4.",
+              "highlight": false
+            },
+            {
+              "ts": "2027-02-20 08:41",
+              "level": "NOTICE",
+              "msg": "Message journal, inbound forward. FROM: SVP Brand and Marketing, brand@halcyonreach.example. TO: VP Communications. SUBJECT: FW: Dawn, 'official outbreak'? TEXT: \"Gulf 8 and a wire reporter are both asking whether the Dawn is now an 'official outbreak'. Corporate wants a statement in the next hour. Can we hold the number until after the farewell show tonight so we don't spoil the last night?\"",
+              "highlight": true
+            },
+            {
+              "ts": "2027-02-20 08:44",
+              "level": "INFO",
+              "msg": "Log exported to print by medctr.dod. Distribution: Master, CMO, Hotel Director, shoreside VP Fleet Operations, shoreside Public Health, VP Communications.",
+              "highlight": false
+            }
+          ]
+        },
+        "instructorNote": "The passenger count reaches the 3 percent outbreak level. Watch for the CMO to sign case 90 and for the second special report to the VSP, with its phone call, to go out. OPS should stand up the full shoreside team, the Master should announce the outbreak to the whole ship, and HOTEL should send a guest letter that covers hygiene and isolation only. COMMS should refuse the marketing request to hold the number and use 90/25 (signed 08:30 Saturday) in every channel, and PH should flag that the count has changed, so the 4-hour update to the VSP will be due by 03:00 Sunday.",
+        "deliveryMode": "hand_to_role"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-11-13T02:35:05.910Z"
+}

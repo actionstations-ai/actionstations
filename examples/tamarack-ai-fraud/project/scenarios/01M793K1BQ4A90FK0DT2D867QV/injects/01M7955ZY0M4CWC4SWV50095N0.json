@@ -1,0 +1,116 @@
+{
+  "id": "01M7955ZY0M4CWC4SWV50095N0",
+  "mselRowId": "END",
+  "type": "endex_card",
+  "title": "ENDEX: 17:15 Eastern, Figures Signed, Recalls Open",
+  "deliveryMode": "read_aloud",
+  "fields": {
+    "exerciseTime": "4:00",
+    "endTime": "5:15 PM EDT",
+    "resolution": "ENDEX. It is 17:15 Eastern on Tuesday, September 14, 2027. The Controller has signed the reconciliation. The insurer, the broker and the Audit Committee chair now have the same figures. Whatever public statement and employee message you approved are now public, with the times they went out. Play stops here, and this concludes the exercise.",
+    "finalState": [
+      "Signed reconciliation: $2,640,000 requested, $2,250,000 released, $390,000 (WIRE-0914-004) stopped before release, $620,000 (wire 3) frozen at the beneficiary bank. Nothing has been recovered yet.",
+      "Under First Meridian case FM-FRD-270914-0031, the recalls for wire 1 ($480,000) and wire 2 ($1,150,000, routed through Banco Intermedio Ejemplo) are still open. The frozen $620,000 can come back only with the account holder's consent or through a legal process.",
+      "Read back from the incident log whether and when the IC3 complaint was filed and whether the FBI field office has acknowledged it. The insurer and broker have the signed figures. The Audit Committee chair has been briefed.",
+      "LedgerGate is due to deliver the server-side Workstation audit export within 24 hours of receiving the signed request. Clipwave takedown request CW-TS-5520187 is still under review, and the clip is still circulating.",
+      "Under TPC-SEC-02 Section 8, the CISO owes a timeline by Tuesday, September 21, 2027. The callback, executive-impersonation, video meeting identity and awareness-training policies are due for update within 30 days, and the incident goes into the board's quarterly risk report."
+    ],
+    "hotWashTransition": "Thank you, everyone. That is the end of play. Please close the incident log, put your phones face down and keep your notes. We will take ten minutes, then start the hot wash. Bring the times you wrote down, because we will rebuild the day from them.",
+    "hotWashMethod": "Timeline rebuild, then 3-Up, 3-Down. First, put the key times on the wall: invite 09:40, meeting 10:05, first release 10:55, CFO call 14:05, declaration 14:12, bank call 14:20, clip 16:20, reporter deadline 17:00. Then each role names three things that went well and three things that broke.",
+    "hotWashQuestions": [
+      "Callback discipline: the 'CFO' told the analyst to skip the callback, and the memo field recorded 'callback waived.' Who could have called the CFO's directory number or another executive at 10:20? What stopped them?",
+      "Token separation: the shared release-desk token WS-TKN-2291 entered an 'executive approval' that should have required WS-TKN-0007. Should WS-TKN-2291 be suspended tonight, and who owns explaining its two unexplained out-of-role approvals?",
+      "Declaration timing: the first wire went out at 10:55, but the incident was declared at 14:12 and the bank was first called at 14:20. Which earlier signal (the external banner, the out-of-office reply, the guest-join record, the lookalike chat) should have triggered a HOLD and a declaration?",
+      "Keeping things separate: how did the team keep the fraud recovery (bank, IC3, insurer) apart from the AI-governance question about the Poznań Line 3 vision model and the deepfake clip? Did either track slow the other down?",
+      "Public trust: did a holding statement and an employee message reach the Greenville Commerce Journal and the Spartanburg second shift before the 17:00 deadline? How did the team answer the '94% AUTHENTIC' detector claim without leaning on a detector score of its own?"
+    ],
+    "facilitatorNote": "Collect the incident logs, the signed reconciliation and any approved statement or employee message, with their timestamps, before the break. In the hot wash, compare each team decision with the notification clocks in TPC-SEC-02 Section 7 and with the recall steps in TPC-FIN-04 Section 5.",
+    "scenarioTitle": "Escrow Echo: Deepfaked Executives, Wires & Public Trust",
+    "injectId": "END"
+  },
+  "variant": "default",
+  "instructorNote": "This card stops all play. Open the hot wash on five topics: callback discipline, token separation, declaration timing (first release 10:55, declaration 14:12), keeping fraud recovery apart from the AI-governance question, and whether the holding statement beat the 17:00 reporter deadline. Watch for teams counting the frozen $620,000 as recovered.",
+  "citations": [
+    {
+      "documentId": "01M793JZB4ZJNT2ZBRQ5YGP5FS",
+      "documentTitle": "TPC-SEC-02: AI and Synthetic Media Incident Response Plan",
+      "headingPath": "TPC-SEC-02: AI and Synthetic Med… › 8. Recovery and lessons",
+      "quote": "After containment the CISO produces a timeline within 5 working days. The Controller reconciles the payments. Policies on callback, executive impersonation, video meeting identity and awareness traini",
+      "chunkId": 9
+    },
+    {
+      "documentId": "01M793JZB4ZJNT2ZBRQ5YGP5FS",
+      "documentTitle": "TPC-SEC-02: AI and Synthetic Media Incident Response Plan",
+      "headingPath": "TPC-SEC-02: AI and Synthetic Med… › 7. Notifications and clocks",
+      "quote": "| Who | When | By | |---|---|---| | Bank fraud desk | Immediately when a payment was released | Treasury Manager | | General Counsel | Within 30 minutes of declaration | CISO | | Cyber and crime insur",
+      "chunkId": 8
+    },
+    {
+      "documentId": "01M793JZB96097WHBG0K74HSVJ",
+      "documentTitle": "TPC-FIN-04: Payment Authorization, Callback Verification and Wire Recall",
+      "headingPath": "TPC-FIN-04: Payment Authorizatio… › 5. If a payment is suspected to be fraudulent",
+      "quote": "1. Stop the payment if it has not been released: set status to HOLD in the Workstation and tell the Treasury Manager. 2. If it has been released, call the bank's fraud desk (First Meridian Commercial ",
+      "chunkId": 31
+    },
+    {
+      "documentId": "01M793JZB4ZJNT2ZBRQ5YGP5FS",
+      "documentTitle": "TPC-SEC-02: AI and Synthetic Media Incident Response Plan",
+      "headingPath": "TPC-SEC-02: AI and Synthetic Med… › 3. Roles",
+      "quote": "| Role | Person | Duty | |---|---|---| | Incident Commander (security) | Chief Information Security Officer, Rafael Oyelaran-Pierce | Declares, leads technical response, decides on takedown requests |",
+      "chunkId": 4
+    },
+    {
+      "documentId": "01M793JZB4ZJNT2ZBRQ5YGP5FS",
+      "documentTitle": "TPC-SEC-02: AI and Synthetic Media Incident Response Plan",
+      "headingPath": "TPC-SEC-02: AI and Synthetic Med… › 4. First hour",
+      "quote": "1. **Hold:** put every pending payment connected to the request on HOLD. 2. **Verify:** reach the impersonated person on a known number, not through the channel in question. 3. **Preserve:** save the ",
+      "chunkId": 5
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template"
+    ]
+  },
+  "assets": [],
+  "versions": [
+    {
+      "at": "2026-11-13T00:33:56.897Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "ENDEX: 17:15 Eastern, Figures Signed, Recalls Open",
+        "type": "endex_card",
+        "fields": {
+          "exerciseTime": "4:00",
+          "endTime": "5:15 PM EDT",
+          "resolution": "ENDEX. It is 17:15 Eastern on Tuesday, September 14, 2027. The Controller has signed the reconciliation. The insurer, the broker and the Audit Committee chair now have the same figures. Whatever public statement and employee message you approved are now public, with the times they went out. Play stops here, and this concludes the exercise.",
+          "finalState": [
+            "Signed reconciliation: $2,640,000 requested, $2,250,000 released, $390,000 (WIRE-0914-004) stopped before release, $620,000 (wire 3) frozen at the beneficiary bank. Nothing has been recovered yet.",
+            "Under First Meridian case FM-FRD-270914-0031, the recalls for wire 1 ($480,000) and wire 2 ($1,150,000, routed through Banco Intermedio Ejemplo) are still open. The frozen $620,000 can come back only with the account holder's consent or through a legal process.",
+            "Read back from the incident log whether and when the IC3 complaint was filed and whether the FBI field office has acknowledged it. The insurer and broker have the signed figures. The Audit Committee chair has been briefed.",
+            "LedgerGate is due to deliver the server-side Workstation audit export within 24 hours of receiving the signed request. Clipwave takedown request CW-TS-5520187 is still under review, and the clip is still circulating.",
+            "Under TPC-SEC-02 Section 8, the CISO owes a timeline by Tuesday, September 21, 2027. The callback, executive-impersonation, video meeting identity and awareness-training policies are due for update within 30 days, and the incident goes into the board's quarterly risk report."
+          ],
+          "hotWashTransition": "Thank you, everyone. That is the end of play. Please close the incident log, put your phones face down and keep your notes. We will take ten minutes, then start the hot wash. Bring the times you wrote down, because we will rebuild the day from them.",
+          "hotWashMethod": "Timeline rebuild, then 3-Up, 3-Down. First, put the key times on the wall: invite 09:40, meeting 10:05, first release 10:55, CFO call 14:05, declaration 14:12, bank call 14:20, clip 16:20, reporter deadline 17:00. Then each role names three things that went well and three things that broke.",
+          "hotWashQuestions": [
+            "Callback discipline: the 'CFO' told the analyst to skip the callback, and the memo field recorded 'callback waived.' Who could have called the CFO's directory number or another executive at 10:20? What stopped them?",
+            "Token separation: the shared release-desk token WS-TKN-2291 entered an 'executive approval' that should have required WS-TKN-0007. Should WS-TKN-2291 be suspended tonight, and who owns explaining its two unexplained out-of-role approvals?",
+            "Declaration timing: the first wire went out at 10:55, but the incident was declared at 14:12 and the bank was first called at 14:20. Which earlier signal (the external banner, the out-of-office reply, the guest-join record, the lookalike chat) should have triggered a HOLD and a declaration?",
+            "Keeping things separate: how did the team keep the fraud recovery (bank, IC3, insurer) apart from the AI-governance question about the Poznań Line 3 vision model and the deepfake clip? Did either track slow the other down?",
+            "Public trust: did a holding statement and an employee message reach the Greenville Commerce Journal and the Spartanburg second shift before the 17:00 deadline? How did the team answer the '94% AUTHENTIC' detector claim without leaning on a detector score of its own?"
+          ],
+          "facilitatorNote": "Collect the incident logs, the signed reconciliation and any approved statement or employee message, with their timestamps, before the break. In the hot wash, compare each team decision with the notification clocks in TPC-SEC-02 Section 7 and with the recall steps in TPC-FIN-04 Section 5.",
+          "scenarioTitle": "Escrow Echo: Deepfaked Executives, Wires & Public Trust",
+          "injectId": "END"
+        },
+        "instructorNote": "This card stops all play. Open the hot wash on five topics: callback discipline, token separation, declaration timing (first release 10:55, declaration 14:12), keeping fraud recovery apart from the AI-governance question, and whether the holding statement beat the 17:00 reporter deadline. Watch for teams counting the frozen $620,000 as recovered.",
+        "deliveryMode": "read_aloud"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-11-13T02:36:57.408Z"
+}

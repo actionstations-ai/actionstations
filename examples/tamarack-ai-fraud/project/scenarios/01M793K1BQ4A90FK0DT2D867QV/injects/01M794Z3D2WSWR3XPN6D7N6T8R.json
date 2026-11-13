@@ -1,0 +1,376 @@
+{
+  "id": "01M794Z3D2WSWR3XPN6D7N6T8R",
+  "mselRowId": "I-17",
+  "type": "phone_call",
+  "title": "Recorded Line: First Meridian Fraud Desk Reports Freeze and Losses",
+  "deliveryMode": "read_aloud",
+  "fields": {
+    "orgName": "Tamarack Precision Components, Inc.",
+    "systemName": "Recorded Line - Incident War Room Bridge",
+    "callId": "CR-20270914-151006-0071",
+    "direction": "Inbound",
+    "caller": {
+      "name": "Fraud Analyst, Treasury Services",
+      "number": "800-555-0141",
+      "label": "First Meridian Commercial Bank – Fraud Line (Case FM-FRD-270914-0031)"
+    },
+    "callee": {
+      "name": "Gareth Lindqvist-Boyd",
+      "number": "864-555-0100",
+      "label": "Treasury Manager – Incident War Room Bridge (speaker)"
+    },
+    "startTime": "09/14/2027 15:10:06",
+    "duration": "2:14",
+    "transcript": [
+      {
+        "speaker": "BANK",
+        "offset": "0:00",
+        "text": "First Meridian Treasury Services fraud desk, calling back on case FM-FRD-270914-0031. Am I speaking with Tamarack Treasury?",
+        "prompt": false
+      },
+      {
+        "speaker": "TREAS",
+        "offset": "0:06",
+        "text": "Yes, Treasury Manager. You're on speaker in our war room. The Controller, the CFO by phone, Legal and our CISO are all on.",
+        "prompt": false
+      },
+      {
+        "speaker": "BANK",
+        "offset": "0:14",
+        "text": "Good. I have an update from the beneficiary bank, Banco Ficticio del Bajío, through the correspondent. They have frozen USD 620,000.00 in account EX-0000-0000-ESCROW-01. That matches your wire 3, confirmation FMCB-INT-0914-55471. It was received at 13:16 your time.",
+        "prompt": false
+      },
+      {
+        "speaker": "BANK",
+        "offset": "0:33",
+        "text": "Now the bad news. Wire 1, USD 480,000.00, confirmation FMCB-INT-0914-55102, left that same account at 11:22 your time in four outgoing transfers. Wire 2, USD 1,150,000.00, confirmation FMCB-INT-0914-55233, credited EX-0000-0000-ESCROW-02 through the intermediary and then left that account at 12:09 for a bank in a third country.",
+        "prompt": false
+      },
+      {
+        "speaker": "BANK",
+        "offset": "0:55",
+        "text": "Our recall requests on wires 1 and 2 stay open, but expect a partial result at best. On the frozen 620,000: a freeze is not a return. Those funds come back only with the account holder's consent or through a legal process.",
+        "prompt": false
+      },
+      {
+        "speaker": "BANK",
+        "offset": "1:10",
+        "text": "For our case file, here are my numbers. Three wires released, 2,250,000. Your fourth wire, 390,000, never left you. 620,000 frozen. That leaves 1,630,000 not located. Do those match your records?",
+        "prompt": true
+      },
+      {
+        "speaker": "BANK",
+        "offset": "1:28",
+        "text": "The beneficiary bank asks for two things by tomorrow morning: your IC3 complaint number, and a named law-enforcement contact they can deal with. Without those the freeze is harder for them to hold. Who on your side will send them to me?",
+        "prompt": true
+      },
+      {
+        "speaker": "BANK",
+        "offset": "1:50",
+        "text": "Our written confirmation of the freeze and of the open recalls is on the Treasury Services portal now, under the same case number. Please acknowledge it there. I'll call this line as soon as the correspondent sends anything more. We have also passed the case to the FBI field office, and a special agent from its cyber squad left a voicemail on your Controller's line asking for a call back with the complaint number.",
+        "prompt": false
+      },
+      {
+        "speaker": "BANK",
+        "offset": "2:06",
+        "text": "That's all I have. Case FM-FRD-270914-0031. Thank you.",
+        "prompt": false
+      }
+    ],
+    "voiceStyles": {
+      "BANK": "Woman in her 30s, calm, precise bank fraud analyst, quiet call-center office behind her, reads figures slowly and clearly",
+      "TREAS": "Man in his 40s, tired and tense, speakerphone in a conference room"
+    },
+    "injectId": "I-17"
+  },
+  "variant": "default",
+  "instructorNote": "This call sets the final numbers. Hand the Controller the unsigned draft reconciliation (Requested $2,640,000 / Released $2,250,000 / Stopped $390,000 / Frozen $620,000 / Unrecovered $1,630,000). Watch for these actions: the Controller signs it and every message after this uses only those numbers; Legal starts a clock board (IC3 report within 72 hours, FBI field office called today about the Kill Chain, insurer hotline and broker told within 24 hours); the CFO briefs the CEO and has the corporate secretary tell the Audit Committee chair within 24 hours; the CISO logs every action and its time.",
+  "citations": [
+    {
+      "documentId": "01M793JZB96097WHBG0K74HSVJ",
+      "documentTitle": "TPC-FIN-04: Payment Authorization, Callback Verification and Wire Recall",
+      "headingPath": "TPC-FIN-04: Payment Authorizatio… › 5. If a payment is suspected to be fraudulent",
+      "quote": "1. Stop the payment if it has not been released: set status to HOLD in the Workstation and tell the Treasury Manager. 2. If it has been released, call the bank's fraud desk (First Meridian Commercial ",
+      "chunkId": 31
+    },
+    {
+      "documentId": "01M793JZB4ZJNT2ZBRQ5YGP5FS",
+      "documentTitle": "TPC-SEC-02: AI and Synthetic Media Incident Response Plan",
+      "headingPath": "TPC-SEC-02: AI and Synthetic Med… › 7. Notifications and clocks",
+      "quote": "| Who | When | By | |---|---|---| | Bank fraud desk | Immediately when a payment was released | Treasury Manager | | General Counsel | Within 30 minutes of declaration | CISO | | Cyber and crime insur",
+      "chunkId": 8
+    },
+    {
+      "documentId": "01M793JZB6T2RERPATP9SE15M2",
+      "documentTitle": "TPC-REF-01: Company, Systems and People",
+      "headingPath": "TCSP › 3. Finance systems",
+      "quote": "- **Treasury Workstation:** a cloud treasury system for initiating, approving and releasing payments, with multi-factor tokens and a full audit log; connects to First Meridian Commercial Bank by secur",
+      "chunkId": 13
+    },
+    {
+      "documentId": "01M793JZB8RCC60H5P0C0WEAQV",
+      "documentTitle": "TPC-COM-03: Executive Impersonation, Verification and External Statements",
+      "headingPath": "TEIVES › 7. The board",
+      "quote": "The audit committee chair is told of any incident above $1 million within 24 hours. The full board is briefed at its next meeting or sooner.",
+      "chunkId": 25
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template",
+      "tts"
+    ],
+    "voiceLines": [
+      {
+        "speaker": "BANK",
+        "voiceStyle": "Calm, precise female bank fraud analyst in her 30s, neutral American accent, professional and measured, quiet call-center office behind her",
+        "text": "First Meridian Treasury Services fraud desk, calling back on case F-M, F-R-D, two seven zero nine one four, zero zero three one. Am I speaking with Tamarack Treasury?"
+      },
+      {
+        "speaker": "TREAS",
+        "voiceStyle": "Tired, tense male treasury manager in his 40s, American accent, speaking toward a conference-room speakerphone, slightly clipped",
+        "text": "Yes, Treasury Manager. You're on speaker in our war room. The Controller, the CFO by phone, Legal, and our CISO are all on."
+      },
+      {
+        "speaker": "BANK",
+        "voiceStyle": "Calm, precise female bank fraud analyst in her 30s, neutral American accent, reads account numbers and figures slowly and clearly",
+        "text": "Good. I have an update from the beneficiary bank, Banco Ficticio del Bajío, through the correspondent. They have frozen six hundred twenty thousand U.S. dollars in account E-X, zero zero zero zero, zero zero zero zero, escrow zero one. That matches your wire three, confirmation F-M-C-B, I-N-T, zero nine one four, five five four seven one. It was received at one-sixteen p.m. your time."
+      },
+      {
+        "speaker": "BANK",
+        "voiceStyle": "Calm, precise female bank fraud analyst in her 30s, neutral American accent, slightly graver tone, reads figures slowly and clearly",
+        "text": "Now the bad news. Wire one, four hundred eighty thousand U.S. dollars, confirmation F-M-C-B, I-N-T, zero nine one four, five five one zero two, left that same account at eleven twenty-two your time, in four outgoing transfers. Wire two, one million one hundred fifty thousand U.S. dollars, confirmation F-M-C-B, I-N-T, zero nine one four, five five two three three, credited E-X, zero zero zero zero, zero zero zero zero, escrow zero two, through the intermediary... and then left that account at twelve-oh-nine for a bank in a third country."
+      },
+      {
+        "speaker": "BANK",
+        "voiceStyle": "Calm, precise female bank fraud analyst in her 30s, neutral American accent, careful and firm",
+        "text": "Our recall requests on wires one and two stay open, but expect a partial result at best. On the frozen six hundred twenty thousand: a freeze is not a return. Those funds come back only with the account holder's consent, or through a legal process."
+      },
+      {
+        "speaker": "BANK",
+        "voiceStyle": "Calm, precise female bank fraud analyst in her 30s, neutral American accent, reads figures slowly, ends with a clear question",
+        "text": "For our case file, here are my numbers. Three wires released, two million two hundred fifty thousand. Your fourth wire, three hundred ninety thousand, never left you. Six hundred twenty thousand frozen. That leaves one million six hundred thirty thousand not located. Do those match your records?"
+      },
+      {
+        "speaker": "BANK",
+        "voiceStyle": "Calm, precise female bank fraud analyst in her 30s, neutral American accent, polite but pressing",
+        "text": "The beneficiary bank asks for two things by tomorrow morning: your I-C-three complaint number, and a named law-enforcement contact they can deal with. Without those, the freeze is harder for them to hold. Who on your side will send them to me?"
+      },
+      {
+        "speaker": "BANK",
+        "voiceStyle": "Calm, precise female bank fraud analyst in her 30s, neutral American accent, professional and measured",
+        "text": "Our written confirmation of the freeze and of the open recalls is on the Treasury Services portal now, under the same case number. Please acknowledge it there. I'll call this line as soon as the correspondent sends anything more."
+      },
+      {
+        "speaker": "BANK",
+        "voiceStyle": "Calm, precise female bank fraud analyst in her 30s, neutral American accent, brief and courteous closing",
+        "text": "That's all I have. Case F-M, F-R-D, two seven zero nine one four, zero zero three one. Thank you."
+      }
+    ],
+    "postFx": [
+      "phone"
+    ]
+  },
+  "assets": [
+    {
+      "id": "01M79C7S7J2E0M9XP8BCDMYC8T",
+      "kind": "image",
+      "path": "scenarios/01M793K1BQ4A90FK0DT2D867QV/media/01M794Z3D2WSWR3XPN6D7N6T8R/01M79C7S7J2E0M9XP8BCDMYC8T.png",
+      "role": "rendered",
+      "width": 816,
+      "height": 1056,
+      "sha256": "59b2062f502f558bdccd9a62c3320b48be19f52c3ab69190e26d5cbe6484b886",
+      "provenance": {
+        "provider": "template",
+        "templateId": "phone_call",
+        "templateVersion": "1",
+        "createdAt": "2026-11-13T02:36:55.776Z"
+      }
+    }
+  ],
+  "versions": [
+    {
+      "at": "2026-11-13T00:30:46.628Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "Recorded Line: First Meridian Fraud Desk Reports Freeze and Losses",
+        "type": "phone_call",
+        "fields": {
+          "orgName": "Tamarack Precision Components, Inc.",
+          "systemName": "Recorded Line - Incident War Room Bridge",
+          "callId": "CR-20270914-151006-0071",
+          "direction": "Inbound",
+          "caller": {
+            "name": "Fraud Analyst, Treasury Services",
+            "number": "800-555-0141",
+            "label": "First Meridian Commercial Bank – Fraud Line (Case FM-FRD-270914-0031)"
+          },
+          "callee": {
+            "name": "Gareth Lindqvist-Boyd",
+            "number": "864-555-0100",
+            "label": "Treasury Manager – Incident War Room Bridge (speaker)"
+          },
+          "startTime": "09/14/2027 15:10:06",
+          "duration": "2:14",
+          "transcript": [
+            {
+              "speaker": "BANK",
+              "offset": "0:00",
+              "text": "First Meridian Treasury Services fraud desk, calling back on case FM-FRD-270914-0031. Am I speaking with Tamarack Treasury?",
+              "prompt": false
+            },
+            {
+              "speaker": "TREAS",
+              "offset": "0:06",
+              "text": "Yes, Treasury Manager. You're on speaker in our war room. The Controller, the CFO by phone, Legal and our CISO are all on.",
+              "prompt": false
+            },
+            {
+              "speaker": "BANK",
+              "offset": "0:14",
+              "text": "Good. I have an update from the beneficiary bank, Banco Ficticio del Bajío, through the correspondent. They have frozen USD 620,000.00 in account EX-0000-0000-ESCROW-01. That matches your wire 3, confirmation FMCB-INT-0914-55471. It was received at 13:16 your time.",
+              "prompt": false
+            },
+            {
+              "speaker": "BANK",
+              "offset": "0:33",
+              "text": "Now the bad news. Wire 1, USD 480,000.00, confirmation FMCB-INT-0914-55102, left that same account at 11:22 your time in four outgoing transfers. Wire 2, USD 1,150,000.00, confirmation FMCB-INT-0914-55233, credited EX-0000-0000-ESCROW-02 through the intermediary and then left that account at 12:09 for a bank in a third country.",
+              "prompt": false
+            },
+            {
+              "speaker": "BANK",
+              "offset": "0:55",
+              "text": "Our recall requests on wires 1 and 2 stay open, but expect a partial result at best. On the frozen 620,000: a freeze is not a return. Those funds come back only with the account holder's consent or through a legal process.",
+              "prompt": false
+            },
+            {
+              "speaker": "BANK",
+              "offset": "1:10",
+              "text": "For our case file, here are my numbers. Three wires released, 2,250,000. Your fourth wire, 390,000, never left you. 620,000 frozen. That leaves 1,630,000 not located. Do those match your records?",
+              "prompt": true
+            },
+            {
+              "speaker": "BANK",
+              "offset": "1:28",
+              "text": "The beneficiary bank asks for two things by tomorrow morning: your IC3 complaint number, and a named law-enforcement contact they can deal with. Without those the freeze is harder for them to hold. Who on your side will send them to me?",
+              "prompt": true
+            },
+            {
+              "speaker": "BANK",
+              "offset": "1:50",
+              "text": "Our written confirmation of the freeze and of the open recalls is on the Treasury Services portal now, under the same case number. Please acknowledge it there. I'll call this line as soon as the correspondent sends anything more.",
+              "prompt": false
+            },
+            {
+              "speaker": "BANK",
+              "offset": "2:06",
+              "text": "That's all I have. Case FM-FRD-270914-0031. Thank you.",
+              "prompt": false
+            }
+          ],
+          "voiceStyles": {
+            "BANK": "Woman in her 30s, calm, precise bank fraud analyst, quiet call-center office behind her, reads figures slowly and clearly",
+            "TREAS": "Man in his 40s, tired and tense, speakerphone in a conference room"
+          },
+          "injectId": "I-17"
+        },
+        "instructorNote": "This call sets the final numbers. Hand the Controller the unsigned draft reconciliation (Requested $2,640,000 / Released $2,250,000 / Stopped $390,000 / Frozen $620,000 / Unrecovered $1,630,000). Watch for these actions: the Controller signs it and every message after this uses only those numbers; Legal starts a clock board (IC3 report within 72 hours, FBI field office called today about the Kill Chain, insurer hotline and broker told within 24 hours); the CFO briefs the CEO and has the corporate secretary tell the Audit Committee chair within 24 hours; the CISO logs every action and its time.",
+        "deliveryMode": "read_aloud"
+      }
+    },
+    {
+      "at": "2026-11-13T01:43:46.984Z",
+      "by": "user",
+      "note": "Corrected by hand for the shipped example",
+      "snapshot": {
+        "title": "Recorded Line: First Meridian Fraud Desk Reports Freeze and Losses",
+        "type": "phone_call",
+        "fields": {
+          "orgName": "Tamarack Precision Components, Inc.",
+          "systemName": "Recorded Line - Incident War Room Bridge",
+          "callId": "CR-20270914-151006-0071",
+          "direction": "Inbound",
+          "caller": {
+            "name": "Fraud Analyst, Treasury Services",
+            "number": "800-555-0141",
+            "label": "First Meridian Commercial Bank – Fraud Line (Case FM-FRD-270914-0031)"
+          },
+          "callee": {
+            "name": "Gareth Lindqvist-Boyd",
+            "number": "864-555-0100",
+            "label": "Treasury Manager – Incident War Room Bridge (speaker)"
+          },
+          "startTime": "09/14/2027 15:10:06",
+          "duration": "2:14",
+          "transcript": [
+            {
+              "speaker": "BANK",
+              "offset": "0:00",
+              "text": "First Meridian Treasury Services fraud desk, calling back on case FM-FRD-270914-0031. Am I speaking with Tamarack Treasury?",
+              "prompt": false
+            },
+            {
+              "speaker": "TREAS",
+              "offset": "0:06",
+              "text": "Yes, Treasury Manager. You're on speaker in our war room. The Controller, the CFO by phone, Legal and our CISO are all on.",
+              "prompt": false
+            },
+            {
+              "speaker": "BANK",
+              "offset": "0:14",
+              "text": "Good. I have an update from the beneficiary bank, Banco Ficticio del Bajío, through the correspondent. They have frozen USD 620,000.00 in account EX-0000-0000-ESCROW-01. That matches your wire 3, confirmation FMCB-INT-0914-55471. It was received at 13:16 your time.",
+              "prompt": false
+            },
+            {
+              "speaker": "BANK",
+              "offset": "0:33",
+              "text": "Now the bad news. Wire 1, USD 480,000.00, confirmation FMCB-INT-0914-55102, left that same account at 11:22 your time in four outgoing transfers. Wire 2, USD 1,150,000.00, confirmation FMCB-INT-0914-55233, credited EX-0000-0000-ESCROW-02 through the intermediary and then left that account at 12:09 for a bank in a third country.",
+              "prompt": false
+            },
+            {
+              "speaker": "BANK",
+              "offset": "0:55",
+              "text": "Our recall requests on wires 1 and 2 stay open, but expect a partial result at best. On the frozen 620,000: a freeze is not a return. Those funds come back only with the account holder's consent or through a legal process.",
+              "prompt": false
+            },
+            {
+              "speaker": "BANK",
+              "offset": "1:10",
+              "text": "For our case file, here are my numbers. Three wires released, 2,250,000. Your fourth wire, 390,000, never left you. 620,000 frozen. That leaves 1,630,000 not located. Do those match your records?",
+              "prompt": true
+            },
+            {
+              "speaker": "BANK",
+              "offset": "1:28",
+              "text": "The beneficiary bank asks for two things by tomorrow morning: your IC3 complaint number, and a named law-enforcement contact they can deal with. Without those the freeze is harder for them to hold. Who on your side will send them to me?",
+              "prompt": true
+            },
+            {
+              "speaker": "BANK",
+              "offset": "1:50",
+              "text": "Our written confirmation of the freeze and of the open recalls is on the Treasury Services portal now, under the same case number. Please acknowledge it there. I'll call this line as soon as the correspondent sends anything more. We have also passed the case to the FBI field office, and a special agent from its cyber squad left a voicemail on your Controller's line asking for a call back with the complaint number.",
+              "prompt": false
+            },
+            {
+              "speaker": "BANK",
+              "offset": "2:06",
+              "text": "That's all I have. Case FM-FRD-270914-0031. Thank you.",
+              "prompt": false
+            }
+          ],
+          "voiceStyles": {
+            "BANK": "Woman in her 30s, calm, precise bank fraud analyst, quiet call-center office behind her, reads figures slowly and clearly",
+            "TREAS": "Man in his 40s, tired and tense, speakerphone in a conference room"
+          },
+          "injectId": "I-17"
+        },
+        "instructorNote": "This call sets the final numbers. Hand the Controller the unsigned draft reconciliation (Requested $2,640,000 / Released $2,250,000 / Stopped $390,000 / Frozen $620,000 / Unrecovered $1,630,000). Watch for these actions: the Controller signs it and every message after this uses only those numbers; Legal starts a clock board (IC3 report within 72 hours, FBI field office called today about the Kill Chain, insurer hotline and broker told within 24 hours); the CFO briefs the CEO and has the corporate secretary tell the Audit Committee chair within 24 hours; the CISO logs every action and its time.",
+        "deliveryMode": "read_aloud"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-11-13T02:36:56.010Z"
+}

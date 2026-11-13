@@ -1,0 +1,54 @@
+{
+  "id": "wren-sheriff",
+  "title": "Wren County Sheriff's Office: a missing child and the AMBER Alert decision",
+  "domainProfile": "justice",
+  "summary": "A fictional Oregon county sheriff's office (a 6-console 911 center shared with the city police and fire district, a tip line, and an AMBER Alert plan run with the Oregon State Police) and an exercise generated from its simulated plans: a child reported taken from a fall festival, a one-hour clock to the AMBER decision, unified command with the city police, and a family and public told one consistent story.",
+  "notice": "EXERCISE MATERIAL, for training use. Wren County, its agencies, people, sites and every child, family and case described are simulated; the public sources consulted for realism are listed in reference/wren-sheriff/SOURCES.md. The exercise covers command, communication and decisions only. It contains content about a missing child; plan a wellbeing check at the end.",
+  "project": {
+    "name": "Wren County Sheriff's Office",
+    "orgName": "Wren County Sheriff's Office",
+    "orgType": "justice",
+    "toolkits": ["justice", "dispatch", "media_environment"],
+    "brand": {
+      "city": "Alder Falls",
+      "region": "Wren County, Oregon",
+      "aliases": {
+        "org": "Wren County Sheriff's Office",
+        "orgShort": "WCSO",
+        "orgDomain": "wrencosheriff.example",
+        "partnerPd": "Alder Falls Police Department",
+        "fireDistrict": "Wren County Fire District 1"
+      }
+    }
+  },
+  "documents": {
+    "dir": "reference/wren-sheriff",
+    "exclude": ["SOURCES.md"]
+  },
+  "media": {
+    "aiImagesPerScenario": 2,
+    "ttsPerScenario": 2
+  },
+  "scenarios": [
+    {
+      "key": "missing-child",
+      "startWallClock": "14:05",
+      "threatFamily": "physical_security",
+      "summary": "On a Saturday afternoon at the Wren County Fall Festival a six-year-old child is reported taken to a vehicle. The Sheriff's Office, Alder Falls PD and the Oregon State Police must form unified command, decide whether the five AMBER Alert criteria are met and how fast, keep the tip line and 911 center working through a surge, and tell the family, the partners and the public the same thing.",
+      "userPrompt": "A Saturday in mid-October, cool and dry, the Wren County Fall Festival at the Wren County Fairgrounds with about 3,000 visitors. The exercise starts at 14:05, five minutes after the first report. At 14:00 a telecommunicator at Wren County Communications takes a call from a grandparent: a six-year-old girl, exercise name Lily Ashby, was last seen at 13:40 near the Exhibit Hall B petting area, and a festival volunteer says a man led a child to a dark pickup truck leaving by the north gate at about 13:50. Day Communications Supervisor Priya Venkataraman flags the CAD incident 'missing child'; the first deputy to arrive assumes command and Patrol Lieutenant Marguerite Haldane takes over as Incident Commander; Sheriff Rosalind Teague and Undersheriff Calvin Okafor are reachable by phone. Pressure points and decisions: whether the facts support all five AMBER criteria (reasonable belief of abduction; imminent danger of serious bodily injury or death; enough descriptive information; a child 17 or younger; entry in the national database with the Child Abduction flag, which must be made before the alert and read back by a second person); the one-hour target from the first report to the decision and 15 minutes from decision to alert; the OSP AMBER Alert coordinator takes the request through the OSP Northern Communications Center and checks the criteria, and may ask for more descriptive information; the witness account changes (the truck becomes dark blue, then gray; the volunteer is unsure of the time) and a second caller says the child was seen at the food booths, so the criteria are only partly met at first and the worksheet is reviewed every 30 minutes; the first holding statement within 30 minutes; establishing the command post at building level at the Fairgrounds Exhibit Hall B office; forming unified command with Alder Falls PD (the north gate road is in the city limits, so jurisdiction is shared), Fire District 1 and the Oregon State Police within 30 minutes; mutual aid requests in order to APD, Deschutes and Jefferson county sheriffs, OSP and Oregon Emergency Management, and the FBI Portland Field Office and NCMEC being called; the 911 center enters a call surge when tips pour in after the alert (queue over 12, hold over 30 seconds) and moves the tip line to the conference room staffed by three call-takers; WrenAlert cannot be used for AMBER; Wren County Search and Rescue is called for a ground search at the fairgrounds, while the Incident Commander must not weaken the vehicle search; the family is told about the alert by the Victim and Family Liaison Nadia Brightwater before it goes out, and the grandparent posts the child's photo and a different truck description on a community Facebook group, so the PIO Deputy Tomas Reyes must correct the posted description in public within 30 minutes and keep Sheriff's Office, APD, Fire District 1 and OSP text identical; a viral post names a local man as the abductor and the PIO must answer it without naming anyone; a local TV reporter and a regional wire service ask whether there is a suspect and why the alert was not issued sooner; at about 16:30 a tip puts a truck on Highway 26 toward the county line and the alert area is extended through OSP; a decision is needed on whether to cancel the alert if the child is found, and the closing statement. The SimCell plays the OSP AMBER Alert coordinator, FBI Portland, NCMEC, Deschutes and Jefferson county sheriffs, Oregon Emergency Management, APD watch commander, the family, the grandparent, the festival organizer, the Wren County School District, reporters, a TV station, a wire service and social media users. Keep every product at command, communication and decision level: no tactics, no method of search entry or pursuit, no description of the suspect beyond vehicle and clothing needed for the public, no victim detail beyond the alert text.",
+      "audience": [
+        "Incident Commander (Patrol Lieutenant)",
+        "Communications Center Supervisor",
+        "Investigations Sergeant",
+        "Public Information Officer",
+        "Victim and Family Liaison",
+        "Undersheriff (Sheriff's Office executive)"
+      ],
+      "constraints": [
+        "Every email address of the Sheriff's Office uses the exercise domain wrencosheriff.example; Alder Falls PD uses alderfallspd.example; outside parties use fictional domains; never a real agency, company or newspaper domain. Phone numbers use 555-01xx.",
+        "AMBER Alert text is under 360 characters, carries only information that helps the public recognise the child or vehicle, and is marked as an exercise product; times are Pacific time; no real child, family, suspect or case number is depicted, and no product describes tactics, force options or investigative techniques.",
+        "Player roles are only those in the audience list; the Oregon State Police, FBI Portland Field Office, NCMEC, Alder Falls PD, Fire District 1, neighboring sheriffs, the family, reporters and social media users are played by the SimCell."
+      ]
+    }
+  ]
+}

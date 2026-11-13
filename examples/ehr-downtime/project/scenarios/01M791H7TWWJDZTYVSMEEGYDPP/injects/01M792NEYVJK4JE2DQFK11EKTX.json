@@ -1,0 +1,101 @@
+{
+  "id": "01M792NEYVJK4JE2DQFK11EKTX",
+  "mselRowId": "I-06",
+  "type": "time_jump_card",
+  "title": "Time Jump: 03:40, 90 Minutes Down",
+  "deliveryMode": "read_aloud",
+  "fields": {
+    "exerciseTime": "1:00",
+    "newTime": "03:40",
+    "jumpLabel": "+10 minutes (90 minutes since the 02:10 failure)",
+    "scenarioTitle": "Cold Storage — EHR Storage Failure & Downtime Continuity",
+    "injectId": "I-06",
+    "narration": "EXERCISE: all patients and record numbers are fictional. It is now 03:40 on Tuesday, February 9, 2027, in Duluth. Outside it is still minus 21 degrees. Lakechart and the interface engine are still red: down. They have been down for 90 minutes. Marcus Ellery has just walked into the Boardroom command center and is taking off her coat. Dr. Priya Raman called from the road and is about 20 minutes out on icy roads. On the wall monitor the interface queue counters keep climbing. About 9,500 messages are now held in the source systems, and the 8-hour hold runs out at about 10:10 this morning. Across the building, paper is piling up. Runners are carrying green requisitions to the Core Lab. The medication cabinets on every floor are in override. The 23:20 downtime census still leaves out everyone admitted or moved since then. Nobody in this room has yet said out loud whether this could be a security event. The clock is running.",
+    "worldState": [
+      "Time is 03:40, Tuesday, February 9, 2027. Outside temperature is -21°F.",
+      "Status dashboard: LAKECHART PROD — RED — DOWN; INTERFACE ENGINE — RED — DOWN. Both have been down since 02:10.",
+      "Marcus Ellery (Clinical Systems Lead, ext. 5502) is in the Boardroom command center (ext. 5520). Dr. Priya Raman arrives in about 20 minutes.",
+      "Interface monitor, 03:40, messages held at source: ADT 125 | ORM orders 1,620 | ORU results 3,780 | Medication administration 2,340 | Charges 1,580 | ELR, immunizations and HIE outbound 90 | TOTAL about 9,535.",
+      "Source hold limit: 8 hours from 02:10. Queues begin to drop at about 10:10. That leaves 6 hr 30 min.",
+      "Northpine case P1-20270209-0417: callback was promised by 03:30 and has not come yet. Relaywell ticket RW-88213: callback is expected around 05:00.",
+      "Downtime viewer: still READ-ONLY, data current as of 23:20. No admissions, transfers or med passes after 23:20 appear on printed censuses or MARs.",
+      "Core Lab is working from paper requisitions brought by runners. Automated dispensing cabinets on every floor are in override mode.",
+      "No one has stated on the command board whether a security cause has been ruled in or out."
+    ],
+    "facilitatorNote": "Pause after reading and ask the IC to state the current downtime level, who declared it and when, then check whether the CSL is counting down to 10:10. Ask each role which first-hour checklist items are still open: the 30-minute lab and pharmacy reports, vendor case numbers on the board, and the Security Officer briefing, whose 60-minute rule-out window started when the downtime was recognized."
+  },
+  "variant": "default",
+  "instructorNote": "This card resets the room at the one-hour mark. It should get the IC to put a dated, attributed downtime level on the command board and the CSL to set a countdown to the 10:10 hold limit. Watch whether anyone notices that nobody has briefed the Privacy and Security Officer and that the 60-minute window to rule out a security cause is nearly over.",
+  "citations": [
+    {
+      "documentId": "01M791H5T9913NQR8TVBHP3J1Z",
+      "documentTitle": "Lakemont Community Hospital — Clinical Systems, Interfaces and Vendors",
+      "headingPath": "Lakemont Community Hospital — Cl… › 2. Interface classes",
+      "quote": "Messages are grouped for downtime decisions into classes: - **ADT** (admit, discharge, transfer, registration): about 2,400 per day. - **Orders** (to lab, radiology, pharmacy): about 22,000 per day. -",
+      "chunkId": 34
+    },
+    {
+      "documentId": "01M791H5T4QRTQAQ9XEEV0T7D6",
+      "documentTitle": "Lakemont Community Hospital — Information Systems Downtime and Recovery Plan",
+      "headingPath": "Lakemont Community Hospital — In… › 4. First hour checklist",
+      "quote": "1. The first person to notice loss of the EHR calls the IS Help Desk (ext. 5500). The help desk technician checks the status dashboard and pages the on-call systems analyst. 2. The on-call analyst con",
+      "chunkId": 5
+    },
+    {
+      "documentId": "01M791H5T9913NQR8TVBHP3J1Z",
+      "documentTitle": "Lakemont Community Hospital — Clinical Systems, Interfaces and Vendors",
+      "headingPath": "Lakemont Community Hospital — Cl… › 7. People",
+      "quote": "- Clinical Systems Lead: Marcus Ellery, ext. 5502. - On-call systems analysts: Ananya Desai (nights, ext. 5503) and Kyle Brandvold (days, ext. 5504). - Record Integrity Specialist: Elena Moreau, ext. ",
+      "chunkId": 39
+    },
+    {
+      "documentId": "01M791H5T9913NQR8TVBHP3J1Z",
+      "documentTitle": "Lakemont Community Hospital — Clinical Systems, Interfaces and Vendors",
+      "headingPath": "Lakemont Community Hospital — Cl… › 1. Systems of record",
+      "quote": "| System | Use | Host | Notes | |---|---|---|---| | Lakechart EHR (vendor-hosted application, locally hosted database) | Orders, notes, MAR, ADT, registration | Primary data center, Duluth; secondary ",
+      "chunkId": 33
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template"
+    ]
+  },
+  "assets": [],
+  "versions": [
+    {
+      "at": "2026-11-12T23:49:57.508Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "Time Jump: 03:40, 90 Minutes Down",
+        "type": "time_jump_card",
+        "fields": {
+          "exerciseTime": "1:00",
+          "newTime": "03:40",
+          "jumpLabel": "+10 minutes (90 minutes since the 02:10 failure)",
+          "scenarioTitle": "Cold Storage — EHR Storage Failure & Downtime Continuity",
+          "injectId": "I-06",
+          "narration": "EXERCISE: all patients and record numbers are fictional. It is now 03:40 on Tuesday, February 9, 2027, in Duluth. Outside it is still minus 21 degrees. Lakechart and the interface engine are still red: down. They have been down for 90 minutes. Marcus Ellery has just walked into the Boardroom command center and is taking off her coat. Dr. Priya Raman called from the road and is about 20 minutes out on icy roads. On the wall monitor the interface queue counters keep climbing. About 9,500 messages are now held in the source systems, and the 8-hour hold runs out at about 10:10 this morning. Across the building, paper is piling up. Runners are carrying green requisitions to the Core Lab. The medication cabinets on every floor are in override. The 23:20 downtime census still leaves out everyone admitted or moved since then. Nobody in this room has yet said out loud whether this could be a security event. The clock is running.",
+          "worldState": [
+            "Time is 03:40, Tuesday, February 9, 2027. Outside temperature is -21°F.",
+            "Status dashboard: LAKECHART PROD — RED — DOWN; INTERFACE ENGINE — RED — DOWN. Both have been down since 02:10.",
+            "Marcus Ellery (Clinical Systems Lead, ext. 5502) is in the Boardroom command center (ext. 5520). Dr. Priya Raman arrives in about 20 minutes.",
+            "Interface monitor, 03:40, messages held at source: ADT 125 | ORM orders 1,620 | ORU results 3,780 | Medication administration 2,340 | Charges 1,580 | ELR, immunizations and HIE outbound 90 | TOTAL about 9,535.",
+            "Source hold limit: 8 hours from 02:10. Queues begin to drop at about 10:10. That leaves 6 hr 30 min.",
+            "Northpine case P1-20270209-0417: callback was promised by 03:30 and has not come yet. Relaywell ticket RW-88213: callback is expected around 05:00.",
+            "Downtime viewer: still READ-ONLY, data current as of 23:20. No admissions, transfers or med passes after 23:20 appear on printed censuses or MARs.",
+            "Core Lab is working from paper requisitions brought by runners. Automated dispensing cabinets on every floor are in override mode.",
+            "No one has stated on the command board whether a security cause has been ruled in or out."
+          ],
+          "facilitatorNote": "Pause after reading and ask the IC to state the current downtime level, who declared it and when, then check whether the CSL is counting down to 10:10. Ask each role which first-hour checklist items are still open: the 30-minute lab and pharmacy reports, vendor case numbers on the board, and the Security Officer briefing, whose 60-minute rule-out window started when the downtime was recognized."
+        },
+        "instructorNote": "This card resets the room at the one-hour mark. It should get the IC to put a dated, attributed downtime level on the command board and the CSL to set a countdown to the 10:10 hold limit. Watch whether anyone notices that nobody has briefed the Privacy and Security Officer and that the 60-minute window to rule out a security cause is nearly over.",
+        "deliveryMode": "read_aloud"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-11-13T02:45:13.344Z"
+}

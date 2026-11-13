@@ -1,0 +1,48 @@
+{
+  "id": "pinecrest-recall",
+  "title": "Pinecrest Fresh Cut: a leafy greens hold, trace and recall",
+  "domainProfile": "supply_chain",
+  "summary": "A Salinas, California fresh-cut leafy greens processor with one plant, three distribution centers, a retail chain, a foodservice distributor and a co-packer, and an exercise generated from its simulated plans: a presumptive E. coli O157:H7 result on a retained romaine sample, a lot trace across the network against the 24-hour records request, a recall decision and letters whose counts must reconcile.",
+  "notice": "EXERCISE MATERIAL — for training use. Pinecrest Fresh Cut, its growers, customers, carriers, co-packer, insurer and people are simulated, and no real outbreak or product is depicted; the public sources consulted for realism are listed in reference/pinecrest-recall/SOURCES.md.",
+  "project": {
+    "name": "Pinecrest Fresh Cut Recall Team",
+    "orgName": "Pinecrest Fresh Cut, LLC",
+    "orgType": "supply_chain",
+    "toolkits": ["logistics", "media_environment"],
+    "brand": {
+      "city": "Salinas",
+      "region": "California",
+      "aliases": {
+        "org": "Pinecrest Fresh Cut, LLC",
+        "orgShort": "Pinecrest",
+        "orgDomain": "pinecrestfresh.example",
+        "retailer": "Harvest Table Markets",
+        "localPaper": "Central Coast Courier"
+      }
+    }
+  },
+  "documents": { "dir": "reference/pinecrest-recall", "exclude": ["SOURCES.md"] },
+  "media": { "aiImagesPerScenario": 2, "ttsPerScenario": 2 },
+  "scenarios": [
+    {
+      "key": "romaine-positive",
+      "startWallClock": "06:00",
+      "threatFamily": "infrastructure_failure",
+      "summary": "A lab reports a presumptive E. coli O157:H7 positive on a retained sample of romaine from one packing line; the team has hours to hold five lots, trace 38,600 cases across three distribution centers, a co-packer with paper records and a distributor, decide on a Class I recall and send letters and a press release whose counts agree.",
+      "userPrompt": "Tuesday, October 12, 2027, Pacific Time, mid harvest in the Salinas Valley. At 05:50 Coastal Analytical Labs emails a presumptive positive for E. coli O157:H7 on a retained sample of lot PF1-27278-L2-B (Plant 1, line 2, shift B, produced October 5); the confirmation test will take 24 to 48 hours. The exercise starts at 06:00 as Recall Coordinator and VP Food Safety and Quality Dr. Imani Brooks opens the Recall Team call on the bridge (831) 555-0131. The signal time is 05:50 and the plan's measures run from it. Scope: every lot made on line 2 within 24 hours of the positive and the raw material lot FLD-SLG-R14-C-27277 from Santa Lucia Growers Ranch 14, Block C: five lots, PF1-27277-L2-B, PF1-27278-L2-A, PF1-27278-L2-B, PF1-27279-L2-A and PF1-27279-L2-B, 38,600 cases in all, shipped as 18,900 to the Stockton DC, 9,700 to the Phoenix DC, 7,400 to the Dallas DC and 2,600 direct to the co-packer Rivermark Kits in Fresno; use-by dates run to October 19 and about 40 percent has already sold through. Pressure points: MES holds within 30 minutes and physical holds at the DCs within 4 hours; Plant Manager Dwayne Pruitt stops line 2 for sanitation and swab series; the Traceability and Systems Lead Kevin Oyelaran's trace must reach the ship-to level for customers Harvest Table Markets (212 stores, category manager Joyce Whitlock), Cornerstone Grocers (140 Texas stores, buyer Eddie Navarro), Westline Foodservice (31 delivery points including hospitals and school districts) and Rivermark, whose receiving records are on paper (the last mock recall left 4 percent unmatched) and whose Caesar kits went on to national retail accounts; a Sonoran Cold Freight trailer with 1,320 cases is 14 hours out on the road to Dallas near Tucson and Dallas has already shipped 2,100 cases to 38 Cornerstone stores since 04:00; MES counts 38,600 cases but a WMS export says 38,540 and a draft press release says 'about 40,000'; at 09:30 the California Department of Public Health calls about three reported illnesses with a pending genetic match and asks for the distribution list; the FDA records request starts a 24-hour clock for a sortable spreadsheet; a food safety blogger posts at 11:00 that 'romaine is about to be recalled'; the President, Nathan Kowalczyk, must decide on the recall (class, depth, public warning) before confirmation results arrive, which the plan permits; the recall letter must carry the lot codes, quantity per customer, action, reply form and contacts and be sent to every direct customer within 4 hours of the decision; Cornerstone threatens to drop Pinecrest and demands replacement romaine while the VP Supply Chain Marcus Tillman can replace only about 60 percent of romaine volume in 48 hours (allocation rule, alternate source from spot growers); General Counsel Renata Voss notifies Trellis Mutual; the Communications Manager Tom Haskell's press release goes out with the retailers' agreement, and a Central Coast Courier reporter calls. Decisions the toolkit forms cover: hold or quarantine a lot, submit the trace result, declare the recall, notify customers, allocate supply, switch source, reroute a trailer and escalate to the executive. The SimCell plays the lab, FDA, CDPH, Arizona, Nevada and Texas agencies, the customers' category managers, the carriers, the grower, Rivermark, reporters, the blogger and consumers.",
+      "audience": [
+        "VP Food Safety and Quality (Recall Coordinator)",
+        "VP Supply Chain",
+        "Director of Logistics",
+        "Traceability and Systems Lead",
+        "Customer Service Manager",
+        "Communications Manager"
+      ],
+      "constraints": [
+        "Every Pinecrest email address uses the exercise domain pinecrestfresh.example; customers, growers, carriers, the co-packer, insurer and outlets use fictional .example domains; never a real brand, grower, retailer or outlet.",
+        "Lot codes follow the plant format PF<plant>-<yy><ddd>-L<line>-<shift> exactly, recall letters carry the elements in the recall notification procedure, and every count in a letter, release or FDA submission comes from the reconciliation table; documents are marked as exercise products; times are Pacific Time.",
+        "Player roles are only those in the audience list; the President, General Counsel, plant and DC managers, FDA, CDPH and other agencies, the lab, customers, carriers, the grower, the co-packer, reporters and consumers are played by the SimCell."
+      ]
+    }
+  ]
+}

@@ -1,0 +1,177 @@
+{
+  "id": "01M794XRBY6CXGA2Q2WWR1Z2AM",
+  "mselRowId": "I-03",
+  "type": "screenshot_generic",
+  "title": "LRMC Capacity Board: Pinecrest Row Stale, 18:10",
+  "deliveryMode": "hand_to_role",
+  "fields": {
+    "appName": "Web Browser",
+    "windowTitle": "Regional Hospital Capacity Board: LRMC MEDCOM. AUTO-REFRESH FAILED: status feed timeout (retry 3 of 3). Data shown may be stale.",
+    "location": "https://capacityboard.lrmc.example/board/active",
+    "menuItems": [
+      "Board",
+      "Hospitals",
+      "MCI Log",
+      "Patient List",
+      "Refresh",
+      "Help"
+    ],
+    "sidebarItems": [
+      {
+        "label": "ACTIVE MCI: Highway 21 at County Road K (CAD 26-118342)",
+        "meta": "Level 2 · Called 17:49 · Est. 28 patients, 7 trapped",
+        "selected": false
+      },
+      {
+        "label": "Larkfield Regional Medical Center (LRMC), Brandt Lake",
+        "meta": "Status: OPEN | ED beds avail: 3 of 24 | Trauma bays: 3 | Last updated: 18:01",
+        "selected": false
+      },
+      {
+        "label": "St. Brendan's Community Hospital, Pell Harbor",
+        "meta": "Status: LIMITED INTAKE (CT down, no head injuries) | ED beds avail: 6 | Last updated: 17:24",
+        "selected": false
+      },
+      {
+        "label": "Pinecrest Memorial Hospital, Wausau Road",
+        "meta": "Status: OPEN | ED beds avail: 5 | Last updated: 16:55",
+        "selected": true
+      },
+      {
+        "label": "Lakeshore University Medical Center",
+        "meta": "Status: OPEN | Immediate patients by Air 7 only, 22 min | Last updated: 17:58",
+        "selected": false
+      },
+      {
+        "label": "MEDCOM line: new voicemail, 18:12 (0:11)",
+        "meta": "\"...this is Pinecrest, we've got cars pulling up from that bus crash, three walk-ins so far, nobody called us. Can someone...\" (message ends)",
+        "selected": false
+      }
+    ],
+    "statusText": "Last successful refresh 16:55 · Feed: TIMEOUT · Status calls/faxes received since 17:49: 0 · Logged in: MEDCOM-1",
+    "imageBrief": "Hospital capacity dashboard in a browser window with a wide red alert banner across the top and a table of hospital rows below, one row highlighted, with a desk phone voicemail light blinking beside the monitor",
+    "clock": "18:12"
+  },
+  "variant": "windows",
+  "instructorNote": "This clue shows that the capacity board is stale: Pinecrest's last update was at 16:55, before the crash, and patients are already arriving there in private cars. Watch for these actions: MEDCOM marks Pinecrest UNCONFIRMED, calls Pinecrest's on-call contact for a voice status, checks the other rows' timestamps (St. Brendan's is also old) and warns everyone on MED 1. HCC starts tracking the walk-ins arriving at Pinecrest. MED holds all transports to Pinecrest until its status is confirmed by voice.",
+  "citations": [
+    {
+      "documentId": "01M793P6PGDB8Z907EWTDCQPAM",
+      "documentTitle": "SOP-MC-02: Medical Communications, Destinations and the Hospital Capacity Board",
+      "headingPath": "SOP-MC-02: Medical Communication… › 2. Hospitals and capabilities",
+      "quote": "| Hospital | Beds | Capabilities | Notes | |---|---|---|---| | Larkfield Regional Medical Center (LRMC), Brandt Lake | 140 | Level II trauma center, 3 trauma bays, 4 ORs, ICU 12 beds, pediatric ED | M",
+      "chunkId": 31
+    },
+    {
+      "documentId": "01M793P6PGDB8Z907EWTDCQPAM",
+      "documentTitle": "SOP-MC-02: Medical Communications, Destinations and the Hospital Capacity Board",
+      "headingPath": "SOP-MC-02: Medical Communication… › 3. Status categories",
+      "quote": "A hospital's status is one of: **Open** (accepting any patient), **Limited intake** (accepting only the categories it lists), **Diversion** (not accepting arrivals unless an unstable patient cannot go",
+      "chunkId": 32
+    },
+    {
+      "documentId": "01M793P6PFQ4PY61W0H9SNTC30",
+      "documentTitle": "Larkfield County EMS: Mass Casualty Incident Plan",
+      "headingPath": "Larkfield County EMS: Mass Casua… › 6. Hospital notification and medical communications",
+      "quote": "The Medical Communications Coordinator calls Larkfield Regional Medical Center (LRMC) MEDCOM (920-555-0190, the dedicated MEDCOM radio channel MED 1) and reads the incident, the method, the counts and",
+      "chunkId": 26
+    },
+    {
+      "documentId": "01M793P6PGDB8Z907EWTDCQPAM",
+      "documentTitle": "SOP-MC-02: Medical Communications, Destinations and the Hospital Capacity Board",
+      "headingPath": "SOP-MC-02: Medical Communication… › 6. Reporting counts",
+      "quote": "MEDCOM maintains a patient list by tag number with: destination, arrival time, and disposition. Counts are reconciled every 30 minutes with the field Transportation Unit Leader. Differences are resolv",
+      "chunkId": 35
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template",
+      "ai_image"
+    ],
+    "imagePrompt": "A monitor photographed at an angle, slight moiré and reflections. A hospital medical communications workstation in early evening, photographed at an angle across a cluttered desk. A wide computer monitor glows with a dashboard: a broad red alert band across the top and a grid of pale table rows below, one row tinted with a highlight, all rows unreadable from this distance. Beside the monitor sits a beige desk phone with a small red voicemail light glowing. A headset is draped over the keyboard, a half-empty coffee cup and a clipboard of blank forms nearby. Dim overhead fluorescent lighting, the monitor casting a cool blue-and-red glow on the desk, a tense, quiet mood, shallow depth of field, 35 mm lens.",
+    "negativePrompt": "text, letters, words, captions, subtitles, readable signage, watermark, logo, signature, blurry, low quality, deformed hands, extra limbs, extra fingers, cartoon, illustration, 3d render, cgi, readable text on screen, legible numbers, people's faces, bright daylight, empty desk, hospital logos, brand names on equipment",
+    "imageStyle": "screen"
+  },
+  "assets": [
+    {
+      "id": "01M799KSPSXWFP765BF818BS23",
+      "kind": "image",
+      "path": "scenarios/01M793P8PXF0GDKTPD0H7TVRD5/media/01M794XRBY6CXGA2Q2WWR1Z2AM/01M799KSPSXWFP765BF818BS23.png",
+      "role": "composite",
+      "width": 1280,
+      "height": 800,
+      "sha256": "2b3a382af76886bc78649d2302bf77ea538c9b73bcd9b08e0bd84e71709df2ac",
+      "provenance": {
+        "provider": "template",
+        "templateId": "screenshot_generic",
+        "templateVersion": "1",
+        "createdAt": "2026-11-13T01:51:03.164Z"
+      }
+    }
+  ],
+  "versions": [
+    {
+      "at": "2026-11-13T00:29:32.394Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "LRMC Capacity Board: Pinecrest Row Stale, 18:10",
+        "type": "screenshot_generic",
+        "fields": {
+          "appName": "Web Browser",
+          "windowTitle": "Regional Hospital Capacity Board: LRMC MEDCOM. AUTO-REFRESH FAILED: status feed timeout (retry 3 of 3). Data shown may be stale.",
+          "location": "https://capacityboard.lrmc.example/board/active",
+          "menuItems": [
+            "Board",
+            "Hospitals",
+            "MCI Log",
+            "Patient List",
+            "Refresh",
+            "Help"
+          ],
+          "sidebarItems": [
+            {
+              "label": "ACTIVE MCI: Highway 21 at County Road K (CAD 26-118342)",
+              "meta": "Level 2 · Called 17:49 · Est. 28 patients, 7 trapped",
+              "selected": false
+            },
+            {
+              "label": "Larkfield Regional Medical Center (LRMC), Brandt Lake",
+              "meta": "Status: OPEN | ED beds avail: 3 of 24 | Trauma bays: 3 | Last updated: 18:01",
+              "selected": false
+            },
+            {
+              "label": "St. Brendan's Community Hospital, Pell Harbor",
+              "meta": "Status: LIMITED INTAKE (CT down, no head injuries) | ED beds avail: 6 | Last updated: 17:24",
+              "selected": false
+            },
+            {
+              "label": "Pinecrest Memorial Hospital, Wausau Road",
+              "meta": "Status: OPEN | ED beds avail: 5 | Last updated: 16:55",
+              "selected": true
+            },
+            {
+              "label": "Lakeshore University Medical Center",
+              "meta": "Status: OPEN | Immediate patients by Air 7 only, 22 min | Last updated: 17:58",
+              "selected": false
+            },
+            {
+              "label": "MEDCOM line: new voicemail, 18:12 (0:11)",
+              "meta": "\"...this is Pinecrest, we've got cars pulling up from that bus crash, three walk-ins so far, nobody called us. Can someone...\" (message ends)",
+              "selected": false
+            }
+          ],
+          "statusText": "Last successful refresh 16:55 · Feed: TIMEOUT · Status calls/faxes received since 17:49: 0 · Logged in: MEDCOM-1",
+          "imageBrief": "Hospital capacity dashboard in a browser window with a wide red alert banner across the top and a table of hospital rows below, one row highlighted, with a desk phone voicemail light blinking beside the monitor",
+          "clock": "18:12"
+        },
+        "instructorNote": "This clue shows that the capacity board is stale: Pinecrest's last update was at 16:55, before the crash, and patients are already arriving there in private cars. Watch for these actions: MEDCOM marks Pinecrest UNCONFIRMED, calls Pinecrest's on-call contact for a voice status, checks the other rows' timestamps (St. Brendan's is also old) and warns everyone on MED 1. HCC starts tracking the walk-ins arriving at Pinecrest. MED holds all transports to Pinecrest until its status is confirmed by voice.",
+        "deliveryMode": "hand_to_role"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-11-13T01:51:03.899Z"
+}

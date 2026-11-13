@@ -1,0 +1,48 @@
+{
+  "id": "crisis-center-988",
+  "title": "Great Plains Crisis Network 988 Center",
+  "domainProfile": "human_services",
+  "summary": "A fictional Nebraska nonprofit that runs the state's 988 Lifeline center (74 staff, about 750 contacts a day) and an exercise generated from its simulated plans: a community tragedy in a small fictional town drives call, text and chat volume to more than double, and the center must activate its surge plan, request backup in time, speak safely in public and look after its own counselors.",
+  "notice": "EXERCISE MATERIAL — for training use. Great Plains Crisis Network, its people, systems and the town and tragedy in the scenario are simulated; no real person is involved and no method detail is described. The public sources consulted for realism are listed in reference/crisis-center-988/SOURCES.md. This exercise includes difficult material; anyone may step out at any time.",
+  "project": {
+    "name": "Great Plains Crisis Network",
+    "orgName": "Great Plains Crisis Network",
+    "orgType": "human_services",
+    "toolkits": ["crisis_line", "behavioral_safeguards"],
+    "brand": {
+      "city": "Lincoln",
+      "region": "Nebraska",
+      "aliases": {
+        "org": "Great Plains Crisis Network",
+        "orgShort": "GPCN",
+        "orgDomain": "gpcn.example",
+        "stateAgency": "Nebraska Division of Behavioral Health"
+      }
+    }
+  },
+  "documents": { "dir": "reference/crisis-center-988", "exclude": ["SOURCES.md"] },
+  "media": { "aiImagesPerScenario": 2, "ttsPerScenario": 2 },
+  "scenarios": [
+    {
+      "key": "community-tragedy-surge",
+      "startWallClock": "13:00",
+      "threatFamily": "mass_gathering",
+      "summary": "On a Thursday afternoon in March a fictional school bus and truck crash near the small town of Ellery Ridge, Nebraska, kills several students; over the next hours calls, texts and chats to GPCN more than double, the queues pass the plan's thresholds, and the center must surge, request backup, communicate safely and protect its counselors.",
+      "userPrompt": "Thursday, 12 March 2026 (a fictional crash; no real event or person). At 12:10 the Nebraska State Patrol reports a collision between a school bus and a truck on a county road near the fictional town of Ellery Ridge, several students dead and others hurt; by 12:50 the news has spread on local media and social posts. The exercise starts at 13:00 with GPCN on its day shift: 16 counselors on the floor (calls 9, texts and chats 7 after lunch breaks), two shift supervisors (Priyanka Venkat is surge commander), Workforce Coordinator Tamsin Reyes, Technology Manager Odalys Ferreira, Communications Lead Jerome Bell, Director of Clinical Operations Marcus Obuya and Executive Director Dr. Wilhelmina Strand. Normal weekday volume is 520 calls, 140 texts and 90 chats; the service level target is 90 percent answered within 120 seconds. Timeline: at 13:20 text volume doubles and the oldest text waits 6 minutes (Level 1, watch); at 13:50 calls follow, the answer rate drops under 80 percent for two 15-minute intervals and the oldest wait passes 10 minutes (Level 2: overflow to supervisors and trained administrative staff, pause callbacks for non-imminent risk, call in off-duty counselors; the call-in list has 38 names and 11 were unreachable at the last test); at 14:45 the answer rate is under 70 percent and the oldest text has waited 20 minutes (Level 3: backup request, ideally before a queue has run 60 minutes over threshold) and the team asks the 988 network administrator's operations desk to route 40 percent of in-state calls to out-of-state centers and asks the state backup center to share texts; routing takes 10 to 15 minutes, and the dashboard lags by two intervals so the board looks better than the platform. Pressure points: the evening shift (Calvin Whitehorse) starts at 14:00 with 14 counselors, one counselor grew up near Ellery Ridge and asks to step off the queue, a second hits 5 hours without a break; a viral post says the lines are down and nobody is answering; a regional TV station asks for the number of calls about the crash and for stories from callers (GPCN refuses caller stories, never describes methods or any death, uses safe messaging and gives 988 by call, text and chat); the Nebraska Division of Behavioral Health's 988 coordinator Hannah Lindqvist asks for a status and the disaster behavioral health team prepares a community vigil; a hosted platform text-queue lag appears at 15:30 and the team must decide whether to fail over; a school superintendent asks for counselor visits and GPCN does not deploy in person; the executive command line opens at Level 3; the 988 network administrator warns that backups elsewhere are also stressed; the wellbeing contact Dr. Anneliese Park checks in at breaks, and the group check-in is set within 48 hours. Decisions the exercise should record: activate the surge plan, request backup support (from whom, which contact type, from when), issue a public statement, and a wellbeing check. The SimCell plays the network administrator, state coordinator, backup centers, reporters, a school superintendent, the disaster behavioral health team and callers' counts only, never a caller's words about methods.",
+      "audience": [
+        "Executive Director",
+        "Director of Clinical Operations",
+        "Operations Shift Supervisor (Surge Commander)",
+        "Workforce Coordinator",
+        "Technology and Telephony Manager",
+        "Communications Lead"
+      ],
+      "constraints": [
+        "Every email address of the center uses the exercise domain gpcn.example; the network administrator, backup centers, state agency and media use fictional exercise domains; never a real media outlet or company domain.",
+        "No method of self-harm, no detail of any death and no caller story appears anywhere; follow safe messaging; show only the exercise line 988 by call, text and chat; every deck and inject carries the content notice and the wellbeing check and step-out rule.",
+        "Service level is 90 percent of contacts answered within 120 seconds by contact type; surge levels and backup timing follow the plan (backup requested before a queue has run 60 minutes over its threshold).",
+        "Player roles are only those in the audience list; the 988 network administrator, state coordinator, backup centers, reporters, school officials, the disaster behavioral health team and the wellbeing contact are played by the SimCell or the facilitator."
+      ]
+    }
+  ]
+}

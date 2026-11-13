@@ -7,7 +7,8 @@
 // msel_phase call per phase: with four phases, 14 calls. Each bundled example scenario keeps
 // the input and output token counts of every call that drafted it (its provenance), so the
 // budget of a stage is the mean of those counts over the bundled scenarios that ran it. A
-// msel_phase call is the mean per phase times the phase count. Nothing here reads benchmark
+// msel_phase call is the mean per phase times the phase count. Examples a hosted model drafted
+// are left out (their counts include billed thinking). Nothing here reads benchmark
 // results; a test checks that the numbers in bench/suites/mini.json are what this computes.
 //
 //   node scripts/bench/mini/budget.mjs        prints the budget as JSON
@@ -43,9 +44,21 @@ export function bundledScenarios(root = ROOT) {
     const dir = join(examples, e.name, 'project', 'scenarios')
     if (!e.isDirectory()) continue
     if (!existsSync(dir)) continue
-    for (const id of readdirSync(dir)) out.push(readJson(join(dir, id, 'scenario.json')))
+    for (const id of readdirSync(dir)) {
+      const scenario = readJson(join(dir, id, 'scenario.json'))
+      if (!draftedInTheCloud(scenario)) out.push(scenario)
+    }
   }
   return out
+}
+
+/**
+ * A scenario a hosted model drafted (Claude): its counts include the model's billed thinking,
+ * which local models do not have, so it would change the budget the Mini's draft time is
+ * measured against. The budget keeps to the examples local models drafted.
+ */
+export function draftedInTheCloud(scenario) {
+  return scenario.provenance.some((r) => /^claude-/.test(r.model ?? r.providerRef?.model ?? ''))
 }
 
 /** Tokens a scenario's provenance records for one stage (all its calls summed). */

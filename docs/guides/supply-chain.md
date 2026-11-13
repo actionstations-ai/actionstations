@@ -74,3 +74,9 @@ An optional library pack holds the final rule on traceability records, the recal
 - Account names in a notice are matched as typed, so a misspelled account counts as a different account.
 - A supply chain director and a food safety manager should review the content before it is used to train for real response.
 - Real company and brand names must not be used for exercise organizations.
+
+## Example project
+
+The Supply chain and logistics pack includes an example project, **Pinecrest Fresh Cut: a leafy greens hold, trace and recall**, with one exercise, _Presumptive_: a lab reports a presumptive E. coli O157:H7 positive on a retained sample of romaine from one packing line; the team has hours to hold five lots, trace 38,600 cases across three distribution centers, a co-packer with paper records and a distributor, decide on a Class I recall and send letters and a press release whose counts agree.
+
+Turn the pack on under **Packs**, then open a copy from **Projects → Examples**. The organization, its people and its businesses are fictional; the exercise comes with its injects, media, Situation Manual, evaluation guides and controller handbook, ready to read or run.

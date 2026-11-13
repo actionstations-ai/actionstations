@@ -47,3 +47,9 @@ The **Space weather reference library** pack (installed from the catalog) carrie
 - Simulated series are illustrations, not NOAA products and not engineering data.
 - Live data is never fetched during a session.
 - Names of people, utilities, airlines and satellites in a scenario are fictional. A utility reliability engineer should review the procedures and examples before use.
+
+## Example project
+
+The Space weather and satellite operations pack includes an example project, **Northern Lakes Transmission Operations and the Upper Midwest Reliability Coordinator: severe geomagnetic storm**, with one exercise, _Aurora Over Texas_: after an X-class flare and a fast CME, a geomagnetic storm reaches G5 over about 18 hours; NLTO must apply its GMD procedure ahead of the Kp conditions, watch neutral currents and a transformer gas alarm, handle GNSS time degradation, and keep its messages and the reliability coordinator's consistent.
+
+Turn the pack on under **Packs**, then open a copy from **Projects → Examples**. The organization, its people and its businesses are fictional; the exercise comes with its injects, media, Situation Manual, evaluation guides and controller handbook, ready to read or run.

@@ -80,3 +80,9 @@ An **Earth sciences reference library** pack carries USGS fact sheets on early w
 ## Accuracy
 
 Exercise products follow the real formats closely, but they are teaching material. Have a seismologist or volcanologist and an emergency manager review a scenario before you use it for a real exercise, and treat every number in a simulated event as invented.
+
+## Example project
+
+The Earth sciences pack includes an example project, **Marlow County Emergency Management: Cascadia earthquake and local tsunami**, with one exercise, _The Second Wave_: a magnitude 9 Cascadia earthquake strikes 80 km off Marlow County on a Tuesday in April; shaking lasts more than four minutes, the Alder River bridge is damaged, the hospital and the elementary school are inside the zone, and the county must order evacuation, keep messages consistent and manage a damaging aftershock while the tsunami warning stays in effect.
+
+Turn the pack on under **Packs**, then open a copy from **Projects → Examples**. The organization, its people and its businesses are fictional; the exercise comes with its injects, media, Situation Manual, evaluation guides and controller handbook, ready to read or run.

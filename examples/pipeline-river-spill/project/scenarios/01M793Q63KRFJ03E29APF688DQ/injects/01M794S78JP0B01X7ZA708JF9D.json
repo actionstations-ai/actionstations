@@ -1,0 +1,286 @@
+{
+  "id": "01M794S78JP0B01X7ZA708JF9D",
+  "mselRowId": "I-04",
+  "type": "phone_call",
+  "title": "County EM Call: Oil in the Ditch at Mill Ridge Ramp",
+  "deliveryMode": "play_audio",
+  "fields": {
+    "orgName": "Ironbark Pipeline Company",
+    "systemName": "Recorded Line - Emergency Line, Patched to On-Call QI",
+    "callId": "CR-20261112-063720-0031",
+    "direction": "Inbound",
+    "caller": {
+      "name": "Dana Whitlock",
+      "number": "555-0163",
+      "label": "Duty Officer, Prairie Bend County Emergency Management"
+    },
+    "callee": {
+      "name": "Teresa Holloway",
+      "number": "555-0147",
+      "label": "On-Call Qualified Individual, Ironbark Pipeline Company"
+    },
+    "startTime": "11/12/2026 06:37:20",
+    "duration": "4:52",
+    "transcript": [
+      {
+        "speaker": "Ironbark Emergency Line",
+        "offset": "0:00",
+        "text": "Ironbark Pipeline emergency line. I'm patching you through to the on-call Qualified Individual now. Please hold.",
+        "prompt": false
+      },
+      {
+        "speaker": "County EM",
+        "offset": "0:14",
+        "text": "Morning. This is Dana Whitlock, duty officer at Prairie Bend County Emergency Management. Our 911 just took a call from a fisherman at the Mill Ridge boat ramp. He says there's black oil running in the ditch by the river, and it stinks like rotten eggs. Is that your pipeline?",
+        "prompt": true
+      },
+      {
+        "speaker": "County EM",
+        "offset": "0:52",
+        "text": "Okay. Well, nobody from Ironbark has called us. Not one call. I found out from 911. How much are we talking about, and when did it start?",
+        "prompt": true
+      },
+      {
+        "speaker": "County EM",
+        "offset": "1:31",
+        "text": "I need one number I can give the commissioners and the sheriff. I don't want three different numbers going around by lunchtime.",
+        "prompt": true
+      },
+      {
+        "speaker": "County EM",
+        "offset": "1:58",
+        "text": "That rotten egg smell. Is that dangerous? The fisherman's still standing right there, and the sheriff has a deputy on the way to the ramp. Do I keep people back? How far?",
+        "prompt": true
+      },
+      {
+        "speaker": "County EM",
+        "offset": "2:34",
+        "text": "Just so you know, I put it out on our partner page at 06:39. It says unconfirmed crude oil in a drainage ditch near the Mill Ridge ramp on the Kansas River, source possibly a pipeline, updates to follow. That goes to the spill cooperative's duty phone and the Sterling Bluff water plant, among others.",
+        "prompt": false
+      },
+      {
+        "speaker": "County EM",
+        "offset": "3:05",
+        "text": "Hang on. Hang on, 911 has him back on the other line. Okay. He says it's in the river now. A brown sheen, moving downstream fast. That was 06:41.",
+        "prompt": true
+      },
+      {
+        "speaker": "County EM",
+        "offset": "3:40",
+        "text": "Who's calling the water plants? Prairie Bend Rural Water's intake is only eleven miles down from there. And Sterling Bluff after that. Are you calling them, or am I?",
+        "prompt": true
+      },
+      {
+        "speaker": "County EM",
+        "offset": "4:15",
+        "text": "Alright. Give me a callback number and a name for your liaison. I'll be in our EOC. I need an update from you within the hour, not from 911.",
+        "prompt": true
+      }
+    ],
+    "voiceStyles": {
+      "Ironbark Emergency Line": "Calm answering-service operator, brisk and neutral",
+      "County EM": "Woman in her 40s, county duty officer, clipped and irritated at first, then urgent when the second 911 call comes in; radio chatter faintly behind her"
+    },
+    "injectId": "I-04"
+  },
+  "variant": "default",
+  "instructorNote": "This inject tests whether the QI confirms the release to the county using the agreed 2,700–3,500 bbl range (planning figure 3,100 bbl), logs the call as the county notification, warns the county to keep people away from the ditch because of H2S, and then makes the remaining SNIMTA 2 calls in order. Watch for these responses: ENVL takes 06:40/06:41 river entry as the trajectory start. OSRO alerts crews but waits for QI activation. SBWD logs the unofficial page under Sterling Bluff plan step 1 and starts hourly intake sampling. If the QI is asked for a cause, they should not guess one.",
+  "citations": [
+    {
+      "documentId": "01M793Q432Z8K2VNW3Y13V3937",
+      "documentTitle": "SOP-IMT-01: Notifications and Incident Management Team Activation",
+      "headingPath": "SNIMTA › 2. Who does what in the first hour",
+      "quote": "| Minute | Action | Who | |---|---|---| | 0 | Possible leak signal; shutdown if not ruled out in 10 minutes; close block valves | Control Center shift supervisor | | Within 15 | Report to the National",
+      "chunkId": 3
+    },
+    {
+      "documentId": "01M793Q434NXJ8A72VPD9RY9CY",
+      "documentTitle": "Prairie Spill Response Cooperative: River Response Strategies and Equipment",
+      "headingPath": "Prairie Spill Response Cooperati… › 1. The cooperative",
+      "quote": "Prairie Spill Response Cooperative is a member-owned oil spill removal organization with depots at Topeka, Kansas and Wichita, Kansas and a warehouse at Kansas City, Missouri. It has 38 trained respon",
+      "chunkId": 11
+    },
+    {
+      "documentId": "01M793Q437P7KEP6C7M3A3DJCH",
+      "documentTitle": "Sterling Bluff Water Department: River Intake Protection and Source Contamination Plan",
+      "headingPath": "Sterling Bluff Water Department:… › 2. Contamination threat procedure",
+      "quote": "When the utility is told that oil has been released upstream, the plant superintendent and the Director do the following: 1. Record the time of the notification, the caller, the product, the volume es",
+      "chunkId": 30
+    },
+    {
+      "documentId": "01M793Q4354YA8XX7SVEK2Z432",
+      "documentTitle": "Ironbark Pipeline Company: Response Plan for the Prairie Bend Segment",
+      "headingPath": "Ironbark Pipeline Company: Respo… › 1. The system",
+      "quote": "Ironbark Pipeline Company operates the Prairie Line, a 12.75-inch crude oil pipeline of 286 miles from the Hollis Gathering Terminal in Oklahoma to the Wabash Junction Terminal in Missouri. The Prairi",
+      "chunkId": 20
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template",
+      "tts"
+    ],
+    "voiceLines": [
+      {
+        "speaker": "Ironbark Emergency Line",
+        "voiceStyle": "Calm answering-service operator, neutral American accent, gender-neutral to light female, brisk and even, professional and unhurried",
+        "text": "Ironbark Pipeline emergency line. I'm patching you through to the on-call Qualified Individual now. Please hold."
+      },
+      {
+        "speaker": "County EM",
+        "voiceStyle": "Woman in her 40s, county emergency management duty officer, plain Kansas/Oklahoma Plains accent, clipped and businesslike, already irritated, moderate pace",
+        "text": "Morning. This is Dana Whitlock, duty officer at Prairie Bend County Emergency Management. Our 911 just took a call from a fisherman at the Mill Ridge boat ramp. He says there's black oil running in the ditch by the river, and it stinks like rotten eggs. Is that your pipeline?"
+      },
+      {
+        "speaker": "County EM",
+        "voiceStyle": "Same woman in her 40s, Plains accent, sharper and openly irritated, short emphatic pauses",
+        "text": "Okay. Well, nobody from Ironbark has called us. Not one call. I found out from 911. How much are we talking about, and when did it start?"
+      },
+      {
+        "speaker": "County EM",
+        "voiceStyle": "Same woman in her 40s, Plains accent, firm and insistent, deliberate pace",
+        "text": "I need one number I can give the commissioners and the sheriff. I don't want three different numbers going around by lunchtime."
+      },
+      {
+        "speaker": "County EM",
+        "voiceStyle": "Same woman in her 40s, Plains accent, concern rising, a bit faster, worried about public safety",
+        "text": "That rotten egg smell. Is that dangerous? The fisherman's still standing right there, and the sheriff has a deputy on the way to the ramp. Do I keep people back? How far?"
+      },
+      {
+        "speaker": "County EM",
+        "voiceStyle": "Same woman in her 40s, Plains accent, matter-of-fact, reading from her notes, slightly pointed",
+        "text": "Just so you know, I put it out on our partner page at oh-six-thirty-nine. It says unconfirmed crude oil in a drainage ditch near the Mill Ridge ramp on the Kansas River, source possibly a pipeline, updates to follow. That goes to the spill cooperative's duty phone and the Sterling Bluff water plant, among others."
+      },
+      {
+        "speaker": "County EM",
+        "voiceStyle": "Same woman in her 40s, Plains accent, suddenly distracted then urgent, quick and breathless, voice tightening",
+        "text": "Hang on. Hang on, 911 has him back on the other line. ... Okay. He says it's in the river now. A brown sheen, moving downstream fast. That was oh-six-forty-one."
+      },
+      {
+        "speaker": "County EM",
+        "voiceStyle": "Same woman in her 40s, Plains accent, urgent and demanding, fast pace, pressing for an answer",
+        "text": "Who's calling the water plants? Prairie Bend Rural Water's intake is only eleven miles down from there. And Sterling Bluff after that. Are you calling them, or am I?"
+      },
+      {
+        "speaker": "County EM",
+        "voiceStyle": "Same woman in her 40s, Plains accent, firm and controlled, wrapping up with clear expectations, slightly clipped",
+        "text": "Alright. Give me a callback number and a name for your liaison. I'll be in our EOC. I need an update from you within the hour, not from 911."
+      }
+    ],
+    "postFx": [
+      "phone"
+    ]
+  },
+  "assets": [
+    {
+      "id": "01M799R4CD6NFSV15EWB50AYJS",
+      "kind": "image",
+      "path": "scenarios/01M793Q63KRFJ03E29APF688DQ/media/01M794S78JP0B01X7ZA708JF9D/01M799R4CD6NFSV15EWB50AYJS.png",
+      "role": "rendered",
+      "width": 816,
+      "height": 1056,
+      "sha256": "f5b9d151ada9e2fb4078147bb212ebb363abb38fafa5256e57100e991e529228",
+      "provenance": {
+        "provider": "template",
+        "templateId": "phone_call",
+        "templateVersion": "1",
+        "createdAt": "2026-11-13T01:53:25.762Z"
+      }
+    }
+  ],
+  "versions": [
+    {
+      "at": "2026-11-13T00:27:13.499Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "County EM Call: Oil in the Ditch at Mill Ridge Ramp",
+        "type": "phone_call",
+        "fields": {
+          "orgName": "Ironbark Pipeline Company",
+          "systemName": "Recorded Line - Emergency Line, Patched to On-Call QI",
+          "callId": "CR-20261112-063720-0031",
+          "direction": "Inbound",
+          "caller": {
+            "name": "Dana Whitlock",
+            "number": "555-0163",
+            "label": "Duty Officer, Prairie Bend County Emergency Management"
+          },
+          "callee": {
+            "name": "Teresa Holloway",
+            "number": "555-0147",
+            "label": "On-Call Qualified Individual, Ironbark Pipeline Company"
+          },
+          "startTime": "11/12/2026 06:37:20",
+          "duration": "4:52",
+          "transcript": [
+            {
+              "speaker": "Ironbark Emergency Line",
+              "offset": "0:00",
+              "text": "Ironbark Pipeline emergency line. I'm patching you through to the on-call Qualified Individual now. Please hold.",
+              "prompt": false
+            },
+            {
+              "speaker": "County EM",
+              "offset": "0:14",
+              "text": "Morning. This is Dana Whitlock, duty officer at Prairie Bend County Emergency Management. Our 911 just took a call from a fisherman at the Mill Ridge boat ramp. He says there's black oil running in the ditch by the river, and it stinks like rotten eggs. Is that your pipeline?",
+              "prompt": true
+            },
+            {
+              "speaker": "County EM",
+              "offset": "0:52",
+              "text": "Okay. Well, nobody from Ironbark has called us. Not one call. I found out from 911. How much are we talking about, and when did it start?",
+              "prompt": true
+            },
+            {
+              "speaker": "County EM",
+              "offset": "1:31",
+              "text": "I need one number I can give the commissioners and the sheriff. I don't want three different numbers going around by lunchtime.",
+              "prompt": true
+            },
+            {
+              "speaker": "County EM",
+              "offset": "1:58",
+              "text": "That rotten egg smell. Is that dangerous? The fisherman's still standing right there, and the sheriff has a deputy on the way to the ramp. Do I keep people back? How far?",
+              "prompt": true
+            },
+            {
+              "speaker": "County EM",
+              "offset": "2:34",
+              "text": "Just so you know, I put it out on our partner page at 06:39. It says unconfirmed crude oil in a drainage ditch near the Mill Ridge ramp on the Kansas River, source possibly a pipeline, updates to follow. That goes to the spill cooperative's duty phone and the Sterling Bluff water plant, among others.",
+              "prompt": false
+            },
+            {
+              "speaker": "County EM",
+              "offset": "3:05",
+              "text": "Hang on. Hang on, 911 has him back on the other line. Okay. He says it's in the river now. A brown sheen, moving downstream fast. That was 06:41.",
+              "prompt": true
+            },
+            {
+              "speaker": "County EM",
+              "offset": "3:40",
+              "text": "Who's calling the water plants? Prairie Bend Rural Water's intake is only eleven miles down from there. And Sterling Bluff after that. Are you calling them, or am I?",
+              "prompt": true
+            },
+            {
+              "speaker": "County EM",
+              "offset": "4:15",
+              "text": "Alright. Give me a callback number and a name for your liaison. I'll be in our EOC. I need an update from you within the hour, not from 911.",
+              "prompt": true
+            }
+          ],
+          "voiceStyles": {
+            "Ironbark Emergency Line": "Calm answering-service operator, brisk and neutral",
+            "County EM": "Woman in her 40s, county duty officer, clipped and irritated at first, then urgent when the second 911 call comes in; radio chatter faintly behind her"
+          },
+          "injectId": "I-04"
+        },
+        "instructorNote": "This inject tests whether the QI confirms the release to the county using the agreed 2,700–3,500 bbl range (planning figure 3,100 bbl), logs the call as the county notification, warns the county to keep people away from the ditch because of H2S, and then makes the remaining SNIMTA 2 calls in order. Watch for these responses: ENVL takes 06:40/06:41 river entry as the trajectory start. OSRO alerts crews but waits for QI activation. SBWD logs the unofficial page under Sterling Bluff plan step 1 and starts hourly intake sampling. If the QI is asked for a cause, they should not guess one.",
+        "deliveryMode": "play_audio"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-11-13T01:53:58.670Z"
+}

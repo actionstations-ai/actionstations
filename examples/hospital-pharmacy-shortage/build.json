@@ -1,0 +1,46 @@
+{
+  "id": "hospital-pharmacy-shortage",
+  "title": "Prairie Ridge Health: Critical IV Fluid Shortage",
+  "domainProfile": "pharmacy",
+  "summary": "A 118-bed community hospital in Fort Dodge, Iowa and its pharmacy shortage plan, with an exercise generated from it: the wholesaler cuts IV fluid allocation to 40 percent after a manufacturing outage, and the hospital must classify the shortage, allocate by clinical priority, approve substitutions safely, decide on surgery deferrals and keep its messages consistent.",
+  "notice": "EXERCISE MATERIAL — for training use. Prairie Ridge Health, its people, vendors and sites are simulated; the public sources consulted for realism are listed in reference/hospital-pharmacy-shortage/SOURCES.md.",
+  "project": {
+    "name": "Prairie Ridge Health",
+    "orgName": "Prairie Ridge Health",
+    "orgType": "pharmacy",
+    "toolkits": ["pharmacy", "clinical_care"],
+    "brand": {
+      "city": "Fort Dodge",
+      "region": "Webster County, Iowa",
+      "aliases": {
+        "org": "Prairie Ridge Health",
+        "orgShort": "Prairie Ridge",
+        "orgDomain": "prairieridgehealth.example"
+      }
+    }
+  },
+  "documents": { "dir": "reference/hospital-pharmacy-shortage", "exclude": ["SOURCES.md"] },
+  "media": { "aiImagesPerScenario": 2, "ttsPerScenario": 2 },
+  "scenarios": [
+    {
+      "key": "iv-fluid-allocation",
+      "startWallClock": "07:00",
+      "threatFamily": "infrastructure_failure",
+      "summary": "On a Monday morning in October the primary wholesaler cuts the hospital's IV fluid allocation to 40 percent after a manufacturing outage, with 9 days of 1000 mL sodium chloride 0.9% on hand and 6 of lactated Ringer's; pharmacy, anesthesia, the ED and nursing must allocate, substitute and communicate without harming patients.",
+      "userPrompt": "Monday, October 5, 2026, Fort Dodge. At 07:00 Brent Halvorsen (Purchasing and Inventory Manager) reads the morning report: on hand are 9.0 days of 1000 mL sodium chloride 0.9% (340 bags a day), 6.2 days of lactated Ringer's (120 a day) and 8 days of 250 mL minibags (410 a day). At 07:40 the primary wholesaler's allocation desk (800-555-0111) tells him that the manufacturer's main plant is down after a regional storm and that Prairie Ridge's allocation is cut to 40 percent of the usage of the baseline period for the next 4 weeks; the FDA lists the products as in shortage at 09:30. The exercise starts at 07:00 with Dr. Naomi Kessler (Director of Pharmacy), Priya Venkataraman (Clinical Pharmacy Manager), Tyrone Gaskill (Medication Safety Officer), CMO Dr. Amelia Nordstrom, CNO Gerald Whitcomb, Anesthesia Medical Director Dr. Lucas Hendrickx and PIO Ellen Sorensen. Pressure points: classifying the shortage as Level 2 or Level 3 using days on hand and allocation percent; setting the allocation percent for each service (ED, OR, ICU, medical-surgical, obstetrics, infusion center, long-term care unit) under the clinical priority order; conservation rules (oral first, IV push instead of minibags, no keep-vein-open infusions); approving the substitution of lactated Ringer's for sodium chloride 0.9% and an imported product with a different bag volume and port that the FDA has allowed under temporary importation, using the substitution checklist, with the pump library not yet updated; a secondary supplier offering 400 cases at 3 times the price without a lot list (a gray market question); a loan of 60 cases from Webster Valley Medical Center that arrives with a different label; the OR schedule on Wednesday with 11 elective joint replacement and abdominal cases and a 48-hour deferral decision when 1000 mL sodium chloride falls below 3 days on hand; the infusion center moving hydration appointments and a patient who cannot wait; an adverse event on 6 West when an imported 500 mL bag is run at the wrong rate; two units give conflicting instructions about flush volumes; a local TV reporter and a Facebook post claiming the hospital has run out of IV fluids and canceled surgeries; a physician demanding unrestricted fluids for sepsis boluses; reporting to the FDA shortage staff and the Iowa Board of Pharmacy; the 8-hour Drug Shortage Team meetings and the count of patients affected. The SimCell plays the wholesaler allocation desk, the manufacturer's customer service line, FDA drug shortage staff, the Iowa Board of Pharmacy, Webster Valley Medical Center and North Iowa Memorial Hospital pharmacies, the secondary supplier, the poison control center, physicians, patients and reporters.",
+      "audience": [
+        "Director of Pharmacy",
+        "Purchasing and Inventory Manager",
+        "Clinical Pharmacy Manager / Medication Safety Officer",
+        "Chief Medical Officer",
+        "Chief Nursing Officer",
+        "Public Information Officer"
+      ],
+      "constraints": [
+        "Every email address of the hospital uses the exercise domain prairieridgehealth.example; the wholesaler, manufacturer, other hospitals and the newspaper use fictional *.example domains; never a real company, hospital or newspaper domain; phone numbers are 515-555-01xx or 800-555-01xx.",
+        "FDA shortage listings and any importation letter are marked as exercise products; dose and conversion notes come only from the scenario and the plan, never invented; use the plan's shortage levels, priority order and substitution checklist as written; no real manufacturer is named as the cause.",
+        "Player roles are only those in the audience list; the Anesthesia Medical Director, ED Medical Director, OR Manager and other staff are played by the SimCell."
+      ]
+    }
+  ]
+}

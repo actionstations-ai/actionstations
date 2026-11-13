@@ -1,0 +1,118 @@
+{
+  "id": "01M793DHRX7ZP9HVJTMNB2DKR8",
+  "mselRowId": "I-17",
+  "type": "email",
+  "title": "CIO: \"GOOD NEWS – MES Is Back Up\" and Fieldmark's 12:00 Demand",
+  "deliveryMode": "hand_to_role",
+  "fields": {
+    "fromName": "Joanna Ketterman",
+    "fromEmail": "cio.office@ironcrestmachinery.example",
+    "to": "CEO; CISO Anil Deshmukh; BCM Ravi Menon",
+    "subject": "GOOD NEWS – MES is back up",
+    "sentAt": "Fri 3/26/2027 6:31 AM",
+    "body": "All,\n\nGood news to start the day. We restored the MES overnight onto the rebuilt host ICM-MES-01R from the Wednesday 07:05 snapshot that Blackwater cleared at 04:10. The restore finished at 05:52. Login works, and the Dubuque shift supervisors confirmed at 06:15 that they can see work orders. Rockford and Beloit will check at shift start.\n\nI'd like to tell the board at 07:00 that the MES is recovered and the plants are back on system. Anil, Ravi, if you have any objection, tell me before 06:50.\n\n________________________________\nFrom: VP Supply Chain, Fieldmark Equipment <supplychain@fieldmark-equipment.example>\nSent: Friday, March 26, 2027 6:38 AM\nTo: Office of the COO\nCc: CEO\nSubject: Written guarantee required before 12:00 CT\n[EXTERNAL SENDER]\n\nYour newspaper says your systems were hacked and your data is out. We need a signed written guarantee that every drive shipped to us from March 24 onward is lot-traceable to its component heats and test records. Without it, our quality team will quarantine all Ironcrest stock on receipt, and we will treat this as the start of the 5-day clock under our contract.\n\nWe need this before 12:00 CT today.\n\nVP Supply Chain\nFieldmark Equipment\n\n________________________________\nBCM Recovery Tracker – note added 06:40 CT by the BCM analyst (Ravi Menon's team)\n\nICM-MES-01R up = system available, not MASL.\n31 hours of lots (Wed 07:05 to Thu 14:05) plus about 16.5 hours of manual-mode production since then are not in the MES.\nReconciliation: 0 of 3 plants started.\nCISO return signature: NOT SIGNED.\nMES status on tracker: RED (8-hour RTO missed 22:05 Thu; 12-hour checkpoint missed 02:05 Fri; 24-hour MTPD ends 14:05 Fri).",
+    "signature": "Joanna Ketterman\nChief Information Officer\nIroncrest Machinery Corporation\nRockford, Illinois",
+    "attachments": [
+      {
+        "name": "ICM-MES-01R_restore_log_20270326_0552.txt",
+        "size": "38 KB",
+        "kind": "file"
+      },
+      {
+        "name": "BCM_RecoveryTracker_20270326_0630.xlsx",
+        "size": "212 KB",
+        "kind": "xls"
+      }
+    ],
+    "importance": "normal",
+    "external": false,
+    "printedBy": "Thomas Aldridge (CEO)"
+  },
+  "variant": "print",
+  "instructorNote": "This tests whether \"available\" gets mistaken for \"recovered.\" The CISO should withhold the return signature because the domain is not cleared and the second krbtgt reset is still pending at 09:20. The BCM should keep the MES RED and block the CIO's wording from reaching the board, and Fieldmark should be routed to the COO's office for a factual traceability status and plan that the GC reviews, not a guarantee.",
+  "citations": [
+    {
+      "documentId": "01M791NWETPNJ2B6DP42BR9D8C",
+      "documentTitle": "ICM-BCM-02: Business Impact Analysis and Recovery Order",
+      "headingPath": "IBIARO › 4. Recovery order",
+      "quote": "1. Safety and life safety at all sites (plant security, fire and gas systems are on separate networks and are not affected by IT failures, and are verified first). 2. Identity and the network core (di",
+      "chunkId": 14
+    },
+    {
+      "documentId": "01M791NWETPNJ2B6DP42BR9D8C",
+      "documentTitle": "ICM-BCM-02: Business Impact Analysis and Recovery Order",
+      "headingPath": "IBIARO › 3. Critical functions",
+      "quote": "| Function | System or site | RTO | RPO | MTPD | MASL | |---|---|---|---|---|---| | Plant control networks and machine controllers, Plants 1 to 3 | PLC networks, historians | 4 hours | 0 | 12 hours | ",
+      "chunkId": 13
+    },
+    {
+      "documentId": "01M791NWEVAZDEE6NB6D1690HB",
+      "documentTitle": "ICM-CMP-01: Crisis Management Plan",
+      "headingPath": "ICMP › 3. Activation levels",
+      "quote": "- **Level 1, Watch:** a single plant or function affected, restored within 24 hours. The COO and the function head manage; the Business Continuity Manager (BCM) logs it. - **Level 2, Alert:** more tha",
+      "chunkId": 22
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template"
+    ]
+  },
+  "assets": [
+    {
+      "id": "01M79BVSMK19RZPFSENRNNQA98",
+      "kind": "image",
+      "path": "scenarios/01M791NYFD5GNSAF0J0E4J4T0E/media/01M793DHRX7ZP9HVJTMNB2DKR8/01M79BVSMK19RZPFSENRNNQA98.png",
+      "role": "rendered",
+      "width": 816,
+      "height": 1147,
+      "sha256": "29ac317861f866b6acaeebbf73558ad30462e4e29d6e66fbc240d700b13559c6",
+      "provenance": {
+        "provider": "template",
+        "templateId": "email",
+        "templateVersion": "1",
+        "createdAt": "2026-11-13T02:30:22.964Z"
+      }
+    }
+  ],
+  "versions": [
+    {
+      "at": "2026-11-13T00:03:19.969Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "CIO: \"GOOD NEWS – MES Is Back Up\" and Fieldmark's 12:00 Demand",
+        "type": "email",
+        "fields": {
+          "fromName": "Joanna Ketterman",
+          "fromEmail": "cio.office@ironcrestmachinery.example",
+          "to": "CEO; CISO Anil Deshmukh; BCM Ravi Menon",
+          "subject": "GOOD NEWS – MES is back up",
+          "sentAt": "Fri 3/26/2027 6:31 AM",
+          "body": "All,\n\nGood news to start the day. We restored the MES overnight onto the rebuilt host ICM-MES-01R from the Wednesday 07:05 snapshot that Blackwater cleared at 04:10. The restore finished at 05:52. Login works, and the Dubuque shift supervisors confirmed at 06:15 that they can see work orders. Rockford and Beloit will check at shift start.\n\nI'd like to tell the board at 07:00 that the MES is recovered and the plants are back on system. Anil, Ravi, if you have any objection, tell me before 06:50.\n\n________________________________\nFrom: VP Supply Chain, Fieldmark Equipment <supplychain@fieldmark-equipment.example>\nSent: Friday, March 26, 2027 6:38 AM\nTo: Office of the COO\nCc: CEO\nSubject: Written guarantee required before 12:00 CT\n[EXTERNAL SENDER]\n\nYour newspaper says your systems were hacked and your data is out. We need a signed written guarantee that every drive shipped to us from March 24 onward is lot-traceable to its component heats and test records. Without it, our quality team will quarantine all Ironcrest stock on receipt, and we will treat this as the start of the 5-day clock under our contract.\n\nWe need this before 12:00 CT today.\n\nVP Supply Chain\nFieldmark Equipment\n\n________________________________\nBCM Recovery Tracker – note added 06:40 CT by the BCM analyst (Ravi Menon's team)\n\nICM-MES-01R up = system available, not MASL.\n31 hours of lots (Wed 07:05 to Thu 14:05) plus about 16.5 hours of manual-mode production since then are not in the MES.\nReconciliation: 0 of 3 plants started.\nCISO return signature: NOT SIGNED.\nMES status on tracker: RED (8-hour RTO missed 22:05 Thu; 12-hour checkpoint missed 02:05 Fri; 24-hour MTPD ends 14:05 Fri).",
+          "signature": "Joanna Ketterman\nChief Information Officer\nIroncrest Machinery Corporation\nRockford, Illinois",
+          "attachments": [
+            {
+              "name": "ICM-MES-01R_restore_log_20270326_0552.txt",
+              "size": "38 KB",
+              "kind": "file"
+            },
+            {
+              "name": "BCM_RecoveryTracker_20270326_0630.xlsx",
+              "size": "212 KB",
+              "kind": "xls"
+            }
+          ],
+          "importance": "normal",
+          "external": false,
+          "printedBy": "Thomas Aldridge (CEO)"
+        },
+        "instructorNote": "This tests whether \"available\" gets mistaken for \"recovered.\" The CISO should withhold the return signature because the domain is not cleared and the second krbtgt reset is still pending at 09:20. The BCM should keep the MES RED and block the CIO's wording from reaching the board, and Fieldmark should be routed to the COO's office for a factual traceability status and plan that the GC reviews, not a guarantee.",
+        "deliveryMode": "hand_to_role"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-11-13T02:30:23.208Z"
+}

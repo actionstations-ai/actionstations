@@ -1,0 +1,416 @@
+{
+  "id": "01M79319TNWYVTAT8ADWQEG101",
+  "mselRowId": "I-17",
+  "type": "phone_call",
+  "title": "6 West Charge Nurse: Rapid Response in Room 612, Imported Bag",
+  "deliveryMode": "play_audio",
+  "fields": {
+    "orgName": "Prairie Ridge Health",
+    "systemName": "Recorded Line - Pharmacy Clinical Desk",
+    "callId": "CR-20261007-102004-0093",
+    "direction": "Internal",
+    "caller": {
+      "name": "Kendra Ostlund, RN",
+      "number": "ext. 3461",
+      "label": "6 West Charge Nurse"
+    },
+    "callee": {
+      "name": "Priya Venkataraman",
+      "number": "ext. 3605",
+      "label": "Clinical Pharmacy Manager"
+    },
+    "startTime": "10/07/2026 10:20:04",
+    "duration": "1:52",
+    "transcript": [
+      {
+        "speaker": "6 West Charge RN",
+        "offset": "0:00",
+        "text": "Priya, it's Kendra, charge on 6 West. We need pharmacy and the CNO right now. Rapid response is in Room 612.",
+        "prompt": false
+      },
+      {
+        "speaker": "Clinical Pharmacy Manager",
+        "offset": "0:07",
+        "text": "I'm here. Go ahead, what's happening?",
+        "prompt": false
+      },
+      {
+        "speaker": "6 West Charge RN",
+        "offset": "0:10",
+        "text": "Eighty-one-year-old, heart failure, has a normal saline maintenance order at 75 an hour. Our float nurse hung one of the imported 500 mL bags. The ones that came up from the ICU. It's not in the pump library, so she went to basic mode and put 500 in the rate field instead of the volume field. It ran about 45 minutes before the pump alarmed.",
+        "prompt": false
+      },
+      {
+        "speaker": "6 West Charge RN",
+        "offset": "0:31",
+        "text": "She's short of breath, crackles at both bases, sats 88 percent on room air. The hospitalist is at the bedside treating her, and we're moving her to the ICU.",
+        "prompt": false
+      },
+      {
+        "speaker": "Clinical Pharmacy Manager",
+        "offset": "0:43",
+        "text": "Okay. Is the pump still set up? Has anybody cleared it?",
+        "prompt": false
+      },
+      {
+        "speaker": "6 West Charge RN",
+        "offset": "0:47",
+        "text": "Hang on, the RRT nurse has the details. Luis?",
+        "prompt": false
+      },
+      {
+        "speaker": "RRT RN",
+        "offset": "0:51",
+        "text": "Luis Ferreira, rapid response. I just texted the CNO. Estimated about 375 mL infused over 45 minutes, against an order for 75 an hour. She's going to ICU Bed 4. The pump and the bag are sequestered in 612. Nobody's touched the settings.",
+        "prompt": false
+      },
+      {
+        "speaker": "6 West Charge RN",
+        "offset": "1:08",
+        "text": "Here's the other thing. There are seven more of those bags on our clean utility shelf right now. And I don't know where the rest of the two cases went. The float nurse said the ICU sent them up, but nobody told us they weren't in the library or how to program them.",
+        "prompt": false
+      },
+      {
+        "speaker": "6 West Charge RN",
+        "offset": "1:24",
+        "text": "The float nurse is pretty shaken up. She keeps saying the bag label wasn't even in English.",
+        "prompt": false
+      },
+      {
+        "speaker": "6 West Charge RN",
+        "offset": "1:30",
+        "text": "So what do I do with those seven bags, what do I tell my staff, and who's telling the other units before somebody else hangs one? I need an answer before I leave this phone.",
+        "prompt": true
+      },
+      {
+        "speaker": "Pump event log, printed by Biomed at 10:25",
+        "offset": "LOG",
+        "text": "Infuser 6W-14. 09:33 infusion started, basic mode, no library match, rate entered 500 mL/h, volume to be infused blank. 10:18 downstream occlusion alarm, infusion stopped by user. Delivered 375 mL.",
+        "prompt": true
+      }
+    ],
+    "voiceStyles": {
+      "6 West Charge RN": "Woman in her 40s, experienced charge nurse, talking fast and controlled but clearly rattled, unit alarms and voices behind her",
+      "Clinical Pharmacy Manager": "Woman in her 40s, calm, focused, short questions",
+      "RRT RN": "Man in his 30s, clipped clinical delivery, slightly out of breath, as if he just stepped out of the room",
+      "Pump event log, printed by Biomed at 10:25": "Read flatly as a printout"
+    },
+    "injectId": "I-17"
+  },
+  "variant": "default",
+  "instructorNote": "This is the main safety event: a serious substitution error (fluid overload, unplanned ICU transfer) caused by the imported 500 mL bag that is not in the pump library. Check that the CPM holds lot IMP-2609-114 on every unit, gets the 7 bags off 6 West and traces the rest of the two cases. Check that the pump and bag are kept as evidence, the CNO sends a stop-and-call alert without blaming the nurse, the event goes into the medication event system and reaches the Medication Safety Officer at once, and the CMO and DOP decide whether it goes to FDA MedWatch and ISMP. Hand over the Biomed pump event log after the call: players should read it to reconstruct the error (basic mode, rate field entered as 500 mL/h, no library match, 375 mL delivered).",
+  "citations": [
+    {
+      "documentId": "01M791K0FQAARCHMQM3PSF8X51",
+      "documentTitle": "Prairie Ridge Health — Pharmacy Department, Supply Chain and Systems",
+      "headingPath": "Prairie Ridge Health — Pharmacy… › 6. Key people and phone numbers (exercise numbers 515-555-01xx)",
+      "quote": "- Director of Pharmacy, Dr. Naomi Kessler: ext. 3600. - Purchasing and Inventory Manager, Brent Halvorsen: ext. 3612. - Clinical Pharmacy Manager, Priya Venkataraman: ext. 3605. - Medication Safety Of",
+      "chunkId": 36
+    },
+    {
+      "documentId": "01M791K0FN66K0AB69KB05WG0D",
+      "documentTitle": "Prairie Ridge Health — IV Fluid Conservation and Substitution SOP (PH-22-A)",
+      "headingPath": "PH-22-A › 9. Safety events",
+      "quote": "An adverse drug event related to a substitution is reported at once to the Medication Safety Officer. A near miss is reported the same day. The Medication Safety Officer reviews all events weekly duri",
+      "chunkId": 29
+    },
+    {
+      "documentId": "01M791K0FH6WH4KN82Q7V2W5RP",
+      "documentTitle": "Prairie Ridge Health — Drug Shortage Management Plan",
+      "headingPath": "Prairie Ridge Health — Drug Shor… › 8. Notification and reporting",
+      "quote": "- The Director of Pharmacy reports a shortage that affects patient care to the FDA Drug Shortage Staff by the CDER shortage email, and to the Iowa Board of Pharmacy when an emergency import or compoun",
+      "chunkId": 18
+    },
+    {
+      "documentId": "01M791K0FH6WH4KN82Q7V2W5RP",
+      "documentTitle": "Prairie Ridge Health — Drug Shortage Management Plan",
+      "headingPath": "Prairie Ridge Health — Drug Shor… › 5. Response by level",
+      "quote": "**Level 2.** Purchasing calls both wholesalers and manufacturers; the Clinical Pharmacy Manager issues a conservation notice (use oral or enteral routes when possible, use smaller bag sizes, minimize ",
+      "chunkId": 15
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template",
+      "tts"
+    ],
+    "voiceLines": [
+      {
+        "speaker": "6 West Charge RN",
+        "voiceStyle": "Experienced female charge nurse in her 40s, American Midwestern accent. She talks fast and stays controlled but is clearly rattled, slightly breathless, and speaks a little loudly as if over unit alarms and voices.",
+        "text": "Priya, it's Kendra, charge on Six West. We need pharmacy and the CNO right now. Rapid response is in Room six-twelve."
+      },
+      {
+        "speaker": "Clinical Pharmacy Manager",
+        "voiceStyle": "Calm, focused female clinical pharmacy manager in her 40s. She speaks evenly with short, steady questions and is fully attentive.",
+        "text": "I'm here. Go ahead, what's happening?"
+      },
+      {
+        "speaker": "6 West Charge RN",
+        "voiceStyle": "Experienced female charge nurse in her 40s, American Midwestern accent. She talks fast and stays controlled but is clearly rattled, with clipped clinical phrasing.",
+        "text": "Eighty-one-year-old, heart failure, has a normal saline maintenance order at seventy-five an hour. Our float nurse hung one of the imported five hundred mL bags. The ones that came up from the ICU. It's not in the pump library, so she went to basic mode and put five hundred in the rate field instead of the volume field. It ran about forty-five minutes before the pump alarmed."
+      },
+      {
+        "speaker": "6 West Charge RN",
+        "voiceStyle": "Experienced female charge nurse in her 40s, American Midwestern accent. She talks fast and urgently, with rising tension in her voice that she keeps under control.",
+        "text": "She's short of breath, crackles at both bases, sats eighty-eight percent on room air. The hospitalist is at the bedside treating her, and we're moving her to the ICU."
+      },
+      {
+        "speaker": "Clinical Pharmacy Manager",
+        "voiceStyle": "Calm, focused female clinical pharmacy manager in her 40s. Her questions are short and deliberate, slightly quicker now.",
+        "text": "Okay. Is the pump still set up? Has anybody cleared it?"
+      },
+      {
+        "speaker": "6 West Charge RN",
+        "voiceStyle": "Experienced female charge nurse in her 40s. She speaks hurriedly, turning slightly away from the phone to call to a colleague.",
+        "text": "Hang on, the RRT nurse has the details. Luis?"
+      },
+      {
+        "speaker": "RRT RN",
+        "voiceStyle": "Male rapid response nurse in his 30s, American accent. His delivery is clipped and clinical, slightly out of breath as if he just stepped out of the patient room, and he speaks efficiently and precisely.",
+        "text": "Luis Ferreira, rapid response. I just texted the CNO. Estimated about three hundred seventy-five mL infused over forty-five minutes, against an order for seventy-five an hour. She's going to ICU Bed Four. The pump and the bag are sequestered in six-twelve. Nobody's touched the settings."
+      },
+      {
+        "speaker": "6 West Charge RN",
+        "voiceStyle": "Experienced female charge nurse in her 40s, American Midwestern accent. She is fast, frustrated and worried, with a pointed tone.",
+        "text": "Here's the other thing. There are seven more of those bags on our clean utility shelf right now. And I don't know where the rest of the two cases went. The float nurse said the ICU sent them up, but nobody told us they weren't in the library or how to program them."
+      },
+      {
+        "speaker": "6 West Charge RN",
+        "voiceStyle": "Experienced female charge nurse in her 40s. She briefly softens and drops her voice a little, sounding concerned for her colleague.",
+        "text": "The float nurse is pretty shaken up. She keeps saying the bag label wasn't even in English."
+      },
+      {
+        "speaker": "6 West Charge RN",
+        "voiceStyle": "Experienced female charge nurse in her 40s, American Midwestern accent. She is firm, demanding and urgent, and she presses for a decision.",
+        "text": "So what do I do with those seven bags, what do I tell my staff, and who's telling the other units before somebody else hangs one? I need an answer before I leave this phone."
+      }
+    ],
+    "postFx": [
+      "phone"
+    ]
+  },
+  "assets": [
+    {
+      "id": "01M79CZA5Z77MXTPYR9ZFAM48Q",
+      "kind": "image",
+      "path": "scenarios/01M791K2G2FETV4KF8VTN028M1/media/01M79319TNWYVTAT8ADWQEG101/01M79CZA5Z77MXTPYR9ZFAM48Q.png",
+      "role": "rendered",
+      "width": 816,
+      "height": 1056,
+      "sha256": "3eed440637c9e01af48c77f2c00088cd96729abd66bfe65a9b7ec78a1fc919e1",
+      "provenance": {
+        "provider": "template",
+        "templateId": "phone_call",
+        "templateVersion": "1",
+        "createdAt": "2026-11-13T02:49:46.801Z"
+      }
+    }
+  ],
+  "versions": [
+    {
+      "at": "2026-11-12T23:56:43.293Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "6 West Charge Nurse: Rapid Response in Room 612, Imported Bag",
+        "type": "phone_call",
+        "fields": {
+          "orgName": "Prairie Ridge Health",
+          "systemName": "Recorded Line - Pharmacy Clinical Desk",
+          "callId": "CR-20261007-102004-0093",
+          "direction": "Internal",
+          "caller": {
+            "name": "Kendra Ostlund, RN",
+            "number": "ext. 3461",
+            "label": "6 West Charge Nurse"
+          },
+          "callee": {
+            "name": "Priya Venkataraman",
+            "number": "ext. 3605",
+            "label": "Clinical Pharmacy Manager"
+          },
+          "startTime": "10/07/2026 10:20:04",
+          "duration": "1:52",
+          "transcript": [
+            {
+              "speaker": "6 West Charge RN",
+              "offset": "0:00",
+              "text": "Priya, it's Kendra, charge on 6 West. We need pharmacy and the CNO right now. Rapid response is in Room 612.",
+              "prompt": false
+            },
+            {
+              "speaker": "Clinical Pharmacy Manager",
+              "offset": "0:07",
+              "text": "I'm here. Go ahead, what's happening?",
+              "prompt": false
+            },
+            {
+              "speaker": "6 West Charge RN",
+              "offset": "0:10",
+              "text": "Eighty-one-year-old, heart failure, has a normal saline maintenance order at 75 an hour. Our float nurse hung one of the imported 500 mL bags. The ones that came up from the ICU. It's not in the pump library, so she went to basic mode and put 500 in the rate field instead of the volume field. It ran about 45 minutes before the pump alarmed.",
+              "prompt": false
+            },
+            {
+              "speaker": "6 West Charge RN",
+              "offset": "0:31",
+              "text": "She's short of breath, crackles at both bases, sats 88 percent on room air. The hospitalist is at the bedside treating her, and we're moving her to the ICU.",
+              "prompt": false
+            },
+            {
+              "speaker": "Clinical Pharmacy Manager",
+              "offset": "0:43",
+              "text": "Okay. Is the pump still set up? Has anybody cleared it?",
+              "prompt": false
+            },
+            {
+              "speaker": "6 West Charge RN",
+              "offset": "0:47",
+              "text": "Hang on, the RRT nurse has the details. Luis?",
+              "prompt": false
+            },
+            {
+              "speaker": "RRT RN",
+              "offset": "0:51",
+              "text": "Luis Ferreira, rapid response. I just texted the CNO. Estimated about 375 mL infused over 45 minutes, against an order for 75 an hour. She's going to ICU Bed 4. The pump and the bag are sequestered in 612. Nobody's touched the settings.",
+              "prompt": false
+            },
+            {
+              "speaker": "6 West Charge RN",
+              "offset": "1:08",
+              "text": "Here's the other thing. There are seven more of those bags on our clean utility shelf right now. And I don't know where the rest of the two cases went. The float nurse said the ICU sent them up, but nobody told us they weren't in the library or how to program them.",
+              "prompt": false
+            },
+            {
+              "speaker": "6 West Charge RN",
+              "offset": "1:24",
+              "text": "The float nurse is pretty shaken up. She keeps saying the bag label wasn't even in English.",
+              "prompt": false
+            },
+            {
+              "speaker": "6 West Charge RN",
+              "offset": "1:30",
+              "text": "So what do I do with those seven bags, what do I tell my staff, and who's telling the other units before somebody else hangs one? I need an answer before I leave this phone.",
+              "prompt": true
+            }
+          ],
+          "voiceStyles": {
+            "6 West Charge RN": "Woman in her 40s, experienced charge nurse, talking fast and controlled but clearly rattled, unit alarms and voices behind her",
+            "Clinical Pharmacy Manager": "Woman in her 40s, calm, focused, short questions",
+            "RRT RN": "Man in his 30s, clipped clinical delivery, slightly out of breath, as if he just stepped out of the room"
+          },
+          "injectId": "I-17"
+        },
+        "instructorNote": "This is the main safety event: a serious substitution error (fluid overload, unplanned ICU transfer) caused by the imported 500 mL bag that is not in the pump library. Check that the CPM holds lot IMP-2609-114 on every unit, gets the 7 bags off 6 West and traces the rest of the two cases. Check that the pump and bag are kept as evidence, the CNO sends a stop-and-call alert without blaming the nurse, the event goes into the medication event system and reaches the Medication Safety Officer at once, and the CMO and DOP decide whether it goes to FDA MedWatch and ISMP.",
+        "deliveryMode": "play_audio"
+      }
+    },
+    {
+      "at": "2026-11-13T01:43:39.704Z",
+      "by": "user",
+      "note": "Corrected by hand for the shipped example",
+      "snapshot": {
+        "title": "6 West Charge Nurse: Rapid Response in Room 612, Imported Bag",
+        "type": "phone_call",
+        "fields": {
+          "orgName": "Prairie Ridge Health",
+          "systemName": "Recorded Line - Pharmacy Clinical Desk",
+          "callId": "CR-20261007-102004-0093",
+          "direction": "Internal",
+          "caller": {
+            "name": "Kendra Ostlund, RN",
+            "number": "ext. 3461",
+            "label": "6 West Charge Nurse"
+          },
+          "callee": {
+            "name": "Priya Venkataraman",
+            "number": "ext. 3605",
+            "label": "Clinical Pharmacy Manager"
+          },
+          "startTime": "10/07/2026 10:20:04",
+          "duration": "1:52",
+          "transcript": [
+            {
+              "speaker": "6 West Charge RN",
+              "offset": "0:00",
+              "text": "Priya, it's Kendra, charge on 6 West. We need pharmacy and the CNO right now. Rapid response is in Room 612.",
+              "prompt": false
+            },
+            {
+              "speaker": "Clinical Pharmacy Manager",
+              "offset": "0:07",
+              "text": "I'm here. Go ahead, what's happening?",
+              "prompt": false
+            },
+            {
+              "speaker": "6 West Charge RN",
+              "offset": "0:10",
+              "text": "Eighty-one-year-old, heart failure, has a normal saline maintenance order at 75 an hour. Our float nurse hung one of the imported 500 mL bags. The ones that came up from the ICU. It's not in the pump library, so she went to basic mode and put 500 in the rate field instead of the volume field. It ran about 45 minutes before the pump alarmed.",
+              "prompt": false
+            },
+            {
+              "speaker": "6 West Charge RN",
+              "offset": "0:31",
+              "text": "She's short of breath, crackles at both bases, sats 88 percent on room air. The hospitalist is at the bedside treating her, and we're moving her to the ICU.",
+              "prompt": false
+            },
+            {
+              "speaker": "Clinical Pharmacy Manager",
+              "offset": "0:43",
+              "text": "Okay. Is the pump still set up? Has anybody cleared it?",
+              "prompt": false
+            },
+            {
+              "speaker": "6 West Charge RN",
+              "offset": "0:47",
+              "text": "Hang on, the RRT nurse has the details. Luis?",
+              "prompt": false
+            },
+            {
+              "speaker": "RRT RN",
+              "offset": "0:51",
+              "text": "Luis Ferreira, rapid response. I just texted the CNO. Estimated about 375 mL infused over 45 minutes, against an order for 75 an hour. She's going to ICU Bed 4. The pump and the bag are sequestered in 612. Nobody's touched the settings.",
+              "prompt": false
+            },
+            {
+              "speaker": "6 West Charge RN",
+              "offset": "1:08",
+              "text": "Here's the other thing. There are seven more of those bags on our clean utility shelf right now. And I don't know where the rest of the two cases went. The float nurse said the ICU sent them up, but nobody told us they weren't in the library or how to program them.",
+              "prompt": false
+            },
+            {
+              "speaker": "6 West Charge RN",
+              "offset": "1:24",
+              "text": "The float nurse is pretty shaken up. She keeps saying the bag label wasn't even in English.",
+              "prompt": false
+            },
+            {
+              "speaker": "6 West Charge RN",
+              "offset": "1:30",
+              "text": "So what do I do with those seven bags, what do I tell my staff, and who's telling the other units before somebody else hangs one? I need an answer before I leave this phone.",
+              "prompt": true
+            },
+            {
+              "speaker": "Pump event log, printed by Biomed at 10:25",
+              "offset": "LOG",
+              "text": "Infuser 6W-14. 09:33 infusion started, basic mode, no library match, rate entered 500 mL/h, volume to be infused blank. 10:18 downstream occlusion alarm, infusion stopped by user. Delivered 375 mL.",
+              "prompt": true
+            }
+          ],
+          "voiceStyles": {
+            "6 West Charge RN": "Woman in her 40s, experienced charge nurse, talking fast and controlled but clearly rattled, unit alarms and voices behind her",
+            "Clinical Pharmacy Manager": "Woman in her 40s, calm, focused, short questions",
+            "RRT RN": "Man in his 30s, clipped clinical delivery, slightly out of breath, as if he just stepped out of the room",
+            "Pump event log, printed by Biomed at 10:25": "Read flatly as a printout"
+          },
+          "injectId": "I-17"
+        },
+        "instructorNote": "This is the main safety event: a serious substitution error (fluid overload, unplanned ICU transfer) caused by the imported 500 mL bag that is not in the pump library. Check that the CPM holds lot IMP-2609-114 on every unit, gets the 7 bags off 6 West and traces the rest of the two cases. Check that the pump and bag are kept as evidence, the CNO sends a stop-and-call alert without blaming the nurse, the event goes into the medication event system and reaches the Medication Safety Officer at once, and the CMO and DOP decide whether it goes to FDA MedWatch and ISMP. Hand over the Biomed pump event log after the call: players should read it to reconstruct the error (basic mode, rate field entered as 500 mL/h, no library match, 375 mL delivered).",
+        "deliveryMode": "play_audio"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-11-13T02:49:47.033Z"
+}

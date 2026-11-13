@@ -1,0 +1,221 @@
+{
+  "id": "01M792XPXCZR60T8CM1X377DAR",
+  "mselRowId": "I-08",
+  "type": "status_board",
+  "title": "DC Hold Status 07:18: Dallas Not Physically Confirmed",
+  "deliveryMode": "display_main_screen",
+  "fields": {
+    "organization": "Pinecrest Fresh Cut, LLC",
+    "facility": "Recall Team Bridge: Logistics Hold Count",
+    "title": "DC HOLD STATUS – EXERCISE PRODUCT",
+    "incidentName": "Plant 1 Line 2 Hold: PF1-27277-L2-B, PF1-27278-L2-A, PF1-27278-L2-B, PF1-27279-L2-A, PF1-27279-L2-B (38,600 cs per MES)",
+    "asOf": "07:18 PT, Tue 10/12/2027",
+    "operationalPeriod": "10/12/2027 0550–1800 PT (physical hold confirmation due 09:50 PT)",
+    "preparedBy": "DC Managers: Stockton, Phoenix, Dallas (hold counts to Director of Logistics)",
+    "resources": [
+      {
+        "name": "DALLAS DC: ON HAND 3,000 cs",
+        "status": "red",
+        "notes": "Received at DC 6,080 cs. HELD IN SYSTEM / NOT PHYSICALLY CONFIRMED. Not yet located, tagged or counted. Manager's note: \"Half my crew is on outbound for the unaffected lots. I can find the 3,000 by 10:30, not before.\"",
+        "owner": "Terrence Boyd",
+        "updated": "07:18"
+      },
+      {
+        "name": "DALLAS DC: IN TRANSIT 1,320 cs",
+        "status": "red",
+        "notes": "Sonoran Cold Freight reefer, 22 pallets, I-10 near Tucson. ETA Dallas ~21:00 PT. No hold or reroute instruction on file with carrier dispatch or in TMS.",
+        "owner": "Terrence Boyd",
+        "updated": "07:18"
+      },
+      {
+        "name": "DALLAS DC: SHIPPED BEFORE HOLD 3,080 cs",
+        "status": "yellow",
+        "notes": "Delivered to 38 Cornerstone Grocers stores. 2,100 cs of this shipped since 04:00. Store-level list by lot pulled from WMS.",
+        "owner": "Terrence Boyd",
+        "updated": "07:18"
+      },
+      {
+        "name": "RIVERMARK KITS (FRESNO): 2,600 cs",
+        "status": "unknown",
+        "notes": "Direct plant shipment, no DC. Paper receiving: some lots logged as \"PF1-278-L2\" with no shift letter. Kit-run match pending office manager arrival 09:00. Some Friday kits already shipped to national retail.",
+        "owner": "Delia, Rivermark QA",
+        "updated": "06:48"
+      },
+      {
+        "name": "STOCKTON DC: ON HAND 11,340 cs",
+        "status": "green",
+        "notes": "Received 18,900 cs. PHYSICALLY SEGREGATED, TAGGED, COUNTED. Cooler zone Q, 36°F.",
+        "owner": "Luis Carrillo",
+        "updated": "07:15"
+      },
+      {
+        "name": "STOCKTON DC: SHIPPED BEFORE HOLD 7,560 cs",
+        "status": "yellow",
+        "notes": "Delivered to Harvest Table Markets (N. California / Nevada stores) and Westline Foodservice.",
+        "owner": "Luis Carrillo",
+        "updated": "07:15"
+      },
+      {
+        "name": "PHOENIX DC: ON HAND 5,820 cs",
+        "status": "green",
+        "notes": "Received 9,700 cs. PHYSICALLY SEGREGATED, TAGGED, COUNTED. Hold cooler 35°F.",
+        "owner": "Angela Whitfield",
+        "updated": "07:12"
+      },
+      {
+        "name": "PHOENIX DC: SHIPPED BEFORE HOLD 3,880 cs",
+        "status": "yellow",
+        "notes": "Delivered to Harvest Table Markets (Arizona stores) and university / school food service accounts.",
+        "owner": "Angela Whitfield",
+        "updated": "07:12"
+      }
+    ],
+    "legend": {
+      "green": "Physically segregated, tagged and counted at the DC",
+      "yellow": "Left Pinecrest control (delivered or with customer); consignee notice pending",
+      "red": "Held in system only or on the road; physical hold NOT confirmed"
+    }
+  },
+  "variant": "default",
+  "instructorNote": "This board tests whether players count only what the floor has confirmed. LOG should treat Dallas's 3,000 cases as unconfirmed, move Dallas labour from outbound to locating them before 09:50, and decide whether to hold the Tucson trailer or send it to quarantine. VPSC should back pausing Dallas outbound, and TRACE should enter the shipped quantities as \"delivered\" and the 1,320 cases as \"in transit\" in the trace sheet.",
+  "citations": [
+    {
+      "documentId": "01M791PSSEBMSYNZ68A0SFSX31",
+      "documentTitle": "PFC-OPS-02: Plant, Distribution Network and Cold Chain",
+      "headingPath": "PPDNCC › 2. Distribution centers",
+      "quote": "| DC | Location | Customers served | Weekly cases | Notes | |---|---|---|---|---| | Stockton DC | Stockton, California | Harvest Table Markets (northern California and Nevada stores), Westline Foodser",
+      "chunkId": 12
+    },
+    {
+      "documentId": "01M791PSSEBMSYNZ68A0SFSX31",
+      "documentTitle": "PFC-OPS-02: Plant, Distribution Network and Cold Chain",
+      "headingPath": "PPDNCC › 4. Transportation",
+      "quote": "Pinecrest uses two truckload carriers (Cascade Reefer Lines and Sonoran Cold Freight, both fictional) with refrigerated trailers that carry a temperature recorder; a reefer trailer carries 22 pallets ",
+      "chunkId": 14
+    },
+    {
+      "documentId": "01M791PSSB1ZJ85S8M91S49WYH",
+      "documentTitle": "PFC-QA-03: Lot Coding and Traceability Records",
+      "headingPath": "PLCTR › 5. What the trace produces",
+      "quote": "The Traceability and Systems Lead produces one sortable spreadsheet with these columns: lot code, product, quantity and unit (cases), ship date, ship-from location, ship-to customer, ship-to location ",
+      "chunkId": 6
+    },
+    {
+      "documentId": "01M791PSSEBMSYNZ68A0SFSX31",
+      "documentTitle": "PFC-OPS-02: Plant, Distribution Network and Cold Chain",
+      "headingPath": "PPDNCC › 7. Systems and people at the DC",
+      "quote": "Each DC has a WMS, a labeling station and a records clerk on the day shift; the night shift of 12 people handles receiving. Radio scanners read the lot code on the case label. DC managers send a hold ",
+      "chunkId": 17
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template"
+    ]
+  },
+  "assets": [
+    {
+      "id": "01M79BYFQ20TSZSS8B3FVYWKHW",
+      "kind": "image",
+      "path": "scenarios/01M791PVSMDEFH6JWJBQPC6C4M/media/01M792XPXCZR60T8CM1X377DAR/01M79BYFQ20TSZSS8B3FVYWKHW.png",
+      "role": "rendered",
+      "width": 816,
+      "height": 1056,
+      "sha256": "44af8b87fa27393b4110af76480c316a3e102875fb14d7a2dec22f85ed7b766d",
+      "provenance": {
+        "provider": "template",
+        "templateId": "status_board",
+        "templateVersion": "1",
+        "createdAt": "2026-11-13T02:31:51.126Z"
+      }
+    }
+  ],
+  "versions": [
+    {
+      "at": "2026-11-12T23:55:05.659Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "DC Hold Status 07:18: Dallas Not Physically Confirmed",
+        "type": "status_board",
+        "fields": {
+          "organization": "Pinecrest Fresh Cut, LLC",
+          "facility": "Recall Team Bridge: Logistics Hold Count",
+          "title": "DC HOLD STATUS – EXERCISE PRODUCT",
+          "incidentName": "Plant 1 Line 2 Hold: PF1-27277-L2-B, PF1-27278-L2-A, PF1-27278-L2-B, PF1-27279-L2-A, PF1-27279-L2-B (38,600 cs per MES)",
+          "asOf": "07:18 PT, Tue 10/12/2027",
+          "operationalPeriod": "10/12/2027 0550–1800 PT (physical hold confirmation due 09:50 PT)",
+          "preparedBy": "DC Managers: Stockton, Phoenix, Dallas (hold counts to Director of Logistics)",
+          "resources": [
+            {
+              "name": "DALLAS DC: ON HAND 3,000 cs",
+              "status": "red",
+              "notes": "Received at DC 6,080 cs. HELD IN SYSTEM / NOT PHYSICALLY CONFIRMED. Not yet located, tagged or counted. Manager's note: \"Half my crew is on outbound for the unaffected lots. I can find the 3,000 by 10:30, not before.\"",
+              "owner": "Terrence Boyd",
+              "updated": "07:18"
+            },
+            {
+              "name": "DALLAS DC: IN TRANSIT 1,320 cs",
+              "status": "red",
+              "notes": "Sonoran Cold Freight reefer, 22 pallets, I-10 near Tucson. ETA Dallas ~21:00 PT. No hold or reroute instruction on file with carrier dispatch or in TMS.",
+              "owner": "Terrence Boyd",
+              "updated": "07:18"
+            },
+            {
+              "name": "DALLAS DC: SHIPPED BEFORE HOLD 3,080 cs",
+              "status": "yellow",
+              "notes": "Delivered to 38 Cornerstone Grocers stores. 2,100 cs of this shipped since 04:00. Store-level list by lot pulled from WMS.",
+              "owner": "Terrence Boyd",
+              "updated": "07:18"
+            },
+            {
+              "name": "RIVERMARK KITS (FRESNO): 2,600 cs",
+              "status": "unknown",
+              "notes": "Direct plant shipment, no DC. Paper receiving: some lots logged as \"PF1-278-L2\" with no shift letter. Kit-run match pending office manager arrival 09:00. Some Friday kits already shipped to national retail.",
+              "owner": "Delia, Rivermark QA",
+              "updated": "06:48"
+            },
+            {
+              "name": "STOCKTON DC: ON HAND 11,340 cs",
+              "status": "green",
+              "notes": "Received 18,900 cs. PHYSICALLY SEGREGATED, TAGGED, COUNTED. Cooler zone Q, 36°F.",
+              "owner": "Luis Carrillo",
+              "updated": "07:15"
+            },
+            {
+              "name": "STOCKTON DC: SHIPPED BEFORE HOLD 7,560 cs",
+              "status": "yellow",
+              "notes": "Delivered to Harvest Table Markets (N. California / Nevada stores) and Westline Foodservice.",
+              "owner": "Luis Carrillo",
+              "updated": "07:15"
+            },
+            {
+              "name": "PHOENIX DC: ON HAND 5,820 cs",
+              "status": "green",
+              "notes": "Received 9,700 cs. PHYSICALLY SEGREGATED, TAGGED, COUNTED. Hold cooler 35°F.",
+              "owner": "Angela Whitfield",
+              "updated": "07:12"
+            },
+            {
+              "name": "PHOENIX DC: SHIPPED BEFORE HOLD 3,880 cs",
+              "status": "yellow",
+              "notes": "Delivered to Harvest Table Markets (Arizona stores) and university / school food service accounts.",
+              "owner": "Angela Whitfield",
+              "updated": "07:12"
+            }
+          ],
+          "legend": {
+            "green": "Physically segregated, tagged and counted at the DC",
+            "yellow": "Left Pinecrest control (delivered or with customer); consignee notice pending",
+            "red": "Held in system only or on the road; physical hold NOT confirmed"
+          }
+        },
+        "instructorNote": "This board tests whether players count only what the floor has confirmed. LOG should treat Dallas's 3,000 cases as unconfirmed, move Dallas labour from outbound to locating them before 09:50, and decide whether to hold the Tucson trailer or send it to quarantine. VPSC should back pausing Dallas outbound, and TRACE should enter the shipped quantities as \"delivered\" and the 1,320 cases as \"in transit\" in the trace sheet.",
+        "deliveryMode": "display_main_screen"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-11-13T02:31:51.355Z"
+}

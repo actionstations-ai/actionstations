@@ -1,0 +1,293 @@
+{
+  "id": "01M793316D4XKKD7WWV0C9GMT5",
+  "mselRowId": "I-17",
+  "type": "phone_call",
+  "title": "Relaywell: Standby Engine Live, \"Tell Me Which Class Goes First\"",
+  "deliveryMode": "play_audio",
+  "fields": {
+    "orgName": "Lakemont Community Hospital",
+    "systemName": "EXERCISE — Recorded Line, Boardroom Command Center, ext. 5520",
+    "callId": "CR-20270209-060012-0263",
+    "direction": "Inbound",
+    "caller": {
+      "name": "Marcus Thale",
+      "number": "218-555-0163",
+      "label": "Relaywell Integration, on-call engineer (ticket RW-88213)"
+    },
+    "callee": {
+      "name": "Marcus Ellery",
+      "number": "ext. 5520",
+      "label": "Clinical Systems Lead, Boardroom command center (speaker)"
+    },
+    "startTime": "02/09/2027 06:00:12",
+    "duration": "2:41",
+    "transcript": [
+      {
+        "speaker": "Marcus Thale (Relaywell)",
+        "offset": "0:00",
+        "text": "Lakemont, it's Marcus Thale with Relaywell, ticket RW-88213. Am I on speaker? Good. The standby engine is promoted. It went live at 06:00, and every channel shows amber, PULLING. Nothing has gone outbound yet. I want to be clear about that.",
+        "prompt": false
+      },
+      {
+        "speaker": "Marcus Ellery (CSL)",
+        "offset": "0:18",
+        "text": "Understood. The Laboratory Manager and the pharmacy manager are both here. What are you pulling, and how fast?",
+        "prompt": false
+      },
+      {
+        "speaker": "Marcus Thale (Relaywell)",
+        "offset": "0:24",
+        "text": "I'm draining your source queues into the engine store at about 20,000 an hour. Your systems are still adding roughly 6,000 an hour on top of that, so the sources should be empty around 07:50. That's well before your 10:10 drop. By 07:00 you'll have about 31,000 messages held between my store and what's left at source. I'm not releasing a single channel until you tell me replay, hold or discard for each class.",
+        "prompt": false
+      },
+      {
+        "speaker": "Marcus Thale (Relaywell)",
+        "offset": "0:52",
+        "text": "Here are the 06:00 numbers by class. ADT, 319. ORM Orders, 4,140. ORU results, 9,660. Medication administration, 5,980. Charges, 4,030. ELR, immunizations and HIE outbound, 230.",
+        "prompt": false
+      },
+      {
+        "speaker": "Marcus Ellery (CSL)",
+        "offset": "1:14",
+        "text": "Anything in there that worries you?",
+        "prompt": false
+      },
+      {
+        "speaker": "Marcus Thale (Relaywell)",
+        "offset": "1:17",
+        "text": "Yes. Of the 4,140 Orders, 1,960 are more than four hours old. 138 belong to six patients who were discharged or transferred out since 23:20. And about 700 match Orders your units have already carried out on paper. That's going by the paper order list your HIM team sent me. On the results side, there are 112 results for those same six patients.",
+        "prompt": false
+      },
+      {
+        "speaker": "Marcus Thale (Relaywell)",
+        "offset": "1:48",
+        "text": "I can't tell which of those patients you've re-registered on downtime numbers, so that's on your identity check, not my engine. If you replay everything in one go, it all lands in Lakechart at once, stale and out of order.",
+        "prompt": false
+      },
+      {
+        "speaker": "Marcus Ellery (CSL)",
+        "offset": "2:05",
+        "text": "Hold everything where it is. Nothing releases until we call it.",
+        "prompt": false
+      },
+      {
+        "speaker": "Marcus Thale (Relaywell)",
+        "offset": "2:10",
+        "text": "Holding. I need it class by class, and I need a name next to every discard so I can log it on my end. Your store keeps filling while we talk. So tell me which class goes first, and what happens to the other five.",
+        "prompt": true
+      }
+    ],
+    "voiceStyles": {
+      "Marcus Thale (Relaywell)": "Man in his 40s, remote engineer who has been up all night. Calm and precise, a little hoarse, typing between sentences.",
+      "Marcus Ellery (CSL)": "Clinical informatics director, tired but steady, speaking from a speakerphone in a busy conference room."
+    },
+    "injectId": "I-17"
+  },
+  "variant": "default",
+  "instructorNote": "This is the core replay decision. The CSL should propose a class-by-class plan under IS-14-C section 2, and the IC, CMIO and department heads should approve it. The expected plan: ADT replays first through the identity check. Orders more than 4 hours old, medication Orders and results for discharged patients are held for review. Orders already done on paper are discarded only if the class, count and decision-maker are logged. The LPM validates results before release, charges are held, and HIE outbound replays after ADT. Watch for the LPM confirming that reportable results already went to MDH by phone or fax so they are not sent twice, and for any push to replay everything at once.",
+  "citations": [
+    {
+      "documentId": "01M791H5T9913NQR8TVBHP3J1Z",
+      "documentTitle": "Lakemont Community Hospital — Clinical Systems, Interfaces and Vendors",
+      "headingPath": "Lakemont Community Hospital — Cl… › 2. Interface classes",
+      "quote": "Messages are grouped for downtime decisions into classes: - **ADT** (admit, discharge, transfer, registration): about 2,400 per day. - **Orders** (to lab, radiology, pharmacy): about 22,000 per day. -",
+      "chunkId": 34
+    },
+    {
+      "documentId": "01M791H5T7614JBPY8N3FD39RH",
+      "documentTitle": "Lakemont Community Hospital — Restore, Reconciliation and Breach Assessment SOP (IS-14-C)",
+      "headingPath": "IS-14-C › 2. Hold, replay or discard",
+      "quote": "The Clinical Systems Lead asks the Incident Commander, the CMIO and the department head to decide for each message class: - **Replay** when the message is still clinically valid and the identity check",
+      "chunkId": 25
+    },
+    {
+      "documentId": "01M791H5T9913NQR8TVBHP3J1Z",
+      "documentTitle": "Lakemont Community Hospital — Clinical Systems, Interfaces and Vendors",
+      "headingPath": "Lakemont Community Hospital — Cl… › 7. People",
+      "quote": "- Clinical Systems Lead: Marcus Ellery, ext. 5502. - On-call systems analysts: Ananya Desai (nights, ext. 5503) and Kyle Brandvold (days, ext. 5504). - Record Integrity Specialist: Elena Moreau, ext. ",
+      "chunkId": 39
+    },
+    {
+      "documentId": "01M791H5T7614JBPY8N3FD39RH",
+      "documentTitle": "Lakemont Community Hospital — Restore, Reconciliation and Breach Assessment SOP (IS-14-C)",
+      "headingPath": "IS-14-C › 3. Results release",
+      "quote": "Results held during downtime are released after validation. Critical results received by phone during downtime are logged on paper and re-entered. A result that arrives in the EHR on a patient who was",
+      "chunkId": 26
+    },
+    {
+      "documentId": "01M791H5T9913NQR8TVBHP3J1Z",
+      "documentTitle": "Lakemont Community Hospital — Clinical Systems, Interfaces and Vendors",
+      "headingPath": "Lakemont Community Hospital — Cl… › 1. Systems of record",
+      "quote": "| System | Use | Host | Notes | |---|---|---|---| | Lakechart EHR (vendor-hosted application, locally hosted database) | Orders, notes, MAR, ADT, registration | Primary data center, Duluth; secondary ",
+      "chunkId": 33
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template",
+      "tts"
+    ],
+    "voiceLines": [
+      {
+        "speaker": "Marcus Thale (Relaywell)",
+        "voiceStyle": "Man in his 40s, remote integration engineer who has been up all night; calm, precise, slightly hoarse, General American accent, unhurried pace with short pauses as if typing between sentences",
+        "text": "Lakemont, it's Marcus Thale with Relaywell, ticket R W, eight eight two one three. Am I on speaker? ... Good. The standby engine is promoted. It went live at oh six hundred, and every channel shows amber, pulling. Nothing has gone outbound yet. I want to be clear about that."
+      },
+      {
+        "speaker": "Marcus Ellery (CSL)",
+        "voiceStyle": "Clinical informatics director, tired but steady, mid-40s, Upper Midwest accent, speaking toward a speakerphone in a busy conference room, firm and businesslike",
+        "text": "Understood. The Laboratory Manager and the pharmacy manager are both here. What are you pulling, and how fast?"
+      },
+      {
+        "speaker": "Marcus Thale (Relaywell)",
+        "voiceStyle": "Man in his 40s, remote integration engineer who has been up all night; calm, precise, slightly hoarse, General American accent, unhurried pace with short pauses as if typing between sentences",
+        "text": "I'm draining your source queues into the engine store at about twenty thousand an hour. Your systems are still adding roughly six thousand an hour on top of that, so the sources should be empty around seven fifty. That's well before your ten ten drop. By seven o'clock you'll have about thirty-one thousand messages held between my store and what's left at source. I'm not releasing a single channel until you tell me replay, hold, or discard, for each class."
+      },
+      {
+        "speaker": "Marcus Thale (Relaywell)",
+        "voiceStyle": "Man in his 40s, remote integration engineer, calm and precise, slightly hoarse, reading numbers off a screen deliberately with pauses between items",
+        "text": "Here are the oh six hundred numbers by class. A D T, three hundred nineteen. O R M Orders, four thousand one hundred forty. O R U results, nine thousand six hundred sixty. Medication administration, five thousand nine hundred eighty. Charges, four thousand thirty. E L R, immunizations and H I E outbound, two hundred thirty."
+      },
+      {
+        "speaker": "Marcus Ellery (CSL)",
+        "voiceStyle": "Clinical informatics director, tired but steady, mid-40s, Upper Midwest accent, speakerphone in a busy conference room, slightly concerned",
+        "text": "Anything in there that worries you?"
+      },
+      {
+        "speaker": "Marcus Thale (Relaywell)",
+        "voiceStyle": "Man in his 40s, remote integration engineer, calm but more serious now, slightly hoarse, measured and careful",
+        "text": "Yes. Of the four thousand one hundred forty Orders, one thousand nine hundred sixty are more than four hours old. One hundred thirty-eight belong to six patients who were discharged or transferred out since twenty-three twenty. And about seven hundred match Orders your units have already carried out on paper. That's going by the paper order list your H I M team sent me. On the results side, there are one hundred twelve results for those same six patients."
+      },
+      {
+        "speaker": "Marcus Thale (Relaywell)",
+        "voiceStyle": "Man in his 40s, remote integration engineer, calm, precise, slightly hoarse, firm about boundaries",
+        "text": "I can't tell which of those patients you've re-registered on downtime numbers, so that's on your identity check, not my engine. If you replay everything in one go, it all lands in Lakechart at once... stale, and out of order."
+      },
+      {
+        "speaker": "Marcus Ellery (CSL)",
+        "voiceStyle": "Clinical informatics director, tired but steady, mid-40s, Upper Midwest accent, speakerphone in a busy conference room, decisive and clipped",
+        "text": "Hold everything where it is. Nothing releases until we call it."
+      },
+      {
+        "speaker": "Marcus Thale (Relaywell)",
+        "voiceStyle": "Man in his 40s, remote integration engineer, calm and precise, slightly hoarse, quietly pressing for a decision",
+        "text": "Holding. I need it class by class, and I need a name next to every discard so I can log it on my end. Your store keeps filling while we talk. So tell me which class goes first, and what happens to the other five."
+      }
+    ],
+    "postFx": [
+      "phone"
+    ]
+  },
+  "assets": [
+    {
+      "id": "01M79CQ2AWQQEW2V7YEG32EJ0T",
+      "kind": "image",
+      "path": "scenarios/01M791H7TWWJDZTYVSMEEGYDPP/media/01M793316D4XKKD7WWV0C9GMT5/01M79CQ2AWQQEW2V7YEG32EJ0T.png",
+      "role": "rendered",
+      "width": 816,
+      "height": 1056,
+      "sha256": "8f9db588abf9a3bf39f3b0e55a85a32b57f6caea4f0f7bed1faf0bb64068034e",
+      "provenance": {
+        "provider": "template",
+        "templateId": "phone_call",
+        "templateVersion": "1",
+        "createdAt": "2026-11-13T02:45:16.616Z"
+      }
+    }
+  ],
+  "versions": [
+    {
+      "at": "2026-11-12T23:57:44.658Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "Relaywell: Standby Engine Live, \"Tell Me Which Class Goes First\"",
+        "type": "phone_call",
+        "fields": {
+          "orgName": "Lakemont Community Hospital",
+          "systemName": "EXERCISE — Recorded Line, Boardroom Command Center, ext. 5520",
+          "callId": "CR-20270209-060012-0263",
+          "direction": "Inbound",
+          "caller": {
+            "name": "Marcus Thale",
+            "number": "218-555-0163",
+            "label": "Relaywell Integration, on-call engineer (ticket RW-88213)"
+          },
+          "callee": {
+            "name": "Marcus Ellery",
+            "number": "ext. 5520",
+            "label": "Clinical Systems Lead, Boardroom command center (speaker)"
+          },
+          "startTime": "02/09/2027 06:00:12",
+          "duration": "2:41",
+          "transcript": [
+            {
+              "speaker": "Marcus Thale (Relaywell)",
+              "offset": "0:00",
+              "text": "Lakemont, it's Marcus Thale with Relaywell, ticket RW-88213. Am I on speaker? Good. The standby engine is promoted. It went live at 06:00, and every channel shows amber, PULLING. Nothing has gone outbound yet. I want to be clear about that.",
+              "prompt": false
+            },
+            {
+              "speaker": "Marcus Ellery (CSL)",
+              "offset": "0:18",
+              "text": "Understood. The Laboratory Manager and the pharmacy manager are both here. What are you pulling, and how fast?",
+              "prompt": false
+            },
+            {
+              "speaker": "Marcus Thale (Relaywell)",
+              "offset": "0:24",
+              "text": "I'm draining your source queues into the engine store at about 20,000 an hour. Your systems are still adding roughly 6,000 an hour on top of that, so the sources should be empty around 07:50. That's well before your 10:10 drop. By 07:00 you'll have about 31,000 messages held between my store and what's left at source. I'm not releasing a single channel until you tell me replay, hold or discard for each class.",
+              "prompt": false
+            },
+            {
+              "speaker": "Marcus Thale (Relaywell)",
+              "offset": "0:52",
+              "text": "Here are the 06:00 numbers by class. ADT, 319. ORM Orders, 4,140. ORU results, 9,660. Medication administration, 5,980. Charges, 4,030. ELR, immunizations and HIE outbound, 230.",
+              "prompt": false
+            },
+            {
+              "speaker": "Marcus Ellery (CSL)",
+              "offset": "1:14",
+              "text": "Anything in there that worries you?",
+              "prompt": false
+            },
+            {
+              "speaker": "Marcus Thale (Relaywell)",
+              "offset": "1:17",
+              "text": "Yes. Of the 4,140 Orders, 1,960 are more than four hours old. 138 belong to six patients who were discharged or transferred out since 23:20. And about 700 match Orders your units have already carried out on paper. That's going by the paper order list your HIM team sent me. On the results side, there are 112 results for those same six patients.",
+              "prompt": false
+            },
+            {
+              "speaker": "Marcus Thale (Relaywell)",
+              "offset": "1:48",
+              "text": "I can't tell which of those patients you've re-registered on downtime numbers, so that's on your identity check, not my engine. If you replay everything in one go, it all lands in Lakechart at once, stale and out of order.",
+              "prompt": false
+            },
+            {
+              "speaker": "Marcus Ellery (CSL)",
+              "offset": "2:05",
+              "text": "Hold everything where it is. Nothing releases until we call it.",
+              "prompt": false
+            },
+            {
+              "speaker": "Marcus Thale (Relaywell)",
+              "offset": "2:10",
+              "text": "Holding. I need it class by class, and I need a name next to every discard so I can log it on my end. Your store keeps filling while we talk. So tell me which class goes first, and what happens to the other five.",
+              "prompt": true
+            }
+          ],
+          "voiceStyles": {
+            "Marcus Thale (Relaywell)": "Man in his 40s, remote engineer who has been up all night. Calm and precise, a little hoarse, typing between sentences.",
+            "Marcus Ellery (CSL)": "Clinical informatics director, tired but steady, speaking from a speakerphone in a busy conference room."
+          },
+          "injectId": "I-17"
+        },
+        "instructorNote": "This is the core replay decision. The CSL should propose a class-by-class plan under IS-14-C section 2, and the IC, CMIO and department heads should approve it. The expected plan: ADT replays first through the identity check. Orders more than 4 hours old, medication Orders and results for discharged patients are held for review. Orders already done on paper are discarded only if the class, count and decision-maker are logged. The LPM validates results before release, charges are held, and HIE outbound replays after ADT. Watch for the LPM confirming that reportable results already went to MDH by phone or fax so they are not sent twice, and for any push to replay everything at once.",
+        "deliveryMode": "play_audio"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-11-13T02:45:16.852Z"
+}

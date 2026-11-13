@@ -1,0 +1,350 @@
+{
+  "id": "01M792EGBX2PHAZRK6PYCWTQ9D",
+  "mselRowId": "I-01",
+  "type": "siem_alert",
+  "title": "SEV-1 INC-27-0309-01 — Web Store Bulk Export, Now With Public Claim",
+  "deliveryMode": "hand_to_role",
+  "fields": {
+    "product": "Watchtower Correlation Console",
+    "tenant": "Tallis Home Products - Dayton SOC",
+    "alertId": "ALR-2027-030914",
+    "severity": "critical",
+    "riskScore": 94,
+    "rule": "WS-EXFIL-07 Bulk customer export via vendor API key",
+    "ruleDescription": "The vendor integration key requested the customer export endpoint at maximum page size across sequential pages, with outbound bytes above the 30-day baseline. Escalated to SEV-1 after a public breach-forum claim naming Tallis appeared at 07:15 ET.",
+    "status": "Escalated - SEV-1 INC-27-0309-01",
+    "assignee": "Devon Park",
+    "firstSeen": "03/09/2027 06:40:12",
+    "lastSeen": "03/09/2027 07:05:44",
+    "eventCount": 47,
+    "source": {
+      "host": "cartbridge-integration-prod (API client)",
+      "ip": "198.51.100.47",
+      "user": "cartbridge-integration-prod",
+      "zone": "Vendor - CartBridge Commerce cloud"
+    },
+    "dest": {
+      "host": "store-api.tallishome.example",
+      "ip": "203.0.113.20",
+      "service": "HTTPS 443 /api/v2/customers/export",
+      "zone": "Web store (CartBridge-hosted)"
+    },
+    "tactics": [
+      "T1078.004 Valid Accounts: Cloud Accounts",
+      "T1213 Data from Information Repositories",
+      "T1567 Exfiltration Over Web Service"
+    ],
+    "details": [
+      {
+        "key": "Email forward",
+        "value": "FROM: soc-oncall@tallishome.example TO: CISO Lena Hartmann; CC: comms-cell@tallishome.example"
+      },
+      {
+        "key": "Subject",
+        "value": "SEV-1 INC-27-0309-01 web store bulk export, now with public claim"
+      },
+      {
+        "key": "Detection",
+        "value": "06:40:12 ET, rule WS-EXFIL-07 HIGH"
+      },
+      {
+        "key": "Containment",
+        "value": "07:05:44 ET key cartbridge-integration-prod SUSPENDED by CISO. Export stopped."
+      },
+      {
+        "key": "Public claim",
+        "value": "07:15 ET breach-forum thread 'TALLIS HOME 1.9M FULLZ – passwords + cards – fresh', 200-row sample CSV attached. Screenshot attached to ticket."
+      },
+      {
+        "key": "Sample validation",
+        "value": "NOT VALIDATED"
+      },
+      {
+        "key": "Vendor notified in writing",
+        "value": "NO - CartBridge Commerce not yet notified"
+      },
+      {
+        "key": "Records exported",
+        "value": "Unknown - pages=1..n, final page count pending log pull"
+      },
+      {
+        "key": "Endpoint data class",
+        "value": "Web store accounts (name, email, addresses, phone, order history, bcrypt password hash, payment token)"
+      },
+      {
+        "key": "Forensics retainer",
+        "value": "Cardinal Forensics, 24h, (937) 555-0148 - not yet engaged"
+      }
+    ],
+    "rawEvent": "2027-03-09T06:40:12-05:00 store-api WS-EXFIL-07 HIGH api_client=cartbridge-integration-prod src=198.51.100.47 GET /api/v2/customers/export?page_size=5000&page=1 status=200\n2027-03-09T06:40:31-05:00 store-api api_client=cartbridge-integration-prod GET /api/v2/customers/export?page_size=5000&page=2 status=200\n2027-03-09T06:40:49-05:00 store-api api_client=cartbridge-integration-prod GET /api/v2/customers/export?page_size=5000&page=3 status=200\n2027-03-09T06:52:07-05:00 store-api api_client=cartbridge-integration-prod pages=1..n status=200 bytes_out climbing (baseline exceeded x38)\n2027-03-09T07:05:44-05:00 iam-audit key=cartbridge-integration-prod action=SUSPEND actor=ciso result=SUCCESS\n2027-03-09T07:05:51-05:00 store-api api_client=cartbridge-integration-prod GET /api/v2/customers/export?page_size=5000 status=401 key_suspended\n2027-03-09T07:15:00-05:00 threat-intel feed=forum-watch match='TALLIS HOME' title='TALLIS HOME 1.9M FULLZ – passwords + cards – fresh' attachment=sample_200rows.csv\n2027-03-09T07:33:18-05:00 ticket INC-27-0309-01 severity=SEV-1 note='Sample not validated. CartBridge not told in writing. Analyst: Devon Park'",
+    "relatedAlerts": [
+      {
+        "time": "03/09/2027 07:05:44",
+        "title": "IAM: Vendor API key cartbridge-integration-prod suspended by CISO",
+        "severity": "info"
+      },
+      {
+        "time": "03/09/2027 07:05:51",
+        "title": "Web store API: export request rejected, key suspended (401)",
+        "severity": "medium"
+      },
+      {
+        "time": "03/09/2027 07:15:00",
+        "title": "Threat intel: breach-forum post names Tallis Home, 200-row sample attached",
+        "severity": "critical"
+      }
+    ],
+    "analyst": "soc.oncall"
+  },
+  "variant": "default",
+  "instructorNote": "This is the escalation moment: discovery was 06:40, the public claim 07:15. The CISO should brief the cell on the 06:40 detection and the 07:05 suspension, keep the key suspended, send CartBridge a written notice with a request to preserve logs, and call the General Counsel now because an outside party claims to hold Tallis data. Watch whether LEGAL calls the CCO and CFO within the hour, sets up the Disclosure Committee within four hours, and logs 06:40 as the discovery time and 07:15 as the first public claim. Also watch whether anyone repeats the unvalidated \"1.9M\" or \"cards\" claims as fact.",
+  "citations": [
+    {
+      "documentId": "01M791MZ5SDCHEQXP1W582BC2D",
+      "documentTitle": "TLC-LEG-07: Cyber Incident Disclosure Coordination",
+      "headingPath": "TCIDC › 2. Triggers",
+      "quote": "The CISO calls the General Counsel within one hour of any of these: unauthorized access to a system holding personal data of more than 10,000 people; confirmed access to financial, payment or employee",
+      "chunkId": 12
+    },
+    {
+      "documentId": "01M791MZ5V0HHAJ0J2R7KKEXX6",
+      "documentTitle": "TLC-COM-03: Systems, Customer Data and Media Directory",
+      "headingPath": "TSCDMD › 2. Customer data systems",
+      "quote": "- **Web store.** Built and hosted by the vendor CartBridge Commerce (fictional) on its cloud. Holds 1.9 million registered accounts: name, email address, shipping and billing address, phone number if ",
+      "chunkId": 31
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template"
+    ]
+  },
+  "assets": [
+    {
+      "id": "01M79BR682CD9KVZ30R3YTMA5J",
+      "kind": "image",
+      "path": "scenarios/01M791N15X18HCKWGNW1N3BVND/media/01M792EGBX2PHAZRK6PYCWTQ9D/01M79BR682CD9KVZ30R3YTMA5J.png",
+      "role": "rendered",
+      "width": 1280,
+      "height": 1238,
+      "sha256": "a0508bc256f93b693bd8d15ff961949c0afaa2efa0512aed6d60e9fe689dca64",
+      "provenance": {
+        "provider": "template",
+        "templateId": "siem_alert",
+        "templateVersion": "1",
+        "createdAt": "2026-11-13T02:28:24.732Z"
+      }
+    }
+  ],
+  "versions": [
+    {
+      "at": "2026-11-12T23:46:18.109Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "SEV-1 INC-27-0309-01 — Web Store Bulk Export, Now With Public Claim",
+        "type": "siem_alert",
+        "fields": {
+          "product": "Watchtower Correlation Console",
+          "tenant": "Tallis Home Products - Dayton SOC",
+          "alertId": "ALR-2027-030914",
+          "severity": "critical",
+          "riskScore": 94,
+          "rule": "WS-EXFIL-07 Bulk customer export via vendor API key",
+          "ruleDescription": "The vendor integration key requested the customer export endpoint at maximum page size across sequential pages, with outbound bytes above the 30-day baseline. Escalated to SEV-1 after a public breach-forum claim naming Tallis appeared at 07:15 ET.",
+          "status": "Escalated - SEV-1 INC-27-0309-01",
+          "assignee": "Financial",
+          "firstSeen": "03/09/2027 06:40:12",
+          "lastSeen": "03/09/2027 07:05:44",
+          "eventCount": 47,
+          "source": {
+            "host": "cartbridge-integration-prod (API client)",
+            "ip": "198.51.100.47",
+            "user": "cartbridge-integration-prod",
+            "zone": "Vendor - CartBridge Commerce cloud"
+          },
+          "dest": {
+            "host": "store-api.tallishome.example",
+            "ip": "203.0.113.20",
+            "service": "HTTPS 443 /api/v2/customers/export",
+            "zone": "Web store (CartBridge-hosted)"
+          },
+          "tactics": [
+            "T1078.004 Valid Accounts: Cloud Accounts",
+            "T1213 Data from Information Repositories",
+            "T1567 Exfiltration Over Web Service"
+          ],
+          "details": [
+            {
+              "key": "Email forward",
+              "value": "FROM: soc-oncall@tallishome.example TO: CISO Lena Hartmann; CC: comms-cell@tallishome.example"
+            },
+            {
+              "key": "Subject",
+              "value": "SEV-1 INC-27-0309-01 web store bulk export, now with public claim"
+            },
+            {
+              "key": "Detection",
+              "value": "06:40:12 ET, rule WS-EXFIL-07 HIGH"
+            },
+            {
+              "key": "Containment",
+              "value": "07:05:44 ET key cartbridge-integration-prod SUSPENDED by CISO. Export stopped."
+            },
+            {
+              "key": "Public claim",
+              "value": "07:15 ET breach-forum thread 'TALLIS HOME 1.9M FULLZ – passwords + cards – fresh', 200-row sample CSV attached. Screenshot attached to ticket."
+            },
+            {
+              "key": "Sample validation",
+              "value": "NOT VALIDATED"
+            },
+            {
+              "key": "Vendor notified in writing",
+              "value": "NO - CartBridge Commerce not yet notified"
+            },
+            {
+              "key": "Records exported",
+              "value": "Unknown - pages=1..n, final page count pending log pull"
+            },
+            {
+              "key": "Endpoint data class",
+              "value": "Web store accounts (name, email, addresses, phone, order history, bcrypt password hash, payment token)"
+            },
+            {
+              "key": "Forensics retainer",
+              "value": "Cardinal Forensics, 24h, (937) 555-0148 - not yet engaged"
+            }
+          ],
+          "rawEvent": "2027-03-09T06:40:12-05:00 store-api WS-EXFIL-07 HIGH api_client=cartbridge-integration-prod src=198.51.100.47 GET /api/v2/customers/export?page_size=5000&page=1 status=200\n2027-03-09T06:40:31-05:00 store-api api_client=cartbridge-integration-prod GET /api/v2/customers/export?page_size=5000&page=2 status=200\n2027-03-09T06:40:49-05:00 store-api api_client=cartbridge-integration-prod GET /api/v2/customers/export?page_size=5000&page=3 status=200\n2027-03-09T06:52:07-05:00 store-api api_client=cartbridge-integration-prod pages=1..n status=200 bytes_out climbing (baseline exceeded x38)\n2027-03-09T07:05:44-05:00 iam-audit key=cartbridge-integration-prod action=SUSPEND actor=ciso result=SUCCESS\n2027-03-09T07:05:51-05:00 store-api api_client=cartbridge-integration-prod GET /api/v2/customers/export?page_size=5000 status=401 key_suspended\n2027-03-09T07:15:00-05:00 threat-intel feed=forum-watch match='TALLIS HOME' title='TALLIS HOME 1.9M FULLZ – passwords + cards – fresh' attachment=sample_200rows.csv\n2027-03-09T07:33:18-05:00 ticket INC-27-0309-01 severity=SEV-1 note='Sample not validated. CartBridge not told in writing. Analyst: Devon Park'",
+          "relatedAlerts": [
+            {
+              "time": "03/09/2027 07:05:44",
+              "title": "IAM: Vendor API key cartbridge-integration-prod suspended by CISO",
+              "severity": "info"
+            },
+            {
+              "time": "03/09/2027 07:05:51",
+              "title": "Web store API: export request rejected, key suspended (401)",
+              "severity": "medium"
+            },
+            {
+              "time": "03/09/2027 07:15:00",
+              "title": "Threat intel: breach-forum post names Tallis Home, 200-row sample attached",
+              "severity": "critical"
+            }
+          ],
+          "analyst": "soc.oncall"
+        },
+        "instructorNote": "This is the escalation moment: discovery was 06:40, the public claim 07:15. The CISO should brief the cell on the 06:40 detection and the 07:05 suspension, keep the key suspended, send CartBridge a written notice with a request to preserve logs, and call the General Counsel now because an outside party claims to hold Tallis data. Watch whether LEGAL calls the CCO and CFO within the hour, sets up the Disclosure Committee within four hours, and logs 06:40 as the discovery time and 07:15 as the first public claim. Also watch whether anyone repeats the unvalidated \"1.9M\" or \"cards\" claims as fact.",
+        "deliveryMode": "hand_to_role"
+      }
+    },
+    {
+      "at": "2026-11-13T01:29:34.439Z",
+      "by": "user",
+      "note": "Corrected by hand for the shipped example",
+      "snapshot": {
+        "title": "SEV-1 INC-27-0309-01 — Web Store Bulk Export, Now With Public Claim",
+        "type": "siem_alert",
+        "fields": {
+          "product": "Watchtower Correlation Console",
+          "tenant": "Tallis Home Products - Dayton SOC",
+          "alertId": "ALR-2027-030914",
+          "severity": "critical",
+          "riskScore": 94,
+          "rule": "WS-EXFIL-07 Bulk customer export via vendor API key",
+          "ruleDescription": "The vendor integration key requested the customer export endpoint at maximum page size across sequential pages, with outbound bytes above the 30-day baseline. Escalated to SEV-1 after a public breach-forum claim naming Tallis appeared at 07:15 ET.",
+          "status": "Escalated - SEV-1 INC-27-0309-01",
+          "assignee": "Devon Park",
+          "firstSeen": "03/09/2027 06:40:12",
+          "lastSeen": "03/09/2027 07:05:44",
+          "eventCount": 47,
+          "source": {
+            "host": "cartbridge-integration-prod (API client)",
+            "ip": "198.51.100.47",
+            "user": "cartbridge-integration-prod",
+            "zone": "Vendor - CartBridge Commerce cloud"
+          },
+          "dest": {
+            "host": "store-api.tallishome.example",
+            "ip": "203.0.113.20",
+            "service": "HTTPS 443 /api/v2/customers/export",
+            "zone": "Web store (CartBridge-hosted)"
+          },
+          "tactics": [
+            "T1078.004 Valid Accounts: Cloud Accounts",
+            "T1213 Data from Information Repositories",
+            "T1567 Exfiltration Over Web Service"
+          ],
+          "details": [
+            {
+              "key": "Email forward",
+              "value": "FROM: soc-oncall@tallishome.example TO: CISO Lena Hartmann; CC: comms-cell@tallishome.example"
+            },
+            {
+              "key": "Subject",
+              "value": "SEV-1 INC-27-0309-01 web store bulk export, now with public claim"
+            },
+            {
+              "key": "Detection",
+              "value": "06:40:12 ET, rule WS-EXFIL-07 HIGH"
+            },
+            {
+              "key": "Containment",
+              "value": "07:05:44 ET key cartbridge-integration-prod SUSPENDED by CISO. Export stopped."
+            },
+            {
+              "key": "Public claim",
+              "value": "07:15 ET breach-forum thread 'TALLIS HOME 1.9M FULLZ – passwords + cards – fresh', 200-row sample CSV attached. Screenshot attached to ticket."
+            },
+            {
+              "key": "Sample validation",
+              "value": "NOT VALIDATED"
+            },
+            {
+              "key": "Vendor notified in writing",
+              "value": "NO - CartBridge Commerce not yet notified"
+            },
+            {
+              "key": "Records exported",
+              "value": "Unknown - pages=1..n, final page count pending log pull"
+            },
+            {
+              "key": "Endpoint data class",
+              "value": "Web store accounts (name, email, addresses, phone, order history, bcrypt password hash, payment token)"
+            },
+            {
+              "key": "Forensics retainer",
+              "value": "Cardinal Forensics, 24h, (937) 555-0148 - not yet engaged"
+            }
+          ],
+          "rawEvent": "2027-03-09T06:40:12-05:00 store-api WS-EXFIL-07 HIGH api_client=cartbridge-integration-prod src=198.51.100.47 GET /api/v2/customers/export?page_size=5000&page=1 status=200\n2027-03-09T06:40:31-05:00 store-api api_client=cartbridge-integration-prod GET /api/v2/customers/export?page_size=5000&page=2 status=200\n2027-03-09T06:40:49-05:00 store-api api_client=cartbridge-integration-prod GET /api/v2/customers/export?page_size=5000&page=3 status=200\n2027-03-09T06:52:07-05:00 store-api api_client=cartbridge-integration-prod pages=1..n status=200 bytes_out climbing (baseline exceeded x38)\n2027-03-09T07:05:44-05:00 iam-audit key=cartbridge-integration-prod action=SUSPEND actor=ciso result=SUCCESS\n2027-03-09T07:05:51-05:00 store-api api_client=cartbridge-integration-prod GET /api/v2/customers/export?page_size=5000 status=401 key_suspended\n2027-03-09T07:15:00-05:00 threat-intel feed=forum-watch match='TALLIS HOME' title='TALLIS HOME 1.9M FULLZ – passwords + cards – fresh' attachment=sample_200rows.csv\n2027-03-09T07:33:18-05:00 ticket INC-27-0309-01 severity=SEV-1 note='Sample not validated. CartBridge not told in writing. Analyst: Devon Park'",
+          "relatedAlerts": [
+            {
+              "time": "03/09/2027 07:05:44",
+              "title": "IAM: Vendor API key cartbridge-integration-prod suspended by CISO",
+              "severity": "info"
+            },
+            {
+              "time": "03/09/2027 07:05:51",
+              "title": "Web store API: export request rejected, key suspended (401)",
+              "severity": "medium"
+            },
+            {
+              "time": "03/09/2027 07:15:00",
+              "title": "Threat intel: breach-forum post names Tallis Home, 200-row sample attached",
+              "severity": "critical"
+            }
+          ],
+          "analyst": "soc.oncall"
+        },
+        "instructorNote": "This is the escalation moment: discovery was 06:40, the public claim 07:15. The CISO should brief the cell on the 06:40 detection and the 07:05 suspension, keep the key suspended, send CartBridge a written notice with a request to preserve logs, and call the General Counsel now because an outside party claims to hold Tallis data. Watch whether LEGAL calls the CCO and CFO within the hour, sets up the Disclosure Committee within four hours, and logs 06:40 as the discovery time and 07:15 as the first public claim. Also watch whether anyone repeats the unvalidated \"1.9M\" or \"cards\" claims as fact.",
+        "deliveryMode": "hand_to_role"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-11-13T02:28:24.964Z"
+}

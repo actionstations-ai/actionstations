@@ -1,0 +1,338 @@
+{
+  "id": "01M7930WGZ8VBYMPJTHG1TM5FN",
+  "mselRowId": "I-02",
+  "type": "cad_radio_traffic",
+  "title": "Position 2 Event Log — Coast Earthquake, 10:14–10:17",
+  "deliveryMode": "hand_to_role",
+  "fields": {
+    "agency": "Marlow County Communications (911) — Port Alder Primary Center, Position 2",
+    "incidentName": "Offshore earthquake, Marlow County coast, 10:14 PDT",
+    "marking": "EXERCISE EXERCISE EXERCISE",
+    "preparedBy": "Telecommunicator J. Ramos, Position 2 (CAD event log, printed 10:17:40 PDT)",
+    "from": "10:14:02",
+    "to": "10:17:40",
+    "traffic": [
+      {
+        "time": "10:14:02",
+        "channel": "ShakeAlert feed",
+        "from": "ShakeAlert",
+        "to": "Position 2",
+        "flag": "Emergency",
+        "message": "Alert received: \"Earthquake! Drop, Cover, Hold On.\" Automatic estimate M 7.3, origin offshore, expected MMI VI+ at the coast. About 7 seconds before shaking."
+      },
+      {
+        "time": "10:14:05",
+        "channel": "Station alerting",
+        "from": "Engine 31",
+        "to": "Position 2",
+        "flag": "Priority",
+        "message": "Station 1 bay doors open on automation. Confirmed by Engine 31."
+      },
+      {
+        "time": "10:14:06",
+        "channel": "Station alerting",
+        "from": "Station 2",
+        "to": "Position 2",
+        "flag": "Priority",
+        "message": "Station 2 bay doors open on automation. Confirmed."
+      },
+      {
+        "time": "10:14:06",
+        "channel": "Station alerting",
+        "from": "Position 2",
+        "to": "Kellerton Station 3",
+        "flag": "Priority",
+        "message": "Station 3 door status requested. NO CONFIRMATION."
+      },
+      {
+        "time": "10:14:09",
+        "channel": "Floor",
+        "from": "Position 2",
+        "to": "All positions",
+        "flag": "Emergency",
+        "message": "Strong shaking at Port Alder primary center. Telecommunicators drop, cover, hold on."
+      },
+      {
+        "time": "10:14:10",
+        "channel": "Hospital ring-down",
+        "from": "Position 2",
+        "to": "Marlow Coast Community Hospital facilities",
+        "flag": "Priority",
+        "message": "Elevator recall status requested. NO CONFIRMATION from hospital facilities."
+      },
+      {
+        "time": "10:14:30",
+        "channel": "Rail dispatch line",
+        "from": "Marlow & Pacific dispatcher",
+        "to": "Position 2",
+        "flag": "Priority",
+        "message": "Stop order issued for the Alder River trestle. Train 211 holding short of the trestle."
+      },
+      {
+        "time": "10:15:10",
+        "channel": "Floor",
+        "from": "Position 2",
+        "to": "All positions",
+        "flag": "Emergency",
+        "message": "Commercial power lost countywide. Position 2 on UPS and generator."
+      },
+      {
+        "time": "10:15:40",
+        "channel": "School radio",
+        "from": "Port Alder Elementary principal",
+        "to": "Position 2",
+        "flag": "Priority",
+        "message": "Drop, cover, hold on bell sounded at 10:14:12. Kids are under desks."
+      },
+      {
+        "time": "10:16:20",
+        "channel": "Fire Dispatch",
+        "from": "Engine 31",
+        "to": "Position 2",
+        "flag": "Emergency",
+        "message": "Dispatch, Engine 31. Still shaking, violent, can't stand up on Front Street. Brick facades coming down."
+      },
+      {
+        "time": "10:17:05",
+        "channel": "Siren control",
+        "from": "Position 2",
+        "to": "All sirens",
+        "flag": "Emergency",
+        "message": "Tsunami sirens activated from Position 2. Shaking ongoing."
+      },
+      {
+        "time": "10:17:20",
+        "channel": "Sheriff Ops",
+        "from": "Deputy 14",
+        "to": "Position 2",
+        "flag": "Emergency",
+        "message": "Dispatch, 14. Highway 101 Alder River bridge deck is offset at the south abutment. Strong natural gas smell. People still driving on it."
+      },
+      {
+        "time": "10:17:35",
+        "channel": "Sheriff Ops",
+        "from": "Deputy 9",
+        "to": "Position 2",
+        "flag": "Emergency",
+        "message": "Dispatch, 9. The Front Street siren and the harbor siren are NOT sounding."
+      },
+      {
+        "time": "10:17:35",
+        "channel": "State Parks",
+        "from": "State Parks ranger, Cape Marlow State Park",
+        "to": "Position 2",
+        "flag": "Emergency",
+        "message": "Campground siren is silent. I've got about 180 people out here."
+      },
+      {
+        "time": "10:17:40",
+        "channel": "Floor",
+        "from": "Position 2",
+        "to": "All positions",
+        "flag": "Priority",
+        "message": "Shaking subsiding. Duration about 3.5 minutes and counting."
+      }
+    ],
+    "notes": "Still open at print time: no door confirmation from Kellerton Station 3 and no elevator recall confirmation from Marlow Coast Community Hospital. Three sirens reported silent: Front Street, harbor, campground. Fire Dispatch and Sheriff Ops were both carrying emergency traffic from 10:16 on. Position 2 has been on UPS and generator since 10:15:10."
+  },
+  "instructorNote": "This is the core trigger. Command should declare Full Activation and order evacuation of the XL and XXL zones on the shaking report alone, without waiting for an NTWC message. Watch for four things: MarlowAlert and the WEA going out in English and Spanish promptly; the early warning action log being started with Station 3 and the hospital elevators marked as open items; field coverage sent to Front Street, the harbor and the campground; and traffic stopped on the Alder River bridge, with the gas smell passed to Cape Marlow Natural Gas.",
+  "citations": [
+    {
+      "documentId": "01M791ZH1TMTSK7KPMZVESZ779",
+      "documentTitle": "SOP-EQ-02: Early Warning Actions, Damage Assessment and Lifelines",
+      "headingPath": "SOP-EQ-02: Early Warning Actions… › 2. Earthquake early warning (ShakeAlert) at county facilities",
+      "quote": "The ShakeAlert system detects the first waves of an earthquake and sends an alert through partners (phone alerts, apps and direct feeds). Near the epicenter there may be no warning; at a distance ther",
+      "chunkId": 3
+    },
+    {
+      "documentId": "01M791ZH1ZKQ58XR9SHQQV1F96",
+      "documentTitle": "SOP-TSU-01: Tsunami Warning and Evacuation",
+      "headingPath": "STWE › 5. Who orders what",
+      "quote": "| Action | Who | By when | |---|---|---| | Sound sirens | Telecommunicator on Position 2, on the first strong shaking report or the first NTWC warning | Immediately | | MarlowAlert and county WEA (the",
+      "chunkId": 32
+    },
+    {
+      "documentId": "01M791ZH1Y7DWQX8VPP0RQR1T3",
+      "documentTitle": "Marlow County: Facilities and Systems",
+      "headingPath": "MCFS › 5. Vulnerable sites in the tsunami zone",
+      "quote": "| Site | People | Planning notes | |---|---|---| | Marlow Coast Community Hospital | 25 beds, about 18 inpatients on a normal day, 60 staff on a weekday | Ambulatory patients walk; non-ambulatory pati",
+      "chunkId": 23
+    },
+    {
+      "documentId": "01M791ZH1ZKQ58XR9SHQQV1F96",
+      "documentTitle": "SOP-TSU-01: Tsunami Warning and Evacuation",
+      "headingPath": "STWE › 4. Evacuation zones",
+      "quote": "The county uses the state's five tsunami evacuation zone sizes (Small, Medium, Large, Extra Large, Extra Extra Large) as shown on the tsunami evacuation brochures. For a local Cascadia source the orde",
+      "chunkId": 31
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template"
+    ]
+  },
+  "assets": [
+    {
+      "id": "01M79985XM7VCZJ7PREG4YZNFR",
+      "kind": "image",
+      "path": "scenarios/01M791ZK2F9VNQ6W0WAA3KX0T8/media/01M7930WGZ8VBYMPJTHG1TM5FN/01M79985XM7VCZJ7PREG4YZNFR.png",
+      "role": "rendered",
+      "width": 1056,
+      "height": 816,
+      "sha256": "a032211510b5f3a6c04d33f11955c88fe00680ad55d5507e6188317493b1b0e9",
+      "provenance": {
+        "provider": "template",
+        "templateId": "cad_radio_traffic",
+        "templateVersion": "1",
+        "createdAt": "2026-11-13T01:44:43.046Z"
+      }
+    }
+  ],
+  "versions": [
+    {
+      "at": "2026-11-12T23:56:15.395Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "Position 2 Event Log — Coast Earthquake, 10:14–10:17",
+        "type": "cad_radio_traffic",
+        "fields": {
+          "agency": "Marlow County Communications (911) — Port Alder Primary Center, Position 2",
+          "incidentName": "Offshore earthquake, Marlow County coast, 10:14 PDT",
+          "marking": "EXERCISE EXERCISE EXERCISE",
+          "preparedBy": "Telecommunicator J. Ramos, Position 2 (CAD event log, printed 10:17:40 PDT)",
+          "from": "10:14:02",
+          "to": "10:17:40",
+          "traffic": [
+            {
+              "time": "10:14:02",
+              "channel": "ShakeAlert feed",
+              "from": "ShakeAlert",
+              "to": "Position 2",
+              "flag": "Emergency",
+              "message": "Alert received: \"Earthquake! Drop, Cover, Hold On.\" Automatic estimate M 7.3, origin offshore, expected MMI VI+ at the coast. About 7 seconds before shaking."
+            },
+            {
+              "time": "10:14:05",
+              "channel": "Station alerting",
+              "from": "Engine 31",
+              "to": "Position 2",
+              "flag": "Priority",
+              "message": "Station 1 bay doors open on automation. Confirmed by Engine 31."
+            },
+            {
+              "time": "10:14:06",
+              "channel": "Station alerting",
+              "from": "Station 2",
+              "to": "Position 2",
+              "flag": "Priority",
+              "message": "Station 2 bay doors open on automation. Confirmed."
+            },
+            {
+              "time": "10:14:06",
+              "channel": "Station alerting",
+              "from": "Position 2",
+              "to": "Kellerton Station 3",
+              "flag": "Priority",
+              "message": "Station 3 door status requested. NO CONFIRMATION."
+            },
+            {
+              "time": "10:14:09",
+              "channel": "Floor",
+              "from": "Position 2",
+              "to": "All positions",
+              "flag": "Emergency",
+              "message": "Strong shaking at Port Alder primary center. Telecommunicators drop, cover, hold on."
+            },
+            {
+              "time": "10:14:10",
+              "channel": "Hospital ring-down",
+              "from": "Position 2",
+              "to": "Marlow Coast Community Hospital facilities",
+              "flag": "Priority",
+              "message": "Elevator recall status requested. NO CONFIRMATION from hospital facilities."
+            },
+            {
+              "time": "10:14:30",
+              "channel": "Rail dispatch line",
+              "from": "Marlow & Pacific dispatcher",
+              "to": "Position 2",
+              "flag": "Priority",
+              "message": "Stop order issued for the Alder River trestle. Train 211 holding short of the trestle."
+            },
+            {
+              "time": "10:15:10",
+              "channel": "Floor",
+              "from": "Position 2",
+              "to": "All positions",
+              "flag": "Emergency",
+              "message": "Commercial power lost countywide. Position 2 on UPS and generator."
+            },
+            {
+              "time": "10:15:40",
+              "channel": "School radio",
+              "from": "Port Alder Elementary principal",
+              "to": "Position 2",
+              "flag": "Priority",
+              "message": "Drop, cover, hold on bell sounded at 10:14:12. Kids are under desks."
+            },
+            {
+              "time": "10:16:20",
+              "channel": "Fire Dispatch",
+              "from": "Engine 31",
+              "to": "Position 2",
+              "flag": "Emergency",
+              "message": "Dispatch, Engine 31. Still shaking, violent, can't stand up on Front Street. Brick facades coming down."
+            },
+            {
+              "time": "10:17:05",
+              "channel": "Siren control",
+              "from": "Position 2",
+              "to": "All sirens",
+              "flag": "Emergency",
+              "message": "Tsunami sirens activated from Position 2. Shaking ongoing."
+            },
+            {
+              "time": "10:17:20",
+              "channel": "Sheriff Ops",
+              "from": "Deputy 14",
+              "to": "Position 2",
+              "flag": "Emergency",
+              "message": "Dispatch, 14. Highway 101 Alder River bridge deck is offset at the south abutment. Strong natural gas smell. People still driving on it."
+            },
+            {
+              "time": "10:17:35",
+              "channel": "Sheriff Ops",
+              "from": "Deputy 9",
+              "to": "Position 2",
+              "flag": "Emergency",
+              "message": "Dispatch, 9. The Front Street siren and the harbor siren are NOT sounding."
+            },
+            {
+              "time": "10:17:35",
+              "channel": "State Parks",
+              "from": "State Parks ranger, Cape Marlow State Park",
+              "to": "Position 2",
+              "flag": "Emergency",
+              "message": "Campground siren is silent. I've got about 180 people out here."
+            },
+            {
+              "time": "10:17:40",
+              "channel": "Floor",
+              "from": "Position 2",
+              "to": "All positions",
+              "flag": "Priority",
+              "message": "Shaking subsiding. Duration about 3.5 minutes and counting."
+            }
+          ],
+          "notes": "Still open at print time: no door confirmation from Kellerton Station 3 and no elevator recall confirmation from Marlow Coast Community Hospital. Three sirens reported silent: Front Street, harbor, campground. Fire Dispatch and Sheriff Ops were both carrying emergency traffic from 10:16 on. Position 2 has been on UPS and generator since 10:15:10."
+        },
+        "instructorNote": "This is the core trigger. Command should declare Full Activation and order evacuation of the XL and XXL zones on the shaking report alone, without waiting for an NTWC message. Watch for four things: MarlowAlert and the WEA going out in English and Spanish promptly; the early warning action log being started with Station 3 and the hospital elevators marked as open items; field coverage sent to Front Street, the harbor and the campground; and traffic stopped on the Alder River bridge, with the gas smell passed to Cape Marlow Natural Gas.",
+        "deliveryMode": "hand_to_role"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-11-13T01:44:43.273Z"
+}

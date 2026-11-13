@@ -1,0 +1,430 @@
+{
+  "id": "01M7969B08G6DWBQ08Y0GQR6EQ",
+  "mselRowId": "I-13",
+  "type": "status_board",
+  "title": "911 Queue Board, 16:35: 14 Waiting, Tip Line Unstaffed",
+  "deliveryMode": "display_main_screen",
+  "fields": {
+    "organization": "Sheriff's Office of Wren County, Wren County Communications",
+    "facility": "Communications Center Floor Wallboard (NG911 / CAD)",
+    "title": "911 CALL-HANDLING AND POSITION STATUS",
+    "incidentName": "CAD 26-081377 Missing Child, Wren County Fairgrounds",
+    "asOf": "16:36",
+    "operationalPeriod": "11/12/2026 1405-1800",
+    "preparedBy": "NG911 queue feed + CAD auto-status (Day Supervisor P. Venkataraman, ext. 4410)",
+    "resources": [
+      {
+        "name": "911 QUEUE",
+        "status": "red",
+        "notes": "14 WAITING | LONGEST HOLD 0:41 | AVG HOLD 0:33. SURGE THRESHOLD EXCEEDED (more than 12 in queue, avg hold over 30 s). Answer target is 90% in 10 s.",
+        "owner": "NG911 (state-hosted)",
+        "updated": "16:35"
+      },
+      {
+        "name": "ADMIN LINES",
+        "status": "red",
+        "notes": "9 RINGING, 0 ANSWERED IN LAST 5 MIN",
+        "owner": "Comms Supervisor",
+        "updated": "16:35"
+      },
+      {
+        "name": "TIP LINE EXT 4450 / PUBLIC TIP NUMBER",
+        "status": "red",
+        "notes": "0 STAFFED. Tip calls are landing on 911 positions. Public number (541-555-0190 is rolling to 911 queue.",
+        "owner": "Comms Supervisor",
+        "updated": "16:35"
+      },
+      {
+        "name": "CONFERENCE ROOM TIP POSITIONS (6 PHONES)",
+        "status": "red",
+        "notes": "0 OF 6 LOGGED IN",
+        "owner": "Comms Supervisor",
+        "updated": "16:35"
+      },
+      {
+        "name": "OVERFLOW CONSOLE",
+        "status": "red",
+        "notes": "NOT LOGGED IN, NO OPERATOR",
+        "owner": "Comms Supervisor",
+        "updated": "16:35"
+      },
+      {
+        "name": "CONSOLE 4: P1 MEDICAL ANSWER TIME",
+        "status": "red",
+        "notes": "Chest-pain 911 call held 38 s before answer. Console 4 by intercom: callers since alert hit phones at 16:25 are mostly tips, e.g. 'blue truck at the Chevron,' 'gray truck in my neighbor's driveway.'",
+        "owner": "Console 4",
+        "updated": "16:34"
+      },
+      {
+        "name": "CAD 26-081402: P2 DOMESTIC DISTURBANCE, PINE LANDING",
+        "status": "red",
+        "notes": "PENDING, NO UNIT AVAILABLE. Entered 16:29. All patrol units committed to CAD 26-081377.",
+        "owner": "Console 1",
+        "updated": "16:35"
+      },
+      {
+        "name": "TELECOMMUNICATOR POSITIONS 1-4",
+        "status": "yellow",
+        "notes": "4 OF 4 ON POSITION, ALL ON CALLS. No relief until night shift at 18:00.",
+        "owner": "Comms Supervisor",
+        "updated": "16:35"
+      },
+      {
+        "name": "CAD 26-081377: MISSING CHILD (FLAGGED)",
+        "status": "yellow",
+        "notes": "ACTIVE. Timer since first report 2:36. Command post at Exhibit Hall B office.",
+        "owner": "Console 2 / IC",
+        "updated": "16:36"
+      },
+      {
+        "name": "RECURRING TIP / RUMOR TALLY FOR PIO",
+        "status": "unknown",
+        "notes": "NOT STARTED. Tips are not being tagged in CAD. No count sent to PIO since 15:40.",
+        "owner": "Comms Supervisor",
+        "updated": "16:35"
+      },
+      {
+        "name": "COUNTY EOC (PUBLIC SAFETY BUILDING BASEMENT)",
+        "status": "unknown",
+        "notes": "NOT ACTIVATED. 16:36 EM Director Fernando Castellanos (ext. 4700) offers to open EOC and send 2 EM staff with call-taking experience. Waiting on Undersheriff.",
+        "owner": "Undersheriff / Emergency Management",
+        "updated": "16:36"
+      },
+      {
+        "name": "CAD SYSTEM",
+        "status": "green",
+        "notes": "NORMAL, all consoles connected",
+        "owner": "Sheriff's Office of Wren County (vendor-hosted)",
+        "updated": "16:35"
+      },
+      {
+        "name": "RADIO: WREN-1 / APD-1 / WC-INTEROP",
+        "status": "green",
+        "notes": "NORMAL. Alder Falls, Pine Landing and Gray Butte sites up.",
+        "owner": "County Radio",
+        "updated": "16:35"
+      },
+      {
+        "name": "LEDS / NCIC TERMINAL",
+        "status": "green",
+        "notes": "NORMAL. Missing-child entry active with Child Abduction flag.",
+        "owner": "Oregon State Police",
+        "updated": "16:35"
+      }
+    ],
+    "legend": {
+      "green": "Normal, meeting service level",
+      "yellow": "Degraded or at capacity, watch",
+      "red": "Below service level or unstaffed, action needed"
+    }
+  },
+  "variant": "default",
+  "instructorNote": "This inject tests surge procedures after the alert goes out. Watch for the Communications Supervisor to declare a surge, move tip calls to ext. 4450, staff the conference room with three call-takers and log in to the overflow console (WCCFSP 2 and 5), and start a rumor count for the PIO. The Undersheriff should accept the EOC activation and the call-taking staff, and start an off-duty callout to cover 911 until the night shift arrives at 18:00.",
+  "citations": [
+    {
+      "documentId": "01M794XDY01Y810M82SK3A1K83",
+      "documentTitle": "Wren County Communications (911): Facilities, Systems and Procedures",
+      "headingPath": "WCCFSP › 2. Systems",
+      "quote": "| System | What it does | Who owns it | Notes | |---|---|---|---| | Next generation 911 call handling | Takes 911 calls and texts, shows location | Wren County, hosted by the state | A text-to-911 ses",
+      "chunkId": 10
+    },
+    {
+      "documentId": "01M794XDY01Y810M82SK3A1K83",
+      "documentTitle": "Wren County Communications (911): Facilities, Systems and Procedures",
+      "headingPath": "WCCFSP › 3. Call taking and dispatch priorities",
+      "quote": "Calls are prioritized 1 to 4. A report of a child missing under suspicious circumstances is a priority 1 call. The telecommunicator enters it with the \"missing child\" flag, which alerts the supervisor",
+      "chunkId": 11
+    },
+    {
+      "documentId": "01M794XDXYKPFN6M45MMRYCCC6",
+      "documentTitle": "Partner Agencies: Alder Falls Police Department, Fire District 1 and Neighbors",
+      "headingPath": "Partner Agencies: Alder Falls Po… › 3. Wren County Emergency Management",
+      "quote": "Emergency Management is led by Director Fernando Castellanos (extension 4700). It runs the county emergency operations center (EOC) in the Public Safety Building basement, the WrenAlert mass notificat",
+      "chunkId": 4
+    },
+    {
+      "documentId": "01M794XDY01Y810M82SK3A1K83",
+      "documentTitle": "Wren County Communications (911): Facilities, Systems and Procedures",
+      "headingPath": "WCCFSP › 5. Failure modes and responses",
+      "quote": "- **CAD outage.** The center switches to paper run cards and tracks units on a wall board. The supervisor tells the command post and the Undersheriff, and the center keeps a paper chronology, which is",
+      "chunkId": 13
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template"
+    ]
+  },
+  "assets": [
+    {
+      "id": "01M79CDCTNVHJEDSSZ8A04966K",
+      "kind": "image",
+      "path": "scenarios/01M794XFYN363AZ1WF1RKY9P4H/media/01M7969B08G6DWBQ08Y0GQR6EQ/01M79CDCTNVHJEDSSZ8A04966K.png",
+      "role": "rendered",
+      "width": 816,
+      "height": 1056,
+      "sha256": "5ad0998770b90f1761605ab51892c2445ebd8f70c6c6f32b6a846fc95c24ab24",
+      "provenance": {
+        "provider": "template",
+        "templateId": "status_board",
+        "templateVersion": "1",
+        "createdAt": "2026-11-13T02:39:59.688Z"
+      }
+    }
+  ],
+  "versions": [
+    {
+      "at": "2026-11-13T00:53:36.329Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "911 Queue Board, 16:35: 14 Waiting, Tip Line Unstaffed",
+        "type": "status_board",
+        "fields": {
+          "organization": "Wren County Sheriff's Office, Wren County Communications",
+          "facility": "Communications Center Floor Wallboard (NG911 / CAD)",
+          "title": "911 CALL-HANDLING AND POSITION STATUS",
+          "incidentName": "CAD 26-081377 Missing Child, Wren County Fairgrounds",
+          "asOf": "16:36",
+          "operationalPeriod": "11/12/2026 1405-1800",
+          "preparedBy": "NG911 queue feed + CAD auto-status (Day Supervisor P. Venkataraman, ext. 4410)",
+          "resources": [
+            {
+              "name": "911 QUEUE",
+              "status": "red",
+              "notes": "14 WAITING | LONGEST HOLD 0:41 | AVG HOLD 0:33. SURGE THRESHOLD EXCEEDED (more than 12 in queue, avg hold over 30 s). Answer target is 90% in 10 s.",
+              "owner": "NG911 (state-hosted)",
+              "updated": "16:35"
+            },
+            {
+              "name": "ADMIN LINES",
+              "status": "red",
+              "notes": "9 RINGING, 0 ANSWERED IN LAST 5 MIN",
+              "owner": "Comms Supervisor",
+              "updated": "16:35"
+            },
+            {
+              "name": "TIP LINE EXT 4450 / PUBLIC TIP NUMBER",
+              "status": "red",
+              "notes": "0 STAFFED. Tip calls are landing on 911 positions. Public number (541-555-0190 is rolling to 911 queue.",
+              "owner": "Comms Supervisor",
+              "updated": "16:35"
+            },
+            {
+              "name": "CONFERENCE ROOM TIP POSITIONS (6 PHONES)",
+              "status": "red",
+              "notes": "0 OF 6 LOGGED IN",
+              "owner": "Comms Supervisor",
+              "updated": "16:35"
+            },
+            {
+              "name": "OVERFLOW CONSOLE",
+              "status": "red",
+              "notes": "NOT LOGGED IN, NO OPERATOR",
+              "owner": "Comms Supervisor",
+              "updated": "16:35"
+            },
+            {
+              "name": "CONSOLE 4: P1 MEDICAL ANSWER TIME",
+              "status": "red",
+              "notes": "Chest-pain 911 call held 38 s before answer. Console 4 by intercom: callers since alert hit phones at 16:25 are mostly tips, e.g. 'blue truck at the Chevron,' 'gray truck in my neighbor's driveway.'",
+              "owner": "Console 4",
+              "updated": "16:34"
+            },
+            {
+              "name": "CAD 26-081402: P2 DOMESTIC DISTURBANCE, PINE LANDING",
+              "status": "red",
+              "notes": "PENDING, NO UNIT AVAILABLE. Entered 16:29. All patrol units committed to CAD 26-081377.",
+              "owner": "Console 1",
+              "updated": "16:35"
+            },
+            {
+              "name": "TELECOMMUNICATOR POSITIONS 1-4",
+              "status": "yellow",
+              "notes": "4 OF 4 ON POSITION, ALL ON CALLS. No relief until night shift at 18:00.",
+              "owner": "Comms Supervisor",
+              "updated": "16:35"
+            },
+            {
+              "name": "CAD 26-081377: MISSING CHILD (FLAGGED)",
+              "status": "yellow",
+              "notes": "ACTIVE. Timer since first report 2:36. Command post at Exhibit Hall B office.",
+              "owner": "Console 2 / IC",
+              "updated": "16:36"
+            },
+            {
+              "name": "RECURRING TIP / RUMOR TALLY FOR PIO",
+              "status": "unknown",
+              "notes": "NOT STARTED. Tips are not being tagged in CAD. No count sent to PIO since 15:40.",
+              "owner": "Comms Supervisor",
+              "updated": "16:35"
+            },
+            {
+              "name": "COUNTY EOC (PUBLIC SAFETY BUILDING BASEMENT)",
+              "status": "unknown",
+              "notes": "NOT ACTIVATED. 16:36 EM Director Fernando Castellanos (ext. 4700) offers to open EOC and send 2 EM staff with call-taking experience. Waiting on Undersheriff.",
+              "owner": "Undersheriff / Emergency Management",
+              "updated": "16:36"
+            },
+            {
+              "name": "CAD SYSTEM",
+              "status": "green",
+              "notes": "NORMAL, all consoles connected",
+              "owner": "Wren County Sheriff's Office (vendor-hosted)",
+              "updated": "16:35"
+            },
+            {
+              "name": "RADIO: WREN-1 / APD-1 / WC-INTEROP",
+              "status": "green",
+              "notes": "NORMAL. Alder Falls, Pine Landing and Gray Butte sites up.",
+              "owner": "County Radio",
+              "updated": "16:35"
+            },
+            {
+              "name": "LEDS / NCIC TERMINAL",
+              "status": "green",
+              "notes": "NORMAL. Missing-child entry active with Child Abduction flag.",
+              "owner": "Oregon State Police",
+              "updated": "16:35"
+            }
+          ],
+          "legend": {
+            "green": "Normal, meeting service level",
+            "yellow": "Degraded or at capacity, watch",
+            "red": "Below service level or unstaffed, action needed"
+          }
+        },
+        "instructorNote": "This inject tests surge procedures after the alert goes out. Watch for the Communications Supervisor to declare a surge, move tip calls to ext. 4450, staff the conference room with three call-takers and log in to the overflow console (WCCFSP 2 and 5), and start a rumor count for the PIO. The Undersheriff should accept the EOC activation and the call-taking staff, and start an off-duty callout to cover 911 until the night shift arrives at 18:00.",
+        "deliveryMode": "display_main_screen"
+      }
+    },
+    {
+      "at": "2026-11-13T01:47:36.108Z",
+      "by": "user",
+      "note": "Corrected by hand for the shipped example",
+      "snapshot": {
+        "title": "911 Queue Board, 16:35: 14 Waiting, Tip Line Unstaffed",
+        "type": "status_board",
+        "fields": {
+          "organization": "Sheriff's Office of Wren County, Wren County Communications",
+          "facility": "Communications Center Floor Wallboard (NG911 / CAD)",
+          "title": "911 CALL-HANDLING AND POSITION STATUS",
+          "incidentName": "CAD 26-081377 Missing Child, Wren County Fairgrounds",
+          "asOf": "16:36",
+          "operationalPeriod": "11/12/2026 1405-1800",
+          "preparedBy": "NG911 queue feed + CAD auto-status (Day Supervisor P. Venkataraman, ext. 4410)",
+          "resources": [
+            {
+              "name": "911 QUEUE",
+              "status": "red",
+              "notes": "14 WAITING | LONGEST HOLD 0:41 | AVG HOLD 0:33. SURGE THRESHOLD EXCEEDED (more than 12 in queue, avg hold over 30 s). Answer target is 90% in 10 s.",
+              "owner": "NG911 (state-hosted)",
+              "updated": "16:35"
+            },
+            {
+              "name": "ADMIN LINES",
+              "status": "red",
+              "notes": "9 RINGING, 0 ANSWERED IN LAST 5 MIN",
+              "owner": "Comms Supervisor",
+              "updated": "16:35"
+            },
+            {
+              "name": "TIP LINE EXT 4450 / PUBLIC TIP NUMBER",
+              "status": "red",
+              "notes": "0 STAFFED. Tip calls are landing on 911 positions. Public number (541-555-0190 is rolling to 911 queue.",
+              "owner": "Comms Supervisor",
+              "updated": "16:35"
+            },
+            {
+              "name": "CONFERENCE ROOM TIP POSITIONS (6 PHONES)",
+              "status": "red",
+              "notes": "0 OF 6 LOGGED IN",
+              "owner": "Comms Supervisor",
+              "updated": "16:35"
+            },
+            {
+              "name": "OVERFLOW CONSOLE",
+              "status": "red",
+              "notes": "NOT LOGGED IN, NO OPERATOR",
+              "owner": "Comms Supervisor",
+              "updated": "16:35"
+            },
+            {
+              "name": "CONSOLE 4: P1 MEDICAL ANSWER TIME",
+              "status": "red",
+              "notes": "Chest-pain 911 call held 38 s before answer. Console 4 by intercom: callers since alert hit phones at 16:25 are mostly tips, e.g. 'blue truck at the Chevron,' 'gray truck in my neighbor's driveway.'",
+              "owner": "Console 4",
+              "updated": "16:34"
+            },
+            {
+              "name": "CAD 26-081402: P2 DOMESTIC DISTURBANCE, PINE LANDING",
+              "status": "red",
+              "notes": "PENDING, NO UNIT AVAILABLE. Entered 16:29. All patrol units committed to CAD 26-081377.",
+              "owner": "Console 1",
+              "updated": "16:35"
+            },
+            {
+              "name": "TELECOMMUNICATOR POSITIONS 1-4",
+              "status": "yellow",
+              "notes": "4 OF 4 ON POSITION, ALL ON CALLS. No relief until night shift at 18:00.",
+              "owner": "Comms Supervisor",
+              "updated": "16:35"
+            },
+            {
+              "name": "CAD 26-081377: MISSING CHILD (FLAGGED)",
+              "status": "yellow",
+              "notes": "ACTIVE. Timer since first report 2:36. Command post at Exhibit Hall B office.",
+              "owner": "Console 2 / IC",
+              "updated": "16:36"
+            },
+            {
+              "name": "RECURRING TIP / RUMOR TALLY FOR PIO",
+              "status": "unknown",
+              "notes": "NOT STARTED. Tips are not being tagged in CAD. No count sent to PIO since 15:40.",
+              "owner": "Comms Supervisor",
+              "updated": "16:35"
+            },
+            {
+              "name": "COUNTY EOC (PUBLIC SAFETY BUILDING BASEMENT)",
+              "status": "unknown",
+              "notes": "NOT ACTIVATED. 16:36 EM Director Fernando Castellanos (ext. 4700) offers to open EOC and send 2 EM staff with call-taking experience. Waiting on Undersheriff.",
+              "owner": "Undersheriff / Emergency Management",
+              "updated": "16:36"
+            },
+            {
+              "name": "CAD SYSTEM",
+              "status": "green",
+              "notes": "NORMAL, all consoles connected",
+              "owner": "Sheriff's Office of Wren County (vendor-hosted)",
+              "updated": "16:35"
+            },
+            {
+              "name": "RADIO: WREN-1 / APD-1 / WC-INTEROP",
+              "status": "green",
+              "notes": "NORMAL. Alder Falls, Pine Landing and Gray Butte sites up.",
+              "owner": "County Radio",
+              "updated": "16:35"
+            },
+            {
+              "name": "LEDS / NCIC TERMINAL",
+              "status": "green",
+              "notes": "NORMAL. Missing-child entry active with Child Abduction flag.",
+              "owner": "Oregon State Police",
+              "updated": "16:35"
+            }
+          ],
+          "legend": {
+            "green": "Normal, meeting service level",
+            "yellow": "Degraded or at capacity, watch",
+            "red": "Below service level or unstaffed, action needed"
+          }
+        },
+        "instructorNote": "This inject tests surge procedures after the alert goes out. Watch for the Communications Supervisor to declare a surge, move tip calls to ext. 4450, staff the conference room with three call-takers and log in to the overflow console (WCCFSP 2 and 5), and start a rumor count for the PIO. The Undersheriff should accept the EOC activation and the call-taking staff, and start an off-duty callout to cover 911 until the night shift arrives at 18:00.",
+        "deliveryMode": "display_main_screen"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-11-13T02:39:59.916Z"
+}

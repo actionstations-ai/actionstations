@@ -1,0 +1,111 @@
+{
+  "id": "01M792P2WVG17CTJ4Q8XRSX7P9",
+  "mselRowId": "I-11",
+  "type": "time_jump_card",
+  "title": "TIME JUMP: 09:30 ET, Market Open",
+  "deliveryMode": "read_aloud",
+  "fields": {
+    "exerciseTime": "2:00",
+    "newTime": "9:30 AM ET",
+    "jumpLabel": "+10 minutes (09:20 → 09:30 ET)",
+    "narration": "It is now 09:30 Eastern Time on Tuesday, March 9, 2027, in Dayton, Ohio. The market has just opened. Tallis shares are trading 4.1 percent lower on three times normal volume. The Midwest Business Wire bulletin from 09:20 has been picked up by 11 regional news sites, and the wire desk will run its write-through at 09:45. Online, the story is growing fast. Mentions of 'Tallis hack' or 'Tallis breach' have gone from 1,860 at 08:30 to 6,900. The @OhioDealDigger post claiming passwords were stored in plain text now has 9,100 reposts. The fake refund site tallis-refund-center.example is still live. Customer care has 240 calls waiting, and the average wait is 31 minutes. There were 7,480 password resets in the last hour. The cartbridge-integration-prod key is still suspended, and about 3,400 web orders have not reached the warehouse. Cardinal Forensics still cannot give an account count. TechSignal Daily publishes in one hour, at 10:30. The 08:20 holding statement is still up on the newsroom page and the company accounts, worded exactly as it was published.",
+    "worldState": [
+      "Clock: 09:30 ET, Tuesday, March 9, 2027. The market is open.",
+      "Tallis shares are down 4.1% on about 3x normal volume. Analysts are asking for the account count and whether cards are involved.",
+      "The Midwest Business Wire bulletin TALLIS-DATA has been picked up by 11 regional sites. The write-through is due at 09:45, and the desk has asked whether Tallis stands by 'no payment information'.",
+      "'Tallis hack' / 'Tallis breach' mentions: 6,900, up from 1,860 at 08:30.",
+      "The @OhioDealDigger plain-text post has 9,100 reposts. Cardinal Forensics and the proxy log schema both show bcrypt hashes ($2b$12$…).",
+      "The look-alike domain tallis-refund-center.example is still live, and the refund phishing email is still reaching customers.",
+      "The proxy log schema shows lkvp_payment_token on 100% of sampled rows and card_last4 / card_brand on 97%. It shows no full card number and no CVV.",
+      "The 08:20 newsroom and social wording has not been changed.",
+      "Customer care: 240 calls waiting, 31-minute average wait, 120 agents. No approved script or chat macro has been issued unless the cell has already sent one.",
+      "Password resets: 7,480 in the last hour. The normal rate is about 2,300 a week.",
+      "The cartbridge-integration-prod key is still suspended. About 3,400 web orders have not reached the warehouse. The CartBridge cold-storage logs for March 2–8 have not been released.",
+      "Cardinal Forensics has no account count. The 1.9 million figure is still the seller's claim only.",
+      "TechSignal Daily publishes at 10:30 ET, with or without comment. The Consumer Notebook comment deadline of 09:30 has arrived.",
+      "The 09:30 social listening report is due now, on its cadence of every 30 minutes."
+    ],
+    "facilitatorNote": "Before reading the world-state bullets, read back the current fact sheet as it stands and the exact 08:20 newsroom wording. Record whether a correction draft exists, who owns it, and whether it is on the same channels as the 08:20 line with the same prominence and a date, as TMPCDI 6 requires. Watch whether COMMS resets priorities in Room 3B: the correction, the TechSignal reply before 10:30, the care script, the Midwest Business Wire answer before 09:45, and the 09:30 listening report. Also watch whether WRITER time-stamps the fact sheet at 09:30.",
+    "scenarioTitle": "Sample Rows — Web Store Export, Correction & Disclosure",
+    "injectId": "I-11"
+  },
+  "variant": "default",
+  "instructorNote": "This card resets the cell's pace as the market opens, while the 08:20 'no payment information' line is still live and contradicted by the evidence. Watch whether COMMS puts the correction first ahead of the 09:45 write-through and the 10:30 TechSignal deadline, whether WRITER time-stamps the fact sheet at 09:30, and whether the IR, care and press messages are built on the same facts.",
+  "citations": [
+    {
+      "documentId": "01M791MZ5V0HHAJ0J2R7KKEXX6",
+      "documentTitle": "TLC-COM-03: Systems, Customer Data and Media Directory",
+      "headingPath": "TSCDMD › 3. Publishing and listening systems",
+      "quote": "The newsroom page and the website banner are changed by Corporate Communications in 10 minutes. Company accounts are run from the social tool with two-person approval. Social listening runs 24 hours w",
+      "chunkId": 32
+    },
+    {
+      "documentId": "01M791MZ5PNQX3GYDBEAX99A9W",
+      "documentTitle": "TLC-COM-01: Crisis Communications Plan",
+      "headingPath": "TCCP › 4. Speed targets",
+      "quote": "| Product | Target | |---|---| | Holding statement on the website newsroom and on company accounts | within 60 minutes of the first credible public claim or confirmed incident | | Reply to a reporter ",
+      "chunkId": 5
+    },
+    {
+      "documentId": "01M791MZ5PNQX3GYDBEAX99A9W",
+      "documentTitle": "TLC-COM-01: Crisis Communications Plan",
+      "headingPath": "TCCP › 2. The team",
+      "quote": "| Role | Name | Duty | Office / mobile | |---|---|---|---| | Chief Communications Officer (COMMS) | Marcus Delaney | Owns strategy, approves every external statement, decides when to hold a press conf",
+      "chunkId": 3
+    },
+    {
+      "documentId": "01M791MZ5TMRENEGVVE344C0E4",
+      "documentTitle": "TLC-COM-02: Message Playbook for a Customer Data Incident",
+      "headingPath": "TMPCDI › 6. Corrections",
+      "quote": "A correction names what was wrong and what is right, where and when the earlier statement appeared, and is posted in the same place with the same prominence, dated. Example: \"A statement posted at 09:",
+      "chunkId": 26
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template"
+    ]
+  },
+  "assets": [],
+  "versions": [
+    {
+      "at": "2026-11-12T23:50:17.962Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "TIME JUMP: 09:30 ET, Market Open",
+        "type": "time_jump_card",
+        "fields": {
+          "exerciseTime": "2:00",
+          "newTime": "9:30 AM ET",
+          "jumpLabel": "+10 minutes (09:20 → 09:30 ET)",
+          "narration": "It is now 09:30 Eastern Time on Tuesday, March 9, 2027, in Dayton, Ohio. The market has just opened. Tallis shares are trading 4.1 percent lower on three times normal volume. The Midwest Business Wire bulletin from 09:20 has been picked up by 11 regional news sites, and the wire desk will run its write-through at 09:45. Online, the story is growing fast. Mentions of 'Tallis hack' or 'Tallis breach' have gone from 1,860 at 08:30 to 6,900. The @OhioDealDigger post claiming passwords were stored in plain text now has 9,100 reposts. The fake refund site tallis-refund-center.example is still live. Customer care has 240 calls waiting, and the average wait is 31 minutes. There were 7,480 password resets in the last hour. The cartbridge-integration-prod key is still suspended, and about 3,400 web orders have not reached the warehouse. Cardinal Forensics still cannot give an account count. TechSignal Daily publishes in one hour, at 10:30. The 08:20 holding statement is still up on the newsroom page and the company accounts, worded exactly as it was published.",
+          "worldState": [
+            "Clock: 09:30 ET, Tuesday, March 9, 2027. The market is open.",
+            "Tallis shares are down 4.1% on about 3x normal volume. Analysts are asking for the account count and whether cards are involved.",
+            "The Midwest Business Wire bulletin TALLIS-DATA has been picked up by 11 regional sites. The write-through is due at 09:45, and the desk has asked whether Tallis stands by 'no payment information'.",
+            "'Tallis hack' / 'Tallis breach' mentions: 6,900, up from 1,860 at 08:30.",
+            "The @OhioDealDigger plain-text post has 9,100 reposts. Cardinal Forensics and the proxy log schema both show bcrypt hashes ($2b$12$…).",
+            "The look-alike domain tallis-refund-center.example is still live, and the refund phishing email is still reaching customers.",
+            "The proxy log schema shows lkvp_payment_token on 100% of sampled rows and card_last4 / card_brand on 97%. It shows no full card number and no CVV.",
+            "The 08:20 newsroom and social wording has not been changed.",
+            "Customer care: 240 calls waiting, 31-minute average wait, 120 agents. No approved script or chat macro has been issued unless the cell has already sent one.",
+            "Password resets: 7,480 in the last hour. The normal rate is about 2,300 a week.",
+            "The cartbridge-integration-prod key is still suspended. About 3,400 web orders have not reached the warehouse. The CartBridge cold-storage logs for March 2–8 have not been released.",
+            "Cardinal Forensics has no account count. The 1.9 million figure is still the seller's claim only.",
+            "TechSignal Daily publishes at 10:30 ET, with or without comment. The Consumer Notebook comment deadline of 09:30 has arrived.",
+            "The 09:30 social listening report is due now, on its cadence of every 30 minutes."
+          ],
+          "facilitatorNote": "Before reading the world-state bullets, read back the current fact sheet as it stands and the exact 08:20 newsroom wording. Record whether a correction draft exists, who owns it, and whether it is on the same channels as the 08:20 line with the same prominence and a date, as TMPCDI 6 requires. Watch whether COMMS resets priorities in Room 3B: the correction, the TechSignal reply before 10:30, the care script, the Midwest Business Wire answer before 09:45, and the 09:30 listening report. Also watch whether WRITER time-stamps the fact sheet at 09:30.",
+          "scenarioTitle": "Sample Rows — Web Store Export, Correction & Disclosure",
+          "injectId": "I-11"
+        },
+        "instructorNote": "This card resets the cell's pace as the market opens, while the 08:20 'no payment information' line is still live and contradicted by the evidence. Watch whether COMMS puts the correction first ahead of the 09:45 write-through and the 10:30 TechSignal deadline, whether WRITER time-stamps the fact sheet at 09:30, and whether the IR, care and press messages are built on the same facts.",
+        "deliveryMode": "read_aloud"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-11-13T02:28:27.703Z"
+}

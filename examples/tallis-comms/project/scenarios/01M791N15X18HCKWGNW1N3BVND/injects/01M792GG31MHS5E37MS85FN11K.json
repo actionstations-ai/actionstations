@@ -1,0 +1,298 @@
+{
+  "id": "01M792GG31MHS5E37MS85FN11K",
+  "mselRowId": "I-04",
+  "type": "phone_call",
+  "title": "Cardinal Forensics: Sample Rows Checked",
+  "deliveryMode": "read_aloud",
+  "fields": {
+    "orgName": "Tallis Home Products, Inc.",
+    "systemName": "Recorded Line - CISO Office, Dayton",
+    "callId": "CR-20270309-081004-0042",
+    "direction": "Inbound",
+    "caller": {
+      "name": "Renata Okafor, Senior Incident Analyst",
+      "number": "(937) 555-0148",
+      "label": "Cardinal Forensics (retainer)"
+    },
+    "callee": {
+      "name": "Lena Hartmann, CISO (VP Corporate Communications on speaker)",
+      "number": "x4300",
+      "label": "Tallis Home Products – CISO"
+    },
+    "startTime": "03/09/2027 08:10:04",
+    "duration": "1:52",
+    "transcript": [
+      {
+        "speaker": "CARDINAL",
+        "offset": "0:00",
+        "text": "Morning, it's Renata Okafor at Cardinal, on INC-27-0309-01. Have you got a minute? I have a first read on the forum sample.",
+        "prompt": false
+      },
+      {
+        "speaker": "CISO",
+        "offset": "0:07",
+        "text": "Go ahead. I've got our VP Corporate Communications on speaker. She's keeping the fact sheet.",
+        "prompt": true
+      },
+      {
+        "speaker": "CARDINAL",
+        "offset": "0:12",
+        "text": "Okay. We matched 40 of the 200 sample rows against the web store export. 38 of them are real Tallis accounts. They match your records exactly. The other two don't exist anywhere. One is 'Toastina Crumbsworth, 1 Waffle Iron Way' and the other is 'Sir Blendalot, Apt 404'. That's padding. Somebody had fun.",
+        "prompt": false
+      },
+      {
+        "speaker": "CISO",
+        "offset": "0:34",
+        "text": "So 38 of 40 are real. What's in the columns?",
+        "prompt": true
+      },
+      {
+        "speaker": "CARDINAL",
+        "offset": "0:38",
+        "text": "The columns are name, email, ship and bill address, phone, pwd and card. The 'pwd' values are bcrypt strings that start with dollar-two-b-dollar-twelve. They're hashes, not plain text.",
+        "prompt": false
+      },
+      {
+        "speaker": "CARDINAL",
+        "offset": "0:55",
+        "text": "And this matters for your press people. The 'card' column isn't card numbers. It's Lakeview Payments token strings, like 'lkvp underscore tok underscore 9F3K' and so on. So the seller is calling tokens 'cards'. That's the claim in the forum title.",
+        "prompt": false
+      },
+      {
+        "speaker": "WRITER",
+        "offset": "1:12",
+        "text": "Can we say how many accounts were taken? The post says 1.9 million.",
+        "prompt": true
+      },
+      {
+        "speaker": "CARDINAL",
+        "offset": "1:17",
+        "text": "No. I can't give you a count yet, and I wouldn't repeat theirs. That needs the full export logs from CartBridge, every page of every call on that integration key. Until we have those, the number is unknown. It could be smaller or larger than whatever you'd guess.",
+        "prompt": false
+      },
+      {
+        "speaker": "CISO",
+        "offset": "1:35",
+        "text": "Understood. I'll get the log request to CartBridge in writing. When's your next update?",
+        "prompt": true
+      },
+      {
+        "speaker": "CARDINAL",
+        "offset": "1:40",
+        "text": "As soon as the logs arrive. I'll email a written summary of this call to you in the next fifteen minutes so it's on paper.",
+        "prompt": false
+      }
+    ],
+    "voiceStyles": {
+      "CARDINAL": "Woman in her late 30s, calm and precise forensic analyst, typing faintly in the background, speaks quickly but clearly",
+      "CISO": "Man in his 50s, focused, short sentences, slightly tired",
+      "WRITER": "Woman in her 40s, careful, writing as she listens"
+    },
+    "injectId": "I-04"
+  },
+  "variant": "default",
+  "instructorNote": "Clue inject: Cardinal Forensics confirms the sample is mostly real and corrects the seller's claims about \"passwords + cards\", but gives no count. Check that the CISO and WRITER log time-stamped, sourced lines on the fact sheet: 38 of 40 rows are real, the count is not yet known, the data includes bcrypt-hashed passwords and payment tokens, and no full card numbers are stored. The two fake rows should be logged as attacker padding. Make sure nobody turns this into \"no payment information\" or quotes 1.9 million.",
+  "citations": [
+    {
+      "documentId": "01M791MZ5V0HHAJ0J2R7KKEXX6",
+      "documentTitle": "TLC-COM-03: Systems, Customer Data and Media Directory",
+      "headingPath": "TSCDMD › 2. Customer data systems",
+      "quote": "- **Web store.** Built and hosted by the vendor CartBridge Commerce (fictional) on its cloud. Holds 1.9 million registered accounts: name, email address, shipping and billing address, phone number if ",
+      "chunkId": 31
+    },
+    {
+      "documentId": "01M791MZ5PNQX3GYDBEAX99A9W",
+      "documentTitle": "TLC-COM-01: Crisis Communications Plan",
+      "headingPath": "TCCP › 2. The team",
+      "quote": "| Role | Name | Duty | Office / mobile | |---|---|---|---| | Chief Communications Officer (COMMS) | Marcus Delaney | Owns strategy, approves every external statement, decides when to hold a press conf",
+      "chunkId": 3
+    },
+    {
+      "documentId": "01M791MZ5TMRENEGVVE344C0E4",
+      "documentTitle": "TLC-COM-02: Message Playbook for a Customer Data Incident",
+      "headingPath": "TMPCDI › 3. Holding statement template",
+      "quote": "> **[Company] statement on [subject]** · [Date, time, time zone] > Earlier today Tallis Home Products identified [unusual activity / a claim] involving [system]. We have [action taken: suspended acces",
+      "chunkId": 23
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template",
+      "tts"
+    ],
+    "voiceLines": [
+      {
+        "speaker": "CARDINAL",
+        "voiceStyle": "Woman in her late 30s, calm and precise forensic analyst, neutral American accent, speaks quickly but clearly, professional and matter-of-fact, faint keyboard typing behind her",
+        "text": "Morning, it's Renata Okafor at Cardinal, on I-N-C twenty-seven, oh-three-oh-nine, oh-one. Have you got a minute? I have a first read on the forum sample."
+      },
+      {
+        "speaker": "CISO",
+        "voiceStyle": "Man in his 50s, focused and slightly tired, short clipped sentences, low steady voice, Midwestern American accent",
+        "text": "Go ahead. I've got our VP Corporate Communications on speaker. She's keeping the fact sheet."
+      },
+      {
+        "speaker": "CARDINAL",
+        "voiceStyle": "Woman in her late 30s, calm and precise forensic analyst, neutral American accent, speaks quickly but clearly, a hint of dry amusement on the fake names",
+        "text": "Okay. We matched forty of the two hundred sample rows against the web store export. Thirty-eight of them are real Tallis accounts. They match your records exactly. The other two don't exist anywhere. One is Toastina Crumbsworth, 1 Waffle Iron Way... and the other is Sir Blendalot, Apt four-oh-four. That's padding. Somebody had fun."
+      },
+      {
+        "speaker": "CISO",
+        "voiceStyle": "Man in his 50s, focused and slightly tired, short clipped sentences, low steady voice, Midwestern American accent",
+        "text": "So thirty-eight of forty are real. What's in the columns?"
+      },
+      {
+        "speaker": "CARDINAL",
+        "voiceStyle": "Woman in her late 30s, calm and precise forensic analyst, neutral American accent, speaks quickly but clearly, technical and exact",
+        "text": "The columns are name, email, ship and bill address, phone, pwd, and card. The pwd values are bcrypt strings that start with dollar-two-b-dollar-twelve. They're hashes, not plain text."
+      },
+      {
+        "speaker": "CARDINAL",
+        "voiceStyle": "Woman in her late 30s, calm and precise forensic analyst, neutral American accent, slows slightly for emphasis, deliberate",
+        "text": "And this matters for your press people. The card column isn't card numbers. It's Lakeview Payments token strings, like lkvp underscore tok underscore nine-F-three-K, and so on. So the seller is calling tokens cards. That's the claim in the forum title."
+      },
+      {
+        "speaker": "WRITER",
+        "voiceStyle": "Woman in her 40s, careful and measured, slightly distant as if on speakerphone across a table, writing as she listens",
+        "text": "Can we say how many accounts were taken? The post says one point nine million."
+      },
+      {
+        "speaker": "CARDINAL",
+        "voiceStyle": "Woman in her late 30s, calm and precise forensic analyst, neutral American accent, firm and unhurried, cautioning",
+        "text": "No. I can't give you a count yet, and I wouldn't repeat theirs. That needs the full export logs from CartBridge, every page of every call on that integration key. Until we have those, the number is unknown. It could be smaller or larger than whatever you'd guess."
+      },
+      {
+        "speaker": "CISO",
+        "voiceStyle": "Man in his 50s, focused and slightly tired, short clipped sentences, low steady voice, Midwestern American accent",
+        "text": "Understood. I'll get the log request to CartBridge in writing. When's your next update?"
+      },
+      {
+        "speaker": "CARDINAL",
+        "voiceStyle": "Woman in her late 30s, calm and precise forensic analyst, neutral American accent, brisk and reassuring, wrapping up",
+        "text": "As soon as the logs arrive. I'll email a written summary of this call to you in the next fifteen minutes, so it's on paper."
+      }
+    ],
+    "postFx": [
+      "phone"
+    ]
+  },
+  "assets": [
+    {
+      "id": "01M79BS33WQJCYNQZBN750CPVP",
+      "kind": "image",
+      "path": "scenarios/01M791N15X18HCKWGNW1N3BVND/media/01M792GG31MHS5E37MS85FN11K/01M79BS33WQJCYNQZBN750CPVP.png",
+      "role": "rendered",
+      "width": 816,
+      "height": 1056,
+      "sha256": "01a3dfbc99df9e6793f5f3660deb445ed046db9408b46eb3f4c09e36f04149a6",
+      "provenance": {
+        "provider": "template",
+        "templateId": "phone_call",
+        "templateVersion": "1",
+        "createdAt": "2026-11-13T02:28:54.371Z"
+      }
+    }
+  ],
+  "versions": [
+    {
+      "at": "2026-11-12T23:47:30.668Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "Cardinal Forensics: Sample Rows Checked",
+        "type": "phone_call",
+        "fields": {
+          "orgName": "Tallis Home Products, Inc.",
+          "systemName": "Recorded Line - CISO Office, Dayton",
+          "callId": "CR-20270309-081004-0042",
+          "direction": "Inbound",
+          "caller": {
+            "name": "Renata Okafor, Senior Incident Analyst",
+            "number": "(937) 555-0148",
+            "label": "Cardinal Forensics (retainer)"
+          },
+          "callee": {
+            "name": "Lena Hartmann, CISO (VP Corporate Communications on speaker)",
+            "number": "x4300",
+            "label": "Tallis Home Products – CISO"
+          },
+          "startTime": "03/09/2027 08:10:04",
+          "duration": "1:52",
+          "transcript": [
+            {
+              "speaker": "CARDINAL",
+              "offset": "0:00",
+              "text": "Morning, it's Renata Okafor at Cardinal, on INC-27-0309-01. Have you got a minute? I have a first read on the forum sample.",
+              "prompt": false
+            },
+            {
+              "speaker": "CISO",
+              "offset": "0:07",
+              "text": "Go ahead. I've got our VP Corporate Communications on speaker. She's keeping the fact sheet.",
+              "prompt": true
+            },
+            {
+              "speaker": "CARDINAL",
+              "offset": "0:12",
+              "text": "Okay. We matched 40 of the 200 sample rows against the web store export. 38 of them are real Tallis accounts. They match your records exactly. The other two don't exist anywhere. One is 'Toastina Crumbsworth, 1 Waffle Iron Way' and the other is 'Sir Blendalot, Apt 404'. That's padding. Somebody had fun.",
+              "prompt": false
+            },
+            {
+              "speaker": "CISO",
+              "offset": "0:34",
+              "text": "So 38 of 40 are real. What's in the columns?",
+              "prompt": true
+            },
+            {
+              "speaker": "CARDINAL",
+              "offset": "0:38",
+              "text": "The columns are name, email, ship and bill address, phone, pwd and card. The 'pwd' values are bcrypt strings that start with dollar-two-b-dollar-twelve. They're hashes, not plain text.",
+              "prompt": false
+            },
+            {
+              "speaker": "CARDINAL",
+              "offset": "0:55",
+              "text": "And this matters for your press people. The 'card' column isn't card numbers. It's Lakeview Payments token strings, like 'lkvp underscore tok underscore 9F3K' and so on. So the seller is calling tokens 'cards'. That's the claim in the forum title.",
+              "prompt": false
+            },
+            {
+              "speaker": "WRITER",
+              "offset": "1:12",
+              "text": "Can we say how many accounts were taken? The post says 1.9 million.",
+              "prompt": true
+            },
+            {
+              "speaker": "CARDINAL",
+              "offset": "1:17",
+              "text": "No. I can't give you a count yet, and I wouldn't repeat theirs. That needs the full export logs from CartBridge, every page of every call on that integration key. Until we have those, the number is unknown. It could be smaller or larger than whatever you'd guess.",
+              "prompt": false
+            },
+            {
+              "speaker": "CISO",
+              "offset": "1:35",
+              "text": "Understood. I'll get the log request to CartBridge in writing. When's your next update?",
+              "prompt": true
+            },
+            {
+              "speaker": "CARDINAL",
+              "offset": "1:40",
+              "text": "As soon as the logs arrive. I'll email a written summary of this call to you in the next fifteen minutes so it's on paper.",
+              "prompt": false
+            }
+          ],
+          "voiceStyles": {
+            "CARDINAL": "Woman in her late 30s, calm and precise forensic analyst, typing faintly in the background, speaks quickly but clearly",
+            "CISO": "Man in his 50s, focused, short sentences, slightly tired",
+            "WRITER": "Woman in her 40s, careful, writing as she listens"
+          },
+          "injectId": "I-04"
+        },
+        "instructorNote": "Clue inject: Cardinal Forensics confirms the sample is mostly real and corrects the seller's claims about \"passwords + cards\", but gives no count. Check that the CISO and WRITER log time-stamped, sourced lines on the fact sheet: 38 of 40 rows are real, the count is not yet known, the data includes bcrypt-hashed passwords and payment tokens, and no full card numbers are stored. The two fake rows should be logged as attacker padding. Make sure nobody turns this into \"no payment information\" or quotes 1.9 million.",
+        "deliveryMode": "read_aloud"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-11-13T02:29:31.467Z"
+}

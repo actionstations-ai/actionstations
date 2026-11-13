@@ -1,0 +1,345 @@
+{
+  "id": "01M78YD399VH2W1MQSR5NFPE62",
+  "mselRowId": "I-19",
+  "type": "alarm_summary",
+  "title": "Alarm Summary 01:00: GEN-1 Shutdown, Public Safety Building on UPS Power",
+  "deliveryMode": "display_main_screen",
+  "fields": {
+    "systemName": "PSB BUILDING MANAGEMENT — POWER / GENERATOR ALARM SUMMARY",
+    "site": "Brennan County Public Safety Building, Ashford: 911 Center and EOC",
+    "clock": "01:02:45",
+    "date": "12-Dec-2026",
+    "operator": "BMS_VIEW_911SUP",
+    "filter": "All areas · Active + Acknowledged · Since 00:00",
+    "counts": {
+      "critical": 3,
+      "high": 3,
+      "medium": 3,
+      "low": 4
+    },
+    "alarms": [
+      {
+        "time": "01:02:10",
+        "priority": "low",
+        "tag": "RADIO-LOG-0102",
+        "source": "EOC radio console: Corwin Fire Station 3",
+        "description": "LOGGED TRAFFIC: Station 3 reports part of the bay roof is gone and the training room ceiling is leaking onto the tables. Station generator running. Cell service dead, radio only. Route from Ashford is one lane, with trees down past the Clarks River bridge.",
+        "value": "Radio only",
+        "state": "acked"
+      },
+      {
+        "time": "01:01:30",
+        "priority": "low",
+        "tag": "FAC-NOTE-GEN-1",
+        "source": "Facilities maintenance tech, on site at GEN-1",
+        "description": "TECH NOTE: Primary fuel filter is plugged with water, probably from the tank vent during the storm. One spare element on hand. Changing the filter and bleeding the lines will take about 45 min if nothing else goes wrong. If the tank has water in it, the new filter will plug again.",
+        "value": "Est. 01:46",
+        "state": "acked"
+      },
+      {
+        "time": "01:00:40",
+        "priority": "medium",
+        "tag": "HVAC-AHU-2",
+        "source": "Air handler, 911 floor / equipment room",
+        "description": "AHU-2 STOPPED: NO SUPPLY POWER. Equipment room cooling lost.",
+        "value": "OFF",
+        "state": "active"
+      },
+      {
+        "time": "01:00:31",
+        "priority": "medium",
+        "tag": "LTG-EOC-NORM",
+        "source": "EOC lighting panel",
+        "description": "NORMAL LIGHTING POWER LOST. Emergency fixtures on internal battery.",
+        "value": "EM LTG 90 min",
+        "state": "active"
+      },
+      {
+        "time": "01:00:18",
+        "priority": "critical",
+        "tag": "UPS-B",
+        "source": "UPS-B: EOC load (NWSChat, WebEOC, BrennanAlert on BCEMA-EOC-WO1, backup siren encoder)",
+        "description": "UPS-B ON BATTERY. INPUT POWER LOST. Runtime below 30 min.",
+        "value": "22 min",
+        "state": "active"
+      },
+      {
+        "time": "01:00:17",
+        "priority": "high",
+        "tag": "UPS-A",
+        "source": "UPS-A: 911 load (POS-1, POS-2 with siren encoder, CAD, radio consoles)",
+        "description": "UPS-A ON BATTERY. INPUT POWER LOST.",
+        "value": "41 min",
+        "state": "active"
+      },
+      {
+        "time": "01:00:15",
+        "priority": "critical",
+        "tag": "ATS-1",
+        "source": "Automatic transfer switch: PSB main",
+        "description": "UTILITY NOT AVAILABLE · EMERGENCY SOURCE NOT AVAILABLE. Building load is on UPS-A and UPS-B only.",
+        "value": "UTIL 0 V / GEN 0 V",
+        "state": "active"
+      },
+      {
+        "time": "01:00:14",
+        "priority": "critical",
+        "tag": "GEN-1",
+        "source": "Standby generator GEN-1 controller",
+        "description": "GEN-1 SHUTDOWN: FUEL FILTER DIFFERENTIAL HIGH / LOW FUEL PRESSURE. Locked out. Manual reset required.",
+        "value": "0 rpm",
+        "state": "active"
+      },
+      {
+        "time": "00:59:58",
+        "priority": "high",
+        "tag": "GEN-1-FP-LO",
+        "source": "GEN-1 fuel supply",
+        "description": "LOW FUEL PRESSURE PRE-ALARM. Engine load dropping.",
+        "value": "11 psi (LO 20)",
+        "state": "active"
+      },
+      {
+        "time": "00:58:41",
+        "priority": "medium",
+        "tag": "GEN-1-FF-DP",
+        "source": "GEN-1 primary fuel filter",
+        "description": "FUEL FILTER DIFFERENTIAL PRESSURE HIGH.",
+        "value": "11.6 psid (HI 8.0)",
+        "state": "active"
+      },
+      {
+        "time": "00:47:05",
+        "priority": "low",
+        "tag": "GEN-1-WIF",
+        "source": "GEN-1 primary filter / water separator",
+        "description": "WATER IN FUEL DETECTED: separator bowl.",
+        "value": "WIF = TRUE",
+        "state": "acked"
+      },
+      {
+        "time": "00:12:16",
+        "priority": "low",
+        "tag": "ATS-1-XFER",
+        "source": "Automatic transfer switch: PSB main",
+        "description": "TRANSFER TO EMERGENCY. GEN-1 on load.",
+        "value": "Load 62%",
+        "state": "acked"
+      },
+      {
+        "time": "00:12:05",
+        "priority": "high",
+        "tag": "UTIL-FEED",
+        "source": "Ashford Municipal Utilities service entrance",
+        "description": "UTILITY POWER LOST: all three phases.",
+        "value": "0 V",
+        "state": "acked"
+      }
+    ],
+    "footer": "PSB ON UPS ONLY · UPS-A about 38 min left (to about 01:41): 911 consoles and radio · UPS-B about 19 min left (to about 01:22): EOC · GEN-1 LOCKED OUT · 13 alarms since 00:00"
+  },
+  "variant": "dark",
+  "instructorNote": "Technical-hurdle inject: the EOC loses power first (UPS-B, about 01:22), then the 911 floor (UPS-A, about 01:41). The 911 Supervisor should get the Marshall County rollover ready before UPS-A runs out, and the EM Director should have Field check Station 3 before moving anyone there. The Warning Officer should move NWSChat and BrennanAlert to a laptop with its own power and connection and log the outage with the time. Watch whether anyone spots the water-in-fuel alarm at 00:47, which was acknowledged but never acted on, and asks about the fuel tank before trusting the one spare filter.",
+  "citations": [
+    {
+      "documentId": "01M78VRZS9YA4B9N7KSFQ74871",
+      "documentTitle": "Brennan County — Facilities, Populations and Warning Systems",
+      "headingPath": "BCFPWS › 4. Emergency operations",
+      "quote": "- **EOC:** Brennan County Public Safety Building, 900 Industrial Parkway, Ashford. Positions for 14; generator; satellite phone; NWSChat, WebEOC (Kentucky's statewide instance) and BrennanAlert consol",
+      "chunkId": 5
+    },
+    {
+      "documentId": "01M78VRZSEQB263A174HAR8J6D",
+      "documentTitle": "BCEMA-SOP-02: Warning and Notification",
+      "headingPath": "BWN › 7. Failures and backups",
+      "quote": "- **Siren encoder failure at Position 2:** use the EOC encoder; if both fail, ask fire districts to sound station sirens and patrol with vehicle PA systems in manufactured home parks. - **BrennanAlert",
+      "chunkId": 33
+    },
+    {
+      "documentId": "01M78VRZSB53VPS15HQ301KR5C",
+      "documentTitle": "Brennan County Emergency Operations Plan — Annex H: Severe Weather and Tornado",
+      "headingPath": "Brennan County Emergency Operati… › 5. Direction, control and coordination",
+      "quote": "The EOC is at the Brennan County Public Safety Building, 900 Industrial Parkway, Ashford. The alternate EOC is the Corwin Fire Station 3 training room. Field incident command follows NIMS. The EOC coo",
+      "chunkId": 16
+    },
+    {
+      "documentId": "01M78VRZSEQB263A174HAR8J6D",
+      "documentTitle": "BCEMA-SOP-02: Warning and Notification",
+      "headingPath": "BWN › 3. Outdoor warning sirens",
+      "quote": "The county's 46 sirens are in four zones: North (Corwin and the Clarks River bottoms, 12 sirens), Central (Ashford, 16), South (Hollis and the state line, 10) and East (Lake area, 8). Activation is fr",
+      "chunkId": 29
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template"
+    ]
+  },
+  "assets": [
+    {
+      "id": "01M79CM5DVE78HEBYDFR6ZXN0N",
+      "kind": "image",
+      "path": "scenarios/01M78VS1SR8Y53GC00WEFCYT9Z/media/01M78YD399VH2W1MQSR5NFPE62/01M79CM5DVE78HEBYDFR6ZXN0N.png",
+      "role": "rendered",
+      "width": 1280,
+      "height": 1070,
+      "sha256": "58264afe22992d32ed56140a6ea8582f00b88e588acc760459751fdfa8cab842",
+      "provenance": {
+        "provider": "template",
+        "templateId": "alarm_summary",
+        "templateVersion": "1",
+        "createdAt": "2026-11-13T02:43:41.448Z"
+      }
+    }
+  ],
+  "versions": [
+    {
+      "at": "2026-11-12T22:36:42.665Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "Alarm Summary 01:00: GEN-1 Shutdown, Public Safety Building on UPS Power",
+        "type": "alarm_summary",
+        "fields": {
+          "systemName": "PSB BUILDING MANAGEMENT — POWER / GENERATOR ALARM SUMMARY",
+          "site": "Brennan County Public Safety Building, Ashford: 911 Center and EOC",
+          "clock": "01:02:45",
+          "date": "12-Dec-2026",
+          "operator": "BMS_VIEW_911SUP",
+          "filter": "All areas · Active + Acknowledged · Since 00:00",
+          "counts": {
+            "critical": 3,
+            "high": 3,
+            "medium": 3,
+            "low": 4
+          },
+          "alarms": [
+            {
+              "time": "01:02:10",
+              "priority": "low",
+              "tag": "RADIO-LOG-0102",
+              "source": "EOC radio console: Corwin Fire Station 3",
+              "description": "LOGGED TRAFFIC: Station 3 reports part of the bay roof is gone and the training room ceiling is leaking onto the tables. Station generator running. Cell service dead, radio only. Route from Ashford is one lane, with trees down past the Clarks River bridge.",
+              "value": "Radio only",
+              "state": "acked"
+            },
+            {
+              "time": "01:01:30",
+              "priority": "low",
+              "tag": "FAC-NOTE-GEN-1",
+              "source": "Facilities maintenance tech, on site at GEN-1",
+              "description": "TECH NOTE: Primary fuel filter is plugged with water, probably from the tank vent during the storm. One spare element on hand. Changing the filter and bleeding the lines will take about 45 min if nothing else goes wrong. If the tank has water in it, the new filter will plug again.",
+              "value": "Est. 01:46",
+              "state": "acked"
+            },
+            {
+              "time": "01:00:40",
+              "priority": "medium",
+              "tag": "HVAC-AHU-2",
+              "source": "Air handler, 911 floor / equipment room",
+              "description": "AHU-2 STOPPED: NO SUPPLY POWER. Equipment room cooling lost.",
+              "value": "OFF",
+              "state": "active"
+            },
+            {
+              "time": "01:00:31",
+              "priority": "medium",
+              "tag": "LTG-EOC-NORM",
+              "source": "EOC lighting panel",
+              "description": "NORMAL LIGHTING POWER LOST. Emergency fixtures on internal battery.",
+              "value": "EM LTG 90 min",
+              "state": "active"
+            },
+            {
+              "time": "01:00:18",
+              "priority": "critical",
+              "tag": "UPS-B",
+              "source": "UPS-B: EOC load (NWSChat, WebEOC, BrennanAlert on BCEMA-EOC-WO1, backup siren encoder)",
+              "description": "UPS-B ON BATTERY. INPUT POWER LOST. Runtime below 30 min.",
+              "value": "22 min",
+              "state": "active"
+            },
+            {
+              "time": "01:00:17",
+              "priority": "high",
+              "tag": "UPS-A",
+              "source": "UPS-A: 911 load (POS-1, POS-2 with siren encoder, CAD, radio consoles)",
+              "description": "UPS-A ON BATTERY. INPUT POWER LOST.",
+              "value": "41 min",
+              "state": "active"
+            },
+            {
+              "time": "01:00:15",
+              "priority": "critical",
+              "tag": "ATS-1",
+              "source": "Automatic transfer switch: PSB main",
+              "description": "UTILITY NOT AVAILABLE · EMERGENCY SOURCE NOT AVAILABLE. Building load is on UPS-A and UPS-B only.",
+              "value": "UTIL 0 V / GEN 0 V",
+              "state": "active"
+            },
+            {
+              "time": "01:00:14",
+              "priority": "critical",
+              "tag": "GEN-1",
+              "source": "Standby generator GEN-1 controller",
+              "description": "GEN-1 SHUTDOWN: FUEL FILTER DIFFERENTIAL HIGH / LOW FUEL PRESSURE. Locked out. Manual reset required.",
+              "value": "0 rpm",
+              "state": "active"
+            },
+            {
+              "time": "00:59:58",
+              "priority": "high",
+              "tag": "GEN-1-FP-LO",
+              "source": "GEN-1 fuel supply",
+              "description": "LOW FUEL PRESSURE PRE-ALARM. Engine load dropping.",
+              "value": "11 psi (LO 20)",
+              "state": "active"
+            },
+            {
+              "time": "00:58:41",
+              "priority": "medium",
+              "tag": "GEN-1-FF-DP",
+              "source": "GEN-1 primary fuel filter",
+              "description": "FUEL FILTER DIFFERENTIAL PRESSURE HIGH.",
+              "value": "11.6 psid (HI 8.0)",
+              "state": "active"
+            },
+            {
+              "time": "00:47:05",
+              "priority": "low",
+              "tag": "GEN-1-WIF",
+              "source": "GEN-1 primary filter / water separator",
+              "description": "WATER IN FUEL DETECTED: separator bowl.",
+              "value": "WIF = TRUE",
+              "state": "acked"
+            },
+            {
+              "time": "00:12:16",
+              "priority": "low",
+              "tag": "ATS-1-XFER",
+              "source": "Automatic transfer switch: PSB main",
+              "description": "TRANSFER TO EMERGENCY. GEN-1 on load.",
+              "value": "Load 62%",
+              "state": "acked"
+            },
+            {
+              "time": "00:12:05",
+              "priority": "high",
+              "tag": "UTIL-FEED",
+              "source": "Ashford Municipal Utilities service entrance",
+              "description": "UTILITY POWER LOST: all three phases.",
+              "value": "0 V",
+              "state": "acked"
+            }
+          ],
+          "footer": "PSB ON UPS ONLY · UPS-A about 38 min left (to about 01:41): 911 consoles and radio · UPS-B about 19 min left (to about 01:22): EOC · GEN-1 LOCKED OUT · 13 alarms since 00:00"
+        },
+        "instructorNote": "Technical-hurdle inject: the EOC loses power first (UPS-B, about 01:22), then the 911 floor (UPS-A, about 01:41). The 911 Supervisor should get the Marshall County rollover ready before UPS-A runs out, and the EM Director should have Field check Station 3 before moving anyone there. The Warning Officer should move NWSChat and BrennanAlert to a laptop with its own power and connection and log the outage with the time. Watch whether anyone spots the water-in-fuel alarm at 00:47, which was acknowledged but never acted on, and asks about the fuel tank before trusting the one spare filter.",
+        "deliveryMode": "display_main_screen"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-11-13T02:43:41.631Z"
+}

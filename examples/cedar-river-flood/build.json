@@ -1,0 +1,53 @@
+{
+  "id": "cedar-river-flood",
+  "title": "Tallis County Emergency Management and Levee District No. 3: Cedar River flood",
+  "domainProfile": "flooding",
+  "summary": "A fictional Iowa county on the Cedar River (a river forecast point, a 3.8-mile levee district, a care center and a wastewater plant) and an exercise generated from its simulated plans: a spring river flood whose forecast crest is revised upward twice, with a 12-hour evacuation clock, a levee seepage report and a sandbag shortage.",
+  "notice": "EXERCISE MATERIAL — for training use. Tallis County, Cedar Ford, its agencies, levee district, people, businesses and the forecast point CFDI4 are simulated; the public sources consulted for realism are listed in reference/cedar-river-flood/SOURCES.md.",
+  "project": {
+    "name": "Tallis County Emergency Management Agency",
+    "orgName": "Tallis County Emergency Management Agency",
+    "orgType": "flooding",
+    "toolkits": ["flooding", "weather"],
+    "brand": {
+      "city": "Cedar Ford",
+      "region": "Tallis County, Iowa",
+      "aliases": {
+        "org": "Tallis County Emergency Management Agency",
+        "orgShort": "TCEMA",
+        "orgDomain": "tallisco-ia.example",
+        "levee": "Levee and Drainage District No. 3"
+      }
+    }
+  },
+  "documents": {
+    "dir": "reference/cedar-river-flood",
+    "exclude": ["SOURCES.md"]
+  },
+  "media": {
+    "aiImagesPerScenario": 2,
+    "ttsPerScenario": 2
+  },
+  "scenarios": [
+    {
+      "key": "revised-crest",
+      "startWallClock": "06:00",
+      "threatFamily": "natural_hazard",
+      "summary": "Days of rain in the upper Cedar basin push the river toward the county; the forecast crest at Cedar Ford is revised twice, from minor to moderate to major, shrinking the lead time for evacuating Cedar Hollow, while the levee district, a care center, a wastewater plant and a cooperative race to move, bag and pump.",
+      "userPrompt": "Tuesday 20 April 2027, after a wet April. The exercise starts at 06:00 with TCEMA (Coordinator Marcus Ellery, Deputy Hannah Brandvold, PIO Josie Pruitt) in Monitoring: the Cedar River at Cedar Ford (CFDI4) reads 12.4 ft and a flood warning is in effect with a forecast crest of 18.2 ft (minor) on Friday at 06:00. The categories are action 13.0, flood 15.0, moderate 19.0, major 23.0; the levee design flood is 25.5 ft and the levee crest 26.0 ft. At 18:00 Tuesday the River Forecast Center revises the crest to 21.8 ft (moderate) on Friday at 20:00 after 2.4 inches of rain in the upper basin; at 12:00 Wednesday a further revision gives 23.4 ft (major) on Saturday at 06:00, and the stage reaches 19.0 ft on Thursday at 14:00. Pressure points: Cedar Hollow (about 140 homes, 22 medical-needs households, Hollow Court Care Center with 36 beds and a 12-hour clearance) floods at 19.0 ft so the mandatory order must be given at least 18 hours before that stage, and the first revision does not require it while the second one does, with the deadline at Wednesday 20:00; TallisAlert voice calls take 25 minutes; River Road closes at 15.0 ft, the Mill Street underpass at 17.0, Route 38 bottoms at 19.0 and Hollow Road at 19.5, and Iowa DOT closes the Route 38 bridge at 24.5 ft or for scour; the Levee and Drainage District No. 3 (Superintendent Bill Hoeksema) holds 40,000 of the 80,000 sandbags it needs and 2 of 6 pumps and Pump Station 1 has 36 hours of fuel; Friday at 08:00 a patrol reports a sand boil with muddy water near the Hollow Creek low spot (station 18+50) at 22.0 ft; a post says the levee has failed; Tallis Prairie Cooperative needs 24 hours to move 340 cattle and secure anhydrous ammonia tanks; the Cedar Ford Wastewater Treatment Plant must decide whether to bypass at 24.0 ft and notify the Iowa Department of Natural Resources; Cedar Ford High School opens as a shelter with a pet area; Tallis Elementary closes; Iowa HSEMD is asked for bags, pumps and a declaration. Decisions the exercise should record: EOC activation level with the basis, evacuation advisory and order with clearance time, road closures with the stage that floods them, sandbag and pump orders with needed-by times, shelter opening, moves of stock and facilities, request for state help, public messages with the category stated. The SimCell plays the National Weather Service forecast office and River Forecast Center, the USGS gauge staff, the Army Corps of Engineers, Iowa DOT, Iowa HSEMD, the Red Cross, the care center administrator, the cooperative manager, the downstream county, reporters and residents.",
+      "audience": [
+        "EM Coordinator / EOC Command",
+        "Public Information Officer",
+        "Levee District Superintendent",
+        "Sheriff and Fire Field Operations",
+        "Public Works Director",
+        "Wastewater Plant Superintendent"
+      ],
+      "constraints": [
+        "Every county email address uses the exercise domain tallisco-ia.example; the levee district uses leveed3.example; outside parties use fictional domains; never a real agency, company or newspaper domain.",
+        "NWS products follow the real format: flood warnings name the river point, category, forecast crest with time and impacts; stages are in feet at CFDI4; revised forecasts say what changed; a flash flood tag is not used for a river flood; times are Central Daylight Time.",
+        "Player roles are only those in the audience list; the National Weather Service, River Forecast Center, USGS, Army Corps of Engineers, Iowa DOT, Iowa HSEMD, the Red Cross, the care center, the cooperative, reporters and residents are played by the SimCell."
+      ]
+    }
+  ]
+}

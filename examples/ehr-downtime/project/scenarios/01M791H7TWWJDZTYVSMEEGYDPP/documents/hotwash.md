@@ -1,0 +1,13 @@
+# Hot Wash Guide
+## Cold Storage
+
+### Hot Wash Guide (Debrief)
+
+**The "3-Up, 3-Down" Method:** Ask the room for three things that went well and three things that broke or failed during the Lakechart outage. Go around the room one team at a time (command, IS, clinical, lab/pharmacy, communications), write every item on the whiteboard in two columns, and don't debate any item until all teams have spoken.
+
+**Key Discussion Questions for Cold Storage:**
+- **Trust:** At I-01 (02:49), Ananya told you the downtime viewer banner read 'Data current as of 23:20' and that every census and MAR was 3 hr 20 min old. When did you stop trusting those printouts, and what did you tell the units to do about the missing 00:00 and 02:00 med passes and the patients admitted after 23:20? Did anyone treat the viewer as current because it was 'up'? _(Objective: Use of Doctrine)_
+- **The Level:** From 03:30 to 06:15 the service-account login was unexplained. Under the First Hour Checklist, item 6, that meant handling it as a suspected security incident after 60 minutes. Did you declare Level 3 or Level 4, who decided, and did you revise the level when I-15 showed RPTEXPORT-NIGHTLY-BKP was to blame and that controller A failed 80 minutes before the login? What would have let you make that call faster? _(Objective: Decision Making)_
+- **The Call:** At I-12, Dr. Sofia Lindgren asked you to divert or stay open. You had two D-number traumas with a crossmatch pending, a STEMI 12 minutes out, and a 40-plus-minute route on icy Highway 61 to North Shore Bluffs, which was at 94 percent. What did you decide, did you make it inside the 2-hour window, and how much did hearing from the receiving hospital change your choice? _(Objective: Decision Making)_
+- **The Gap:** The engine held 31,000 queued messages, and source systems could hold them for only 8 hours. Did you decide replay, hold or discard for each message class, starting with ADT and logging each decision? Who refused to open Lakechart to clinicians before the lab results interface was validated? And how did you keep the ZZ-Trauma and D-number identities from colliding with replayed results? _(Objective: Technical Analysis)_
+- **What We Said:** Staff, a local TV reporter and a Facebook post were calling this a hack, and at I-12b the HIE wanted a firm restore time by 08:00 while MDH asked how reportable results like the positive blood culture would reach them. What did you say publicly and to partners before you knew the cause? Did the Incident Commander clear every statement, and did you avoid confirming or ruling out a security cause before the Security Officer decided? _(Objective: Communication)_

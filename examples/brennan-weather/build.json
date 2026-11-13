@@ -1,0 +1,47 @@
+{
+  "id": "brennan-weather",
+  "title": "Brennan County Emergency Management and Channel 6 StormTeam",
+  "domainProfile": "meteorology",
+  "summary": "A western Kentucky county emergency management agency (46 sirens in four zones, BrennanAlert, IPAWS, two community safe rooms) and its local TV weather team, with an exercise generated from their simulated plans: a night-time line of storms with rain-wrapped tornadoes crossing the county at 60 mph.",
+  "notice": "EXERCISE MATERIAL — for training use. Brennan County, its agencies, people, businesses, sites and Channel 6 StormTeam are simulated; the public sources consulted for realism are listed in reference/brennan-weather/SOURCES.md.",
+  "project": {
+    "name": "Brennan County Emergency Management Agency",
+    "orgName": "Brennan County Emergency Management Agency",
+    "orgType": "meteorology",
+    "toolkits": ["weather", "media_environment"],
+    "brand": {
+      "city": "Ashford",
+      "region": "Brennan County, Kentucky",
+      "aliases": {
+        "org": "Brennan County Emergency Management Agency",
+        "orgShort": "BCEMA",
+        "orgDomain": "brennancoky.example",
+        "localTv": "Channel 6"
+      }
+    }
+  },
+  "documents": { "dir": "reference/brennan-weather", "exclude": ["SOURCES.md"] },
+  "media": { "aiImagesPerScenario": 2, "ttsPerScenario": 2 },
+  "scenarios": [
+    {
+      "key": "night-line",
+      "startWallClock": "21:30",
+      "threatFamily": "natural_hazard",
+      "summary": "On a warm December night a fast line of storms with embedded, rain-wrapped tornadoes crosses Brennan County at 60 mph; two North zone sirens are out of service, the overnight shifts at a warehouse and a candle plant are at work, and the county and Channel 6 must warn people who are asleep, open the safe rooms in time and keep their messages consistent.",
+      "userPrompt": "A Friday night in mid-December, unusually warm and humid. At 15:00 the Storm Prediction Center's Day 1 outlook places Brennan County in a Moderate (4) risk with significant tornadoes possible after dark; NWS Paducah's afternoon briefing warns of a fast-moving line with embedded tornadoes between 22:00 and 02:00. At 20:15 a tornado watch (PDS) is issued until 04:00. The exercise starts at 21:30 with the BCEMA EOC at Level 2 (EM Director Dana Whitfield, Warning Officer, PIO Caleb Harmon) and Channel 6 StormTeam's Chief Meteorologist Marisa Kent on air. Pressure points: when to open the Ashford Middle School and Corwin Community Center safe rooms (20 and 15 minutes to unlock at night) and how to tell people in the Clarks River manufactured home parks to move before warnings; the North zone sirens N-07 (Pine Hollow) and N-11 (Clarks River bridge) are out of service; at 22:41 NWS Paducah issues a tornado warning (RADAR INDICATED, CONSIDERABLE) for northern Brennan County moving northeast at 60 mph, followed by an upgrade to OBSERVED after a spotter report near Corwin and later a tornado emergency for Corwin; the overnight shifts at Ridgeline Distribution (310 workers) and Corwin Wax & Candle (95) must shelter; BrennanAlert voice calls take 12 minutes to complete; a viral post claims the Corwin safe room is locked; Channel 6 loses its studio power and goes to the basement backup set; cell towers fail on battery after midnight; 911 receives entrapment calls at the candle plant and the Pine Hollow park; damage assessment, the Red Cross shelter at Brennan County High School, requests to Kentucky Emergency Management, and coordination with NWS Paducah's storm survey. The broadcast meteorologist never contradicts an NWS warning; the county never duplicates an NWS tornado warning by WEA.",
+      "audience": [
+        "EM Director / EOC Command",
+        "Warning Officer",
+        "Public Information Officer",
+        "911 Supervisor",
+        "Fire / Sheriff Field Operations",
+        "Channel 6 StormTeam (Broadcast Meteorologist and News Director)"
+      ],
+      "constraints": [
+        "Every email address of the county uses the exercise domain brennancoky.example; Channel 6 uses channel6stormteam.example; outside parties use fictional domains; never a real agency, company or newspaper domain.",
+        "NWS products (tornado warnings, severe weather statements, the tornado emergency) follow the real NWS format and impact-based tags, and are marked as exercise products; times are Central Standard Time.",
+        "Player roles are only those in the audience list; NWS Paducah, Kentucky Emergency Management, neighboring counties, the Red Cross, the employers, reporters and residents are played by the SimCell."
+      ]
+    }
+  ]
+}

@@ -1,0 +1,53 @@
+{
+  "id": "foothills-wui-fire",
+  "title": "Sawmill County and Foothills Electric Cooperative: foothills wildfire and power shutoff",
+  "domainProfile": "wildfire",
+  "summary": "A fictional Colorado foothills county (41 evacuation zones, one canyon road, an assisted living facility) and its electric cooperative, with an exercise generated from their simulated plans: a Red Flag day with a public safety power shutoff in the morning and a wind-driven fire in the afternoon that forces zone evacuations and shelter-in-place.",
+  "notice": "EXERCISE MATERIAL — for training use. Sawmill County, its agencies, Foothills Electric Cooperative, people, businesses and sites are simulated; the public sources consulted for realism are listed in reference/foothills-wui-fire/SOURCES.md.",
+  "project": {
+    "name": "Sawmill County Office of Emergency Management",
+    "orgName": "Sawmill County Office of Emergency Management",
+    "orgType": "wildfire",
+    "toolkits": ["wildfire", "weather"],
+    "brand": {
+      "city": "Pine Gulch",
+      "region": "Sawmill County, Colorado",
+      "aliases": {
+        "org": "Sawmill County Office of Emergency Management",
+        "orgShort": "SCOEM",
+        "orgDomain": "sawmillcountyco.example",
+        "utility": "Foothills Electric Cooperative"
+      }
+    }
+  },
+  "documents": {
+    "dir": "reference/foothills-wui-fire",
+    "exclude": ["SOURCES.md"]
+  },
+  "media": {
+    "aiImagesPerScenario": 2,
+    "ttsPerScenario": 2
+  },
+  "scenarios": [
+    {
+      "key": "red-flag-fire",
+      "startWallClock": "05:00",
+      "threatFamily": "natural_hazard",
+      "summary": "On a Red Flag Warning morning Foothills Electric de-energizes circuits for fire weather, and at 13:20 a wind-driven fire starts near County Road 68 and runs toward Pine Gulch and Kestrel Springs; the county must set zone statuses against clearance times, evacuate Stonebridge Assisted Living, hold the canyon road, and keep zone messages consistent with the fire agency, the Sheriff and the utility.",
+      "userPrompt": "Wednesday 14 April 2027. The National Weather Service Boulder office has a Red Flag Warning from 08:00 to 20:00 for the foothills: west winds sustained 30 mph with gusts to 58 mph, relative humidity 9 percent. The exercise starts at 05:00 in the SCOEM EOC (Emergency Manager Elena Marchetti, PIO Maya Lindqvist, Sheriff Thomas Briggs, Undersheriff Raymond Cho) with Foothills Electric Cooperative (Operations Director Rosalind Ames, Public Safety Partner Manager Daniel Okoye) having sent its 72-hour and 24-hour partner notices and 48-hour and 12-hour customer notices for Circuits 6, 7, 11 and 12; at 06:00 the co-op decides whether to de-energize ahead of 45 mph gusts at 09:00, affecting 3,100 customers including 71 medical baseline households and the Pine Gulch Water District's Well 2; the 312 medical baseline customers must be reached or visited and the notice windows met. At 13:20 a fire is reported near Coyote Draw on County Road 68; by 14:30 it is 420 acres, spotting a mile ahead, and by 17:00 about 2,300 acres moving east-southeast toward Gulch Village (zone PG-03, clearance 55 minutes) and Kestrel Springs. Pressure points: set zone statuses (Warning, Order, Shelter in Place) against projected arrival and clearance times, with the latest order time for each zone; Stonebridge Assisted Living (zone KS-04, 40 residents, 120 minutes, one route on Kestrel Springs Road) must start before an order; Pine Gulch Elementary (140 students, PG-03); contraflow on Highway 305 takes 25 minutes to set up and the Mill Creek Bridge is reported blocked; hydrants in Kestrel Springs rely on a pump station with 8 hours of generator; two foothill cell towers on batteries go dark; a circuit is re-energized by mistake in a zone under an Evacuation Warning, and the co-op and county must agree not to re-energize until the county clears the zone; air tankers and a strike team are requested through the interagency dispatch center; smoke pushes the AQI above 150 in Pine Gulch by 16:00 and the school district and Pine Gulch Medical Center act; Pine Gulch High School opens as a shelter and Mountain View Fairgrounds takes large animals; a post claims Kestrel Springs is burning; the Sheriff and the fire agency must use the same zone statuses and acreage. Decisions the exercise should record: evacuation warnings and orders with clearance time and basis, shelter in place, road control, shelter openings, resource requests, the co-op's de-energize and re-energize decisions, the shutoff notices and medical baseline contacts, the school and facility air quality action. The SimCell plays the National Weather Service, the interagency dispatch center and incident commander, the state fire agency, CDOT, the Red Cross, the care center, the water district, cell carriers, reporters and residents.",
+      "audience": [
+        "Emergency Manager / EOC Command",
+        "Sheriff and Evacuation Branch",
+        "Public Information Officer",
+        "Dispatch Supervisor",
+        "Fire Chief",
+        "Electric Cooperative Operations Director"
+      ],
+      "constraints": [
+        "Every county email address uses the exercise domain sawmillcountyco.example; the cooperative uses foothillselectric.example; outside parties use fictional domains; never a real agency, company or newspaper domain.",
+        "Evacuation products use the zone statuses Evacuation Warning, Evacuation Order and Shelter in Place and the zone names in the plan; fire incident summaries follow the ICS 209 style with acreage and containment from the incident commander; WEAs are 360 characters or fewer; shutoff notices state the circuits, the start, the expected duration and the resource center; times are Mountain Daylight Time.",
+        "Player roles are only those in the audience list; the National Weather Service, the interagency dispatch center, the state fire agency, CDOT, the Red Cross, the care center, the water district, carriers, reporters and residents are played by the SimCell."
+      ]
+    }
+  ]
+}

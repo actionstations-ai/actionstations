@@ -1,0 +1,267 @@
+{
+  "id": "01M792QRM931YJ6ZRX8T6DR61M",
+  "mselRowId": "I-01",
+  "type": "sitrep",
+  "title": "SOC SITREP #SOC-0325-01: Ransomware Confirmed on MES and File Servers",
+  "deliveryMode": "hand_to_role",
+  "fields": {
+    "number": "SOC-0325-01",
+    "time": "03/25/2027 1505 CDT",
+    "organization": "Ironcrest Machinery Corporation (fictional)",
+    "issuingOffice": "Security Operations Center, Rockford",
+    "incidentName": ".ironmelt Ransomware: MES and File Servers, Rockford Data Center",
+    "period": "1340-1505 CDT",
+    "from": "SOC Shift Lead (phoned in from SOC line (815) 555-0122)",
+    "to": "Chief Information Security Officer; Business Continuity Manager",
+    "summary": "CONFIRMED: MES servers ICM-MES-01 and ICM-MES-02 and file servers ICM-FS-03 and ICM-FS-04 at the Rockford data center are encrypted. The encrypted files have the extension .ironmelt. Every share has a ransom note named IRON_MELT_README.txt. It demands 18 million dollars in cryptocurrency within 72 hours and says 1.2 TB of data will be published. SUSPECTED: lateral movement toward Plant 2 Beloit. UNKNOWN: the state of the Beloit file server and of the ERP integration. The integration account is locked, and we cannot yet tell whether the encryption or our 14:25 isolation caused it. 'Still being assessed' means not yet known. It does not mean unaffected.",
+    "keyStatus": [
+      {
+        "label": "ICM-MES-01 (Rockford DC)",
+        "value": "ENCRYPTED: confirmed"
+      },
+      {
+        "label": "ICM-MES-02 (Rockford DC)",
+        "value": "ENCRYPTED: confirmed"
+      },
+      {
+        "label": "ICM-FS-03 file server",
+        "value": "ENCRYPTED: confirmed, ransom note on all shares"
+      },
+      {
+        "label": "ICM-FS-04 file server",
+        "value": "ENCRYPTED: confirmed, ransom note on all shares"
+      },
+      {
+        "label": "Lot tracking (all three plants)",
+        "value": "DOWN: depends on the MES"
+      },
+      {
+        "label": "Plant 2 Beloit file server",
+        "value": "UNKNOWN: being assessed, lateral movement suspected"
+      },
+      {
+        "label": "ERP integration",
+        "value": "UNKNOWN: integration account locked, cause not determined"
+      },
+      {
+        "label": "Network perimeter",
+        "value": "ISOLATED since 14:25 CDT"
+      },
+      {
+        "label": "Life-safety, fire and gas systems",
+        "value": "NORMAL: separate networks, no indicators"
+      }
+    ],
+    "actions": [
+      {
+        "time": "1340",
+        "text": "Plant 3 Dubuque reported a hung MES to the service desk."
+      },
+      {
+        "time": "1405",
+        "text": "SOC analyst confirmed mass file encryption on ICM-FS-03, ICM-FS-04 and the MES hosts; incident opened."
+      },
+      {
+        "time": "1410",
+        "text": "CISO Anil Deshmukh notified by the SOC under IDCCI 2."
+      },
+      {
+        "time": "1425",
+        "text": "CISO ordered network isolation at the Rockford data center; inter-site links and remote access cut."
+      },
+      {
+        "time": "1440",
+        "text": "Copy of IRON_MELT_README.txt and sample .ironmelt files preserved to evidence storage; hashes recorded."
+      },
+      {
+        "time": "1450",
+        "text": "CEO declared Level 3; Crisis Management Team bridge opened."
+      },
+      {
+        "time": "1500",
+        "text": "Analyst assigned to the Beloit file server and the locked ERP integration account."
+      }
+    ],
+    "planned": [
+      "Determine whether the Beloit file server shows encryption or attacker activity, using the isolated console only.",
+      "Determine the cause of the ERP integration account lockout: encryption, attacker activity or our isolation.",
+      "Keep all affected hosts powered on and isolated for forensics; no reimaging or cleanup.",
+      "Support CISO in briefing forensic firm Blackwater Cyber on scope and evidence collected so far.",
+      "Identify the initial access point and the accounts used for lateral movement."
+    ],
+    "issues": [
+      "Ransomware on a manufacturing system is confirmed. Under IDCCI 2, the CISO must notify the General Counsel within one hour.",
+      "No system is to be restored from backup until the forensic firm confirms the backup is clean (IBIARO 4). Backup integrity has not yet been checked.",
+      "The SOC cannot see the Beloit file server or the ERP integration while the network is isolated. Remote access must be authorized before the assessment can go on.",
+      "Ransom note demands and the 72-hour deadline are not to be discussed outside the CMT."
+    ],
+    "nextReport": "1545 CDT or on significant change",
+    "preparedBy": "D. Kowalczyk, SOC Shift Lead",
+    "marking": "EXERCISE · EXERCISE · EXERCISE"
+  },
+  "variant": "default",
+  "instructorNote": "This page sets the confirmed, suspected and unknown facts that the rest of the exercise builds on. Watch whether the CISO briefs the CMT in those three parts without letting 'still being assessed' be heard as 'fine', and whether the BCM opens the recovery tracker with the MES disruption starting at 14:05 (8-hour RTO red at 22:05, MTPD Friday 14:05) and the first plant-control checkpoint at 18:05.",
+  "citations": [
+    {
+      "documentId": "01M791NWEX7JTKWMS6TART9E7B",
+      "documentTitle": "ICM-LEG-03: Disclosure Controls for Cybersecurity Incidents",
+      "headingPath": "IDCCI › 2. Who reports to whom",
+      "quote": "Any employee who suspects an incident calls the Security Operations Center (SOC), (815) 555-0122. The SOC reports to the CISO, Anil Deshmukh. The CISO tells the General Counsel, Marguerite Daley, with",
+      "chunkId": 31
+    },
+    {
+      "documentId": "01M791NWETPNJ2B6DP42BR9D8C",
+      "documentTitle": "ICM-BCM-02: Business Impact Analysis and Recovery Order",
+      "headingPath": "IBIARO › 4. Recovery order",
+      "quote": "1. Safety and life safety at all sites (plant security, fire and gas systems are on separate networks and are not affected by IT failures, and are verified first). 2. Identity and the network core (di",
+      "chunkId": 14
+    },
+    {
+      "documentId": "01M791NWETPNJ2B6DP42BR9D8C",
+      "documentTitle": "ICM-BCM-02: Business Impact Analysis and Recovery Order",
+      "headingPath": "IBIARO › 6. Key suppliers and vendors",
+      "quote": "The company's cloud provider, the payroll provider (Northbridge Payroll, fictional), the outside data center and network carriers, the warehouse software vendor, the steel supplier, the forensic firm ",
+      "chunkId": 16
+    },
+    {
+      "documentId": "01M791NWETPNJ2B6DP42BR9D8C",
+      "documentTitle": "ICM-BCM-02: Business Impact Analysis and Recovery Order",
+      "headingPath": "IBIARO › 7. Recording recovery",
+      "quote": "The BCM keeps the recovery tracker: the time disruption began, the time each function reached its MASL, and the RTO. A function that misses its RTO is flagged for the CMT and its customers are told. T",
+      "chunkId": 17
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template"
+    ]
+  },
+  "assets": [
+    {
+      "id": "01M79BVN4MYGFFYNHT38TDARFG",
+      "kind": "image",
+      "path": "scenarios/01M791NYFD5GNSAF0J0E4J4T0E/media/01M792QRM931YJ6ZRX8T6DR61M/01M79BVN4MYGFFYNHT38TDARFG.png",
+      "role": "rendered",
+      "width": 816,
+      "height": 1056,
+      "sha256": "3306a251f80667666d577b98ed17488870eabed738b1419fdf0aba0dd80bd17d",
+      "provenance": {
+        "provider": "template",
+        "templateId": "sitrep",
+        "templateVersion": "2",
+        "createdAt": "2026-11-13T02:30:18.372Z"
+      }
+    }
+  ],
+  "versions": [
+    {
+      "at": "2026-11-12T23:51:17.341Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "SOC SITREP #SOC-0325-01: Ransomware Confirmed on MES and File Servers",
+        "type": "sitrep",
+        "fields": {
+          "number": "SOC-0325-01",
+          "time": "03/25/2027 1505 CDT",
+          "organization": "Ironcrest Machinery Corporation (fictional)",
+          "issuingOffice": "Security Operations Center, Rockford",
+          "incidentName": ".ironmelt Ransomware: MES and File Servers, Rockford Data Center",
+          "period": "1340-1505 CDT",
+          "from": "SOC Shift Lead (phoned in from SOC line (815) 555-0122)",
+          "to": "Chief Information Security Officer; Business Continuity Manager",
+          "summary": "CONFIRMED: MES servers ICM-MES-01 and ICM-MES-02 and file servers ICM-FS-03 and ICM-FS-04 at the Rockford data center are encrypted. The encrypted files have the extension .ironmelt. Every share has a ransom note named IRON_MELT_README.txt. It demands 18 million dollars in cryptocurrency within 72 hours and says 1.2 TB of data will be published. SUSPECTED: lateral movement toward Plant 2 Beloit. UNKNOWN: the state of the Beloit file server and of the ERP integration. The integration account is locked, and we cannot yet tell whether the encryption or our 14:25 isolation caused it. 'Still being assessed' means not yet known. It does not mean unaffected.",
+          "keyStatus": [
+            {
+              "label": "ICM-MES-01 (Rockford DC)",
+              "value": "ENCRYPTED: confirmed"
+            },
+            {
+              "label": "ICM-MES-02 (Rockford DC)",
+              "value": "ENCRYPTED: confirmed"
+            },
+            {
+              "label": "ICM-FS-03 file server",
+              "value": "ENCRYPTED: confirmed, ransom note on all shares"
+            },
+            {
+              "label": "ICM-FS-04 file server",
+              "value": "ENCRYPTED: confirmed, ransom note on all shares"
+            },
+            {
+              "label": "Lot tracking (all three plants)",
+              "value": "DOWN: depends on the MES"
+            },
+            {
+              "label": "Plant 2 Beloit file server",
+              "value": "UNKNOWN: being assessed, lateral movement suspected"
+            },
+            {
+              "label": "ERP integration",
+              "value": "UNKNOWN: integration account locked, cause not determined"
+            },
+            {
+              "label": "Network perimeter",
+              "value": "ISOLATED since 14:25 CDT"
+            },
+            {
+              "label": "Life-safety, fire and gas systems",
+              "value": "NORMAL: separate networks, no indicators"
+            }
+          ],
+          "actions": [
+            {
+              "time": "1340",
+              "text": "Plant 3 Dubuque reported a hung MES to the service desk."
+            },
+            {
+              "time": "1405",
+              "text": "SOC analyst confirmed mass file encryption on ICM-FS-03, ICM-FS-04 and the MES hosts; incident opened."
+            },
+            {
+              "time": "1410",
+              "text": "CISO Anil Deshmukh notified by the SOC under IDCCI 2."
+            },
+            {
+              "time": "1425",
+              "text": "CISO ordered network isolation at the Rockford data center; inter-site links and remote access cut."
+            },
+            {
+              "time": "1440",
+              "text": "Copy of IRON_MELT_README.txt and sample .ironmelt files preserved to evidence storage; hashes recorded."
+            },
+            {
+              "time": "1450",
+              "text": "CEO declared Level 3; Crisis Management Team bridge opened."
+            },
+            {
+              "time": "1500",
+              "text": "Analyst assigned to the Beloit file server and the locked ERP integration account."
+            }
+          ],
+          "planned": [
+            "Determine whether the Beloit file server shows encryption or attacker activity, using the isolated console only.",
+            "Determine the cause of the ERP integration account lockout: encryption, attacker activity or our isolation.",
+            "Keep all affected hosts powered on and isolated for forensics; no reimaging or cleanup.",
+            "Support CISO in briefing forensic firm Blackwater Cyber on scope and evidence collected so far.",
+            "Identify the initial access point and the accounts used for lateral movement."
+          ],
+          "issues": [
+            "Ransomware on a manufacturing system is confirmed. Under IDCCI 2, the CISO must notify the General Counsel within one hour.",
+            "No system is to be restored from backup until the forensic firm confirms the backup is clean (IBIARO 4). Backup integrity has not yet been checked.",
+            "The SOC cannot see the Beloit file server or the ERP integration while the network is isolated. Remote access must be authorized before the assessment can go on.",
+            "Ransom note demands and the 72-hour deadline are not to be discussed outside the CMT."
+          ],
+          "nextReport": "1545 CDT or on significant change",
+          "preparedBy": "D. Kowalczyk, SOC Shift Lead",
+          "marking": "EXERCISE · EXERCISE · EXERCISE"
+        },
+        "instructorNote": "This page sets the confirmed, suspected and unknown facts that the rest of the exercise builds on. Watch whether the CISO briefs the CMT in those three parts without letting 'still being assessed' be heard as 'fine', and whether the BCM opens the recovery tracker with the MES disruption starting at 14:05 (8-hour RTO red at 22:05, MTPD Friday 14:05) and the first plant-control checkpoint at 18:05.",
+        "deliveryMode": "hand_to_role"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-11-13T02:30:18.604Z"
+}

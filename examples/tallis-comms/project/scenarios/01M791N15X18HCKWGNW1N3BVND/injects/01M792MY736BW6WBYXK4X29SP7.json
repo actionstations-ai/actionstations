@@ -1,0 +1,217 @@
+{
+  "id": "01M792MY736BW6WBYXK4X29SP7",
+  "mselRowId": "I-09b",
+  "type": "phone_call",
+  "title": "Bridge Call: Customer Care Needs a Script by 09:27",
+  "deliveryMode": "read_aloud",
+  "fields": {
+    "orgName": "Tallis Home Products, Inc.",
+    "systemName": "Recorded Line - Communications Cell Bridge, Conference Room 3B",
+    "callId": "CR-20270309-091207-0058",
+    "direction": "Internal",
+    "caller": {
+      "name": "Mateo Ruiz",
+      "number": "x4400",
+      "label": "Head of Customer Care"
+    },
+    "callee": {
+      "name": "Communications Cell",
+      "number": "(937) 555-0149, code 4100",
+      "label": "Bridge line, Conference Room 3B"
+    },
+    "startTime": "03/09/2027 09:12:07",
+    "duration": "1:24",
+    "transcript": [
+      {
+        "speaker": "CARE",
+        "offset": "0:00",
+        "text": "It's Mateo Ruiz, Customer Care. Is the VP Corporate Communications on? And the CCO? Good. I need two minutes.",
+        "prompt": false
+      },
+      {
+        "speaker": "CARE",
+        "offset": "0:09",
+        "text": "We have 240 calls waiting. Average wait is 31 minutes. At 300 I put up the web banner and pull 40 agents off the order desk, and at this rate that's before ten.",
+        "prompt": false
+      },
+      {
+        "speaker": "CARE",
+        "offset": "0:24",
+        "text": "My agents have nothing but the 08:20 statement, so they're reading it word for word. 'No payment information was involved.' That's what customers are hearing from us, every call.",
+        "prompt": false
+      },
+      {
+        "speaker": "CARE",
+        "offset": "0:37",
+        "text": "And customers are asking three things. Were my cards taken. Were my passwords in plain text, because they saw it on that post. And is the refund email real, the one with the thirty-five dollar credit and the confirm-card button.",
+        "prompt": false
+      },
+      {
+        "speaker": "CARE",
+        "offset": "0:55",
+        "text": "Worse, I've got two agents who told callers the forum post is fake. Just... fake. I've stopped those two, but I can't listen to a hundred and twenty headsets.",
+        "prompt": false
+      },
+      {
+        "speaker": "CARE",
+        "offset": "1:07",
+        "text": "So. I need a phone script and a chat macro, approved, in the next fifteen minutes. By 09:27. Otherwise a hundred and twenty agents keep making it up. What can I give them?",
+        "prompt": true
+      }
+    ],
+    "voiceStyles": {
+      "CARE": "Woman in her 50s, calm but clipped and hurried, a busy call floor murmuring behind her"
+    },
+    "injectId": "I-09b"
+  },
+  "variant": "default",
+  "instructorNote": "This tests whether the Writer drafts an interim script and chat macro from the fact sheet only and whether the CCO approves it before 09:27. The script should drop the 08:20 'no payment information' line and match the pending correction. Watch for these points: full card numbers are not stored by Tallis, passwords were stored as protected hashes, Tallis is investigating, customers should change their password and any reused passwords, and Tallis never asks for a password or card number by email. Agents must not call the claim fake.",
+  "citations": [
+    {
+      "documentId": "01M791MZ5TMRENEGVVE344C0E4",
+      "documentTitle": "TLC-COM-02: Message Playbook for a Customer Data Incident",
+      "headingPath": "TMPCDI › 8. Customer Care script (summary)",
+      "quote": "Agents answer from the macro approved by COMMS and Legal. They say: \"We are investigating; we have no confirmation that your account is involved; here is what you can do.\" They do not guess, do not fo",
+      "chunkId": 28
+    },
+    {
+      "documentId": "01M791MZ5TMRENEGVVE344C0E4",
+      "documentTitle": "TLC-COM-02: Message Playbook for a Customer Data Incident",
+      "headingPath": "TMPCDI › 2. The message map",
+      "quote": "**Core message (the one thing):** Tallis learned [time] that [what happened]; we are investigating with outside experts; we will tell affected customers directly; here is what customers should do now.",
+      "chunkId": 22
+    },
+    {
+      "documentId": "01M791MZ5PNQX3GYDBEAX99A9W",
+      "documentTitle": "TLC-COM-01: Crisis Communications Plan",
+      "headingPath": "TCCP › 2. The team",
+      "quote": "| Role | Name | Duty | Office / mobile | |---|---|---|---| | Chief Communications Officer (COMMS) | Marcus Delaney | Owns strategy, approves every external statement, decides when to hold a press conf",
+      "chunkId": 3
+    },
+    {
+      "documentId": "01M791MZ5V0HHAJ0J2R7KKEXX6",
+      "documentTitle": "TLC-COM-03: Systems, Customer Data and Media Directory",
+      "headingPath": "TSCDMD › 7. Phone, email and bridge list",
+      "quote": "Press line (937) 555-0141 · press@tallishome.example · Customer care (937) 555-0150 · Investor line (937) 555-0145 · Communications Cell bridge (937) 555-0149, code 4100 · Employee hotline (937) 555-0",
+      "chunkId": 36
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template",
+      "tts"
+    ],
+    "voiceLines": [
+      {
+        "speaker": "CARE",
+        "voiceStyle": "Woman in her 50s, Midwestern American accent, calm but clipped and hurried, an experienced call-center manager under pressure, speaking quickly with short breaths between sentences",
+        "text": "It's Mateo Ruiz, Customer Care. Is the VP Corporate Communications on? And the CCO? Good. I need two minutes."
+      },
+      {
+        "speaker": "CARE",
+        "voiceStyle": "Woman in her 50s, Midwestern American accent, calm but clipped and hurried, matter-of-fact as she gives the numbers, a little tension rising",
+        "text": "We have two hundred forty calls waiting. Average wait is thirty-one minutes. At three hundred, I put up the web banner and pull forty agents off the order desk... and at this rate, that's before ten."
+      },
+      {
+        "speaker": "CARE",
+        "voiceStyle": "Woman in her 50s, Midwestern American accent, clipped and frustrated, pointed emphasis when she quotes the statement",
+        "text": "My agents have nothing but the eight-twenty statement, so they're reading it word for word. 'No payment information was involved.' That's what customers are hearing from us. Every call."
+      },
+      {
+        "speaker": "CARE",
+        "voiceStyle": "Woman in her 50s, Midwestern American accent, hurried, listing points deliberately, counting them off",
+        "text": "And customers are asking three things. Were my cards taken. Were my passwords in plain text, because they saw it on that post. And is the refund email real... the one with the thirty-five dollar credit and the confirm-card button."
+      },
+      {
+        "speaker": "CARE",
+        "voiceStyle": "Woman in her 50s, Midwestern American accent, exasperated, a brief disbelieving pause, then firm and tired",
+        "text": "Worse, I've got two agents who told callers the forum post is fake. Just... fake. I've stopped those two, but I can't listen to a hundred and twenty headsets."
+      },
+      {
+        "speaker": "CARE",
+        "voiceStyle": "Woman in her 50s, Midwestern American accent, firm and urgent, slowing down to set the deadline, ending on a direct demanding question",
+        "text": "So. I need a phone script and a chat macro, approved, in the next fifteen minutes. By nine twenty-seven. Otherwise a hundred and twenty agents keep making it up. What can I give them?"
+      }
+    ],
+    "postFx": [
+      "phone"
+    ]
+  },
+  "assets": [],
+  "versions": [
+    {
+      "at": "2026-11-12T23:49:47.350Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "Bridge Call: Customer Care Needs a Script by 09:27",
+        "type": "phone_call",
+        "fields": {
+          "orgName": "Tallis Home Products, Inc.",
+          "systemName": "Recorded Line - Communications Cell Bridge, Conference Room 3B",
+          "callId": "CR-20270309-091207-0058",
+          "direction": "Internal",
+          "caller": {
+            "name": "Mateo Ruiz",
+            "number": "x4400",
+            "label": "Head of Customer Care"
+          },
+          "callee": {
+            "name": "Communications Cell",
+            "number": "(937) 555-0149, code 4100",
+            "label": "Bridge line, Conference Room 3B"
+          },
+          "startTime": "03/09/2027 09:12:07",
+          "duration": "1:24",
+          "transcript": [
+            {
+              "speaker": "CARE",
+              "offset": "0:00",
+              "text": "It's Mateo Ruiz, Customer Care. Is the VP Corporate Communications on? And the CCO? Good. I need two minutes.",
+              "prompt": false
+            },
+            {
+              "speaker": "CARE",
+              "offset": "0:09",
+              "text": "We have 240 calls waiting. Average wait is 31 minutes. At 300 I put up the web banner and pull 40 agents off the order desk, and at this rate that's before ten.",
+              "prompt": false
+            },
+            {
+              "speaker": "CARE",
+              "offset": "0:24",
+              "text": "My agents have nothing but the 08:20 statement, so they're reading it word for word. 'No payment information was involved.' That's what customers are hearing from us, every call.",
+              "prompt": false
+            },
+            {
+              "speaker": "CARE",
+              "offset": "0:37",
+              "text": "And customers are asking three things. Were my cards taken. Were my passwords in plain text, because they saw it on that post. And is the refund email real, the one with the thirty-five dollar credit and the confirm-card button.",
+              "prompt": false
+            },
+            {
+              "speaker": "CARE",
+              "offset": "0:55",
+              "text": "Worse, I've got two agents who told callers the forum post is fake. Just... fake. I've stopped those two, but I can't listen to a hundred and twenty headsets.",
+              "prompt": false
+            },
+            {
+              "speaker": "CARE",
+              "offset": "1:07",
+              "text": "So. I need a phone script and a chat macro, approved, in the next fifteen minutes. By 09:27. Otherwise a hundred and twenty agents keep making it up. What can I give them?",
+              "prompt": true
+            }
+          ],
+          "voiceStyles": {
+            "CARE": "Woman in her 50s, calm but clipped and hurried, a busy call floor murmuring behind her"
+          },
+          "injectId": "I-09b"
+        },
+        "instructorNote": "This tests whether the Writer drafts an interim script and chat macro from the fact sheet only and whether the CCO approves it before 09:27. The script should drop the 08:20 'no payment information' line and match the pending correction. Watch for these points: full card numbers are not stored by Tallis, passwords were stored as protected hashes, Tallis is investigating, customers should change their password and any reused passwords, and Tallis never asks for a password or card number by email. Agents must not call the claim fake.",
+        "deliveryMode": "read_aloud"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-11-13T02:29:54.171Z"
+}
