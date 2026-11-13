@@ -1,0 +1,154 @@
+{
+  "id": "01M79384PSZBGFAMXECFAAPSF9",
+  "mselRowId": "I-11b",
+  "type": "service_status_page",
+  "title": "MarlowAlert Delivery Status: Broadcast #2, 11:36 PDT",
+  "deliveryMode": "hand_to_role",
+  "fields": {
+    "orgName": "Cascadeline Mass Notification (provider of MarlowAlert)",
+    "serviceName": "MarlowAlert — Marlow County, OR (text, voice, email)",
+    "overallStatus": "major_outage",
+    "incidentTitle": "Delivery failures for Marlow County: wireless carriers unreachable in the coastal service area",
+    "components": [
+      {
+        "name": "SMS text delivery — Marlow County",
+        "status": "major_outage"
+      },
+      {
+        "name": "Voice call delivery — Marlow County",
+        "status": "major_outage"
+      },
+      {
+        "name": "Email delivery",
+        "status": "degraded"
+      },
+      {
+        "name": "Mobile app push notifications",
+        "status": "degraded"
+      },
+      {
+        "name": "Administrator console and message launch",
+        "status": "operational"
+      },
+      {
+        "name": "Delivery reporting",
+        "status": "operational"
+      }
+    ],
+    "updates": [
+      {
+        "status": "update",
+        "time": "11:36 PDT",
+        "text": "Delivery report for Broadcast #2 (Tsunami Warning, XL/XXL zones), 9,600 recipients. Text: 3,410 delivered, 5,870 failed (carrier unreachable), 320 pending. Voice: 1,960 completed, 7,640 no answer or failed. We retry pending texts every 5 minutes. Messages that are still undelivered 60 minutes after launch will expire. Failed voice calls are not being retried automatically. Contacts who were not reached cannot be assumed to have received the warning. We recommend that the county also use other warning channels."
+      },
+      {
+        "status": "identified",
+        "time": "11:10 PDT",
+        "text": "Both wireless carriers serving the Marlow County coast are rejecting or timing out on a large share of deliveries. The carriers report cell sites on battery or offline after the earthquake. Landline voice calls are mostly going unanswered because the power is out. Our platform is healthy, and county administrators can still launch messages."
+      },
+      {
+        "status": "investigating",
+        "time": "10:31 PDT",
+        "text": "We are seeing high text and voice failure rates for the Marlow County account, starting with messages launched after 10:15 PDT. Engineers are investigating."
+      }
+    ],
+    "url": "status.cascadeline.example/marlowalert"
+  },
+  "variant": "status_page",
+  "instructorNote": "This is a technical hurdle: hand the status page to the Warning Coordinator and the 911 Supervisor. Then play PUD Operations Manager Rafael Ibarra on the phone and read: \"Roughly 14,500 meters are out, so basically the whole system. Substations 1 and 2 tripped, and Substation 3 has the harbor feeder under water. I can't promise any restoration before tomorrow, and that's after we inspect. Which loads do you want first: the EOC, the hospital, the high school?\" Watch for:\n- The Warning Coordinator treats the unreached contacts as not warned. They ask for loudspeaker and door-to-door coverage near the three silent sirens, plus rebroadcasts on Marlow Coast Radio 1 and 2 and through ARES.\n- The 911 Supervisor logs the outage and tells callers to go uphill.\n- Command gives the PUD a priority list: the EOC and 911 backup, the hospital's Kellerton site, and the Marlow Coast High School shelter. Command should expect power back in stages, not promise a restoration time.",
+  "citations": [
+    {
+      "documentId": "01M791ZH1Y7DWQX8VPP0RQR1T3",
+      "documentTitle": "Marlow County: Facilities and Systems",
+      "headingPath": "MCFS › 4. Warning systems",
+      "quote": "- 18 tsunami sirens on batteries and solar (see SOP-TSU-01). - MarlowAlert (text, voice, email), about 9,600 subscribers; voice calls take 14 minutes for the whole county. - Wireless Emergency Alerts ",
+      "chunkId": 22
+    },
+    {
+      "documentId": "01M791ZH1TMTSK7KPMZVESZ779",
+      "documentTitle": "SOP-EQ-02: Early Warning Actions, Damage Assessment and Lifelines",
+      "headingPath": "SOP-EQ-02: Early Warning Actions… › 6. Lifelines",
+      "quote": "| Lifeline | Owner | Report | |---|---|---| | Electricity (about 14,500 meters) | Cape Marlow PUD | Customers out, substations energized, feeders restored | | Water | Port Alder Water District; Keller",
+      "chunkId": 7
+    },
+    {
+      "documentId": "01M791ZH1WE2D7SKJ2A2K3TGP3",
+      "documentTitle": "Marlow County Emergency Operations Plan, Annex J: Earthquake and Tsunami",
+      "headingPath": "Marlow County Emergency Operatio… › 3. Key facilities and people",
+      "quote": "- **EOC:** Marlow County Emergency Operations Center, 410 Hilltop Road, Kellerton (outside every tsunami zone, elevation 212 feet). Phone 541-555-0120. Alternate EOC: Marlow Coast High School library.",
+      "chunkId": 12
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template"
+    ]
+  },
+  "assets": [],
+  "versions": [
+    {
+      "at": "2026-11-13T00:00:12.441Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "MarlowAlert Delivery Status: Broadcast #2, 11:36 PDT",
+        "type": "service_status_page",
+        "fields": {
+          "orgName": "Cascadeline Mass Notification (provider of MarlowAlert)",
+          "serviceName": "MarlowAlert — Marlow County, OR (text, voice, email)",
+          "overallStatus": "major_outage",
+          "incidentTitle": "Delivery failures for Marlow County: wireless carriers unreachable in the coastal service area",
+          "components": [
+            {
+              "name": "SMS text delivery — Marlow County",
+              "status": "major_outage"
+            },
+            {
+              "name": "Voice call delivery — Marlow County",
+              "status": "major_outage"
+            },
+            {
+              "name": "Email delivery",
+              "status": "degraded"
+            },
+            {
+              "name": "Mobile app push notifications",
+              "status": "degraded"
+            },
+            {
+              "name": "Administrator console and message launch",
+              "status": "operational"
+            },
+            {
+              "name": "Delivery reporting",
+              "status": "operational"
+            }
+          ],
+          "updates": [
+            {
+              "status": "update",
+              "time": "11:36 PDT",
+              "text": "Delivery report for Broadcast #2 (Tsunami Warning, XL/XXL zones), 9,600 recipients. Text: 3,410 delivered, 5,870 failed (carrier unreachable), 320 pending. Voice: 1,960 completed, 7,640 no answer or failed. We retry pending texts every 5 minutes. Messages that are still undelivered 60 minutes after launch will expire. Failed voice calls are not being retried automatically. Contacts who were not reached cannot be assumed to have received the warning. We recommend that the county also use other warning channels."
+            },
+            {
+              "status": "identified",
+              "time": "11:10 PDT",
+              "text": "Both wireless carriers serving the Marlow County coast are rejecting or timing out on a large share of deliveries. The carriers report cell sites on battery or offline after the earthquake. Landline voice calls are mostly going unanswered because the power is out. Our platform is healthy, and county administrators can still launch messages."
+            },
+            {
+              "status": "investigating",
+              "time": "10:31 PDT",
+              "text": "We are seeing high text and voice failure rates for the Marlow County account, starting with messages launched after 10:15 PDT. Engineers are investigating."
+            }
+          ],
+          "url": "status.cascadeline.example/marlowalert"
+        },
+        "instructorNote": "This is a technical hurdle: hand the status page to the Warning Coordinator and the 911 Supervisor. Then play PUD Operations Manager Rafael Ibarra on the phone and read: \"Roughly 14,500 meters are out, so basically the whole system. Substations 1 and 2 tripped, and Substation 3 has the harbor feeder under water. I can't promise any restoration before tomorrow, and that's after we inspect. Which loads do you want first: the EOC, the hospital, the high school?\" Watch for:\n- The Warning Coordinator treats the unreached contacts as not warned. They ask for loudspeaker and door-to-door coverage near the three silent sirens, plus rebroadcasts on Marlow Coast Radio 1 and 2 and through ARES.\n- The 911 Supervisor logs the outage and tells callers to go uphill.\n- Command gives the PUD a priority list: the EOC and 911 backup, the hospital's Kellerton site, and the Marlow Coast High School shelter. Command should expect power back in stages, not promise a restoration time.",
+        "deliveryMode": "hand_to_role"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-11-13T01:44:45.247Z"
+}

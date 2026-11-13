@@ -1,0 +1,100 @@
+{
+  "id": "01M79385ZZD0N44B69QDSA636Q",
+  "mselRowId": "I-16",
+  "type": "time_jump_card",
+  "title": "TIME JUMP: 09:00, Stores Calling, Letter Still Blank",
+  "deliveryMode": "read_aloud",
+  "fields": {
+    "exerciseTime": "3:00",
+    "newTime": "9:00 AM",
+    "jumpLabel": "+60 minutes",
+    "injectId": "I-16",
+    "scenarioTitle": "Presumptive: Lot Trace, Holds & Recall Notification",
+    "narration": "It is now 09:00 Pacific Time, Tuesday, October 12, 2027. The fog over Salinas is lifting. The President left the bridge at 08:30 and asked for a recommendation. The recall decision log on the Recall Team share is open, but no notification letter has gone out. Harvest Table and Cornerstone stores are open, and Westline kitchens are serving breakfast. Customer Service's lines are full. Store managers want to know which lots to pull, how many cases they received and where the letter is. Some stores have started pulling romaine because of a phone call. The recall letter template in the shared folder still has blank quantity fields. The overnight courier cutoff is 16:00. Phoenix has taken pallet P-0417 out of the wave, but its bad lot code is still in the WMS. Dallas still has not finished its count. CDPH says it may make a public statement this afternoon. Cornerstone's deadline is 10:00, one hour from now.",
+    "worldState": [
+      "Clock: 09:00 PT, Tuesday, October 12, 2027. Fog lifting over Salinas.",
+      "President's bridge call closed at 08:30. A recall recommendation and decision are still owed. The decision log on the Recall Team share is open with no entry for class, depth, lot codes, quantity or public warning.",
+      "No recall letter, customer call script or press release has gone to any customer or to the public. The 'about 40,000 cases' draft (Pinecrest_Recall_PressRelease_DRAFT_v3.docx) is still in the shared folder.",
+      "Recall letter template: product and lot fields are filled in. Quantity-by-customer fields are blank. The overnight courier cutoff is 16:00 today.",
+      "Customer Service lines are full of calls from Harvest Table, Cornerstone and Westline store and kitchen managers asking for lots, case counts and the letter. Some stores are pulling romaine on a phone call alone, with no written notice.",
+      "Phoenix DC: pallet P-0417 (60 cs, keyed 'PF1-27279-L2-8', location R-14-03) has been pulled from wave W-1012-03 and has not shipped. The lot code in the WMS is still 'PF1-27279-L2-8', so the MES hold still does not cover it.",
+      "Dallas DC: 9 people are split between counting the 3,000 cases held in the system and supporting the 38-store Cornerstone pull. The physical count is not finished.",
+      "The 4-hour window for physically confirming holds, counted from 05:50, closes at 09:50. Stockton (11,340) and Phoenix (5,820) are confirmed. Dallas is not.",
+      "IT change ticket PFC-IT-48230 is open to restart the MES-to-WMS interface (MES-WMS-INTF) and clear the queued messages. The restart has not run yet.",
+      "Lab confirmation on Work Order CAL-27-114582 is 21 to 45 hours away.",
+      "CDPH has requested a ship-to distribution list this morning and says it 'may' make a public statement this afternoon. The FDA records request received at 07:34 is still open.",
+      "Deadlines ahead: Cornerstone written confirmation of Replacement volume and credit, 10:00. Central Coast Courier, 13:00. Overnight courier, 16:00."
+    ],
+    "facilitatorNote": "Push the Recall Coordinator to log the decision time, class proposed, depth, lot codes, case quantity and public-warning call (PPHTRP 4). Then check that Customer Service starts its 4-hour clock for calls and letters from that logged time (PFC-FS-04 2). If Logistics never answered Sonoran Cold Freight by 08:45, trailer SCF-53817 is still eastbound on I-10. Track whether the letter quantities come only from the REV B reconciliation table, with P-0417 shown as a gap, and whether Communications holds the press release until after customer notice unless CDPH announces first."
+  },
+  "variant": "default",
+  "instructorNote": "This card moves the exercise from deciding to notifying. It tests whether the team logs a formal recall decision and starts the notification clocks from that time, instead of letting stores pull product after informal phone calls. Watch for mismatched numbers: the letter, hold count and press release must all use one reconciled case count, and the release must not go out before customers are told.",
+  "citations": [
+    {
+      "documentId": "01M791PSSGK4QSR0X463MMNVXQ",
+      "documentTitle": "PFC-FS-04: Recall Notification, Regulatory Contact and Public Statements",
+      "headingPath": "PFC-FS-04: Recall Notification,… › 2. Order and timing",
+      "quote": "| Step | Who | Target | |---|---|---| | Hold notice to Plant 1 and the three DCs | Recall Coordinator, by phone and email | within 30 minutes of a signal | | Call to the FDA and the California Departm",
+      "chunkId": 21
+    },
+    {
+      "documentId": "01M791PSSB1ZJ85S8M91S49WYH",
+      "documentTitle": "PFC-QA-03: Lot Coding and Traceability Records",
+      "headingPath": "PLCTR › 5. What the trace produces",
+      "quote": "The Traceability and Systems Lead produces one sortable spreadsheet with these columns: lot code, product, quantity and unit (cases), ship date, ship-from location, ship-to customer, ship-to location ",
+      "chunkId": 6
+    },
+    {
+      "documentId": "01M791PSSHKAJ1RJKR05116S3D",
+      "documentTitle": "PFC-FS-01: Product Hold, Trace and Recall Plan",
+      "headingPath": "PPHTRP › 4. Decisions and who makes them",
+      "quote": "1. **Hold.** The Recall Coordinator or the Plant Manager may place a hold on any lot at any time, without waiting for approval. Target: lots on hold in the MES within 30 minutes of a signal and physic",
+      "chunkId": 32
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template"
+    ]
+  },
+  "assets": [],
+  "versions": [
+    {
+      "at": "2026-11-13T00:00:12.379Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "TIME JUMP: 09:00, Stores Calling, Letter Still Blank",
+        "type": "time_jump_card",
+        "fields": {
+          "exerciseTime": "3:00",
+          "newTime": "9:00 AM",
+          "jumpLabel": "+60 minutes",
+          "injectId": "I-16",
+          "scenarioTitle": "Presumptive: Lot Trace, Holds & Recall Notification",
+          "narration": "It is now 09:00 Pacific Time, Tuesday, October 12, 2027. The fog over Salinas is lifting. The President left the bridge at 08:30 and asked for a recommendation. The recall decision log on the Recall Team share is open, but no notification letter has gone out. Harvest Table and Cornerstone stores are open, and Westline kitchens are serving breakfast. Customer Service's lines are full. Store managers want to know which lots to pull, how many cases they received and where the letter is. Some stores have started pulling romaine because of a phone call. The recall letter template in the shared folder still has blank quantity fields. The overnight courier cutoff is 16:00. Phoenix has taken pallet P-0417 out of the wave, but its bad lot code is still in the WMS. Dallas still has not finished its count. CDPH says it may make a public statement this afternoon. Cornerstone's deadline is 10:00, one hour from now.",
+          "worldState": [
+            "Clock: 09:00 PT, Tuesday, October 12, 2027. Fog lifting over Salinas.",
+            "President's bridge call closed at 08:30. A recall recommendation and decision are still owed. The decision log on the Recall Team share is open with no entry for class, depth, lot codes, quantity or public warning.",
+            "No recall letter, customer call script or press release has gone to any customer or to the public. The 'about 40,000 cases' draft (Pinecrest_Recall_PressRelease_DRAFT_v3.docx) is still in the shared folder.",
+            "Recall letter template: product and lot fields are filled in. Quantity-by-customer fields are blank. The overnight courier cutoff is 16:00 today.",
+            "Customer Service lines are full of calls from Harvest Table, Cornerstone and Westline store and kitchen managers asking for lots, case counts and the letter. Some stores are pulling romaine on a phone call alone, with no written notice.",
+            "Phoenix DC: pallet P-0417 (60 cs, keyed 'PF1-27279-L2-8', location R-14-03) has been pulled from wave W-1012-03 and has not shipped. The lot code in the WMS is still 'PF1-27279-L2-8', so the MES hold still does not cover it.",
+            "Dallas DC: 9 people are split between counting the 3,000 cases held in the system and supporting the 38-store Cornerstone pull. The physical count is not finished.",
+            "The 4-hour window for physically confirming holds, counted from 05:50, closes at 09:50. Stockton (11,340) and Phoenix (5,820) are confirmed. Dallas is not.",
+            "IT change ticket PFC-IT-48230 is open to restart the MES-to-WMS interface (MES-WMS-INTF) and clear the queued messages. The restart has not run yet.",
+            "Lab confirmation on Work Order CAL-27-114582 is 21 to 45 hours away.",
+            "CDPH has requested a ship-to distribution list this morning and says it 'may' make a public statement this afternoon. The FDA records request received at 07:34 is still open.",
+            "Deadlines ahead: Cornerstone written confirmation of Replacement volume and credit, 10:00. Central Coast Courier, 13:00. Overnight courier, 16:00."
+          ],
+          "facilitatorNote": "Push the Recall Coordinator to log the decision time, class proposed, depth, lot codes, case quantity and public-warning call (PPHTRP 4). Then check that Customer Service starts its 4-hour clock for calls and letters from that logged time (PFC-FS-04 2). If Logistics never answered Sonoran Cold Freight by 08:45, trailer SCF-53817 is still eastbound on I-10. Track whether the letter quantities come only from the REV B reconciliation table, with P-0417 shown as a gap, and whether Communications holds the press release until after customer notice unless CDPH announces first."
+        },
+        "instructorNote": "This card moves the exercise from deciding to notifying. It tests whether the team logs a formal recall decision and starts the notification clocks from that time, instead of letting stores pull product after informal phone calls. Watch for mismatched numbers: the letter, hold count and press release must all use one reconciled case count, and the release must not go out before customers are told.",
+        "deliveryMode": "read_aloud"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-11-13T02:31:54.213Z"
+}

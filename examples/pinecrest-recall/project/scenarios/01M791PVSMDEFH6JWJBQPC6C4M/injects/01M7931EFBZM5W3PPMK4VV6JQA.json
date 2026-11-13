@@ -1,0 +1,222 @@
+{
+  "id": "01M7931EFBZM5W3PPMK4VV6JQA",
+  "mselRowId": "I-10",
+  "type": "field_report",
+  "title": "Rivermark Fax: Paper Receiving Tally, 104 Cases Unmatched",
+  "deliveryMode": "hand_to_role",
+  "fields": {
+    "organization": "Rivermark Kits — Quality Assurance, Fresno, CA",
+    "formTitle": "Receiving Records Review — Supplier Hold Response (Pinecrest Fresh Cut)",
+    "reportNo": "RK-QA-20271012-03",
+    "date": "10/12/2027",
+    "time": "06:55-07:40 (faxed 07:43 PT, 4 pages)",
+    "location": "Rivermark Kits, Fresno — receiving office, romaine cooler and kit line records",
+    "inspector": "Delia, QA Supervisor",
+    "unit": "Rivermark QA / Receiving office",
+    "reportType": "incident",
+    "weather": "Clear, 51°F, calm",
+    "summary": "In response to Pinecrest's hold notice we pulled the handwritten receiving clipboards for 10/5, 10/6 and 10/7 and tallied every chopped romaine entry. Pinecrest shipped us 2,600 cases. Our office matched 2,496 cases to a full lot code. That leaves 104 cases (4.0%) written without a shift letter (e.g. 'PF1-278-L2 – 40 cs') or with a date we can't read. One line on 10/5 is crossed out and rewritten as '27277?'. Friday's (10/8) Caesar kit runs, 3,850 kits, have already shipped to our national retail accounts. We can't yet say which kit runs used which romaine lot. Our office manager expects a full match by end of day, but at the last mock recall we never got below 4 percent unmatched. Please advise: do you want our downstream customer list now, or once it's clean?",
+    "findings": [
+      {
+        "item": "Receiving clipboard 10/5 (romaine)",
+        "condition": "deficient",
+        "notes": "Most entries have full codes. One line crossed out and rewritten '27277?', so the cases on it are uncertain. The night crew left the shift letter off two entries."
+      },
+      {
+        "item": "Receiving clipboard 10/6 (romaine)",
+        "condition": "deficient",
+        "notes": "Example: 'PF1-27279-L2-A 120 cs' is complete. 'PF1-278-L2 – 40 cs' has no shift letter, so it could be lot A or lot B."
+      },
+      {
+        "item": "Receiving clipboard 10/7 (romaine)",
+        "condition": "deficient",
+        "notes": "Water damage on the top sheet makes the date unreadable on several entries."
+      },
+      {
+        "item": "Cases matched to a full Pinecrest lot code",
+        "condition": "ok",
+        "notes": "2,496 of 2,600 cases"
+      },
+      {
+        "item": "Cases not matched to a full lot code",
+        "condition": "failed",
+        "notes": "104 cases (no shift letter, smudged date or crossed-out entry)"
+      },
+      {
+        "item": "Kit run to romaine lot linkage (batch sheets)",
+        "condition": "not_inspected",
+        "notes": "Our office manager keeps the batch sheets. She arrives at 09:00."
+      },
+      {
+        "item": "Caesar kits shipped, Friday 10/8 runs",
+        "condition": "failed",
+        "notes": "3,850 kits already shipped to national retail accounts. They are past our control."
+      },
+      {
+        "item": "Loose romaine still on hand in the Fresno cooler",
+        "condition": "not_inspected",
+        "notes": "The count is in progress. Product is staged at the back of the cooler."
+      }
+    ],
+    "actionsTaken": [
+      "Pulled and photocopied all romaine receiving clipboards dated 10/5–10/7",
+      "Tallied entries against Pinecrest's hold notice lot list",
+      "Stopped use of Pinecrest romaine on the kit line pending your instruction",
+      "Faxed 4 pages to Pinecrest at 07:43 PT and called to confirm receipt"
+    ],
+    "recommendations": [
+      "Pinecrest to tell us whether to hold all romaine-containing kits from 10/5–10/7 receipts or only the matched lots",
+      "Pinecrest to tell us whether to send the downstream customer list now or after the office manager's end-of-day match",
+      "Move our receiving records to electronic entry (this was raised after the last mock recall)"
+    ],
+    "photosNote": "4 fax pages: p.1 this report; pp.2–4 photocopies of the 10/5, 10/6 and 10/7 receiving clipboards, with the crossed-out '27277?' line and the 'PF1-278-L2 – 40 cs' entry circled in pen",
+    "signature": "Delia, QA Supervisor, Rivermark Kits",
+    "marking": "EXERCISE · EXERCISE · EXERCISE"
+  },
+  "variant": "default",
+  "instructorNote": "This inject tests whether TRACE logs the 104 cases in the gaps tab as \"paper record\" rather than counting on Rivermark's end-of-day match. Watch whether RECALL widens the scope under PPHTRP 5 to all Rivermark romaine kits made from the 10/5–10/7 receipts, and whether VPSC or RECALL asks for the downstream list now, with Rivermark notifying its own customers within 12 hours (PFC-FS-04 7).",
+  "citations": [
+    {
+      "documentId": "01M791PSSB1ZJ85S8M91S49WYH",
+      "documentTitle": "PFC-QA-03: Lot Coding and Traceability Records",
+      "headingPath": "PLCTR › 6. Mock recalls",
+      "quote": "A mock recall is run every quarter. The last one traced 96 percent of 41,000 cases to the ship-to level in 3 hours 40 minutes and left 4 percent unmatched because Rivermark's receiving records were on",
+      "chunkId": 7
+    },
+    {
+      "documentId": "01M791PSSGK4QSR0X463MMNVXQ",
+      "documentTitle": "PFC-FS-04: Recall Notification, Regulatory Contact and Public Statements",
+      "headingPath": "PFC-FS-04: Recall Notification,… › 7. Customers' questions",
+      "quote": "Customer Service uses the approved script: \"Stop selling and set aside the five lots listed in the letter. Do not donate. Please confirm by 5:00 p.m.\" It does not speculate on the cause, the grower or",
+      "chunkId": 26
+    },
+    {
+      "documentId": "01M791PSSB1ZJ85S8M91S49WYH",
+      "documentTitle": "PFC-QA-03: Lot Coding and Traceability Records",
+      "headingPath": "PLCTR › 4. Systems",
+      "quote": "- **Manufacturing execution system (MES):** records transformation, lot genealogy and holds. A hold in the MES blocks a lot from shipping and from being picked in the DCs within 10 minutes through the",
+      "chunkId": 5
+    },
+    {
+      "documentId": "01M791PSSHKAJ1RJKR05116S3D",
+      "documentTitle": "PFC-FS-01: Product Hold, Trace and Recall Plan",
+      "headingPath": "PPHTRP › 5. Scope rules",
+      "quote": "- A lot is a production lot by line, shift and date. Any lot made on the same line within 24 hours after a positive result on that line, before sanitation was verified, is in scope. Raw material lots ",
+      "chunkId": 33
+    },
+    {
+      "documentId": "01M791PSSB1ZJ85S8M91S49WYH",
+      "documentTitle": "PFC-QA-03: Lot Coding and Traceability Records",
+      "headingPath": "PLCTR › 5. What the trace produces",
+      "quote": "The Traceability and Systems Lead produces one sortable spreadsheet with these columns: lot code, product, quantity and unit (cases), ship date, ship-from location, ship-to customer, ship-to location ",
+      "chunkId": 6
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template"
+    ]
+  },
+  "assets": [
+    {
+      "id": "01M79BYGCGQS54W00XZVXNJANG",
+      "kind": "image",
+      "path": "scenarios/01M791PVSMDEFH6JWJBQPC6C4M/media/01M7931EFBZM5W3PPMK4VV6JQA/01M79BYGCGQS54W00XZVXNJANG.png",
+      "role": "rendered",
+      "width": 816,
+      "height": 1056,
+      "sha256": "92dd56d93dc36a61155605249d38c463dca0fcd9612f405b9fa151df538d5de6",
+      "provenance": {
+        "provider": "template",
+        "templateId": "field_report",
+        "templateVersion": "1",
+        "createdAt": "2026-11-13T02:31:51.806Z"
+      }
+    }
+  ],
+  "versions": [
+    {
+      "at": "2026-11-12T23:56:36.659Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "Rivermark Fax: Paper Receiving Tally, 104 Cases Unmatched",
+        "type": "field_report",
+        "fields": {
+          "organization": "Rivermark Kits — Quality Assurance, Fresno, CA",
+          "formTitle": "Receiving Records Review — Supplier Hold Response (Pinecrest Fresh Cut)",
+          "reportNo": "RK-QA-20271012-03",
+          "date": "10/12/2027",
+          "time": "06:55-07:40 (faxed 07:43 PT, 4 pages)",
+          "location": "Rivermark Kits, Fresno — receiving office, romaine cooler and kit line records",
+          "inspector": "Delia, QA Supervisor",
+          "unit": "Rivermark QA / Receiving office",
+          "reportType": "incident",
+          "weather": "Clear, 51°F, calm",
+          "summary": "In response to Pinecrest's hold notice we pulled the handwritten receiving clipboards for 10/5, 10/6 and 10/7 and tallied every chopped romaine entry. Pinecrest shipped us 2,600 cases. Our office matched 2,496 cases to a full lot code. That leaves 104 cases (4.0%) written without a shift letter (e.g. 'PF1-278-L2 – 40 cs') or with a date we can't read. One line on 10/5 is crossed out and rewritten as '27277?'. Friday's (10/8) Caesar kit runs, 3,850 kits, have already shipped to our national retail accounts. We can't yet say which kit runs used which romaine lot. Our office manager expects a full match by end of day, but at the last mock recall we never got below 4 percent unmatched. Please advise: do you want our downstream customer list now, or once it's clean?",
+          "findings": [
+            {
+              "item": "Receiving clipboard 10/5 (romaine)",
+              "condition": "deficient",
+              "notes": "Most entries have full codes. One line crossed out and rewritten '27277?', so the cases on it are uncertain. The night crew left the shift letter off two entries."
+            },
+            {
+              "item": "Receiving clipboard 10/6 (romaine)",
+              "condition": "deficient",
+              "notes": "Example: 'PF1-27279-L2-A 120 cs' is complete. 'PF1-278-L2 – 40 cs' has no shift letter, so it could be lot A or lot B."
+            },
+            {
+              "item": "Receiving clipboard 10/7 (romaine)",
+              "condition": "deficient",
+              "notes": "Water damage on the top sheet makes the date unreadable on several entries."
+            },
+            {
+              "item": "Cases matched to a full Pinecrest lot code",
+              "condition": "ok",
+              "notes": "2,496 of 2,600 cases"
+            },
+            {
+              "item": "Cases not matched to a full lot code",
+              "condition": "failed",
+              "notes": "104 cases (no shift letter, smudged date or crossed-out entry)"
+            },
+            {
+              "item": "Kit run to romaine lot linkage (batch sheets)",
+              "condition": "not_inspected",
+              "notes": "Our office manager keeps the batch sheets. She arrives at 09:00."
+            },
+            {
+              "item": "Caesar kits shipped, Friday 10/8 runs",
+              "condition": "failed",
+              "notes": "3,850 kits already shipped to national retail accounts. They are past our control."
+            },
+            {
+              "item": "Loose romaine still on hand in the Fresno cooler",
+              "condition": "not_inspected",
+              "notes": "The count is in progress. Product is staged at the back of the cooler."
+            }
+          ],
+          "actionsTaken": [
+            "Pulled and photocopied all romaine receiving clipboards dated 10/5–10/7",
+            "Tallied entries against Pinecrest's hold notice lot list",
+            "Stopped use of Pinecrest romaine on the kit line pending your instruction",
+            "Faxed 4 pages to Pinecrest at 07:43 PT and called to confirm receipt"
+          ],
+          "recommendations": [
+            "Pinecrest to tell us whether to hold all romaine-containing kits from 10/5–10/7 receipts or only the matched lots",
+            "Pinecrest to tell us whether to send the downstream customer list now or after the office manager's end-of-day match",
+            "Move our receiving records to electronic entry (this was raised after the last mock recall)"
+          ],
+          "photosNote": "4 fax pages: p.1 this report; pp.2–4 photocopies of the 10/5, 10/6 and 10/7 receiving clipboards, with the crossed-out '27277?' line and the 'PF1-278-L2 – 40 cs' entry circled in pen",
+          "signature": "Delia, QA Supervisor, Rivermark Kits",
+          "marking": "EXERCISE · EXERCISE · EXERCISE"
+        },
+        "instructorNote": "This inject tests whether TRACE logs the 104 cases in the gaps tab as \"paper record\" rather than counting on Rivermark's end-of-day match. Watch whether RECALL widens the scope under PPHTRP 5 to all Rivermark romaine kits made from the 10/5–10/7 receipts, and whether VPSC or RECALL asks for the downstream list now, with Rivermark notifying its own customers within 12 hours (PFC-FS-04 7).",
+        "deliveryMode": "hand_to_role"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-11-13T02:31:52.040Z"
+}

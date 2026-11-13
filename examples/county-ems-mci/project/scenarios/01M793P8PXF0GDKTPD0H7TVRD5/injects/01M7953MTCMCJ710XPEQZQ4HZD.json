@@ -1,0 +1,288 @@
+{
+  "id": "01M7953MTCMCJ710XPEQZQ4HZD",
+  "mselRowId": "I-09b",
+  "type": "phone_call",
+  "title": "Phone: StatusGrid On-Call — \"Thirty Minutes, Tops\"",
+  "deliveryMode": "play_audio",
+  "fields": {
+    "orgName": "Larkfield Regional Medical Center — MEDCOM",
+    "systemName": "Recorded Line - MEDCOM-1 Console",
+    "callId": "CR-20261112-192007-0244",
+    "direction": "Inbound",
+    "caller": {
+      "name": "Derek Halvorsen",
+      "number": "(608) 555-0147",
+      "label": "StatusGrid Health Systems, On-Call Support Engineer (support@statusgrid.example)"
+    },
+    "callee": {
+      "name": "LRMC MEDCOM Nurse",
+      "number": "(715) 555-0123",
+      "label": "LRMC MEDCOM, Hospital Medical Communications"
+    },
+    "startTime": "11/12/2026 19:20:07",
+    "duration": "1:42",
+    "transcript": [
+      {
+        "speaker": "MEDCOM",
+        "offset": "0:00",
+        "text": "LRMC MEDCOM.",
+        "prompt": false
+      },
+      {
+        "speaker": "StatusGrid",
+        "offset": "0:02",
+        "text": "Hi, Derek Halvorsen, StatusGrid on-call, returning your ticket on the capacity board. Yeah... I see it. Your StatusSync service died right after our 14:12 patch. It's been stopped since 16:55, so nothing new has come into the board since then.",
+        "prompt": false
+      },
+      {
+        "speaker": "MEDCOM",
+        "offset": "0:18",
+        "text": "So the board's been wrong for over two hours. When can I trust it again?",
+        "prompt": false
+      },
+      {
+        "speaker": "StatusGrid",
+        "offset": "0:23",
+        "text": "I'm remote on it right now. I'll have it back in thirty minutes, tops.",
+        "prompt": false
+      },
+      {
+        "speaker": "StatusGrid",
+        "offset": "0:29",
+        "text": "One thing, though. When it restarts it's going to replay everything that queued up at 16:55. So your hospitals may flash old values for a while. Could be a few minutes, could be longer, depends how fast the queue drains. Pinecrest's link is still down on the carrier side too, so their row won't update on its own anyway.",
+        "prompt": false
+      },
+      {
+        "speaker": "MEDCOM",
+        "offset": "0:48",
+        "text": "Old values. Meaning it could show Pinecrest Open again.",
+        "prompt": false
+      },
+      {
+        "speaker": "StatusGrid",
+        "offset": "0:52",
+        "text": "It could, yeah, until a real update overwrites it. And if the remote fix doesn't take, our field tech is in Madison. That's about three hours out.",
+        "prompt": false
+      },
+      {
+        "speaker": "LARK DISP 1 (MEDCOM scanner)",
+        "offset": "1:04",
+        "text": "Larkfield, Tamarack Medic 12 at staging. Our crew is asking where to send the green patients... the board on our tablet says all four hospitals are open.",
+        "prompt": false
+      },
+      {
+        "speaker": "StatusGrid",
+        "offset": "1:16",
+        "text": "Sorry, you've got radio going there. So... do you want me to go ahead and restart StatusSync now, queue replay and all, or do you want me to hold it? I need a yes or no from somebody who owns the board.",
+        "prompt": true
+      }
+    ],
+    "voiceStyles": {
+      "MEDCOM": "Woman in her 40s, clipped and tired, busy hospital comms room behind her",
+      "StatusGrid": "Man in his 30s, relaxed, a bit too casual, typing on a keyboard while he talks from a home office",
+      "LARK DISP 1 (MEDCOM scanner)": "Male paramedic on a portable radio, slightly distant through a scanner speaker, rain and diesel engines behind him"
+    },
+    "injectId": "I-09b"
+  },
+  "variant": "default",
+  "instructorNote": "This is a technical hurdle. The vendor's \"thirty minutes\" and the replay of the 16:55 data are a trap, and MEDCOM should not plan around them: no replayed status counts until each hospital confirms it by voice, and the board-versus-voice choice goes to IC. Check that DISP tells units on LARK DISP 1 that destinations come only from Transportation by voice and that Minor patients go by Larkfield County Transit bus to the Brandt Lake High School minor injury site, and that HCC tells the coalition hospitals to ignore the board.",
+  "citations": [
+    {
+      "documentId": "01M793P6PE559PZG3BVMQGJ6P6",
+      "documentTitle": "Larkfield County: Dispatch, EMS Resources and Facilities",
+      "headingPath": "LCDERF › 2. Larkfield County Communications Center",
+      "quote": "The center is at 150 Justice Drive, Brandt Lake, and handles 911 for the Sheriff, 11 fire departments and LCEMS. Supervisor Keiko Tanaka (920-555-0188). It runs a computer-aided dispatch (CAD) with a ",
+      "chunkId": 13
+    },
+    {
+      "documentId": "01M793P6PFQ4PY61W0H9SNTC30",
+      "documentTitle": "Larkfield County EMS: Mass Casualty Incident Plan",
+      "headingPath": "Larkfield County EMS: Mass Casua… › 5. Treatment and transport",
+      "quote": "Treatment areas are set up by color: Immediate (red) closest to the loading area, Delayed, Minor. Transportation assigns each patient a destination using the destination rules in SOP-MC-02 and records",
+      "chunkId": 25
+    },
+    {
+      "documentId": "01M793P6PGDB8Z907EWTDCQPAM",
+      "documentTitle": "SOP-MC-02: Medical Communications, Destinations and the Hospital Capacity Board",
+      "headingPath": "SOP-MC-02: Medical Communication… › 3. Status categories",
+      "quote": "A hospital's status is one of: **Open** (accepting any patient), **Limited intake** (accepting only the categories it lists), **Diversion** (not accepting arrivals unless an unstable patient cannot go",
+      "chunkId": 32
+    },
+    {
+      "documentId": "01M793P6PGDB8Z907EWTDCQPAM",
+      "documentTitle": "SOP-MC-02: Medical Communications, Destinations and the Hospital Capacity Board",
+      "headingPath": "SOP-MC-02: Medical Communication… › 4. Destination rules",
+      "quote": "1. **Immediate (red) patients** go to the closest appropriate trauma center. In Larkfield County this is LRMC for adults and children, up to its trauma bay count: no more than 3 Immediate patients to ",
+      "chunkId": 33
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template",
+      "tts"
+    ],
+    "voiceLines": [
+      {
+        "speaker": "MEDCOM",
+        "voiceStyle": "Woman in her 40s, American Upper Midwest accent, clipped and tired, brisk professional phone greeting, busy hospital communications room murmuring behind her",
+        "text": "LRMC MEDCOM."
+      },
+      {
+        "speaker": "StatusGrid",
+        "voiceStyle": "Man in his 30s, relaxed and a bit too casual, easygoing American accent, speaks while typing on a keyboard in a quiet home office, unhurried pace with small filler pauses",
+        "text": "Hi, Derek Halvorsen, StatusGrid on-call, returning your ticket on the capacity board. Yeah... I see it. Your StatusSync service died right after our fourteen twelve patch. It's been stopped since sixteen fifty-five, so nothing new has come into the board since then."
+      },
+      {
+        "speaker": "MEDCOM",
+        "voiceStyle": "Woman in her 40s, American Upper Midwest accent, clipped, tired and openly frustrated, flat controlled delivery",
+        "text": "So the board's been wrong for over two hours. When can I trust it again?"
+      },
+      {
+        "speaker": "StatusGrid",
+        "voiceStyle": "Man in his 30s, relaxed, overly confident and casual, keyboard clacking under his voice",
+        "text": "I'm remote on it right now. I'll have it back in thirty minutes, tops."
+      },
+      {
+        "speaker": "StatusGrid",
+        "voiceStyle": "Man in his 30s, casual but slightly more careful, as if adding a footnote, steady pace while typing",
+        "text": "One thing, though. When it restarts it's going to replay everything that queued up at sixteen fifty-five. So your hospitals may flash old values for a while. Could be a few minutes, could be longer, depends how fast the queue drains. Pinecrest's link is still down on the carrier side too, so their row won't update on its own anyway."
+      },
+      {
+        "speaker": "MEDCOM",
+        "voiceStyle": "Woman in her 40s, Upper Midwest accent, slow and pointed, realizing the danger, tense and quiet",
+        "text": "Old values. Meaning it could show Pinecrest Open again."
+      },
+      {
+        "speaker": "StatusGrid",
+        "voiceStyle": "Man in his 30s, casual, slightly apologetic shrug in his voice",
+        "text": "It could, yeah, until a real update overwrites it. And if the remote fix doesn't take, our field tech is in Madison. That's about three hours out."
+      },
+      {
+        "speaker": "LARK DISP 1 (MEDCOM scanner)",
+        "voiceStyle": "Male paramedic in his 30s on a portable radio, heard faintly through a scanner speaker in the room, slightly distant and tinny, rain and idling diesel engines behind him, urgent but professional radio cadence",
+        "text": "Larkfield, Tamarack Medic Twelve at staging. Our crew is asking where to send the green patients... the board on our tablet says all four hospitals are open."
+      },
+      {
+        "speaker": "StatusGrid",
+        "voiceStyle": "Man in his 30s, casual tone turning a little impatient, wants a decision, typing stops",
+        "text": "Sorry, you've got radio going there. So... do you want me to go ahead and restart StatusSync now, queue replay and all, or do you want me to hold it? I need a yes or no from somebody who Owns the board."
+      }
+    ],
+    "postFx": [
+      "phone"
+    ]
+  },
+  "assets": [
+    {
+      "id": "01M799JY119QWM72JPD7XPJ4ZJ",
+      "kind": "image",
+      "path": "scenarios/01M793P8PXF0GDKTPD0H7TVRD5/media/01M7953MTCMCJ710XPEQZQ4HZD/01M799JY119QWM72JPD7XPJ4ZJ.png",
+      "role": "rendered",
+      "width": 816,
+      "height": 1056,
+      "sha256": "4a21d8f3117a57d62eea6c2465e27d1e31488d2d651eb0f4f459496a8e62b921",
+      "provenance": {
+        "provider": "template",
+        "templateId": "phone_call",
+        "templateVersion": "1",
+        "createdAt": "2026-11-13T01:50:35.409Z"
+      }
+    }
+  ],
+  "versions": [
+    {
+      "at": "2026-11-13T00:32:56.676Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "Phone: StatusGrid On-Call — \"Thirty Minutes, Tops\"",
+        "type": "phone_call",
+        "fields": {
+          "orgName": "Larkfield Regional Medical Center — MEDCOM",
+          "systemName": "Recorded Line - MEDCOM-1 Console",
+          "callId": "CR-20261112-192007-0244",
+          "direction": "Inbound",
+          "caller": {
+            "name": "Derek Halvorsen",
+            "number": "(608) 555-0147",
+            "label": "StatusGrid Health Systems, On-Call Support Engineer (support@statusgrid.example)"
+          },
+          "callee": {
+            "name": "LRMC MEDCOM Nurse",
+            "number": "(715) 555-0123",
+            "label": "LRMC MEDCOM, Hospital Medical Communications"
+          },
+          "startTime": "11/12/2026 19:20:07",
+          "duration": "1:42",
+          "transcript": [
+            {
+              "speaker": "MEDCOM",
+              "offset": "0:00",
+              "text": "LRMC MEDCOM.",
+              "prompt": false
+            },
+            {
+              "speaker": "StatusGrid",
+              "offset": "0:02",
+              "text": "Hi, Derek Halvorsen, StatusGrid on-call, returning your ticket on the capacity board. Yeah... I see it. Your StatusSync service died right after our 14:12 patch. It's been stopped since 16:55, so nothing new has come into the board since then.",
+              "prompt": false
+            },
+            {
+              "speaker": "MEDCOM",
+              "offset": "0:18",
+              "text": "So the board's been wrong for over two hours. When can I trust it again?",
+              "prompt": false
+            },
+            {
+              "speaker": "StatusGrid",
+              "offset": "0:23",
+              "text": "I'm remote on it right now. I'll have it back in thirty minutes, tops.",
+              "prompt": false
+            },
+            {
+              "speaker": "StatusGrid",
+              "offset": "0:29",
+              "text": "One thing, though. When it restarts it's going to replay everything that queued up at 16:55. So your hospitals may flash old values for a while. Could be a few minutes, could be longer, depends how fast the queue drains. Pinecrest's link is still down on the carrier side too, so their row won't update on its own anyway.",
+              "prompt": false
+            },
+            {
+              "speaker": "MEDCOM",
+              "offset": "0:48",
+              "text": "Old values. Meaning it could show Pinecrest Open again.",
+              "prompt": false
+            },
+            {
+              "speaker": "StatusGrid",
+              "offset": "0:52",
+              "text": "It could, yeah, until a real update overwrites it. And if the remote fix doesn't take, our field tech is in Madison. That's about three hours out.",
+              "prompt": false
+            },
+            {
+              "speaker": "LARK DISP 1 (MEDCOM scanner)",
+              "offset": "1:04",
+              "text": "Larkfield, Tamarack Medic 12 at staging. Our crew is asking where to send the green patients... the board on our tablet says all four hospitals are open.",
+              "prompt": false
+            },
+            {
+              "speaker": "StatusGrid",
+              "offset": "1:16",
+              "text": "Sorry, you've got radio going there. So... do you want me to go ahead and restart StatusSync now, queue replay and all, or do you want me to hold it? I need a yes or no from somebody who owns the board.",
+              "prompt": true
+            }
+          ],
+          "voiceStyles": {
+            "MEDCOM": "Woman in her 40s, clipped and tired, busy hospital comms room behind her",
+            "StatusGrid": "Man in his 30s, relaxed, a bit too casual, typing on a keyboard while he talks from a home office",
+            "LARK DISP 1 (MEDCOM scanner)": "Male paramedic on a portable radio, slightly distant through a scanner speaker, rain and diesel engines behind him"
+          },
+          "injectId": "I-09b"
+        },
+        "instructorNote": "This is a technical hurdle. The vendor's \"thirty minutes\" and the replay of the 16:55 data are a trap, and MEDCOM should not plan around them: no replayed status counts until each hospital confirms it by voice, and the board-versus-voice choice goes to IC. Check that DISP tells units on LARK DISP 1 that destinations come only from Transportation by voice and that Minor patients go by Larkfield County Transit bus to the Brandt Lake High School minor injury site, and that HCC tells the coalition hospitals to ignore the board.",
+        "deliveryMode": "play_audio"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-11-13T01:50:35.639Z"
+}

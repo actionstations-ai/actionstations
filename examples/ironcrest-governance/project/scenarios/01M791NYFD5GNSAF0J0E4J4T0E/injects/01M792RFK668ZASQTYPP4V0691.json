@@ -1,0 +1,222 @@
+{
+  "id": "01M792RFK668ZASQTYPP4V0691",
+  "mselRowId": "I-02",
+  "type": "siem_alert",
+  "title": "SIEM Alert #SIEM-77412: Email Sign-in Anomaly",
+  "deliveryMode": "hand_to_role",
+  "fields": {
+    "product": "Watchtower Correlation SIEM",
+    "tenant": "Ironcrest Machinery Corporation - Corporate IT",
+    "alertId": "SIEM-77412",
+    "severity": "high",
+    "riskScore": 71,
+    "rule": "Cloud email suite - authentication anomaly (distributed failed sign-ins)",
+    "ruleDescription": "Fires when failed sign-ins against the cloud email tenant exceed 1,000 in 30 minutes across more than 100 mailboxes from more than 20 source IPs. No successful sign-in or MFA challenge has been tied to this activity.",
+    "status": "New",
+    "assignee": "soc.t1.analyst03",
+    "firstSeen": "03/25/2027 14:56:07",
+    "lastSeen": "03/25/2027 15:18:41",
+    "eventCount": 2340,
+    "source": {
+      "host": "Multiple (41 external hosts)",
+      "ip": "198.51.100.47 (+40 more)",
+      "user": "611 distinct ironcrestmachinery.example mailboxes",
+      "zone": "Internet - residential proxy ranges, 9 countries"
+    },
+    "dest": {
+      "host": "Cloud email suite - tenant sign-in endpoint",
+      "ip": "203.0.113.80",
+      "service": "Email sign-in (basic auth endpoint)",
+      "zone": "Cloud - SaaS tenant"
+    },
+    "tactics": [
+      "T1110.003 Password Spraying",
+      "T1589.002 Gather Victim Identity Information: Email Addresses"
+    ],
+    "details": [
+      {
+        "key": "Failed sign-ins",
+        "value": "2,340 in 22 minutes"
+      },
+      {
+        "key": "Successful sign-ins",
+        "value": "0"
+      },
+      {
+        "key": "MFA prompts sent",
+        "value": "0"
+      },
+      {
+        "key": "Accounts locked",
+        "value": "0 (per-account attempts below the lockout threshold)"
+      },
+      {
+        "key": "Attempts per mailbox",
+        "value": "Avg 3.8, max 9"
+      },
+      {
+        "key": "User-agent",
+        "value": "python-requests/2.31"
+      },
+      {
+        "key": "Top targets",
+        "value": "hr@, ap.invoices@, careers@ (all shared mailboxes)"
+      },
+      {
+        "key": "Executive mailboxes targeted",
+        "value": "0 of 14 on the VIP watchlist"
+      },
+      {
+        "key": "Failure reason",
+        "value": "50126 Invalid username or password (98.7%); 50034 User does not exist (1.3%)"
+      },
+      {
+        "key": "Correlated to SOC-0325-01 hosts",
+        "value": "No shared IPs, accounts or indicators with ICM-MES-01, ICM-MES-02, ICM-FS-03 or ICM-FS-04"
+      },
+      {
+        "key": "Analyst note (soc.t1.analyst03, 15:19)",
+        "value": "Same afternoon as the ransomware, has to be them coming for email next? Want me to pull two people off the MES scoping?"
+      }
+    ],
+    "rawEvent": "2027-03-25T14:56:07-05:00 cloud-idp signin result=FAILURE code=50126 user=careers@ironcrestmachinery.example src=198.51.100.47 ua=\"python-requests/2.31\" mfa=not_requested\n2027-03-25T14:56:09-05:00 cloud-idp signin result=FAILURE code=50126 user=hr@ironcrestmachinery.example src=198.51.100.112 ua=\"python-requests/2.31\" mfa=not_requested\n2027-03-25T14:58:31-05:00 cloud-idp signin result=FAILURE code=50034 user=sales.west@ironcrestmachinery.example src=203.0.113.19 ua=\"python-requests/2.31\" mfa=not_requested\n2027-03-25T15:03:44-05:00 cloud-idp signin result=FAILURE code=50126 user=ap.invoices@ironcrestmachinery.example src=192.0.2.66 ua=\"python-requests/2.31\" mfa=not_requested\n2027-03-25T15:09:12-05:00 cloud-idp signin result=FAILURE code=50126 user=receiving.joliet@ironcrestmachinery.example src=198.51.100.203 ua=\"python-requests/2.31\" mfa=not_requested\n2027-03-25T15:14:50-05:00 cloud-idp signin result=FAILURE code=50126 user=hr@ironcrestmachinery.example src=203.0.113.141 ua=\"python-requests/2.31\" mfa=not_requested\n2027-03-25T15:18:41-05:00 cloud-idp signin result=FAILURE code=50126 user=careers@ironcrestmachinery.example src=192.0.2.18 ua=\"python-requests/2.31\" mfa=not_requested\n2027-03-25T15:18:41-05:00 watchtower corr rule=EMAIL-AUTH-ANOM-02 window=22m fails=2340 success=0 mailboxes=611 srcips=41 -> SIEM-77412 sev=HIGH",
+    "relatedAlerts": [
+      {
+        "time": "03/25/2027 15:09",
+        "title": "Email tenant failed sign-ins above daily baseline (auto-merged into SIEM-77412)",
+        "severity": "medium"
+      },
+      {
+        "time": "03/18/2027 09:12",
+        "title": "Password spray against shared mailboxes - 412 failures, 0 successes (closed: benign, blocked)",
+        "severity": "low"
+      },
+      {
+        "time": "02/24/2027 22:40",
+        "title": "Distributed failed sign-ins, python-requests user-agent - 0 successes (closed: no impact)",
+        "severity": "low"
+      }
+    ],
+    "analyst": "a.deshmukh"
+  },
+  "variant": "default",
+  "instructorNote": "This is a noise inject. It shows a routine, low-and-slow password spray: no successful sign-ins, no MFA prompts, generic shared-mailbox targets and similar closed alerts from earlier weeks. Watch whether the CISO keeps one analyst on it to confirm there are no successes, logs it and keeps the scoping team on Beloit and the ERP integration, rather than moving people off the MES work or calling it a second front.",
+  "citations": [],
+  "mediaBrief": {
+    "paths": [
+      "template"
+    ]
+  },
+  "assets": [],
+  "versions": [
+    {
+      "at": "2026-11-12T23:51:45.487Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "SIEM Alert #SIEM-77412: Email Sign-in Anomaly",
+        "type": "siem_alert",
+        "fields": {
+          "product": "Watchtower Correlation SIEM",
+          "tenant": "Ironcrest Machinery Corporation - Corporate IT",
+          "alertId": "SIEM-77412",
+          "severity": "high",
+          "riskScore": 71,
+          "rule": "Cloud email suite - authentication anomaly (distributed failed sign-ins)",
+          "ruleDescription": "Fires when failed sign-ins against the cloud email tenant exceed 1,000 in 30 minutes across more than 100 mailboxes from more than 20 source IPs. No successful sign-in or MFA challenge has been tied to this activity.",
+          "status": "New",
+          "assignee": "soc.t1.analyst03",
+          "firstSeen": "03/25/2027 14:56:07",
+          "lastSeen": "03/25/2027 15:18:41",
+          "eventCount": 2340,
+          "source": {
+            "host": "Multiple (41 external hosts)",
+            "ip": "198.51.100.47 (+40 more)",
+            "user": "611 distinct ironcrestmachinery.example mailboxes",
+            "zone": "Internet - residential proxy ranges, 9 countries"
+          },
+          "dest": {
+            "host": "Cloud email suite - tenant sign-in endpoint",
+            "ip": "203.0.113.80",
+            "service": "Email sign-in (basic auth endpoint)",
+            "zone": "Cloud - SaaS tenant"
+          },
+          "tactics": [
+            "T1110.003 Password Spraying",
+            "T1589.002 Gather Victim Identity Information: Email Addresses"
+          ],
+          "details": [
+            {
+              "key": "Failed sign-ins",
+              "value": "2,340 in 22 minutes"
+            },
+            {
+              "key": "Successful sign-ins",
+              "value": "0"
+            },
+            {
+              "key": "MFA prompts sent",
+              "value": "0"
+            },
+            {
+              "key": "Accounts locked",
+              "value": "0 (per-account attempts below the lockout threshold)"
+            },
+            {
+              "key": "Attempts per mailbox",
+              "value": "Avg 3.8, max 9"
+            },
+            {
+              "key": "User-agent",
+              "value": "python-requests/2.31"
+            },
+            {
+              "key": "Top targets",
+              "value": "hr@, ap.invoices@, careers@ (all shared mailboxes)"
+            },
+            {
+              "key": "Executive mailboxes targeted",
+              "value": "0 of 14 on the VIP watchlist"
+            },
+            {
+              "key": "Failure reason",
+              "value": "50126 Invalid username or password (98.7%); 50034 User does not exist (1.3%)"
+            },
+            {
+              "key": "Correlated to SOC-0325-01 hosts",
+              "value": "No shared IPs, accounts or indicators with ICM-MES-01, ICM-MES-02, ICM-FS-03 or ICM-FS-04"
+            },
+            {
+              "key": "Analyst note (soc.t1.analyst03, 15:19)",
+              "value": "Same afternoon as the ransomware, has to be them coming for email next? Want me to pull two people off the MES scoping?"
+            }
+          ],
+          "rawEvent": "2027-03-25T14:56:07-05:00 cloud-idp signin result=FAILURE code=50126 user=careers@ironcrestmachinery.example src=198.51.100.47 ua=\"python-requests/2.31\" mfa=not_requested\n2027-03-25T14:56:09-05:00 cloud-idp signin result=FAILURE code=50126 user=hr@ironcrestmachinery.example src=198.51.100.112 ua=\"python-requests/2.31\" mfa=not_requested\n2027-03-25T14:58:31-05:00 cloud-idp signin result=FAILURE code=50034 user=sales.west@ironcrestmachinery.example src=203.0.113.19 ua=\"python-requests/2.31\" mfa=not_requested\n2027-03-25T15:03:44-05:00 cloud-idp signin result=FAILURE code=50126 user=ap.invoices@ironcrestmachinery.example src=192.0.2.66 ua=\"python-requests/2.31\" mfa=not_requested\n2027-03-25T15:09:12-05:00 cloud-idp signin result=FAILURE code=50126 user=receiving.joliet@ironcrestmachinery.example src=198.51.100.203 ua=\"python-requests/2.31\" mfa=not_requested\n2027-03-25T15:14:50-05:00 cloud-idp signin result=FAILURE code=50126 user=hr@ironcrestmachinery.example src=203.0.113.141 ua=\"python-requests/2.31\" mfa=not_requested\n2027-03-25T15:18:41-05:00 cloud-idp signin result=FAILURE code=50126 user=careers@ironcrestmachinery.example src=192.0.2.18 ua=\"python-requests/2.31\" mfa=not_requested\n2027-03-25T15:18:41-05:00 watchtower corr rule=EMAIL-AUTH-ANOM-02 window=22m fails=2340 success=0 mailboxes=611 srcips=41 -> SIEM-77412 sev=HIGH",
+          "relatedAlerts": [
+            {
+              "time": "03/25/2027 15:09",
+              "title": "Email tenant failed sign-ins above daily baseline (auto-merged into SIEM-77412)",
+              "severity": "medium"
+            },
+            {
+              "time": "03/18/2027 09:12",
+              "title": "Password spray against shared mailboxes - 412 failures, 0 successes (closed: benign, blocked)",
+              "severity": "low"
+            },
+            {
+              "time": "02/24/2027 22:40",
+              "title": "Distributed failed sign-ins, python-requests user-agent - 0 successes (closed: no impact)",
+              "severity": "low"
+            }
+          ],
+          "analyst": "a.deshmukh"
+        },
+        "instructorNote": "This is a noise inject. It shows a routine, low-and-slow password spray: no successful sign-ins, no MFA prompts, generic shared-mailbox targets and similar closed alerts from earlier weeks. Watch whether the CISO keeps one analyst on it to confirm there are no successes, logs it and keeps the scoping team on Beloit and the ERP integration, rather than moving people off the MES work or calling it a second front.",
+        "deliveryMode": "hand_to_role"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-11-13T02:30:18.826Z"
+}

@@ -1,0 +1,355 @@
+{
+  "id": "01M794BSG094PZBEG4TGR9NGET",
+  "mselRowId": "I-04",
+  "type": "alarm_summary",
+  "title": "Monitoring Alarm: CG-3 Harlan & Weir South Foundation, 10:24",
+  "deliveryMode": "display_main_screen",
+  "fields": {
+    "systemName": "EXERCISE: ADJACENT STRUCTURE MONITORING, ALARM SUMMARY",
+    "site": "Larkspur Constructors · Stillwater Creek Interceptor Ph. 2 · Monitoring Dashboard, Trailer 2",
+    "clock": "10:25:08",
+    "date": "Wed 14-Apr-2027",
+    "operator": "TRAILER2_DASH (auto)",
+    "filter": "All instruments · Active + Acknowledged + Returned (last 60 min)",
+    "counts": {
+      "critical": 0,
+      "high": 1,
+      "medium": 2,
+      "low": 4
+    },
+    "alarms": [
+      {
+        "time": "10:24:34",
+        "priority": "low",
+        "tag": "NOTIFY-SMS",
+        "source": "Alert gateway",
+        "description": "CG-3 alarm-level text sent to Superintendent, Safety Director and Engineer of Record. 3 of 3 delivered",
+        "value": "3/3",
+        "state": "active"
+      },
+      {
+        "time": "10:24:31",
+        "priority": "high",
+        "tag": "CG-3",
+        "source": "Harlan & Weir south foundation wall (pre-existing crack, mapped in pre-con survey)",
+        "description": "CRACK WIDTH CHANGE: ALARM LEVEL 0.12 in EXCEEDED. Action level 0.25 in. Trend 09:45 0.09 / 10:00 0.10 / 10:15 0.11 / 10:24 0.13",
+        "value": "0.13 in",
+        "state": "active"
+      },
+      {
+        "time": "10:24:31",
+        "priority": "medium",
+        "tag": "CG-3.ROC",
+        "source": "Harlan & Weir south foundation wall",
+        "description": "Rate of change high: +0.02 in since 10:15 read (9 min). Out-of-cycle read triggered by threshold",
+        "value": "+0.02 in / 9 min",
+        "state": "active"
+      },
+      {
+        "time": "10:24:31",
+        "priority": "low",
+        "tag": "CG-2",
+        "source": "Harlan & Weir foundation wall",
+        "description": "Change since 10:15 read +0.01 in. Below alarm level 0.12 in",
+        "value": "0.06 in",
+        "state": "active"
+      },
+      {
+        "time": "10:24:31",
+        "priority": "low",
+        "tag": "CG-1",
+        "source": "Harlan & Weir foundation wall",
+        "description": "No change since 09:45. Below alarm level 0.12 in",
+        "value": "0.03 in",
+        "state": "rtn"
+      },
+      {
+        "time": "10:15:02",
+        "priority": "medium",
+        "tag": "CG-3",
+        "source": "Harlan & Weir south foundation wall",
+        "description": "Approaching alarm level: reading within 0.01 in of 0.12 in. Superseded by 10:24 alarm",
+        "value": "0.11 in",
+        "state": "acked"
+      },
+      {
+        "time": "10:15:02",
+        "priority": "low",
+        "tag": "P-4",
+        "source": "Four-unit apartment house, survey prism",
+        "description": "Settlement since baseline. Alarm level 0.25 in, action level 0.50 in",
+        "value": "0.09 in",
+        "state": "rtn"
+      },
+      {
+        "time": "10:13:47",
+        "priority": "low",
+        "tag": "HW-LOGGER",
+        "source": "Harlan & Weir data logger",
+        "description": "Cellular link retry (1). Upload completed on retry, no readings lost",
+        "value": "1 retry",
+        "state": "rtn"
+      }
+    ],
+    "footer": "Auto read every 15 min · next scheduled read 10:30 · Data log locked: no edit or delete · EXERCISE: NOT A SAFETY EVALUATION OF ANY REAL STRUCTURE"
+  },
+  "variant": "dark",
+  "instructorNote": "Show the dashboard. A minute later, read the preschool director's call aloud (she smells gas and has 22 children and 4 staff, and her drill sends them to the church parking lot inside the gas zone; Little Acorn has children in the play yard). Then read the print shop manager at the fence (14 people at the presses) and say that Valley Gas is about half an hour out and Dayton Fire has no arrival time yet. Watch for three things: the Superintendent evacuates the print shop, apartment house, preschool and play yard on Larkspur's own authority, sets a new muster point upwind and more than 300 feet away, and hands the evacuation to Fire when they arrive; the EOR reads the CG-3 trend and gives a structural opinion without declaring a building status; and the Safety Director notifies the building official, Fiona Castellanos. This is the first decision point: the superintendent must choose who moves and where, before Fire arrives.",
+  "citations": [
+    {
+      "documentId": "01M79318D24S4WREGGS0W187GJ",
+      "documentTitle": "LC-SOP-07: Excavation, Trenching and Protective Systems",
+      "headingPath": "LETPS › 7. Monitoring of adjacent structures",
+      "quote": "Where an excavation lies within the zone of influence of a building (a distance equal to twice the trench depth from the trench), the project installs instruments, in the monitoring plan approved by t",
+      "chunkId": 8
+    },
+    {
+      "documentId": "01M79318D6YD5BYJBZY7JFFAB5",
+      "documentTitle": "LC-REF-04: Site, Utilities and Adjacent Properties",
+      "headingPath": "LSUAP › 5. Adjacent properties",
+      "quote": "| Building | Distance from trench | Occupants | Notes | |---|---|---|---| | Harlan & Weir Printing (two-story brick, built 1924) | 18 feet at its nearest wall, stations 15+00 to 16+50 | 14 employees o",
+      "chunkId": 23
+    },
+    {
+      "documentId": "01M79318D7A22R6K3P19HFW6X9",
+      "documentTitle": "LC-EAP-01: Project Emergency Action Plan, Stillwater Creek Interceptor, Phase 2",
+      "headingPath": "LC-EAP-01: Project Emergency Act… › 7. Adjacent buildings",
+      "quote": "Five occupied buildings lie within 60 feet of the trench: a two-story brick print shop (Harlan & Weir Printing), a four-unit apartment house, a church hall, a corner tavern and a day-care center. If a",
+      "chunkId": 33
+    },
+    {
+      "documentId": "01M79318D6YD5BYJBZY7JFFAB5",
+      "documentTitle": "LC-REF-04: Site, Utilities and Adjacent Properties",
+      "headingPath": "LSUAP › 7. The monitoring system",
+      "quote": "The monitoring dashboard in trailer 2 shows the crack gauges and the settlement prisms with time stamps. The dashboard sends a text to the superintendent, the Safety Director and the Engineer of Recor",
+      "chunkId": 25
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template"
+    ]
+  },
+  "assets": [
+    {
+      "id": "01M79C14HMX8Q0REZ5C29E6RJK",
+      "kind": "image",
+      "path": "scenarios/01M7931ADN60V85SCPFGS0R4Z1/media/01M794BSG094PZBEG4TGR9NGET/01M79C14HMX8Q0REZ5C29E6RJK.png",
+      "role": "rendered",
+      "width": 1280,
+      "height": 681,
+      "sha256": "58954b3d1f5758a10ed10d9196476dfb295c2ae5c2fcd4e33a93c23220eace5b",
+      "provenance": {
+        "provider": "template",
+        "templateId": "alarm_summary",
+        "templateVersion": "1",
+        "createdAt": "2026-11-13T02:33:17.974Z"
+      }
+    }
+  ],
+  "versions": [
+    {
+      "at": "2026-11-13T00:19:48.661Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "Monitoring Alarm: CG-3 Harlan & Weir South Foundation, 10:24",
+        "type": "alarm_summary",
+        "fields": {
+          "systemName": "EXERCISE: ADJACENT STRUCTURE MONITORING, ALARM SUMMARY",
+          "site": "Larkspur Constructors · Stillwater Creek Interceptor Ph. 2 · Monitoring Dashboard, Trailer 2",
+          "clock": "10:25:08",
+          "date": "Wed 14-Apr-2027",
+          "operator": "TRAILER2_DASH (auto)",
+          "filter": "All instruments · Active + Acknowledged + Returned (last 60 min)",
+          "counts": {
+            "critical": 0,
+            "high": 1,
+            "medium": 2,
+            "low": 4
+          },
+          "alarms": [
+            {
+              "time": "10:24:34",
+              "priority": "low",
+              "tag": "NOTIFY-SMS",
+              "source": "Alert gateway",
+              "description": "CG-3 alarm-level text sent to Superintendent, Safety Director and Engineer of Record. 3 of 3 delivered",
+              "value": "3/3",
+              "state": "active"
+            },
+            {
+              "time": "10:24:31",
+              "priority": "high",
+              "tag": "CG-3",
+              "source": "Harlan & Weir south foundation wall (pre-existing crack, mapped in pre-con survey)",
+              "description": "CRACK WIDTH CHANGE: ALARM LEVEL 0.12 in EXCEEDED. Action level 0.25 in. Trend 09:45 0.09 / 10:00 0.10 / 10:15 0.11 / 10:24 0.13",
+              "value": "0.13 in",
+              "state": "active"
+            },
+            {
+              "time": "10:24:31",
+              "priority": "medium",
+              "tag": "CG-3.ROC",
+              "source": "Harlan & Weir south foundation wall",
+              "description": "Rate of change high: +0.02 in since 10:15 read (9 min). Out-of-cycle read triggered by threshold",
+              "value": "+0.02 in / 9 min",
+              "state": "active"
+            },
+            {
+              "time": "10:24:31",
+              "priority": "low",
+              "tag": "CG-2",
+              "source": "Harlan & Weir foundation wall",
+              "description": "Change since 10:15 read +0.01 in. Below alarm level 0.12 in",
+              "value": "0.06 in",
+              "state": "active"
+            },
+            {
+              "time": "10:24:31",
+              "priority": "low",
+              "tag": "CG-1",
+              "source": "Harlan & Weir foundation wall",
+              "description": "No change since 09:45. Below alarm level 0.12 in",
+              "value": "0.03 in",
+              "state": "rtn"
+            },
+            {
+              "time": "10:15:02",
+              "priority": "medium",
+              "tag": "CG-3",
+              "source": "Harlan & Weir south foundation wall",
+              "description": "Approaching alarm level: reading within 0.01 in of 0.12 in. Superseded by 10:24 alarm",
+              "value": "0.11 in",
+              "state": "acked"
+            },
+            {
+              "time": "10:15:02",
+              "priority": "low",
+              "tag": "P-4",
+              "source": "Four-unit apartment house, survey prism",
+              "description": "Settlement since baseline. Alarm level 0.25 in, action level 0.50 in",
+              "value": "0.09 in",
+              "state": "rtn"
+            },
+            {
+              "time": "10:13:47",
+              "priority": "low",
+              "tag": "HW-LOGGER",
+              "source": "Harlan & Weir data logger",
+              "description": "Cellular link retry (1). Upload completed on retry, no readings lost",
+              "value": "1 retry",
+              "state": "rtn"
+            }
+          ],
+          "footer": "Auto read every 15 min · next scheduled read 10:30 · Data log locked: no edit or delete · EXERCISE: NOT A SAFETY EVALUATION OF ANY REAL STRUCTURE"
+        },
+        "instructorNote": "Show the dashboard. A minute later, read the preschool director's call aloud (she smells gas and has 22 children and 4 staff, and her drill sends them to the church parking lot inside the gas zone; Little Acorn has children in the play yard). Then read the print shop manager at the fence (14 people at the presses) and say that Valley Gas is about half an hour out and Dayton Fire has no arrival time yet. Watch for three things: the Superintendent evacuates the print shop, apartment house, preschool and play yard on Larkspur's own authority, sets a new muster point upwind and more than 300 feet away, and hands the evacuation to Fire when they arrive; the EOR reads the CG-3 trend and gives a structural opinion without declaring a building status; and the Safety Director notifies the building official, Fiona Castellanos.",
+        "deliveryMode": "display_main_screen"
+      }
+    },
+    {
+      "at": "2026-11-13T01:38:09.429Z",
+      "by": "user",
+      "note": "Corrected by hand for the shipped example",
+      "snapshot": {
+        "title": "Monitoring Alarm: CG-3 Harlan & Weir South Foundation, 10:24",
+        "type": "alarm_summary",
+        "fields": {
+          "systemName": "EXERCISE: ADJACENT STRUCTURE MONITORING, ALARM SUMMARY",
+          "site": "Larkspur Constructors · Stillwater Creek Interceptor Ph. 2 · Monitoring Dashboard, Trailer 2",
+          "clock": "10:25:08",
+          "date": "Wed 14-Apr-2027",
+          "operator": "TRAILER2_DASH (auto)",
+          "filter": "All instruments · Active + Acknowledged + Returned (last 60 min)",
+          "counts": {
+            "critical": 0,
+            "high": 1,
+            "medium": 2,
+            "low": 4
+          },
+          "alarms": [
+            {
+              "time": "10:24:34",
+              "priority": "low",
+              "tag": "NOTIFY-SMS",
+              "source": "Alert gateway",
+              "description": "CG-3 alarm-level text sent to Superintendent, Safety Director and Engineer of Record. 3 of 3 delivered",
+              "value": "3/3",
+              "state": "active"
+            },
+            {
+              "time": "10:24:31",
+              "priority": "high",
+              "tag": "CG-3",
+              "source": "Harlan & Weir south foundation wall (pre-existing crack, mapped in pre-con survey)",
+              "description": "CRACK WIDTH CHANGE: ALARM LEVEL 0.12 in EXCEEDED. Action level 0.25 in. Trend 09:45 0.09 / 10:00 0.10 / 10:15 0.11 / 10:24 0.13",
+              "value": "0.13 in",
+              "state": "active"
+            },
+            {
+              "time": "10:24:31",
+              "priority": "medium",
+              "tag": "CG-3.ROC",
+              "source": "Harlan & Weir south foundation wall",
+              "description": "Rate of change high: +0.02 in since 10:15 read (9 min). Out-of-cycle read triggered by threshold",
+              "value": "+0.02 in / 9 min",
+              "state": "active"
+            },
+            {
+              "time": "10:24:31",
+              "priority": "low",
+              "tag": "CG-2",
+              "source": "Harlan & Weir foundation wall",
+              "description": "Change since 10:15 read +0.01 in. Below alarm level 0.12 in",
+              "value": "0.06 in",
+              "state": "active"
+            },
+            {
+              "time": "10:24:31",
+              "priority": "low",
+              "tag": "CG-1",
+              "source": "Harlan & Weir foundation wall",
+              "description": "No change since 09:45. Below alarm level 0.12 in",
+              "value": "0.03 in",
+              "state": "rtn"
+            },
+            {
+              "time": "10:15:02",
+              "priority": "medium",
+              "tag": "CG-3",
+              "source": "Harlan & Weir south foundation wall",
+              "description": "Approaching alarm level: reading within 0.01 in of 0.12 in. Superseded by 10:24 alarm",
+              "value": "0.11 in",
+              "state": "acked"
+            },
+            {
+              "time": "10:15:02",
+              "priority": "low",
+              "tag": "P-4",
+              "source": "Four-unit apartment house, survey prism",
+              "description": "Settlement since baseline. Alarm level 0.25 in, action level 0.50 in",
+              "value": "0.09 in",
+              "state": "rtn"
+            },
+            {
+              "time": "10:13:47",
+              "priority": "low",
+              "tag": "HW-LOGGER",
+              "source": "Harlan & Weir data logger",
+              "description": "Cellular link retry (1). Upload completed on retry, no readings lost",
+              "value": "1 retry",
+              "state": "rtn"
+            }
+          ],
+          "footer": "Auto read every 15 min · next scheduled read 10:30 · Data log locked: no edit or delete · EXERCISE: NOT A SAFETY EVALUATION OF ANY REAL STRUCTURE"
+        },
+        "instructorNote": "Show the dashboard. A minute later, read the preschool director's call aloud (she smells gas and has 22 children and 4 staff, and her drill sends them to the church parking lot inside the gas zone; Little Acorn has children in the play yard). Then read the print shop manager at the fence (14 people at the presses) and say that Valley Gas is about half an hour out and Dayton Fire has no arrival time yet. Watch for three things: the Superintendent evacuates the print shop, apartment house, preschool and play yard on Larkspur's own authority, sets a new muster point upwind and more than 300 feet away, and hands the evacuation to Fire when they arrive; the EOR reads the CG-3 trend and gives a structural opinion without declaring a building status; and the Safety Director notifies the building official, Fiona Castellanos. This is the first decision point: the superintendent must choose who moves and where, before Fire arrives.",
+        "deliveryMode": "display_main_screen"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-11-13T02:33:18.133Z"
+}

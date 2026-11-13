@@ -7,7 +7,7 @@
   "version": 1,
   "status": "ready",
   "createdAt": "2026-11-12T23:30:51.522Z",
-  "updatedAt": "2026-11-13T02:50:57.850Z",
+  "updatedAt": "2026-11-13T03:11:34.970Z",
   "brief": {
     "userPrompt": "Monday, October 5, 2026, Fort Dodge. At 07:00 Brent Halvorsen (Purchasing and Inventory Manager) reads the morning report: on hand are 9.0 days of 1000 mL sodium chloride 0.9% (340 bags a day), 6.2 days of lactated Ringer's (120 a day) and 8 days of 250 mL minibags (410 a day). At 07:40 the primary wholesaler's allocation desk (800-555-0111) tells him that the manufacturer's main plant is down after a regional storm and that Prairie Ridge's allocation is cut to 40 percent of the usage of the baseline period for the next 4 weeks; the FDA lists the products as in shortage at 09:30. The exercise starts at 07:00 with Dr. Naomi Kessler (Director of Pharmacy), Priya Venkataraman (Clinical Pharmacy Manager), Tyrone Gaskill (Medication Safety Officer), CMO Dr. Amelia Nordstrom, CNO Gerald Whitcomb, Anesthesia Medical Director Dr. Lucas Hendrickx and PIO Ellen Sorensen. Pressure points: classifying the shortage as Level 2 or Level 3 using days on hand and allocation percent; setting the allocation percent for each service (ED, OR, ICU, medical-surgical, obstetrics, infusion center, long-term care unit) under the clinical priority order; conservation rules (oral first, IV push instead of minibags, no keep-vein-open infusions); approving the substitution of lactated Ringer's for sodium chloride 0.9% and an imported product with a different bag volume and port that the FDA has allowed under temporary importation, using the substitution checklist, with the pump library not yet updated; a secondary supplier offering 400 cases at 3 times the price without a lot list (a gray market question); a loan of 60 cases from Webster Valley Medical Center that arrives with a different label; the OR schedule on Wednesday with 11 elective joint replacement and abdominal cases and a 48-hour deferral decision when 1000 mL sodium chloride falls below 3 days on hand; the infusion center moving hydration appointments and a patient who cannot wait; an adverse event on 6 West when an imported 500 mL bag is run at the wrong rate; two units give conflicting instructions about flush volumes; a local TV reporter and a Facebook post claiming the hospital has run out of IV fluids and canceled surgeries; a physician demanding unrestricted fluids for sepsis boluses; reporting to the FDA shortage staff and the Iowa Board of Pharmacy; the 8-hour Drug Shortage Team meetings and the count of patients affected. The SimCell plays the wholesaler allocation desk, the manufacturer's customer service line, FDA drug shortage staff, the Iowa Board of Pharmacy, Webster Valley Medical Center and North Iowa Memorial Hospital pharmacies, the secondary supplier, the poison control center, physicians, patients and reporters.",
     "audience": [
@@ -388,7 +388,7 @@
       ],
       "toLabel": "PIM, DOP",
       "event": "Phone Call ((800-555-0111), allocation desk rep: \"Mr. Purchasing Manager? This is the allocation desk. I'm calling all our hospital accounts this morning. Our main IV fluid source had a plant go offline after the storm. Starting with this week's orders, you're on 40 percent of your baseline-period usage for 1000 mL sodium chloride, lactated Ringer's and the 250 mL minibags. That runs four weeks, and then we'll review. I don't have a restart date, and I can't tell you whose plant it is. Confirmation email is on its way.\"\n\nEmail: FROM: allocations@wholesaler.example | SUBJECT: ALLOCATION NOTICE — IV Solutions — Acct Prairie Ridge Health, Fort Dodge IA — EFFECTIVE 10/05/2026. \"Weekly allocation (40% of baseline-period usage): NaCl 0.9% 1000 mL — 952 bags/wk; LR 1000 mL — 336 bags/wk; NaCl 0.9% 250 mL — 1,148 bags/wk. Orders above allocation will be cut at order entry. Duration: 4 weeks, subject to review. Supply recovery date: not available. Emergency 4-hour delivery is limited to allocated quantities.\"",
-      "expectedAction": "The Purchasing Manager works out days on hand at 40 percent inbound supply. NS 1000 mL: 3,060 ÷ (340 − 136) = about 15 days. LR: 744 ÷ (120 − 48) = about 10.3 days, but it is 6.2 days today. Minibags: 3,280 ÷ (410 − 164) = about 13.3 days. The Director of Pharmacy notes that an allocation below 50 percent meets the Level 3 Critical definition in Drug Shortage plan section 3 whatever the days-on-hand result. Purchasing calls manufacturer customer service and the emergency allocation program right away (Ask Neighbors Early).",
+      "expectedAction": "The Purchasing Manager reruns the numbers with inbound supply cut to 40 percent. NS 1000 mL: 3,060 ÷ (340 − 136) = about 15 days. LR: 744 ÷ (120 − 48) = about 10.3 days, but it is 6.2 days today. The small bags work out to roughly 13.3 days at that rate (3,280 ÷ (410 − 164)). The Director of Pharmacy notes that an allocation below 50 percent meets the Level 3 Critical definition in Drug Shortage plan section 3 whatever the days-on-hand result. Purchasing calls manufacturer customer service and the emergency allocation program right away (Ask Neighbors Early).",
       "purposeTag": "CORE_NARRATIVE",
       "format": "phone_call",
       "injectId": "01M792KVBNCDX2YWBB4AWJGH0F",
@@ -702,7 +702,7 @@
       ],
       "toLabel": "DOP, PIM, CPM, CNO",
       "event": "Status Board (displayed on the Conference Room C screen, ext. 3690): DAILY SHORTAGE REPORT — IV FLUIDS — refreshed 10/05/2026 08:20 after the lot recount by Tyler Bergstrom, CPhT\n• NaCl 0.9% 1000 mL: stockroom 1,780 | ICU satellite 150 | OR satellite 220 | 22 ADCs 410 | TOTAL 2,560 (07:00 system figure was 3,060; the two back pallets were each short about 250 bags) | ADU 340 | DOH 7.5\n• LR 1000 mL: TOTAL 700 | ADU 120 | DOH 5.8\n• NaCl 0.9% 250 mL minibags: TOTAL 3,050 | ADU 410 | DOH 7.4\n• Dock: the 2 unscanned pallets from the 05:30 truck are D5W 1000 mL, not NS.\nWeekly allocation in: NS 952 | LR 336 | minibags 1,148 (40%).\n\nFigure (handout, side by side):\nMEMO A, 6 West charge nurse, 07:55: \"Effective now: no KVO. Flush saline locks with one 10 mL prefilled syringe before and after each med.\"\nMEMO B, ICU charge nurse, 08:05: \"To save prefilled syringes, draw flushes from an opened 250 mL NS bag kept at the bedside for the shift. Keep KVO running on central lines.\"",
-      "expectedAction": "DOP uses the recounted DOH, not the 07:00 report, for the IC briefing: NS 1000 mL at 7.5 days. LR at 5.8 days and the 40 percent allocation both meet Level 3. CNO withdraws both local memos and publishes one unit notice. CPM supplies the PH-22-A 2.3 wording (saline locks, prefilled-syringe flushes, no routine KVO) and flags the shared opened-bag practice in Memo B as a safety risk.",
+      "expectedAction": "DOP uses the recounted DOH, not the 07:00 report, for the IC briefing: NS 1000 mL at 7.5 days. LR is at 5.8 days, which is Critical. The 40 percent allocation also meets Level 3. CNO withdraws both local memos and publishes one unit notice. CPM supplies the PH-22-A 2.3 wording (saline locks, prefilled-syringe flushes, no routine KVO) and flags the shared opened-bag practice in Memo B as a safety risk.",
       "purposeTag": "CLUE",
       "format": "status_board",
       "injectId": "01M792RYH914G96R1045E4EZDV",
@@ -3637,8 +3637,8 @@
     {
       "stage": "media_render",
       "itemId": "01M792J0Y4ETR44JDPS0W958CE",
-      "startedAt": "2026-11-13T02:49:42.273Z",
-      "finishedAt": "2026-11-13T02:49:42.511Z",
+      "startedAt": "2026-11-13T03:11:29.789Z",
+      "finishedAt": "2026-11-13T03:11:30.126Z",
       "promptRef": "template",
       "status": "ok",
       "repairAttempts": 0
@@ -3655,8 +3655,8 @@
     {
       "stage": "media_render",
       "itemId": "01M792KVBNCDX2YWBB4AWJGH0F",
-      "startedAt": "2026-11-13T02:50:31.450Z",
-      "finishedAt": "2026-11-13T02:50:57.850Z",
+      "startedAt": "2026-11-13T03:11:30.129Z",
+      "finishedAt": "2026-11-13T03:11:30.366Z",
       "promptRef": "template+tts",
       "status": "ok",
       "repairAttempts": 0
@@ -3718,8 +3718,8 @@
     {
       "stage": "media_render",
       "itemId": "01M792RYH914G96R1045E4EZDV",
-      "startedAt": "2026-11-13T02:49:44.320Z",
-      "finishedAt": "2026-11-13T02:49:44.553Z",
+      "startedAt": "2026-11-13T03:11:30.369Z",
+      "finishedAt": "2026-11-13T03:11:30.600Z",
       "promptRef": "template",
       "status": "ok",
       "repairAttempts": 0
@@ -3754,8 +3754,8 @@
     {
       "stage": "media_render",
       "itemId": "01M792W741H6YNGZZXM6056XEW",
-      "startedAt": "2026-11-13T02:49:45.144Z",
-      "finishedAt": "2026-11-13T02:49:45.351Z",
+      "startedAt": "2026-11-13T03:11:30.603Z",
+      "finishedAt": "2026-11-13T03:11:30.806Z",
       "promptRef": "template",
       "status": "ok",
       "repairAttempts": 0
@@ -3960,27 +3960,22 @@
         "version": 1
       },
       "row:I-03": {
-        "label": "unsupported",
-        "reason": "‘40 percent’ is not in 3. Shortage levels; the passage says ‘The Anesthesia Medical Director and the OR Manager review elective surgery volume; if the days on hand of 1000 mL sodium chloride 0.9% fall below 3, the Incide…’.",
-        "fingerprint": "5041796516ff228c",
+        "label": "review",
+        "reason": "‘40 percent’ is not in 5. Response by level or the facility facts.",
+        "fingerprint": "b183809ff8bc1bcc",
         "claims": [
           {
-            "text": "The Purchasing Manager works out days on hand at 40 percent inbound supply.",
-            "chunkId": 13,
-            "headingPath": "Prairie Ridge Health — Drug Shor… › 3. Shortage levels",
-            "overlap": 0.667,
+            "text": "The Purchasing Manager reruns the numbers with inbound supply cut to 40 percent.",
+            "chunkId": 15,
+            "headingPath": "Prairie Ridge Health — Drug Shor… › 5. Response by level",
+            "overlap": 0.556,
             "matched": [
               "Purchasing Manager"
             ],
             "missing": [
               "40 percent"
             ],
-            "conflicting": [
-              {
-                "term": "40 percent",
-                "passage": "The Anesthesia Medical Director and the OR Manager review elective surgery volume; if the days on hand of 1000 mL sodium chloride 0.9% fall below 3, the Incident Commander may defer elective cases for 48 hours."
-              }
-            ]
+            "conflicting": []
           },
           {
             "text": "NS 1000 mL: 3,060 ÷ (340 − 136) = about 15 days.",
@@ -4006,20 +4001,15 @@
             "conflicting": []
           },
           {
-            "text": "Minibags: 3,280 ÷ (410 − 164) = about 13.3 days.",
-            "chunkId": 33,
-            "headingPath": "Prairie Ridge Health — Pharmacy… › 3. Supply chain",
-            "overlap": 0.429,
+            "text": "The small bags work out to roughly 13.3 days at that rate (3,280 ÷ (410 − 164)).",
+            "chunkId": 15,
+            "headingPath": "Prairie Ridge Health — Drug Shor… › 5. Response by level",
+            "overlap": 0.273,
             "matched": [],
             "missing": [
               "13.3 days"
             ],
-            "conflicting": [
-              {
-                "term": "13.3 days",
-                "passage": "Stockpile:** the hospital keeps 7 days of IV fluids normally (days on hand target), held in 10 pallets in the stockroom and 2 on the dock; a typical stock is 9 days of 1000 mL sodium chloride 0.9%, 11 days of lactated…"
-              }
-            ]
+            "conflicting": []
           },
           {
             "text": "The Director of Pharmacy notes that an allocation below 50 percent meets the Level 3 Critical definition in Drug Shortage plan section 3 whatever the days-on-hand result.",
@@ -4043,12 +4033,7 @@
             "conflicting": []
           }
         ],
-        "override": {
-          "label": "grounded",
-          "note": "Hand-checked: the figures are the scenario's own days-on-hand and allocation arithmetic (the 40 percent allocation, 14-day usage and recounted stock), checked against the plan's Level 3 rules (allocation below 50 percent, 7 days or less) and its 3-day deferral trigger; no plan passage states them.",
-          "at": "2026-11-13T01:44:17.000Z"
-        },
-        "at": "2026-11-12T23:33:57.789Z",
+        "at": "2026-11-13T03:11:29.695Z",
         "version": 1
       },
       "row:I-03b": {
@@ -4258,9 +4243,9 @@
         "version": 1
       },
       "row:I-08": {
-        "label": "unsupported",
-        "reason": "‘5.8 days’ is not in 3. Shortage levels; the passage says ‘At each 8-hour meeting the Drug Shortage Team records: days on hand by product, allocation percent against normal usage, number of patients affected (therapy c…’.",
-        "fingerprint": "a1bb4d70a763c629",
+        "label": "review",
+        "reason": "‘7.5 days’ is not in 2. Inventory and systems or the facility facts.",
+        "fingerprint": "2c4995e244aef80c",
         "claims": [
           {
             "text": "DOP uses the recounted DOH, not the 07:00 report, for the IC briefing: NS 1000 mL at 7.5 days.",
@@ -4276,25 +4261,26 @@
             "conflicting": []
           },
           {
-            "text": "LR at 5.8 days and the 40 percent allocation both meet Level 3.",
+            "text": "LR is at 5.8 days, which is Critical.",
             "chunkId": 13,
             "headingPath": "Prairie Ridge Health — Drug Shor… › 3. Shortage levels",
-            "overlap": 0.625,
+            "overlap": 0.667,
             "matched": [],
             "missing": [
-              "5.8 days",
+              "5.8 days"
+            ],
+            "conflicting": []
+          },
+          {
+            "text": "The 40 percent allocation also meets Level 3.",
+            "chunkId": 13,
+            "headingPath": "Prairie Ridge Health — Drug Shor… › 3. Shortage levels",
+            "overlap": 0.667,
+            "matched": [],
+            "missing": [
               "40 percent"
             ],
-            "conflicting": [
-              {
-                "term": "5.8 days",
-                "passage": "At each 8-hour meeting the Drug Shortage Team records: days on hand by product, allocation percent against normal usage, number of patients affected (therapy changed, delayed or canceled), substitutions approved and t…"
-              },
-              {
-                "term": "40 percent",
-                "passage": "On-hand supply 8 to 29 days, or allocation below 80% of usage"
-              }
-            ]
+            "conflicting": []
           },
           {
             "text": "CNO withdraws both local memos and publishes one unit notice.",
@@ -4330,12 +4316,7 @@
             "conflicting": []
           }
         ],
-        "override": {
-          "label": "grounded",
-          "note": "Hand-checked: the figures are the scenario's own days-on-hand and allocation arithmetic (the 40 percent allocation, 14-day usage and recounted stock), checked against the plan's Level 3 rules (allocation below 50 percent, 7 days or less) and its 3-day deferral trigger; no plan passage states them.",
-          "at": "2026-11-13T01:44:17.000Z"
-        },
-        "at": "2026-11-12T23:35:01.475Z",
+        "at": "2026-11-13T03:11:29.697Z",
         "version": 1
       },
       "row:I-09": {
@@ -4972,9 +4953,9 @@
         "version": 1
       },
       "inject:01M792J0Y4ETR44JDPS0W958CE": {
-        "label": "unsupported",
-        "reason": "‘6.2 days’ is not in 3. Shortage levels; the passage says ‘Storage: central pharmacy stockroom (10 pallets), the dock and satellite pharmacies at the ICU and OR, and par levels on every unit (typically a 2-day supply).’.",
-        "fingerprint": "4fde293ce6d42f37",
+        "label": "review",
+        "reason": "‘6.2 days’ is not in 3. Shortage levels or the facility facts.",
+        "fingerprint": "5aa04135b115f2e8",
         "claims": [
           {
             "text": "This is a clue.",
@@ -4986,25 +4967,26 @@
             "conflicting": []
           },
           {
-            "text": "The board color-codes by par, not by days on hand, so LR shows green even though 6.2 days already meets the 7-day Level 3 threshold.",
+            "text": "The board color-codes by par, not by days on hand, so LR shows green.",
+            "chunkId": 32,
+            "headingPath": "Prairie Ridge Health — Pharmacy… › 2. Inventory and systems",
+            "overlap": 0.571,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "At 6.2 days, LR already meets the Critical tier's 7-day threshold.",
             "chunkId": 13,
             "headingPath": "Prairie Ridge Health — Drug Shor… › 3. Shortage levels",
-            "overlap": 0.467,
-            "matched": [],
-            "missing": [
-              "6.2 days",
+            "overlap": 0.429,
+            "matched": [
               "7-day"
             ],
-            "conflicting": [
-              {
-                "term": "6.2 days",
-                "passage": "Storage: central pharmacy stockroom (10 pallets), the dock and satellite pharmacies at the ICU and OR, and par levels on every unit (typically a 2-day supply)."
-              },
-              {
-                "term": "7-day",
-                "passage": "Storage: central pharmacy stockroom (10 pallets), the dock and satellite pharmacies at the ICU and OR, and par levels on every unit (typically a 2-day supply)."
-              }
-            ]
+            "missing": [
+              "6.2 days"
+            ],
+            "conflicting": []
           },
           {
             "text": "Watch for the PIM to accept Gregory's offer to count stockroom, dock, satellite and cabinet stock by lot before he reports days on hand, and to flag LR to the DOP right away instead of waiting.",
@@ -5018,12 +5000,7 @@
             "conflicting": []
           }
         ],
-        "override": {
-          "label": "grounded",
-          "note": "Hand-checked: the figures are the scenario's own days-on-hand and allocation arithmetic (the 40 percent allocation, 14-day usage and recounted stock), checked against the plan's Level 3 rules (allocation below 50 percent, 7 days or less) and its 3-day deferral trigger; no plan passage states them.",
-          "at": "2026-11-13T01:44:17.000Z"
-        },
-        "at": "2026-11-12T23:58:51.515Z",
+        "at": "2026-11-13T03:11:29.698Z",
         "version": 1
       },
       "inject:01M792JZ50CXS2D3X2HN6EVWK7": {
@@ -5065,9 +5042,9 @@
         "version": 1
       },
       "inject:01M792KVBNCDX2YWBB4AWJGH0F": {
-        "label": "unsupported",
-        "reason": "‘15 days’ is not in 3. Supply chain; the passage says ‘The Purchasing Manager calculates days on hand each morning from the pharmacy system: on-hand units divided by the average daily usage of the last 14 days.’.",
-        "fingerprint": "a2ddb2001fe82ac5",
+        "label": "review",
+        "reason": "‘40 percent’ is not in 3. Shortage levels or the facility facts.",
+        "fingerprint": "0f341f202743b71c",
         "claims": [
           {
             "text": "This call sets up the core decision.",
@@ -5079,33 +5056,50 @@
             "conflicting": []
           },
           {
-            "text": "Watch whether the Purchasing Manager works out days on hand with only 40 percent of supply coming in (NS 1000 mL about 15 days, LR about 10.3 days but 6.2 today, minibags about 13.3 days).",
-            "chunkId": 33,
-            "headingPath": "Prairie Ridge Health — Pharmacy… › 3. Supply chain",
-            "overlap": 0.471,
+            "text": "Watch whether the Purchasing Manager works out days on hand with only 40 percent of supply coming in.",
+            "chunkId": 13,
+            "headingPath": "Prairie Ridge Health — Drug Shor… › 3. Shortage levels",
+            "overlap": 0.6,
             "matched": [
               "Purchasing Manager"
             ],
             "missing": [
-              "15 days",
-              "10.3 days",
-              "13.3 days",
               "40 percent"
             ],
-            "conflicting": [
-              {
-                "term": "15 days",
-                "passage": "The Purchasing Manager calculates days on hand each morning from the pharmacy system: on-hand units divided by the average daily usage of the last 14 days."
-              },
-              {
-                "term": "10.3 days",
-                "passage": "The Purchasing Manager calculates days on hand each morning from the pharmacy system: on-hand units divided by the average daily usage of the last 14 days."
-              },
-              {
-                "term": "13.3 days",
-                "passage": "The Purchasing Manager calculates days on hand each morning from the pharmacy system: on-hand units divided by the average daily usage of the last 14 days."
-              }
-            ]
+            "conflicting": []
+          },
+          {
+            "text": "NS comes to about 15 days.",
+            "chunkId": 33,
+            "headingPath": "Prairie Ridge Health — Pharmacy… › 3. Supply chain",
+            "overlap": 0.333,
+            "matched": [],
+            "missing": [
+              "15 days"
+            ],
+            "conflicting": []
+          },
+          {
+            "text": "LR comes to about 10.3 days (6.2 today).",
+            "chunkId": 33,
+            "headingPath": "Prairie Ridge Health — Pharmacy… › 3. Supply chain",
+            "overlap": 0.2,
+            "matched": [],
+            "missing": [
+              "10.3 days"
+            ],
+            "conflicting": []
+          },
+          {
+            "text": "The small bags come to about 13.3 days.",
+            "chunkId": 33,
+            "headingPath": "Prairie Ridge Health — Pharmacy… › 3. Supply chain",
+            "overlap": 0.2,
+            "matched": [],
+            "missing": [
+              "13.3 days"
+            ],
+            "conflicting": []
           },
           {
             "text": "Also watch whether the Director of Pharmacy sees that an allocation below 50 percent meets Level 3 Critical whatever the days on hand.",
@@ -5129,12 +5123,7 @@
             "conflicting": []
           }
         ],
-        "override": {
-          "label": "grounded",
-          "note": "Hand-checked: the figures are the scenario's own days-on-hand and allocation arithmetic (the 40 percent allocation, 14-day usage and recounted stock), checked against the plan's Level 3 rules (allocation below 50 percent, 7 days or less) and its 3-day deferral trigger; no plan passage states them.",
-          "at": "2026-11-13T01:44:17.000Z"
-        },
-        "at": "2026-11-12T23:58:51.519Z",
+        "at": "2026-11-13T03:11:29.699Z",
         "version": 1
       },
       "inject:01M792MZ99D3WZ25ZRN9K3HKBC": {
@@ -5388,9 +5377,9 @@
         "version": 1
       },
       "inject:01M792RYH914G96R1045E4EZDV": {
-        "label": "unsupported",
-        "reason": "‘9.0 days’ is not in 5. Response by level; the passage says ‘The Anesthesia Medical Director and the OR Manager review elective surgery volume; if the days on hand of 1000 mL sodium chloride 0.9% fall below 3, the Incide…’.",
-        "fingerprint": "65880997c6d7dbe0",
+        "label": "review",
+        "reason": "‘NS 7.5’, ‘LR 5.8’ are not in 5. Response by level or the facility facts.",
+        "fingerprint": "576414db6f5ef9b9",
         "claims": [
           {
             "text": "This board is a clue.",
@@ -5402,30 +5391,42 @@
             "conflicting": []
           },
           {
-            "text": "Watch whether the Director of Pharmacy briefs the Incident Commander on the 08:20 recount (NS 7.5 days, LR 5.8 days, plus the 40 percent allocation, which supports Level 3) rather than the 07:00 figure of 9.0 days.",
+            "text": "Watch whether the Director of Pharmacy briefs the Incident Commander on the 08:20 recount (NS 7.5 days, LR 5.8 days) rather than the 07:00 figure.",
             "chunkId": 15,
             "headingPath": "Prairie Ridge Health — Drug Shor… › 5. Response by level",
-            "overlap": 0.458,
+            "overlap": 0.438,
             "matched": [
               "Director of Pharmacy",
               "Incident Commander"
             ],
             "missing": [
               "NS 7.5",
-              "LR 5.8",
-              "9.0 days",
+              "LR 5.8"
+            ],
+            "conflicting": []
+          },
+          {
+            "text": "The 40 percent allocation also supports Level 3.",
+            "chunkId": 15,
+            "headingPath": "Prairie Ridge Health — Drug Shor… › 5. Response by level",
+            "overlap": 0.667,
+            "matched": [],
+            "missing": [
               "40 percent"
             ],
-            "conflicting": [
-              {
-                "term": "9.0 days",
-                "passage": "The Anesthesia Medical Director and the OR Manager review elective surgery volume; if the days on hand of 1000 mL sodium chloride 0.9% fall below 3, the Incident Commander may defer elective cases for 48 hours."
-              },
-              {
-                "term": "40 percent",
-                "passage": "The Anesthesia Medical Director and the OR Manager review elective surgery volume; if the days on hand of 1000 mL sodium chloride 0.9% fall below 3, the Incident Commander may defer elective cases for 48 hours."
-              }
-            ]
+            "conflicting": []
+          },
+          {
+            "text": "The 07:00 report showed NS at 9.0 days because of the inflated count.",
+            "chunkId": 21,
+            "headingPath": "PH-22-A › 1. Products covered",
+            "overlap": 0.111,
+            "matched": [],
+            "missing": [
+              "9.0 days",
+              "report"
+            ],
+            "conflicting": []
           },
           {
             "text": "Then check two things: the CNO should replace the two conflicting unit memos with one notice, and the Clinical Pharmacy Manager should apply the PH-22-A conservation wording (saline locks, prefilled-syringe flushes, no routine KVO) and flag the ICU's shared opened 250 mL bag as a safety risk.",
@@ -5440,12 +5441,7 @@
             "conflicting": []
           }
         ],
-        "override": {
-          "label": "grounded",
-          "note": "Hand-checked: the figures are the scenario's own days-on-hand and allocation arithmetic (the 40 percent allocation, 14-day usage and recounted stock), checked against the plan's Level 3 rules (allocation below 50 percent, 7 days or less) and its 3-day deferral trigger; no plan passage states them.",
-          "at": "2026-11-13T01:44:17.000Z"
-        },
-        "at": "2026-11-12T23:58:51.525Z",
+        "at": "2026-11-13T03:11:29.700Z",
         "version": 1
       },
       "inject:01M792SP7AXR6Q393S6ZRX0X54": {
@@ -5539,29 +5535,40 @@
         "version": 1
       },
       "inject:01M792W741H6YNGZZXM6056XEW": {
-        "label": "unsupported",
-        "reason": "‘3-day’ is not in 5. Response by level; the passage says ‘The Anesthesia Medical Director and the OR Manager review elective surgery volume; if the days on hand of 1000 mL sodium chloride 0.9% fall below 3, the Incide…’.",
-        "fingerprint": "a6c1de03425a8148",
+        "label": "review",
+        "reason": "Only 33% of ‘The trigger is NS 1000 mL falling below 3 on the days-on-ha…’ is in 5. Response by level.",
+        "fingerprint": "1163a1555a758f64",
         "claims": [
           {
-            "text": "the CMO and the Director of Pharmacy must give the Incident Commander (the facilitator, who follows their recommendation) a signed recommendation by 11:00 on whether to defer the 11 elective cases for 48 hours under the 3-day trigger (Drug Shortage plan 5, step 5; Clinical plan 2), with the DOP confirming the projection is based on usable stock (quarantined lot excluded).",
+            "text": "the CMO and the Director of Pharmacy must give the Incident Commander (the facilitator, who follows their recommendation) a signed recommendation by 11:00 on whether to defer the 11 elective cases for 48 hours under the elective deferral trigger (Drug Shortage plan 5, step 5; Clinical plan 2).",
             "chunkId": 15,
             "headingPath": "Prairie Ridge Health — Drug Shor… › 5. Response by level",
-            "overlap": 0.515,
+            "overlap": 0.625,
             "matched": [
               "48 hours",
               "Director of Pharmacy",
               "Incident Commander"
             ],
-            "missing": [
-              "3-day"
-            ],
-            "conflicting": [
-              {
-                "term": "3-day",
-                "passage": "The Anesthesia Medical Director and the OR Manager review elective surgery volume; if the days on hand of 1000 mL sodium chloride 0.9% fall below 3, the Incident Commander may defer elective cases for 48 hours."
-              }
-            ]
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "The trigger is NS 1000 mL falling below 3 on the days-on-hand board.",
+            "chunkId": 15,
+            "headingPath": "Prairie Ridge Health — Drug Shor… › 5. Response by level",
+            "overlap": 0.333,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "The DOP also confirms the DOP confirming the projection is based on usable stock (quarantined lot excluded).",
+            "chunkId": 21,
+            "headingPath": "PH-22-A › 1. Products covered",
+            "overlap": 0.125,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
           },
           {
             "text": "Watch that the CMO protects urgent, cesarean and cancer cases, that the CNO and OR Manager plan patient calls with the PIO, and that the decision, the numbers and who made it are written down.",
@@ -5584,12 +5591,7 @@
             "conflicting": []
           }
         ],
-        "override": {
-          "label": "grounded",
-          "note": "Hand-checked: the figures are the scenario's own days-on-hand and allocation arithmetic (the 40 percent allocation, 14-day usage and recounted stock), checked against the plan's Level 3 rules (allocation below 50 percent, 7 days or less) and its 3-day deferral trigger; no plan passage states them.",
-          "at": "2026-11-13T01:44:17.000Z"
-        },
-        "at": "2026-11-13T01:43:39.638Z",
+        "at": "2026-11-13T03:11:29.701Z",
         "version": 1
       },
       "inject:01M792WZVXHVDYREK33ZZ8Q1Z5": {

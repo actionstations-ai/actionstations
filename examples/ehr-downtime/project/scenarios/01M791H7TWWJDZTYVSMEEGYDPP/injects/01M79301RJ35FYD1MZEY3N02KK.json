@@ -117,9 +117,9 @@
         "acuity": "—"
       }
     ],
-    "note": "05:05. Lakechart is still DOWN. Only ICU and ED have runners for orders, results and pharmacy requests. Med-Surg Level 3, L&D, Pediatrics and Behavioral Health have none. Three float RNs are available and none is assigned. There are 4 night unit clerks on duty, and the day shift starts at 07:00.\n\n05:03 CALL, Core Lab technologist Maren Halvorsen (ext. 5410): \"I have 41 printed results on the counter that nobody has picked up. Some of them have been here 50 minutes. I'm phoning the abnormal ones, but I can't walk them to the floors and run the analyzers too.\"\n\n05:04 TEXT, night pharmacist: \"Override pulls are at 47. Reconciling the Downtime Medication Log against the cabinet override reports line by line is going to take two more pharmacists. The ICU hydromorphone count is still 17 against 18 expected. Do I call in day pharmacists now?\""
+    "note": "05:05. Lakechart is still DOWN. Only ICU and ED have runners for orders, results and pharmacy requests. Med-Surg Level 3, L&D, Pediatrics and Behavioral Health have none. Three float RNs are available and none is assigned. There are 4 night unit clerks on duty, and the day shift starts at 07:00.\n\n05:03 CALL, Core Lab technologist Maren Halvorsen (ext. 5410): \"I have 41 printed results on the counter that nobody has picked up. Some of them have been here most of an hour. I'm phoning the abnormal ones, but I can't walk them to the floors and run the analyzers too.\"\n\n05:04 TEXT, night pharmacist: \"Override pulls are at 47. Reconciling the Downtime Medication Log against the cabinet override reports line by line is going to take two more pharmacists. The ICU hydromorphone count is still 17 against 18 expected. Do I call in day pharmacists now?\""
   },
-  "instructorNote": "This inject tests whether the House Supervisor turns the idle float RNs into runners for every unit, including results pickup, and calls the day clerks in early. It also tests whether the Pharmacy Operations Manager calls in pharmacists and reports the hydromorphone mismatch to the command center now instead of reconciling it quietly. Watch whether the 41 uncollected results, some 50 minutes old, are added to the CNO and Laboratory Manager's running count of delayed results.",
+  "instructorNote": "This inject tests whether the House Supervisor turns the idle float RNs into runners for every unit, including results pickup, and calls the day clerks in early. It also tests whether the Pharmacy Operations Manager calls in pharmacists and reports the hydromorphone mismatch to the command center now instead of reconciling it quietly. Watch whether the 41 uncollected results, some nearly an hour old, are added to the CNO and Laboratory Manager's running count of delayed results.",
   "citations": [
     {
       "documentId": "01M791H5T6P0TB6KXSN6Y8MDY3",
@@ -157,18 +157,18 @@
   },
   "assets": [
     {
-      "id": "01M79CQ13HJJVZHYXHZFRT1T03",
+      "id": "01M79E2MMJQKAP2SN3Z1VY0KN8",
       "kind": "image",
-      "path": "scenarios/01M791H7TWWJDZTYVSMEEGYDPP/media/01M79301RJ35FYD1MZEY3N02KK/01M79CQ13HJJVZHYXHZFRT1T03.png",
+      "path": "scenarios/01M791H7TWWJDZTYVSMEEGYDPP/media/01M79301RJ35FYD1MZEY3N02KK/01M79E2MMJQKAP2SN3Z1VY0KN8.png",
       "role": "rendered",
       "width": 816,
       "height": 1056,
-      "sha256": "b12cf1321371583531e295a126e64b25bac33a982c0da331ea9441599fd99261",
+      "sha256": "92bd3f45ec6416446146e2377b0f196dcbd9ce6d443b8d86191b1e860979d576",
       "provenance": {
         "provider": "template",
         "templateId": "staffing_grid",
         "templateVersion": "1",
-        "createdAt": "2026-11-13T02:45:15.361Z"
+        "createdAt": "2026-11-13T03:09:04.389Z"
       }
     }
   ],
@@ -293,14 +293,14 @@
               "acuity": "—"
             }
           ],
-          "note": "05:05. Lakechart is still DOWN. Only ICU and ED have runners for orders, results and pharmacy requests. Med-Surg Level 3, L&D, Pediatrics and Behavioral Health have none. Three float RNs are available and none is assigned. There are 4 night unit clerks on duty, and the day shift starts at 07:00.\n\n05:03 CALL, Core Lab technologist Maren Halvorsen (ext. 5410): \"I have 41 printed results on the counter that nobody has picked up. Some of them have been here 50 minutes. I'm phoning the abnormal ones, but I can't walk them to the floors and run the analyzers too.\"\n\n05:04 TEXT, night pharmacist: \"Override pulls are at 47. Reconciling the Downtime Medication Log against the cabinet override reports line by line is going to take two more pharmacists. The ICU hydromorphone count is still 17 against 18 expected. Do I call in day pharmacists now?\""
+          "note": "05:05. Lakechart is still DOWN. Only ICU and ED have runners for orders, results and pharmacy requests. Med-Surg Level 3, L&D, Pediatrics and Behavioral Health have none. Three float RNs are available and none is assigned. There are 4 night unit clerks on duty, and the day shift starts at 07:00.\n\n05:03 CALL, Core Lab technologist Maren Halvorsen (ext. 5410): \"I have 41 printed results on the counter that nobody has picked up. Some of them have been here most of an hour. I'm phoning the abnormal ones, but I can't walk them to the floors and run the analyzers too.\"\n\n05:04 TEXT, night pharmacist: \"Override pulls are at 47. Reconciling the Downtime Medication Log against the cabinet override reports line by line is going to take two more pharmacists. The ICU hydromorphone count is still 17 against 18 expected. Do I call in day pharmacists now?\""
         },
-        "instructorNote": "This inject tests whether the House Supervisor turns the idle float RNs into runners for every unit, including results pickup, and calls the day clerks in early. It also tests whether the Pharmacy Operations Manager calls in pharmacists and reports the hydromorphone mismatch to the command center now instead of reconciling it quietly. Watch whether the 41 uncollected results, some 50 minutes old, are added to the CNO and Laboratory Manager's running count of delayed results.",
+        "instructorNote": "This inject tests whether the House Supervisor turns the idle float RNs into runners for every unit, including results pickup, and calls the day clerks in early. It also tests whether the Pharmacy Operations Manager calls in pharmacists and reports the hydromorphone mismatch to the command center now instead of reconciling it quietly. Watch whether the 41 uncollected results, some nearly an hour old, are added to the CNO and Laboratory Manager's running count of delayed results.",
         "deliveryMode": "hand_to_role"
       }
     }
   ],
   "includeInDeck": true,
   "locked": false,
-  "updatedAt": "2026-11-13T02:45:15.593Z"
+  "updatedAt": "2026-11-13T03:09:04.613Z"
 }

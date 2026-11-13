@@ -71,3 +71,9 @@ The separate **Pharmacy reference library** pack holds the federal regulation te
 - Allocation percentages, viability tables and substitution checks in examples are choices a scenario author makes. A director of pharmacy and, for cold chain, an immunization program coordinator should review them before use in training for real response.
 - The pharmacy is not connected to any wholesaler, claims switch, cabinet or state monitoring program, and the app is not a formulary, a dosing reference or decision support.
 - Recall replay from the FDA's enforcement reports is not available yet.
+
+## Example project
+
+The Pharmacy and drug supply pack includes an example project, **Prairie Ridge Health: Critical IV Fluid Shortage**, with one exercise, _Forty Percent_: on a Monday morning in October the primary wholesaler cuts the hospital's IV fluid allocation to 40 percent after a manufacturing outage, with 9 days of 1000 mL sodium chloride 0.9% on hand and 6 of lactated Ringer's; pharmacy, anesthesia, the ED and nursing must allocate, substitute and communicate without harming patients.
+
+Turn the pack on under **Packs**, then open a copy from **Projects → Examples**. The organization, its people and its businesses are fictional; the exercise comes with its injects, media, Situation Manual, evaluation guides and controller handbook, ready to read or run.

@@ -1,0 +1,193 @@
+{
+  "id": "01M794PM294QTKK7G49DWVNJ0W",
+  "mselRowId": "I-09",
+  "type": "screenshot_generic",
+  "title": "Meeting Admin Console: \"Project escrow – confidential\"",
+  "deliveryMode": "hand_to_role",
+  "fields": {
+    "appName": "Meeting Admin Console",
+    "windowTitle": "Meeting detail – Project escrow – confidential – Meeting Admin Console",
+    "location": "https://admin.meetingservice.example/tenant/tamarackprecision/meetings/MTG-0914-7731/detail",
+    "menuItems": [
+      "Dashboard",
+      "Meetings",
+      "Users",
+      "Recordings",
+      "Audit log",
+      "Export",
+      "Help"
+    ],
+    "sidebarItems": [
+      {
+        "label": "Meeting: Project escrow – confidential",
+        "meta": "Tue 09/14/2027 · Scheduled 10:05–10:35 EDT · Meeting ID MTG-0914-7731",
+        "selected": true
+      },
+      {
+        "label": "Organizer: escrow-desk@tmrk-advisory.example",
+        "meta": "OUTSIDE TAMARACK TENANT · Invitation source: external calendar invite (invite.ics) · sent to 1 internal recipient",
+        "selected": false
+      },
+      {
+        "label": "Participant 1: Treasury Analyst Ines Okonkwo-Hart",
+        "meta": "Authenticated (tamarackprecision.example) · joined 10:05:14 · 10.20.4.37 (corporate VPN) · desktop client · left 10:18:40",
+        "selected": false
+      },
+      {
+        "label": "Participant 2: Marcus Delacroix-Hume (CFO)",
+        "meta": "EXTERNAL guest · unauthenticated · joined 10:04:58 · 203.0.113.84 · client: web-guest",
+        "selected": false
+      },
+      {
+        "label": "Participant 3: Priscilla Aranguren (General Counsel)",
+        "meta": "EXTERNAL guest · unauthenticated · joined 10:05:02 · 203.0.113.84 · client: web-guest · camera on 00:41, then off",
+        "selected": false
+      },
+      {
+        "label": "Recording",
+        "meta": "Cloud recording · owner: external organizer · retention: organizer controlled · no copy held in Tamarack tenant",
+        "selected": false
+      },
+      {
+        "label": "Tenant account check: Marcus Delacroix-Hume",
+        "meta": "No meeting joins recorded today, 09/14/2027",
+        "selected": false
+      },
+      {
+        "label": "Tenant account check: Priscilla Aranguren",
+        "meta": "No meeting joins recorded today, 09/14/2027",
+        "selected": false
+      },
+      {
+        "label": "Analyst note (SOC, in-house)",
+        "meta": "Both 'executives' came in through one outside IP as unauthenticated guests. The real CFO's and GC's tenant accounts show no meeting joins today. The organizer can delete the recording whenever they want.",
+        "selected": false
+      }
+    ],
+    "statusText": "Meeting MTG-0914-7731 · 3 participants (1 authenticated, 2 external) · Recording owned by external organizer · Viewed by SOC analyst, Tue 09/14/2027",
+    "imageBrief": "Web admin console in a browser window showing a meeting detail page: a participant table with three rows, two rows tagged with orange warning badges, a small recording panel with a cloud icon, muted corporate blue and grey interface, no legible text"
+  },
+  "variant": "windows",
+  "instructorNote": "This is a clue inject. It shows that both \"executives\" were unauthenticated external guests joining from the same outside IP, and the organizer controls the only recording. Check that the CISO treats this as direct evidence of impersonation and orders preservation: the admin log export, the invitation, the participant list and any local copy of the recording, plus a request to the platform vendor to keep the organizer-held recording. Also check that the Treasury Manager puts WIRE-0914-004 on HOLD if it is not already held and tells the analyst not to delete anything.",
+  "citations": [
+    {
+      "documentId": "01M793JZB6T2RERPATP9SE15M2",
+      "documentTitle": "TPC-REF-01: Company, Systems and People",
+      "headingPath": "TCSP › 4. Communications and security tools",
+      "quote": "- **Meeting platform:** Tamarack uses a commercial video meeting service. Meetings created inside the Tamarack tenant show authenticated participants; guests join as \"external\". The platform's admin l",
+      "chunkId": 14
+    },
+    {
+      "documentId": "01M793JZB4ZJNT2ZBRQ5YGP5FS",
+      "documentTitle": "TPC-SEC-02: AI and Synthetic Media Incident Response Plan",
+      "headingPath": "TPC-SEC-02: AI and Synthetic Med… › 4. First hour",
+      "quote": "1. **Hold:** put every pending payment connected to the request on HOLD. 2. **Verify:** reach the impersonated person on a known number, not through the channel in question. 3. **Preserve:** save the ",
+      "chunkId": 5
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template",
+      "ai_image"
+    ],
+    "imagePrompt": "A monitor photographed at an angle, slight moiré and reflections. A laptop monitor photographed at a slight angle on a desk in a dim corporate security operations room, mid-morning. The screen shows a web admin console in a browser window: a meeting detail page with a participant table of three rows, two of them marked with small orange warning badges, and a compact recording panel with a cloud icon at the side. The interface is in muted corporate blue and grey, and its rows are too small and soft to read. Cool office light, a coffee mug and a notepad at the edge of the frame, an analyst's hand resting near the keyboard, shallow depth of field, quiet and tense mood.",
+    "negativePrompt": "text, letters, words, captions, subtitles, readable signage, watermark, logo, signature, blurry, low quality, deformed hands, extra limbs, extra fingers, cartoon, illustration, 3d render, cgi, readable text, legible names, numbers, email addresses, brand names, video call faces, people's faces, bright cheerful colors, cluttered desk, multiple monitors showing different apps",
+    "imageStyle": "screen"
+  },
+  "assets": [
+    {
+      "id": "01M79C8GY6BXD4HS7HVBKW6WNW",
+      "kind": "image",
+      "path": "scenarios/01M793K1BQ4A90FK0DT2D867QV/media/01M794PM294QTKK7G49DWVNJ0W/01M79C8GY6BXD4HS7HVBKW6WNW.png",
+      "role": "composite",
+      "width": 1280,
+      "height": 800,
+      "sha256": "9abe97d426684cc554cc2d224f9ae61230450157468ab7be40858852f0a27570",
+      "provenance": {
+        "provider": "template",
+        "templateId": "screenshot_generic",
+        "templateVersion": "1",
+        "createdAt": "2026-11-13T02:37:19.434Z"
+      }
+    }
+  ],
+  "versions": [
+    {
+      "at": "2026-11-13T00:25:42.233Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "Meeting Admin Console: \"Project escrow – confidential\"",
+        "type": "screenshot_generic",
+        "fields": {
+          "appName": "Meeting Admin Console",
+          "windowTitle": "Meeting detail – Project escrow – confidential – Meeting Admin Console",
+          "location": "https://admin.meetingservice.example/tenant/tamarackprecision/meetings/MTG-0914-7731/detail",
+          "menuItems": [
+            "Dashboard",
+            "Meetings",
+            "Users",
+            "Recordings",
+            "Audit log",
+            "Export",
+            "Help"
+          ],
+          "sidebarItems": [
+            {
+              "label": "Meeting: Project escrow – confidential",
+              "meta": "Tue 09/14/2027 · Scheduled 10:05–10:35 EDT · Meeting ID MTG-0914-7731",
+              "selected": true
+            },
+            {
+              "label": "Organizer: escrow-desk@tmrk-advisory.example",
+              "meta": "OUTSIDE TAMARACK TENANT · Invitation source: external calendar invite (invite.ics) · sent to 1 internal recipient",
+              "selected": false
+            },
+            {
+              "label": "Participant 1: Treasury Analyst Ines Okonkwo-Hart",
+              "meta": "Authenticated (tamarackprecision.example) · joined 10:05:14 · 10.20.4.37 (corporate VPN) · desktop client · left 10:18:40",
+              "selected": false
+            },
+            {
+              "label": "Participant 2: Marcus Delacroix-Hume (CFO)",
+              "meta": "EXTERNAL guest · unauthenticated · joined 10:04:58 · 203.0.113.84 · client: web-guest",
+              "selected": false
+            },
+            {
+              "label": "Participant 3: Priscilla Aranguren (General Counsel)",
+              "meta": "EXTERNAL guest · unauthenticated · joined 10:05:02 · 203.0.113.84 · client: web-guest · camera on 00:41, then off",
+              "selected": false
+            },
+            {
+              "label": "Recording",
+              "meta": "Cloud recording · owner: external organizer · retention: organizer controlled · no copy held in Tamarack tenant",
+              "selected": false
+            },
+            {
+              "label": "Tenant account check: Marcus Delacroix-Hume",
+              "meta": "No meeting joins recorded today, 09/14/2027",
+              "selected": false
+            },
+            {
+              "label": "Tenant account check: Priscilla Aranguren",
+              "meta": "No meeting joins recorded today, 09/14/2027",
+              "selected": false
+            },
+            {
+              "label": "Analyst note (SOC, in-house)",
+              "meta": "Both 'executives' came in through one outside IP as unauthenticated guests. The real CFO's and GC's tenant accounts show no meeting joins today. The organizer can delete the recording whenever they want.",
+              "selected": false
+            }
+          ],
+          "statusText": "Meeting MTG-0914-7731 · 3 participants (1 authenticated, 2 external) · Recording owned by external organizer · Viewed by SOC analyst, Tue 09/14/2027",
+          "imageBrief": "Web admin console in a browser window showing a meeting detail page: a participant table with three rows, two rows tagged with orange warning badges, a small recording panel with a cloud icon, muted corporate blue and grey interface, no legible text"
+        },
+        "instructorNote": "This is a clue inject. It shows that both \"executives\" were unauthenticated external guests joining from the same outside IP, and the organizer controls the only recording. Check that the CISO treats this as direct evidence of impersonation and orders preservation: the admin log export, the invitation, the participant list and any local copy of the recording, plus a request to the platform vendor to keep the organizer-held recording. Also check that the Treasury Manager puts WIRE-0914-004 on HOLD if it is not already held and tells the analyst not to delete anything.",
+        "deliveryMode": "hand_to_role"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-11-13T02:37:20.201Z"
+}

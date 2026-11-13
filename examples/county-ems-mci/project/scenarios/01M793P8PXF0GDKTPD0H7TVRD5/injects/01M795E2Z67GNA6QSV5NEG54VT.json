@@ -1,0 +1,235 @@
+{
+  "id": "01M795E2Z67GNA6QSV5NEG54VT",
+  "mselRowId": "I-17",
+  "type": "status_board",
+  "title": "Capacity Board 20:47: Pinecrest Shows \"Open\" Again, plus the 20:50 MED 1 Door Count",
+  "deliveryMode": "hand_to_role",
+  "fields": {
+    "organization": "Larkfield Regional Medical Center: MEDCOM",
+    "facility": "LRMC MEDCOM Workstation MEDCOM-1, Brandt Lake",
+    "title": "Hospital Capacity Board",
+    "incidentName": "Highway 21 / County Road K MCI (CAD 26-118342)",
+    "asOf": "20:47",
+    "operationalPeriod": "11/12 1742–2400",
+    "preparedBy": "LRMC MEDCOM (StatusGrid capacity board, automated feed). Banner: \"Feed restored, partial.\"",
+    "resources": [
+      {
+        "name": "Pinecrest Memorial Hospital",
+        "status": "green",
+        "notes": "Status: OPEN | ED beds avail: 5 | Last updated: 20:47 | Source: interface cache",
+        "owner": "Pinecrest Memorial interface",
+        "updated": "20:47"
+      },
+      {
+        "name": "St. Brendan's Community Hospital",
+        "status": "yellow",
+        "notes": "LIMITED INTAKE: CT down, no head injuries | ED 4 of 8 avail",
+        "owner": "St. Brendan's nursing supervisor",
+        "updated": "20:46"
+      },
+      {
+        "name": "Larkfield Regional Medical Center (LRMC)",
+        "status": "yellow",
+        "notes": "LIMITED INTAKE (Immediate by voice only) | ED 24/24 + surge ward | 2 inpatients moved to Lakeshore",
+        "owner": "LRMC nursing supervisor",
+        "updated": "20:34"
+      },
+      {
+        "name": "Lakeshore University Medical Center",
+        "status": "green",
+        "notes": "OPEN | Immediate by Air 7 only, about 25-minute turnaround in tonight's weather",
+        "owner": "Lakeshore Medical Communications",
+        "updated": "20:36"
+      },
+      {
+        "name": "StatusSync service (board server)",
+        "status": "green",
+        "notes": "RUNNING | heartbeat OK since 20:33 | 16:55 replay queue purged",
+        "owner": "StatusGrid Health Systems",
+        "updated": "20:47"
+      },
+      {
+        "name": "Pinecrest WAN link",
+        "status": "green",
+        "notes": "UP | carrier restored 20:40",
+        "owner": "Pinecrest carrier",
+        "updated": "20:40"
+      },
+      {
+        "name": "MED 1 door count, 20:50: Pinecrest charge nurse (voice)",
+        "status": "red",
+        "notes": "\"Pinecrest. We are STILL on Diversion, and your board says Open again? I have 9 from the crash. Two are discharged, seven are still here, and I have one doctor.\"",
+        "owner": "Pinecrest charge nurse",
+        "updated": "20:50"
+      },
+      {
+        "name": "MED 1 door count, 20:50: St. Brendan's nursing supervisor (voice)",
+        "status": "yellow",
+        "notes": "\"The CT tube ships overnight and gets here tomorrow around 10:00. We stay on Limited intake. Door count is 3 from the crash: LC-0412, LC-0417 and one other.\"",
+        "owner": "St. Brendan's nursing supervisor",
+        "updated": "20:50"
+      },
+      {
+        "name": "StatusGrid on-call engineer (phone to MEDCOM)",
+        "status": "unknown",
+        "notes": "\"Pinecrest's carrier brought their line back at 20:40. Their interface engine is still pushing a value it cached at 16:55, and I can't clear that remotely. It needs an engineer on site. Bad news on that: our Madison field tech who was headed your way got pulled off at 20:15 to a hospital in Janesville whose whole system is down. Dispatch rerouted the job to our Milwaukee engineer, who is about three hours out, so around midnight.\"",
+        "owner": "StatusGrid Health Systems",
+        "updated": "20:52"
+      }
+    ],
+    "legend": {
+      "green": "OPEN / service up",
+      "yellow": "LIMITED INTAKE / degraded",
+      "red": "DIVERSION or CLOSED"
+    }
+  },
+  "variant": "default",
+  "instructorNote": "This tests whether the players trust the board row by row. Pinecrest's green row is a stale cached value, and the St. Brendan's row matches the voice report. Watch for three things. MEDCOM should mark Pinecrest unconfirmed, keep it voice-only and announce its Diversion in plain words on MED 1 until the engineer arrives around midnight. HCC should tell the Medical Group the board is only partly trusted (SOP-MC-02 sections 2–3). The Medical Group should keep confirming every destination by voice.",
+  "citations": [
+    {
+      "documentId": "01M793P6PGDB8Z907EWTDCQPAM",
+      "documentTitle": "SOP-MC-02: Medical Communications, Destinations and the Hospital Capacity Board",
+      "headingPath": "SOP-MC-02: Medical Communication… › 4. Destination rules",
+      "quote": "1. **Immediate (red) patients** go to the closest appropriate trauma center. In Larkfield County this is LRMC for adults and children, up to its trauma bay count: no more than 3 Immediate patients to ",
+      "chunkId": 33
+    },
+    {
+      "documentId": "01M793P6PGDB8Z907EWTDCQPAM",
+      "documentTitle": "SOP-MC-02: Medical Communications, Destinations and the Hospital Capacity Board",
+      "headingPath": "SOP-MC-02: Medical Communication… › 2. Hospitals and capabilities",
+      "quote": "| Hospital | Beds | Capabilities | Notes | |---|---|---|---| | Larkfield Regional Medical Center (LRMC), Brandt Lake | 140 | Level II trauma center, 3 trauma bays, 4 ORs, ICU 12 beds, pediatric ED | M",
+      "chunkId": 31
+    },
+    {
+      "documentId": "01M793P6PGDB8Z907EWTDCQPAM",
+      "documentTitle": "SOP-MC-02: Medical Communications, Destinations and the Hospital Capacity Board",
+      "headingPath": "SOP-MC-02: Medical Communication… › 3. Status categories",
+      "quote": "A hospital's status is one of: **Open** (accepting any patient), **Limited intake** (accepting only the categories it lists), **Diversion** (not accepting arrivals unless an unstable patient cannot go",
+      "chunkId": 32
+    },
+    {
+      "documentId": "01M793P6PFQ4PY61W0H9SNTC30",
+      "documentTitle": "Larkfield County EMS: Mass Casualty Incident Plan",
+      "headingPath": "Larkfield County EMS: Mass Casua… › 6. Hospital notification and medical communications",
+      "quote": "The Medical Communications Coordinator calls Larkfield Regional Medical Center (LRMC) MEDCOM (920-555-0190, the dedicated MEDCOM radio channel MED 1) and reads the incident, the method, the counts and",
+      "chunkId": 26
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template"
+    ]
+  },
+  "assets": [
+    {
+      "id": "01M799K08S3TFHX4PWHJ5591YD",
+      "kind": "image",
+      "path": "scenarios/01M793P8PXF0GDKTPD0H7TVRD5/media/01M795E2Z67GNA6QSV5NEG54VT/01M799K08S3TFHX4PWHJ5591YD.png",
+      "role": "rendered",
+      "width": 816,
+      "height": 1056,
+      "sha256": "1b45ca8123935b76a8c4febf96c16ec86bb6e4c3d327ac78de5542965fc05015",
+      "provenance": {
+        "provider": "template",
+        "templateId": "status_board",
+        "templateVersion": "1",
+        "createdAt": "2026-11-13T01:50:37.704Z"
+      }
+    }
+  ],
+  "versions": [
+    {
+      "at": "2026-11-13T00:38:28.972Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "Capacity Board 20:47: Pinecrest Shows \"Open\" Again, plus the 20:50 MED 1 Door Count",
+        "type": "status_board",
+        "fields": {
+          "organization": "Larkfield Regional Medical Center: MEDCOM",
+          "facility": "LRMC MEDCOM Workstation MEDCOM-1, Brandt Lake",
+          "title": "Hospital Capacity Board",
+          "incidentName": "Highway 21 / County Road K MCI (CAD 26-118342)",
+          "asOf": "20:47",
+          "operationalPeriod": "11/12 1742–2400",
+          "preparedBy": "LRMC MEDCOM (StatusGrid capacity board, automated feed). Banner: \"Feed restored, partial.\"",
+          "resources": [
+            {
+              "name": "Pinecrest Memorial Hospital",
+              "status": "green",
+              "notes": "Status: OPEN | ED beds avail: 5 | Last updated: 20:47 | Source: interface cache",
+              "owner": "Pinecrest Memorial interface",
+              "updated": "20:47"
+            },
+            {
+              "name": "St. Brendan's Community Hospital",
+              "status": "yellow",
+              "notes": "LIMITED INTAKE: CT down, no head injuries | ED 4 of 8 avail",
+              "owner": "St. Brendan's nursing supervisor",
+              "updated": "20:46"
+            },
+            {
+              "name": "Larkfield Regional Medical Center (LRMC)",
+              "status": "yellow",
+              "notes": "LIMITED INTAKE (Immediate by voice only) | ED 24/24 + surge ward | 2 inpatients moved to Lakeshore",
+              "owner": "LRMC nursing supervisor",
+              "updated": "20:34"
+            },
+            {
+              "name": "Lakeshore University Medical Center",
+              "status": "green",
+              "notes": "OPEN | Immediate by Air 7 only, about 25-minute turnaround in tonight's weather",
+              "owner": "Lakeshore Medical Communications",
+              "updated": "20:36"
+            },
+            {
+              "name": "StatusSync service (board server)",
+              "status": "green",
+              "notes": "RUNNING | heartbeat OK since 20:33 | 16:55 replay queue purged",
+              "owner": "StatusGrid Health Systems",
+              "updated": "20:47"
+            },
+            {
+              "name": "Pinecrest WAN link",
+              "status": "green",
+              "notes": "UP | carrier restored 20:40",
+              "owner": "Pinecrest carrier",
+              "updated": "20:40"
+            },
+            {
+              "name": "MED 1 door count, 20:50: Pinecrest charge nurse (voice)",
+              "status": "red",
+              "notes": "\"Pinecrest. We are STILL on Diversion, and your board says Open again? I have 9 from the crash. Two are discharged, seven are still here, and I have one doctor.\"",
+              "owner": "Pinecrest charge nurse",
+              "updated": "20:50"
+            },
+            {
+              "name": "MED 1 door count, 20:50: St. Brendan's nursing supervisor (voice)",
+              "status": "yellow",
+              "notes": "\"The CT tube ships overnight and gets here tomorrow around 10:00. We stay on Limited intake. Door count is 3 from the crash: LC-0412, LC-0417 and one other.\"",
+              "owner": "St. Brendan's nursing supervisor",
+              "updated": "20:50"
+            },
+            {
+              "name": "StatusGrid on-call engineer (phone to MEDCOM)",
+              "status": "unknown",
+              "notes": "\"Pinecrest's carrier brought their line back at 20:40. Their interface engine is still pushing a value it cached at 16:55, and I can't clear that remotely. It needs an engineer on site. Bad news on that: our Madison field tech who was headed your way got pulled off at 20:15 to a hospital in Janesville whose whole system is down. Dispatch rerouted the job to our Milwaukee engineer, who is about three hours out, so around midnight.\"",
+              "owner": "StatusGrid Health Systems",
+              "updated": "20:52"
+            }
+          ],
+          "legend": {
+            "green": "OPEN / service up",
+            "yellow": "LIMITED INTAKE / degraded",
+            "red": "DIVERSION or CLOSED"
+          }
+        },
+        "instructorNote": "This tests whether the players trust the board row by row. Pinecrest's green row is a stale cached value, and the St. Brendan's row matches the voice report. Watch for three things. MEDCOM should mark Pinecrest unconfirmed, keep it voice-only and announce its Diversion in plain words on MED 1 until the engineer arrives around midnight. HCC should tell the Medical Group the board is only partly trusted (SOP-MC-02 sections 2–3). The Medical Group should keep confirming every destination by voice.",
+        "deliveryMode": "hand_to_role"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-11-13T01:50:37.936Z"
+}

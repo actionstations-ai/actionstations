@@ -64,3 +64,9 @@ The evaluation guides for Public Information and Warning, Situational Assessment
 ## Before you rely on it
 
 The templates, figures and examples follow the National Weather Service's published product specifications as closely as an exercise needs, but they are not operational products, and the sounding indices are teaching-grade values. Have a forecaster or a university meteorology instructor read what you plan to use in training.
+
+## Example project
+
+The Meteorology pack includes an example project, **Brennan County Emergency Management and Channel 6 StormTeam**, with one exercise, _Rain-Wrapped_: on a warm December night a fast line of storms with embedded, rain-wrapped tornadoes crosses Brennan County at 60 mph; two North zone sirens are out of service, the overnight shifts at a warehouse and a candle plant are at work, and the county and Channel 6 must warn people who are asleep, open the safe rooms in time and keep their messages consistent.
+
+Turn the pack on under **Packs**, then open a copy from **Projects → Examples**. The organization, its people and its businesses are fictional; the exercise comes with its injects, media, Situation Manual, evaluation guides and controller handbook, ready to read or run.

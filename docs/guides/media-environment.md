@@ -78,3 +78,9 @@ Documents the pack links but does not include:
 - Verification Handbook, European Journalism Centre: https://verificationhandbook.com/
 
 If your project includes the organization's own communications plan, the evaluation guide cites it.
+
+## Example project
+
+The Crisis communications and journalism pack includes an example project, **Tallis Home Products: communications team and a customer data incident**, with one exercise, _Sample Rows_: on a Tuesday morning a hacker forum post claims to sell 1.9 million Tallis customer accounts; the team must issue a holding statement within the hour, answer a trade reporter and a false viral claim, correct its own first statement, and keep the customer email, the press line and the Form 8-K consistent while the stock falls.
+
+Turn the pack on under **Packs**, then open a copy from **Projects → Examples**. The organization, its people and its businesses are fictional; the exercise comes with its injects, media, Situation Manual, evaluation guides and controller handbook, ready to read or run.

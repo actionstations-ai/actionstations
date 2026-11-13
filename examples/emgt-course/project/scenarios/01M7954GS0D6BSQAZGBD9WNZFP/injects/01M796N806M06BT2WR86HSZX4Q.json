@@ -1,0 +1,179 @@
+{
+  "id": "01M796N806M06BT2WR86HSZX4Q",
+  "mselRowId": "I-12b",
+  "type": "phone_call",
+  "title": "EOC Bridge, 07:42: Kessler Ready, Access Needs, Vault Breaker",
+  "deliveryMode": "read_aloud",
+  "fields": {
+    "orgName": "Marlowe State University",
+    "systemName": "Recorded Line - EOC Room 108, Dean of Students Position (Radio Patch Enabled)",
+    "callId": "CR-20270325-074205-0045",
+    "direction": "Inbound",
+    "caller": {
+      "name": "Lena Park",
+      "number": "(740) 555-0124",
+      "label": "Fieldhouse Operations, Kessler Fieldhouse"
+    },
+    "callee": {
+      "name": "Dean of Students",
+      "number": "555-0148",
+      "label": "EOC Room 108, Campus Services Building - Housing and Mass Care"
+    },
+    "startTime": "03/25/2027 07:42:05",
+    "duration": "4:52",
+    "transcript": [
+      {
+        "speaker": "Kessler Fieldhouse (Lena Park)",
+        "offset": "0:00",
+        "text": "Dean, Lena Park at Kessler. I've seen the forecast and I figured you were about to call me. Once you say go, I can have the floor covers down, cots out and Gate 2 open in 25 minutes. Check-in tables and the card readers are already on a cart. The generator's rated for 36 hours on a full tank, but the day tank is only about half full right now, so figure about half that unless someone brings me diesel. And I don't have many outlets on the generator circuit. There are a handful, all along the north wall by the training room. Everything else on the floor goes dark if street power drops. So, where do you want people?",
+        "prompt": true
+      },
+      {
+        "speaker": "Student Health Center (Nurse D. Okafor)",
+        "offset": "2:05",
+        "text": "Dean, this is Dana Okafor, nurse at the Student Health Center. I'm joining on the bridge. I have the access list from Housing for Riverside. Two residents use oxygen concentrators. They need generator-backed outlets at the shelter and spare cylinders for the walk over, because the concentrators won't run on the way. One resident is deaf. The PA and the sirens won't reach them, so someone has to knock on that door, and the shelter will need an interpreter or text-based announcements. I can bring cylinders over from the Student Health Center. Do you want me at Kessler, and when?",
+        "prompt": true
+      },
+      {
+        "speaker": "Riverside Electrician (Radio Patch)",
+        "offset": "4:10",
+        "text": "Ops, Electrician 1. I'm in the Riverside transformer vault. The floor's dry and the gear's dry for now. When do you want the main breaker opened? Once I pull it, the elevators stop. Lights go to emergency and the fire alarm goes to battery. Standing by for your word.",
+        "prompt": true
+      }
+    ],
+    "voiceStyles": {
+      "Kessler Fieldhouse (Lena Park)": "Woman in her 50s, brisk and practical, echo of an empty gym behind her, keys jangling",
+      "Student Health Center (Nurse D. Okafor)": "Woman in her 30s, calm and clinical, speaking quickly, papers shuffling",
+      "Riverside Electrician (Radio Patch)": "Man in his 40s, flat radio tone, slight hum of transformers, short clipped sentences"
+    },
+    "injectId": "I-12b"
+  },
+  "variant": "default",
+  "instructorNote": "This inject tests whether the DoS seat opens Kessler now and runs it as one integrated shelter. Watch for four things: the oxygen users placed at the generator-backed north-wall outlets, communication access provided on site, registration from the first arrival, and the 1,500 trigger for the ballroom. It also tests whether Fac sends fuel to the day tank and tells the electrician to hold the breaker until the IC confirms the elevators are clear (EOP 7). Pause after each prompt so the seats can answer, and note anyone who suggests moving a resident elsewhere because of a disability.",
+  "citations": [
+    {
+      "documentId": "01M7954ERAAANZYZPXM3988TWQ",
+      "documentTitle": "MSU Emergency Operations Plan, Annex F: Flash Flooding",
+      "headingPath": "MSU Emergency Operations Plan, A… › 7. Utilities and facilities",
+      "quote": "- **Electrical:** Facilities isolates Riverside Hall's main service at the transformer vault before the basement stage. Isolation takes 20 minutes and turns off elevators, lights and fire alarm primar",
+      "chunkId": 20
+    },
+    {
+      "documentId": "01M7954ERAAANZYZPXM3988TWQ",
+      "documentTitle": "MSU Emergency Operations Plan, Annex F: Flash Flooding",
+      "headingPath": "MSU Emergency Operations Plan, A… › 8. Sheltering",
+      "quote": "Kessler Fieldhouse is the primary shelter (1,800 capacity, 500 kW generator with 36 hours of fuel, on ground 40 feet above Lot C). The Student Union ballroom is the alternate (400 capacity). The Dean ",
+      "chunkId": 21
+    },
+    {
+      "documentId": "01M7954ERCMW909E6H9A15J3K2",
+      "documentTitle": "MSU-EM-SOP-03: Emergency Notification and Shelter Operations",
+      "headingPath": "MENSO › 7. Opening the shelter",
+      "quote": "The Dean of Students decides to open Kessler Fieldhouse. Steps: 1. Call Fieldhouse Operations (Lena Park, 740-555-0124) to unlock Gate 2, turn on the generator transfer switch and open the main floor.",
+      "chunkId": 31
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template",
+      "tts"
+    ],
+    "voiceLines": [
+      {
+        "speaker": "Kessler Fieldhouse (Lena Park)",
+        "voiceStyle": "Woman in her 50s, brisk and practical facilities manager, General American accent, quick confident pace, slightly echoey as if standing in a large empty gym, a little impatient to get moving",
+        "text": "Dean, Lena Park at Kessler. I've seen the forecast, and I figured you were about to call me. Once you say go, I can have the floor covers down, cots out, and Gate Two open in twenty-five minutes. Check-in tables and the card readers are already on a cart. The generator's rated for thirty-six hours on a full tank... but the day tank is only about half full right now, so figure about half that, unless someone brings me diesel. And I don't have many outlets on the generator circuit. There are a handful, all along the north wall by the training room. Everything else on the floor goes dark if street power drops. So... where do you want people?"
+      },
+      {
+        "speaker": "Student Health Center (Nurse D. Okafor)",
+        "voiceStyle": "Woman in her 30s, campus nurse, calm and clinical but speaking quickly, organized and focused, slight urgency held under control, as if reading from a list in her hand",
+        "text": "Dean, this is Dana Okafor, nurse at the Student Health Center. I'm joining on the bridge. I have the access list from Housing for Riverside. Two residents use oxygen concentrators. They need generator-backed outlets at the shelter, and spare cylinders for the walk over, because the concentrators won't run on the way. One resident is deaf. The PA and the sirens won't reach them, so someone has to knock on that door, and the shelter will need an interpreter, or text-based announcements. I can bring cylinders over from the Student Health Center. Do you want me at Kessler... and when?"
+      },
+      {
+        "speaker": "Riverside Electrician (Radio Patch)",
+        "voiceStyle": "Man in his 40s, facilities electrician on a handheld radio, flat and steady, short clipped sentences, low and matter-of-fact, slight background hum of transformer gear",
+        "text": "Ops, Electrician One. I'm in the Riverside transformer vault. The floor's dry, and the gear's dry, for now. When do you want the main breaker opened? Once I pull it, the elevators stop. Lights go to emergency, and the fire alarm goes to battery. Standing by for your word."
+      }
+    ],
+    "postFx": [
+      "phone"
+    ]
+  },
+  "assets": [
+    {
+      "id": "01M79CGDFGZJ04CD0QEKJ4VCX6",
+      "kind": "image",
+      "path": "scenarios/01M7954GS0D6BSQAZGBD9WNZFP/media/01M796N806M06BT2WR86HSZX4Q/01M79CGDFGZJ04CD0QEKJ4VCX6.png",
+      "role": "rendered",
+      "width": 816,
+      "height": 1056,
+      "sha256": "378d93fd03f2b6a283494acedb8a7f8d0d762ea24e868689200414258b7a55b1",
+      "provenance": {
+        "provider": "template",
+        "templateId": "phone_call",
+        "templateVersion": "1",
+        "createdAt": "2026-11-13T02:41:38.689Z"
+      }
+    }
+  ],
+  "versions": [
+    {
+      "at": "2026-11-13T01:00:16.422Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "EOC Bridge, 07:42: Kessler Ready, Access Needs, Vault Breaker",
+        "type": "phone_call",
+        "fields": {
+          "orgName": "Marlowe State University",
+          "systemName": "Recorded Line - EOC Room 108, Dean of Students Position (Radio Patch Enabled)",
+          "callId": "CR-20270325-074205-0045",
+          "direction": "Inbound",
+          "caller": {
+            "name": "Lena Park",
+            "number": "(740) 555-0124",
+            "label": "Fieldhouse Operations, Kessler Fieldhouse"
+          },
+          "callee": {
+            "name": "Dean of Students",
+            "number": "555-0148",
+            "label": "EOC Room 108, Campus Services Building - Housing and Mass Care"
+          },
+          "startTime": "03/25/2027 07:42:05",
+          "duration": "4:52",
+          "transcript": [
+            {
+              "speaker": "Kessler Fieldhouse (Lena Park)",
+              "offset": "0:00",
+              "text": "Dean, Lena Park at Kessler. I've seen the forecast and I figured you were about to call me. Once you say go, I can have the floor covers down, cots out and Gate 2 open in 25 minutes. Check-in tables and the card readers are already on a cart. The generator's rated for 36 hours on a full tank, but the day tank is only about half full right now, so figure about half that unless someone brings me diesel. And I don't have many outlets on the generator circuit. There are a handful, all along the north wall by the training room. Everything else on the floor goes dark if street power drops. So, where do you want people?",
+              "prompt": true
+            },
+            {
+              "speaker": "Student Health Center (Nurse D. Okafor)",
+              "offset": "2:05",
+              "text": "Dean, this is Dana Okafor, nurse at the Student Health Center. I'm joining on the bridge. I have the access list from Housing for Riverside. Two residents use oxygen concentrators. They need generator-backed outlets at the shelter and spare cylinders for the walk over, because the concentrators won't run on the way. One resident is deaf. The PA and the sirens won't reach them, so someone has to knock on that door, and the shelter will need an interpreter or text-based announcements. I can bring cylinders over from the Student Health Center. Do you want me at Kessler, and when?",
+              "prompt": true
+            },
+            {
+              "speaker": "Riverside Electrician (Radio Patch)",
+              "offset": "4:10",
+              "text": "Ops, Electrician 1. I'm in the Riverside transformer vault. The floor's dry and the gear's dry for now. When do you want the main breaker opened? Once I pull it, the elevators stop. Lights go to emergency and the fire alarm goes to battery. Standing by for your word.",
+              "prompt": true
+            }
+          ],
+          "voiceStyles": {
+            "Kessler Fieldhouse (Lena Park)": "Woman in her 50s, brisk and practical, echo of an empty gym behind her, keys jangling",
+            "Student Health Center (Nurse D. Okafor)": "Woman in her 30s, calm and clinical, speaking quickly, papers shuffling",
+            "Riverside Electrician (Radio Patch)": "Man in his 40s, flat radio tone, slight hum of transformers, short clipped sentences"
+          },
+          "injectId": "I-12b"
+        },
+        "instructorNote": "This inject tests whether the DoS seat opens Kessler now and runs it as one integrated shelter. Watch for four things: the oxygen users placed at the generator-backed north-wall outlets, communication access provided on site, registration from the first arrival, and the 1,500 trigger for the ballroom. It also tests whether Fac sends fuel to the day tank and tells the electrician to hold the breaker until the IC confirms the elevators are clear (EOP 7). Pause after each prompt so the seats can answer, and note anyone who suggests moving a resident elsewhere because of a disability.",
+        "deliveryMode": "read_aloud"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-11-13T02:41:38.884Z"
+}

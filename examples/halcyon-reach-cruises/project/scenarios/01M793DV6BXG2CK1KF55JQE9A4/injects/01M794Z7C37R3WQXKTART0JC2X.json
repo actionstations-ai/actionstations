@@ -1,0 +1,205 @@
+{
+  "id": "01M794Z7C37R3WQXKTART0JC2X",
+  "mselRowId": "I-17",
+  "type": "system_log",
+  "title": "Chlorine Mixing Station Log: Batch 17 Fails at 620 ppm",
+  "deliveryMode": "hand_to_role",
+  "fields": {
+    "systemName": "DAWN_CHLORINE_MIX_STATION — Batch, Test Strip and Titration Record",
+    "os": "Dosing station controller with Environmental Officer logbook entries",
+    "logSource": "Batch record / titration sheet / EO radio and phone notes, turnaround 21 Feb 2027",
+    "exportedBy": "Environmental Officer, MV Halcyon Dawn",
+    "exportedAt": "02/21/2027 12:08",
+    "timezone": "CST (UTC-6), ship time",
+    "lines": [
+      {
+        "ts": "2027-02-21 10:46",
+        "level": "INFO",
+        "msg": "Batch 12 | 200 L | target 1,000 ppm | titration 1,000 ppm | OK | pump stroke counter 4,768 | issued cabin teams 1-3 | signed EO",
+        "highlight": false
+      },
+      {
+        "ts": "2027-02-21 10:58",
+        "level": "INFO",
+        "msg": "Batch 13 | 200 L | target 1,000 ppm | titration 990 ppm | OK | pump stroke counter 4,790 | issued cabin teams 4-6 | signed EO",
+        "highlight": false
+      },
+      {
+        "ts": "2027-02-21 11:10",
+        "level": "INFO",
+        "msg": "Batch 14 | 200 L | target 1,000 ppm | measured 1,000 ppm | OK | pump stroke counter 4,812 | issued cabin teams 11-13 | signed EO",
+        "highlight": false
+      },
+      {
+        "ts": "2027-02-21 11:24",
+        "level": "NOTICE",
+        "msg": "Batch 15 | 200 L | target 1,000 ppm | test strip read visually 'about 1,000', titration deferred (teams waiting) | pump stroke counter 4,812 | issued cabin teams 7-8",
+        "highlight": false
+      },
+      {
+        "ts": "2027-02-21 11:38",
+        "level": "NOTICE",
+        "msg": "Batch 16 | 200 L | target 1,000 ppm | test strip visual read, titration deferred | pump stroke counter 4,812 | issued cabin teams 9-10",
+        "highlight": false
+      },
+      {
+        "ts": "2027-02-21 11:52",
+        "level": "ERROR",
+        "msg": "Batch 17 | 200 L | target 1,000 ppm | titration 620 ppm | FAIL | dosing pump stroke counter frozen at 4,812: pump not dosing since batch 14",
+        "highlight": true
+      },
+      {
+        "ts": "2027-02-21 11:54",
+        "level": "CRIT",
+        "msg": "Batches 15-17 already issued to cabin teams 7-10, cabin codes P-9000 to P-9399, about 180 cabins already wiped. Batch issue STOPPED at station. Strength of batches 15-16 not verified.",
+        "highlight": true
+      },
+      {
+        "ts": "2027-02-21 11:58",
+        "level": "ALERT",
+        "msg": "RADIO EO to Hotel Director: 'Hotel Director, Environmental. Station's down. The spare dosing pump in stores has the wrong fitting, a half-inch thread on a three-quarter-inch line. The engine room says ninety minutes to adapt it. Until then I can hand-mix in buckets at about a third of the output. Those 180 cabins have to be done again.'",
+        "highlight": true
+      },
+      {
+        "ts": "2027-02-21 12:03",
+        "level": "INFO",
+        "msg": "Hand-mix started | 20 L buckets | each bucket titrated before issue | output about one-third of station rate | engine room work order open for spare pump adapter",
+        "highlight": false
+      },
+      {
+        "ts": "2027-02-21 12:05",
+        "level": "WARN",
+        "msg": "PHONE Gulf Terminal Services duty manager: 'My crew can't finish a full terminal clean before 14:00. The hall is at about 40 percent, and the restrooms and seating will take until about 15:30. I've got 600 guests already in the parking lot. Are you holding another two hours or not? I need to know by 12:20 to re-lane.'",
+        "highlight": true
+      }
+    ],
+    "classification": "INTERNAL - SANITATION RECORD - RETAIN FOR VSP",
+    "pageLabel": "Page 1 of 1"
+  },
+  "variant": "printout",
+  "instructorNote": "This is a technical hurdle. A failed chlorine batch means about 180 cabins counted as cleaned have to be redone, and it collides with a 12:20 terminal deadline. Watch whether HOTEL stops and quarantines batches 15 to 17, orders P-9000 to P-9399 re-cleaned at a verified 1,000 ppm and records the failure for the VSP. Also watch whether OPS, MSTR and PH decide on another 2-hour block and announce it to guests, agents and the terminal in one message.",
+  "citations": [
+    {
+      "documentId": "01M793DS5Y7AWGB8F00P3B6SCR",
+      "documentTitle": "HR-ORG-04: The Company, MV Halcyon Dawn and the Galveston Turnaround",
+      "headingPath": "HR-ORG-04: The Company, MV Halcy… › 6. What the ship can and cannot do",
+      "quote": "The ship can isolate up to 150 sick guests in cabins with food delivery by about 40 stewards in dedicated routes, can run full cleaning only with the cabin stewards' work (they cannot also serve and c",
+      "chunkId": 36
+    },
+    {
+      "documentId": "01M793DS5W3ZMAW18YW321RER3",
+      "documentTitle": "HR-HSP-01: Outbreak Prevention and Response Plan (Acute Gastroenteritis)",
+      "headingPath": "HOPRPG › 7. Boarding decision for the next voyage",
+      "quote": "At the turnaround in Galveston the Master, the Public Health director and the VP Fleet Operations decide whether the ship boards on time. The decision weighs the 72-hour trend of cases, whether the la",
+      "chunkId": 27
+    },
+    {
+      "documentId": "01M793DS5Y7AWGB8F00P3B6SCR",
+      "documentTitle": "HR-ORG-04: The Company, MV Halcyon Dawn and the Galveston Turnaround",
+      "headingPath": "HR-ORG-04: The Company, MV Halcy… › 4. The voyage in the exercise (Sunday, February 14 to Sunday, February 21, 2027)",
+      "quote": "| Day | Port | Ship times | |---|---|---| | Sun Feb 14 | Galveston | Boarding 14:00 to 16:30, departure 17:30 | | Mon Feb 15 | At sea | | | Tue Feb 16 | Roatán, Honduras | 08:00 to 17:00 | | Wed Feb 1",
+      "chunkId": 34
+    },
+    {
+      "documentId": "01M793DS5SHH569RM23F0AH6NN",
+      "documentTitle": "HR-COM-03: Guest, Family, Travel Partner and Media Communications",
+      "headingPath": "HR-COM-03: Guest, Family, Travel… › 2. Who speaks",
+      "quote": "| Audience | Spokesperson | Approves | |---|---|---| | Guests on board | The Master (announcements), Hotel Director (letters) | The Master, shoreside Public Health | | Families and next of kin | Guest",
+      "chunkId": 3
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template"
+    ]
+  },
+  "assets": [],
+  "versions": [
+    {
+      "at": "2026-11-13T00:30:22.497Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "Chlorine Mixing Station Log: Batch 17 Fails at 620 ppm",
+        "type": "system_log",
+        "fields": {
+          "systemName": "DAWN_CHLORINE_MIX_STATION — Batch, Test Strip and Titration Record",
+          "os": "Dosing station controller with Environmental Officer logbook entries",
+          "logSource": "Batch record / titration sheet / EO radio and phone notes, turnaround 21 Feb 2027",
+          "exportedBy": "Environmental Officer, MV Halcyon Dawn",
+          "exportedAt": "02/21/2027 12:08",
+          "timezone": "CST (UTC-6), ship time",
+          "lines": [
+            {
+              "ts": "2027-02-21 10:46",
+              "level": "INFO",
+              "msg": "Batch 12 | 200 L | target 1,000 ppm | titration 1,000 ppm | OK | pump stroke counter 4,768 | issued cabin teams 1-3 | signed EO",
+              "highlight": false
+            },
+            {
+              "ts": "2027-02-21 10:58",
+              "level": "INFO",
+              "msg": "Batch 13 | 200 L | target 1,000 ppm | titration 990 ppm | OK | pump stroke counter 4,790 | issued cabin teams 4-6 | signed EO",
+              "highlight": false
+            },
+            {
+              "ts": "2027-02-21 11:10",
+              "level": "INFO",
+              "msg": "Batch 14 | 200 L | target 1,000 ppm | measured 1,000 ppm | OK | pump stroke counter 4,812 | issued cabin teams 11-13 | signed EO",
+              "highlight": false
+            },
+            {
+              "ts": "2027-02-21 11:24",
+              "level": "NOTICE",
+              "msg": "Batch 15 | 200 L | target 1,000 ppm | test strip read visually 'about 1,000', titration deferred (teams waiting) | pump stroke counter 4,812 | issued cabin teams 7-8",
+              "highlight": false
+            },
+            {
+              "ts": "2027-02-21 11:38",
+              "level": "NOTICE",
+              "msg": "Batch 16 | 200 L | target 1,000 ppm | test strip visual read, titration deferred | pump stroke counter 4,812 | issued cabin teams 9-10",
+              "highlight": false
+            },
+            {
+              "ts": "2027-02-21 11:52",
+              "level": "ERROR",
+              "msg": "Batch 17 | 200 L | target 1,000 ppm | titration 620 ppm | FAIL | dosing pump stroke counter frozen at 4,812: pump not dosing since batch 14",
+              "highlight": true
+            },
+            {
+              "ts": "2027-02-21 11:54",
+              "level": "CRIT",
+              "msg": "Batches 15-17 already issued to cabin teams 7-10, cabin codes P-9000 to P-9399, about 180 cabins already wiped. Batch issue STOPPED at station. Strength of batches 15-16 not verified.",
+              "highlight": true
+            },
+            {
+              "ts": "2027-02-21 11:58",
+              "level": "ALERT",
+              "msg": "RADIO EO to Hotel Director: 'Hotel Director, Environmental. Station's down. The spare dosing pump in stores has the wrong fitting, a half-inch thread on a three-quarter-inch line. The engine room says ninety minutes to adapt it. Until then I can hand-mix in buckets at about a third of the output. Those 180 cabins have to be done again.'",
+              "highlight": true
+            },
+            {
+              "ts": "2027-02-21 12:03",
+              "level": "INFO",
+              "msg": "Hand-mix started | 20 L buckets | each bucket titrated before issue | output about one-third of station rate | engine room work order open for spare pump adapter",
+              "highlight": false
+            },
+            {
+              "ts": "2027-02-21 12:05",
+              "level": "WARN",
+              "msg": "PHONE Gulf Terminal Services duty manager: 'My crew can't finish a full terminal clean before 14:00. The hall is at about 40 percent, and the restrooms and seating will take until about 15:30. I've got 600 guests already in the parking lot. Are you holding another two hours or not? I need to know by 12:20 to re-lane.'",
+              "highlight": true
+            }
+          ],
+          "classification": "INTERNAL - SANITATION RECORD - RETAIN FOR VSP",
+          "pageLabel": "Page 1 of 1"
+        },
+        "instructorNote": "This is a technical hurdle. A failed chlorine batch means about 180 cabins counted as cleaned have to be redone, and it collides with a 12:20 terminal deadline. Watch whether HOTEL stops and quarantines batches 15 to 17, orders P-9000 to P-9399 re-cleaned at a verified 1,000 ppm and records the failure for the VSP. Also watch whether OPS, MSTR and PH decide on another 2-hour block and announce it to guests, agents and the terminal in one message.",
+        "deliveryMode": "hand_to_role"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-11-13T02:35:08.480Z"
+}

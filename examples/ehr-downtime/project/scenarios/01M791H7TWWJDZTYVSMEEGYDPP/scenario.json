@@ -7,7 +7,7 @@
   "version": 1,
   "status": "ready",
   "createdAt": "2026-11-12T23:29:51.452Z",
-  "updatedAt": "2026-11-13T02:47:43.202Z",
+  "updatedAt": "2026-11-13T03:09:09.229Z",
   "brief": {
     "userPrompt": "Tuesday, February 9, 2027, a cold night in Duluth. At 02:10 a storage controller fault at the primary data center makes the Lakechart database unavailable; clinicians see spinning screens, the IS Help Desk (ext. 5500) takes the first calls at 02:14 and on-call analyst Ananya Desai confirms at 02:25 that the EHR and the interface engine are both down and that replication to the Hermantown secondary was 40 minutes behind. The exercise starts at 02:40 with the Administrator on Call and Night House Supervisor, 98 inpatients in house, 22 patients in the ED and a woman in active labor. Marcus Ellery (Clinical Systems Lead) and CMIO Dr. Priya Raman are on their way. The target is every unit on downtime procedures within 60 minutes of declaration; the plan's downtime level (3 or 4) turns on whether Gregory Pruitt, the Privacy and Security Officer, can rule out a security cause, and at 03:30 the managed security provider reports an unrelated odd login on a service account that muddies the picture until 06:15. Pressure points: the declaration and the overhead page; units that are slow to report; the downtime viewer is 3 hours 20 minutes old; a critical potassium of 6.9 and a positive blood culture phoned by the lab (Tomas Nygaard) that need read-back inside 60 minutes; the ICU wants pump and monitor network isolation; override pulls in the automated dispensing cabinets and a controlled-substance count mismatch for Pharmacy Operations Manager Alicia Voss; unidentified trauma patients registered as ZZ-Trauma Tuesday 1 and 2 and a possible overlay between two patients named Carlson on the medical-surgical unit; the EHR vendor's priority-one line, which promises a callback in 30 minutes and does not call for 55; the interface engine vendor's on-call engineer, who calls back in about 2 hours; at 06:00 the standby engine is promoted and 31,000 queued messages must be dispositioned (replay, hold or discard) by class, including stale orders for discharged patients; the restore order against the clinician priority list (identity check, lab interface, EHR, pharmacy interface) and a request from the ED medical director to open the EHR before the lab interface is validated; the EHR restore is estimated for about 14:00, after ENDEX, when units will report reconciliation counts hourly and the HIM Director (Janelle Brandt) will track duplicates; the question of whether this is a reportable breach and when the 60-day clock would start; staff and the public hear about it, and a local TV reporter and a post on a community Facebook group claim that the hospital has been hacked, so Hannah Lindqvist (PIO) must keep statements consistent with what is known. The SimCell plays the EHR vendor, the interface engine vendor, the lab and radiology and pharmacy system vendors, the regional health information exchange, the Minnesota Department of Health, the St. Louis County ambulance dispatch, a neighboring hospital, the cyber insurer's breach coach, reporters and families.",
     "audience": [
@@ -1105,7 +1105,7 @@
         "lab_pharmacy"
       ],
       "toLabel": "CNO, LPM",
-      "event": "Staffing Grid (House Supervisor's board, 05:05): Paper runners: needed 6, on duty 2 (ICU and ED only). Med-Surg Level 3, L&D, Pediatrics and Behavioral Health have no runner. Float pool: 3 RNs available, none assigned. Unit clerks: 4 night, day shift starts 07:00. Phone Call (Core Lab technologist Maren Halvorsen): \"I have 41 printed results on the counter that nobody has picked up. Some of them have been here 50 minutes. I'm phoning the abnormal ones, but I can't walk them to the floors and run the analyzers too.\" Text Message (night pharmacist): \"Override pulls are at 47. Reconciling the Downtime Medication Log against the cabinet override reports line by line is going to take two more pharmacists. The ICU hydromorphone count is still 17 against 18 expected. Do I call in day pharmacists now?\"",
+      "event": "Staffing Grid (House Supervisor's board, 05:05): Paper runners: needed 6, on duty 2 (ICU and ED only). Med-Surg Level 3, L&D, Pediatrics and Behavioral Health have no runner. Float pool: 3 RNs available, none assigned. Unit clerks: 4 night, day shift starts 07:00. Phone Call (Core Lab technologist Maren Halvorsen): \"I have 41 printed results on the counter that nobody has picked up. Some of them have been here most of an hour. I'm phoning the abnormal ones, but I can't walk them to the floors and run the analyzers too.\" Text Message (night pharmacist): \"Override pulls are at 47. Reconciling the Downtime Medication Log against the cabinet override reports line by line is going to take two more pharmacists. The ICU hydromorphone count is still 17 against 18 expected. Do I call in day pharmacists now?\"",
       "expectedAction": "The House Supervisor assigns float staff as paper runners, calls the day-shift unit clerks in early and confirms that every unit's runner covers results pickup. The Pharmacy Operations Manager calls in extra pharmacists to reconcile the Downtime Medication Log against the cabinet overrides and reports the controlled-substance mismatch to the command center now, without reconciling it quietly. Late result deliveries go on the running count of delayed results.",
       "purposeTag": "CORE_NARRATIVE",
       "format": "staffing_grid",
@@ -4001,8 +4001,8 @@
     {
       "stage": "media_render",
       "itemId": "01M792KSY53AC7QE86050GQQG4",
-      "startedAt": "2026-11-13T02:45:12.515Z",
-      "finishedAt": "2026-11-13T02:45:12.750Z",
+      "startedAt": "2026-11-13T03:09:04.046Z",
+      "finishedAt": "2026-11-13T03:09:04.382Z",
       "promptRef": "template",
       "status": "ok",
       "repairAttempts": 0
@@ -4118,8 +4118,8 @@
     {
       "stage": "media_render",
       "itemId": "01M79301RJ35FYD1MZEY3N02KK",
-      "startedAt": "2026-11-13T02:45:15.358Z",
-      "finishedAt": "2026-11-13T02:45:15.595Z",
+      "startedAt": "2026-11-13T03:09:04.385Z",
+      "finishedAt": "2026-11-13T03:09:04.615Z",
       "promptRef": "template",
       "status": "ok",
       "repairAttempts": 0
@@ -4856,7 +4856,7 @@
       "row:I-13": {
         "label": "review",
         "reason": "‘reports’ is not in 2. Roles or the facility facts.",
-        "fingerprint": "e6a9282459017e47",
+        "fingerprint": "b1417dfb2f2ce7ac",
         "claims": [
           {
             "text": "The House Supervisor assigns float staff as paper runners, calls the day-shift unit clerks in early and confirms that every unit's runner covers results pickup.",
@@ -4892,7 +4892,7 @@
             "conflicting": []
           }
         ],
-        "at": "2026-11-12T23:35:14.202Z",
+        "at": "2026-11-13T03:09:03.963Z",
         "version": 1
       },
       "row:I-13b": {
@@ -5411,25 +5411,22 @@
         "version": 1
       },
       "inject:01M792KSY53AC7QE86050GQQG4": {
-        "label": "unsupported",
-        "reason": "‘15-minute’ is not in 3. Downtime levels; the passage says ‘The target is every unit on downtime procedures within 60 minutes of declaration.’.",
-        "fingerprint": "63a1e9a97a12078c",
+        "label": "review",
+        "reason": "‘D-004117’, ‘D-004118’ are not in 8. Patient identity or the facility facts.",
+        "fingerprint": "22abeda52a1c673f",
         "claims": [
           {
-            "text": "This tests the 15-minute callback rule and how downtime patient identities are tracked.",
+            "text": "This tests whether the House Supervisor calls units that are past 15 minutes without a report, and how downtime patient identities are tracked.",
             "chunkId": 4,
             "headingPath": "Lakemont Community Hospital — In… › 3. Downtime levels",
-            "overlap": 0.556,
-            "matched": [],
-            "missing": [
-              "15-minute"
+            "overlap": 0.714,
+            "matched": [
+              "15 minutes",
+              "House Supervisor",
+              "report"
             ],
-            "conflicting": [
-              {
-                "term": "15-minute",
-                "passage": "The target is every unit on downtime procedures within 60 minutes of declaration."
-              }
-            ]
+            "missing": [],
+            "conflicting": []
           },
           {
             "text": "Watch whether the House Supervisor calls Pediatrics and Behavioral Health right away and records their on-procedures times.",
@@ -5455,12 +5452,7 @@
             "conflicting": []
           }
         ],
-        "override": {
-          "label": "grounded",
-          "note": "Hand-checked: the 15-minute rule for an unreported unit is in the Downtime and Recovery Plan, section 3 (declaration by the House Supervisor's calls to each charge nurse); the D- numbers come from the scenario, not the plans.",
-          "at": "2026-11-13T01:34:35.000Z"
-        },
-        "at": "2026-11-13T00:01:21.953Z",
+        "at": "2026-11-13T03:09:03.964Z",
         "version": 1
       },
       "inject:01M792MHKMAJAW3KBVTKS7W0H4": {
@@ -5922,9 +5914,9 @@
         "version": 1
       },
       "inject:01M79301RJ35FYD1MZEY3N02KK": {
-        "label": "unsupported",
-        "reason": "‘50 minutes’ is not in 5. Safe care during downtime; the passage says ‘Critical results are telephoned by the laboratory to the responsible nurse or provider within 60 minutes of result verification, with read-back, and logged on …’.",
-        "fingerprint": "b42f73974d6a5882",
+        "label": "review",
+        "reason": "Only 44% of ‘This inject tests whether the House Supervisor turns the id…’ is in 1. Starting downtime on a unit.",
+        "fingerprint": "317f88041e96d2f2",
         "claims": [
           {
             "text": "This inject tests whether the House Supervisor turns the idle float RNs into runners for every unit, including results pickup, and calls the day clerks in early.",
@@ -5950,30 +5942,18 @@
             "conflicting": []
           },
           {
-            "text": "Watch whether the 41 uncollected results, some 50 minutes old, are added to the CNO and Laboratory Manager's running count of delayed results.",
+            "text": "Watch whether the 41 uncollected results, some nearly an hour old, are added to the CNO and Laboratory Manager's running count of delayed results.",
             "chunkId": 6,
             "headingPath": "Lakemont Community Hospital — In… › 5. Safe care during downtime",
             "overlap": 0.538,
             "matched": [
               "Laboratory Manager"
             ],
-            "missing": [
-              "50 minutes"
-            ],
-            "conflicting": [
-              {
-                "term": "50 minutes",
-                "passage": "Critical results are telephoned by the laboratory to the responsible nurse or provider within 60 minutes of result verification, with read-back, and logged on the Critical Result Call Log."
-              }
-            ]
+            "missing": [],
+            "conflicting": []
           }
         ],
-        "override": {
-          "label": "grounded",
-          "note": "Hand-checked: the 60-minute rule for critical results is IS-14-A section 3; the 50 minutes is the age of uncollected results in the scenario, not a plan figure.",
-          "at": "2026-11-13T01:34:35.000Z"
-        },
-        "at": "2026-11-13T00:01:21.965Z",
+        "at": "2026-11-13T03:09:03.965Z",
         "version": 1
       },
       "inject:01M7930TG9N9F61P8FE048BB7B": {

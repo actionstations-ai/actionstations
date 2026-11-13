@@ -1,0 +1,144 @@
+{
+  "id": "01M7939SYSNC0K4W8G5X5G8SBY",
+  "mselRowId": "I-14",
+  "type": "gov_ransom_decision_paper",
+  "title": "Ransom Decision Paper: Open Talks or Refuse Tonight",
+  "deliveryMode": "hand_to_role",
+  "fields": {
+    "marking": "EXERCISE · EXERCISE · EXERCISE · PRIVILEGED AND CONFIDENTIAL, PREPARED AT THE DIRECTION OF COUNSEL",
+    "exerciseAid": "Exercise aid, not legal advice. Check the current rule and your counsel.",
+    "company": "Ironcrest Machinery Corporation (fictional)",
+    "incident": "MES and file server ransomware with data exfiltration (MOLTEN SPIDER, .ironmelt)",
+    "asOf": "Thursday, March 25, 2027, 9:20 p.m. Central Time (10:20 p.m. Eastern). Circulated on the CMT bridge (815) 555-0121, code 7700",
+    "preparedBy": "General Counsel with Harrow Fenn LLP; inputs from Blue Heron Mutual claims counsel, the forensic negotiator, the FBI Chicago field office (cyber squad) and the Business Continuity Manager's recovery tracker",
+    "demand": "18 million dollars in cryptocurrency to two wallets within 72 hours of encryption (deadline about 2:05 p.m. CT, Sunday, March 28, 2027), or the actor publishes 1.2 TB of stolen data. Blackwater Cyber has confirmed 1.19 TB taken from Engineering Released, HR Exports and Finance Close. The actor decrypted two test files tonight and offers 15 percent off (15.3 million dollars) for payment within 24 hours. QUESTION FOR THE CEO TONIGHT: Option 1 or Option 2.",
+    "options": [
+      {
+        "option": "Option 1: Open talks now through the forensic negotiator to gather information and buy time. Talks are directed by the General Counsel through Harrow Fenn LLP, with no commitment to pay.",
+        "consequences": "Negotiator: likely keeps the 15.3-million-dollar discount open and may delay a further leak while screening runs. The actor will read talks as willingness to pay, and if talks stall it usually posts more data. Blue Heron Mutual consents to talks to gather information and proof of decryption only. No payment is possible while the sanctions match is open, and none at any price if the match is confirmed. Any payment later would need, under ICMP 6 and the Delegation of Authority: sanctions clearance, insurer consent, FBI notice, consultation with the Audit Committee Chair, the board told, and board approval because the amount is over 5 million dollars. A decryptor does not clean the systems. They must still be rebuilt. Wallet addresses and chat transcripts go to the FBI either way.",
+        "timeNeeded": "Talks can open tonight. Sanctions resolution takes 24 to 48 hours, which is after the discount window closes (about 9:00 p.m. CT Friday). If screening clears and payment is approved, the decryptor run on the MES databases takes an estimated 36 to 60 hours plus the rebuild. MES possibly back Saturday to Sunday, day 3 to 4. Each lost day is about 8.5 million dollars of sales."
+      },
+      {
+        "option": "Option 2: Refuse outright under the no-payment policy (ICMP 6) and commit to the rebuild from backup.",
+        "consequences": "The CEO can decide this on their own authority. Negotiator: expect another proof pack or a leak within hours. Communications must be ready for posted Engineering, HR and Finance Close data. Rebuild from the Wednesday 07:05 MES snapshot once Blackwater clears it. 31 hours of lots must be re-entered by hand at Rockford, Beloit and Dubuque. Minimum service lands right at the 5-day finished-goods buffer and at the start of the Fieldmark Equipment penalty clause after 5 days. Before any rebuild, Blackwater recommends disabling svc_wmsvendor and all vendor remote-access accounts and resetting krbtgt twice. No sanctions exposure.",
+        "timeNeeded": "Backup clearance (persistence sweep) takes 12 to 18 hours, then the rebuild. MES minimum service around Monday, March 29, 2027, day 4 to 5. BCM tracker: the MES misses its 8-hour RTO at 10:05 p.m. CT tonight and passes its 24-hour MTPD at 2:05 p.m. CT Friday on either path. Each lost day is about 8.5 million dollars of sales."
+      }
+    ],
+    "sanctionsScreening": "Harrow Fenn LLP, 9:05 p.m. CT: The actor signs as MOLTEN SPIDER. Our name screen returns an 82 percent partial match to MOLTEN SYNDICATE, a designated affiliate. Blockchain analytics show that one of the two demand wallets is one hop from a designated cluster. Status: UNRESOLVED. We expect to resolve it in 24 to 48 hours, which is after the discount window closes. If the match is confirmed, no payment can be made at any price. The screen will be rerun and dated before any payment is considered.",
+    "insurerPosition": "Blue Heron Mutual claims counsel: Notice received under claim BHM-27-0912. Blackwater Cyber and Harrow Fenn LLP are consented retroactively from 3:00 p.m. CT today. We consent to the negotiator holding talks to gather information and proof of decryption. We cannot consent to any payment while the sanctions match is open. Policy: 50-million-dollar limit and 2-million-dollar retention. Business interruption is covered after an 8-hour waiting period. Prior consent is required for any ransom payment. The policy and claims line are held by the CFO and the Deputy General Counsel.",
+    "lawEnforcement": "FBI Chicago field office, special agent, cyber squad, contacted by the General Counsel this evening: 'We recommend against payment. We ask for the wallet addresses, the chat transcripts and the indicators whichever path you choose. The decision is yours.' CISA to be informed under ICMP 6 before any payment is considered.",
+    "recommendation": "Management makes no recommendation to pay. None can be made while the sanctions match is unresolved and insurer consent is withheld. Company policy is not to pay (ICMP 6). The CEO is asked to choose Option 1 or Option 2 tonight and to record the facts known at the time of decision and the basis. The BCM will log the RTO impact of the chosen path in the recovery tracker.",
+    "decision": "pending",
+    "disclosureNote": "Paying, negotiating or refusing does not remove the duty to decide on materiality. The 8:00 p.m. Disclosure Committee record (determination, factors, basis and 8-K choice) stands on its own timetable. The decision taken here, and the 1.19 TB exfiltration, must appear with the same facts in the board briefing, any Form 8-K, the press release and the employee message (ICMP 7). Under the Delegation of Authority, any payment over 5 million dollars needs board approval."
+  },
+  "instructorNote": "Decision point: the CEO should decide on the record tonight, either opening negotiator-led talks run by the GC with no commitment to pay or refusing outright with a day 4 to 5 rebuild. The open sanctions match is the deciding risk. Watch whether anyone moving toward payment sees that it needs sanctions clearance, insurer consent, FBI notice, consultation with the Audit Committee Chair and an emergency board call tonight, not the 07:00 meeting. Also check that the BCM logs the RTO impact and the MTPD breach.",
+  "citations": [
+    {
+      "documentId": "01M791NWETPNJ2B6DP42BR9D8C",
+      "documentTitle": "ICM-BCM-02: Business Impact Analysis and Recovery Order",
+      "headingPath": "IBIARO › 3. Critical functions",
+      "quote": "| Function | System or site | RTO | RPO | MTPD | MASL | |---|---|---|---|---|---| | Plant control networks and machine controllers, Plants 1 to 3 | PLC networks, historians | 4 hours | 0 | 12 hours | ",
+      "chunkId": 13
+    },
+    {
+      "documentId": "01M791NWEVAZDEE6NB6D1690HB",
+      "documentTitle": "ICM-CMP-01: Crisis Management Plan",
+      "headingPath": "ICMP › 6. Ransom and payment decisions",
+      "quote": "The company policy is not to pay. If the CEO considers payment, the following must be done first and recorded: the General Counsel confirms sanctions screening of the recipient through outside counsel",
+      "chunkId": 25
+    },
+    {
+      "documentId": "01M791NWETPNJ2B6DP42BR9D8C",
+      "documentTitle": "ICM-BCM-02: Business Impact Analysis and Recovery Order",
+      "headingPath": "IBIARO › 6. Key suppliers and vendors",
+      "quote": "The company's cloud provider, the payroll provider (Northbridge Payroll, fictional), the outside data center and network carriers, the warehouse software vendor, the steel supplier, the forensic firm ",
+      "chunkId": 16
+    },
+    {
+      "documentId": "01M791NWEQXPNRRA35RQ312YKM",
+      "documentTitle": "ICM-GOV-01: Board Oversight, Delegation of Authority and Insurance",
+      "headingPath": "IBODAI › 5. Insurance",
+      "quote": "Ironcrest's cyber policy with Blue Heron Mutual has a limit of 50 million dollars with a 2 million dollar retention. It covers forensic and legal costs, business interruption after an 8-hour waiting p",
+      "chunkId": 6
+    },
+    {
+      "documentId": "01M791NWEQXPNRRA35RQ312YKM",
+      "documentTitle": "ICM-GOV-01: Board Oversight, Delegation of Authority and Insurance",
+      "headingPath": "IBODAI › 3. Delegation of authority (extract)",
+      "quote": "| Decision | Authority | Limit | |---|---|---| | Declare a crisis, activate the CMT | CEO (or COO) | None | | Engage forensic firm and outside counsel | General Counsel | Up to 2 million dollars witho",
+      "chunkId": 4
+    },
+    {
+      "documentId": "01M791NWEVAZDEE6NB6D1690HB",
+      "documentTitle": "ICM-CMP-01: Crisis Management Plan",
+      "headingPath": "ICMP › 7. Communications in a crisis",
+      "quote": "Messages to employees, customers, dealers, suppliers, regulators, analysts and the press come from the fact sheet kept by the Chief Communications Officer. The same numbers and dates appear in the boa",
+      "chunkId": 26
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template"
+    ]
+  },
+  "assets": [
+    {
+      "id": "01M79BVRQJKZ8NA5Y52PYTRCG2",
+      "kind": "image",
+      "path": "scenarios/01M791NYFD5GNSAF0J0E4J4T0E/media/01M7939SYSNC0K4W8G5X5G8SBY/01M79BVRQJKZ8NA5Y52PYTRCG2.png",
+      "role": "rendered",
+      "width": 816,
+      "height": 1056,
+      "sha256": "8119c8bafc2955e360fda181e896a5f8cf6c57c1f69e94b82f16974c863580d6",
+      "provenance": {
+        "provider": "template",
+        "templateId": "gov_ransom_decision_paper",
+        "templateVersion": "1",
+        "createdAt": "2026-11-13T02:30:22.054Z"
+      }
+    }
+  ],
+  "versions": [
+    {
+      "at": "2026-11-13T00:01:52.106Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "Ransom Decision Paper: Open Talks or Refuse Tonight",
+        "type": "gov_ransom_decision_paper",
+        "fields": {
+          "marking": "EXERCISE · EXERCISE · EXERCISE · PRIVILEGED AND CONFIDENTIAL, PREPARED AT THE DIRECTION OF COUNSEL",
+          "exerciseAid": "Exercise aid, not legal advice. Check the current rule and your counsel.",
+          "company": "Ironcrest Machinery Corporation (fictional)",
+          "incident": "MES and file server ransomware with data exfiltration (MOLTEN SPIDER, .ironmelt)",
+          "asOf": "Thursday, March 25, 2027, 9:20 p.m. Central Time (10:20 p.m. Eastern). Circulated on the CMT bridge (815) 555-0121, code 7700",
+          "preparedBy": "General Counsel with Harrow Fenn LLP; inputs from Blue Heron Mutual claims counsel, the forensic negotiator, the FBI Chicago field office (cyber squad) and the Business Continuity Manager's recovery tracker",
+          "demand": "18 million dollars in cryptocurrency to two wallets within 72 hours of encryption (deadline about 2:05 p.m. CT, Sunday, March 28, 2027), or the actor publishes 1.2 TB of stolen data. Blackwater Cyber has confirmed 1.19 TB taken from Engineering Released, HR Exports and Finance Close. The actor decrypted two test files tonight and offers 15 percent off (15.3 million dollars) for payment within 24 hours. QUESTION FOR THE CEO TONIGHT: Option 1 or Option 2.",
+          "options": [
+            {
+              "option": "Option 1: Open talks now through the forensic negotiator to gather information and buy time. Talks are directed by the General Counsel through Harrow Fenn LLP, with no commitment to pay.",
+              "consequences": "Negotiator: likely keeps the 15.3-million-dollar discount open and may delay a further leak while screening runs. The actor will read talks as willingness to pay, and if talks stall it usually posts more data. Blue Heron Mutual consents to talks to gather information and proof of decryption only. No payment is possible while the sanctions match is open, and none at any price if the match is confirmed. Any payment later would need, under ICMP 6 and the Delegation of Authority: sanctions clearance, insurer consent, FBI notice, consultation with the Audit Committee Chair, the board told, and board approval because the amount is over 5 million dollars. A decryptor does not clean the systems. They must still be rebuilt. Wallet addresses and chat transcripts go to the FBI either way.",
+              "timeNeeded": "Talks can open tonight. Sanctions resolution takes 24 to 48 hours, which is after the discount window closes (about 9:00 p.m. CT Friday). If screening clears and payment is approved, the decryptor run on the MES databases takes an estimated 36 to 60 hours plus the rebuild. MES possibly back Saturday to Sunday, day 3 to 4. Each lost day is about 8.5 million dollars of sales."
+            },
+            {
+              "option": "Option 2: Refuse outright under the no-payment policy (ICMP 6) and commit to the rebuild from backup.",
+              "consequences": "The CEO can decide this on their own authority. Negotiator: expect another proof pack or a leak within hours. Communications must be ready for posted Engineering, HR and Finance Close data. Rebuild from the Wednesday 07:05 MES snapshot once Blackwater clears it. 31 hours of lots must be re-entered by hand at Rockford, Beloit and Dubuque. Minimum service lands right at the 5-day finished-goods buffer and at the start of the Fieldmark Equipment penalty clause after 5 days. Before any rebuild, Blackwater recommends disabling svc_wmsvendor and all vendor remote-access accounts and resetting krbtgt twice. No sanctions exposure.",
+              "timeNeeded": "Backup clearance (persistence sweep) takes 12 to 18 hours, then the rebuild. MES minimum service around Monday, March 29, 2027, day 4 to 5. BCM tracker: the MES misses its 8-hour RTO at 10:05 p.m. CT tonight and passes its 24-hour MTPD at 2:05 p.m. CT Friday on either path. Each lost day is about 8.5 million dollars of sales."
+            }
+          ],
+          "sanctionsScreening": "Harrow Fenn LLP, 9:05 p.m. CT: The actor signs as MOLTEN SPIDER. Our name screen returns an 82 percent partial match to MOLTEN SYNDICATE, a designated affiliate. Blockchain analytics show that one of the two demand wallets is one hop from a designated cluster. Status: UNRESOLVED. We expect to resolve it in 24 to 48 hours, which is after the discount window closes. If the match is confirmed, no payment can be made at any price. The screen will be rerun and dated before any payment is considered.",
+          "insurerPosition": "Blue Heron Mutual claims counsel: Notice received under claim BHM-27-0912. Blackwater Cyber and Harrow Fenn LLP are consented retroactively from 3:00 p.m. CT today. We consent to the negotiator holding talks to gather information and proof of decryption. We cannot consent to any payment while the sanctions match is open. Policy: 50-million-dollar limit and 2-million-dollar retention. Business interruption is covered after an 8-hour waiting period. Prior consent is required for any ransom payment. The policy and claims line are held by the CFO and the Deputy General Counsel.",
+          "lawEnforcement": "FBI Chicago field office, special agent, cyber squad, contacted by the General Counsel this evening: 'We recommend against payment. We ask for the wallet addresses, the chat transcripts and the indicators whichever path you choose. The decision is yours.' CISA to be informed under ICMP 6 before any payment is considered.",
+          "recommendation": "Management makes no recommendation to pay. None can be made while the sanctions match is unresolved and insurer consent is withheld. Company policy is not to pay (ICMP 6). The CEO is asked to choose Option 1 or Option 2 tonight and to record the facts known at the time of decision and the basis. The BCM will log the RTO impact of the chosen path in the recovery tracker.",
+          "decision": "pending",
+          "disclosureNote": "Paying, negotiating or refusing does not remove the duty to decide on materiality. The 8:00 p.m. Disclosure Committee record (determination, factors, basis and 8-K choice) stands on its own timetable. The decision taken here, and the 1.19 TB exfiltration, must appear with the same facts in the board briefing, any Form 8-K, the press release and the employee message (ICMP 7). Under the Delegation of Authority, any payment over 5 million dollars needs board approval."
+        },
+        "instructorNote": "Decision point: the CEO should decide on the record tonight, either opening negotiator-led talks run by the GC with no commitment to pay or refusing outright with a day 4 to 5 rebuild. The open sanctions match is the deciding risk. Watch whether anyone moving toward payment sees that it needs sanctions clearance, insurer consent, FBI notice, consultation with the Audit Committee Chair and an emergency board call tonight, not the 07:00 meeting. Also check that the BCM logs the RTO impact and the MTPD breach.",
+        "deliveryMode": "hand_to_role"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-11-13T02:30:22.280Z"
+}

@@ -1,0 +1,132 @@
+{
+  "id": "01M795JEJH93T89CNNAZNVQBB1",
+  "mselRowId": "END",
+  "type": "endex_card",
+  "title": "ENDEX: 21:30, Scene Clear, One Count Released",
+  "deliveryMode": "read_aloud",
+  "fields": {
+    "exerciseTime": "4:00",
+    "endTime": "21:30",
+    "resolution": "ENDEX. It is 21:30. The last patients have left the Highway 21 and County Road K scene, the Medical Examiner's investigator has custody of LC-0428, and the State Patrol will reopen Highway 21 at 21:45 once the tanker is towed. The JIC has released one casualty count, approved by the IC and confirmed by MEDCOM. This concludes the exercise.",
+    "finalState": [
+      "The LRMC capacity board runs alongside the MED 1 voice roll call. No hospital status is trusted until a voice check confirms it.",
+      "Pinecrest Memorial: Diversion, voice-only status until the StatusGrid Milwaukee engineer clears the cached 'Open' value on site, expected around midnight.",
+      "St. Brendan's: Limited intake (CT down, no head injuries) until the CT part arrives around 10:00 tomorrow. LRMC: Limited intake, Immediate patients by voice only.",
+      "All groups gave a PAR at 20:05 and every member is accounted for. Firefighter Kowalczyk is in the LRMC ED and is not part of the 28 scene tags.",
+      "Board failure timeline: 14:12 vendor patch | 16:55 StatusSync stopped (exit code 1067) | 17:50 Pinecrest WAN link down | 18:10 auto-refresh failed | 18:15 Pinecrest on Diversion, never shown on the board | 18:36 Oxbow Medic 41 sent to Pinecrest | 18:52 LC-0417 redirected to St. Brendan's | 18:58 all rows falsely green | 19:33–19:34 restart failed | 20:33 restart held | 20:47 Pinecrest cached 'Open' returns"
+    ],
+    "hotWashTransition": "Thank you, everyone. Stop play now. Put down your radios and phones, but keep your logs, your tag counts and your call records in front of you. We will take ten minutes. Then the Incident Commander will open the hot wash. Each role brings its own count and the times of its key decisions.",
+    "hotWashMethod": "Timeline walk-through: each role marks its decisions against the board failure timeline, then 3-Up, 3-Down for the destination fit and the counts",
+    "hotWashQuestions": [
+      "Destination fit: under SOP-MC-02 section 4, which transports went to a hospital that could not treat the patient or was on Diversion, starting with LC-0417 at 18:36? What told us, and how fast?",
+      "Status trust: the red banner was up at 18:10, but it went away at 18:58 with every row reading 'Last updated: --'. When should each of us have stopped trusting the board, and who decided to switch to the voice roll call on MED 1?",
+      "Counts: the scene tags, the transport log (with LC-0417 entered twice), the hospital door counts, the Pinecrest walk-ins (including the 3 from CAD 26-118356) and the public number. How do we make them agree, and how do we explain the gap in the after action report?",
+      "Communications: did the Medical Director's START and JumpSTART direction, the mayday and PAR, and the hospital statuses reach the mutual aid crews from Oxbow and Tamarack without crowding MED 1?",
+      "Restoring the board: what check, how many hospitals and how many clean refresh cycles do we need before transport decisions go back to the board, given that Pinecrest still shows a cached 'Open'?"
+    ],
+    "facilitatorNote": "Collect each role's log, the MEDCOM paper board photo, the transport log and the count reconciliation worksheet before the break. Record the times of the mayday, the PAR, command transfer and destination decisions for the BLFD review and the county after action report.",
+    "scenarioTitle": "Open on Paper: Hospital Capacity Board & MCI Patient Flow",
+    "injectId": "END"
+  },
+  "variant": "default",
+  "instructorNote": "This card ends play and starts the hot wash. Watch whether the IC formally calls the hot wash under LCEMS MCI Plan section 8 and whether each role brings its own count and decision times. Steer the debrief toward the gaps between the counts and toward the rule for trusting the board again, and away from blaming the vendor.",
+  "citations": [
+    {
+      "documentId": "01M793P6PGDB8Z907EWTDCQPAM",
+      "documentTitle": "SOP-MC-02: Medical Communications, Destinations and the Hospital Capacity Board",
+      "headingPath": "SOP-MC-02: Medical Communication… › 4. Destination rules",
+      "quote": "1. **Immediate (red) patients** go to the closest appropriate trauma center. In Larkfield County this is LRMC for adults and children, up to its trauma bay count: no more than 3 Immediate patients to ",
+      "chunkId": 33
+    },
+    {
+      "documentId": "01M793P6PFQ4PY61W0H9SNTC30",
+      "documentTitle": "Larkfield County EMS: Mass Casualty Incident Plan",
+      "headingPath": "Larkfield County EMS: Mass Casua… › 8. After action",
+      "quote": "The IC calls a hot wash at the scene within 24 hours; LCEMS reviews the patient list, the destination fit and the times in the incident report; hospital counts, triage counts and public counts must ag",
+      "chunkId": 28
+    },
+    {
+      "documentId": "01M793P6PGDB8Z907EWTDCQPAM",
+      "documentTitle": "SOP-MC-02: Medical Communications, Destinations and the Hospital Capacity Board",
+      "headingPath": "SOP-MC-02: Medical Communication… › 3. Status categories",
+      "quote": "A hospital's status is one of: **Open** (accepting any patient), **Limited intake** (accepting only the categories it lists), **Diversion** (not accepting arrivals unless an unstable patient cannot go",
+      "chunkId": 32
+    },
+    {
+      "documentId": "01M793P6PGDB8Z907EWTDCQPAM",
+      "documentTitle": "SOP-MC-02: Medical Communications, Destinations and the Hospital Capacity Board",
+      "headingPath": "SOP-MC-02: Medical Communication… › 2. Hospitals and capabilities",
+      "quote": "| Hospital | Beds | Capabilities | Notes | |---|---|---|---| | Larkfield Regional Medical Center (LRMC), Brandt Lake | 140 | Level II trauma center, 3 trauma bays, 4 ORs, ICU 12 beds, pediatric ED | M",
+      "chunkId": 31
+    },
+    {
+      "documentId": "01M793P6PCCF73AVV7WS05JHY6",
+      "documentTitle": "Brandt Lake Fire Department: Technical Rescue, Command Transfer and Accountability",
+      "headingPath": "Brandt Lake Fire Department: Tec… › 8. After the incident",
+      "quote": "The Chief holds a critical incident stress debriefing within 72 hours. The department reviews radio recordings and times for: command transfer, PAR, extrication times and dispatch. The department's re",
+      "chunkId": 10
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template"
+    ]
+  },
+  "assets": [
+    {
+      "id": "01M799K196TA07D2A0P51SA3DV",
+      "kind": "image",
+      "path": "scenarios/01M793P8PXF0GDKTPD0H7TVRD5/media/01M795JEJH93T89CNNAZNVQBB1/01M799K196TA07D2A0P51SA3DV.png",
+      "role": "rendered",
+      "width": 816,
+      "height": 1056,
+      "sha256": "4fc216ba6700a4201c934ffb7c4205edde464d49c0a60903f2787e16166c4454",
+      "provenance": {
+        "provider": "template",
+        "templateId": "endex_card",
+        "templateVersion": "1",
+        "createdAt": "2026-11-13T01:50:38.745Z"
+      }
+    }
+  ],
+  "versions": [
+    {
+      "at": "2026-11-13T00:40:47.164Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "ENDEX: 21:30, Scene Clear, One Count Released",
+        "type": "endex_card",
+        "fields": {
+          "exerciseTime": "4:00",
+          "endTime": "21:30",
+          "resolution": "ENDEX. It is 21:30. The last patients have left the Highway 21 and County Road K scene, the Medical Examiner's investigator has custody of LC-0428, and the State Patrol will reopen Highway 21 at 21:45 once the tanker is towed. The JIC has released one casualty count, approved by the IC and confirmed by MEDCOM. This concludes the exercise.",
+          "finalState": [
+            "The LRMC capacity board runs alongside the MED 1 voice roll call. No hospital status is trusted until a voice check confirms it.",
+            "Pinecrest Memorial: Diversion, voice-only status until the StatusGrid Milwaukee engineer clears the cached 'Open' value on site, expected around midnight.",
+            "St. Brendan's: Limited intake (CT down, no head injuries) until the CT part arrives around 10:00 tomorrow. LRMC: Limited intake, Immediate patients by voice only.",
+            "All groups gave a PAR at 20:05 and every member is accounted for. Firefighter Kowalczyk is in the LRMC ED and is not part of the 28 scene tags.",
+            "Board failure timeline: 14:12 vendor patch | 16:55 StatusSync stopped (exit code 1067) | 17:50 Pinecrest WAN link down | 18:10 auto-refresh failed | 18:15 Pinecrest on Diversion, never shown on the board | 18:36 Oxbow Medic 41 sent to Pinecrest | 18:52 LC-0417 redirected to St. Brendan's | 18:58 all rows falsely green | 19:33–19:34 restart failed | 20:33 restart held | 20:47 Pinecrest cached 'Open' returns"
+          ],
+          "hotWashTransition": "Thank you, everyone. Stop play now. Put down your radios and phones, but keep your logs, your tag counts and your call records in front of you. We will take ten minutes. Then the Incident Commander will open the hot wash. Each role brings its own count and the times of its key decisions.",
+          "hotWashMethod": "Timeline walk-through: each role marks its decisions against the board failure timeline, then 3-Up, 3-Down for the destination fit and the counts",
+          "hotWashQuestions": [
+            "Destination fit: under SOP-MC-02 section 4, which transports went to a hospital that could not treat the patient or was on Diversion, starting with LC-0417 at 18:36? What told us, and how fast?",
+            "Status trust: the red banner was up at 18:10, but it went away at 18:58 with every row reading 'Last updated: --'. When should each of us have stopped trusting the board, and who decided to switch to the voice roll call on MED 1?",
+            "Counts: the scene tags, the transport log (with LC-0417 entered twice), the hospital door counts, the Pinecrest walk-ins (including the 3 from CAD 26-118356) and the public number. How do we make them agree, and how do we explain the gap in the after action report?",
+            "Communications: did the Medical Director's START and JumpSTART direction, the mayday and PAR, and the hospital statuses reach the mutual aid crews from Oxbow and Tamarack without crowding MED 1?",
+            "Restoring the board: what check, how many hospitals and how many clean refresh cycles do we need before transport decisions go back to the board, given that Pinecrest still shows a cached 'Open'?"
+          ],
+          "facilitatorNote": "Collect each role's log, the MEDCOM paper board photo, the transport log and the count reconciliation worksheet before the break. Record the times of the mayday, the PAR, command transfer and destination decisions for the BLFD review and the county after action report.",
+          "scenarioTitle": "Open on Paper: Hospital Capacity Board & MCI Patient Flow",
+          "injectId": "END"
+        },
+        "instructorNote": "This card ends play and starts the hot wash. Watch whether the IC formally calls the hot wash under LCEMS MCI Plan section 8 and whether each role brings its own count and decision times. Steer the debrief toward the gaps between the counts and toward the rule for trusting the board again, and away from blaming the vendor.",
+        "deliveryMode": "read_aloud"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-11-13T01:50:38.972Z"
+}

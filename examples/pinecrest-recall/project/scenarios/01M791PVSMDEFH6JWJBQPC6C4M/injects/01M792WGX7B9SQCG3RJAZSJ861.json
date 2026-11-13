@@ -1,0 +1,128 @@
+{
+  "id": "01M792WGX7B9SQCG3RJAZSJ861",
+  "mselRowId": "I-06",
+  "type": "time_jump_card",
+  "title": "TIME JUMP — 07:00: The Counts Don't Agree",
+  "deliveryMode": "read_aloud",
+  "fields": {
+    "exerciseTime": "1:00",
+    "newTime": "07:00 AM PT",
+    "jumpLabel": "+12 minutes",
+    "scenarioTitle": "Presumptive — Lot Trace, Holds & Recall Notification",
+    "injectId": "I-06",
+    "narration": "It is now 07:00 Pacific Time, Tuesday, October 12, 2027. The fog over Salinas has not lifted. The MES holds on all five Line 2 lots went in at 06:12, but the data has stopped agreeing. The MES on PFC-OPS-02 shows 38,600 cases across lots PF1-27277-L2-B, PF1-27278-L2-A, PF1-27278-L2-B, PF1-27279-L2-A and PF1-27279-L2-B. The combined WMS export pulled at 06:52 from Stockton, Phoenix, Dallas and the plant dock shows 38,540. Sixty cases are missing, and nobody can yet say where they are. Meanwhile someone has saved a draft press release to the shared Recall Team folder. It says \"about 40,000 cases.\" The folder history doesn't show who wrote it, and the draft has already been forwarded twice. Line 2 is still down for the swab series. The distribution centers have 2 hours 50 minutes left to confirm physical holds. Cornerstone's 07:00 deadline is now.",
+    "worldState": [
+      "Clock: 07:00 PT, Tuesday, October 12, 2027. Salinas is still in marine fog, 52°F.",
+      "MES (PFC-OPS-02): HOLD placed 06:12 on all five lots, 38,600 cases total.",
+      "MES shipments by destination: Stockton DC 18,900 cs; Phoenix DC 9,700 cs; Dallas DC 7,400 cs (includes the Sonoran Cold Freight trailer near Tucson, 1,320 cs); Rivermark Kits, Fresno, 2,600 cs direct from the plant.",
+      "Combined WMS export, 06:52 PT (Stockton, Phoenix, Dallas and the plant dock): 38,540 cs. Variance against the MES: 60 cs, not yet explained.",
+      "Dallas DC has already shipped 2,100 cs of the held lots to 38 Cornerstone Grocers stores since 04:00.",
+      "Rivermark receiving is still on paper, and some lots are logged as \"PF1-278-L2\" with no shift letter. Their office manager arrives at 09:00.",
+      "An unattributed draft press release in the shared Recall Team folder says \"about 40,000 cases\" and has been forwarded twice. Recipients are not yet known.",
+      "Line 2 is stopped. Sanitation and QA are still running the swab series on the flume, spin dryer and conveyor.",
+      "Lab confirmation of the presumptive positive is still 24 to 48 hours away. The FDA has not been contacted by the lab or by any outside party.",
+      "DC physical-hold window: 4 hours counted from 05:50, so it closes at 09:50 PT. 2 hours 50 minutes remain.",
+      "The Cornerstone Grocers buyer's 07:00 deadline for an answer has arrived."
+    ],
+    "facilitatorNote": "This card sets up Phase 2. The team needs one number before anything leaves the building. If TRACE doesn't build the PLCTR 5 sheet with the MES as the control total and a gaps tab for the 60 cases, ask: \"Which number goes in the hold notice?\" If nobody pulls the \"about 40,000\" draft, have a SimCell voice say it has reached a customer inbox."
+  },
+  "variant": "default",
+  "instructorNote": "This card tests the One Number discipline. Watch for TRACE to start the sortable spreadsheet with the MES lot totals as the control figure and a gaps tab giving a reason for each of the 60 cases (or marking them unaccounted for). Watch for RECALL to hold every count until the reconciliation table matches the MES and to order the \"about 40,000\" draft pulled, and for COMMS to confirm that no draft goes outside the team.",
+  "citations": [
+    {
+      "documentId": "01M791PSSB1ZJ85S8M91S49WYH",
+      "documentTitle": "PFC-QA-03: Lot Coding and Traceability Records",
+      "headingPath": "PLCTR › 5. What the trace produces",
+      "quote": "The Traceability and Systems Lead produces one sortable spreadsheet with these columns: lot code, product, quantity and unit (cases), ship date, ship-from location, ship-to customer, ship-to location ",
+      "chunkId": 6
+    },
+    {
+      "documentId": "01M791PSSB1ZJ85S8M91S49WYH",
+      "documentTitle": "PFC-QA-03: Lot Coding and Traceability Records",
+      "headingPath": "PLCTR › 4. Systems",
+      "quote": "- **Manufacturing execution system (MES):** records transformation, lot genealogy and holds. A hold in the MES blocks a lot from shipping and from being picked in the DCs within 10 minutes through the",
+      "chunkId": 5
+    },
+    {
+      "documentId": "01M791PSSEBMSYNZ68A0SFSX31",
+      "documentTitle": "PFC-OPS-02: Plant, Distribution Network and Cold Chain",
+      "headingPath": "PPDNCC › 2. Distribution centers",
+      "quote": "| DC | Location | Customers served | Weekly cases | Notes | |---|---|---|---|---| | Stockton DC | Stockton, California | Harvest Table Markets (northern California and Nevada stores), Westline Foodser",
+      "chunkId": 12
+    },
+    {
+      "documentId": "01M791PSSGK4QSR0X463MMNVXQ",
+      "documentTitle": "PFC-FS-04: Recall Notification, Regulatory Contact and Public Statements",
+      "headingPath": "PFC-FS-04: Recall Notification,… › 4. Counts that must reconcile",
+      "quote": "Every letter and release states quantities from the reconciliation table. The total of cases shipped to all customers equals the total of cases produced for the affected lots, less cases held at Pinec",
+      "chunkId": 23
+    },
+    {
+      "documentId": "01M791PSSB1ZJ85S8M91S49WYH",
+      "documentTitle": "PFC-QA-03: Lot Coding and Traceability Records",
+      "headingPath": "PLCTR › 8. Reports of lot data",
+      "quote": "A reconciliation table is kept for every incident: cases produced, shipped to each DC, shipped by each DC to each customer, held at each location, delivered to stores, returned, destroyed, unaccounted",
+      "chunkId": 9
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template"
+    ]
+  },
+  "assets": [
+    {
+      "id": "01M79BYF88SRMWJ6ZE2Z66E19S",
+      "kind": "image",
+      "path": "scenarios/01M791PVSMDEFH6JWJBQPC6C4M/media/01M792WGX7B9SQCG3RJAZSJ861/01M79BYF88SRMWJ6ZE2Z66E19S.png",
+      "role": "rendered",
+      "width": 816,
+      "height": 1056,
+      "sha256": "62385ad158903493fe98525044318ffbdfd97e6e5e26532fc2880ede5f996758",
+      "provenance": {
+        "provider": "template",
+        "templateId": "time_jump_card",
+        "templateVersion": "1",
+        "createdAt": "2026-11-13T02:31:50.651Z"
+      }
+    }
+  ],
+  "versions": [
+    {
+      "at": "2026-11-12T23:53:49.178Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "TIME JUMP — 07:00: The Counts Don't Agree",
+        "type": "time_jump_card",
+        "fields": {
+          "exerciseTime": "1:00",
+          "newTime": "07:00 AM PT",
+          "jumpLabel": "+12 minutes",
+          "scenarioTitle": "Presumptive — Lot Trace, Holds & Recall Notification",
+          "injectId": "I-06",
+          "narration": "It is now 07:00 Pacific Time, Tuesday, October 12, 2027. The fog over Salinas has not lifted. The MES holds on all five Line 2 lots went in at 06:12, but the data has stopped agreeing. The MES on PFC-OPS-02 shows 38,600 cases across lots PF1-27277-L2-B, PF1-27278-L2-A, PF1-27278-L2-B, PF1-27279-L2-A and PF1-27279-L2-B. The combined WMS export pulled at 06:52 from Stockton, Phoenix, Dallas and the plant dock shows 38,540. Sixty cases are missing, and nobody can yet say where they are. Meanwhile someone has saved a draft press release to the shared Recall Team folder. It says \"about 40,000 cases.\" The folder history doesn't show who wrote it, and the draft has already been forwarded twice. Line 2 is still down for the swab series. The distribution centers have 2 hours 50 minutes left to confirm physical holds. Cornerstone's 07:00 deadline is now.",
+          "worldState": [
+            "Clock: 07:00 PT, Tuesday, October 12, 2027. Salinas is still in marine fog, 52°F.",
+            "MES (PFC-OPS-02): HOLD placed 06:12 on all five lots, 38,600 cases total.",
+            "MES shipments by destination: Stockton DC 18,900 cs; Phoenix DC 9,700 cs; Dallas DC 7,400 cs (includes the Sonoran Cold Freight trailer near Tucson, 1,320 cs); Rivermark Kits, Fresno, 2,600 cs direct from the plant.",
+            "Combined WMS export, 06:52 PT (Stockton, Phoenix, Dallas and the plant dock): 38,540 cs. Variance against the MES: 60 cs, not yet explained.",
+            "Dallas DC has already shipped 2,100 cs of the held lots to 38 Cornerstone Grocers stores since 04:00.",
+            "Rivermark receiving is still on paper, and some lots are logged as \"PF1-278-L2\" with no shift letter. Their office manager arrives at 09:00.",
+            "An unattributed draft press release in the shared Recall Team folder says \"about 40,000 cases\" and has been forwarded twice. Recipients are not yet known.",
+            "Line 2 is stopped. Sanitation and QA are still running the swab series on the flume, spin dryer and conveyor.",
+            "Lab confirmation of the presumptive positive is still 24 to 48 hours away. The FDA has not been contacted by the lab or by any outside party.",
+            "DC physical-hold window: 4 hours counted from 05:50, so it closes at 09:50 PT. 2 hours 50 minutes remain.",
+            "The Cornerstone Grocers buyer's 07:00 deadline for an answer has arrived."
+          ],
+          "facilitatorNote": "This card sets up Phase 2. The team needs one number before anything leaves the building. If TRACE doesn't build the PLCTR 5 sheet with the MES as the control total and a gaps tab for the 60 cases, ask: \"Which number goes in the hold notice?\" If nobody pulls the \"about 40,000\" draft, have a SimCell voice say it has reached a customer inbox."
+        },
+        "instructorNote": "This card tests the One Number discipline. Watch for TRACE to start the sortable spreadsheet with the MES lot totals as the control figure and a gaps tab giving a reason for each of the 60 cases (or marking them unaccounted for). Watch for RECALL to hold every count until the reconciliation table matches the MES and to order the \"about 40,000\" draft pulled, and for COMMS to confirm that no draft goes outside the team.",
+        "deliveryMode": "read_aloud"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-11-13T02:31:50.879Z"
+}

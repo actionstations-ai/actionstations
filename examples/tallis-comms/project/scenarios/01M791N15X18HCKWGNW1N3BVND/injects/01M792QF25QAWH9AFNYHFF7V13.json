@@ -1,0 +1,101 @@
+{
+  "id": "01M792QF25QAWH9AFNYHFF7V13",
+  "mselRowId": "I-13",
+  "type": "email",
+  "title": "CartBridge: \"Platform Not Breached\" Statement at 11:00 + Replacement Key Offer",
+  "deliveryMode": "hand_to_role",
+  "fields": {
+    "fromName": "Renata Voss (CartBridge Commerce, Account Director)",
+    "fromEmail": "renata.voss@partners.cartbridge.example",
+    "to": "Lena Hartmann (CISO, Tallis Home Products)",
+    "cc": "enterprise-support@cartbridge.example",
+    "subject": "Case CB-558217 – our statement at 11:00 + order sync restore",
+    "sentAt": "Tue 3/9/2027 9:45 AM",
+    "importance": "high",
+    "external": true,
+    "attachments": [
+      {
+        "name": "CartBridge_Customer_Statement_DRAFT_1100ET.docx",
+        "size": "38 KB",
+        "kind": "doc"
+      }
+    ],
+    "body": "Hi,\n\nTwo items on Case CB-558217. I need answers on both this morning.\n\n1) STATEMENT. Our customer-facing statement goes out at 11:00 ET. The draft reads: \"CartBridge's platform was not breached. The activity used integration credentials issued to and managed by our client, Tallis Home Products. We are supporting Tallis as it investigates its credential handling.\" Please send comments by 10:30 ET. The draft is attached.\n\n2) RESTORE. Your P1 was escalated, and the March 2–8 API audit logs are being expedited to Cardinal Forensics. Your warehouse queue is at about 3,400 unsynced orders, and the 13:00 ET carrier cut-off is coming. We can issue a replacement key, cartbridge-integration-prod-r2, scoped to order sync only (no /customers/export), in 20 minutes. Note: we have not yet identified how the original key was used from outside your allow-listed IPs.\n\nYour other option is manual CSV order upload by your warehouse team, at about 40 orders per person per hour.\n\nWhich do you want? If it's the r2 key, reply \"ISSUE R2\" and I'll start it on our side.\n\nThanks,",
+    "signature": "Renata Voss\nAccount Director, Enterprise Retail\nCartBridge Commerce\nrenata.voss@partners.cartbridge.example"
+  },
+  "variant": "screen",
+  "instructorNote": "Decision point. Watch whether the CISO keeps cartbridge-integration-prod suspended and the logs preserved. The CISO should refuse the r2 key, or set verification conditions for it, until Cardinal Forensics knows how the original key was used from outside the allow-list, and should back the manual CSV upload in the meantime. Also watch whether the General Counsel and the CCO answer CartBridge in writing by 10:30, as TCIDC section 8 requires. Their reply should ask that the vendor statement be coordinated with Tallis, should not blame CartBridge in public and should not argue about fault by email.",
+  "citations": [
+    {
+      "documentId": "01M791MZ5SDCHEQXP1W582BC2D",
+      "documentTitle": "TLC-LEG-07: Cyber Incident Disclosure Coordination",
+      "headingPath": "TCIDC › 8. Insurance, law enforcement and vendors",
+      "quote": "The CFO tells the cyber insurer's claims line (the broker is Midland Risk Partners, (937) 555-0147) within 24 hours. Security reports to the FBI Cincinnati Field Office and to CISA. The web store vend",
+      "chunkId": 18
+    },
+    {
+      "documentId": "01M791MZ5V0HHAJ0J2R7KKEXX6",
+      "documentTitle": "TLC-COM-03: Systems, Customer Data and Media Directory",
+      "headingPath": "TSCDMD › 2. Customer data systems",
+      "quote": "- **Web store.** Built and hosted by the vendor CartBridge Commerce (fictional) on its cloud. Holds 1.9 million registered accounts: name, email address, shipping and billing address, phone number if ",
+      "chunkId": 31
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template"
+    ]
+  },
+  "assets": [
+    {
+      "id": "01M79BR99FPP3PJRZREJCSW7TF",
+      "kind": "image",
+      "path": "scenarios/01M791N15X18HCKWGNW1N3BVND/media/01M792QF25QAWH9AFNYHFF7V13/01M79BR99FPP3PJRZREJCSW7TF.png",
+      "role": "rendered",
+      "width": 816,
+      "height": 927,
+      "sha256": "2f84ad129cc8ef82b55e72c9c21a1255a9e03ed0d753fcbea5fdf5f223fa5764",
+      "provenance": {
+        "provider": "template",
+        "templateId": "email",
+        "templateVersion": "1",
+        "createdAt": "2026-11-13T02:28:27.941Z"
+      }
+    }
+  ],
+  "versions": [
+    {
+      "at": "2026-11-12T23:50:56.939Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "CartBridge: \"Platform Not Breached\" Statement at 11:00 + Replacement Key Offer",
+        "type": "email",
+        "fields": {
+          "fromName": "Renata Voss (CartBridge Commerce, Account Director)",
+          "fromEmail": "renata.voss@partners.cartbridge.example",
+          "to": "Lena Hartmann (CISO, Tallis Home Products)",
+          "cc": "enterprise-support@cartbridge.example",
+          "subject": "Case CB-558217 – our statement at 11:00 + order sync restore",
+          "sentAt": "Tue 3/9/2027 9:45 AM",
+          "importance": "high",
+          "external": true,
+          "attachments": [
+            {
+              "name": "CartBridge_Customer_Statement_DRAFT_1100ET.docx",
+              "size": "38 KB",
+              "kind": "doc"
+            }
+          ],
+          "body": "Hi,\n\nTwo items on Case CB-558217. I need answers on both this morning.\n\n1) STATEMENT. Our customer-facing statement goes out at 11:00 ET. The draft reads: \"CartBridge's platform was not breached. The activity used integration credentials issued to and managed by our client, Tallis Home Products. We are supporting Tallis as it investigates its credential handling.\" Please send comments by 10:30 ET. The draft is attached.\n\n2) RESTORE. Your P1 was escalated, and the March 2–8 API audit logs are being expedited to Cardinal Forensics. Your warehouse queue is at about 3,400 unsynced orders, and the 13:00 ET carrier cut-off is coming. We can issue a replacement key, cartbridge-integration-prod-r2, scoped to order sync only (no /customers/export), in 20 minutes. Note: we have not yet identified how the original key was used from outside your allow-listed IPs.\n\nYour other option is manual CSV order upload by your warehouse team, at about 40 orders per person per hour.\n\nWhich do you want? If it's the r2 key, reply \"ISSUE R2\" and I'll start it on our side.\n\nThanks,",
+          "signature": "Renata Voss\nAccount Director, Enterprise Retail\nCartBridge Commerce\nrenata.voss@partners.cartbridge.example"
+        },
+        "instructorNote": "Decision point. Watch whether the CISO keeps cartbridge-integration-prod suspended and the logs preserved. The CISO should refuse the r2 key, or set verification conditions for it, until Cardinal Forensics knows how the original key was used from outside the allow-list, and should back the manual CSV upload in the meantime. Also watch whether the General Counsel and the CCO answer CartBridge in writing by 10:30, as TCIDC section 8 requires. Their reply should ask that the vendor statement be coordinated with Tallis, should not blame CartBridge in public and should not argue about fault by email.",
+        "deliveryMode": "hand_to_role"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-11-13T02:28:28.175Z"
+}

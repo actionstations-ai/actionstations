@@ -80,3 +80,9 @@ For an exercise that names PHEP capabilities (Biological Incident 100 and 200, C
 - Simulated people are fictional. Do not enter real patient data, and mark every roster and export as exercise material.
 - A replayed series is history. A simulated series is never presented as history, and the two are labeled wherever they appear.
 - Contact reach and dispensing throughput are scored against targets you set. No national target is assumed.
+
+## Example project
+
+The Epidemiology and outbreak investigation pack includes an example project, **Marlow County Health Department: Heritage Days Supper Outbreak**, with one exercise, _Side Dish_: on the Monday after the Marlow Heritage Days Community Supper (412 attendees), the hospital infection preventionist reports a surge of vomiting and diarrhea; the health department has to adopt a case definition, declare an outbreak, find the food vehicle among plausible companion dishes, decide on a public notice and keep the hospital and school district numbers identical.
+
+Turn the pack on under **Packs**, then open a copy from **Projects → Examples**. The organization, its people and its businesses are fictional; the exercise comes with its injects, media, Situation Manual, evaluation guides and controller handbook, ready to read or run.

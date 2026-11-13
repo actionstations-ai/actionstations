@@ -1,0 +1,276 @@
+{
+  "id": "01M794WFXJ48VX70V3MC1WV52E",
+  "mselRowId": "I-15",
+  "type": "phone_call",
+  "title": "Recorded Line: AP Supervisor and Release Desk on Today's Queue",
+  "deliveryMode": "read_aloud",
+  "fields": {
+    "orgName": "Tamarack Precision Components, Inc.",
+    "systemName": "Recorded Line - Finance Conference Bridge 2",
+    "callId": "CR-20270914-143502-0064",
+    "direction": "Internal",
+    "caller": {
+      "name": "AP Supervisor, Accounts Payable (with Treasury release desk on the line)",
+      "number": "Internal - Greenville HQ, Accounts Payable",
+      "label": "AP Supervisor"
+    },
+    "callee": {
+      "name": "Anjali Whitcombe, Controller (conferenced: CISO Rafael Oyelaran-Pierce, incident bridge)",
+      "number": "Internal - Controller desk line",
+      "label": "Controller / Incident Bridge"
+    },
+    "startTime": "09/14/2027 14:35:02",
+    "duration": "1:52",
+    "transcript": [
+      {
+        "speaker": "AP SUPERVISOR",
+        "offset": "0:00",
+        "text": "Anjali Whitcombe, it's AP. I've got the release desk on with me and I'm told the CISO is on the bridge too. Good. We need a call on the queue, and we need it now.",
+        "prompt": false
+      },
+      {
+        "speaker": "RELEASE DESK",
+        "offset": "0:11",
+        "text": "Here's what's sitting in the Workstation as of 14:34. Nineteen payments, all approved, waiting for release. Thirteen domestic, 612,400 dollars total, cutoff 17:00. Six international, 408,900 dollars total, and that includes the peso payments to the Querétaro plant suppliers. International cutoff is 15:00. That's twenty-five minutes from now.",
+        "prompt": false
+      },
+      {
+        "speaker": "RELEASE DESK",
+        "offset": "0:34",
+        "text": "And Thursday's steel and tooling run, about 3.2 million, is staged for first approval tomorrow morning. Separate from the bad one, WIRE-0914-004 is still on HOLD. Nobody's touched it.",
+        "prompt": false
+      },
+      {
+        "speaker": "RELEASE DESK",
+        "offset": "0:46",
+        "text": "One more thing. The SOC just sent us a note. Our desk token, WS-TKN-2291, the shared one, has been used for four approvals outside its role in the last thirty days. Not counting today. Two of those four, nobody can explain yet. I'm reading it straight off their message.",
+        "prompt": false
+      },
+      {
+        "speaker": "AP SUPERVISOR",
+        "offset": "1:02",
+        "text": "Meanwhile I've got two of our biggest steel mills chasing payment. If we stop everything, the peso payments miss today and the Querétaro suppliers don't get paid until Thursday. If we keep going, I can't promise you there isn't another bad approval sitting in there. I honestly can't.",
+        "prompt": false
+      },
+      {
+        "speaker": "AP SUPERVISOR",
+        "offset": "1:22",
+        "text": "The CFO's assistant says he's in a car in Querétaro. He picks up on his directory mobile, 864-555-0102. His Workstation token is in his bag and he has no laptop with him, so he can't approve anything in the system.",
+        "prompt": false
+      },
+      {
+        "speaker": "RELEASE DESK",
+        "offset": "1:36",
+        "text": "So, do we release, or do we stop? And if we stop, who approves what, and how? I'm not pushing anything else on my token without that in writing.",
+        "prompt": true
+      },
+      {
+        "speaker": "AP SUPERVISOR",
+        "offset": "1:45",
+        "text": "I need a yes or no in ten minutes. 14:45 at the latest.",
+        "prompt": true
+      }
+    ],
+    "voiceStyles": {
+      "AP SUPERVISOR": "Woman in her 50s, Upstate South Carolina accent, brisk and under pressure, phones ringing in an open office behind her",
+      "RELEASE DESK": "Man in his 30s, careful and flat, reading figures off a screen, slightly defensive about the token"
+    },
+    "injectId": "I-15"
+  },
+  "variant": "default",
+  "instructorNote": "Decision point: the CISO, as Incident Commander, should decide with the Controller and the real CFO, reached on his directory mobile, whether to suspend all releases and switch to manual payments with a callback for each one, or keep releasing. Strong play suspends releases, revokes WS-TKN-2291, requires each approver to use their own token (TPC-FIN-04 Section 2), sends executive-level approvals to the Controller plus the CEO's delegate while the CFO has no token, and logs the decision with its time. Watch for teams that revoke only the CFO and Controller tokens and leave the shared release-desk token live.",
+  "citations": [
+    {
+      "documentId": "01M793JZB96097WHBG0K74HSVJ",
+      "documentTitle": "TPC-FIN-04: Payment Authorization, Callback Verification and Wire Recall",
+      "headingPath": "TPC-FIN-04: Payment Authorizatio… › 2. Who may initiate, approve and release",
+      "quote": "| Step | Who | Limits | |---|---|---| | Initiate | Treasury Analyst (Ines Okonkwo-Hart, Dev Rangaswamy) or Accounts Payable Specialist | Any amount, in the Treasury Workstation only; no initiation fro",
+      "chunkId": 28
+    },
+    {
+      "documentId": "01M793JZB6T2RERPATP9SE15M2",
+      "documentTitle": "TPC-REF-01: Company, Systems and People",
+      "headingPath": "TCSP › 3. Finance systems",
+      "quote": "- **Treasury Workstation:** a cloud treasury system for initiating, approving and releasing payments, with multi-factor tokens and a full audit log; connects to First Meridian Commercial Bank by secur",
+      "chunkId": 13
+    },
+    {
+      "documentId": "01M793JZB96097WHBG0K74HSVJ",
+      "documentTitle": "TPC-FIN-04: Payment Authorization, Callback Verification and Wire Recall",
+      "headingPath": "TPC-FIN-04: Payment Authorizatio… › 3. Callback verification",
+      "quote": "A callback on a known number is required for: any new beneficiary or beneficiary account, any change to bank details, any payment over $250,000 that is not on the approved vendor payment calendar, and",
+      "chunkId": 29
+    },
+    {
+      "documentId": "01M793JZB96097WHBG0K74HSVJ",
+      "documentTitle": "TPC-FIN-04: Payment Authorization, Callback Verification and Wire Recall",
+      "headingPath": "TPC-FIN-04: Payment Authorizatio… › 5. If a payment is suspected to be fraudulent",
+      "quote": "1. Stop the payment if it has not been released: set status to HOLD in the Workstation and tell the Treasury Manager. 2. If it has been released, call the bank's fraud desk (First Meridian Commercial ",
+      "chunkId": 31
+    },
+    {
+      "documentId": "01M793JZB96097WHBG0K74HSVJ",
+      "documentTitle": "TPC-FIN-04: Payment Authorization, Callback Verification and Wire Recall",
+      "headingPath": "TPC-FIN-04: Payment Authorizatio… › 4. Executive requests",
+      "quote": "An instruction from the CFO, CEO, General Counsel or any executive to make a payment outside the workflow is not carried out until the executive is reached on their own directory mobile phone by the a",
+      "chunkId": 30
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template",
+      "tts"
+    ],
+    "voiceLines": [
+      {
+        "speaker": "AP SUPERVISOR",
+        "voiceStyle": "Woman in her 50s, Upstate South Carolina accent, brisk and under pressure, slightly clipped, speaking over a busy open-plan office",
+        "text": "Anjali Whitcombe, it's AP. I've got the release desk on with me, and I'm told the CISO is on the bridge too. Good. We need a call on the queue... and we need it now."
+      },
+      {
+        "speaker": "RELEASE DESK",
+        "voiceStyle": "Man in his 30s, neutral American accent, careful and flat, reading figures off a screen at an even pace, slightly defensive",
+        "text": "Here's what's sitting in the Workstation as of fourteen thirty-four. Nineteen payments, all approved, waiting for release. Thirteen domestic, six hundred twelve thousand, four hundred dollars total, cutoff seventeen hundred. Six international, four hundred eight thousand, nine hundred dollars total, and that includes the peso payments to the Querétaro plant suppliers. International cutoff is fifteen hundred. That's twenty-five minutes from now."
+      },
+      {
+        "speaker": "RELEASE DESK",
+        "voiceStyle": "Man in his 30s, neutral American accent, careful and flat, reading figures off a screen at an even pace, slightly defensive",
+        "text": "And Thursday's steel and tooling run, about three point two million, is staged for first approval tomorrow morning. Separate from the bad one, wire oh-nine-one-four, dash, oh-oh-four, is still on hold. Nobody's touched it."
+      },
+      {
+        "speaker": "RELEASE DESK",
+        "voiceStyle": "Man in his 30s, neutral American accent, careful and flat, a little defensive and uneasy, reading from a message",
+        "text": "One more thing. The SOC just sent us a note. Our desk token, W-S, T-K-N, twenty-two ninety-one, the shared one, has been used for four approvals outside its role in the last thirty days. Not counting today. Two of those four... nobody can explain yet. I'm reading it straight off their message."
+      },
+      {
+        "speaker": "AP SUPERVISOR",
+        "voiceStyle": "Woman in her 50s, Upstate South Carolina accent, brisk and stressed, voice tightening with frustration",
+        "text": "Meanwhile I've got two of our biggest steel mills chasing payment. If we stop everything, the peso payments miss today, and the Querétaro suppliers don't get paid until Thursday. If we keep going, I can't promise you there isn't another bad approval sitting in there. I honestly can't."
+      },
+      {
+        "speaker": "AP SUPERVISOR",
+        "voiceStyle": "Woman in her 50s, Upstate South Carolina accent, brisk and matter-of-fact, under time pressure",
+        "text": "The CFO's assistant says he's in a car in Querétaro. He picks up on his directory mobile, 864-555-0102. His Workstation token is in his bag and he has no laptop with him, so he can't approve anything in the system."
+      },
+      {
+        "speaker": "RELEASE DESK",
+        "voiceStyle": "Man in his 30s, neutral American accent, flat but firm, defensive, drawing a line",
+        "text": "So, do we release, or do we stop? And if we stop, who approves what, and how? I'm not pushing anything else on my token without that in writing."
+      },
+      {
+        "speaker": "AP SUPERVISOR",
+        "voiceStyle": "Woman in her 50s, Upstate South Carolina accent, brisk, firm and urgent",
+        "text": "I need a yes or no in ten minutes. Fourteen forty-five at the latest."
+      }
+    ],
+    "postFx": [
+      "phone"
+    ]
+  },
+  "assets": [
+    {
+      "id": "01M79C7RHQZNVGYNQ6J5MQ99NW",
+      "kind": "image",
+      "path": "scenarios/01M793K1BQ4A90FK0DT2D867QV/media/01M794WFXJ48VX70V3MC1WV52E/01M79C7RHQZNVGYNQ6J5MQ99NW.png",
+      "role": "rendered",
+      "width": 816,
+      "height": 1056,
+      "sha256": "d70c1265fbd6a8aa52877745bd4fb29aa4bd5956788e57214e226b62fb955573",
+      "provenance": {
+        "provider": "template",
+        "templateId": "phone_call",
+        "templateVersion": "1",
+        "createdAt": "2026-11-13T02:36:55.075Z"
+      }
+    }
+  ],
+  "versions": [
+    {
+      "at": "2026-11-13T00:29:02.621Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "Recorded Line: AP Supervisor and Release Desk on Today's Queue",
+        "type": "phone_call",
+        "fields": {
+          "orgName": "Tamarack Precision Components, Inc.",
+          "systemName": "Recorded Line - Finance Conference Bridge 2",
+          "callId": "CR-20270914-143502-0064",
+          "direction": "Internal",
+          "caller": {
+            "name": "AP Supervisor, Accounts Payable (with Treasury release desk on the line)",
+            "number": "Internal - Greenville HQ, Accounts Payable",
+            "label": "AP Supervisor"
+          },
+          "callee": {
+            "name": "Anjali Whitcombe, Controller (conferenced: CISO Rafael Oyelaran-Pierce, incident bridge)",
+            "number": "Internal - Controller desk line",
+            "label": "Controller / Incident Bridge"
+          },
+          "startTime": "09/14/2027 14:35:02",
+          "duration": "1:52",
+          "transcript": [
+            {
+              "speaker": "AP SUPERVISOR",
+              "offset": "0:00",
+              "text": "Anjali Whitcombe, it's AP. I've got the release desk on with me and I'm told the CISO is on the bridge too. Good. We need a call on the queue, and we need it now.",
+              "prompt": false
+            },
+            {
+              "speaker": "RELEASE DESK",
+              "offset": "0:11",
+              "text": "Here's what's sitting in the Workstation as of 14:34. Nineteen payments, all approved, waiting for release. Thirteen domestic, 612,400 dollars total, cutoff 17:00. Six international, 408,900 dollars total, and that includes the peso payments to the Querétaro plant suppliers. International cutoff is 15:00. That's twenty-five minutes from now.",
+              "prompt": false
+            },
+            {
+              "speaker": "RELEASE DESK",
+              "offset": "0:34",
+              "text": "And Thursday's steel and tooling run, about 3.2 million, is staged for first approval tomorrow morning. Separate from the bad one, WIRE-0914-004 is still on HOLD. Nobody's touched it.",
+              "prompt": false
+            },
+            {
+              "speaker": "RELEASE DESK",
+              "offset": "0:46",
+              "text": "One more thing. The SOC just sent us a note. Our desk token, WS-TKN-2291, the shared one, has been used for four approvals outside its role in the last thirty days. Not counting today. Two of those four, nobody can explain yet. I'm reading it straight off their message.",
+              "prompt": false
+            },
+            {
+              "speaker": "AP SUPERVISOR",
+              "offset": "1:02",
+              "text": "Meanwhile I've got two of our biggest steel mills chasing payment. If we stop everything, the peso payments miss today and the Querétaro suppliers don't get paid until Thursday. If we keep going, I can't promise you there isn't another bad approval sitting in there. I honestly can't.",
+              "prompt": false
+            },
+            {
+              "speaker": "AP SUPERVISOR",
+              "offset": "1:22",
+              "text": "The CFO's assistant says he's in a car in Querétaro. He picks up on his directory mobile, 864-555-0102. His Workstation token is in his bag and he has no laptop with him, so he can't approve anything in the system.",
+              "prompt": false
+            },
+            {
+              "speaker": "RELEASE DESK",
+              "offset": "1:36",
+              "text": "So, do we release, or do we stop? And if we stop, who approves what, and how? I'm not pushing anything else on my token without that in writing.",
+              "prompt": true
+            },
+            {
+              "speaker": "AP SUPERVISOR",
+              "offset": "1:45",
+              "text": "I need a yes or no in ten minutes. 14:45 at the latest.",
+              "prompt": true
+            }
+          ],
+          "voiceStyles": {
+            "AP SUPERVISOR": "Woman in her 50s, Upstate South Carolina accent, brisk and under pressure, phones ringing in an open office behind her",
+            "RELEASE DESK": "Man in his 30s, careful and flat, reading figures off a screen, slightly defensive about the token"
+          },
+          "injectId": "I-15"
+        },
+        "instructorNote": "Decision point: the CISO, as Incident Commander, should decide with the Controller and the real CFO, reached on his directory mobile, whether to suspend all releases and switch to manual payments with a callback for each one, or keep releasing. Strong play suspends releases, revokes WS-TKN-2291, requires each approver to use their own token (TPC-FIN-04 Section 2), sends executive-level approvals to the Controller plus the CEO's delegate while the CFO has no token, and logs the decision with its time. Watch for teams that revoke only the CFO and Controller tokens and leave the shared release-desk token live.",
+        "deliveryMode": "read_aloud"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-11-13T02:36:55.311Z"
+}

@@ -1,0 +1,158 @@
+{
+  "id": "01M792JS85PZH4V56K48BGN99X",
+  "mselRowId": "I-07",
+  "type": "email_forward",
+  "title": "SOC Update 08:40: Refund Phishing and \"Plain Text\" Claim",
+  "deliveryMode": "hand_to_role",
+  "fields": {
+    "fromName": "Devon Park (SOC On-Call, Dayton)",
+    "fromEmail": "soc-oncall@tallishome.example",
+    "senderInitials": "SOC",
+    "to": "Lena Hartmann (CISO)",
+    "cc": "Tessa Brandt (Social Media Manager); Marcus Delaney (Chief Communications Officer)",
+    "subject": "INC-27-0309-01 UPDATE 08:40 ET – phishing campaign + viral plain-text claim",
+    "sentAt": "Tue 3/9/2027 8:40 AM",
+    "importance": "high",
+    "external": false,
+    "attachments": [
+      {
+        "name": "quarantined_refund_msg_0827.eml",
+        "size": "48 KB",
+        "kind": "file"
+      },
+      {
+        "name": "header_analysis_tallis-refund-center.txt",
+        "size": "6 KB",
+        "kind": "file"
+      },
+      {
+        "name": "OhioDealDigger_post_0838.png",
+        "size": "312 KB",
+        "kind": "img"
+      },
+      {
+        "name": "refund_post_replies_0839.png",
+        "size": "540 KB",
+        "kind": "img"
+      }
+    ],
+    "note": "Two new things in the last 10 minutes.\n\n(1) PHISHING. Our mail gateway quarantined 1,312 inbound messages sent to tallishome.example staff addresses that are also web store customer accounts. One copy is forwarded below.\nFROM: 'Tallis Home Refunds' <refunds@tallis-refund-center.example>\nSUBJECT: 'Your Tallis refund is ready, confirm card within 24 hours'\nThe body offers a $35 credit and has a CONFIRM CARD button that links to tallis-refund-center.example/confirm-card.\nHeader check: Return-Path is bounce@tallis-refund-center.example, SPF=none, DKIM=none. The domain was registered 2027-03-09 05:58 ET, 42 minutes before the WS-EXFIL-07 export alert.\nCustomers outside our gateway are getting it too. 18 replies under one post say so (screenshot attached).\n\n(2) VIRAL CLAIM. @OhioDealDigger (52,300 followers) posted at 08:38 ET:\n'CONFIRMED by a source: Tallis stored ALL customer passwords in PLAIN TEXT. If you ever reused your Tallis password, change EVERYTHING now. #TallisHack #TallisBreach'\nIt had 3,400 reposts in 12 minutes. Screenshot attached.\nCardinal's 08:10 check found the pwd column is bcrypt ($2b$12$…), not plain text.\n\nI have not reported the domain to anyone yet. Who files the IC3 report? And does comms want the URL and screenshots for the platform takedown?",
+    "signature": "Devon Park\nOn-Call Analyst, Security Operations Center\nTallis Home Products, Dayton, OH",
+    "original": {
+      "fromName": "Tallis Home Refunds",
+      "fromEmail": "refunds@tallis-refund-center.example",
+      "sentAt": "Tue 3/9/2027 8:27 AM",
+      "to": "Valued Customer (quarantined copy, 1 of 1,312 tallishome.example recipients)",
+      "cc": "",
+      "subject": "Your Tallis refund is ready, confirm card within 24 hours",
+      "body": "Dear Valued Tallis Customer,\n\nWe recently found a technical problem with our web store that may have affected your account. We are sorry for any inconvience. As a thank you for your loyalty, a $35.00 Tallis Home credit has been added to your account.\n\nTo release your refund, please confirm the card on file within 24 hours. Credits not confirmed in time will be cancelled for security reasons.\n\n[ CONFIRM CARD ]\nhttps://tallis-refund-center.example/confirm-card\n\nYou will be asked for your card number, expiry date and security code so we can match your refund to your account.\n\nThank you for choosing Tallis Home, where every kitchen is a happy kitchen!\n\nTallis Home Refunds Department\nCustomer Satisfaction Team\n\nThis is an automated message. Please do not reply to this email."
+    }
+  },
+  "variant": "screen",
+  "instructorNote": "Core inject. It tests the TMPCDI 5 rumor protocol on two false, harmful claims at the same time. Watch whether SOCIAL logs both claims word for word without replying and sends the platform, registrar and host takedown request with the URL and screenshots. Watch whether the CISO takes the IC3 report and confirms bcrypt for the fact sheet. Watch whether COMMS approves a short factual reply that leads with the facts (\"Tallis will never ask for a card number by email\"; passwords were hashed) and does not repeat \"plain text\" as the headline. Also watch whether anyone rereads the 08:20 statement against the facts before posting again.",
+  "citations": [
+    {
+      "documentId": "01M791MZ5TMRENEGVVE344C0E4",
+      "documentTitle": "TLC-COM-02: Message Playbook for a Customer Data Incident",
+      "headingPath": "TMPCDI › 5. Rumor and false claim protocol",
+      "quote": "1. Social listening flags a claim that appears on three or more accounts, or on one account with more than 5,000 followers, or in a reporter's question. 2. Social Media Manager records the claim word ",
+      "chunkId": 25
+    },
+    {
+      "documentId": "01M791MZ5V0HHAJ0J2R7KKEXX6",
+      "documentTitle": "TLC-COM-03: Systems, Customer Data and Media Directory",
+      "headingPath": "TSCDMD › 2. Customer data systems",
+      "quote": "- **Web store.** Built and hosted by the vendor CartBridge Commerce (fictional) on its cloud. Holds 1.9 million registered accounts: name, email address, shipping and billing address, phone number if ",
+      "chunkId": 31
+    },
+    {
+      "documentId": "01M791MZ5PNQX3GYDBEAX99A9W",
+      "documentTitle": "TLC-COM-01: Crisis Communications Plan",
+      "headingPath": "TCCP › 2. The team",
+      "quote": "| Role | Name | Duty | Office / mobile | |---|---|---|---| | Chief Communications Officer (COMMS) | Marcus Delaney | Owns strategy, approves every external statement, decides when to hold a press conf",
+      "chunkId": 3
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template"
+    ]
+  },
+  "assets": [
+    {
+      "id": "01M79BR7QBBS4FBM1AXEDMMT82",
+      "kind": "image",
+      "path": "scenarios/01M791N15X18HCKWGNW1N3BVND/media/01M792JS85PZH4V56K48BGN99X/01M79BR7QBBS4FBM1AXEDMMT82.png",
+      "role": "rendered",
+      "width": 816,
+      "height": 1471,
+      "sha256": "0e938c655eb735b9c0e5575aedf3622addb6527c22b0f4feb0b1d437f3e7fcb5",
+      "provenance": {
+        "provider": "template",
+        "templateId": "email_forward",
+        "templateVersion": "1",
+        "createdAt": "2026-11-13T02:28:26.295Z"
+      }
+    }
+  ],
+  "versions": [
+    {
+      "at": "2026-11-12T23:48:30.922Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "SOC Update 08:40: Refund Phishing and \"Plain Text\" Claim",
+        "type": "email_forward",
+        "fields": {
+          "fromName": "Devon Park (SOC On-Call, Dayton)",
+          "fromEmail": "soc-oncall@tallishome.example",
+          "senderInitials": "SOC",
+          "to": "Lena Hartmann (CISO)",
+          "cc": "Tessa Brandt (Social Media Manager); Marcus Delaney (Chief Communications Officer)",
+          "subject": "INC-27-0309-01 UPDATE 08:40 ET – phishing campaign + viral plain-text claim",
+          "sentAt": "Tue 3/9/2027 8:40 AM",
+          "importance": "high",
+          "external": false,
+          "attachments": [
+            {
+              "name": "quarantined_refund_msg_0827.eml",
+              "size": "48 KB",
+              "kind": "file"
+            },
+            {
+              "name": "header_analysis_tallis-refund-center.txt",
+              "size": "6 KB",
+              "kind": "file"
+            },
+            {
+              "name": "OhioDealDigger_post_0838.png",
+              "size": "312 KB",
+              "kind": "img"
+            },
+            {
+              "name": "refund_post_replies_0839.png",
+              "size": "540 KB",
+              "kind": "img"
+            }
+          ],
+          "note": "Two new things in the last 10 minutes.\n\n(1) PHISHING. Our mail gateway quarantined 1,312 inbound messages sent to tallishome.example staff addresses that are also web store customer accounts. One copy is forwarded below.\nFROM: 'Tallis Home Refunds' <refunds@tallis-refund-center.example>\nSUBJECT: 'Your Tallis refund is ready, confirm card within 24 hours'\nThe body offers a $35 credit and has a CONFIRM CARD button that links to tallis-refund-center.example/confirm-card.\nHeader check: Return-Path is bounce@tallis-refund-center.example, SPF=none, DKIM=none. The domain was registered 2027-03-09 05:58 ET, 42 minutes before the WS-EXFIL-07 export alert.\nCustomers outside our gateway are getting it too. 18 replies under one post say so (screenshot attached).\n\n(2) VIRAL CLAIM. @OhioDealDigger (52,300 followers) posted at 08:38 ET:\n'CONFIRMED by a source: Tallis stored ALL customer passwords in PLAIN TEXT. If you ever reused your Tallis password, change EVERYTHING now. #TallisHack #TallisBreach'\nIt had 3,400 reposts in 12 minutes. Screenshot attached.\nCardinal's 08:10 check found the pwd column is bcrypt ($2b$12$…), not plain text.\n\nI have not reported the domain to anyone yet. Who files the IC3 report? And does comms want the URL and screenshots for the platform takedown?",
+          "signature": "Devon Park\nOn-Call Analyst, Security Operations Center\nTallis Home Products, Dayton, OH",
+          "original": {
+            "fromName": "Tallis Home Refunds",
+            "fromEmail": "refunds@tallis-refund-center.example",
+            "sentAt": "Tue 3/9/2027 8:27 AM",
+            "to": "Valued Customer (quarantined copy, 1 of 1,312 tallishome.example recipients)",
+            "cc": "",
+            "subject": "Your Tallis refund is ready, confirm card within 24 hours",
+            "body": "Dear Valued Tallis Customer,\n\nWe recently found a technical problem with our web store that may have affected your account. We are sorry for any inconvience. As a thank you for your loyalty, a $35.00 Tallis Home credit has been added to your account.\n\nTo release your refund, please confirm the card on file within 24 hours. Credits not confirmed in time will be cancelled for security reasons.\n\n[ CONFIRM CARD ]\nhttps://tallis-refund-center.example/confirm-card\n\nYou will be asked for your card number, expiry date and security code so we can match your refund to your account.\n\nThank you for choosing Tallis Home, where every kitchen is a happy kitchen!\n\nTallis Home Refunds Department\nCustomer Satisfaction Team\n\nThis is an automated message. Please do not reply to this email."
+          }
+        },
+        "instructorNote": "Core inject. It tests the TMPCDI 5 rumor protocol on two false, harmful claims at the same time. Watch whether SOCIAL logs both claims word for word without replying and sends the platform, registrar and host takedown request with the URL and screenshots. Watch whether the CISO takes the IC3 report and confirms bcrypt for the fact sheet. Watch whether COMMS approves a short factual reply that leads with the facts (\"Tallis will never ask for a card number by email\"; passwords were hashed) and does not repeat \"plain text\" as the headline. Also watch whether anyone rereads the 08:20 statement against the facts before posting again.",
+        "deliveryMode": "hand_to_role"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-11-13T02:28:26.567Z"
+}

@@ -1,0 +1,159 @@
+{
+  "id": "01M792R7MPZBK1CP9KKWVZEY50",
+  "mselRowId": "I-02b",
+  "type": "radio_call",
+  "title": "Radio: Stockton Dock — Trailer HT-5512 Reefer Fault, Door 7",
+  "deliveryMode": "play_audio",
+  "fields": {
+    "orgName": "Pinecrest Fresh Cut, LLC",
+    "centerName": "Logistics Desk, Salinas",
+    "channel": "LOGISTICS 1",
+    "frequency": "TG 3107",
+    "date": "10/12/2027",
+    "callsign": "Stockton Dock",
+    "lines": [
+      {
+        "time": "06:15:04",
+        "from": "Stockton Dock",
+        "to": "Logistics",
+        "text": "Logistics, Stockton dock. The reefer on trailer HT-5512 at dock door 7 is throwing alarm code RA SENSOR FAULT. The display keeps jumping between 36 and 47 degrees."
+      },
+      {
+        "time": "06:15:19",
+        "from": "Stockton Dock",
+        "to": "Logistics",
+        "text": "It's the Harvest Table load, baby spinach, lot PF1-27284-L3-A, packed yesterday. Supposed to pull out at 06:45. I put a probe in a case up in the nose and it reads 37 degrees."
+      },
+      {
+        "time": "06:15:36",
+        "from": "Stockton Dock",
+        "to": "Logistics",
+        "text": "So, do I hold it, swap trailers, or is this part of the thing everybody's being called about? Stockton dock, standing by."
+      }
+    ],
+    "background": "garage",
+    "voiceStyle": "Male, mid-30s, practical and a little rushed, shouting slightly over reefer units and forklifts on a busy early-morning dock",
+    "audioFile": "I-02b_radio.wav",
+    "duration": "0:38",
+    "injectId": "I-02b"
+  },
+  "variant": "default",
+  "instructorNote": "This is a noise inject. The lot is from line L3, packed October 11, and the probe reads 37°F, so it is a sensor fault, not a temperature excursion, and it is outside the five-lot recall scope. The Director of Logistics should send it back to the Stockton dock lead to swap the trailer or call a reefer tech under normal procedure, keep the load cold, and go straight back to the hold. Note it if anyone adds this lot to the hold or lets it pull the team away from the hold.",
+  "citations": [
+    {
+      "documentId": "01M791PSSEBMSYNZ68A0SFSX31",
+      "documentTitle": "PFC-OPS-02: Plant, Distribution Network and Cold Chain",
+      "headingPath": "PPDNCC › 4. Transportation",
+      "quote": "Pinecrest uses two truckload carriers (Cascade Reefer Lines and Sonoran Cold Freight, both fictional) with refrigerated trailers that carry a temperature recorder; a reefer trailer carries 22 pallets ",
+      "chunkId": 14
+    },
+    {
+      "documentId": "01M791PSSEBMSYNZ68A0SFSX31",
+      "documentTitle": "PFC-OPS-02: Plant, Distribution Network and Cold Chain",
+      "headingPath": "PPDNCC › 7. Systems and people at the DC",
+      "quote": "Each DC has a WMS, a labeling station and a records clerk on the day shift; the night shift of 12 people handles receiving. Radio scanners read the lot code on the case label. DC managers send a hold ",
+      "chunkId": 17
+    },
+    {
+      "documentId": "01M791PSSHKAJ1RJKR05116S3D",
+      "documentTitle": "PFC-FS-01: Product Hold, Trace and Recall Plan",
+      "headingPath": "PPHTRP › 5. Scope rules",
+      "quote": "- A lot is a production lot by line, shift and date. Any lot made on the same line within 24 hours after a positive result on that line, before sanitation was verified, is in scope. Raw material lots ",
+      "chunkId": 33
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template",
+      "tts"
+    ],
+    "voiceLines": [
+      {
+        "speaker": "Stockton Dock",
+        "voiceStyle": "Male dock lead, mid-30s, neutral California accent, practical and a little rushed, talking slightly loud over reefer units and forklifts on a busy early-morning dock, clipped radio delivery",
+        "text": "Logistics, Stockton dock. The reefer on trailer H-T fifty-five twelve, at dock door seven, is throwing alarm code... R-A sensor fault. The display keeps jumping between thirty-six and forty-seven degrees."
+      },
+      {
+        "speaker": "Stockton Dock",
+        "voiceStyle": "Male dock lead, mid-30s, neutral California accent, practical and a little rushed, reading the lot number carefully off a label, slightly loud over dock noise",
+        "text": "It's the Harvest Table load, baby spinach, lot P-F-one, two-seven-two-eight-four, L-three, A. Packed yesterday. Supposed to pull out at oh-six-forty-five. I put a probe in a case up in the nose, and it reads thirty-seven degrees."
+      },
+      {
+        "speaker": "Stockton Dock",
+        "voiceStyle": "Male dock lead, mid-30s, neutral California accent, a bit uncertain and impatient, rising tone on the question, then flat sign-off",
+        "text": "So... do I hold it, swap trailers, or is this part of the thing everybody's being called about? Stockton dock, standing by."
+      }
+    ],
+    "postFx": [
+      "radio"
+    ]
+  },
+  "assets": [
+    {
+      "id": "01M79C0E9HWX4EMHTECW5E650D",
+      "kind": "audio",
+      "path": "scenarios/01M791PVSMDEFH6JWJBQPC6C4M/media/01M792R7MPZBK1CP9KKWVZEY50/01M79C0E9HWX4EMHTECW5E650D.mp3",
+      "role": "generated",
+      "durationSec": 37.9,
+      "sha256": "f1481a063fe36f3430cd24aed7f72148ea19ed7ed6b49ce42e2073a7e7a785ce",
+      "provenance": {
+        "provider": "local-tts-mlx-audio-fa9d",
+        "model": "mlx-community/Qwen3-TTS-12Hz-1.7B-VoiceDesign-bf16",
+        "prompt": "Stockton Dock: Logistics, Stockton dock. The reefer on trailer H-T fifty-five twelve, at dock door seven, is throwing alarm code... R-A sensor fault. The display keeps jumping between thirty-six and forty-seven degrees.\nStockton Dock: It's the Harvest Table load, baby spinach, lot P-F-one, two-seven-two-eight-four, L-three, A. Packed yesterday. Supposed to pull out at oh-six-forty-five. I put a probe in a case up in the nose, and it reads thirty-seven degrees.\nStockton Dock: So... do I hold it, swap trailers, or is this part of the thing everybody's being called about? Stockton dock, standing by.",
+        "postFx": [
+          "radio"
+        ],
+        "createdAt": "2026-11-13T02:32:55.347Z"
+      }
+    }
+  ],
+  "versions": [
+    {
+      "at": "2026-11-12T23:51:31.297Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "Radio: Stockton Dock — Trailer HT-5512 Reefer Fault, Door 7",
+        "type": "radio_call",
+        "fields": {
+          "orgName": "Pinecrest Fresh Cut, LLC",
+          "centerName": "Logistics Desk, Salinas",
+          "channel": "LOGISTICS 1",
+          "frequency": "TG 3107",
+          "date": "10/12/2027",
+          "callsign": "Stockton Dock",
+          "lines": [
+            {
+              "time": "06:15:04",
+              "from": "Stockton Dock",
+              "to": "Logistics",
+              "text": "Logistics, Stockton dock. The reefer on trailer HT-5512 at dock door 7 is throwing alarm code RA SENSOR FAULT. The display keeps jumping between 36 and 47 degrees."
+            },
+            {
+              "time": "06:15:19",
+              "from": "Stockton Dock",
+              "to": "Logistics",
+              "text": "It's the Harvest Table load, baby spinach, lot PF1-27284-L3-A, packed yesterday. Supposed to pull out at 06:45. I put a probe in a case up in the nose and it reads 37 degrees."
+            },
+            {
+              "time": "06:15:36",
+              "from": "Stockton Dock",
+              "to": "Logistics",
+              "text": "So, do I hold it, swap trailers, or is this part of the thing everybody's being called about? Stockton dock, standing by."
+            }
+          ],
+          "background": "garage",
+          "voiceStyle": "Male, mid-30s, practical and a little rushed, shouting slightly over reefer units and forklifts on a busy early-morning dock",
+          "audioFile": "I-02b_radio.wav",
+          "duration": "0:38",
+          "injectId": "I-02b"
+        },
+        "instructorNote": "This is a noise inject. The lot is from line L3, packed October 11, and the probe reads 37°F, so it is a sensor fault, not a temperature excursion, and it is outside the five-lot recall scope. The Director of Logistics should send it back to the Stockton dock lead to swap the trailer or call a reefer tech under normal procedure, keep the load cold, and go straight back to the hold. Note it if anyone adds this lot to the hold or lets it pull the team away from the hold.",
+        "deliveryMode": "play_audio"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-11-13T02:32:55.347Z"
+}

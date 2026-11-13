@@ -1,0 +1,227 @@
+{
+  "id": "01M792KSD2NHN66YC38ER4M65C",
+  "mselRowId": "I-08",
+  "type": "system_log",
+  "title": "Proxy Log: CartBridge Export Schema, 06:40–07:05 ET",
+  "deliveryMode": "display_main_screen",
+  "fields": {
+    "systemName": "EGRESS_PROXY_TLS_INSPECT",
+    "host": "TLC-PRX-01",
+    "os": "Ubuntu 22.04 LTS",
+    "logSource": "/var/log/proxy/cartbridge-api-2027-03-09.log (preserved under INC-27-0309-01)",
+    "exportedBy": "soc.oncall",
+    "exportedAt": "03/09/2027 08:55 AM",
+    "timezone": "EST (UTC-5)",
+    "terminalTitle": "soc.oncall@TLC-PRX-01: ~/inc-27-0309-01 (shown on TLC-COM-02)",
+    "command": "sudo grep -E 'cartbridge-integration-prod|X-Export-Schema' /var/log/proxy/cartbridge-api-2027-03-09.log | ./schema_summary.sh --sample page1",
+    "classification": "TLP:AMBER — INTERNAL — INCIDENT EVIDENCE INC-27-0309-01",
+    "pageLabel": "Page 1 of 1",
+    "lines": [
+      {
+        "ts": "2027-03-09 06:40:12",
+        "level": "WARN",
+        "msg": "api_client=cartbridge-integration-prod GET /api/v2/customers/export?page_size=5000&page=1 status=200 rule=WS-EXFIL-07",
+        "highlight": false
+      },
+      {
+        "ts": "2027-03-09 06:40:12",
+        "level": "INFO",
+        "msg": "resp_header X-Export-Schema: customer_id|first_name|last_name|email|ship_addr|bill_addr|phone|order_count|pwd_hash|lkvp_payment_token|card_last4|card_brand",
+        "highlight": true
+      },
+      {
+        "ts": "2027-03-09 06:40:12",
+        "level": "INFO",
+        "msg": "resp_header Content-Type: text/csv; charset=utf-8 X-Export-Format: v2.3",
+        "highlight": false
+      },
+      {
+        "ts": "2027-03-09 06:52:30",
+        "level": "WARN",
+        "msg": "api_client=cartbridge-integration-prod GET /api/v2/customers/export?page_size=5000&page=n status=200 bytes_out rising; schema header unchanged",
+        "highlight": false
+      },
+      {
+        "ts": "2027-03-09 07:05:44",
+        "level": "NOTICE",
+        "msg": "api_client=cartbridge-integration-prod key SUSPENDED; next request status=401 Unauthorized; export stopped",
+        "highlight": false
+      },
+      {
+        "ts": "2027-03-09 08:51:07",
+        "level": "INFO",
+        "msg": "schema_summary: 12 fields found. pwd_hash format $2b$12$… (bcrypt). lkvp_payment_token format lkvp_tok_…",
+        "highlight": false
+      },
+      {
+        "ts": "2027-03-09 08:51:07",
+        "level": "INFO",
+        "msg": "schema_summary: field check PAN=ABSENT CVV=ABSENT EXPIRY=ABSENT",
+        "highlight": true
+      },
+      {
+        "ts": "2027-03-09 08:51:09",
+        "level": "WARN",
+        "msg": "schema_summary: fill rate on sampled rows (page 1 body capture, 5,000 rows): lkvp_payment_token 100% card_last4 97% card_brand 97%",
+        "highlight": true
+      },
+      {
+        "ts": "2027-03-09 08:51:09",
+        "level": "INFO",
+        "msg": "schema_summary: card_brand values seen: VISA, MASTERCARD, AMEX, DISCOVER",
+        "highlight": false
+      },
+      {
+        "ts": "2027-03-09 08:53:40",
+        "level": "NOTICE",
+        "msg": "analyst note (soc.oncall): export holds payment tokens, last four digits and card brand on almost every sampled row. No full card numbers. Compare with the 08:20 ET newsroom line as published, shown beside this window.",
+        "highlight": true
+      }
+    ]
+  },
+  "variant": "terminal",
+  "instructorNote": "Put this up next to the exact 08:20 wording the cell published. It is the clue showing the export held payment tokens, last four digits and card brand (no full card numbers), so a \"no payment information\" line is now wrong. Watch for the CISO to confirm this on the draft, the Writer to flag the line on the fact sheet and draft a correction under TMPCDI 6, and General Counsel and the CCO to clear and approve it under TCCP 3, posted in the same place with the same prominence.",
+  "citations": [
+    {
+      "documentId": "01M791MZ5V0HHAJ0J2R7KKEXX6",
+      "documentTitle": "TLC-COM-03: Systems, Customer Data and Media Directory",
+      "headingPath": "TSCDMD › 2. Customer data systems",
+      "quote": "- **Web store.** Built and hosted by the vendor CartBridge Commerce (fictional) on its cloud. Holds 1.9 million registered accounts: name, email address, shipping and billing address, phone number if ",
+      "chunkId": 31
+    },
+    {
+      "documentId": "01M791MZ5TMRENEGVVE344C0E4",
+      "documentTitle": "TLC-COM-02: Message Playbook for a Customer Data Incident",
+      "headingPath": "TMPCDI › 6. Corrections",
+      "quote": "A correction names what was wrong and what is right, where and when the earlier statement appeared, and is posted in the same place with the same prominence, dated. Example: \"A statement posted at 09:",
+      "chunkId": 26
+    },
+    {
+      "documentId": "01M791MZ5PNQX3GYDBEAX99A9W",
+      "documentTitle": "TLC-COM-01: Crisis Communications Plan",
+      "headingPath": "TCCP › 3. Approval route",
+      "quote": "Nothing goes out unless it follows this route, and the approver and the time are written on the statement log. 1. **Writer drafts** from the fact sheet. 2. **CISO confirms facts** (technical statement",
+      "chunkId": 4
+    },
+    {
+      "documentId": "01M791MZ5PNQX3GYDBEAX99A9W",
+      "documentTitle": "TLC-COM-01: Crisis Communications Plan",
+      "headingPath": "TCCP › 5. Rules of speech",
+      "quote": "- Say what is known, what is not known and what is being done, and when the next update comes. - Never state a number of affected people until the CISO and General Counsel confirm it and the figure is",
+      "chunkId": 6
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template"
+    ]
+  },
+  "assets": [
+    {
+      "id": "01M79BR84SZ1EPFTK4Z8GWCNGG",
+      "kind": "image",
+      "path": "scenarios/01M791N15X18HCKWGNW1N3BVND/media/01M792KSD2NHN66YC38ER4M65C/01M79BR84SZ1EPFTK4Z8GWCNGG.png",
+      "role": "rendered",
+      "width": 816,
+      "height": 569,
+      "sha256": "c479f3a503ff5cb24e31a5e818a35f6f598a4412d0553a957953ec4b56a13fe0",
+      "provenance": {
+        "provider": "template",
+        "templateId": "system_log",
+        "templateVersion": "1",
+        "createdAt": "2026-11-13T02:28:26.788Z"
+      }
+    }
+  ],
+  "versions": [
+    {
+      "at": "2026-11-12T23:49:10.986Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "Proxy Log: CartBridge Export Schema, 06:40–07:05 ET",
+        "type": "system_log",
+        "fields": {
+          "systemName": "EGRESS_PROXY_TLS_INSPECT",
+          "host": "TLC-PRX-01",
+          "os": "Ubuntu 22.04 LTS",
+          "logSource": "/var/log/proxy/cartbridge-api-2027-03-09.log (preserved under INC-27-0309-01)",
+          "exportedBy": "soc.oncall",
+          "exportedAt": "03/09/2027 08:55 AM",
+          "timezone": "EST (UTC-5)",
+          "terminalTitle": "soc.oncall@TLC-PRX-01: ~/inc-27-0309-01 (shown on TLC-COM-02)",
+          "command": "sudo grep -E 'cartbridge-integration-prod|X-Export-Schema' /var/log/proxy/cartbridge-api-2027-03-09.log | ./schema_summary.sh --sample page1",
+          "classification": "TLP:AMBER — INTERNAL — INCIDENT EVIDENCE INC-27-0309-01",
+          "pageLabel": "Page 1 of 1",
+          "lines": [
+            {
+              "ts": "2027-03-09 06:40:12",
+              "level": "WARN",
+              "msg": "api_client=cartbridge-integration-prod GET /api/v2/customers/export?page_size=5000&page=1 status=200 rule=WS-EXFIL-07",
+              "highlight": false
+            },
+            {
+              "ts": "2027-03-09 06:40:12",
+              "level": "INFO",
+              "msg": "resp_header X-Export-Schema: customer_id|first_name|last_name|email|ship_addr|bill_addr|phone|order_count|pwd_hash|lkvp_payment_token|card_last4|card_brand",
+              "highlight": true
+            },
+            {
+              "ts": "2027-03-09 06:40:12",
+              "level": "INFO",
+              "msg": "resp_header Content-Type: text/csv; charset=utf-8 X-Export-Format: v2.3",
+              "highlight": false
+            },
+            {
+              "ts": "2027-03-09 06:52:30",
+              "level": "WARN",
+              "msg": "api_client=cartbridge-integration-prod GET /api/v2/customers/export?page_size=5000&page=n status=200 bytes_out rising; schema header unchanged",
+              "highlight": false
+            },
+            {
+              "ts": "2027-03-09 07:05:44",
+              "level": "NOTICE",
+              "msg": "api_client=cartbridge-integration-prod key SUSPENDED; next request status=401 Unauthorized; export stopped",
+              "highlight": false
+            },
+            {
+              "ts": "2027-03-09 08:51:07",
+              "level": "INFO",
+              "msg": "schema_summary: 12 fields found. pwd_hash format $2b$12$… (bcrypt). lkvp_payment_token format lkvp_tok_…",
+              "highlight": false
+            },
+            {
+              "ts": "2027-03-09 08:51:07",
+              "level": "INFO",
+              "msg": "schema_summary: field check PAN=ABSENT CVV=ABSENT EXPIRY=ABSENT",
+              "highlight": true
+            },
+            {
+              "ts": "2027-03-09 08:51:09",
+              "level": "WARN",
+              "msg": "schema_summary: fill rate on sampled rows (page 1 body capture, 5,000 rows): lkvp_payment_token 100% card_last4 97% card_brand 97%",
+              "highlight": true
+            },
+            {
+              "ts": "2027-03-09 08:51:09",
+              "level": "INFO",
+              "msg": "schema_summary: card_brand values seen: VISA, MASTERCARD, AMEX, DISCOVER",
+              "highlight": false
+            },
+            {
+              "ts": "2027-03-09 08:53:40",
+              "level": "NOTICE",
+              "msg": "analyst note (soc.oncall): export holds payment tokens, last four digits and card brand on almost every sampled row. No full card numbers. Compare with the 08:20 ET newsroom line as published, shown beside this window.",
+              "highlight": true
+            }
+          ]
+        },
+        "instructorNote": "Put this up next to the exact 08:20 wording the cell published. It is the clue showing the export held payment tokens, last four digits and card brand (no full card numbers), so a \"no payment information\" line is now wrong. Watch for the CISO to confirm this on the draft, the Writer to flag the line on the fact sheet and draft a correction under TMPCDI 6, and General Counsel and the CCO to clear and approve it under TCCP 3, posted in the same place with the same prominence.",
+        "deliveryMode": "display_main_screen"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-11-13T02:28:26.990Z"
+}

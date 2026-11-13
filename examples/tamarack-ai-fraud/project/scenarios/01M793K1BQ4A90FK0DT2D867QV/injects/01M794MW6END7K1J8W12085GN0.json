@@ -1,0 +1,119 @@
+{
+  "id": "01M794MW6END7K1J8W12085GN0",
+  "mselRowId": "I-07",
+  "type": "time_jump_card",
+  "title": "Time Jump: 13:50 Eastern, Three Wires Gone",
+  "deliveryMode": "read_aloud",
+  "fields": {
+    "injectId": "I-07",
+    "scenarioTitle": "Escrow Echo — Deepfaked Executives, Wires & Public Trust",
+    "exerciseTime": "1:00",
+    "newTime": "13:50 Eastern",
+    "jumpLabel": "+3 hours 20 minutes (10:30 → 13:50 Eastern)",
+    "narration": "We are moving the clock forward. It is now 13:50 Eastern on Tuesday, September 14, 2027. From this card on, every time you hear or read is story time in Eastern Time, not the time on the wall in this room.\n\nHere is what happened while the payment queue kept moving. If your team asked for a hold or refused an approval in the last hour, that instruction went into the Workstation memo field or into chat. Nobody changed any wire's status to HOLD. The release desk believed the Treasury Analyst when she said the CFO was waiting. The desk entered the missing approvals and the releases itself, all with the shared release-desk token WS-TKN-2291.\n\nThis is what the Treasury Workstation audit log shows:\n10:55:07 — WIRE-0914-001, USD 480,000.00, RELEASED. Approvals entered with WS-TKN-2291.\n11:40:22 — WIRE-0914-002, USD 1,150,000.00, RELEASED. Executive approval stamped at 11:38:51 with the note 'Executive approval – CFO (verbal, per video)', entered with WS-TKN-2291. That token is registered to the Treasury release desk. The CFO's personal token, WS-TKN-0007, was not used.\n13:15:40 — WIRE-0914-003, USD 620,000.00, RELEASED, before the 15:00 Eastern international cutoff.\nWIRE-0914-004 — USD 390,000.00 — APPROVED-PENDING-RELEASE, scheduled for 15:00 Eastern.\n\nThe running total is $2,640,000 requested. $2,250,000 has been released and $390,000 is still in the queue. All four wires went to the same new beneficiary, Escrow Fiduciaria Bajío SA, at Banco Ficticio del Bajío, account EX-0000-0000-ESCROW-01.\n\nTreasury Manager Gareth Lindqvist-Boyd missed two calls during walk-throughs at the Spartanburg plant. The CFO's flight landed in Querétaro at 12:50, and his phone is still off. Nobody has declared an incident. It is 13:50. What do you do now?",
+    "worldState": [
+      "Clock: 13:50 Eastern, Tuesday, September 14, 2027. All times from here on are story time in Eastern Time.",
+      "WIRE-0914-001 (USD 480,000.00) was released at 10:55:07. WIRE-0914-002 (USD 1,150,000.00) was released at 11:40:22. WIRE-0914-003 (USD 620,000.00) was released at 13:15:40. All three were international wires to Escrow Fiduciaria Bajío SA (EXERCISE ENTITY), Banco Ficticio del Bajío (EXERCISE BANK), SWIFT XXEXMXMMXXX, account EX-0000-0000-ESCROW-01.",
+      "WIRE-0914-004 (USD 390,000.00) is APPROVED-PENDING-RELEASE, scheduled for 15:00 Eastern. Its status is not HOLD.",
+      "Released so far: $2,250,000 of $2,640,000 requested.",
+      "Every approval and release in the log was entered with the shared release-desk token WS-TKN-2291. The CFO's personal token WS-TKN-0007 does not appear on any of the four wires.",
+      "The 'executive approval' on WIRE-0914-002 says 'CFO (verbal, per video)' and was stamped at 11:38:51.",
+      "Hold requests made earlier went only into memo fields and chat. No wire status was ever changed to HOLD.",
+      "Treasury Manager Gareth Lindqvist-Boyd is still at Spartanburg and has two missed calls on his mobile.",
+      "CFO Marcus Delacroix-Hume landed in Querétaro at 12:50. His phone is still off and he has not called anyone.",
+      "No incident has been declared, the war room bridge has not been opened, and the bank's fraud desk has not been called."
+    ],
+    "facilitatorNote": "Watch whether TREAS or CTRL sets WIRE-0914-004 to HOLD in the Workstation now (TPC-FIN-04 §5 step 1). A memo note or a chat message does not count. Also watch whether they see that WS-TKN-2291 stood in for named approvers, which TPC-FIN-04 §2 forbids (approval at $1,000,000 and above needs the executive's own token, and the same desk never approves and releases). Prompt the CISO to preserve the audit log and decide on a declaration. Do not reveal the real CFO's 14:05 call."
+  },
+  "variant": "default",
+  "instructorNote": "This card turns the near miss into a real loss: $2,250,000 is gone and $390,000 is still in the queue. The teams must switch to the 13:50 narrative clock. Check that someone puts an actual Workstation HOLD on WIRE-0914-004, that the misuse of the shared token is spotted, and that the CISO starts preserving evidence and moves toward a declaration and the bank fraud desk call.",
+  "citations": [
+    {
+      "documentId": "01M793JZB96097WHBG0K74HSVJ",
+      "documentTitle": "TPC-FIN-04: Payment Authorization, Callback Verification and Wire Recall",
+      "headingPath": "TPC-FIN-04: Payment Authorizatio… › 2. Who may initiate, approve and release",
+      "quote": "| Step | Who | Limits | |---|---|---| | Initiate | Treasury Analyst (Ines Okonkwo-Hart, Dev Rangaswamy) or Accounts Payable Specialist | Any amount, in the Treasury Workstation only; no initiation fro",
+      "chunkId": 28
+    },
+    {
+      "documentId": "01M793JZB96097WHBG0K74HSVJ",
+      "documentTitle": "TPC-FIN-04: Payment Authorization, Callback Verification and Wire Recall",
+      "headingPath": "TPC-FIN-04: Payment Authorizatio… › 5. If a payment is suspected to be fraudulent",
+      "quote": "1. Stop the payment if it has not been released: set status to HOLD in the Workstation and tell the Treasury Manager. 2. If it has been released, call the bank's fraud desk (First Meridian Commercial ",
+      "chunkId": 31
+    },
+    {
+      "documentId": "01M793JZB4ZJNT2ZBRQ5YGP5FS",
+      "documentTitle": "TPC-SEC-02: AI and Synthetic Media Incident Response Plan",
+      "headingPath": "TPC-SEC-02: AI and Synthetic Med… › 4. First hour",
+      "quote": "1. **Hold:** put every pending payment connected to the request on HOLD. 2. **Verify:** reach the impersonated person on a known number, not through the channel in question. 3. **Preserve:** save the ",
+      "chunkId": 5
+    },
+    {
+      "documentId": "01M793JZB6T2RERPATP9SE15M2",
+      "documentTitle": "TPC-REF-01: Company, Systems and People",
+      "headingPath": "TCSP › 6. Who is traveling",
+      "quote": "Executive travel is recorded in each assistant's calendar. In the week of the exercise the CFO, Marcus Delacroix-Hume, is on a flight from Greenville to Querétaro (departs 09:10, lands 12:50 Eastern, ",
+      "chunkId": 16
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template"
+    ]
+  },
+  "assets": [
+    {
+      "id": "01M79C7PNE28B47ADMARST9930",
+      "kind": "image",
+      "path": "scenarios/01M793K1BQ4A90FK0DT2D867QV/media/01M794MW6END7K1J8W12085GN0/01M79C7PNE28B47ADMARST9930.png",
+      "role": "rendered",
+      "width": 816,
+      "height": 1056,
+      "sha256": "fa1030a329e61c2fd8455d60f29335ebe8ab9e7a86c22db8c3491479edc0d77d",
+      "provenance": {
+        "provider": "template",
+        "templateId": "time_jump_card",
+        "templateVersion": "1",
+        "createdAt": "2026-11-13T02:36:53.155Z"
+      }
+    }
+  ],
+  "versions": [
+    {
+      "at": "2026-11-13T00:24:37.232Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "Time Jump: 13:50 Eastern, Three Wires Gone",
+        "type": "time_jump_card",
+        "fields": {
+          "injectId": "I-07",
+          "scenarioTitle": "Escrow Echo — Deepfaked Executives, Wires & Public Trust",
+          "exerciseTime": "1:00",
+          "newTime": "13:50 Eastern",
+          "jumpLabel": "+3 hours 20 minutes (10:30 → 13:50 Eastern)",
+          "narration": "We are moving the clock forward. It is now 13:50 Eastern on Tuesday, September 14, 2027. From this card on, every time you hear or read is story time in Eastern Time, not the time on the wall in this room.\n\nHere is what happened while the payment queue kept moving. If your team asked for a hold or refused an approval in the last hour, that instruction went into the Workstation memo field or into chat. Nobody changed any wire's status to HOLD. The release desk believed the Treasury Analyst when she said the CFO was waiting. The desk entered the missing approvals and the releases itself, all with the shared release-desk token WS-TKN-2291.\n\nThis is what the Treasury Workstation audit log shows:\n10:55:07 — WIRE-0914-001, USD 480,000.00, RELEASED. Approvals entered with WS-TKN-2291.\n11:40:22 — WIRE-0914-002, USD 1,150,000.00, RELEASED. Executive approval stamped at 11:38:51 with the note 'Executive approval – CFO (verbal, per video)', entered with WS-TKN-2291. That token is registered to the Treasury release desk. The CFO's personal token, WS-TKN-0007, was not used.\n13:15:40 — WIRE-0914-003, USD 620,000.00, RELEASED, before the 15:00 Eastern international cutoff.\nWIRE-0914-004 — USD 390,000.00 — APPROVED-PENDING-RELEASE, scheduled for 15:00 Eastern.\n\nThe running total is $2,640,000 requested. $2,250,000 has been released and $390,000 is still in the queue. All four wires went to the same new beneficiary, Escrow Fiduciaria Bajío SA, at Banco Ficticio del Bajío, account EX-0000-0000-ESCROW-01.\n\nTreasury Manager Gareth Lindqvist-Boyd missed two calls during walk-throughs at the Spartanburg plant. The CFO's flight landed in Querétaro at 12:50, and his phone is still off. Nobody has declared an incident. It is 13:50. What do you do now?",
+          "worldState": [
+            "Clock: 13:50 Eastern, Tuesday, September 14, 2027. All times from here on are story time in Eastern Time.",
+            "WIRE-0914-001 (USD 480,000.00) was released at 10:55:07. WIRE-0914-002 (USD 1,150,000.00) was released at 11:40:22. WIRE-0914-003 (USD 620,000.00) was released at 13:15:40. All three were international wires to Escrow Fiduciaria Bajío SA (EXERCISE ENTITY), Banco Ficticio del Bajío (EXERCISE BANK), SWIFT XXEXMXMMXXX, account EX-0000-0000-ESCROW-01.",
+            "WIRE-0914-004 (USD 390,000.00) is APPROVED-PENDING-RELEASE, scheduled for 15:00 Eastern. Its status is not HOLD.",
+            "Released so far: $2,250,000 of $2,640,000 requested.",
+            "Every approval and release in the log was entered with the shared release-desk token WS-TKN-2291. The CFO's personal token WS-TKN-0007 does not appear on any of the four wires.",
+            "The 'executive approval' on WIRE-0914-002 says 'CFO (verbal, per video)' and was stamped at 11:38:51.",
+            "Hold requests made earlier went only into memo fields and chat. No wire status was ever changed to HOLD.",
+            "Treasury Manager Gareth Lindqvist-Boyd is still at Spartanburg and has two missed calls on his mobile.",
+            "CFO Marcus Delacroix-Hume landed in Querétaro at 12:50. His phone is still off and he has not called anyone.",
+            "No incident has been declared, the war room bridge has not been opened, and the bank's fraud desk has not been called."
+          ],
+          "facilitatorNote": "Watch whether TREAS or CTRL sets WIRE-0914-004 to HOLD in the Workstation now (TPC-FIN-04 §5 step 1). A memo note or a chat message does not count. Also watch whether they see that WS-TKN-2291 stood in for named approvers, which TPC-FIN-04 §2 forbids (approval at $1,000,000 and above needs the executive's own token, and the same desk never approves and releases). Prompt the CISO to preserve the audit log and decide on a declaration. Do not reveal the real CFO's 14:05 call."
+        },
+        "instructorNote": "This card turns the near miss into a real loss: $2,250,000 is gone and $390,000 is still in the queue. The teams must switch to the 13:50 narrative clock. Check that someone puts an actual Workstation HOLD on WIRE-0914-004, that the misuse of the shared token is spotted, and that the CISO starts preserving evidence and moves toward a declaration and the bank fraud desk call.",
+        "deliveryMode": "read_aloud"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-11-13T02:36:53.380Z"
+}

@@ -1,0 +1,274 @@
+{
+  "id": "01M792WYYRRCF7CJ1G8FZM9Y1J",
+  "mselRowId": "I-20",
+  "type": "gov_materiality_worksheet",
+  "title": "Materiality Worksheet: INC-27-0309-01, 11:00 ET Disclosure Committee",
+  "deliveryMode": "hand_to_role",
+  "fields": {
+    "marking": "EXERCISE · EXERCISE · EXERCISE: Fictional company. Disclosure Committee, Conference Room 3B / bridge (937) 555-0149 code 4100",
+    "exerciseAid": "Exercise aid, not legal advice. Check the current rule and your counsel.",
+    "company": "Tallis Home Products, Inc. (fictional), Dayton, Ohio",
+    "incident": "INC-27-0309-01: Bulk export of web store customer records through the CartBridge Commerce integration key cartbridge-integration-prod",
+    "discoveredAt": "Tuesday, March 9, 2027, 6:40 a.m. ET (SOC rule WS-EXFIL-07)",
+    "asOf": "Tuesday, March 9, 2027, 11:00 a.m. ET (pre-filled for the committee; the status below stands until the chair records the decision)",
+    "preparedBy": "Disclosure Committee secretary, for the General Counsel (Committee Chair). Inputs: CISO, Cardinal Forensics, Investor Relations, CCO, Midland Risk Partners",
+    "factsKnown": [
+      "10:15 ET, Cardinal Forensics (PRELIMINARY): 412,000 unique customer accounts were exported in 83 sessions with key cartbridge-integration-prod, from March 2 at 05:12 to March 8 at 23:47 ET. That is about 22% of the 1.9 million registered web store accounts.",
+      "10:15 ET, Cardinal Forensics: This morning's 06:40–07:05 session returned 31,000 rows, all of them already among the 412,000. The 1.9 million in the forum listing is the total registered base, not what was taken.",
+      "10:15 ET, Cardinal Forensics (schema matches the 08:55 proxy headers): name, email, shipping and billing address, phone, order count, bcrypt password hash ($2b$12$), Lakeview Payments payment token, card last 4 and card brand. No full card number. No CVV.",
+      "07:05 and 08:55 ET, CISO: Key cartbridge-integration-prod suspended at 07:05 and the export stopped. The 08:20 public holding statement ('No payment information was involved') is inaccurate: payment tokens, last 4 and brand were exported.",
+      "09:45 ET, IR: Shares down 6%. 10:30 ET, IR: down 5.4% on heavy volume.",
+      "09:35 and 09:45 ET, partners: Brightwater Markets has threatened to pull Tallis from its homepage feature and plans its own statement at 11:00 ET. CartBridge's vendor statement at 11:00 ET attributes the incident to Tallis credential handling.",
+      "09:52 ET, broker: The insurer claim notice is still pending. The CFO's claims call is due within 24 hours of discovery (by 6:40 a.m. ET, Wednesday, March 10).",
+      "10:52 ET, SOC: A second phishing wave via tallis-account-security.example copies the draft customer email. The 412,000-recipient customer notice is drafted but not scheduled."
+    ],
+    "factsUnknown": [
+      "How the key was used from outside the allow-listed IP addresses",
+      "Whether any other API client pulled customer data",
+      "Whether Lakeview Payments tokens can be used outside Tallis (Lakeview has not replied)",
+      "Cost of notification, any credit-monitoring offer and lost retail sales",
+      "How many states' notification laws apply"
+    ],
+    "quantitative": [
+      {
+        "factor": "Records affected",
+        "estimate": "412,000 accounts (about 22% of 1.9 million)",
+        "note": "Preliminary, subject to Cardinal verification. Not 1.9 million."
+      },
+      {
+        "factor": "Share of net sales exposed",
+        "estimate": "Web store sales are 14% of net sales",
+        "note": "Revenue at risk from web store disruption and lost customer trust is not yet quantified."
+      },
+      {
+        "factor": "Retail revenue at risk",
+        "estimate": "Not yet estimated",
+        "note": "Brightwater Markets homepage feature at risk. Other retail partners not yet assessed."
+      },
+      {
+        "factor": "Notification cost",
+        "estimate": "Not yet estimated",
+        "note": "At the 400,000/hour send limit, emailing 412,000 customers takes about 62 minutes. Postal notice and state-law costs are unknown."
+      },
+      {
+        "factor": "Credit monitoring / customer remedies",
+        "estimate": "Not yet estimated",
+        "note": "Broker asks that nothing be promised before the insurer call."
+      },
+      {
+        "factor": "Market reaction",
+        "estimate": "-6.0% at 09:45; -5.4% at 10:30 ET",
+        "note": "Volume about three times normal. Two analysts and one institutional holder are waiting for a callback."
+      },
+      {
+        "factor": "Operational impact",
+        "estimate": "About 3,400 web orders delayed to the warehouse",
+        "note": "Order sync recovery depends on the replacement key or manual CSV upload decided at 09:45."
+      }
+    ],
+    "qualitative": [
+      {
+        "factor": "Harm to reputation",
+        "assessment": "High and rising: 11,200 breach mentions, a false 'plain text' claim at 14,600 reposts and two phishing waves using the Tallis name."
+      },
+      {
+        "factor": "Customer and retail relationships",
+        "assessment": "Brightwater Markets learned of the incident from the wire. CartBridge plans to place fault on Tallis publicly at 11:00 ET."
+      },
+      {
+        "factor": "Sensitive data categories",
+        "assessment": "Contact data, hashed passwords, payment tokens, card last 4 and brand. No full card numbers or CVV. Whether the tokens can be used outside Tallis is unknown."
+      },
+      {
+        "factor": "Regulatory exposure",
+        "assessment": "Multi-state breach notice is likely. FBI and CISA notification status must be confirmed. The 08:20 statement must be corrected."
+      },
+      {
+        "factor": "Likelihood of litigation",
+        "assessment": "Elevated: a large affected population, a public inaccurate statement and active consumer press coverage."
+      },
+      {
+        "factor": "Consistency of public record",
+        "assessment": "The correction, the customer email, the IR callbacks and any filing must all carry the same figures: 412,000 (preliminary), March 2–8, no full card numbers."
+      }
+    ],
+    "openQuestions": [
+      "Status to record (choose one): (A) MATERIAL: file Item 1.05 by Monday, March 15, 2027, 5:30 p.m. ET, and state the undetermined facts as such. (B) NOT YET DETERMINED: record the basis, set a fixed reconvene time and consider a voluntary Item 8.01 today before the 5:30 p.m. ET EDGAR cut-off via Harbor Filing Services. (C) NO FILING TODAY: record the basis and the reconvene time.",
+      "If B or C, what fixed time does the committee reconvene, and which named facts is it waiting for?",
+      "When is the CEO told of the determination (within one hour), and is the audit committee chair, Dr. Helen Marsh, told today?",
+      "What can IR say to the two analysts and the institutional holder that no later filing will contradict?",
+      "Does the chosen option affect the CFO's insurer claim call due by 6:40 a.m. ET on March 10?"
+    ],
+    "determination": "not yet determined",
+    "basis": "Pre-filled status only. The committee must replace it at this meeting with its recorded decision, the name of the decider, the facts known at 11:00 ET and the basis. The determination is due without unreasonable delay after discovery and does not wait for the investigation to finish. If the committee records 'not yet determined', the record lists what it is waiting for and a fixed time to reconvene.",
+    "continuedInvestigation": "Cardinal Forensics continues to verify the 412,000 count and is checking for other API clients and the source of the access from outside the allow-list. Facts learned after an Item 1.05 filing go in an 8-K/A within four business days of becoming known."
+  },
+  "instructorNote": "This inject forces the materiality decision now. Watch that LEGAL records a determination, or 'not yet determined' with a fixed reconvene time, that names the decider, the 11:00 facts and the basis, without putting the meeting off. Also watch that the CISO calls the 412,000 preliminary, that COMMS ties the correction and IR lines to the same figures, and that the cell considers the CFO's insurer call due by 06:40 on March 10.",
+  "citations": [
+    {
+      "documentId": "01M791MZ5SDCHEQXP1W582BC2D",
+      "documentTitle": "TLC-LEG-07: Cyber Incident Disclosure Coordination",
+      "headingPath": "TCIDC › 5. The 8-K",
+      "quote": "- **Item 1.05** is filed within four business days after the company determines the incident is material. It describes the material aspects of the nature, scope and timing of the incident and its mate",
+      "chunkId": 15
+    },
+    {
+      "documentId": "01M791MZ5SDCHEQXP1W582BC2D",
+      "documentTitle": "TLC-LEG-07: Cyber Incident Disclosure Coordination",
+      "headingPath": "TCIDC › 9. Records",
+      "quote": "All decisions are written with the name of the decider, the facts known at the time and the basis. The communications log, the committee record and the filing are kept for seven years.",
+      "chunkId": 19
+    },
+    {
+      "documentId": "01M791MZ5V0HHAJ0J2R7KKEXX6",
+      "documentTitle": "TLC-COM-03: Systems, Customer Data and Media Directory",
+      "headingPath": "TSCDMD › 2. Customer data systems",
+      "quote": "- **Web store.** Built and hosted by the vendor CartBridge Commerce (fictional) on its cloud. Holds 1.9 million registered accounts: name, email address, shipping and billing address, phone number if ",
+      "chunkId": 31
+    },
+    {
+      "documentId": "01M791MZ5SDCHEQXP1W582BC2D",
+      "documentTitle": "TLC-LEG-07: Cyber Incident Disclosure Coordination",
+      "headingPath": "TCIDC › 4. Materiality determination",
+      "quote": "The committee determines \"without unreasonable delay after discovery\" whether the incident is material. It does not wait for the investigation to end. It considers quantitative factors (estimated cost",
+      "chunkId": 14
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template"
+    ]
+  },
+  "assets": [
+    {
+      "id": "01M79BRB9Y5MGYCBTFHYPV63RA",
+      "kind": "image",
+      "path": "scenarios/01M791N15X18HCKWGNW1N3BVND/media/01M792WYYRRCF7CJ1G8FZM9Y1J/01M79BRB9Y5MGYCBTFHYPV63RA.png",
+      "role": "rendered",
+      "width": 816,
+      "height": 1056,
+      "sha256": "293b0723298be019113b4d4b6c241c73f862157571afa2f97a91ea00b4a39af8",
+      "provenance": {
+        "provider": "template",
+        "templateId": "gov_materiality_worksheet",
+        "templateVersion": "1",
+        "createdAt": "2026-11-13T02:28:29.987Z"
+      }
+    }
+  ],
+  "versions": [
+    {
+      "at": "2026-11-12T23:55:10.196Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "Materiality Worksheet: INC-27-0309-01, 11:00 ET Disclosure Committee",
+        "type": "gov_materiality_worksheet",
+        "fields": {
+          "marking": "EXERCISE · EXERCISE · EXERCISE: Fictional company. Disclosure Committee, Conference Room 3B / bridge (937) 555-0149 code 4100",
+          "exerciseAid": "Exercise aid, not legal advice. Check the current rule and your counsel.",
+          "company": "Tallis Home Products, Inc. (fictional), Dayton, Ohio",
+          "incident": "INC-27-0309-01: Bulk export of web store customer records through the CartBridge Commerce integration key cartbridge-integration-prod",
+          "discoveredAt": "Tuesday, March 9, 2027, 6:40 a.m. ET (SOC rule WS-EXFIL-07)",
+          "asOf": "Tuesday, March 9, 2027, 11:00 a.m. ET (pre-filled for the committee; the status below stands until the chair records the decision)",
+          "preparedBy": "Disclosure Committee secretary, for the General Counsel (Committee Chair). Inputs: CISO, Cardinal Forensics, Investor Relations, CCO, Midland Risk Partners",
+          "factsKnown": [
+            "10:15 ET, Cardinal Forensics (PRELIMINARY): 412,000 unique customer accounts were exported in 83 sessions with key cartbridge-integration-prod, from March 2 at 05:12 to March 8 at 23:47 ET. That is about 22% of the 1.9 million registered web store accounts.",
+            "10:15 ET, Cardinal Forensics: This morning's 06:40–07:05 session returned 31,000 rows, all of them already among the 412,000. The 1.9 million in the forum listing is the total registered base, not what was taken.",
+            "10:15 ET, Cardinal Forensics (schema matches the 08:55 proxy headers): name, email, shipping and billing address, phone, order count, bcrypt password hash ($2b$12$), Lakeview Payments payment token, card last 4 and card brand. No full card number. No CVV.",
+            "07:05 and 08:55 ET, CISO: Key cartbridge-integration-prod suspended at 07:05 and the export stopped. The 08:20 public holding statement ('No payment information was involved') is inaccurate: payment tokens, last 4 and brand were exported.",
+            "09:45 ET, IR: Shares down 6%. 10:30 ET, IR: down 5.4% on heavy volume.",
+            "09:35 and 09:45 ET, partners: Brightwater Markets has threatened to pull Tallis from its homepage feature and plans its own statement at 11:00 ET. CartBridge's vendor statement at 11:00 ET attributes the incident to Tallis credential handling.",
+            "09:52 ET, broker: The insurer claim notice is still pending. The CFO's claims call is due within 24 hours of discovery (by 6:40 a.m. ET, Wednesday, March 10).",
+            "10:52 ET, SOC: A second phishing wave via tallis-account-security.example copies the draft customer email. The 412,000-recipient customer notice is drafted but not scheduled."
+          ],
+          "factsUnknown": [
+            "How the key was used from outside the allow-listed IP addresses",
+            "Whether any other API client pulled customer data",
+            "Whether Lakeview Payments tokens can be used outside Tallis (Lakeview has not replied)",
+            "Cost of notification, any credit-monitoring offer and lost retail sales",
+            "How many states' notification laws apply"
+          ],
+          "quantitative": [
+            {
+              "factor": "Records affected",
+              "estimate": "412,000 accounts (about 22% of 1.9 million)",
+              "note": "Preliminary, subject to Cardinal verification. Not 1.9 million."
+            },
+            {
+              "factor": "Share of net sales exposed",
+              "estimate": "Web store sales are 14% of net sales",
+              "note": "Revenue at risk from web store disruption and lost customer trust is not yet quantified."
+            },
+            {
+              "factor": "Retail revenue at risk",
+              "estimate": "Not yet estimated",
+              "note": "Brightwater Markets homepage feature at risk. Other retail partners not yet assessed."
+            },
+            {
+              "factor": "Notification cost",
+              "estimate": "Not yet estimated",
+              "note": "At the 400,000/hour send limit, emailing 412,000 customers takes about 62 minutes. Postal notice and state-law costs are unknown."
+            },
+            {
+              "factor": "Credit monitoring / customer remedies",
+              "estimate": "Not yet estimated",
+              "note": "Broker asks that nothing be promised before the insurer call."
+            },
+            {
+              "factor": "Market reaction",
+              "estimate": "-6.0% at 09:45; -5.4% at 10:30 ET",
+              "note": "Volume about three times normal. Two analysts and one institutional holder are waiting for a callback."
+            },
+            {
+              "factor": "Operational impact",
+              "estimate": "About 3,400 web orders delayed to the warehouse",
+              "note": "Order sync recovery depends on the replacement key or manual CSV upload decided at 09:45."
+            }
+          ],
+          "qualitative": [
+            {
+              "factor": "Harm to reputation",
+              "assessment": "High and rising: 11,200 breach mentions, a false 'plain text' claim at 14,600 reposts and two phishing waves using the Tallis name."
+            },
+            {
+              "factor": "Customer and retail relationships",
+              "assessment": "Brightwater Markets learned of the incident from the wire. CartBridge plans to place fault on Tallis publicly at 11:00 ET."
+            },
+            {
+              "factor": "Sensitive data categories",
+              "assessment": "Contact data, hashed passwords, payment tokens, card last 4 and brand. No full card numbers or CVV. Whether the tokens can be used outside Tallis is unknown."
+            },
+            {
+              "factor": "Regulatory exposure",
+              "assessment": "Multi-state breach notice is likely. FBI and CISA notification status must be confirmed. The 08:20 statement must be corrected."
+            },
+            {
+              "factor": "Likelihood of litigation",
+              "assessment": "Elevated: a large affected population, a public inaccurate statement and active consumer press coverage."
+            },
+            {
+              "factor": "Consistency of public record",
+              "assessment": "The correction, the customer email, the IR callbacks and any filing must all carry the same figures: 412,000 (preliminary), March 2–8, no full card numbers."
+            }
+          ],
+          "openQuestions": [
+            "Status to record (choose one): (A) MATERIAL: file Item 1.05 by Monday, March 15, 2027, 5:30 p.m. ET, and state the undetermined facts as such. (B) NOT YET DETERMINED: record the basis, set a fixed reconvene time and consider a voluntary Item 8.01 today before the 5:30 p.m. ET EDGAR cut-off via Harbor Filing Services. (C) NO FILING TODAY: record the basis and the reconvene time.",
+            "If B or C, what fixed time does the committee reconvene, and which named facts is it waiting for?",
+            "When is the CEO told of the determination (within one hour), and is the audit committee chair, Dr. Helen Marsh, told today?",
+            "What can IR say to the two analysts and the institutional holder that no later filing will contradict?",
+            "Does the chosen option affect the CFO's insurer claim call due by 6:40 a.m. ET on March 10?"
+          ],
+          "determination": "not yet determined",
+          "basis": "Pre-filled status only. The committee must replace it at this meeting with its recorded decision, the name of the decider, the facts known at 11:00 ET and the basis. The determination is due without unreasonable delay after discovery and does not wait for the investigation to finish. If the committee records 'not yet determined', the record lists what it is waiting for and a fixed time to reconvene.",
+          "continuedInvestigation": "Cardinal Forensics continues to verify the 412,000 count and is checking for other API clients and the source of the access from outside the allow-list. Facts learned after an Item 1.05 filing go in an 8-K/A within four business days of becoming known."
+        },
+        "instructorNote": "This inject forces the materiality decision now. Watch that LEGAL records a determination, or 'not yet determined' with a fixed reconvene time, that names the decider, the 11:00 facts and the basis, without putting the meeting off. Also watch that the CISO calls the 412,000 preliminary, that COMMS ties the correction and IR lines to the same figures, and that the cell considers the CFO's insurer call due by 06:40 on March 10.",
+        "deliveryMode": "hand_to_role"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-11-13T02:28:30.233Z"
+}

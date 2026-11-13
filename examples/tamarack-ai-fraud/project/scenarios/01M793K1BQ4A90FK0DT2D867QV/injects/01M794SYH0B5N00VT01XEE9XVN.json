@@ -1,0 +1,114 @@
+{
+  "id": "01M794SYH0B5N00VT01XEE9XVN",
+  "mselRowId": "I-12",
+  "type": "time_jump_card",
+  "title": "Time Jump: 14:18 Eastern, Incident Declared",
+  "deliveryMode": "read_aloud",
+  "fields": {
+    "exerciseTime": "2:00",
+    "newTime": "14:18 Eastern",
+    "jumpLabel": "+28 minutes (from 13:50)",
+    "scenarioTitle": "Escrow Echo — Deepfaked Executives, Wires & Public Trust",
+    "injectId": "I-12",
+    "narration": "It is now 14:18 Eastern on Tuesday, September 14, 2027, at Tamarack Precision Components in Greenville. From here on, every time on a page is Eastern time in the story, not the time in this room.\n\nAt 14:05 the real CFO, Marcus Delacroix-Hume, called the Controller from Querétaro and said he approved nothing. At 14:12 the CISO, Rafael Oyelaran-Pierce, declared a combined fraud and synthetic-media incident under TPC-SEC-02, and the war room bridge is open. The last wire, WIRE-0914-004 for $390,000, is now on HOLD in the Treasury Workstation.\n\nThe other three wires left hours ago: $480,000 at 10:55, $1,150,000 at 11:40 and $620,000 at 13:15, all to the same beneficiary. Nobody has called the bank's fraud desk yet.\n\nThe Treasury Analyst is shaken and has stepped away from her desk. The release desk is on the phone asking whether the other 19 payments in today's queue can still go out. At Spartanburg the break-room rumour has spread to two group texts. The international cutoff is 42 minutes away, and the recording of the 10:05 meeting still belongs to the outside organizer, who can delete it at any time.\n\nYou are now racing three things at once: money moving on, evidence disappearing, and a payment system nobody fully trusts. Go.",
+    "worldState": [
+      "Time is 14:18 Eastern, Tuesday, September 14, 2027. The international wire cutoff is 15:00 Eastern, 42 minutes away. The domestic cutoff is 17:00 Eastern.",
+      "14:05: the real CFO, Marcus Delacroix-Hume, called the Controller from Querétaro and denied approving anything. His personal token, WS-TKN-0007, was never used.",
+      "14:12: the CISO, Rafael Oyelaran-Pierce, declared a combined fraud and synthetic-media incident under TPC-SEC-02. The war room bridge is open on 864-555-0100, code 4417.",
+      "WIRE-0914-004, USD 390,000.00, is on HOLD in the Treasury Workstation.",
+      "WIRE-0914-001 (USD 480,000.00, released 10:55), WIRE-0914-002 (USD 1,150,000.00, released 11:40) and WIRE-0914-003 (USD 620,000.00, released 13:15) went to Escrow Fiduciaria Bajío SA (EXERCISE ENTITY), account EX-0000-0000-ESCROW-01. Total released: $2,250,000.",
+      "No one has called the First Meridian Commercial Bank fraud desk yet. No recall or freeze has been requested.",
+      "The release-desk token WS-TKN-2291 entered the approvals and releases for all three wires. It is still active.",
+      "The Treasury Analyst has stepped away from her desk and has not yet given a statement.",
+      "The release desk wants to know whether the 19 other payments in today's queue can still be released.",
+      "The 10:05 meeting recording (MTG-0914-7731) is still owned by the external organizer, and its retention is under the organizer's control. The meeting chat and the 13:48 'final tranche' email are not yet preserved.",
+      "The Spartanburg layoff rumour is now in two employee group texts. The 15:30 shift change is approaching.",
+      "The CFO is on the ground in Querétaro and reachable only intermittently. The Treasury Manager is still at Spartanburg."
+    ],
+    "facilitatorNote": "Watch for the Treasury lead calling the First Meridian fraud line (800-555-0141) right away with the amounts, times, beneficiary, account and confirmation numbers, and then filing the written recall on the portal within 30 minutes. Remind the room only if asked: a settled wire is final, and a recall only asks the beneficiary bank to return funds. The CISO should assign someone to preserve the recording, chat, invite, headers and Workstation audit log, and should stop the analyst from clearing the chat. The Controller should start the reconciliation worksheet. If nobody addresses the token, the 19 queued payments or the General Counsel's 30-minute notification, let the release desk call back at 14:30."
+  },
+  "variant": "default",
+  "instructorNote": "This card moves the clock to 14:18 Eastern and starts the recall-and-freeze phase. Check that every player confirms their TPC-SEC-02 role, that the Treasury lead calls the First Meridian fraud line right away rather than discussing it, that the CISO assigns someone to preserve the evidence before the organizer can delete the recording, and that the Controller opens the reconciliation.",
+  "citations": [
+    {
+      "documentId": "01M793JZB96097WHBG0K74HSVJ",
+      "documentTitle": "TPC-FIN-04: Payment Authorization, Callback Verification and Wire Recall",
+      "headingPath": "TPC-FIN-04: Payment Authorizatio… › 2. Who may initiate, approve and release",
+      "quote": "| Step | Who | Limits | |---|---|---| | Initiate | Treasury Analyst (Ines Okonkwo-Hart, Dev Rangaswamy) or Accounts Payable Specialist | Any amount, in the Treasury Workstation only; no initiation fro",
+      "chunkId": 28
+    },
+    {
+      "documentId": "01M793JZB4ZJNT2ZBRQ5YGP5FS",
+      "documentTitle": "TPC-SEC-02: AI and Synthetic Media Incident Response Plan",
+      "headingPath": "TPC-SEC-02: AI and Synthetic Med… › 3. Roles",
+      "quote": "| Role | Person | Duty | |---|---|---| | Incident Commander (security) | Chief Information Security Officer, Rafael Oyelaran-Pierce | Declares, leads technical response, decides on takedown requests |",
+      "chunkId": 4
+    },
+    {
+      "documentId": "01M793JZB4ZJNT2ZBRQ5YGP5FS",
+      "documentTitle": "TPC-SEC-02: AI and Synthetic Media Incident Response Plan",
+      "headingPath": "TPC-SEC-02: AI and Synthetic Med… › 7. Notifications and clocks",
+      "quote": "| Who | When | By | |---|---|---| | Bank fraud desk | Immediately when a payment was released | Treasury Manager | | General Counsel | Within 30 minutes of declaration | CISO | | Cyber and crime insur",
+      "chunkId": 8
+    },
+    {
+      "documentId": "01M793JZB96097WHBG0K74HSVJ",
+      "documentTitle": "TPC-FIN-04: Payment Authorization, Callback Verification and Wire Recall",
+      "headingPath": "TPC-FIN-04: Payment Authorizatio… › 5. If a payment is suspected to be fraudulent",
+      "quote": "1. Stop the payment if it has not been released: set status to HOLD in the Workstation and tell the Treasury Manager. 2. If it has been released, call the bank's fraud desk (First Meridian Commercial ",
+      "chunkId": 31
+    },
+    {
+      "documentId": "01M793JZB4ZJNT2ZBRQ5YGP5FS",
+      "documentTitle": "TPC-SEC-02: AI and Synthetic Media Incident Response Plan",
+      "headingPath": "TPC-SEC-02: AI and Synthetic Med… › 4. First hour",
+      "quote": "1. **Hold:** put every pending payment connected to the request on HOLD. 2. **Verify:** reach the impersonated person on a known number, not through the channel in question. 3. **Preserve:** save the ",
+      "chunkId": 5
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template"
+    ]
+  },
+  "assets": [],
+  "versions": [
+    {
+      "at": "2026-11-13T00:27:21.885Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "Time Jump: 14:18 Eastern, Incident Declared",
+        "type": "time_jump_card",
+        "fields": {
+          "exerciseTime": "2:00",
+          "newTime": "14:18 Eastern",
+          "jumpLabel": "+28 minutes (from 13:50)",
+          "scenarioTitle": "Escrow Echo — Deepfaked Executives, Wires & Public Trust",
+          "injectId": "I-12",
+          "narration": "It is now 14:18 Eastern on Tuesday, September 14, 2027, at Tamarack Precision Components in Greenville. From here on, every time on a page is Eastern time in the story, not the time in this room.\n\nAt 14:05 the real CFO, Marcus Delacroix-Hume, called the Controller from Querétaro and said he approved nothing. At 14:12 the CISO, Rafael Oyelaran-Pierce, declared a combined fraud and synthetic-media incident under TPC-SEC-02, and the war room bridge is open. The last wire, WIRE-0914-004 for $390,000, is now on HOLD in the Treasury Workstation.\n\nThe other three wires left hours ago: $480,000 at 10:55, $1,150,000 at 11:40 and $620,000 at 13:15, all to the same beneficiary. Nobody has called the bank's fraud desk yet.\n\nThe Treasury Analyst is shaken and has stepped away from her desk. The release desk is on the phone asking whether the other 19 payments in today's queue can still go out. At Spartanburg the break-room rumour has spread to two group texts. The international cutoff is 42 minutes away, and the recording of the 10:05 meeting still belongs to the outside organizer, who can delete it at any time.\n\nYou are now racing three things at once: money moving on, evidence disappearing, and a payment system nobody fully trusts. Go.",
+          "worldState": [
+            "Time is 14:18 Eastern, Tuesday, September 14, 2027. The international wire cutoff is 15:00 Eastern, 42 minutes away. The domestic cutoff is 17:00 Eastern.",
+            "14:05: the real CFO, Marcus Delacroix-Hume, called the Controller from Querétaro and denied approving anything. His personal token, WS-TKN-0007, was never used.",
+            "14:12: the CISO, Rafael Oyelaran-Pierce, declared a combined fraud and synthetic-media incident under TPC-SEC-02. The war room bridge is open on 864-555-0100, code 4417.",
+            "WIRE-0914-004, USD 390,000.00, is on HOLD in the Treasury Workstation.",
+            "WIRE-0914-001 (USD 480,000.00, released 10:55), WIRE-0914-002 (USD 1,150,000.00, released 11:40) and WIRE-0914-003 (USD 620,000.00, released 13:15) went to Escrow Fiduciaria Bajío SA (EXERCISE ENTITY), account EX-0000-0000-ESCROW-01. Total released: $2,250,000.",
+            "No one has called the First Meridian Commercial Bank fraud desk yet. No recall or freeze has been requested.",
+            "The release-desk token WS-TKN-2291 entered the approvals and releases for all three wires. It is still active.",
+            "The Treasury Analyst has stepped away from her desk and has not yet given a statement.",
+            "The release desk wants to know whether the 19 other payments in today's queue can still be released.",
+            "The 10:05 meeting recording (MTG-0914-7731) is still owned by the external organizer, and its retention is under the organizer's control. The meeting chat and the 13:48 'final tranche' email are not yet preserved.",
+            "The Spartanburg layoff rumour is now in two employee group texts. The 15:30 shift change is approaching.",
+            "The CFO is on the ground in Querétaro and reachable only intermittently. The Treasury Manager is still at Spartanburg."
+          ],
+          "facilitatorNote": "Watch for the Treasury lead calling the First Meridian fraud line (800-555-0141) right away with the amounts, times, beneficiary, account and confirmation numbers, and then filing the written recall on the portal within 30 minutes. Remind the room only if asked: a settled wire is final, and a recall only asks the beneficiary bank to return funds. The CISO should assign someone to preserve the recording, chat, invite, headers and Workstation audit log, and should stop the analyst from clearing the chat. The Controller should start the reconciliation worksheet. If nobody addresses the token, the 19 queued payments or the General Counsel's 30-minute notification, let the release desk call back at 14:30."
+        },
+        "instructorNote": "This card moves the clock to 14:18 Eastern and starts the recall-and-freeze phase. Check that every player confirms their TPC-SEC-02 role, that the Treasury lead calls the First Meridian fraud line right away rather than discussing it, that the CISO assigns someone to preserve the evidence before the organizer can delete the recording, and that the Controller opens the reconciliation.",
+        "deliveryMode": "read_aloud"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-11-13T02:36:54.581Z"
+}

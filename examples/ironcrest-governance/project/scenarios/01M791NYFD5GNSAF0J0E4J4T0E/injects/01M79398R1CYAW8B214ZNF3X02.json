@@ -1,0 +1,91 @@
+{
+  "id": "01M79398R1CYAW8B214ZNF3X02",
+  "mselRowId": "I-13b",
+  "type": "email_forward",
+  "title": "FW: Northbridge Payroll: Benefits File Layout Change",
+  "deliveryMode": "hand_to_role",
+  "fields": {
+    "fromName": "Teresa Alvarez (HR Coordinator – Joliet)",
+    "fromEmail": "t.alvarez@ironcrestmachinery.example",
+    "senderInitials": "TA",
+    "to": "Business Continuity Manager",
+    "cc": "hr.joliet@ironcrestmachinery.example",
+    "subject": "FW: ACTION REQUIRED: 2027–28 benefits enrollment file layout change; your file may be rejected",
+    "sentAt": "Thu 3/25/2027 9:14 PM",
+    "note": "Rejected? Is this why the rumour says payroll is gone? Does this hit tomorrow's 10:00 file?\n\nHalf my second shift has already asked me if they're getting paid. I don't know what to tell them. Please advise tonight if you can.",
+    "signature": "Teresa Alvarez\nHR Coordinator, Joliet Parts Distribution\nIroncrest Machinery Corporation",
+    "importance": "high",
+    "external": false,
+    "original": {
+      "fromName": "Northbridge Payroll Client Services",
+      "fromEmail": "noreply@northbridge-payroll.example",
+      "sentAt": "Thu 3/25/2027 9:06 PM",
+      "to": "bcm@ironcrestmachinery.example",
+      "cc": "",
+      "subject": "ACTION REQUIRED: 2027–28 benefits enrollment file layout change; your file may be rejected",
+      "body": "Dear Valued Client,\n\nEffective with plan year 2027–28 (open enrollment begins April 19), the benefits deduction file moves from layout BEN-v4 to BEN-v5. BEN-v5 adds fields for dependent verification status and HSA employer contribution tier.\n\nFiles submitted in BEN-v4 after April 15 will be rejected.\n\nThis change applies to the benefits deduction file only. Payroll earnings and time files keep their current layout and submission schedule.\n\nPlease confirm your technical contact by replying to ticket NP-448120. The BEN-v5 specification and test window dates will be sent to that contact.\n\nThis is an automated message. Please do not reply to this address.\n\nNorthbridge Payroll Client Services\nClient Implementation Team"
+    }
+  },
+  "variant": "screen",
+  "instructorNote": "This is a noise inject. The notice is about the April benefits file layout and does not affect Friday's 10:00 payroll file. The BCM should send it to HR to handle as normal and keep payroll-on-cycle at its minimum service level on the recovery tracker. Watch that the BCM does not raise it to the CMT or treat it as proof of the 'payroll is gone' rumour.",
+  "citations": [
+    {
+      "documentId": "01M791NWETPNJ2B6DP42BR9D8C",
+      "documentTitle": "ICM-BCM-02: Business Impact Analysis and Recovery Order",
+      "headingPath": "IBIARO › 6. Key suppliers and vendors",
+      "quote": "The company's cloud provider, the payroll provider (Northbridge Payroll, fictional), the outside data center and network carriers, the warehouse software vendor, the steel supplier, the forensic firm ",
+      "chunkId": 16
+    },
+    {
+      "documentId": "01M791NWETPNJ2B6DP42BR9D8C",
+      "documentTitle": "ICM-BCM-02: Business Impact Analysis and Recovery Order",
+      "headingPath": "IBIARO › 3. Critical functions",
+      "quote": "| Function | System or site | RTO | RPO | MTPD | MASL | |---|---|---|---|---|---| | Plant control networks and machine controllers, Plants 1 to 3 | PLC networks, historians | 4 hours | 0 | 12 hours | ",
+      "chunkId": 13
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template"
+    ]
+  },
+  "assets": [],
+  "versions": [
+    {
+      "at": "2026-11-13T00:00:45.007Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "FW: Northbridge Payroll: Benefits File Layout Change",
+        "type": "email_forward",
+        "fields": {
+          "fromName": "Teresa Alvarez (HR Coordinator – Joliet)",
+          "fromEmail": "t.alvarez@ironcrestmachinery.example",
+          "senderInitials": "TA",
+          "to": "Business Continuity Manager",
+          "cc": "hr.joliet@ironcrestmachinery.example",
+          "subject": "FW: ACTION REQUIRED: 2027–28 benefits enrollment file layout change; your file may be rejected",
+          "sentAt": "Thu 3/25/2027 9:14 PM",
+          "note": "Rejected? Is this why the rumour says payroll is gone? Does this hit tomorrow's 10:00 file?\n\nHalf my second shift has already asked me if they're getting paid. I don't know what to tell them. Please advise tonight if you can.",
+          "signature": "Teresa Alvarez\nHR Coordinator, Joliet Parts Distribution\nIroncrest Machinery Corporation",
+          "importance": "high",
+          "external": false,
+          "original": {
+            "fromName": "Northbridge Payroll Client Services",
+            "fromEmail": "noreply@northbridge-payroll.example",
+            "sentAt": "Thu 3/25/2027 9:06 PM",
+            "to": "bcm@ironcrestmachinery.example",
+            "cc": "",
+            "subject": "ACTION REQUIRED: 2027–28 benefits enrollment file layout change; your file may be rejected",
+            "body": "Dear Valued Client,\n\nEffective with plan year 2027–28 (open enrollment begins April 19), the benefits deduction file moves from layout BEN-v4 to BEN-v5. BEN-v5 adds fields for dependent verification status and HSA employer contribution tier.\n\nFiles submitted in BEN-v4 after April 15 will be rejected.\n\nThis change applies to the benefits deduction file only. Payroll earnings and time files keep their current layout and submission schedule.\n\nPlease confirm your technical contact by replying to ticket NP-448120. The BEN-v5 specification and test window dates will be sent to that contact.\n\nThis is an automated message. Please do not reply to this address.\n\nNorthbridge Payroll Client Services\nClient Implementation Team"
+          }
+        },
+        "instructorNote": "This is a noise inject. The notice is about the April benefits file layout and does not affect Friday's 10:00 payroll file. The BCM should send it to HR to handle as normal and keep payroll-on-cycle at its minimum service level on the recovery tracker. Watch that the BCM does not raise it to the CMT or treat it as proof of the 'payroll is gone' rumour.",
+        "deliveryMode": "hand_to_role"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-11-13T02:30:22.046Z"
+}

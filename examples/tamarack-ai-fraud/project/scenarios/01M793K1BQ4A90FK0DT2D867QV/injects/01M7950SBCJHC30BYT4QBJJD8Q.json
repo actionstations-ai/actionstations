@@ -1,0 +1,103 @@
+{
+  "id": "01M7950SBCJHC30BYT4QBJJD8Q",
+  "mselRowId": "I-18",
+  "type": "time_jump_card",
+  "title": "Time Jump: 16:15 Eastern, Contained Inside, Spreading Outside",
+  "deliveryMode": "read_aloud",
+  "fields": {
+    "exerciseTime": "3:00",
+    "newTime": "4:15 PM",
+    "jumpLabel": "+1 hour 57 minutes",
+    "narration": "The room clock reads 12:30, three hours elapsed, on Tuesday, September 14, 2027. The scenario clock now moves forward from 14:18 to 16:15 Eastern. Every time you hear from here on is narrative Eastern time. The last two hours went into paperwork and phone calls. The recalls have been filed, part of the money is frozen, the IC3 complaint is filed and the insurer knows something has happened. Inside the Treasury Workstation, the fraud is contained for now. The final figures are still unsigned. The Treasury Manager is still on the road. The people at Spartanburg have started their shift and still have no answer. Outside the company, the story is only getting started. Here is where things stand at 16:15.",
+    "worldState": [
+      "Clock: 16:15 Eastern, Tuesday, September 14, 2027. The incident was declared at 14:12 by CISO Rafael Oyelaran-Pierce under TPC-SEC-02.",
+      "First Meridian Commercial Bank case FM-FRD-270914-0031: the written recall for all three released wires is on the Treasury Services portal. Wires 1 and 3 (confirmations FMCB-INT-0914-55102 and FMCB-INT-0914-55471) went to account EX-0000-0000-ESCROW-01. Wire 2 (FMCB-INT-0914-55233) has its own recall still open through Banco Intermedio Ejemplo (EXERCISE BANK).",
+      "Banco Ficticio del Bajío (EXERCISE BANK) has frozen USD 620,000.00, which matches WIRE-0914-003. The frozen funds come back only with the account holder's consent or through legal process. WIRE-0914-001 (USD 480,000.00) and WIRE-0914-002 (USD 1,150,000.00) have already moved on from the beneficiary accounts.",
+      "WIRE-0914-004 (USD 390,000.00) is still on HOLD. The 15:00 ET international cutoff has passed. The rest of today's queue is exactly as the team left it at 14:45. The domestic cutoff is 17:00 ET, 45 minutes from now.",
+      "Whether the General Counsel has filed the FBI IC3 complaint is as the team left it in the incident log. If it was filed, at 16:02 the duty agent at the FBI Charleston field office called back and took the case details. The field office will review whether the Financial Fraud Kill Chain can still help with wire 2's onward transfer. It has made no commitment.",
+      "Whether the cyber and crime insurer's hotline has been called is as the team left it in the incident log. If it has, the broker is waiting for figures, and no written notice has gone yet.",
+      "The Controller's reconciliation is still an UNSIGNED draft: requested $2,640,000, released $2,250,000, stopped $390,000, frozen $620,000, unrecovered $1,630,000.",
+      "The audit committee chair has not been told. The confirmed loss is above $1 million.",
+      "Treasury Manager Gareth Lindqvist-Boyd is driving back from Spartanburg and can be reached by mobile. CFO Marcus Delacroix-Hume is still in Querétaro and has no Workstation token in use and no laptop.",
+      "Second shift at Spartanburg started at 15:30. The Querétaro and layoff rumour is now in three group texts, and nobody has said anything to employees."
+    ],
+    "facilitatorNote": "Expected actions: all roles update the incident log and clock board. Check from the log whether IC3 has been filed (72-hour clock). The insurer's 24-hour clock is still open until written notice reaches the broker and insurer (General Counsel, by 14:12 Wednesday). The audit committee chair's 24-hour clock is open because the loss is above $1M (CFO, by 14:12 Wednesday). The CISO should restate the priorities: protect the evidence, get the reconciliation signed, and prepare the public and employee message. Listen for whether anyone deals with the 17:00 domestic cutoff for the 13 queued payments. Do not hint at the 16:20 clip.",
+    "scenarioTitle": "Escrow Echo — Deepfaked Executives, Wires & Public Trust",
+    "injectId": "I-18"
+  },
+  "variant": "default",
+  "instructorNote": "This card resets the clock to 16:15 and makes the room write down what has been done and what is still open: IC3 met, insurer written notice pending, audit committee chair notice due, reconciliation unsigned. It sets up the outward-facing phase. Watch whether the CISO restates priorities and gives an owner to each open clock before the next inject lands.",
+  "citations": [
+    {
+      "documentId": "01M793JZB96097WHBG0K74HSVJ",
+      "documentTitle": "TPC-FIN-04: Payment Authorization, Callback Verification and Wire Recall",
+      "headingPath": "TPC-FIN-04: Payment Authorizatio… › 5. If a payment is suspected to be fraudulent",
+      "quote": "1. Stop the payment if it has not been released: set status to HOLD in the Workstation and tell the Treasury Manager. 2. If it has been released, call the bank's fraud desk (First Meridian Commercial ",
+      "chunkId": 31
+    },
+    {
+      "documentId": "01M793JZB8RCC60H5P0C0WEAQV",
+      "documentTitle": "TPC-COM-03: Executive Impersonation, Verification and External Statements",
+      "headingPath": "TEIVES › 7. The board",
+      "quote": "The audit committee chair is told of any incident above $1 million within 24 hours. The full board is briefed at its next meeting or sooner.",
+      "chunkId": 25
+    },
+    {
+      "documentId": "01M793JZB4ZJNT2ZBRQ5YGP5FS",
+      "documentTitle": "TPC-SEC-02: AI and Synthetic Media Incident Response Plan",
+      "headingPath": "TPC-SEC-02: AI and Synthetic Med… › 7. Notifications and clocks",
+      "quote": "| Who | When | By | |---|---|---| | Bank fraud desk | Immediately when a payment was released | Treasury Manager | | General Counsel | Within 30 minutes of declaration | CISO | | Cyber and crime insur",
+      "chunkId": 8
+    },
+    {
+      "documentId": "01M793JZB4ZJNT2ZBRQ5YGP5FS",
+      "documentTitle": "TPC-SEC-02: AI and Synthetic Media Incident Response Plan",
+      "headingPath": "TPC-SEC-02: AI and Synthetic Med… › 4. First hour",
+      "quote": "1. **Hold:** put every pending payment connected to the request on HOLD. 2. **Verify:** reach the impersonated person on a known number, not through the channel in question. 3. **Preserve:** save the ",
+      "chunkId": 5
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template"
+    ]
+  },
+  "assets": [],
+  "versions": [
+    {
+      "at": "2026-11-13T00:31:05.250Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "Time Jump: 16:15 Eastern, Contained Inside, Spreading Outside",
+        "type": "time_jump_card",
+        "fields": {
+          "exerciseTime": "3:00",
+          "newTime": "4:15 PM",
+          "jumpLabel": "+1 hour 57 minutes",
+          "narration": "The room clock reads 12:30, three hours elapsed, on Tuesday, September 14, 2027. The scenario clock now moves forward from 14:18 to 16:15 Eastern. Every time you hear from here on is narrative Eastern time. The last two hours went into paperwork and phone calls. The recalls have been filed, part of the money is frozen, the IC3 complaint is filed and the insurer knows something has happened. Inside the Treasury Workstation, the fraud is contained for now. The final figures are still unsigned. The Treasury Manager is still on the road. The people at Spartanburg have started their shift and still have no answer. Outside the company, the story is only getting started. Here is where things stand at 16:15.",
+          "worldState": [
+            "Clock: 16:15 Eastern, Tuesday, September 14, 2027. The incident was declared at 14:12 by CISO Rafael Oyelaran-Pierce under TPC-SEC-02.",
+            "First Meridian Commercial Bank case FM-FRD-270914-0031: the written recall for all three released wires is on the Treasury Services portal. Wires 1 and 3 (confirmations FMCB-INT-0914-55102 and FMCB-INT-0914-55471) went to account EX-0000-0000-ESCROW-01. Wire 2 (FMCB-INT-0914-55233) has its own recall still open through Banco Intermedio Ejemplo (EXERCISE BANK).",
+            "Banco Ficticio del Bajío (EXERCISE BANK) has frozen USD 620,000.00, which matches WIRE-0914-003. The frozen funds come back only with the account holder's consent or through legal process. WIRE-0914-001 (USD 480,000.00) and WIRE-0914-002 (USD 1,150,000.00) have already moved on from the beneficiary accounts.",
+            "WIRE-0914-004 (USD 390,000.00) is still on HOLD. The 15:00 ET international cutoff has passed. The rest of today's queue is exactly as the team left it at 14:45. The domestic cutoff is 17:00 ET, 45 minutes from now.",
+            "Whether the General Counsel has filed the FBI IC3 complaint is as the team left it in the incident log. If it was filed, at 16:02 the duty agent at the FBI Charleston field office called back and took the case details. The field office will review whether the Financial Fraud Kill Chain can still help with wire 2's onward transfer. It has made no commitment.",
+            "Whether the cyber and crime insurer's hotline has been called is as the team left it in the incident log. If it has, the broker is waiting for figures, and no written notice has gone yet.",
+            "The Controller's reconciliation is still an UNSIGNED draft: requested $2,640,000, released $2,250,000, stopped $390,000, frozen $620,000, unrecovered $1,630,000.",
+            "The audit committee chair has not been told. The confirmed loss is above $1 million.",
+            "Treasury Manager Gareth Lindqvist-Boyd is driving back from Spartanburg and can be reached by mobile. CFO Marcus Delacroix-Hume is still in Querétaro and has no Workstation token in use and no laptop.",
+            "Second shift at Spartanburg started at 15:30. The Querétaro and layoff rumour is now in three group texts, and nobody has said anything to employees."
+          ],
+          "facilitatorNote": "Expected actions: all roles update the incident log and clock board. Check from the log whether IC3 has been filed (72-hour clock). The insurer's 24-hour clock is still open until written notice reaches the broker and insurer (General Counsel, by 14:12 Wednesday). The audit committee chair's 24-hour clock is open because the loss is above $1M (CFO, by 14:12 Wednesday). The CISO should restate the priorities: protect the evidence, get the reconciliation signed, and prepare the public and employee message. Listen for whether anyone deals with the 17:00 domestic cutoff for the 13 queued payments. Do not hint at the 16:20 clip.",
+          "scenarioTitle": "Escrow Echo — Deepfaked Executives, Wires & Public Trust",
+          "injectId": "I-18"
+        },
+        "instructorNote": "This card resets the clock to 16:15 and makes the room write down what has been done and what is still open: IC3 met, insurer written notice pending, audit committee chair notice due, reconciliation unsigned. It sets up the outward-facing phase. Watch whether the CISO restates priorities and gives an owner to each open clock before the next inject lands.",
+        "deliveryMode": "read_aloud"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-11-13T02:36:56.244Z"
+}

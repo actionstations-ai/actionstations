@@ -1,0 +1,128 @@
+{
+  "id": "01M792PX4Z6YRPY8TSC33R0YWN",
+  "mselRowId": "I-01",
+  "type": "email_forward",
+  "title": "Lab Email: Presumptive E. coli O157:H7 — Lot PF1-27278-L2-B",
+  "deliveryMode": "hand_to_role",
+  "fields": {
+    "fromName": "QA Results Inbox (Plant 1 QA Lab)",
+    "fromEmail": "qa.labresults@pinecrestfresh.example",
+    "senderInitials": "QA",
+    "to": "Dr. Imani Brooks (Recall Coordinator); Traceability and Systems Lead",
+    "subject": "FW: PRESUMPTIVE POSITIVE – Work Order CAL-27-114582",
+    "sentAt": "Tue 10/12/2027 6:02 AM",
+    "note": "Dr. Brooks, Traceability,\n\nForwarding the message below from Coastal Analytical Labs. It arrived in the shared QA results inbox at 05:50 this morning.\n\nThe sample is retained finished product from rack position L2B-03: romaine chopped, lot PF1-27278-L2-B, Plant 1 line 2, shift B, produced 10/05/2027.\n\nThe lab is waiting for us to confirm receipt. We have not replied yet. The full PCR report is attached.",
+    "signature": "Plant 1 QA Lab\nQA Results Inbox\nPinecrest Fresh Cut, LLC – Salinas, CA",
+    "importance": "high",
+    "external": false,
+    "attachments": [
+      {
+        "name": "CAL-27-114582_Presumptive_Screen_Report.pdf",
+        "size": "214 KB",
+        "kind": "pdf"
+      }
+    ],
+    "printedBy": "QA Results Inbox",
+    "original": {
+      "fromName": "Lab Director, Coastal Analytical Labs",
+      "fromEmail": "results@coastalanalytical.example",
+      "sentAt": "Tue 10/12/2027 5:50 AM",
+      "to": "qa.labresults@pinecrestfresh.example",
+      "cc": "",
+      "subject": "PRESUMPTIVE POSITIVE – Work Order CAL-27-114582",
+      "body": "Work Order: CAL-27-114582\nSample ID: R-1005-L2B-03\nMatrix: Retained finished product, romaine chopped\nLot: PF1-27278-L2-B (Plant 1, line 2, shift B, produced October 5, 2027)\n\nScreen (PCR, stx1/stx2/eae + O157 rfbE): PRESUMPTIVE POSITIVE for E. coli O157:H7.\n\nCultural confirmation and isolate characterization are in progress. Expect results in 24 to 48 hours. We will call your lab results line as soon as the culture reads.\n\nPlease reply to confirm receipt.\n\nLab Director\nCoastal Analytical Labs\nWatsonville, CA"
+    }
+  },
+  "variant": "print",
+  "instructorNote": "This is the signal that starts the exercise. Check that RECALL replies to the lab, logs 05:50 as the signal time and acts on the presumptive result without waiting for confirmation. Watch for TRACE to set the scope (every line 2 lot within 24 hours plus raw lot FLD-SLG-R14-C-27277) and for the MES holds to go in by about 06:20.",
+  "citations": [
+    {
+      "documentId": "01M791PSSB1ZJ85S8M91S49WYH",
+      "documentTitle": "PFC-QA-03: Lot Coding and Traceability Records",
+      "headingPath": "PLCTR › 7. Production holds on a positive test",
+      "quote": "When a retained sample or an environmental sample is positive: 1. The Quality Manager notifies the Recall Coordinator at once. 2. The MES places a hold on the lot of the positive sample, the lots on t",
+      "chunkId": 8
+    },
+    {
+      "documentId": "01M791PSSHKAJ1RJKR05116S3D",
+      "documentTitle": "PFC-FS-01: Product Hold, Trace and Recall Plan",
+      "headingPath": "PPHTRP › 4. Decisions and who makes them",
+      "quote": "1. **Hold.** The Recall Coordinator or the Plant Manager may place a hold on any lot at any time, without waiting for approval. Target: lots on hold in the MES within 30 minutes of a signal and physic",
+      "chunkId": 32
+    },
+    {
+      "documentId": "01M791PSSHKAJ1RJKR05116S3D",
+      "documentTitle": "PFC-FS-01: Product Hold, Trace and Recall Plan",
+      "headingPath": "PPHTRP › 5. Scope rules",
+      "quote": "- A lot is a production lot by line, shift and date. Any lot made on the same line within 24 hours after a positive result on that line, before sanitation was verified, is in scope. Raw material lots ",
+      "chunkId": 33
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template"
+    ]
+  },
+  "assets": [
+    {
+      "id": "01M79BYDXP7G7H2QW3RRVGB6FY",
+      "kind": "image",
+      "path": "scenarios/01M791PVSMDEFH6JWJBQPC6C4M/media/01M792PX4Z6YRPY8TSC33R0YWN/01M79BYDXP7G7H2QW3RRVGB6FY.png",
+      "role": "rendered",
+      "width": 816,
+      "height": 1056,
+      "sha256": "5b5efacb1b9ae71629d5bfae81503fe62853fe3f18a8d163486b9bf3baee9355",
+      "provenance": {
+        "provider": "template",
+        "templateId": "email_forward",
+        "templateVersion": "1",
+        "createdAt": "2026-11-13T02:31:49.278Z"
+      }
+    }
+  ],
+  "versions": [
+    {
+      "at": "2026-11-12T23:50:44.092Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "Lab Email: Presumptive E. coli O157:H7 — Lot PF1-27278-L2-B",
+        "type": "email_forward",
+        "fields": {
+          "fromName": "QA Results Inbox (Plant 1 QA Lab)",
+          "fromEmail": "qa.labresults@pinecrestfresh.example",
+          "senderInitials": "QA",
+          "to": "Dr. Imani Brooks (Recall Coordinator); Traceability and Systems Lead",
+          "subject": "FW: PRESUMPTIVE POSITIVE – Work Order CAL-27-114582",
+          "sentAt": "Tue 10/12/2027 6:02 AM",
+          "note": "Dr. Brooks, Traceability,\n\nForwarding the message below from Coastal Analytical Labs. It arrived in the shared QA results inbox at 05:50 this morning.\n\nThe sample is retained finished product from rack position L2B-03: romaine chopped, lot PF1-27278-L2-B, Plant 1 line 2, shift B, produced 10/05/2027.\n\nThe lab is waiting for us to confirm receipt. We have not replied yet. The full PCR report is attached.",
+          "signature": "Plant 1 QA Lab\nQA Results Inbox\nPinecrest Fresh Cut, LLC – Salinas, CA",
+          "importance": "high",
+          "external": false,
+          "attachments": [
+            {
+              "name": "CAL-27-114582_Presumptive_Screen_Report.pdf",
+              "size": "214 KB",
+              "kind": "pdf"
+            }
+          ],
+          "printedBy": "QA Results Inbox",
+          "original": {
+            "fromName": "Lab Director, Coastal Analytical Labs",
+            "fromEmail": "results@coastalanalytical.example",
+            "sentAt": "Tue 10/12/2027 5:50 AM",
+            "to": "qa.labresults@pinecrestfresh.example",
+            "cc": "",
+            "subject": "PRESUMPTIVE POSITIVE – Work Order CAL-27-114582",
+            "body": "Work Order: CAL-27-114582\nSample ID: R-1005-L2B-03\nMatrix: Retained finished product, romaine chopped\nLot: PF1-27278-L2-B (Plant 1, line 2, shift B, produced October 5, 2027)\n\nScreen (PCR, stx1/stx2/eae + O157 rfbE): PRESUMPTIVE POSITIVE for E. coli O157:H7.\n\nCultural confirmation and isolate characterization are in progress. Expect results in 24 to 48 hours. We will call your lab results line as soon as the culture reads.\n\nPlease reply to confirm receipt.\n\nLab Director\nCoastal Analytical Labs\nWatsonville, CA"
+          }
+        },
+        "instructorNote": "This is the signal that starts the exercise. Check that RECALL replies to the lab, logs 05:50 as the signal time and acts on the presumptive result without waiting for confirmation. Watch for TRACE to set the scope (every line 2 lot within 24 hours plus raw lot FLD-SLG-R14-C-27277) and for the MES holds to go in by about 06:20.",
+        "deliveryMode": "hand_to_role"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-11-13T02:31:49.518Z"
+}

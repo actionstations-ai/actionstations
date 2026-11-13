@@ -1,0 +1,330 @@
+{
+  "id": "01M794H4774J79207CJ1W65FDC",
+  "mselRowId": "I-03",
+  "type": "siem_alert",
+  "title": "SIEM Alert SOC-27-48113: Macro Blocked on SPB-AP-LT-112",
+  "deliveryMode": "hand_to_role",
+  "fields": {
+    "product": "Watchline Managed SIEM",
+    "tenant": "Tamarack Precision Components, Inc.",
+    "alertId": "SOC-27-48113",
+    "severity": "low",
+    "riskScore": 18,
+    "rule": "Office macro execution blocked by endpoint policy",
+    "ruleDescription": "Endpoint protection stopped a VBA macro in an Excel workbook under the 'Block macros from internet-origin files' policy. No child process, network connection or file write followed within the 5-minute correlation window.",
+    "status": "Pending closure (managed service)",
+    "assignee": "Watchline MSSP – Tier 1",
+    "firstSeen": "09/14/2027 10:07:41",
+    "lastSeen": "09/14/2027 10:07:43",
+    "eventCount": 3,
+    "source": {
+      "host": "SPB-AP-LT-112",
+      "ip": "10.40.12.112",
+      "user": "TAMARACK\\spb.ap03",
+      "zone": "Spartanburg – Accounts Payable endpoints"
+    },
+    "dest": {
+      "host": "SPB-AP-LT-112",
+      "ip": "10.40.12.112",
+      "service": "Excel VBA runtime (local, execution blocked)",
+      "zone": "Spartanburg – Accounts Payable endpoints"
+    },
+    "tactics": [
+      "T1204.002 User Execution: Malicious File",
+      "T1566.001 Spearphishing Attachment (possible, not confirmed)"
+    ],
+    "details": [
+      {
+        "key": "File",
+        "value": "Q3_freight_accruals.xlsm"
+      },
+      {
+        "key": "Path",
+        "value": "%USERPROFILE%\\Downloads\\Q3_freight_accruals.xlsm"
+      },
+      {
+        "key": "Process tree",
+        "value": "EXCEL.EXE → VBA (blocked by policy)"
+      },
+      {
+        "key": "Child processes",
+        "value": "None"
+      },
+      {
+        "key": "Outbound connections",
+        "value": "None"
+      },
+      {
+        "key": "Files written",
+        "value": "None"
+      },
+      {
+        "key": "User role",
+        "value": "AP clerk, Spartanburg plant"
+      },
+      {
+        "key": "Endpoint action",
+        "value": "Blocked – no remediation needed"
+      },
+      {
+        "key": "MSSP note (10:09)",
+        "value": "Looks like the known freight-forwarder template with legacy macro. Closing unless you object."
+      },
+      {
+        "key": "Chat to sec analyst (10:12)",
+        "value": "From Finance: \"Treasury's got something big going this morning. Is IT seeing anything weird?\""
+      }
+    ],
+    "rawEvent": "2027-09-14T10:07:41-04:00 SPB-AP-LT-112 EPP[4412]: FileOpen user=TAMARACK\\spb.ap03 process=C:\\Program Files\\Microsoft Office\\root\\Office16\\EXCEL.EXE file=\"%USERPROFILE%\\Downloads\\Q3_freight_accruals.xlsm\" zone_id=3\n2027-09-14T10:07:42-04:00 SPB-AP-LT-112 EPP[4412]: MacroExecution attempt module=ThisWorkbook.Workbook_Open policy=BlockInternetOriginMacros action=BLOCKED\n2027-09-14T10:07:43-04:00 SPB-AP-LT-112 EPP[4412]: PostBlockCheck child_proc=0 net_conn=0 file_write=0 verdict=CLEAN_AFTER_BLOCK\n2027-09-14T10:09:05-04:00 WATCHLINE-MSSP case SOC-27-48113 note: matches known template family FRT-FWD-LEGACY; recommend close",
+    "relatedAlerts": [
+      {
+        "time": "08/17/2027 14:22",
+        "title": "Office macro execution blocked by endpoint policy – Q3_freight_accruals.xlsm (SPB-AP-LT-112), closed as benign",
+        "severity": "low"
+      },
+      {
+        "time": "07/06/2027 09:51",
+        "title": "Office macro execution blocked by endpoint policy – Q2_freight_accruals.xlsm (SPB-AP-LT-112), closed as benign",
+        "severity": "low"
+      }
+    ],
+    "analyst": "tpc.secanalyst2"
+  },
+  "variant": "default",
+  "instructorNote": "This is a noise inject: the macro block isn't connected to the incident, and the analyst should agree to close it with a note. The real clue is the 10:12 chat from Finance. Watch whether the CISO's team asks what \"something big\" in Treasury means and connects it to the external escrow invitation quarantined at 09:40, or lets the low-priority alert take their attention.",
+  "citations": [
+    {
+      "documentId": "01M793JZB6T2RERPATP9SE15M2",
+      "documentTitle": "TPC-REF-01: Company, Systems and People",
+      "headingPath": "TCSP › 4. Communications and security tools",
+      "quote": "- **Meeting platform:** Tamarack uses a commercial video meeting service. Meetings created inside the Tamarack tenant show authenticated participants; guests join as \"external\". The platform's admin l",
+      "chunkId": 14
+    },
+    {
+      "documentId": "01M793JZB6T2RERPATP9SE15M2",
+      "documentTitle": "TPC-REF-01: Company, Systems and People",
+      "headingPath": "TCSP › 4. Communications and security tools",
+      "quote": "- **Meeting platform:** Tamarack uses a commercial video meeting service. Meetings created inside the Tamarack tenant show authenticated participants; guests join as \"external\". The platform's admin l",
+      "chunkId": 14
+    },
+    {
+      "documentId": "01M793JZB8RCC60H5P0C0WEAQV",
+      "documentTitle": "TPC-COM-03: Executive Impersonation, Verification and External Statements",
+      "headingPath": "TEIVES › 2. Verification rules for staff",
+      "quote": "- A video meeting, call or voice message is not proof of identity. - Any request involving money, credentials, access, confidential deal information or secrecy is verified by a second channel the staf",
+      "chunkId": 20
+    },
+    {
+      "documentId": "01M793JZB6T2RERPATP9SE15M2",
+      "documentTitle": "TPC-REF-01: Company, Systems and People",
+      "headingPath": "TCSP › 6. Who is traveling",
+      "quote": "Executive travel is recorded in each assistant's calendar. In the week of the exercise the CFO, Marcus Delacroix-Hume, is on a flight from Greenville to Querétaro (departs 09:10, lands 12:50 Eastern, ",
+      "chunkId": 16
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template"
+    ]
+  },
+  "assets": [],
+  "versions": [
+    {
+      "at": "2026-11-13T00:22:37.004Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "SIEM Alert SOC-27-48113: Macro Blocked on SPB-AP-LT-112",
+        "type": "siem_alert",
+        "fields": {
+          "product": "Watchline Managed SIEM",
+          "tenant": "Tamarack Precision Components, Inc.",
+          "alertId": "SOC-27-48113",
+          "severity": "low",
+          "riskScore": 18,
+          "rule": "Office macro execution blocked by endpoint policy",
+          "ruleDescription": "Endpoint protection stopped a VBA macro in an Excel workbook under the 'Block macros from internet-origin files' policy. No child process, network connection or file write followed within the 5-minute correlation window.",
+          "status": "Pending closure (managed service)",
+          "assignee": "Watchline MSSP – Tier 1",
+          "firstSeen": "09/14/2027 10:07:41",
+          "lastSeen": "09/14/2027 10:07:43",
+          "eventCount": 3,
+          "source": {
+            "host": "SPB-AP-LT-112",
+            "ip": "10.40.12.112",
+            "user": "TAMARACK\\spb.ap03",
+            "zone": "Spartanburg – Accounts Payable endpoints"
+          },
+          "dest": {
+            "host": "SPB-AP-LT-112",
+            "ip": "10.40.12.112",
+            "service": "Excel VBA runtime (local, execution blocked)",
+            "zone": "Spartanburg – Accounts Payable endpoints"
+          },
+          "tactics": [
+            "T1204.002 User Execution: Malicious File",
+            "T1566.001 Spearphishing Attachment (possible, not confirmed)"
+          ],
+          "details": [
+            {
+              "key": "File",
+              "value": "Q3_freight_accruals.xlsm"
+            },
+            {
+              "key": "Path",
+              "value": "%USERPROFILE%\\Downloads\\Q3_freight_accruals.xlsm"
+            },
+            {
+              "key": "Process tree",
+              "value": "EXCEL.EXE → VBA (blocked by policy)"
+            },
+            {
+              "key": "Child processes",
+              "value": "None"
+            },
+            {
+              "key": "Outbound connections",
+              "value": "None"
+            },
+            {
+              "key": "Files written",
+              "value": "None"
+            },
+            {
+              "key": "User role",
+              "value": "AP clerk, Spartanburg plant"
+            },
+            {
+              "key": "Endpoint action",
+              "value": "Blocked – no remediation needed"
+            },
+            {
+              "key": "MSSP note (10:09)",
+              "value": "Looks like the known freight-forwarder template with legacy macro. Closing unless you object."
+            },
+            {
+              "key": "Chat to sec analyst (10:12)",
+              "value": "From Finance: \"Treasury's got something big going this morning. Is IT seeing anything weird?\""
+            }
+          ],
+          "rawEvent": "2027-09-14T10:07:41-04:00 SPB-AP-LT-112 EPP[4412]: FileOpen user=TAMARACK\\spb.ap03 process=C:\\Program Files\\Microsoft Office\\root\\Office16\\EXCEL.EXE file=\"%USERPROFILE%\\Downloads\\Q3_freight_accruals.xlsm\" zone_id=3\n2027-09-14T10:07:42-04:00 SPB-AP-LT-112 EPP[4412]: MacroExecution attempt module=ThisWorkbook.Workbook_Open policy=BlockInternetOriginMacros action=BLOCKED\n2027-09-14T10:07:43-04:00 SPB-AP-LT-112 EPP[4412]: PostBlockCheck child_proc=0 net_conn=0 file_write=0 verdict=CLEAN_AFTER_BLOCK\n2027-09-14T10:09:05-04:00 WATCHLINE-MSSP case SOC-27-48113 note: matches known template family FRT-FWD-LEGACY; recommend close",
+          "relatedAlerts": [
+            {
+              "time": "08/17/2027 14:22",
+              "title": "Office macro execution blocked by endpoint policy – Q3_freight_accruals.xlsm (SPB-AP-LT-112), closed as benign",
+              "severity": "low"
+            },
+            {
+              "time": "07/06/2027 09:51",
+              "title": "Office macro execution blocked by endpoint policy – Q2_freight_accruals.xlsm (SPB-AP-LT-112), closed as benign",
+              "severity": "low"
+            }
+          ],
+          "analyst": "tpc.secanalyst2"
+        },
+        "instructorNote": "This is a noise inject: the macro block isn't connected to the incident, and the analyst should agree to close it with a note. The real clue is the 10:12 chat from Finance. Watch whether the CISO's team asks what \"something big\" in Treasury means and connects it to the external escrow invitation quarantined at 09:40, or lets the low-priority alert take their attention.",
+        "deliveryMode": "hand_to_role"
+      }
+    },
+    {
+      "at": "2026-11-13T03:02:34.451Z",
+      "by": "user",
+      "note": "Corrected by hand for the shipped example",
+      "snapshot": {
+        "title": "SIEM Alert SOC-27-48113: Macro Blocked on SPB-AP-LT-112",
+        "type": "siem_alert",
+        "fields": {
+          "product": "Watchline Managed SIEM",
+          "tenant": "Tamarack Precision Components, Inc.",
+          "alertId": "SOC-27-48113",
+          "severity": "low",
+          "riskScore": 18,
+          "rule": "Office macro execution blocked by endpoint policy",
+          "ruleDescription": "Endpoint protection stopped a VBA macro in an Excel workbook under the 'Block macros from internet-origin files' policy. No child process, network connection or file write followed within the 5-minute correlation window.",
+          "status": "Pending closure (managed service)",
+          "assignee": "Watchline MSSP – Tier 1",
+          "firstSeen": "09/14/2027 10:07:41",
+          "lastSeen": "09/14/2027 10:07:43",
+          "eventCount": 3,
+          "source": {
+            "host": "SPB-AP-LT-112",
+            "ip": "10.40.12.112",
+            "user": "TAMARACK\\spb.ap03",
+            "zone": "Spartanburg – Accounts Payable endpoints"
+          },
+          "dest": {
+            "host": "SPB-AP-LT-112",
+            "ip": "10.40.12.112",
+            "service": "Excel VBA runtime (local, execution blocked)",
+            "zone": "Spartanburg – Accounts Payable endpoints"
+          },
+          "tactics": [
+            "T1204.002 User Execution: Malicious File",
+            "T1566.001 Spearphishing Attachment (possible, not confirmed)"
+          ],
+          "details": [
+            {
+              "key": "File",
+              "value": "Q3_freight_accruals.xlsm"
+            },
+            {
+              "key": "Path",
+              "value": "%USERPROFILE%\\Downloads\\Q3_freight_accruals.xlsm"
+            },
+            {
+              "key": "Process tree",
+              "value": "EXCEL.EXE → VBA (blocked by policy)"
+            },
+            {
+              "key": "Child processes",
+              "value": "None"
+            },
+            {
+              "key": "Outbound connections",
+              "value": "None"
+            },
+            {
+              "key": "Files written",
+              "value": "None"
+            },
+            {
+              "key": "User role",
+              "value": "AP clerk, Spartanburg plant"
+            },
+            {
+              "key": "Endpoint action",
+              "value": "Blocked – no remediation needed"
+            },
+            {
+              "key": "MSSP note (10:09)",
+              "value": "Looks like the known freight-forwarder template with legacy macro. Closing unless you object."
+            },
+            {
+              "key": "Chat to sec analyst (10:12)",
+              "value": "From Finance: \"Treasury's got something big going this morning. Is IT seeing anything weird?\""
+            }
+          ],
+          "rawEvent": "2027-09-14T10:07:41-04:00 SPB-AP-LT-112 EPP[4412]: FileOpen user=TAMARACK\\spb.ap03 process=C:\\Program Files\\Microsoft Office\\root\\Office16\\EXCEL.EXE file=\"%USERPROFILE%\\Downloads\\Q3_freight_accruals.xlsm\" zone_id=3\n2027-09-14T10:07:42-04:00 SPB-AP-LT-112 EPP[4412]: MacroExecution attempt module=ThisWorkbook.Workbook_Open policy=BlockInternetOriginMacros action=BLOCKED\n2027-09-14T10:07:43-04:00 SPB-AP-LT-112 EPP[4412]: PostBlockCheck child_proc=0 net_conn=0 file_write=0 verdict=CLEAN_AFTER_BLOCK\n2027-09-14T10:09:05-04:00 WATCHLINE-MSSP case SOC-27-48113 note: matches known template family FRT-FWD-LEGACY; recommend close",
+          "relatedAlerts": [
+            {
+              "time": "08/17/2027 14:22",
+              "title": "Office macro execution blocked by endpoint policy – Q3_freight_accruals.xlsm (SPB-AP-LT-112), closed as benign",
+              "severity": "low"
+            },
+            {
+              "time": "07/06/2027 09:51",
+              "title": "Office macro execution blocked by endpoint policy – Q2_freight_accruals.xlsm (SPB-AP-LT-112), closed as benign",
+              "severity": "low"
+            }
+          ],
+          "analyst": "tpc.secanalyst2"
+        },
+        "instructorNote": "This is a noise inject: the macro block isn't connected to the incident, and the analyst should agree to close it with a note. The real clue is the 10:12 chat from Finance. Watch whether the CISO's team asks what \"something big\" in Treasury means and connects it to the external escrow invitation quarantined at 09:40, or lets the low-priority alert take their attention.",
+        "deliveryMode": "hand_to_role"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-11-13T03:02:54.615Z"
+}

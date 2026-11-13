@@ -55,3 +55,9 @@ The **AI incidents reference library** pack (installed from the catalog) carries
 - Detector scores, payments, evaluation series and queues are simulations. They are not a real detector, a real bank or a real system.
 - No real person's face or voice is used or imitated, and no real organization is impersonated.
 - The app does not file anything with a regulator and does not give legal advice.
+
+## Example project
+
+The AI incidents and synthetic media pack includes an example project, **Tamarack Precision Components: Deepfaked CFO and Urgent Wires**, with one exercise, _Escrow Echo_: on a Tuesday morning in September a Tamarack treasury analyst joins a video meeting with what appears to be the CFO and the General Counsel and is told to wire money for a secret acquisition; four wires totaling $2.64 million are requested while the real CFO is unreachable on a flight, and by afternoon a fake CEO video is on social media and in a reporter's inbox.
+
+Turn the pack on under **Packs**, then open a copy from **Projects → Examples**. The organization, its people and its businesses are fictional; the exercise comes with its injects, media, Situation Manual, evaluation guides and controller handbook, ready to read or run.

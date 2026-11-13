@@ -1,0 +1,107 @@
+{
+  "id": "01M793CX1M414CCGFBH6KG62M6",
+  "mselRowId": "I-16",
+  "type": "time_jump_card",
+  "title": "Time Jump: Friday 06:30 CT, MES Past RTO, One Backup Cleared",
+  "deliveryMode": "read_aloud",
+  "fields": {
+    "exerciseTime": "3:00",
+    "newTime": "06:30 CT, Friday, March 26, 2027 (07:30 ET)",
+    "jumpLabel": "Overnight: from 22:22 CT Thursday to 06:30 CT Friday",
+    "scenarioTitle": "Six Days Out — MES Ransomware, Materiality & Disclosure",
+    "injectId": "I-16",
+    "narration": "We are moving through the night to save time. It is now 06:30 Central Time, 07:30 Eastern, on Friday, March 26, 2027. For the rest of this phase, every timestamp is Friday morning. Here is what changed after the leak-site post at 22:10 last night. The CEO's ransom decision is in the decision log, based on what was known at 21:30. The sanctions match is still UNRESOLVED. At 04:10, Blackwater Cyber finished part of its persistence sweep. It has cleared one item: the Wednesday 07:05 MES database snapshot. That snapshot may be restored only onto a rebuilt host. Blackwater has not cleared the domain, the ERP integration or the Joliet warehouse system. The first krbtgt reset was done at 03:20. The second is set for 09:20. Ravi Menon's recovery tracker counts from 14:05 yesterday, so 16 hours and 25 minutes have passed. The MES missed its 8-hour RTO at 22:05. It also passed the 12-hour checkpoint at 02:05 without reaching minimum service. Its 24-hour maximum tolerable period of disruption ends at 14:05 today. The ERP missed its 12-hour RTO at 02:05. Joliet has shipped nothing for 15 hours, and its 24-hour RTO ends at 15:30 today. Each plant has used about two-thirds of a day of its 5-day finished-goods buffer. This morning the Rock River Gazette front page carries the leaked sample: 3,100 employee records and the HD-4400 defense drawings. The board meets by video at 07:00. Northbridge Payroll needs the payroll file by 10:00. This is an exercise aid, not legal advice.",
+    "worldState": [
+      "Clock: 06:30 CT / 07:30 ET, Friday, March 26, 2027. The quarter ends in five days.",
+      "The CEO's ransom decision is logged with what was known at 21:30 Thursday. The MOLTEN SPIDER / MOLTEN SYNDICATE sanctions match is still UNRESOLVED. Blue Heron Mutual will not consent to any payment while the match is open (claim BHM-27-0912).",
+      "Blackwater Cyber partial persistence sweep, 04:10 CT: the only CLEARED item is the Wednesday 07:05 MES database snapshot, for restore onto a rebuilt host only. NOT CLEARED: the domain, the ERP integration and the Joliet warehouse system.",
+      "krbtgt reset 1 of 2 finished at 03:20 CT. Reset 2 of 2 is scheduled for 09:20 CT.",
+      "Recovery tracker (disruption start 14:05 CT Thursday; 16 h 25 min elapsed): MES RED. It missed its 8 h RTO at 22:05 and passed the 12 h checkpoint at 02:05 below minimum service. Its 24 h MTPD ends at 14:05 CT today.",
+      "ERP RED: it missed its 12 h RTO at 02:05 CT. The integration is still locked.",
+      "Joliet shipping: no shipments since 15:30 CT Thursday (15 hours). Its 24 h RTO ends at 15:30 CT today. Minimum service is 60 percent of normal parts orders.",
+      "Plants 1 to 3 are still running controllers in manual mode with no work orders or lot tracking. Each plant has used about two-thirds of a day of its 5-day finished-goods buffer.",
+      "The Rock River Gazette front page shows the leaked sample: 3,100 employee records and HD-4400 defense drawings. Finance close files have not been posted.",
+      "Attackers' deadline: about 14:05 CT Sunday, March 28 (about 55 h 35 min left).",
+      "Board meeting by video at 07:00 CT. The board portal is still unavailable because single sign-on is isolated.",
+      "Northbridge Payroll needs the payroll file by 10:00 CT today."
+    ],
+    "facilitatorNote": "Read the narration, then give players two minutes to reorient. Expect these actions: the BCM briefs the tracker against each RTO and MTPD and marks the MES and ERP red. The CISO confirms in writing that Blackwater cleared only the snapshot, and only for a rebuilt host. The CEO and GC build the 07:00 board briefing from the single fact sheet. Push back if anyone treats the cleared snapshot as clearance to restore the domain, the ERP or the Joliet warehouse system."
+  },
+  "variant": "default",
+  "instructorNote": "This card moves play to Friday morning and makes players measure recovery against the RTOs and MTPD instead of hoping. Watch for three things: the BCM flags the missed RTOs, the CISO keeps the rebuild order (identity and network core before MES), and the 07:00 board briefing matches the fact sheet rather than the earlier optimistic HR draft.",
+  "citations": [
+    {
+      "documentId": "01M791NWETPNJ2B6DP42BR9D8C",
+      "documentTitle": "ICM-BCM-02: Business Impact Analysis and Recovery Order",
+      "headingPath": "IBIARO › 3. Critical functions",
+      "quote": "| Function | System or site | RTO | RPO | MTPD | MASL | |---|---|---|---|---|---| | Plant control networks and machine controllers, Plants 1 to 3 | PLC networks, historians | 4 hours | 0 | 12 hours | ",
+      "chunkId": 13
+    },
+    {
+      "documentId": "01M791NWETPNJ2B6DP42BR9D8C",
+      "documentTitle": "ICM-BCM-02: Business Impact Analysis and Recovery Order",
+      "headingPath": "IBIARO › 7. Recording recovery",
+      "quote": "The BCM keeps the recovery tracker: the time disruption began, the time each function reached its MASL, and the RTO. A function that misses its RTO is flagged for the CMT and its customers are told. T",
+      "chunkId": 17
+    },
+    {
+      "documentId": "01M791NWETPNJ2B6DP42BR9D8C",
+      "documentTitle": "ICM-BCM-02: Business Impact Analysis and Recovery Order",
+      "headingPath": "IBIARO › 4. Recovery order",
+      "quote": "1. Safety and life safety at all sites (plant security, fire and gas systems are on separate networks and are not affected by IT failures, and are verified first). 2. Identity and the network core (di",
+      "chunkId": 14
+    },
+    {
+      "documentId": "01M791NWEVAZDEE6NB6D1690HB",
+      "documentTitle": "ICM-CMP-01: Crisis Management Plan",
+      "headingPath": "ICMP › 3. Activation levels",
+      "quote": "- **Level 1, Watch:** a single plant or function affected, restored within 24 hours. The COO and the function head manage; the Business Continuity Manager (BCM) logs it. - **Level 2, Alert:** more tha",
+      "chunkId": 22
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template"
+    ]
+  },
+  "assets": [],
+  "versions": [
+    {
+      "at": "2026-11-13T00:02:47.700Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "Time Jump: Friday 06:30 CT, MES Past RTO, One Backup Cleared",
+        "type": "time_jump_card",
+        "fields": {
+          "exerciseTime": "3:00",
+          "newTime": "06:30 CT, Friday, March 26, 2027 (07:30 ET)",
+          "jumpLabel": "Overnight: from 22:22 CT Thursday to 06:30 CT Friday",
+          "scenarioTitle": "Six Days Out — MES Ransomware, Materiality & Disclosure",
+          "injectId": "I-16",
+          "narration": "We are moving through the night to save time. It is now 06:30 Central Time, 07:30 Eastern, on Friday, March 26, 2027. For the rest of this phase, every timestamp is Friday morning. Here is what changed after the leak-site post at 22:10 last night. The CEO's ransom decision is in the decision log, based on what was known at 21:30. The sanctions match is still UNRESOLVED. At 04:10, Blackwater Cyber finished part of its persistence sweep. It has cleared one item: the Wednesday 07:05 MES database snapshot. That snapshot may be restored only onto a rebuilt host. Blackwater has not cleared the domain, the ERP integration or the Joliet warehouse system. The first krbtgt reset was done at 03:20. The second is set for 09:20. Ravi Menon's recovery tracker counts from 14:05 yesterday, so 16 hours and 25 minutes have passed. The MES missed its 8-hour RTO at 22:05. It also passed the 12-hour checkpoint at 02:05 without reaching minimum service. Its 24-hour maximum tolerable period of disruption ends at 14:05 today. The ERP missed its 12-hour RTO at 02:05. Joliet has shipped nothing for 15 hours, and its 24-hour RTO ends at 15:30 today. Each plant has used about two-thirds of a day of its 5-day finished-goods buffer. This morning the Rock River Gazette front page carries the leaked sample: 3,100 employee records and the HD-4400 defense drawings. The board meets by video at 07:00. Northbridge Payroll needs the payroll file by 10:00. This is an exercise aid, not legal advice.",
+          "worldState": [
+            "Clock: 06:30 CT / 07:30 ET, Friday, March 26, 2027. The quarter ends in five days.",
+            "The CEO's ransom decision is logged with what was known at 21:30 Thursday. The MOLTEN SPIDER / MOLTEN SYNDICATE sanctions match is still UNRESOLVED. Blue Heron Mutual will not consent to any payment while the match is open (claim BHM-27-0912).",
+            "Blackwater Cyber partial persistence sweep, 04:10 CT: the only CLEARED item is the Wednesday 07:05 MES database snapshot, for restore onto a rebuilt host only. NOT CLEARED: the domain, the ERP integration and the Joliet warehouse system.",
+            "krbtgt reset 1 of 2 finished at 03:20 CT. Reset 2 of 2 is scheduled for 09:20 CT.",
+            "Recovery tracker (disruption start 14:05 CT Thursday; 16 h 25 min elapsed): MES RED. It missed its 8 h RTO at 22:05 and passed the 12 h checkpoint at 02:05 below minimum service. Its 24 h MTPD ends at 14:05 CT today.",
+            "ERP RED: it missed its 12 h RTO at 02:05 CT. The integration is still locked.",
+            "Joliet shipping: no shipments since 15:30 CT Thursday (15 hours). Its 24 h RTO ends at 15:30 CT today. Minimum service is 60 percent of normal parts orders.",
+            "Plants 1 to 3 are still running controllers in manual mode with no work orders or lot tracking. Each plant has used about two-thirds of a day of its 5-day finished-goods buffer.",
+            "The Rock River Gazette front page shows the leaked sample: 3,100 employee records and HD-4400 defense drawings. Finance close files have not been posted.",
+            "Attackers' deadline: about 14:05 CT Sunday, March 28 (about 55 h 35 min left).",
+            "Board meeting by video at 07:00 CT. The board portal is still unavailable because single sign-on is isolated.",
+            "Northbridge Payroll needs the payroll file by 10:00 CT today."
+          ],
+          "facilitatorNote": "Read the narration, then give players two minutes to reorient. Expect these actions: the BCM briefs the tracker against each RTO and MTPD and marks the MES and ERP red. The CISO confirms in writing that Blackwater cleared only the snapshot, and only for a rebuilt host. The CEO and GC build the 07:00 board briefing from the single fact sheet. Push back if anyone treats the cleared snapshot as clearance to restore the domain, the ERP or the Joliet warehouse system."
+        },
+        "instructorNote": "This card moves play to Friday morning and makes players measure recovery against the RTOs and MTPD instead of hoping. Watch for three things: the BCM flags the missed RTOs, the CISO keeps the rebuild order (identity and network core before MES), and the 07:00 board briefing matches the fact sheet rather than the earlier optimistic HR draft.",
+        "deliveryMode": "read_aloud"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-11-13T02:30:22.958Z"
+}

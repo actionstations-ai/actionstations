@@ -1,0 +1,123 @@
+{
+  "id": "01M7935Q9Q8EGJJM5E7QBM04FD",
+  "mselRowId": "I-12",
+  "type": "time_jump_card",
+  "title": "Time Jump: 17:00 CT, Beloit Confirmed, Story Is Live",
+  "deliveryMode": "read_aloud",
+  "fields": {
+    "exerciseTime": "2:00",
+    "newTime": "17:00 CT (18:00 ET)",
+    "jumpLabel": "+60 minutes",
+    "injectId": "I-12",
+    "scenarioTitle": "Six Days Out — MES Ransomware, Materiality & Disclosure",
+    "narration": "It is now 17:00 Central Time, 18:00 Eastern, on Thursday, March 25, 2027. We are compressing the evening for play. Here is what has changed since the last card. Blackwater Cyber has confirmed encryption at Plant 2 Beloit as well as at the Rockford data center. The board portal is still down because single sign-on is still isolated. The Rock River Gazette has published its story online under the headline 'Ironcrest hit by cyberattack; plants scramble, data reportedly stolen.' Ravi Menon's recovery tracker shows the MES heading for a missed 8-hour RTO at 22:05, and Blackwater Cyber has still not cleared a backup. Joliet has shipped no parts orders since 15:30. The 24-hour RTO for shipping runs out at 15:30 tomorrow, Friday. Rockford, Beloit and Dubuque are still running in manual mode with no lot tracking, so every hour comes out of each plant's 5-day finished-goods buffer. The attackers' 72-hour deadline runs out at about 14:05 Central Time on Sunday, March 28. Their ransom note now shows a countdown timer and a 'chat with support' link. The public story, the wider scope and the ransom clock now all land on the Crisis Management Team at once. Exercise aid, not legal advice.",
+    "worldState": [
+      "Clock: 17:00 CT / 18:00 ET, Thursday, March 25, 2027. Six days to quarter end.",
+      "Scope: Encryption is CONFIRMED at Rockford (ICM-MES-01, ICM-MES-02, ICM-FS-03, ICM-FS-04) and at Plant 2 Beloit. The Dubuque replica ICM-MES-DBQ-01 is still partly encrypted (3 of 7 volumes).",
+      "Backups: None cleared for restore. Blackwater Cyber's persistence sweep still needs 12 to 18 hours. The last clean MES snapshot is from Wednesday at 07:05.",
+      "Recovery tracker (clock started 14:05): MES 4-hour checkpoint at 18:05, 8-hour RTO at 22:05, projected RED. MTPD for the MES is 24 hours (14:05 Friday).",
+      "Shipping (Joliet): Zero parts orders shipped since 15:30, against a normal 4,100 a day. The 24-hour RTO runs out at 15:30 Friday. MASL is 60 percent of normal orders.",
+      "Plants 1 to 3: Controllers are in manual mode, with no work orders and no lot tracking. Each plant is drawing down its 5-day finished-goods buffer. The largest customers hold under 10 days of inventory.",
+      "ERP integration: Still locked. Cause (encryption or isolation) not yet determined.",
+      "Board portal: Still down because SSO is isolated. The privileged notice to the Audit Committee Chair has not been delivered. Automatic retries are continuing.",
+      "Media: The Rock River Gazette story is live online: 'Ironcrest hit by cyberattack; plants scramble, data reportedly stolen.' No company statement has been issued.",
+      "Exfiltration: CONFIRMED from the Engineering Released share and the HR export folder. Contents and record counts are still UNKNOWN.",
+      "Ransom: 18 million dollars in cryptocurrency. The deadline is about 14:05 CT on Sunday, March 28, 2027. The note now shows a countdown timer and a 'chat with support' link. No one has used the link.",
+      "Disclosure Committee: The 19:00 CT meeting and the Harrow Fenn materiality worksheet are still pending."
+    ],
+    "facilitatorNote": "Hold play for 2 minutes so that every role can reset to 17:00. Ask the BCM to read out the tracker status for the MES, shipping and the finished-goods buffer, and ask the CEO to name the owner for each of the three new pressures: the published story, the Beloit scope and the ransom countdown."
+  },
+  "variant": "default",
+  "instructorNote": "This card resets the clock and stacks three pressures at once: the public story, the confirmed Beloit scope and the ransom countdown. Watch whether the BCM updates the tracker against each RTO and the 5-day buffer instead of hoping for a restore. Also watch whether anyone uses the attackers' chat link without a ransom decision made under policy, the sanctions screening and the insurer's consent.",
+  "citations": [
+    {
+      "documentId": "01M791NWETPNJ2B6DP42BR9D8C",
+      "documentTitle": "ICM-BCM-02: Business Impact Analysis and Recovery Order",
+      "headingPath": "IBIARO › 5. Sites and dependencies",
+      "quote": "- **Plant 1, Rockford, Illinois**, 3,200 employees, three shifts, builds 38 percent of transmissions; has a data center with the MES and PLM servers. A fire or power loss triggers the plant emergency ",
+      "chunkId": 15
+    },
+    {
+      "documentId": "01M791NWETPNJ2B6DP42BR9D8C",
+      "documentTitle": "ICM-BCM-02: Business Impact Analysis and Recovery Order",
+      "headingPath": "IBIARO › 7. Recording recovery",
+      "quote": "The BCM keeps the recovery tracker: the time disruption began, the time each function reached its MASL, and the RTO. A function that misses its RTO is flagged for the CMT and its customers are told. T",
+      "chunkId": 17
+    },
+    {
+      "documentId": "01M791NWETPNJ2B6DP42BR9D8C",
+      "documentTitle": "ICM-BCM-02: Business Impact Analysis and Recovery Order",
+      "headingPath": "IBIARO › 3. Critical functions",
+      "quote": "| Function | System or site | RTO | RPO | MTPD | MASL | |---|---|---|---|---|---| | Plant control networks and machine controllers, Plants 1 to 3 | PLC networks, historians | 4 hours | 0 | 12 hours | ",
+      "chunkId": 13
+    },
+    {
+      "documentId": "01M791NWEVAZDEE6NB6D1690HB",
+      "documentTitle": "ICM-CMP-01: Crisis Management Plan",
+      "headingPath": "ICMP › 2. Crisis Management Team (CMT)",
+      "quote": "| Seat | Holder | Decides | |---|---|---| | Chair, CEO | Thomas Aldridge | Declares a crisis; approves ransom, regulator contact and public statements; activates succession | | CFO | Priya Raghavan | ",
+      "chunkId": 21
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template"
+    ]
+  },
+  "assets": [
+    {
+      "id": "01M79BVQY9RVA8WF8YDEXDRW0Y",
+      "kind": "image",
+      "path": "scenarios/01M791NYFD5GNSAF0J0E4J4T0E/media/01M7935Q9Q8EGJJM5E7QBM04FD/01M79BVQY9RVA8WF8YDEXDRW0Y.png",
+      "role": "rendered",
+      "width": 816,
+      "height": 1056,
+      "sha256": "4c215b59794496b648e1315fbd3cfe2df8902ee549e9fd0f588e3297d9a04eb5",
+      "provenance": {
+        "provider": "template",
+        "templateId": "time_jump_card",
+        "templateVersion": "1",
+        "createdAt": "2026-11-13T02:30:21.243Z"
+      }
+    }
+  ],
+  "versions": [
+    {
+      "at": "2026-11-12T23:58:50.693Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "Time Jump: 17:00 CT, Beloit Confirmed, Story Is Live",
+        "type": "time_jump_card",
+        "fields": {
+          "exerciseTime": "2:00",
+          "newTime": "17:00 CT (18:00 ET)",
+          "jumpLabel": "+60 minutes",
+          "injectId": "I-12",
+          "scenarioTitle": "Six Days Out — MES Ransomware, Materiality & Disclosure",
+          "narration": "It is now 17:00 Central Time, 18:00 Eastern, on Thursday, March 25, 2027. We are compressing the evening for play. Here is what has changed since the last card. Blackwater Cyber has confirmed encryption at Plant 2 Beloit as well as at the Rockford data center. The board portal is still down because single sign-on is still isolated. The Rock River Gazette has published its story online under the headline 'Ironcrest hit by cyberattack; plants scramble, data reportedly stolen.' Ravi Menon's recovery tracker shows the MES heading for a missed 8-hour RTO at 22:05, and Blackwater Cyber has still not cleared a backup. Joliet has shipped no parts orders since 15:30. The 24-hour RTO for shipping runs out at 15:30 tomorrow, Friday. Rockford, Beloit and Dubuque are still running in manual mode with no lot tracking, so every hour comes out of each plant's 5-day finished-goods buffer. The attackers' 72-hour deadline runs out at about 14:05 Central Time on Sunday, March 28. Their ransom note now shows a countdown timer and a 'chat with support' link. The public story, the wider scope and the ransom clock now all land on the Crisis Management Team at once. Exercise aid, not legal advice.",
+          "worldState": [
+            "Clock: 17:00 CT / 18:00 ET, Thursday, March 25, 2027. Six days to quarter end.",
+            "Scope: Encryption is CONFIRMED at Rockford (ICM-MES-01, ICM-MES-02, ICM-FS-03, ICM-FS-04) and at Plant 2 Beloit. The Dubuque replica ICM-MES-DBQ-01 is still partly encrypted (3 of 7 volumes).",
+            "Backups: None cleared for restore. Blackwater Cyber's persistence sweep still needs 12 to 18 hours. The last clean MES snapshot is from Wednesday at 07:05.",
+            "Recovery tracker (clock started 14:05): MES 4-hour checkpoint at 18:05, 8-hour RTO at 22:05, projected RED. MTPD for the MES is 24 hours (14:05 Friday).",
+            "Shipping (Joliet): Zero parts orders shipped since 15:30, against a normal 4,100 a day. The 24-hour RTO runs out at 15:30 Friday. MASL is 60 percent of normal orders.",
+            "Plants 1 to 3: Controllers are in manual mode, with no work orders and no lot tracking. Each plant is drawing down its 5-day finished-goods buffer. The largest customers hold under 10 days of inventory.",
+            "ERP integration: Still locked. Cause (encryption or isolation) not yet determined.",
+            "Board portal: Still down because SSO is isolated. The privileged notice to the Audit Committee Chair has not been delivered. Automatic retries are continuing.",
+            "Media: The Rock River Gazette story is live online: 'Ironcrest hit by cyberattack; plants scramble, data reportedly stolen.' No company statement has been issued.",
+            "Exfiltration: CONFIRMED from the Engineering Released share and the HR export folder. Contents and record counts are still UNKNOWN.",
+            "Ransom: 18 million dollars in cryptocurrency. The deadline is about 14:05 CT on Sunday, March 28, 2027. The note now shows a countdown timer and a 'chat with support' link. No one has used the link.",
+            "Disclosure Committee: The 19:00 CT meeting and the Harrow Fenn materiality worksheet are still pending."
+          ],
+          "facilitatorNote": "Hold play for 2 minutes so that every role can reset to 17:00. Ask the BCM to read out the tracker status for the MES, shipping and the finished-goods buffer, and ask the CEO to name the owner for each of the three new pressures: the published story, the Beloit scope and the ransom countdown."
+        },
+        "instructorNote": "This card resets the clock and stacks three pressures at once: the public story, the confirmed Beloit scope and the ransom countdown. Watch whether the BCM updates the tracker against each RTO and the 5-day buffer instead of hoping for a restore. Also watch whether anyone uses the attackers' chat link without a ransom decision made under policy, the sanctions screening and the insurer's consent.",
+        "deliveryMode": "read_aloud"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-11-13T02:30:21.469Z"
+}

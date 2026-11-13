@@ -1,0 +1,546 @@
+{
+  "id": "01M7969EEK22CJKQBXMGBC652S",
+  "mselRowId": "I-04",
+  "type": "scada_hmi",
+  "title": "Action Stage Exceeded — Mill Street Culvert Gauge, 06:10",
+  "deliveryMode": "display_main_screen",
+  "fields": {
+    "systemName": "FACILITIES DASHBOARD — SUGAR CAMP RUN / CAMPUS UTILITIES",
+    "site": "Marlowe State University Facilities Operations",
+    "clock": "06:10:14",
+    "date": "25-MAR-2027",
+    "operator": "FACOPS_NIGHT",
+    "state": "degraded",
+    "stateText": "ACTION STAGE EXCEEDED — 5.02 FT",
+    "mode": "MONITOR",
+    "equipment": [
+      {
+        "tag": "LT-MS-01",
+        "label": "MSU STAGE GAUGE — MILL ST CULVERT",
+        "kind": "sensor",
+        "state": "alarm",
+        "value": "5.02",
+        "units": "ft",
+        "setpoint": "ACTION 5.0 / FLOOD 7.0",
+        "note": "05:30 4.20 | 05:40 4.43 | 05:55 4.71 | 06:10 5.02 — RISING"
+      },
+      {
+        "tag": "ROC-MS-01",
+        "label": "RATE OF RISE — MILL ST (30 MIN)",
+        "kind": "sensor",
+        "state": "alarm",
+        "value": "+1.2",
+        "units": "ft/hr",
+        "setpoint": "HI 1.0 ft/hr",
+        "note": "+0.59 ft since 05:40"
+      },
+      {
+        "tag": "TR-MS-01",
+        "label": "TRASH RACK — MILL ST CULVERT INLET",
+        "kind": "gate",
+        "state": "alarm",
+        "value": "DEBRIS",
+        "units": "",
+        "setpoint": "",
+        "note": "Tech 4 by radio 06:09: water ~2/3 up culvert mouth, limbs racking on trash rack"
+      },
+      {
+        "tag": "RG-UQ-01",
+        "label": "RAIN GAUGE — UPPER QUAD",
+        "kind": "sensor",
+        "state": "online",
+        "value": "0.46",
+        "units": "in/hr",
+        "setpoint": "",
+        "note": "2.21 in since 00:00 — rate up from 0.28 in/hr at 05:10"
+      },
+      {
+        "tag": "LT-DL-01",
+        "label": "DAIRY LANE CROSSING",
+        "kind": "sensor",
+        "state": "online",
+        "value": "OPEN",
+        "units": "",
+        "setpoint": "CLOSE 6.5 / FLOODS 8.0",
+        "note": "Closure by Campus Police at 6.5 ft on Mill St gauge"
+      },
+      {
+        "tag": "LOT-C",
+        "label": "PARKING LOT C",
+        "kind": "sensor",
+        "state": "online",
+        "value": "DRY",
+        "units": "",
+        "setpoint": "FLOODS 9.5",
+        "note": "620 spaces, commuter lot"
+      },
+      {
+        "tag": "RH-SP-01",
+        "label": "RIVERSIDE Hall BASEMENT SUMP PUMP 1",
+        "kind": "pump",
+        "state": "running",
+        "value": "18",
+        "units": "% sump",
+        "setpoint": "AUTO",
+        "note": "Cycling normally"
+      },
+      {
+        "tag": "RH-WS-TV",
+        "label": "RIVERSIDE Hall TRANSFORMER VAULT WATER SENSOR",
+        "kind": "sensor",
+        "state": "online",
+        "value": "DRY",
+        "units": "",
+        "setpoint": "FLOODS 10.5",
+        "note": "Vault floods at 10.5 ft Mill St"
+      },
+      {
+        "tag": "RH-MSB-01",
+        "label": "RIVERSIDE Hall MAIN SERVICE",
+        "kind": "breaker",
+        "state": "closed",
+        "value": "412",
+        "units": "A",
+        "setpoint": "",
+        "note": "Isolation at vault takes 20 min"
+      },
+      {
+        "tag": "WL-WS-LL",
+        "label": "WHITCOMB LIBRARY LOWER LEVEL WATER SENSOR",
+        "kind": "sensor",
+        "state": "online",
+        "value": "DRY",
+        "units": "",
+        "setpoint": "FLOODS 12.0",
+        "note": "Network distribution room / Special Collections"
+      },
+      {
+        "tag": "CP-DL-01",
+        "label": "CENTRAL PLANT — DAIRY LANE",
+        "kind": "unit",
+        "state": "running",
+        "value": "14",
+        "units": "bldgs served",
+        "setpoint": "",
+        "note": "Night shift; fuel on hand 3 days"
+      },
+      {
+        "tag": "FY-PMP",
+        "label": "PORTABLE PUMPS — FACILITIES YARD",
+        "kind": "pump",
+        "state": "stopped",
+        "value": "6",
+        "units": "available",
+        "setpoint": "",
+        "note": "Not deployed; 400 ft water-filled barrier on hand"
+      },
+      {
+        "tag": "FACP-HT-Z3",
+        "label": "HILLTOP RES BLDG FIRE PANEL ZONE 3",
+        "kind": "sensor",
+        "state": "fault",
+        "value": "TROUBLE",
+        "units": "",
+        "setpoint": "",
+        "note": "GROUND FAULT – EXTERIOR NAC; tech dispatch pending"
+      }
+    ],
+    "readings": [
+      {
+        "label": "Mill St stage",
+        "value": "5.02",
+        "units": "ft",
+        "alarm": true
+      },
+      {
+        "label": "Rate of rise (30 min)",
+        "value": "+1.2",
+        "units": "ft/hr",
+        "alarm": true
+      },
+      {
+        "label": "Linear projection to 6.5 ft (Dairy Lane closure)",
+        "value": "~07:24",
+        "units": "EDT",
+        "alarm": false
+      },
+      {
+        "label": "Linear projection to 7.0 ft (flood stage)",
+        "value": "~07:49",
+        "units": "EDT",
+        "alarm": false
+      },
+      {
+        "label": "Margin to flood stage",
+        "value": "1.98",
+        "units": "ft",
+        "alarm": false
+      },
+      {
+        "label": "Upper Quad rain rate",
+        "value": "0.46",
+        "units": "in/hr",
+        "alarm": false
+      },
+      {
+        "label": "Rain since midnight",
+        "value": "2.21",
+        "units": "in",
+        "alarm": false
+      },
+      {
+        "label": "Riverside basement sump",
+        "value": "18",
+        "units": "%",
+        "alarm": false
+      }
+    ],
+    "alarms": [
+      {
+        "time": "06:10:02",
+        "priority": "1",
+        "tag": "LT-MS-01",
+        "text": "MILL ST STAGE 5.02 FT — ACTION STAGE EXCEEDED",
+        "acked": false
+      },
+      {
+        "time": "06:10:02",
+        "priority": "2",
+        "tag": "ROC-MS-01",
+        "text": "RATE OF RISE HI — +1.2 FT/HR (LIMIT 1.0)",
+        "acked": false
+      },
+      {
+        "time": "06:09:40",
+        "priority": "2",
+        "tag": "TR-MS-01",
+        "text": "MANUAL ENTRY TECH 4: DEBRIS RACKING ON TRASH RACK, RAIN HEAVIER",
+        "acked": false
+      },
+      {
+        "time": "05:55:01",
+        "priority": "3",
+        "tag": "LT-MS-01",
+        "text": "MILL ST STAGE 4.71 FT — HI PRE-ALERT (4.5 FT)",
+        "acked": true
+      },
+      {
+        "time": "05:41:22",
+        "priority": "4",
+        "tag": "FACP-HT-Z3",
+        "text": "FIRE PANEL TROUBLE — GROUND FAULT ZONE 3 EXTERIOR NAC",
+        "acked": true
+      }
+    ],
+    "statusItems": [
+      "MILL ST GAUGE RTU ONLINE",
+      "RAIN GAUGE RG-UQ-01 ONLINE",
+      "USGS HOCKING R. FEED ONLINE (15-MIN)",
+      "BMS GATEWAY ONLINE",
+      "FIRE ALARM GATEWAY ONLINE",
+      "RADIO: TECH 4 ON MILL ST BRIDGE"
+    ],
+    "hmiNode": "FAC-OPS-WS01"
+  },
+  "variant": "water",
+  "instructorNote": "This screen is the clue that the gauge has passed action stage. Look for the IC to move to Level 2 Partial, open the EOC in Campus Services Building room 108 and log 06:10, the 5.02 ft reading and the flash flood watch as the basis. The +1.2 ft/hr rise, the debris on the trash rack and the projected ~07:24 time to the Dairy Lane closure should push Facilities to clear the rack and stage the pumps, Police to put an officer at Dairy Lane ahead of 6.5 ft, and the Dean of Students to alert the RAs and the shelter team. The hilltop fire panel trouble is left over from the earlier fire-panel call and should not draw attention away from the flood.",
+  "citations": [
+    {
+      "documentId": "01M7954ERAAANZYZPXM3988TWQ",
+      "documentTitle": "MSU Emergency Operations Plan, Annex F: Flash Flooding",
+      "headingPath": "MSU Emergency Operations Plan, A… › 2. Flood profile",
+      "quote": "Sugar Camp Run drains 9 square miles of hills north of campus. It runs in an open channel through the Upper Quad, enters a 10-foot box culvert under Mill Street, and emerges across the Lower Quad befo",
+      "chunkId": 15
+    },
+    {
+      "documentId": "01M7954ERAAANZYZPXM3988TWQ",
+      "documentTitle": "MSU Emergency Operations Plan, Annex F: Flash Flooding",
+      "headingPath": "MSU Emergency Operations Plan, A… › 4. Activation levels",
+      "quote": "| Level | Trigger | EOC | |---|---|---| | 3 Monitoring | NWS flood watch or flash flood watch for Athens County | Director and Facilities watch gauges; no EOC | | 2 Partial | Mill Street stage at 5.0 ",
+      "chunkId": 17
+    },
+    {
+      "documentId": "01M7954ERAAANZYZPXM3988TWQ",
+      "documentTitle": "MSU Emergency Operations Plan, Annex F: Flash Flooding",
+      "headingPath": "MSU Emergency Operations Plan, A… › 7. Utilities and facilities",
+      "quote": "- **Electrical:** Facilities isolates Riverside Hall's main service at the transformer vault before the basement stage. Isolation takes 20 minutes and turns off elevators, lights and fire alarm primar",
+      "chunkId": 20
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template"
+    ]
+  },
+  "assets": [
+    {
+      "id": "01M79CGATVVAKG2GAQKRPWJRVW",
+      "kind": "image",
+      "path": "scenarios/01M7954GS0D6BSQAZGBD9WNZFP/media/01M7969EEK22CJKQBXMGBC652S/01M79CGATVVAKG2GAQKRPWJRVW.png",
+      "role": "rendered",
+      "width": 1920,
+      "height": 1080,
+      "sha256": "d3bba2021f914a9355ce9ef0fff73310195e4ff63d1d5b96b0b7314bad2b1884",
+      "provenance": {
+        "provider": "template",
+        "templateId": "scada_hmi",
+        "templateVersion": "2",
+        "createdAt": "2026-11-13T02:41:35.888Z"
+      }
+    }
+  ],
+  "versions": [
+    {
+      "at": "2026-11-13T00:54:10.460Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "Action Stage Exceeded — Mill Street Culvert Gauge, 06:10",
+        "type": "scada_hmi",
+        "fields": {
+          "systemName": "FACILITIES DASHBOARD — SUGAR CAMP RUN / CAMPUS UTILITIES",
+          "site": "Marlowe State University Facilities Operations",
+          "clock": "06:10:14",
+          "date": "25-MAR-2027",
+          "operator": "FACOPS_NIGHT",
+          "state": "degraded",
+          "stateText": "ACTION STAGE EXCEEDED — 5.02 FT",
+          "mode": "MONITOR",
+          "equipment": [
+            {
+              "tag": "LT-MS-01",
+              "label": "MSU STAGE GAUGE — MILL ST CULVERT",
+              "kind": "sensor",
+              "state": "alarm",
+              "value": "5.02",
+              "units": "ft",
+              "setpoint": "ACTION 5.0 / FLOOD 7.0",
+              "note": "05:30 4.20 | 05:40 4.43 | 05:55 4.71 | 06:10 5.02 — RISING"
+            },
+            {
+              "tag": "ROC-MS-01",
+              "label": "RATE OF RISE — MILL ST (30 MIN)",
+              "kind": "sensor",
+              "state": "alarm",
+              "value": "+1.2",
+              "units": "ft/hr",
+              "setpoint": "HI 1.0 ft/hr",
+              "note": "+0.59 ft since 05:40"
+            },
+            {
+              "tag": "TR-MS-01",
+              "label": "TRASH RACK — MILL ST CULVERT INLET",
+              "kind": "gate",
+              "state": "alarm",
+              "value": "DEBRIS",
+              "units": "",
+              "setpoint": "",
+              "note": "Tech 4 by radio 06:09: water ~2/3 up culvert mouth, limbs racking on trash rack"
+            },
+            {
+              "tag": "RG-UQ-01",
+              "label": "RAIN GAUGE — UPPER QUAD",
+              "kind": "sensor",
+              "state": "online",
+              "value": "0.46",
+              "units": "in/hr",
+              "setpoint": "",
+              "note": "2.21 in since 00:00 — rate up from 0.28 in/hr at 05:10"
+            },
+            {
+              "tag": "LT-DL-01",
+              "label": "DAIRY LANE CROSSING",
+              "kind": "sensor",
+              "state": "online",
+              "value": "OPEN",
+              "units": "",
+              "setpoint": "CLOSE 6.5 / FLOODS 8.0",
+              "note": "Closure by Campus Police at 6.5 ft on Mill St gauge"
+            },
+            {
+              "tag": "LOT-C",
+              "label": "PARKING LOT C",
+              "kind": "sensor",
+              "state": "online",
+              "value": "DRY",
+              "units": "",
+              "setpoint": "FLOODS 9.5",
+              "note": "620 spaces, commuter lot"
+            },
+            {
+              "tag": "RH-SP-01",
+              "label": "RIVERSIDE Hall BASEMENT SUMP PUMP 1",
+              "kind": "pump",
+              "state": "running",
+              "value": "18",
+              "units": "% sump",
+              "setpoint": "AUTO",
+              "note": "Cycling normally"
+            },
+            {
+              "tag": "RH-WS-TV",
+              "label": "RIVERSIDE Hall TRANSFORMER VAULT WATER SENSOR",
+              "kind": "sensor",
+              "state": "online",
+              "value": "DRY",
+              "units": "",
+              "setpoint": "FLOODS 10.5",
+              "note": "Vault floods at 10.5 ft Mill St"
+            },
+            {
+              "tag": "RH-MSB-01",
+              "label": "RIVERSIDE Hall MAIN SERVICE",
+              "kind": "breaker",
+              "state": "closed",
+              "value": "412",
+              "units": "A",
+              "setpoint": "",
+              "note": "Isolation at vault takes 20 min"
+            },
+            {
+              "tag": "WL-WS-LL",
+              "label": "WHITCOMB LIBRARY LOWER LEVEL WATER SENSOR",
+              "kind": "sensor",
+              "state": "online",
+              "value": "DRY",
+              "units": "",
+              "setpoint": "FLOODS 12.0",
+              "note": "Network distribution room / Special Collections"
+            },
+            {
+              "tag": "CP-DL-01",
+              "label": "CENTRAL PLANT — DAIRY LANE",
+              "kind": "unit",
+              "state": "running",
+              "value": "14",
+              "units": "bldgs served",
+              "setpoint": "",
+              "note": "Night shift; fuel on hand 3 days"
+            },
+            {
+              "tag": "FY-PMP",
+              "label": "PORTABLE PUMPS — FACILITIES YARD",
+              "kind": "pump",
+              "state": "stopped",
+              "value": "6",
+              "units": "available",
+              "setpoint": "",
+              "note": "Not deployed; 400 ft water-filled barrier on hand"
+            },
+            {
+              "tag": "FACP-HT-Z3",
+              "label": "HILLTOP RES BLDG FIRE PANEL ZONE 3",
+              "kind": "sensor",
+              "state": "fault",
+              "value": "TROUBLE",
+              "units": "",
+              "setpoint": "",
+              "note": "GROUND FAULT – EXTERIOR NAC; tech dispatch pending"
+            }
+          ],
+          "readings": [
+            {
+              "label": "Mill St stage",
+              "value": "5.02",
+              "units": "ft",
+              "alarm": true
+            },
+            {
+              "label": "Rate of rise (30 min)",
+              "value": "+1.2",
+              "units": "ft/hr",
+              "alarm": true
+            },
+            {
+              "label": "Linear projection to 6.5 ft (Dairy Lane closure)",
+              "value": "~07:24",
+              "units": "EDT",
+              "alarm": false
+            },
+            {
+              "label": "Linear projection to 7.0 ft (flood stage)",
+              "value": "~07:49",
+              "units": "EDT",
+              "alarm": false
+            },
+            {
+              "label": "Margin to flood stage",
+              "value": "1.98",
+              "units": "ft",
+              "alarm": false
+            },
+            {
+              "label": "Upper Quad rain rate",
+              "value": "0.46",
+              "units": "in/hr",
+              "alarm": false
+            },
+            {
+              "label": "Rain since midnight",
+              "value": "2.21",
+              "units": "in",
+              "alarm": false
+            },
+            {
+              "label": "Riverside basement sump",
+              "value": "18",
+              "units": "%",
+              "alarm": false
+            }
+          ],
+          "alarms": [
+            {
+              "time": "06:10:02",
+              "priority": "1",
+              "tag": "LT-MS-01",
+              "text": "MILL ST STAGE 5.02 FT — ACTION STAGE EXCEEDED",
+              "acked": false
+            },
+            {
+              "time": "06:10:02",
+              "priority": "2",
+              "tag": "ROC-MS-01",
+              "text": "RATE OF RISE HI — +1.2 FT/HR (LIMIT 1.0)",
+              "acked": false
+            },
+            {
+              "time": "06:09:40",
+              "priority": "2",
+              "tag": "TR-MS-01",
+              "text": "MANUAL ENTRY TECH 4: DEBRIS RACKING ON TRASH RACK, RAIN HEAVIER",
+              "acked": false
+            },
+            {
+              "time": "05:55:01",
+              "priority": "3",
+              "tag": "LT-MS-01",
+              "text": "MILL ST STAGE 4.71 FT — HI PRE-ALERT (4.5 FT)",
+              "acked": true
+            },
+            {
+              "time": "05:41:22",
+              "priority": "4",
+              "tag": "FACP-HT-Z3",
+              "text": "FIRE PANEL TROUBLE — GROUND FAULT ZONE 3 EXTERIOR NAC",
+              "acked": true
+            }
+          ],
+          "statusItems": [
+            "MILL ST GAUGE RTU ONLINE",
+            "RAIN GAUGE RG-UQ-01 ONLINE",
+            "USGS HOCKING R. FEED ONLINE (15-MIN)",
+            "BMS GATEWAY ONLINE",
+            "FIRE ALARM GATEWAY ONLINE",
+            "RADIO: TECH 4 ON MILL ST BRIDGE"
+          ],
+          "hmiNode": "FAC-OPS-WS01"
+        },
+        "instructorNote": "This screen is the clue that the gauge has passed action stage. Look for the IC to move to Level 2 Partial, open the EOC in Campus Services Building room 108 and log 06:10, the 5.02 ft reading and the flash flood watch as the basis. The +1.2 ft/hr rise, the debris on the trash rack and the projected ~07:24 time to the Dairy Lane closure should push Facilities to clear the rack and stage the pumps, Police to put an officer at Dairy Lane ahead of 6.5 ft, and the Dean of Students to alert the RAs and the shelter team. The hilltop fire panel trouble is left over from the earlier fire-panel call and should not draw attention away from the flood.",
+        "deliveryMode": "display_main_screen"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-11-13T02:41:36.093Z"
+}

@@ -67,3 +67,9 @@ The export has the month and flock type only: no county, flock size or farm, and
 ## Reference documents
 
 A catalog-only reference library holds the HPAI and FMD response plans (the Red Books) and four FAD PReP manuals from USDA APHIS, each pinned by hash with its edition date. Two manuals are marked draft on their covers and the FMD plan carries a draft footer. Check the APHIS preparedness page for newer editions before relying on them.
+
+## Example project
+
+The Animal health, veterinary and agriculture pack includes an example project, **Calder County Emergency Management: First HPAI Detection in a Turkey Complex**, with one exercise, _Flyway_: during fall migration the Minnesota Veterinary Diagnostic Laboratory reports an H5 presumptive positive from the Larkin Ridge Turkey Complex (four barns, 62,000 toms); the county must support the state and USDA, staff 11 checkpoints, keep 36 unaffected contract premises working under permit, find a disposal site and keep producer, state and public messages identical.
+
+Turn the pack on under **Packs**, then open a copy from **Projects → Examples**. The organization, its people and its businesses are fictional; the exercise comes with its injects, media, Situation Manual, evaluation guides and controller handbook, ready to read or run.

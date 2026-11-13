@@ -1,0 +1,250 @@
+{
+  "id": "01M7933FEMJ1TJTRST7F3GGN36",
+  "mselRowId": "I-12",
+  "type": "phone_call",
+  "title": "Call: Phoenix DC Inventory Control — \"I Think I Found Your 60 Cases\"",
+  "deliveryMode": "read_aloud",
+  "fields": {
+    "orgName": "Pinecrest Fresh Cut, LLC",
+    "systemName": "Recorded Line - Recall Team Bridge",
+    "callId": "CR-20271012-080712-0053",
+    "direction": "Internal",
+    "caller": {
+      "name": "Marisol Ortega",
+      "number": "602-555-0147",
+      "label": "Inventory Control Clerk, Phoenix DC (for DC Manager Angela Whitfield)"
+    },
+    "callee": {
+      "name": "Recall Team Bridge",
+      "number": "(831) 555-0131",
+      "label": "Recall Team bridge, code 2200"
+    },
+    "startTime": "10/12/2027 08:07:12",
+    "duration": "1:52",
+    "transcript": [
+      {
+        "speaker": "Phoenix DC Clerk",
+        "offset": "0:00",
+        "text": "Hi, this is Marisol Ortega, inventory control at the Phoenix DC. Angela asked me to call you directly. I think I found your 60 cases.",
+        "prompt": false
+      },
+      {
+        "speaker": "Phoenix DC Clerk",
+        "offset": "0:09",
+        "text": "I ran our WMS receipts for October 7 by quantity instead of by lot code. Pallet tag P-0417. Sixty cases, chopped romaine, came in on the October 7 plant load. But the lot was keyed by hand as P-F-1, 2-7-2-7-9, L-2, dash eight. An eight, the number. Not a B.",
+        "prompt": false
+      },
+      {
+        "speaker": "Phoenix DC Clerk",
+        "offset": "0:31",
+        "text": "The receiving note says, quote, 'label no scan, manual re-label at plant dock, 10/6, 23:40.' So somebody at your dock re-labeled it by hand and the B came out as an eight.",
+        "prompt": false
+      },
+      {
+        "speaker": "Phoenix DC Clerk",
+        "offset": "0:44",
+        "text": "Because that lot code doesn't exist, your MES hold never touched it. Our screen still shows it available and pickable, location R-14-03. I'm sending you the screenshot now. It reads: LOT PF1-27279-L2-8, item romaine chopped, quantity 60 cases, received 10/07, source PF1 dock, status AVAILABLE, wave W-1012-03.",
+        "prompt": false
+      },
+      {
+        "speaker": "Phoenix DC Clerk",
+        "offset": "1:08",
+        "text": "And that wave is this morning's university food service order. It loads at 09:00. The pickers are already working it.",
+        "prompt": false
+      },
+      {
+        "speaker": "Phoenix DC Clerk",
+        "offset": "1:17",
+        "text": "One more thing. Those 60 cases are not in the 5,820 on our hold board either. The crew counted by the five lot codes you sent, so this pallet never came up.",
+        "prompt": false
+      },
+      {
+        "speaker": "Phoenix DC Clerk",
+        "offset": "1:30",
+        "text": "So, two questions. Do I pull P-0417 out of the wave right now? And who corrects the lot code, you on the plant side or us in our WMS? I need to know before the 09:00 load.",
+        "prompt": true
+      }
+    ],
+    "voiceStyles": {
+      "Phoenix DC Clerk": "Woman in her late 20s, careful and a little nervous, speaking fast because she found something; forklift beeps and a warehouse cooler fan behind her"
+    },
+    "injectId": "I-12"
+  },
+  "variant": "default",
+  "instructorNote": "This call settles the 60-case gap. It tests whether the team acts on the pallet right away and then reconciles the counts on documented evidence. Watch for these actions: LOG pulls P-0417 out of wave W-1012-03 before the 09:00 load, then has it tagged, segregated and held at 34–38°F, and adds it to Phoenix's confirmed hold count. TRACE records the pallet as PF1-27279-L2-B and keeps the 'manual re-label / scan failure' reason on the Gaps tab (PLCTR 5). TRACE also confirms that MES and WMS both now show 38,600 and that the 104 Rivermark cases are still unmatched and still in scope. RECALL then carries that single reconciled number forward.",
+  "citations": [
+    {
+      "documentId": "01M791PSSB1ZJ85S8M91S49WYH",
+      "documentTitle": "PFC-QA-03: Lot Coding and Traceability Records",
+      "headingPath": "PLCTR › 5. What the trace produces",
+      "quote": "The Traceability and Systems Lead produces one sortable spreadsheet with these columns: lot code, product, quantity and unit (cases), ship date, ship-from location, ship-to customer, ship-to location ",
+      "chunkId": 6
+    },
+    {
+      "documentId": "01M791PSSB1ZJ85S8M91S49WYH",
+      "documentTitle": "PFC-QA-03: Lot Coding and Traceability Records",
+      "headingPath": "PLCTR › 4. Systems",
+      "quote": "- **Manufacturing execution system (MES):** records transformation, lot genealogy and holds. A hold in the MES blocks a lot from shipping and from being picked in the DCs within 10 minutes through the",
+      "chunkId": 5
+    },
+    {
+      "documentId": "01M791PSSEBMSYNZ68A0SFSX31",
+      "documentTitle": "PFC-OPS-02: Plant, Distribution Network and Cold Chain",
+      "headingPath": "PPDNCC › 2. Distribution centers",
+      "quote": "| DC | Location | Customers served | Weekly cases | Notes | |---|---|---|---|---| | Stockton DC | Stockton, California | Harvest Table Markets (northern California and Nevada stores), Westline Foodser",
+      "chunkId": 12
+    },
+    {
+      "documentId": "01M791PSSGK4QSR0X463MMNVXQ",
+      "documentTitle": "PFC-FS-04: Recall Notification, Regulatory Contact and Public Statements",
+      "headingPath": "PFC-FS-04: Recall Notification,… › 4. Counts that must reconcile",
+      "quote": "Every letter and release states quantities from the reconciliation table. The total of cases shipped to all customers equals the total of cases produced for the affected lots, less cases held at Pinec",
+      "chunkId": 23
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template",
+      "tts"
+    ],
+    "voiceLines": [
+      {
+        "speaker": "Phoenix DC Clerk",
+        "voiceStyle": "Woman in her late 20s, General American accent, careful and a little nervous, speaking quickly because she has found something important, slightly breathless, phone held close in a busy refrigerated warehouse",
+        "text": "Hi, this is Marisol Ortega, inventory control at the Phoenix DC. Angela asked me to call you directly. I think I found your sixty cases."
+      },
+      {
+        "speaker": "Phoenix DC Clerk",
+        "voiceStyle": "Woman in her late 20s, General American accent, careful and a little nervous, speaking quickly but slowing down deliberately to spell out the lot code character by character",
+        "text": "I ran our W-M-S receipts for October seventh by quantity instead of by lot code. Pallet tag P, zero four one seven. Sixty cases, chopped romaine, came in on the October seventh plant load. But the lot was keyed by hand as... P-F-1, two-seven-two-seven-nine, L-2, dash eight. An eight, the number. Not a B."
+      },
+      {
+        "speaker": "Phoenix DC Clerk",
+        "voiceStyle": "Woman in her late 20s, General American accent, careful and a little nervous, reading a note off her screen, then explaining",
+        "text": "The receiving note says, quote, label no scan, manual re-label at plant dock, ten six, twenty-three forty. So somebody at your dock re-labeled it by hand, and the B came out as an eight."
+      },
+      {
+        "speaker": "Phoenix DC Clerk",
+        "voiceStyle": "Woman in her late 20s, General American accent, nervous and urgent, reading the screenshot fields slowly and precisely",
+        "text": "Because that lot code doesn't exist, your M-E-S hold never touched it. Our screen still shows it available and pickable, location R, fourteen, zero three. I'm sending you the screenshot now. It reads: lot P-F-1, two-seven-two-seven-nine, L-2, dash eight. Item, romaine chopped. Quantity, sixty cases. Received ten oh seven. Source, P-F-1 dock. Status, available. Wave W, ten twelve, zero three."
+      },
+      {
+        "speaker": "Phoenix DC Clerk",
+        "voiceStyle": "Woman in her late 20s, General American accent, rising urgency, faster pace",
+        "text": "And that wave is this morning's university food service order. It loads at nine o'clock. The pickers are already working it."
+      },
+      {
+        "speaker": "Phoenix DC Clerk",
+        "voiceStyle": "Woman in her late 20s, General American accent, worried, slightly apologetic",
+        "text": "One more thing. Those sixty cases are not in the fifty-eight twenty on our hold board either. The crew counted by the five lot codes you sent, so this pallet never came up."
+      },
+      {
+        "speaker": "Phoenix DC Clerk",
+        "voiceStyle": "Woman in her late 20s, General American accent, anxious and pressing for a decision, firm on the final sentence",
+        "text": "So, two questions. Do I pull P, zero four one seven out of the wave right now? And who corrects the lot code, you on the plant side, or us in our W-M-S? I need to know before the nine o'clock load."
+      }
+    ],
+    "postFx": [
+      "phone"
+    ]
+  },
+  "assets": [
+    {
+      "id": "01M79BYH3G9V7ZV46QBDQNCBDF",
+      "kind": "image",
+      "path": "scenarios/01M791PVSMDEFH6JWJBQPC6C4M/media/01M7933FEMJ1TJTRST7F3GGN36/01M79BYH3G9V7ZV46QBDQNCBDF.png",
+      "role": "rendered",
+      "width": 816,
+      "height": 1056,
+      "sha256": "c543aa5ffc0175c3902467081a1127851ab8141d03d783b175caa6b0b7e7383e",
+      "provenance": {
+        "provider": "template",
+        "templateId": "phone_call",
+        "templateVersion": "1",
+        "createdAt": "2026-11-13T02:31:52.544Z"
+      }
+    }
+  ],
+  "versions": [
+    {
+      "at": "2026-11-12T23:57:51.490Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "Call: Phoenix DC Inventory Control — \"I Think I Found Your 60 Cases\"",
+        "type": "phone_call",
+        "fields": {
+          "orgName": "Pinecrest Fresh Cut, LLC",
+          "systemName": "Recorded Line - Recall Team Bridge",
+          "callId": "CR-20271012-080712-0053",
+          "direction": "Internal",
+          "caller": {
+            "name": "Marisol Ortega",
+            "number": "602-555-0147",
+            "label": "Inventory Control Clerk, Phoenix DC (for DC Manager Angela Whitfield)"
+          },
+          "callee": {
+            "name": "Recall Team Bridge",
+            "number": "(831) 555-0131",
+            "label": "Recall Team bridge, code 2200"
+          },
+          "startTime": "10/12/2027 08:07:12",
+          "duration": "1:52",
+          "transcript": [
+            {
+              "speaker": "Phoenix DC Clerk",
+              "offset": "0:00",
+              "text": "Hi, this is Marisol Ortega, inventory control at the Phoenix DC. Angela asked me to call you directly. I think I found your 60 cases.",
+              "prompt": false
+            },
+            {
+              "speaker": "Phoenix DC Clerk",
+              "offset": "0:09",
+              "text": "I ran our WMS receipts for October 7 by quantity instead of by lot code. Pallet tag P-0417. Sixty cases, chopped romaine, came in on the October 7 plant load. But the lot was keyed by hand as P-F-1, 2-7-2-7-9, L-2, dash eight. An eight, the number. Not a B.",
+              "prompt": false
+            },
+            {
+              "speaker": "Phoenix DC Clerk",
+              "offset": "0:31",
+              "text": "The receiving note says, quote, 'label no scan, manual re-label at plant dock, 10/6, 23:40.' So somebody at your dock re-labeled it by hand and the B came out as an eight.",
+              "prompt": false
+            },
+            {
+              "speaker": "Phoenix DC Clerk",
+              "offset": "0:44",
+              "text": "Because that lot code doesn't exist, your MES hold never touched it. Our screen still shows it available and pickable, location R-14-03. I'm sending you the screenshot now. It reads: LOT PF1-27279-L2-8, item romaine chopped, quantity 60 cases, received 10/07, source PF1 dock, status AVAILABLE, wave W-1012-03.",
+              "prompt": false
+            },
+            {
+              "speaker": "Phoenix DC Clerk",
+              "offset": "1:08",
+              "text": "And that wave is this morning's university food service order. It loads at 09:00. The pickers are already working it.",
+              "prompt": false
+            },
+            {
+              "speaker": "Phoenix DC Clerk",
+              "offset": "1:17",
+              "text": "One more thing. Those 60 cases are not in the 5,820 on our hold board either. The crew counted by the five lot codes you sent, so this pallet never came up.",
+              "prompt": false
+            },
+            {
+              "speaker": "Phoenix DC Clerk",
+              "offset": "1:30",
+              "text": "So, two questions. Do I pull P-0417 out of the wave right now? And who corrects the lot code, you on the plant side or us in our WMS? I need to know before the 09:00 load.",
+              "prompt": true
+            }
+          ],
+          "voiceStyles": {
+            "Phoenix DC Clerk": "Woman in her late 20s, careful and a little nervous, speaking fast because she found something; forklift beeps and a warehouse cooler fan behind her"
+          },
+          "injectId": "I-12"
+        },
+        "instructorNote": "This call settles the 60-case gap. It tests whether the team acts on the pallet right away and then reconciles the counts on documented evidence. Watch for these actions: LOG pulls P-0417 out of wave W-1012-03 before the 09:00 load, then has it tagged, segregated and held at 34–38°F, and adds it to Phoenix's confirmed hold count. TRACE records the pallet as PF1-27279-L2-B and keeps the 'manual re-label / scan failure' reason on the Gaps tab (PLCTR 5). TRACE also confirms that MES and WMS both now show 38,600 and that the 104 Rivermark cases are still unmatched and still in scope. RECALL then carries that single reconciled number forward.",
+        "deliveryMode": "read_aloud"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-11-13T02:31:52.793Z"
+}

@@ -1,0 +1,112 @@
+{
+  "id": "01M795212KHBRGG9HCM2NVV1HS",
+  "mselRowId": "I-07b",
+  "type": "email_forward",
+  "title": "Email: LRMC IT — \"Capacity Board, Possible Tampering?\"",
+  "deliveryMode": "hand_to_role",
+  "fields": {
+    "fromName": "Dana Whitcomb (LRMC IT On-Call)",
+    "fromEmail": "it-oncall@lrmc-exercise.example",
+    "senderInitials": "DW",
+    "to": "LRMC MEDCOM",
+    "cc": "Greg Wilmot, Larkfield Healthcare Coalition",
+    "subject": "Capacity board – possible tampering?",
+    "sentAt": "6:55 PM",
+    "note": "MEDCOM,\n\nWe had a phishing alert this morning at 09:40: an \"invoice\" email was clicked in Patient Access. The board might have been tampered with. If you want to be safe, I'd shut the whole board down and treat it as a cyber incident.\n\nIt could also be the Pinecrest network. Their ISP says rain took out their line around 17:50.\n\nThe alarm history from the capacity board server is below and attached. Let me know how you want to proceed. I'm on call until 07:00.",
+    "signature": "Dana Whitcomb\nIT On-Call Analyst, Information Services\nLarkfield Regional Medical Center",
+    "importance": "high",
+    "external": false,
+    "attachments": [
+      {
+        "name": "capboard-srv_alarm_history_1600-1855.csv",
+        "size": "14 KB",
+        "kind": "xls"
+      }
+    ],
+    "original": {
+      "fromName": "Capacity Board Server Alerts",
+      "fromEmail": "capboard-alerts@lrmc-it.example",
+      "sentAt": "6:10 PM",
+      "to": "LRMC IT On-Call",
+      "cc": "",
+      "subject": "[ALARM] Capacity board: Auto-refresh failed (status feed timeout)",
+      "body": "Alarm history, capacity board server (since 16:00 local)\n\n16:55:02 StatusSync service: heartbeat lost, service STOPPED (exit code 1067)\n16:55:03 Feed queue: 0 messages processed\n17:50:14 Pinecrest WAN link down (carrier)\n18:10:41 Auto-refresh failed: status feed timeout (retry 3 of 3)\n\nAudit summary: No logins or configuration changes since 14:12 (scheduled maintenance, vendor account).\n\nThis message was generated automatically. Do not reply."
+    }
+  },
+  "variant": "screen",
+  "instructorNote": "This is a red herring. The log shows the StatusSync service stopped at 16:55, before the crash and before Pinecrest's 17:50 line outage, and nobody logged in after 14:12. Watch whether MEDCOM and HCC call it a service failure instead of a cyberattack, keep the board up as the shared picture but confirm every status by voice on MED 1, ask IT to look at the 14:12 vendor maintenance, and pass the finding to MED.",
+  "citations": [
+    {
+      "documentId": "01M793P6PGDB8Z907EWTDCQPAM",
+      "documentTitle": "SOP-MC-02: Medical Communications, Destinations and the Hospital Capacity Board",
+      "headingPath": "SOP-MC-02: Medical Communication… › 2. Hospitals and capabilities",
+      "quote": "| Hospital | Beds | Capabilities | Notes | |---|---|---|---| | Larkfield Regional Medical Center (LRMC), Brandt Lake | 140 | Level II trauma center, 3 trauma bays, 4 ORs, ICU 12 beds, pediatric ED | M",
+      "chunkId": 31
+    },
+    {
+      "documentId": "01M793P6PGDB8Z907EWTDCQPAM",
+      "documentTitle": "SOP-MC-02: Medical Communications, Destinations and the Hospital Capacity Board",
+      "headingPath": "SOP-MC-02: Medical Communication… › 3. Status categories",
+      "quote": "A hospital's status is one of: **Open** (accepting any patient), **Limited intake** (accepting only the categories it lists), **Diversion** (not accepting arrivals unless an unstable patient cannot go",
+      "chunkId": 32
+    },
+    {
+      "documentId": "01M793P6PFQ4PY61W0H9SNTC30",
+      "documentTitle": "Larkfield County EMS: Mass Casualty Incident Plan",
+      "headingPath": "Larkfield County EMS: Mass Casua… › 6. Hospital notification and medical communications",
+      "quote": "The Medical Communications Coordinator calls Larkfield Regional Medical Center (LRMC) MEDCOM (920-555-0190, the dedicated MEDCOM radio channel MED 1) and reads the incident, the method, the counts and",
+      "chunkId": 26
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template"
+    ]
+  },
+  "assets": [],
+  "versions": [
+    {
+      "at": "2026-11-13T00:31:43.909Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "Email: LRMC IT — \"Capacity Board, Possible Tampering?\"",
+        "type": "email_forward",
+        "fields": {
+          "fromName": "Dana Whitcomb (LRMC IT On-Call)",
+          "fromEmail": "it-oncall@lrmc-exercise.example",
+          "senderInitials": "DW",
+          "to": "LRMC MEDCOM",
+          "cc": "Greg Wilmot, Larkfield Healthcare Coalition",
+          "subject": "Capacity board – possible tampering?",
+          "sentAt": "6:55 PM",
+          "note": "MEDCOM,\n\nWe had a phishing alert this morning at 09:40: an \"invoice\" email was clicked in Patient Access. The board might have been tampered with. If you want to be safe, I'd shut the whole board down and treat it as a cyber incident.\n\nIt could also be the Pinecrest network. Their ISP says rain took out their line around 17:50.\n\nThe alarm history from the capacity board server is below and attached. Let me know how you want to proceed. I'm on call until 07:00.",
+          "signature": "Dana Whitcomb\nIT On-Call Analyst, Information Services\nLarkfield Regional Medical Center",
+          "importance": "high",
+          "external": false,
+          "attachments": [
+            {
+              "name": "capboard-srv_alarm_history_1600-1855.csv",
+              "size": "14 KB",
+              "kind": "xls"
+            }
+          ],
+          "original": {
+            "fromName": "Capacity Board Server Alerts",
+            "fromEmail": "capboard-alerts@lrmc-it.example",
+            "sentAt": "6:10 PM",
+            "to": "LRMC IT On-Call",
+            "cc": "",
+            "subject": "[ALARM] Capacity board: Auto-refresh failed (status feed timeout)",
+            "body": "Alarm history, capacity board server (since 16:00 local)\n\n16:55:02 StatusSync service: heartbeat lost, service STOPPED (exit code 1067)\n16:55:03 Feed queue: 0 messages processed\n17:50:14 Pinecrest WAN link down (carrier)\n18:10:41 Auto-refresh failed: status feed timeout (retry 3 of 3)\n\nAudit summary: No logins or configuration changes since 14:12 (scheduled maintenance, vendor account).\n\nThis message was generated automatically. Do not reply."
+          }
+        },
+        "instructorNote": "This is a red herring. The log shows the StatusSync service stopped at 16:55, before the crash and before Pinecrest's 17:50 line outage, and nobody logged in after 14:12. Watch whether MEDCOM and HCC call it a service failure instead of a cyberattack, keep the board up as the shared picture but confirm every status by voice on MED 1, ask IT to look at the 14:12 vendor maintenance, and pass the finding to MED.",
+        "deliveryMode": "hand_to_role"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-11-13T01:50:34.983Z"
+}

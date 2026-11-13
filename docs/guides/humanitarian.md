@@ -57,3 +57,9 @@ Most humanitarian doctrine is not public domain, so the toolkit links rather tha
 ## Before you use it for real
 
 The rules the toolkit follows were checked against IASC and UNHCR pages and the IASC cluster simplification proposal on 11 November 2026. The cluster system is changing country by country, so confirm the current structure where your scenario is set. Have a humanitarian operations lead who has run cluster or NGO coordination review a scenario, and a security manager review any staff security scenario, before you use it with participants. Every product is marked as an exercise product.
+
+## Example project
+
+The Humanitarian and international response pack includes an example project, **Harbourlight Relief International, Mozambique: the first 72 hours after a cyclone**, with one exercise, _Wet Stock_: a fictional Category 4 cyclone makes landfall near Beira late on Thursday; over the next 72 hours the NGO's country office must account for staff, stand up coordination with the Humanitarian Country Team and the clusters, report its 3W and close assigned gaps, handle a customs hold and a cut road to Buzi district, and keep its numbers consistent with headquarters, the cluster and OCHA.
+
+Turn the pack on under **Packs**, then open a copy from **Projects → Examples**. The organization, its people and its businesses are fictional; the exercise comes with its injects, media, Situation Manual, evaluation guides and controller handbook, ready to read or run.

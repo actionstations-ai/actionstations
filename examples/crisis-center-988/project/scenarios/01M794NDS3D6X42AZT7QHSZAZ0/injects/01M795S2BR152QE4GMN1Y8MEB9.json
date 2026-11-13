@@ -1,0 +1,349 @@
+{
+  "id": "01M795S2BR152QE4GMN1Y8MEB9",
+  "mselRowId": "I-07",
+  "type": "phone_call",
+  "title": "Network Ops Desk Callback: 40% Call Overflow, Ref NOC-26-03118",
+  "deliveryMode": "read_aloud",
+  "fields": {
+    "orgName": "Great Plains Crisis Network",
+    "systemName": "Recorded Line - Surge Commander Desk",
+    "callId": "CR-20260312-142005-0213",
+    "direction": "Inbound",
+    "caller": {
+      "name": "Reggie Ostrander",
+      "number": "402-555-0180",
+      "label": "Analyst, 988 Network Operations Desk"
+    },
+    "callee": {
+      "name": "Priyanka Venkat",
+      "number": "402-555-0142",
+      "label": "Surge Commander, Operations Shift Supervisor"
+    },
+    "startTime": "03/12/2026 14:20:05",
+    "duration": "1:12",
+    "transcript": [
+      {
+        "speaker": "NOC Analyst",
+        "offset": "0:00",
+        "text": "Great Plains, this is Reggie Ostrander at the network operations desk, calling back on your overflow request.",
+        "prompt": false
+      },
+      {
+        "speaker": "Surge Commander",
+        "offset": "0:06",
+        "text": "Go ahead.",
+        "prompt": true
+      },
+      {
+        "speaker": "NOC Analyst",
+        "offset": "0:08",
+        "text": "I have your request for 40 percent of in-state calls to backup, logged a few minutes ago. I'm putting the overflow share change in now. Expect it live around 14:27 to 14:29.",
+        "prompt": false
+      },
+      {
+        "speaker": "NOC Analyst",
+        "offset": "0:21",
+        "text": "Your confirmation e-mail is coming from noc-desk@988netadmin.example, with change ref NOC-26-03118. That's N-O-C, two-six, zero-three-one-one-eight.",
+        "prompt": false
+      },
+      {
+        "speaker": "Surge Commander",
+        "offset": "0:33",
+        "text": "Understood. Calls only, 40 percent, live about 14:27.",
+        "prompt": true
+      },
+      {
+        "speaker": "NOC Analyst",
+        "offset": "0:38",
+        "text": "Correct, calls only. Heads-up, though. I'll need your state 988 coordinator to confirm the request on our side. And I can't promise you a full 40 percent if the backup roster stays as busy as it is right now. Some of it may still ring back to you.",
+        "prompt": false
+      },
+      {
+        "speaker": "Surge Commander",
+        "offset": "0:56",
+        "text": "Got it. Anything else you need from us?",
+        "prompt": true
+      },
+      {
+        "speaker": "NOC Analyst",
+        "offset": "0:59",
+        "text": "Just the coordinator's confirmation. Watch for the e-mail, and call this line if it isn't showing live by 14:30. Good luck this afternoon.",
+        "prompt": false
+      },
+      {
+        "speaker": "Text message to Surge Commander desk phone, 14:21:47, from Dana Whitcomb, Supervisor, State Backup Center",
+        "offset": "1:42",
+        "text": "We can take a share of your texts. I have two supervisors ready but they don't have logins to the shared queue yet. Send them and tell me what share and start time.",
+        "prompt": false
+      }
+    ],
+    "voiceStyles": {
+      "NOC Analyst": "Calm, efficient operations analyst in their 30s, quick and practiced, faint keyboard noise and a quiet ops room behind",
+      "Surge Commander": "Played live by the Surge Commander; short, focused replies",
+      "Text message to Surge Commander desk phone, 14:21:47, from Dana Whitcomb, Supervisor, State Backup Center": "Not voiced. The facilitator reads it as a text message arriving about 90 seconds after the call ends"
+    }
+  },
+  "variant": "default",
+  "instructorNote": "This tests whether the Surge Commander logs both requests in the surge log (party, contact type, time requested, time support begins), tells the state coordinator and sets a 30-minute review, and whether the Technology Manager creates the two backup-supervisor logins and confirms the shared-queue change in the operations channel. Watch for anyone treating the call share as active before it shows live (about 14:27–14:29) and pulling supervisors or admin staff off the overflow too early. Branch: if the players have not asked for call overflow by 14:20, the analyst instead calls to ask whether Great Plains intends to request it, and says the network can place 40 percent if asked; the 14:27 live time then follows the request.",
+  "citations": [
+    {
+      "documentId": "01M794NBRHSC1W34E4ZBK9G1KC",
+      "documentTitle": "Great Plains Crisis Network — Contact Routing and Backup Requests",
+      "headingPath": "Great Plains Crisis Network — Co… › 2. How 988 routes a call",
+      "quote": "A caller's area code decides the first center. If GPCN does not answer within a threshold set by the network administrator, the call overflows to a national backup route. During surge GPCN asks the ne",
+      "chunkId": 13
+    },
+    {
+      "documentId": "01M794NBRHSC1W34E4ZBK9G1KC",
+      "documentTitle": "Great Plains Crisis Network — Contact Routing and Backup Requests",
+      "headingPath": "Great Plains Crisis Network — Co… › 4. Requesting backup",
+      "quote": "1. The surge commander chooses the contact type and the share. 2. The commander records the request in the surge log: party, contact type, time requested, time support is to begin. 3. The commander ca",
+      "chunkId": 15
+    },
+    {
+      "documentId": "01M794NBRMFXPBHW8484PBHJ2H",
+      "documentTitle": "Great Plains Crisis Network — Contact Surge and Continuity Plan",
+      "headingPath": "Great Plains Crisis Network — Co… › 4. Surge levels and triggers",
+      "quote": "**Level 1, watch.** The queue for any contact type exceeds 5 minutes of wait at the oldest contact, or the forecast tool shows volume above 130 percent of the same hour last week. Action: supervisor c",
+      "chunkId": 33
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template",
+      "tts"
+    ],
+    "voiceLines": [
+      {
+        "speaker": "NOC Analyst",
+        "voiceStyle": "Calm, efficient network operations analyst in their mid-30s, gender-neutral to light female voice, General American accent, quick and practiced delivery, professional and friendly, faint keyboard clicks and a quiet ops room behind",
+        "text": "Great Plains, this is Reggie Ostrander at the network operations desk, calling back on your overflow request."
+      },
+      {
+        "speaker": "NOC Analyst",
+        "voiceStyle": "Calm, efficient network operations analyst in their mid-30s, gender-neutral to light female voice, General American accent, quick and practiced delivery, professional and friendly, faint keyboard clicks and a quiet ops room behind",
+        "text": "I have your request for forty percent of in-state calls to backup, logged at fourteen fourteen. I'm putting the overflow share change in now. Expect it live around fourteen twenty-seven to fourteen twenty-nine."
+      },
+      {
+        "speaker": "NOC Analyst",
+        "voiceStyle": "Calm, efficient network operations analyst in their mid-30s, gender-neutral to light female voice, General American accent, slows down slightly and spells deliberately when reading the reference",
+        "text": "Your confirmation e-mail is coming from noc-desk@988netadmin.example, with change ref N-O-C, twenty-six, zero-three-one-one-eight. That's N-O-C, two-six, zero-three-one-one-eight."
+      },
+      {
+        "speaker": "NOC Analyst",
+        "voiceStyle": "Calm, efficient network operations analyst in their mid-30s, gender-neutral to light female voice, General American accent, slightly more serious and cautionary tone, still brisk",
+        "text": "Correct, calls only. Heads-up, though. I'll need your state nine-eight-eight coordinator to confirm the request on our side. And I can't promise you a full forty percent if the backup roster stays as busy as it is right now. Some of it may still ring back to you."
+      },
+      {
+        "speaker": "NOC Analyst",
+        "voiceStyle": "Calm, efficient network operations analyst in their mid-30s, gender-neutral to light female voice, General American accent, brisk wrap-up, warm at the very end",
+        "text": "Just the coordinator's confirmation. Watch for the e-mail, and call this line if it isn't showing live by fourteen thirty. Good luck this afternoon."
+      }
+    ],
+    "postFx": [
+      "phone"
+    ]
+  },
+  "assets": [
+    {
+      "id": "01M79DC252FF30N2PR1F8V6FYH",
+      "kind": "image",
+      "path": "scenarios/01M794NDS3D6X42AZT7QHSZAZ0/media/01M795S2BR152QE4GMN1Y8MEB9/01M79DC252FF30N2PR1F8V6FYH.png",
+      "role": "rendered",
+      "width": 816,
+      "height": 1056,
+      "sha256": "f3d21a5950ca6736b41e0ed3bca31294f9ea7d57ab20dc880e39829bf80d0e38",
+      "provenance": {
+        "provider": "template",
+        "templateId": "phone_call",
+        "templateVersion": "1",
+        "createdAt": "2026-11-13T02:56:44.557Z"
+      }
+    }
+  ],
+  "versions": [
+    {
+      "at": "2026-11-13T00:44:39.226Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "Network Ops Desk Callback: 40% Call Overflow, Ref NOC-26-03118",
+        "type": "phone_call",
+        "fields": {
+          "orgName": "Great Plains Crisis Network",
+          "systemName": "Recorded Line - Surge Commander Desk",
+          "callId": "CR-20260312-142005-0213",
+          "direction": "Inbound",
+          "caller": {
+            "name": "Reggie Ostrander",
+            "number": "402-555-0180",
+            "label": "Analyst, 988 Network Operations Desk"
+          },
+          "callee": {
+            "name": "Priyanka Venkat",
+            "number": "402-555-0142",
+            "label": "Surge Commander, Operations Shift Supervisor"
+          },
+          "startTime": "03/12/2026 14:20:05",
+          "duration": "1:12",
+          "transcript": [
+            {
+              "speaker": "NOC Analyst",
+              "offset": "0:00",
+              "text": "Great Plains, this is Reggie Ostrander at the network operations desk, calling back on your overflow request.",
+              "prompt": false
+            },
+            {
+              "speaker": "Surge Commander",
+              "offset": "0:06",
+              "text": "Go ahead.",
+              "prompt": true
+            },
+            {
+              "speaker": "NOC Analyst",
+              "offset": "0:08",
+              "text": "I have your request for 40 percent of in-state calls to backup, logged a few minutes ago. I'm putting the overflow share change in now. Expect it live around 14:27 to 14:29.",
+              "prompt": false
+            },
+            {
+              "speaker": "NOC Analyst",
+              "offset": "0:21",
+              "text": "Your confirmation e-mail is coming from noc-desk@988netadmin.example, with change ref NOC-26-03118. That's N-O-C, two-six, zero-three-one-one-eight.",
+              "prompt": false
+            },
+            {
+              "speaker": "Surge Commander",
+              "offset": "0:33",
+              "text": "Understood. Calls only, 40 percent, live about 14:27.",
+              "prompt": true
+            },
+            {
+              "speaker": "NOC Analyst",
+              "offset": "0:38",
+              "text": "Correct, calls only. Heads-up, though. I'll need your state 988 coordinator to confirm the request on our side. And I can't promise you a full 40 percent if the backup roster stays as busy as it is right now. Some of it may still ring back to you.",
+              "prompt": false
+            },
+            {
+              "speaker": "Surge Commander",
+              "offset": "0:56",
+              "text": "Got it. Anything else you need from us?",
+              "prompt": true
+            },
+            {
+              "speaker": "NOC Analyst",
+              "offset": "0:59",
+              "text": "Just the coordinator's confirmation. Watch for the e-mail, and call this line if it isn't showing live by 14:30. Good luck this afternoon.",
+              "prompt": false
+            },
+            {
+              "speaker": "Text message to Surge Commander desk phone, 14:21:47, from Dana Whitcomb, Supervisor, State Backup Center",
+              "offset": "1:42",
+              "text": "We can take a share of your texts. I have two supervisors ready but they don't have logins to the shared queue yet. Send them and tell me what share and start time.",
+              "prompt": false
+            }
+          ],
+          "voiceStyles": {
+            "NOC Analyst": "Calm, efficient operations analyst in their 30s, quick and practiced, faint keyboard noise and a quiet ops room behind",
+            "Surge Commander": "Played live by the Surge Commander; short, focused replies",
+            "Text message to Surge Commander desk phone, 14:21:47, from Dana Whitcomb, Supervisor, State Backup Center": "Not voiced. The facilitator reads it as a text message arriving about 90 seconds after the call ends"
+          }
+        },
+        "instructorNote": "This tests whether the Surge Commander logs both requests in the surge log (party, contact type, time requested, time support begins), tells the state coordinator and sets a 30-minute review, and whether the Technology Manager creates the two backup-supervisor logins and confirms the shared-queue change in the operations channel. Watch for anyone treating the call share as active before it shows live (about 14:27–14:29) and pulling supervisors or admin staff off the overflow too early.",
+        "deliveryMode": "read_aloud"
+      }
+    },
+    {
+      "at": "2026-11-13T01:53:21.209Z",
+      "by": "user",
+      "note": "Corrected by hand for the shipped example",
+      "snapshot": {
+        "title": "Network Ops Desk Callback: 40% Call Overflow, Ref NOC-26-03118",
+        "type": "phone_call",
+        "fields": {
+          "orgName": "Great Plains Crisis Network",
+          "systemName": "Recorded Line - Surge Commander Desk",
+          "callId": "CR-20260312-142005-0213",
+          "direction": "Inbound",
+          "caller": {
+            "name": "Reggie Ostrander",
+            "number": "402-555-0180",
+            "label": "Analyst, 988 Network Operations Desk"
+          },
+          "callee": {
+            "name": "Priyanka Venkat",
+            "number": "402-555-0142",
+            "label": "Surge Commander, Operations Shift Supervisor"
+          },
+          "startTime": "03/12/2026 14:20:05",
+          "duration": "1:12",
+          "transcript": [
+            {
+              "speaker": "NOC Analyst",
+              "offset": "0:00",
+              "text": "Great Plains, this is Reggie Ostrander at the network operations desk, calling back on your overflow request.",
+              "prompt": false
+            },
+            {
+              "speaker": "Surge Commander",
+              "offset": "0:06",
+              "text": "Go ahead.",
+              "prompt": true
+            },
+            {
+              "speaker": "NOC Analyst",
+              "offset": "0:08",
+              "text": "I have your request for 40 percent of in-state calls to backup, logged a few minutes ago. I'm putting the overflow share change in now. Expect it live around 14:27 to 14:29.",
+              "prompt": false
+            },
+            {
+              "speaker": "NOC Analyst",
+              "offset": "0:21",
+              "text": "Your confirmation e-mail is coming from noc-desk@988netadmin.example, with change ref NOC-26-03118. That's N-O-C, two-six, zero-three-one-one-eight.",
+              "prompt": false
+            },
+            {
+              "speaker": "Surge Commander",
+              "offset": "0:33",
+              "text": "Understood. Calls only, 40 percent, live about 14:27.",
+              "prompt": true
+            },
+            {
+              "speaker": "NOC Analyst",
+              "offset": "0:38",
+              "text": "Correct, calls only. Heads-up, though. I'll need your state 988 coordinator to confirm the request on our side. And I can't promise you a full 40 percent if the backup roster stays as busy as it is right now. Some of it may still ring back to you.",
+              "prompt": false
+            },
+            {
+              "speaker": "Surge Commander",
+              "offset": "0:56",
+              "text": "Got it. Anything else you need from us?",
+              "prompt": true
+            },
+            {
+              "speaker": "NOC Analyst",
+              "offset": "0:59",
+              "text": "Just the coordinator's confirmation. Watch for the e-mail, and call this line if it isn't showing live by 14:30. Good luck this afternoon.",
+              "prompt": false
+            },
+            {
+              "speaker": "Text message to Surge Commander desk phone, 14:21:47, from Dana Whitcomb, Supervisor, State Backup Center",
+              "offset": "1:42",
+              "text": "We can take a share of your texts. I have two supervisors ready but they don't have logins to the shared queue yet. Send them and tell me what share and start time.",
+              "prompt": false
+            }
+          ],
+          "voiceStyles": {
+            "NOC Analyst": "Calm, efficient operations analyst in their 30s, quick and practiced, faint keyboard noise and a quiet ops room behind",
+            "Surge Commander": "Played live by the Surge Commander; short, focused replies",
+            "Text message to Surge Commander desk phone, 14:21:47, from Dana Whitcomb, Supervisor, State Backup Center": "Not voiced. The facilitator reads it as a text message arriving about 90 seconds after the call ends"
+          }
+        },
+        "instructorNote": "This tests whether the Surge Commander logs both requests in the surge log (party, contact type, time requested, time support begins), tells the state coordinator and sets a 30-minute review, and whether the Technology Manager creates the two backup-supervisor logins and confirms the shared-queue change in the operations channel. Watch for anyone treating the call share as active before it shows live (about 14:27–14:29) and pulling supervisors or admin staff off the overflow too early. Branch: if the players have not asked for call overflow by 14:20, the analyst instead calls to ask whether Great Plains intends to request it, and says the network can place 40 percent if asked; the 14:27 live time then follows the request.",
+        "deliveryMode": "read_aloud"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-11-13T02:57:02.682Z"
+}

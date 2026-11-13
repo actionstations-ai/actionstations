@@ -1,0 +1,223 @@
+{
+  "id": "01M794QPZ6H9PM0ARZQTY5F40C",
+  "mselRowId": "I-02",
+  "type": "chat_transcript",
+  "title": "CPM Analyst Chat: Ten Minutes On, MP 214.3",
+  "deliveryMode": "hand_to_role",
+  "fields": {
+    "channelName": "PCC Prairie Line — Console PLC-2",
+    "workspace": "Ironbark Pipeline Control Center",
+    "topic": "Prairie Bend segment MP 196–231 · CPM-PB alarm follow-up",
+    "participants": [
+      "Dana Whitfield",
+      "Nadia Kowalczyk",
+      "PCC Pager Gateway"
+    ],
+    "dateLabel": "Today",
+    "messages": [
+      {
+        "sender": "Dana Whitfield",
+        "senderTitle": "CPM Analyst, Pipeline Control Center",
+        "time": "05:53",
+        "text": "Got the RATE-OF-CHANGE on PT-2143 and the CPM-PB imbalance. Pulling trends now. Confirmed: no pump trip on PL-MAINLINE-PUMPS, no movement on BV-2131 or BV-2156, no WO-PB work order open on the segment.",
+        "important": false,
+        "reactions": [
+          {
+            "kind": "eyes",
+            "count": 1
+          }
+        ]
+      },
+      {
+        "sender": "Dana Whitfield",
+        "senderTitle": "CPM Analyst, Pipeline Control Center",
+        "time": "05:57",
+        "text": "The Wabash hi-level is the LT-WJT-N01 gauge problem on ticket WJT-27-04418. It isn't connected to this. The imbalance is FT-196 in vs FT-231 out on the Prairie Bend segment, not the Wabash receipt. PT-2143 is at 821 psi, and imbalance is 2.2 % and climbing.",
+        "important": false,
+        "reactions": [
+          {
+            "kind": "like",
+            "count": 1
+          }
+        ]
+      },
+      {
+        "sender": "Dana Whitfield",
+        "senderTitle": "CPM Analyst, Pipeline Control Center",
+        "time": "06:00",
+        "text": "PT-2143 is at 814 psi. PT-2131S and PT-2156 are both still trending down. No packing or rebound like you'd see after a transient.",
+        "important": false,
+        "reactions": []
+      },
+      {
+        "sender": "Dana Whitfield",
+        "senderTitle": "CPM Analyst, Pipeline Control Center",
+        "time": "06:02",
+        "text": "06:02. Ten minutes on. Pressure at 214.3 hasn't recovered (now 812 psi). Imbalance is now 2.6 % and rising. I can't rule out a leak, and I can't locate it either. The model's location estimate runs from MP 209 to MP 219, so it covers both sides of the river. Nobody in the field has eyes on anything. No confirmed loss, no cause. Your call.",
+        "important": true,
+        "reactions": [
+          {
+            "kind": "alert",
+            "count": 2
+          }
+        ]
+      },
+      {
+        "sender": "PCC Pager Gateway",
+        "senderTitle": "Automated paging",
+        "time": "06:02",
+        "text": "Page sent and delivered to on-call Qualified Individual Teresa Holloway: \"PRAIRIE LINE MP 214.3 POSSIBLE LEAK — CCSS DECIDING SHUTDOWN.\" Acknowledgment: pending.",
+        "important": false,
+        "reactions": [
+          {
+            "kind": "eyes",
+            "count": 1
+          }
+        ]
+      }
+    ]
+  },
+  "variant": "teams",
+  "instructorNote": "This is the decision point. The 10-minute window has run out and a leak can't be ruled out. Watch for the CCSS to shut down the line by 06:04 and close Mill Ridge and Sandhill by 06:09 without waiting to find the cause (Response Plan section 4, step 2). Then the CCSS, as person in charge, should call the NRC by 06:17, log the call time and report number, and only after that call the QI. The QI should not hold up the NRC call and should start the Level 2 IMT call-out.",
+  "citations": [
+    {
+      "documentId": "01M793Q4354YA8XX7SVEK2Z432",
+      "documentTitle": "Ironbark Pipeline Company: Response Plan for the Prairie Bend Segment",
+      "headingPath": "Ironbark Pipeline Company: Respo… › 4. Release detection and first actions",
+      "quote": "1. A leak alarm in the Control Center (a pressure drop of 40 psi in 2 minutes with a flow imbalance of more than 1.5 percent) is checked against SCADA trends. The controller may not restart the line f",
+      "chunkId": 23
+    },
+    {
+      "documentId": "01M793Q4354YA8XX7SVEK2Z432",
+      "documentTitle": "Ironbark Pipeline Company: Response Plan for the Prairie Bend Segment",
+      "headingPath": "Ironbark Pipeline Company: Respo… › 1. The system",
+      "quote": "Ironbark Pipeline Company operates the Prairie Line, a 12.75-inch crude oil pipeline of 286 miles from the Hollis Gathering Terminal in Oklahoma to the Wabash Junction Terminal in Missouri. The Prairi",
+      "chunkId": 20
+    },
+    {
+      "documentId": "01M793Q4354YA8XX7SVEK2Z432",
+      "documentTitle": "Ironbark Pipeline Company: Response Plan for the Prairie Bend Segment",
+      "headingPath": "Ironbark Pipeline Company: Respo… › 3. Roles",
+      "quote": "- **Qualified Individual (QI):** Director of Operations Teresa Holloway (24-hour phone 918-555-0141). Authority to activate the plan, commit funds up to $5 million and contract with the oil spill remo",
+      "chunkId": 22
+    },
+    {
+      "documentId": "01M793Q432Z8K2VNW3Y13V3937",
+      "documentTitle": "SOP-IMT-01: Notifications and Incident Management Team Activation",
+      "headingPath": "SNIMTA › 2. Who does what in the first hour",
+      "quote": "| Minute | Action | Who | |---|---|---| | 0 | Possible leak signal; shutdown if not ruled out in 10 minutes; close block valves | Control Center shift supervisor | | Within 15 | Report to the National",
+      "chunkId": 3
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template"
+    ]
+  },
+  "assets": [
+    {
+      "id": "01M799PFBEYESWKHJ5RRW37AB1",
+      "kind": "image",
+      "path": "scenarios/01M793Q63KRFJ03E29APF688DQ/media/01M794QPZ6H9PM0ARZQTY5F40C/01M799PFBEYESWKHJ5RRW37AB1.png",
+      "role": "rendered",
+      "width": 1520,
+      "height": 1788,
+      "sha256": "0d5d283155837559044ecdf3c4a53c6b3f286325f8c264295ca36fd559955c9a",
+      "provenance": {
+        "provider": "template",
+        "templateId": "chat_transcript",
+        "templateVersion": "1",
+        "createdAt": "2026-11-13T01:52:31.481Z"
+      }
+    }
+  ],
+  "versions": [
+    {
+      "at": "2026-11-13T00:26:08.695Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "CPM Analyst Chat: Ten Minutes On, MP 214.3",
+        "type": "chat_transcript",
+        "fields": {
+          "channelName": "PCC Prairie Line — Console PLC-2",
+          "workspace": "Ironbark Pipeline Control Center",
+          "topic": "Prairie Bend segment MP 196–231 · CPM-PB alarm follow-up",
+          "participants": [
+            "Dana Whitfield",
+            "Nadia Kowalczyk",
+            "PCC Pager Gateway"
+          ],
+          "dateLabel": "Today",
+          "messages": [
+            {
+              "sender": "Dana Whitfield",
+              "senderTitle": "CPM Analyst, Pipeline Control Center",
+              "time": "05:53",
+              "text": "Got the RATE-OF-CHANGE on PT-2143 and the CPM-PB imbalance. Pulling trends now. Confirmed: no pump trip on PL-MAINLINE-PUMPS, no movement on BV-2131 or BV-2156, no WO-PB work order open on the segment.",
+              "important": false,
+              "reactions": [
+                {
+                  "kind": "eyes",
+                  "count": 1
+                }
+              ]
+            },
+            {
+              "sender": "Dana Whitfield",
+              "senderTitle": "CPM Analyst, Pipeline Control Center",
+              "time": "05:57",
+              "text": "The Wabash hi-level is the LT-WJT-N01 gauge problem on ticket WJT-27-04418. It isn't connected to this. The imbalance is FT-196 in vs FT-231 out on the Prairie Bend segment, not the Wabash receipt. PT-2143 is at 821 psi, and imbalance is 2.2 % and climbing.",
+              "important": false,
+              "reactions": [
+                {
+                  "kind": "like",
+                  "count": 1
+                }
+              ]
+            },
+            {
+              "sender": "Dana Whitfield",
+              "senderTitle": "CPM Analyst, Pipeline Control Center",
+              "time": "06:00",
+              "text": "PT-2143 is at 814 psi. PT-2131S and PT-2156 are both still trending down. No packing or rebound like you'd see after a transient.",
+              "important": false,
+              "reactions": []
+            },
+            {
+              "sender": "Dana Whitfield",
+              "senderTitle": "CPM Analyst, Pipeline Control Center",
+              "time": "06:02",
+              "text": "06:02. Ten minutes on. Pressure at 214.3 hasn't recovered (now 812 psi). Imbalance is now 2.6 % and rising. I can't rule out a leak, and I can't locate it either. The model's location estimate runs from MP 209 to MP 219, so it covers both sides of the river. Nobody in the field has eyes on anything. No confirmed loss, no cause. Your call.",
+              "important": true,
+              "reactions": [
+                {
+                  "kind": "alert",
+                  "count": 2
+                }
+              ]
+            },
+            {
+              "sender": "PCC Pager Gateway",
+              "senderTitle": "Automated paging",
+              "time": "06:02",
+              "text": "Page sent and delivered to on-call Qualified Individual Teresa Holloway: \"PRAIRIE LINE MP 214.3 POSSIBLE LEAK — CCSS DECIDING SHUTDOWN.\" Acknowledgment: pending.",
+              "important": false,
+              "reactions": [
+                {
+                  "kind": "eyes",
+                  "count": 1
+                }
+              ]
+            }
+          ]
+        },
+        "instructorNote": "This is the decision point. The 10-minute window has run out and a leak can't be ruled out. Watch for the CCSS to shut down the line by 06:04 and close Mill Ridge and Sandhill by 06:09 without waiting to find the cause (Response Plan section 4, step 2). Then the CCSS, as person in charge, should call the NRC by 06:17, log the call time and report number, and only after that call the QI. The QI should not hold up the NRC call and should start the Level 2 IMT call-out.",
+        "deliveryMode": "hand_to_role"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-11-13T01:52:31.599Z"
+}

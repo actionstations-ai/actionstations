@@ -1,0 +1,96 @@
+{
+  "id": "01M795WS3BTQ4AR68BCTQVY9BS",
+  "mselRowId": "I-10b",
+  "type": "voicemail",
+  "title": "Voicemail: Prairie Ridge Crisis Center, Ticket PRC-4471",
+  "deliveryMode": "play_audio",
+  "fields": {
+    "caller": "Colter Haines - Prairie Ridge CC",
+    "number": "(785) 555-0147",
+    "label": "work",
+    "date": "Today, 14:47",
+    "duration": "0:52",
+    "transcript": "Hi this is Colter Haines systems lead at Prairie Ridge Crisis Center down in Kansas. um calling about the test call that came through to us from your area code at 09:12 this morning, that's our ticket PRC-4471, P R C 4 4 7 1. it routed to us then dropped at the IVR after about 38 seconds and we're seeing a trunk mismatch on our side. so can you call me back today? we just want to know whether your routing table changed at all. no rush on the fix itself just want to close it out. you can get me at 785 555 0147 that's my desk line. thanks, bye",
+    "voiceStyle": "Relaxed, friendly male systems engineer in his forties, mild Kansas accent, unhurried, quiet office behind him",
+    "statusTime": "14:50",
+    "unheard": true
+  },
+  "variant": "default",
+  "instructorNote": "Red herring: this concerns an unrelated test call from 09:12 this morning, not today's surge routing. The 40 percent call share was confirmed at 14:28 and the network desk shows calls going to backup normally. Watch for the TM to check the voicemail against that change, log a callback for after the surge, and tell the SC that backup routing is unaffected. Nobody should reverse or re-request the routing change, or pull the TM off the text-queue logins.",
+  "citations": [
+    {
+      "documentId": "01M794NBRHSC1W34E4ZBK9G1KC",
+      "documentTitle": "Great Plains Crisis Network — Contact Routing and Backup Requests",
+      "headingPath": "Great Plains Crisis Network — Co… › 2. How 988 routes a call",
+      "quote": "A caller's area code decides the first center. If GPCN does not answer within a threshold set by the network administrator, the call overflows to a national backup route. During surge GPCN asks the ne",
+      "chunkId": 13
+    },
+    {
+      "documentId": "01M794NBRHSC1W34E4ZBK9G1KC",
+      "documentTitle": "Great Plains Crisis Network — Contact Routing and Backup Requests",
+      "headingPath": "Great Plains Crisis Network — Co… › 4. Requesting backup",
+      "quote": "1. The surge commander chooses the contact type and the share. 2. The commander records the request in the surge log: party, contact type, time requested, time support is to begin. 3. The commander ca",
+      "chunkId": 15
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template",
+      "tts"
+    ],
+    "voiceLines": [
+      {
+        "speaker": "Colter Haines - Prairie Ridge CC",
+        "voiceStyle": "Relaxed, friendly male systems engineer in his forties, mild Kansas accent, unhurried and conversational, slightly casual voicemail delivery, quiet office behind him",
+        "text": "Hi, this is Colter Haines, systems lead at Prairie Ridge Crisis Center, down in Kansas. Um, calling about the test call that came through to us from your area code at nine-twelve this morning. That's our ticket P-R-C, forty-four seventy-one... P, R, C, four, four, seven, one. It routed to us, then dropped at the I-V-R after about thirty-eight seconds, and we're seeing a trunk mismatch on our side. So, can you call me back today? We just want to know whether your routing table changed at all. No rush on the fix itself, just want to close it out. You can get me at (785) 555-0147, that's my desk line. Thanks, bye."
+      }
+    ],
+    "postFx": [
+      "phone"
+    ]
+  },
+  "assets": [
+    {
+      "id": "01M79DAKR4WCVGVQ3QRR9FNZJR",
+      "kind": "image",
+      "path": "scenarios/01M794NDS3D6X42AZT7QHSZAZ0/media/01M795WS3BTQ4AR68BCTQVY9BS/01M79DAKR4WCVGVQ3QRR9FNZJR.png",
+      "role": "rendered",
+      "width": 780,
+      "height": 1478,
+      "sha256": "83728b96b01b24b3e14c3443e82aa629a945ac4708d43eaa80ad62633d77f1c0",
+      "provenance": {
+        "provider": "template",
+        "templateId": "voicemail",
+        "templateVersion": "1",
+        "createdAt": "2026-11-13T02:55:57.076Z"
+      }
+    }
+  ],
+  "versions": [
+    {
+      "at": "2026-11-13T00:46:19.271Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "Voicemail: Prairie Ridge Crisis Center, Ticket PRC-4471",
+        "type": "voicemail",
+        "fields": {
+          "caller": "Colter Haines - Prairie Ridge CC",
+          "number": "(785) 555-0147",
+          "label": "work",
+          "date": "Today, 14:47",
+          "duration": "0:52",
+          "transcript": "Hi this is Colter Haines systems lead at Prairie Ridge Crisis Center down in Kansas. um calling about the test call that came through to us from your area code at 09:12 this morning, that's our ticket PRC-4471, P R C 4 4 7 1. it routed to us then dropped at the IVR after about 38 seconds and we're seeing a trunk mismatch on our side. so can you call me back today? we just want to know whether your routing table changed at all. no rush on the fix itself just want to close it out. you can get me at 785 555 0147 that's my desk line. thanks, bye",
+          "voiceStyle": "Relaxed, friendly male systems engineer in his forties, mild Kansas accent, unhurried, quiet office behind him",
+          "statusTime": "14:50",
+          "unheard": true
+        },
+        "instructorNote": "Red herring: this concerns an unrelated test call from 09:12 this morning, not today's surge routing. The 40 percent call share was confirmed at 14:28 and the network desk shows calls going to backup normally. Watch for the TM to check the voicemail against that change, log a callback for after the surge, and tell the SC that backup routing is unaffected. Nobody should reverse or re-request the routing change, or pull the TM off the text-queue logins.",
+        "deliveryMode": "play_audio"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-11-13T02:55:57.189Z"
+}

@@ -1,0 +1,124 @@
+{
+  "id": "01M792TFWMFDZS7HM4C66E7ZMQ",
+  "mselRowId": "I-04",
+  "type": "email",
+  "title": "Blackwater Cyber: Preliminary Backup Status, 15:38 CT",
+  "deliveryMode": "hand_to_role",
+  "fields": {
+    "fromName": "Mara Lindqvist (Blackwater Cyber)",
+    "fromEmail": "ir-lead@blackwatercyber.example",
+    "senderInitials": "ML",
+    "to": "anil.deshmukh@ironcrestmachinery.example",
+    "cc": "General Counsel, Ironcrest Machinery Corporation",
+    "subject": "PRELIMINARY – Backup status, 15:38 CT",
+    "sentAt": "Thu 3/25/2027 3:38 PM",
+    "importance": "high",
+    "external": true,
+    "attachments": [
+      {
+        "name": "BWC_Prelim_BackupTriage_20270325_1538.pdf",
+        "size": "412 KB",
+        "kind": "pdf"
+      }
+    ],
+    "body": "Anil,\n\nThis is a preliminary update. All of it may change as we learn more.\n\n1) The last MES backup we can call clean is the Wednesday, March 24, 07:05 CT snapshot. That is 31 hours before encryption, and your RPO is 15 minutes. Every snapshot after it contains .ironmelt artifacts.\n\n2) The Dubuque MES replica (ICM-MES-DBQ-01) is partly encrypted. Three of its seven database volumes are affected.\n\n3) No backup or replica is cleared for restore. We will not clear any of them until we finish the persistence sweep, which we expect to take 12 to 18 hours.\n\n4) We are reviewing about 940 GB of outbound traffic that went to a hosting provider on Tuesday night. We have not yet tied it to the 1.2 TB claim in the ransom note.\n\nWe recommend that this engagement run through outside counsel from here on. Please confirm, and we will route future reports to counsel.\n\nMara",
+    "signature": "Mara Lindqvist, GCFA\nLead Examiner, Incident Response\nBlackwater Cyber\nMobile 555-0143 | IR hotline 555-0144"
+  },
+  "variant": "screen",
+  "instructorNote": "This email tells the CISO and GC that the backups are 31 hours old, against a 15-minute RPO, and that none is cleared for restore. Watch for these steps: the CISO orders no restores and rebuilds instead of cleaning (IBIARO 4). The GC records when the CISO notified her, against the 15:05 deadline, and sets the Disclosure Committee for 19:00 at the latest. She moves Blackwater under Harrow Fenn LLP for privilege. The 940 GB transfer should be logged as an open question, not a conclusion.",
+  "citations": [
+    {
+      "documentId": "01M791NWETPNJ2B6DP42BR9D8C",
+      "documentTitle": "ICM-BCM-02: Business Impact Analysis and Recovery Order",
+      "headingPath": "IBIARO › 6. Key suppliers and vendors",
+      "quote": "The company's cloud provider, the payroll provider (Northbridge Payroll, fictional), the outside data center and network carriers, the warehouse software vendor, the steel supplier, the forensic firm ",
+      "chunkId": 16
+    },
+    {
+      "documentId": "01M791NWEVAZDEE6NB6D1690HB",
+      "documentTitle": "ICM-CMP-01: Crisis Management Plan",
+      "headingPath": "ICMP › 3. Activation levels",
+      "quote": "- **Level 1, Watch:** a single plant or function affected, restored within 24 hours. The COO and the function head manage; the Business Continuity Manager (BCM) logs it. - **Level 2, Alert:** more tha",
+      "chunkId": 22
+    },
+    {
+      "documentId": "01M791NWETPNJ2B6DP42BR9D8C",
+      "documentTitle": "ICM-BCM-02: Business Impact Analysis and Recovery Order",
+      "headingPath": "IBIARO › 3. Critical functions",
+      "quote": "| Function | System or site | RTO | RPO | MTPD | MASL | |---|---|---|---|---|---| | Plant control networks and machine controllers, Plants 1 to 3 | PLC networks, historians | 4 hours | 0 | 12 hours | ",
+      "chunkId": 13
+    },
+    {
+      "documentId": "01M791NWETPNJ2B6DP42BR9D8C",
+      "documentTitle": "ICM-BCM-02: Business Impact Analysis and Recovery Order",
+      "headingPath": "IBIARO › 4. Recovery order",
+      "quote": "1. Safety and life safety at all sites (plant security, fire and gas systems are on separate networks and are not affected by IT failures, and are verified first). 2. Identity and the network core (di",
+      "chunkId": 14
+    },
+    {
+      "documentId": "01M791NWEX7JTKWMS6TART9E7B",
+      "documentTitle": "ICM-LEG-03: Disclosure Controls for Cybersecurity Incidents",
+      "headingPath": "IDCCI › 3. The Disclosure Committee",
+      "quote": "Chair: the General Counsel. Members: CFO Priya Raghavan, Chief Accounting Officer Colleen Hayes, CISO, CIO Joanna Ketterman, Chief Communications Officer Gabriel Soto, Investor Relations VP Neil Okamo",
+      "chunkId": 32
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template"
+    ]
+  },
+  "assets": [
+    {
+      "id": "01M79BVNXJ6CXGA1TKF5X3RJRB",
+      "kind": "image",
+      "path": "scenarios/01M791NYFD5GNSAF0J0E4J4T0E/media/01M792TFWMFDZS7HM4C66E7ZMQ/01M79BVNXJ6CXGA1TKF5X3RJRB.png",
+      "role": "rendered",
+      "width": 816,
+      "height": 886,
+      "sha256": "c8bf65b1644cbaf8ce28ca89bef51fb797ef84f80eb38a46145afa94d8c6e622",
+      "provenance": {
+        "provider": "template",
+        "templateId": "email",
+        "templateVersion": "1",
+        "createdAt": "2026-11-13T02:30:19.196Z"
+      }
+    }
+  ],
+  "versions": [
+    {
+      "at": "2026-11-12T23:52:38.230Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "Blackwater Cyber: Preliminary Backup Status, 15:38 CT",
+        "type": "email",
+        "fields": {
+          "fromName": "Mara Lindqvist (Blackwater Cyber)",
+          "fromEmail": "ir-lead@blackwatercyber.example",
+          "senderInitials": "ML",
+          "to": "anil.deshmukh@ironcrestmachinery.example",
+          "cc": "General Counsel, Ironcrest Machinery Corporation",
+          "subject": "PRELIMINARY – Backup status, 15:38 CT",
+          "sentAt": "Thu 3/25/2027 3:38 PM",
+          "importance": "high",
+          "external": true,
+          "attachments": [
+            {
+              "name": "BWC_Prelim_BackupTriage_20270325_1538.pdf",
+              "size": "412 KB",
+              "kind": "pdf"
+            }
+          ],
+          "body": "Anil,\n\nThis is a preliminary update. All of it may change as we learn more.\n\n1) The last MES backup we can call clean is the Wednesday, March 24, 07:05 CT snapshot. That is 31 hours before encryption, and your RPO is 15 minutes. Every snapshot after it contains .ironmelt artifacts.\n\n2) The Dubuque MES replica (ICM-MES-DBQ-01) is partly encrypted. Three of its seven database volumes are affected.\n\n3) No backup or replica is cleared for restore. We will not clear any of them until we finish the persistence sweep, which we expect to take 12 to 18 hours.\n\n4) We are reviewing about 940 GB of outbound traffic that went to a hosting provider on Tuesday night. We have not yet tied it to the 1.2 TB claim in the ransom note.\n\nWe recommend that this engagement run through outside counsel from here on. Please confirm, and we will route future reports to counsel.\n\nMara",
+          "signature": "Mara Lindqvist, GCFA\nLead Examiner, Incident Response\nBlackwater Cyber\nMobile 555-0143 | IR hotline 555-0144"
+        },
+        "instructorNote": "This email tells the CISO and GC that the backups are 31 hours old, against a 15-minute RPO, and that none is cleared for restore. Watch for these steps: the CISO orders no restores and rebuilds instead of cleaning (IBIARO 4). The GC records when the CISO notified her, against the 15:05 deadline, and sets the Disclosure Committee for 19:00 at the latest. She moves Blackwater under Harrow Fenn LLP for privilege. The 940 GB transfer should be logged as an open question, not a conclusion.",
+        "deliveryMode": "hand_to_role"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-11-13T02:30:19.399Z"
+}

@@ -1,0 +1,599 @@
+{
+  "id": "01M7956T3AVDNN7KG343B5SE1R",
+  "mselRowId": "I-05",
+  "type": "scada_hmi",
+  "title": "EMS GIC Trend: Kp 7 Alert, Iron Range AT2 at 88 A",
+  "deliveryMode": "display_main_screen",
+  "fields": {
+    "systemName": "EMS GIC / REACTIVE MONITOR: 345/230 kV AUTOTRANSFORMERS",
+    "site": "NLTO Primary Control Room, Duluth",
+    "clock": "14:06:42",
+    "date": "16-MAR-2027",
+    "operator": "NLTO_CRSS_DAY",
+    "state": "critical",
+    "stateText": "GIC HI: IRON RANGE AT2 88 A, KP 7 (G3)",
+    "mode": "SCADA AUTO / EMS REAL-TIME",
+    "equipment": [
+      {
+        "tag": "IRON_RANGE_AT1_GIC_NEUT",
+        "label": "Iron Range AT1 neutral",
+        "kind": "sensor",
+        "state": "online",
+        "value": "54",
+        "units": "A",
+        "setpoint": "HI 75 A",
+        "note": "Saw-tooth, rising"
+      },
+      {
+        "tag": "IRON_RANGE_AT2_GIC_NEUT",
+        "label": "Iron Range AT2 neutral",
+        "kind": "sensor",
+        "state": "alarm",
+        "value": "88",
+        "units": "A",
+        "setpoint": "HI 75 A",
+        "note": "Above HI since 14:05:20, rising"
+      },
+      {
+        "tag": "IRON_RANGE_AT3_GIC_NEUT",
+        "label": "Iron Range AT3 neutral",
+        "kind": "sensor",
+        "state": "online",
+        "value": "47",
+        "units": "A",
+        "setpoint": "HI 75 A",
+        "note": "Saw-tooth, rising"
+      },
+      {
+        "tag": "HARTLEY_AT1_GIC_NEUT",
+        "label": "Hartley AT1 neutral",
+        "kind": "sensor",
+        "state": "online",
+        "value": "63",
+        "units": "A",
+        "setpoint": "HI 75 A",
+        "note": "Up from 22 A at 13:24"
+      },
+      {
+        "tag": "HARTLEY_AT2_GIC_NEUT",
+        "label": "Hartley AT2 neutral",
+        "kind": "sensor",
+        "state": "online",
+        "value": "41",
+        "units": "A",
+        "setpoint": "HI 75 A",
+        "note": "Saw-tooth"
+      },
+      {
+        "tag": "CLOQUET_AT1_GIC_NEUT",
+        "label": "Cloquet AT1 neutral",
+        "kind": "sensor",
+        "state": "online",
+        "value": "44",
+        "units": "A",
+        "setpoint": "HI 75 A",
+        "note": "Up from 18 A at 13:24"
+      },
+      {
+        "tag": "CLOQUET_AT2_GIC_NEUT",
+        "label": "Cloquet AT2 neutral",
+        "kind": "sensor",
+        "state": "online",
+        "value": "36",
+        "units": "A",
+        "setpoint": "HI 75 A",
+        "note": "Saw-tooth"
+      },
+      {
+        "tag": "NORTH_SHORE_AT1_GIC_NEUT",
+        "label": "North Shore AT1 neutral",
+        "kind": "sensor",
+        "state": "online",
+        "value": "39",
+        "units": "A",
+        "setpoint": "HI 75 A",
+        "note": "Saw-tooth"
+      },
+      {
+        "tag": "VIRGINIA_AT1_GIC_NEUT",
+        "label": "Virginia AT1 neutral",
+        "kind": "sensor",
+        "state": "online",
+        "value": "28",
+        "units": "A",
+        "setpoint": "HI 75 A",
+        "note": "Saw-tooth"
+      },
+      {
+        "tag": "IRON_RANGE_CB",
+        "label": "Iron Range shunt capacitor banks 2 x 100 MVAR",
+        "kind": "breaker",
+        "state": "closed",
+        "value": "200",
+        "units": "MVAR",
+        "setpoint": "ON",
+        "note": "Holding 115 kV bus"
+      },
+      {
+        "tag": "IRON_RANGE_115KV_BUS",
+        "label": "Iron Range 115 kV bus voltage",
+        "kind": "sensor",
+        "state": "online",
+        "value": "116.1",
+        "units": "kV",
+        "setpoint": "115.0 kV nom",
+        "note": "Min 114.0 kV at 14:06:28 (-1.8%), recovered"
+      },
+      {
+        "tag": "ARROWHEAD_IFC",
+        "label": "Arrowhead interface import",
+        "kind": "feeder",
+        "state": "alarm",
+        "value": "780",
+        "units": "MW",
+        "setpoint": "LIMIT 1,000 MW",
+        "note": "MVAR swing 165 MVAR / 60 s"
+      },
+      {
+        "tag": "NORTH_SHORE_IFC",
+        "label": "North Shore interface import",
+        "kind": "feeder",
+        "state": "online",
+        "value": "470",
+        "units": "MW",
+        "setpoint": "LIMIT 600 MW",
+        "note": "MVAR swing 96 MVAR / 60 s"
+      },
+      {
+        "tag": "TACONITE_RIDGE_GEN",
+        "label": "Taconite Ridge Generating Station",
+        "kind": "unit",
+        "state": "running",
+        "value": "612",
+        "units": "MW",
+        "setpoint": "CAP 900 MW",
+        "note": "Desk: gas units need 20 min notice for reserve call"
+      }
+    ],
+    "readings": [
+      {
+        "label": "SWPC Kp (observed)",
+        "value": "7 (G3)",
+        "units": "",
+        "alarm": true
+      },
+      {
+        "label": "Max transformer neutral current",
+        "value": "88",
+        "units": "A",
+        "alarm": true
+      },
+      {
+        "label": "Arrowhead MVAR swing",
+        "value": "165",
+        "units": "MVAR / 60 s",
+        "alarm": true
+      },
+      {
+        "label": "Iron Range 115 kV dip",
+        "value": "-1.8",
+        "units": "%",
+        "alarm": false
+      },
+      {
+        "label": "System load",
+        "value": "2,860",
+        "units": "MW",
+        "alarm": false
+      },
+      {
+        "label": "Operating reserve",
+        "value": "310",
+        "units": "MW",
+        "alarm": false
+      },
+      {
+        "label": "Solar wind speed at L1",
+        "value": "870",
+        "units": "km/s",
+        "alarm": false
+      },
+      {
+        "label": "IMF Bz at L1",
+        "value": "-24",
+        "units": "nT",
+        "alarm": true
+      },
+      {
+        "label": "GIC monitors reporting",
+        "value": "9 / 9",
+        "units": "",
+        "alarm": false
+      }
+    ],
+    "alarms": [
+      {
+        "time": "14:06:35",
+        "priority": "2",
+        "tag": "SWPC_FEED",
+        "text": "*** EXERCISE *** ALTK07 Serial 0233, Issue 2027 Mar 16 1906 UTC: ALERT Geomagnetic K-index of 7. Threshold Reached 1904 UTC. Synoptic Period 1800-2100 UTC. Active Warning: Yes. NOAA Scale: G3 - Strong *** EXERCISE ***",
+        "acked": false
+      },
+      {
+        "time": "14:06:30",
+        "priority": "1",
+        "tag": "ARROWHEAD_IFC_MVAR",
+        "text": "ARROWHEAD IFC MVAR SWING 165 MVAR / 60 s",
+        "acked": false
+      },
+      {
+        "time": "14:06:28",
+        "priority": "3",
+        "tag": "IRON_RANGE_115KV_BUS",
+        "text": "LO DEV -1.8% 114.0 kV, RTN 116.1 kV at 14:06:36",
+        "acked": false
+      },
+      {
+        "time": "14:06:10",
+        "priority": "2",
+        "tag": "HARTLEY_AT1_GIC_NEUT",
+        "text": "HARTLEY_AT1_GIC_NEUT 63 A ↑ RATE OF RISE",
+        "acked": false
+      },
+      {
+        "time": "14:05:50",
+        "priority": "1",
+        "tag": "IRON_RANGE_AT2_GIC_NEUT",
+        "text": "IRON_RANGE_AT2_GIC_NEUT 88 A ↑",
+        "acked": false
+      },
+      {
+        "time": "14:05:20",
+        "priority": "1",
+        "tag": "IRON_RANGE_AT2_GIC_NEUT",
+        "text": "IRON_RANGE_AT2_GIC_NEUT HI 75 A ALARM, 81 A",
+        "acked": true
+      }
+    ],
+    "statusItems": [
+      "SCADA FEP ONLINE",
+      "ICCP LINK UMRC ONLINE",
+      "SWPC FEED ONLINE",
+      "GIC MONITORS 9/9 REPORTING",
+      "STATE ESTIMATOR CONVERGED 14:06",
+      "PMU WIDE-AREA ONLINE",
+      "GPS CLOCKS 14/14 LOCKED"
+    ]
+  },
+  "variant": "power",
+  "instructorNote": "Core inject: three NGDOP Condition 3 triggers are now on screen at once (Kp 7, above 75 A at Iron Range AT2, and a 165 MVAR swing at Arrowhead). Watch whether the CRSS declares and logs Condition 3, the TOM orders the 10% transfer cut (about 700/425 MW), adds 200 MW of reserve and gives Taconite Ridge its 20-minute call, and line outages are held. Also watch for entity and large-customer notification, joining the hourly UMRC call, and the RE starting a per-unit neutral-current trend log. The screen keeps the scenario's 16 March 2027 date so it matches the SWPC product times.",
+  "citations": [
+    {
+      "documentId": "01M793R1CP8FSDJTZMVBXZXCKW",
+      "documentTitle": "Northern Lakes Transmission Operations: System and Control Room Description",
+      "headingPath": "Northern Lakes Transmission Oper… › 5. Reactive power resources",
+      "quote": "The static var compensator at Cloquet (±200 MVAR), two capacitor banks at Iron Range (2 x 100 MVAR) and Hartley (2 x 75 MVAR). These must be energized before the storm; reactive devices cannot be swit",
+      "chunkId": 15
+    },
+    {
+      "documentId": "01M793R1CKPE6S3EAJK06CD962",
+      "documentTitle": "NLTO-OP-31: Geomagnetic Disturbance Operating Procedure",
+      "headingPath": "NGDOP › 4. Conditions and actions",
+      "quote": "| Condition | Predetermined trigger | Actions | |---|---|---| | **Condition 1: Watch** | SWPC Geomagnetic Storm Watch for G3 or higher, or a CME discussion with an arrival window in the next 36 hours,",
+      "chunkId": 5
+    },
+    {
+      "documentId": "01M793R1CP8FSDJTZMVBXZXCKW",
+      "documentTitle": "Northern Lakes Transmission Operations: System and Control Room Description",
+      "headingPath": "Northern Lakes Transmission Oper… › 2. Network",
+      "quote": "- 4,100 miles of line: 345 kV (780 miles), 230 kV (1,900), 115 kV (1,420). - 38 substations. Key substations: Iron Range (345/230 kV, 3 autotransformers), Hartley (345 kV switching, 2 autotransformers",
+      "chunkId": 12
+    },
+    {
+      "documentId": "01M793R1CKPE6S3EAJK06CD962",
+      "documentTitle": "NLTO-OP-31: Geomagnetic Disturbance Operating Procedure",
+      "headingPath": "NGDOP › 6. Entities told",
+      "quote": "NLTO tells these 14 entities when it applies the procedure and when it ends it, within 60 minutes of each: the reliability coordinator (UMRC), the six neighboring transmission operators, the three gen",
+      "chunkId": 7
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template"
+    ]
+  },
+  "assets": [
+    {
+      "id": "01M799TBWGJJSEEGDM88HA87JX",
+      "kind": "image",
+      "path": "scenarios/01M793R3D67WHNQZRHWF8XA53Z/media/01M7956T3AVDNN7KG343B5SE1R/01M799TBWGJJSEEGDM88HA87JX.png",
+      "role": "rendered",
+      "width": 1920,
+      "height": 1080,
+      "sha256": "82dc82e501f0f90de5834b17954246ebc64eff177a0864f33187d66163bfaf80",
+      "provenance": {
+        "provider": "template",
+        "templateId": "scada_hmi",
+        "templateVersion": "2",
+        "createdAt": "2026-11-13T01:54:38.933Z"
+      }
+    }
+  ],
+  "versions": [
+    {
+      "at": "2026-11-13T00:35:22.317Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "EMS GIC Trend: Kp 7 Alert, Iron Range AT2 at 88 A",
+        "type": "scada_hmi",
+        "fields": {
+          "systemName": "EMS GIC / REACTIVE MONITOR: 345/230 kV AUTOTRANSFORMERS",
+          "site": "NLTO Primary Control Room, Duluth",
+          "clock": "14:06:42",
+          "date": "16-MAR-2027",
+          "operator": "NLTO_CRSS_DAY",
+          "state": "critical",
+          "stateText": "GIC HI: IRON RANGE AT2 88 A, KP 7 (G3)",
+          "mode": "SCADA AUTO / EMS REAL-TIME",
+          "equipment": [
+            {
+              "tag": "IRON_RANGE_AT1_GIC_NEUT",
+              "label": "Iron Range AT1 neutral",
+              "kind": "sensor",
+              "state": "online",
+              "value": "54",
+              "units": "A",
+              "setpoint": "HI 75 A",
+              "note": "Saw-tooth, rising"
+            },
+            {
+              "tag": "IRON_RANGE_AT2_GIC_NEUT",
+              "label": "Iron Range AT2 neutral",
+              "kind": "sensor",
+              "state": "alarm",
+              "value": "88",
+              "units": "A",
+              "setpoint": "HI 75 A",
+              "note": "Above HI since 14:05:20, rising"
+            },
+            {
+              "tag": "IRON_RANGE_AT3_GIC_NEUT",
+              "label": "Iron Range AT3 neutral",
+              "kind": "sensor",
+              "state": "online",
+              "value": "47",
+              "units": "A",
+              "setpoint": "HI 75 A",
+              "note": "Saw-tooth, rising"
+            },
+            {
+              "tag": "HARTLEY_AT1_GIC_NEUT",
+              "label": "Hartley AT1 neutral",
+              "kind": "sensor",
+              "state": "online",
+              "value": "63",
+              "units": "A",
+              "setpoint": "HI 75 A",
+              "note": "Up from 22 A at 13:24"
+            },
+            {
+              "tag": "HARTLEY_AT2_GIC_NEUT",
+              "label": "Hartley AT2 neutral",
+              "kind": "sensor",
+              "state": "online",
+              "value": "41",
+              "units": "A",
+              "setpoint": "HI 75 A",
+              "note": "Saw-tooth"
+            },
+            {
+              "tag": "CLOQUET_AT1_GIC_NEUT",
+              "label": "Cloquet AT1 neutral",
+              "kind": "sensor",
+              "state": "online",
+              "value": "44",
+              "units": "A",
+              "setpoint": "HI 75 A",
+              "note": "Up from 18 A at 13:24"
+            },
+            {
+              "tag": "CLOQUET_AT2_GIC_NEUT",
+              "label": "Cloquet AT2 neutral",
+              "kind": "sensor",
+              "state": "online",
+              "value": "36",
+              "units": "A",
+              "setpoint": "HI 75 A",
+              "note": "Saw-tooth"
+            },
+            {
+              "tag": "NORTH_SHORE_AT1_GIC_NEUT",
+              "label": "North Shore AT1 neutral",
+              "kind": "sensor",
+              "state": "online",
+              "value": "39",
+              "units": "A",
+              "setpoint": "HI 75 A",
+              "note": "Saw-tooth"
+            },
+            {
+              "tag": "VIRGINIA_AT1_GIC_NEUT",
+              "label": "Virginia AT1 neutral",
+              "kind": "sensor",
+              "state": "online",
+              "value": "28",
+              "units": "A",
+              "setpoint": "HI 75 A",
+              "note": "Saw-tooth"
+            },
+            {
+              "tag": "IRON_RANGE_CB",
+              "label": "Iron Range shunt capacitor banks 2 x 100 MVAR",
+              "kind": "breaker",
+              "state": "closed",
+              "value": "200",
+              "units": "MVAR",
+              "setpoint": "ON",
+              "note": "Holding 115 kV bus"
+            },
+            {
+              "tag": "IRON_RANGE_115KV_BUS",
+              "label": "Iron Range 115 kV bus voltage",
+              "kind": "sensor",
+              "state": "online",
+              "value": "116.1",
+              "units": "kV",
+              "setpoint": "115.0 kV nom",
+              "note": "Min 114.0 kV at 14:06:28 (-1.8%), recovered"
+            },
+            {
+              "tag": "ARROWHEAD_IFC",
+              "label": "Arrowhead interface import",
+              "kind": "feeder",
+              "state": "alarm",
+              "value": "780",
+              "units": "MW",
+              "setpoint": "LIMIT 1,000 MW",
+              "note": "MVAR swing 165 MVAR / 60 s"
+            },
+            {
+              "tag": "NORTH_SHORE_IFC",
+              "label": "North Shore interface import",
+              "kind": "feeder",
+              "state": "online",
+              "value": "470",
+              "units": "MW",
+              "setpoint": "LIMIT 600 MW",
+              "note": "MVAR swing 96 MVAR / 60 s"
+            },
+            {
+              "tag": "TACONITE_RIDGE_GEN",
+              "label": "Taconite Ridge Generating Station",
+              "kind": "unit",
+              "state": "running",
+              "value": "612",
+              "units": "MW",
+              "setpoint": "CAP 900 MW",
+              "note": "Desk: gas units need 20 min notice for reserve call"
+            }
+          ],
+          "readings": [
+            {
+              "label": "SWPC Kp (observed)",
+              "value": "7 (G3)",
+              "units": "",
+              "alarm": true
+            },
+            {
+              "label": "Max transformer neutral current",
+              "value": "88",
+              "units": "A",
+              "alarm": true
+            },
+            {
+              "label": "Arrowhead MVAR swing",
+              "value": "165",
+              "units": "MVAR / 60 s",
+              "alarm": true
+            },
+            {
+              "label": "Iron Range 115 kV dip",
+              "value": "-1.8",
+              "units": "%",
+              "alarm": false
+            },
+            {
+              "label": "System load",
+              "value": "2,860",
+              "units": "MW",
+              "alarm": false
+            },
+            {
+              "label": "Operating reserve",
+              "value": "310",
+              "units": "MW",
+              "alarm": false
+            },
+            {
+              "label": "Solar wind speed at L1",
+              "value": "870",
+              "units": "km/s",
+              "alarm": false
+            },
+            {
+              "label": "IMF Bz at L1",
+              "value": "-24",
+              "units": "nT",
+              "alarm": true
+            },
+            {
+              "label": "GIC monitors reporting",
+              "value": "9 / 9",
+              "units": "",
+              "alarm": false
+            }
+          ],
+          "alarms": [
+            {
+              "time": "14:06:35",
+              "priority": "2",
+              "tag": "SWPC_FEED",
+              "text": "*** EXERCISE *** ALTK07 Serial 0233, Issue 2027 Mar 16 1906 UTC: ALERT Geomagnetic K-index of 7. Threshold Reached 1904 UTC. Synoptic Period 1800-2100 UTC. Active Warning: Yes. NOAA Scale: G3 - Strong *** EXERCISE ***",
+              "acked": false
+            },
+            {
+              "time": "14:06:30",
+              "priority": "1",
+              "tag": "ARROWHEAD_IFC_MVAR",
+              "text": "ARROWHEAD IFC MVAR SWING 165 MVAR / 60 s",
+              "acked": false
+            },
+            {
+              "time": "14:06:28",
+              "priority": "3",
+              "tag": "IRON_RANGE_115KV_BUS",
+              "text": "LO DEV -1.8% 114.0 kV, RTN 116.1 kV at 14:06:36",
+              "acked": false
+            },
+            {
+              "time": "14:06:10",
+              "priority": "2",
+              "tag": "HARTLEY_AT1_GIC_NEUT",
+              "text": "HARTLEY_AT1_GIC_NEUT 63 A ↑ RATE OF RISE",
+              "acked": false
+            },
+            {
+              "time": "14:05:50",
+              "priority": "1",
+              "tag": "IRON_RANGE_AT2_GIC_NEUT",
+              "text": "IRON_RANGE_AT2_GIC_NEUT 88 A ↑",
+              "acked": false
+            },
+            {
+              "time": "14:05:20",
+              "priority": "1",
+              "tag": "IRON_RANGE_AT2_GIC_NEUT",
+              "text": "IRON_RANGE_AT2_GIC_NEUT HI 75 A ALARM, 81 A",
+              "acked": true
+            }
+          ],
+          "statusItems": [
+            "SCADA FEP ONLINE",
+            "ICCP LINK UMRC ONLINE",
+            "SWPC FEED ONLINE",
+            "GIC MONITORS 9/9 REPORTING",
+            "STATE ESTIMATOR CONVERGED 14:06",
+            "PMU WIDE-AREA ONLINE",
+            "GPS CLOCKS 14/14 LOCKED"
+          ]
+        },
+        "instructorNote": "Core inject: three NGDOP Condition 3 triggers are now on screen at once (Kp 7, above 75 A at Iron Range AT2, and a 165 MVAR swing at Arrowhead). Watch whether the CRSS declares and logs Condition 3, the TOM orders the 10% transfer cut (about 700/425 MW), adds 200 MW of reserve and gives Taconite Ridge its 20-minute call, and line outages are held. Also watch for entity and large-customer notification, joining the hourly UMRC call, and the RE starting a per-unit neutral-current trend log. The screen keeps the scenario's 16 March 2027 date so it matches the SWPC product times.",
+        "deliveryMode": "display_main_screen"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-11-13T01:54:39.121Z"
+}

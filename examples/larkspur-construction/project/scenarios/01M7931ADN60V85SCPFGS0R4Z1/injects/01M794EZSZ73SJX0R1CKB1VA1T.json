@@ -1,0 +1,291 @@
+{
+  "id": "01M794EZSZ73SJX0R1CKB1VA1T",
+  "mselRowId": "I-08",
+  "type": "alarm_summary",
+  "title": "Monitoring Alarm: CG-3 Action Level Exceeded, 11:05",
+  "deliveryMode": "display_main_screen",
+  "fields": {
+    "systemName": "ADJACENT STRUCTURE MONITORING — ALARM SUMMARY (EXERCISE — NOT A SAFETY EVALUATION OF ANY REAL STRUCTURE)",
+    "site": "Larkspur Constructors — Stillwater Creek Interceptor Phase 2 — Trailer 2 Display",
+    "clock": "11:05:18",
+    "date": "14-Apr-2027",
+    "operator": "TRAILER2_DASH",
+    "filter": "Harlan & Weir crack gauges + survey prisms · Active + Acknowledged",
+    "counts": {
+      "critical": 1,
+      "high": 5,
+      "medium": 1,
+      "low": 3
+    },
+    "alarms": [
+      {
+        "time": "11:05:12",
+        "priority": "medium",
+        "tag": "NOTIFY-SMS",
+        "source": "HW-LOGGER",
+        "description": "Action-level text sent to Superintendent, Safety Director, Engineer of Record",
+        "value": "3 of 3 delivered",
+        "state": "active"
+      },
+      {
+        "time": "11:05:00",
+        "priority": "critical",
+        "tag": "CG-3",
+        "source": "Harlan & Weir south foundation",
+        "description": "CRACK WIDTH CHANGE — ACTION LEVEL 0.25 in EXCEEDED",
+        "value": "0.26 in",
+        "state": "active"
+      },
+      {
+        "time": "11:05:00",
+        "priority": "low",
+        "tag": "CG-2",
+        "source": "Harlan & Weir foundation wall",
+        "description": "Crack width change — below alarm level 0.12 in",
+        "value": "0.07 in",
+        "state": "acked"
+      },
+      {
+        "time": "11:05:00",
+        "priority": "low",
+        "tag": "CG-1",
+        "source": "Harlan & Weir foundation wall",
+        "description": "Crack width change — below alarm level 0.12 in",
+        "value": "0.04 in",
+        "state": "acked"
+      },
+      {
+        "time": "11:00:00",
+        "priority": "high",
+        "tag": "CG-3",
+        "source": "Harlan & Weir south foundation",
+        "description": "Crack width change — above alarm level 0.12 in",
+        "value": "0.23 in",
+        "state": "acked"
+      },
+      {
+        "time": "11:00:00",
+        "priority": "low",
+        "tag": "P-4",
+        "source": "Four-unit apartment house prism",
+        "description": "Settlement — below alarm level 0.25 in",
+        "value": "0.04 in",
+        "state": "acked"
+      },
+      {
+        "time": "10:45:00",
+        "priority": "high",
+        "tag": "CG-3",
+        "source": "Harlan & Weir south foundation",
+        "description": "Crack width change — above alarm level 0.12 in",
+        "value": "0.19 in",
+        "state": "acked"
+      },
+      {
+        "time": "10:30:00",
+        "priority": "high",
+        "tag": "CG-3",
+        "source": "Harlan & Weir south foundation",
+        "description": "Crack width change — above alarm level 0.12 in",
+        "value": "0.15 in",
+        "state": "acked"
+      },
+      {
+        "time": "10:24:00",
+        "priority": "high",
+        "tag": "CG-3",
+        "source": "Harlan & Weir south foundation",
+        "description": "CRACK WIDTH CHANGE — ALARM LEVEL 0.12 in EXCEEDED",
+        "value": "0.13 in",
+        "state": "acked"
+      },
+      {
+        "time": "10:24:00",
+        "priority": "high",
+        "tag": "CG-3",
+        "source": "HW-LOGGER",
+        "description": "Reading interval changed from 15 min to alarm mode",
+        "value": "ON",
+        "state": "acked"
+      }
+    ],
+    "footer": "HW-LOGGER online · Last poll 11:05:00 · CG-3 trend 09:45 0.09 / 10:24 0.13 / 10:45 0.19 / 11:00 0.23 / 11:05 0.26 in · Data log read-only, cannot be edited or deleted"
+  },
+  "variant": "dark",
+  "instructorNote": "Read aloud with the display: the print shop manager says 6 of his 14 employees went back inside \"to shut down the presses properly\" after fire units walked past, and the EOR is on the phone asking, \"Read me the trend again. Is anything vibrating next to that wall right now?\" Watch for three things: the SUPT asks Ninth Street Command to clear the print shop and keep it empty, the EOR gives her opinion from the timed trend and takes the existing crack into account, and SAFE calls building official Fiona Castellanos at 937-555-0170. Nobody at Larkspur should call the building INSPECTED, RESTRICTED USE or UNSAFE.",
+  "citations": [
+    {
+      "documentId": "01M79318D24S4WREGGS0W187GJ",
+      "documentTitle": "LC-SOP-07: Excavation, Trenching and Protective Systems",
+      "headingPath": "LETPS › 7. Monitoring of adjacent structures",
+      "quote": "Where an excavation lies within the zone of influence of a building (a distance equal to twice the trench depth from the trench), the project installs instruments, in the monitoring plan approved by t",
+      "chunkId": 8
+    },
+    {
+      "documentId": "01M79318D46R56EGABXNN8FRWE",
+      "documentTitle": "LC-EAP-03: Project Organization, Notifications and Reporting Clocks",
+      "headingPath": "LPONRC › 3. OSHA and building official clocks",
+      "quote": "- **OSHA:** The Safety Director reports a work-related fatality within 8 hours of learning of it. An in-patient hospitalization, an amputation or the loss of an eye is reported within 24 hours of lear",
+      "chunkId": 15
+    },
+    {
+      "documentId": "01M79318D6YD5BYJBZY7JFFAB5",
+      "documentTitle": "LC-REF-04: Site, Utilities and Adjacent Properties",
+      "headingPath": "LSUAP › 5. Adjacent properties",
+      "quote": "| Building | Distance from trench | Occupants | Notes | |---|---|---|---| | Harlan & Weir Printing (two-story brick, built 1924) | 18 feet at its nearest wall, stations 15+00 to 16+50 | 14 employees o",
+      "chunkId": 23
+    },
+    {
+      "documentId": "01M79318D7A22R6K3P19HFW6X9",
+      "documentTitle": "LC-EAP-01: Project Emergency Action Plan, Stillwater Creek Interceptor, Phase 2",
+      "headingPath": "LC-EAP-01: Project Emergency Act… › 7. Adjacent buildings",
+      "quote": "Five occupied buildings lie within 60 feet of the trench: a two-story brick print shop (Harlan & Weir Printing), a four-unit apartment house, a church hall, a corner tavern and a day-care center. If a",
+      "chunkId": 33
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template"
+    ]
+  },
+  "assets": [
+    {
+      "id": "01M79C15JHD5Q0MJE1D7TE696P",
+      "kind": "image",
+      "path": "scenarios/01M7931ADN60V85SCPFGS0R4Z1/media/01M794EZSZ73SJX0R1CKB1VA1T/01M79C15JHD5Q0MJE1D7TE696P.png",
+      "role": "rendered",
+      "width": 1280,
+      "height": 742,
+      "sha256": "f4bd0a091fd1fac56e825aaf511e2f16a86c73118e0a30e740fadc4984b5de76",
+      "provenance": {
+        "provider": "template",
+        "templateId": "alarm_summary",
+        "templateVersion": "1",
+        "createdAt": "2026-11-13T02:33:19.025Z"
+      }
+    }
+  ],
+  "versions": [
+    {
+      "at": "2026-11-13T00:21:33.313Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "Monitoring Alarm: CG-3 Action Level Exceeded, 11:05",
+        "type": "alarm_summary",
+        "fields": {
+          "systemName": "ADJACENT STRUCTURE MONITORING — ALARM SUMMARY (EXERCISE — NOT A SAFETY EVALUATION OF ANY REAL STRUCTURE)",
+          "site": "Larkspur Constructors — Stillwater Creek Interceptor Phase 2 — Trailer 2 Display",
+          "clock": "11:05:18",
+          "date": "14-Apr-2027",
+          "operator": "TRAILER2_DASH",
+          "filter": "Harlan & Weir crack gauges + survey prisms · Active + Acknowledged",
+          "counts": {
+            "critical": 1,
+            "high": 5,
+            "medium": 1,
+            "low": 3
+          },
+          "alarms": [
+            {
+              "time": "11:05:12",
+              "priority": "medium",
+              "tag": "NOTIFY-SMS",
+              "source": "HW-LOGGER",
+              "description": "Action-level text sent to Superintendent, Safety Director, Engineer of Record",
+              "value": "3 of 3 delivered",
+              "state": "active"
+            },
+            {
+              "time": "11:05:00",
+              "priority": "critical",
+              "tag": "CG-3",
+              "source": "Harlan & Weir south foundation",
+              "description": "CRACK WIDTH CHANGE — ACTION LEVEL 0.25 in EXCEEDED",
+              "value": "0.26 in",
+              "state": "active"
+            },
+            {
+              "time": "11:05:00",
+              "priority": "low",
+              "tag": "CG-2",
+              "source": "Harlan & Weir foundation wall",
+              "description": "Crack width change — below alarm level 0.12 in",
+              "value": "0.07 in",
+              "state": "acked"
+            },
+            {
+              "time": "11:05:00",
+              "priority": "low",
+              "tag": "CG-1",
+              "source": "Harlan & Weir foundation wall",
+              "description": "Crack width change — below alarm level 0.12 in",
+              "value": "0.04 in",
+              "state": "acked"
+            },
+            {
+              "time": "11:00:00",
+              "priority": "high",
+              "tag": "CG-3",
+              "source": "Harlan & Weir south foundation",
+              "description": "Crack width change — above alarm level 0.12 in",
+              "value": "0.23 in",
+              "state": "acked"
+            },
+            {
+              "time": "11:00:00",
+              "priority": "low",
+              "tag": "P-4",
+              "source": "Four-unit apartment house prism",
+              "description": "Settlement — below alarm level 0.25 in",
+              "value": "0.04 in",
+              "state": "acked"
+            },
+            {
+              "time": "10:45:00",
+              "priority": "high",
+              "tag": "CG-3",
+              "source": "Harlan & Weir south foundation",
+              "description": "Crack width change — above alarm level 0.12 in",
+              "value": "0.19 in",
+              "state": "acked"
+            },
+            {
+              "time": "10:30:00",
+              "priority": "high",
+              "tag": "CG-3",
+              "source": "Harlan & Weir south foundation",
+              "description": "Crack width change — above alarm level 0.12 in",
+              "value": "0.15 in",
+              "state": "acked"
+            },
+            {
+              "time": "10:24:00",
+              "priority": "high",
+              "tag": "CG-3",
+              "source": "Harlan & Weir south foundation",
+              "description": "CRACK WIDTH CHANGE — ALARM LEVEL 0.12 in EXCEEDED",
+              "value": "0.13 in",
+              "state": "acked"
+            },
+            {
+              "time": "10:24:00",
+              "priority": "high",
+              "tag": "CG-3",
+              "source": "HW-LOGGER",
+              "description": "Reading interval changed from 15 min to alarm mode",
+              "value": "ON",
+              "state": "acked"
+            }
+          ],
+          "footer": "HW-LOGGER online · Last poll 11:05:00 · CG-3 trend 09:45 0.09 / 10:24 0.13 / 10:45 0.19 / 11:00 0.23 / 11:05 0.26 in · Data log read-only, cannot be edited or deleted"
+        },
+        "instructorNote": "Read aloud with the display: the print shop manager says 6 of his 14 employees went back inside \"to shut down the presses properly\" after fire units walked past, and the EOR is on the phone asking, \"Read me the trend again. Is anything vibrating next to that wall right now?\" Watch for three things: the SUPT asks Ninth Street Command to clear the print shop and keep it empty, the EOR gives her opinion from the timed trend and takes the existing crack into account, and SAFE calls building official Fiona Castellanos at 937-555-0170. Nobody at Larkspur should call the building INSPECTED, RESTRICTED USE or UNSAFE.",
+        "deliveryMode": "display_main_screen"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-11-13T02:33:19.186Z"
+}

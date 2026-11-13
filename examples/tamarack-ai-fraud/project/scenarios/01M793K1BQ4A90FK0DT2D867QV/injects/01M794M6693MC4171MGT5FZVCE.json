@@ -1,0 +1,219 @@
+{
+  "id": "01M794M6693MC4171MGT5FZVCE",
+  "mselRowId": "I-06",
+  "type": "system_log",
+  "title": "Treasury Workstation Queue: WIRE-0914-001, USD 480,000",
+  "deliveryMode": "hand_to_role",
+  "fields": {
+    "systemName": "TREASURY_WORKSTATION_PAYMENT_QUEUE",
+    "logSource": "Payment queue / approval audit trail (First Meridian Commercial Bank link)",
+    "exportedBy": "Treasury Workstation (automated queue notice)",
+    "exportedAt": "09/14/2027 10:30 AM",
+    "timezone": "EDT (UTC-4)",
+    "lines": [
+      {
+        "ts": "2027-09-14 10:21:37",
+        "level": "INFO",
+        "msg": "Beneficiary created: 'Escrow Fiduciaria Bajío SA (EXERCISE ENTITY)' | Bank: Banco Ficticio del Bajío (EXERCISE BANK) | SWIFT XXEXMXMMXXX | Acct EX-0000-0000-ESCROW-01 | created by Ines Okonkwo-Hart (Treasury Analyst)",
+        "highlight": false
+      },
+      {
+        "ts": "2027-09-14 10:21:38",
+        "level": "WARN",
+        "msg": "New beneficiary: no prior payment history; no match in ERP supplier master",
+        "highlight": true
+      },
+      {
+        "ts": "2027-09-14 10:23:52",
+        "level": "INFO",
+        "msg": "MFA token validated: Ines Okonkwo-Hart (session from Greenville HQ)",
+        "highlight": false
+      },
+      {
+        "ts": "2027-09-14 10:24:10",
+        "level": "INFO",
+        "msg": "WIRE-0914-001 initiated | International | USD 480,000.00 | Value date 09/14/2027 | Initiator: Ines Okonkwo-Hart",
+        "highlight": false
+      },
+      {
+        "ts": "2027-09-14 10:24:10",
+        "level": "NOTICE",
+        "msg": "Approval route set: amount >= USD 250,000.00 -> First approval: Treasury Manager Gareth Lindqvist-Boyd | Second approval: Controller Anjali Whitcombe",
+        "highlight": false
+      },
+      {
+        "ts": "2027-09-14 10:24:41",
+        "level": "INFO",
+        "msg": "Memo field updated: 'Per CFO verbal approval on video, callback waived.'",
+        "highlight": true
+      },
+      {
+        "ts": "2027-09-14 10:26:15",
+        "level": "INFO",
+        "msg": "Approval requests sent: Gareth Lindqvist-Boyd (mobile push), Anjali Whitcombe (email + Workstation inbox)",
+        "highlight": false
+      },
+      {
+        "ts": "2027-09-14 10:28:02",
+        "level": "INFO",
+        "msg": "Release reviewer assigned: Dev Rangaswamy (Treasury) | Scheduled release: 10:55:00 EDT",
+        "highlight": false
+      },
+      {
+        "ts": "2027-09-14 10:28:30",
+        "level": "INFO",
+        "msg": "Release reviewer note: 'Will push at 10:55 when approvals land; analyst says CFO is waiting.'",
+        "highlight": true
+      },
+      {
+        "ts": "2027-09-14 10:30:04",
+        "level": "NOTICE",
+        "msg": "Queue status: WIRE-0914-001 PENDING APPROVAL | First approval: PENDING | Second approval: PENDING | Release: 10:55 EDT | International cutoff: 15:00 ET | Queue items: 24 (23 routine vendor payments, all < USD 250,000)",
+        "highlight": false
+      }
+    ],
+    "classification": "INTERNAL - CONFIDENTIAL - TREASURY",
+    "pageLabel": "Page 1 of 1"
+  },
+  "variant": "printout",
+  "instructorNote": "This is the first point where money will actually move. Watch whether the Treasury Manager sets WIRE-0914-001 to HOLD and refuses the \"callback waived\" memo, as TPC-FIN-04 requires. Watch also whether the Controller withholds approval and whether the CISO is told now rather than when the CFO lands. If the wire is not on HOLD by 10:55, it is released as the storyline requires.",
+  "citations": [
+    {
+      "documentId": "01M793JZB96097WHBG0K74HSVJ",
+      "documentTitle": "TPC-FIN-04: Payment Authorization, Callback Verification and Wire Recall",
+      "headingPath": "TPC-FIN-04: Payment Authorizatio… › 2. Who may initiate, approve and release",
+      "quote": "| Step | Who | Limits | |---|---|---| | Initiate | Treasury Analyst (Ines Okonkwo-Hart, Dev Rangaswamy) or Accounts Payable Specialist | Any amount, in the Treasury Workstation only; no initiation fro",
+      "chunkId": 28
+    },
+    {
+      "documentId": "01M793JZB96097WHBG0K74HSVJ",
+      "documentTitle": "TPC-FIN-04: Payment Authorization, Callback Verification and Wire Recall",
+      "headingPath": "TPC-FIN-04: Payment Authorizatio… › 4. Executive requests",
+      "quote": "An instruction from the CFO, CEO, General Counsel or any executive to make a payment outside the workflow is not carried out until the executive is reached on their own directory mobile phone by the a",
+      "chunkId": 30
+    },
+    {
+      "documentId": "01M793JZB96097WHBG0K74HSVJ",
+      "documentTitle": "TPC-FIN-04: Payment Authorization, Callback Verification and Wire Recall",
+      "headingPath": "TPC-FIN-04: Payment Authorizatio… › 5. If a payment is suspected to be fraudulent",
+      "quote": "1. Stop the payment if it has not been released: set status to HOLD in the Workstation and tell the Treasury Manager. 2. If it has been released, call the bank's fraud desk (First Meridian Commercial ",
+      "chunkId": 31
+    },
+    {
+      "documentId": "01M793JZB6T2RERPATP9SE15M2",
+      "documentTitle": "TPC-REF-01: Company, Systems and People",
+      "headingPath": "TCSP › 3. Finance systems",
+      "quote": "- **Treasury Workstation:** a cloud treasury system for initiating, approving and releasing payments, with multi-factor tokens and a full audit log; connects to First Meridian Commercial Bank by secur",
+      "chunkId": 13
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template"
+    ]
+  },
+  "assets": [
+    {
+      "id": "01M79C7PDMJ200MB3DCQA0AA1X",
+      "kind": "image",
+      "path": "scenarios/01M793K1BQ4A90FK0DT2D867QV/media/01M794M6693MC4171MGT5FZVCE/01M79C7PDMJ200MB3DCQA0AA1X.png",
+      "role": "rendered",
+      "width": 816,
+      "height": 1056,
+      "sha256": "858e95c0e4ee12a9bdc5cfd903f948000ad0efb0f3460fcc37c43afdec91e8ee",
+      "provenance": {
+        "provider": "template",
+        "templateId": "system_log",
+        "templateVersion": "1",
+        "createdAt": "2026-11-13T02:36:52.889Z"
+      }
+    }
+  ],
+  "versions": [
+    {
+      "at": "2026-11-13T00:24:16.326Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "Treasury Workstation Queue: WIRE-0914-001, USD 480,000",
+        "type": "system_log",
+        "fields": {
+          "systemName": "TREASURY_WORKSTATION_PAYMENT_QUEUE",
+          "logSource": "Payment queue / approval audit trail (First Meridian Commercial Bank link)",
+          "exportedBy": "Treasury Workstation (automated queue notice)",
+          "exportedAt": "09/14/2027 10:30 AM",
+          "timezone": "EDT (UTC-4)",
+          "lines": [
+            {
+              "ts": "2027-09-14 10:21:37",
+              "level": "INFO",
+              "msg": "Beneficiary created: 'Escrow Fiduciaria Bajío SA (EXERCISE ENTITY)' | Bank: Banco Ficticio del Bajío (EXERCISE BANK) | SWIFT XXEXMXMMXXX | Acct EX-0000-0000-ESCROW-01 | created by Ines Okonkwo-Hart (Treasury Analyst)",
+              "highlight": false
+            },
+            {
+              "ts": "2027-09-14 10:21:38",
+              "level": "WARN",
+              "msg": "New beneficiary: no prior payment history; no match in ERP supplier master",
+              "highlight": true
+            },
+            {
+              "ts": "2027-09-14 10:23:52",
+              "level": "INFO",
+              "msg": "MFA token validated: Ines Okonkwo-Hart (session from Greenville HQ)",
+              "highlight": false
+            },
+            {
+              "ts": "2027-09-14 10:24:10",
+              "level": "INFO",
+              "msg": "WIRE-0914-001 initiated | International | USD 480,000.00 | Value date 09/14/2027 | Initiator: Ines Okonkwo-Hart",
+              "highlight": false
+            },
+            {
+              "ts": "2027-09-14 10:24:10",
+              "level": "NOTICE",
+              "msg": "Approval route set: amount >= USD 250,000.00 -> First approval: Treasury Manager Gareth Lindqvist-Boyd | Second approval: Controller Anjali Whitcombe",
+              "highlight": false
+            },
+            {
+              "ts": "2027-09-14 10:24:41",
+              "level": "INFO",
+              "msg": "Memo field updated: 'Per CFO verbal approval on video, callback waived.'",
+              "highlight": true
+            },
+            {
+              "ts": "2027-09-14 10:26:15",
+              "level": "INFO",
+              "msg": "Approval requests sent: Gareth Lindqvist-Boyd (mobile push), Anjali Whitcombe (email + Workstation inbox)",
+              "highlight": false
+            },
+            {
+              "ts": "2027-09-14 10:28:02",
+              "level": "INFO",
+              "msg": "Release reviewer assigned: Dev Rangaswamy (Treasury) | Scheduled release: 10:55:00 EDT",
+              "highlight": false
+            },
+            {
+              "ts": "2027-09-14 10:28:30",
+              "level": "INFO",
+              "msg": "Release reviewer note: 'Will push at 10:55 when approvals land; analyst says CFO is waiting.'",
+              "highlight": true
+            },
+            {
+              "ts": "2027-09-14 10:30:04",
+              "level": "NOTICE",
+              "msg": "Queue status: WIRE-0914-001 PENDING APPROVAL | First approval: PENDING | Second approval: PENDING | Release: 10:55 EDT | International cutoff: 15:00 ET | Queue items: 24 (23 routine vendor payments, all < USD 250,000)",
+              "highlight": false
+            }
+          ],
+          "classification": "INTERNAL - CONFIDENTIAL - TREASURY",
+          "pageLabel": "Page 1 of 1"
+        },
+        "instructorNote": "This is the first point where money will actually move. Watch whether the Treasury Manager sets WIRE-0914-001 to HOLD and refuses the \"callback waived\" memo, as TPC-FIN-04 requires. Watch also whether the Controller withholds approval and whether the CISO is told now rather than when the CFO lands. If the wire is not on HOLD by 10:55, it is released as the storyline requires.",
+        "deliveryMode": "hand_to_role"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-11-13T02:36:53.147Z"
+}

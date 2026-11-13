@@ -1,0 +1,304 @@
+{
+  "id": "01M794VGV8P5FB2XPSXCYXZ1AQ",
+  "mselRowId": "I-12",
+  "type": "system_log",
+  "title": "Medical Log 02:00 Sunday and Draft 4-Hour Update",
+  "deliveryMode": "hand_to_role",
+  "fields": {
+    "systemName": "MEDLOG_DAWN",
+    "host": "HR-HSP-02",
+    "logSource": "Medical Center count register / VSP report drafts / ship message relay",
+    "exportedBy": "DAWN\\medctr.dod",
+    "exportedAt": "02/21/2027 02:31 AM",
+    "timezone": "CST, ship time (UTC-6)",
+    "lines": [
+      {
+        "ts": "2027-02-21 01:56",
+        "level": "INFO",
+        "msg": "Count entry opened by nurse in charge: pre-arrival count, Sun 21 Feb 02:00. Basis: cumulative reportable AGE cases since embarkation 14 Feb.",
+        "highlight": false
+      },
+      {
+        "ts": "2027-02-21 02:00",
+        "level": "NOTICE",
+        "msg": "COUNT 02:00: CUMULATIVE PASSENGERS 118 (4.0% of 2,980). CUMULATIVE CREW 31 (2.8% of 1,120). New since 24:00: 3 passengers, 1 crew.",
+        "highlight": true
+      },
+      {
+        "ts": "2027-02-21 02:00",
+        "level": "NOTICE",
+        "msg": "Death on board: 1. Guest A, cabin code P-8417, time of death Sat 20 Feb 15:02, cause UNKNOWN, AGE case status: not a case. Reported to the CDC Quarantine Station, Houston, Sat 20 Feb 15:40 (phone and electronic message).",
+        "highlight": false
+      },
+      {
+        "ts": "2027-02-21 02:10",
+        "level": "NOTICE",
+        "msg": "Count entry 02:00 SIGNED: Dr. Fiona Gallagher, Chief Medical Officer.",
+        "highlight": false
+      },
+      {
+        "ts": "2027-02-21 02:11",
+        "level": "INFO",
+        "msg": "Distribution queued: Hotel Director, Master, shoreside Public Health.",
+        "highlight": false
+      },
+      {
+        "ts": "2027-02-21 02:16",
+        "level": "INFO",
+        "msg": "Template opened: VSP 4-hour update. Reference: 24-hour report transmitted Fri 19 Feb 20:05, PASSENGERS 74, CREW 17. ETA Galveston 07:00 Sun 21 Feb.",
+        "highlight": false
+      },
+      {
+        "ts": "2027-02-21 02:20",
+        "level": "INFO",
+        "msg": "Draft saved by doctor on duty, VSP 4-hour update. Note line: 'Cases since 24-hour report: PASSENGERS 44, CREW 14'. Field 'Cumulative cases': PASSENGERS 44, CREW 14. Field 'On board': 2,980 / 1,120.",
+        "highlight": true
+      },
+      {
+        "ts": "2027-02-21 02:20",
+        "level": "WARN",
+        "msg": "Draft VSP 4-hour update status UNSIGNED. Signature blocks empty: CMO / Master / Shoreside PH confirms receipt. Transmit by 03:00 for 07:00 arrival.",
+        "highlight": true
+      },
+      {
+        "ts": "2027-02-21 02:25",
+        "level": "INFO",
+        "msg": "MSG RELAY inbound. FROM: ops-desk@gulfterminalservices.example TO: fleetops@halcyonreach.example SUBJECT: Halcyon Dawn arrival Sun 21 Feb. 'Please confirm your ETA and whether disembarkation will still run 07:30-10:30. We have 14 buses and 2 security lanes booked for your next-voyage check-in from 13:00, and the port police want your berth-time update by 05:00. Gulf Terminal Services, Galveston terminal operations.'",
+        "highlight": true
+      },
+      {
+        "ts": "2027-02-21 02:26",
+        "level": "INFO",
+        "msg": "MSG RELAY: copy of 02:25 message routed to bridge and Medical Center queue.",
+        "highlight": false
+      }
+    ],
+    "classification": "CONFIDENTIAL - MEDICAL RECORD - SHIP AND SHORESIDE USE ONLY",
+    "pageLabel": "Page 1 of 1"
+  },
+  "variant": "printout",
+  "instructorNote": "Core inject: the draft puts the increase since the first report (44 passengers, 14 crew) in the 'Cumulative cases' field. The CMO should correct it to 118 and 31, then the CMO signs, the Master countersigns and PH confirms receipt, all before the 03:00 deadline. Also watch for PH copying the county and state health departments, and for OPS answering the terminal operator and the port with the 07:00 ETA and the disembarkation plan before 05:00.",
+  "citations": [
+    {
+      "documentId": "01M793DS5V5XMJ53EWWKE3XRTQ",
+      "documentTitle": "HR-HSP-02: Medical Log, Case Counting and Authority Reports",
+      "headingPath": "HR-HSP-02: Medical Log, Case Cou… › 5. Reports to the VSP and the quarantine station",
+      "quote": "- **24-hour report:** Sent to the VSP 24 to 36 hours before arrival at a US port. It gives the ship, the voyage dates, passengers and crew on board, and the cumulative number of cases among passengers",
+      "chunkId": 16
+    },
+    {
+      "documentId": "01M793DS5V5XMJ53EWWKE3XRTQ",
+      "documentTitle": "HR-HSP-02: Medical Log, Case Counting and Authority Reports",
+      "headingPath": "HR-HSP-02: Medical Log, Case Cou… › 4. Counting",
+      "quote": "At each count (06:00, 12:00, 18:00, 24:00) the nurse in charge totals: new cases in the period, cumulative passenger cases, cumulative crew cases, and the percentages to one decimal place. The Chief M",
+      "chunkId": 15
+    },
+    {
+      "documentId": "01M793DS5Y7AWGB8F00P3B6SCR",
+      "documentTitle": "HR-ORG-04: The Company, MV Halcyon Dawn and the Galveston Turnaround",
+      "headingPath": "HR-ORG-04: The Company, MV Halcy… › 4. The voyage in the exercise (Sunday, February 14 to Sunday, February 21, 2027)",
+      "quote": "| Day | Port | Ship times | |---|---|---| | Sun Feb 14 | Galveston | Boarding 14:00 to 16:30, departure 17:30 | | Mon Feb 15 | At sea | | | Tue Feb 16 | Roatán, Honduras | 08:00 to 17:00 | | Wed Feb 1",
+      "chunkId": 34
+    },
+    {
+      "documentId": "01M793DS5Y7AWGB8F00P3B6SCR",
+      "documentTitle": "HR-ORG-04: The Company, MV Halcyon Dawn and the Galveston Turnaround",
+      "headingPath": "HR-ORG-04: The Company, MV Halcy… › 5. Outside parties in this plan",
+      "quote": "- CDC Vessel Sanitation Program (VSP), Atlanta area and field offices; inspectors board at the discretion of the VSP. - CDC Quarantine Station for Houston, which covers the Port of Galveston; phone nu",
+      "chunkId": 35
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template"
+    ]
+  },
+  "assets": [
+    {
+      "id": "01M79C4EYJGBQBX4KYRXNMRD11",
+      "kind": "image",
+      "path": "scenarios/01M793DV6BXG2CK1KF55JQE9A4/media/01M794VGV8P5FB2XPSXCYXZ1AQ/01M79C4EYJGBQBX4KYRXNMRD11.png",
+      "role": "rendered",
+      "width": 816,
+      "height": 1056,
+      "sha256": "adc4905804ffac9905fd98a8ff8d42711787e3a4114289c63f6cfaee19c86e8c",
+      "provenance": {
+        "provider": "template",
+        "templateId": "system_log",
+        "templateVersion": "1",
+        "createdAt": "2026-11-13T02:35:06.931Z"
+      }
+    }
+  ],
+  "versions": [
+    {
+      "at": "2026-11-13T00:28:23.413Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "Medical Log 02:00 Sunday and Draft 4-Hour Update",
+        "type": "system_log",
+        "fields": {
+          "systemName": "MEDLOG_DAWN",
+          "host": "HR-HSP-02",
+          "logSource": "Medical Center count register / VSP report drafts / ship message relay",
+          "exportedBy": "DAWN\\medctr.dod",
+          "exportedAt": "02/21/2027 02:31 AM",
+          "timezone": "CST, ship time (UTC-6)",
+          "lines": [
+            {
+              "ts": "2027-02-21 01:56",
+              "level": "INFO",
+              "msg": "Count entry opened by nurse in charge: pre-arrival count, Sun 21 Feb 02:00. Basis: cumulative reportable AGE cases since embarkation 14 Feb.",
+              "highlight": false
+            },
+            {
+              "ts": "2027-02-21 02:00",
+              "level": "NOTICE",
+              "msg": "COUNT 02:00: CUMULATIVE PASSENGERS 118 (4.0% of 2,980). CUMULATIVE CREW 31 (2.8% of 1,120). New since 24:00: 3 passengers, 1 crew.",
+              "highlight": true
+            },
+            {
+              "ts": "2027-02-21 02:00",
+              "level": "NOTICE",
+              "msg": "Death on board: 1. Guest A, cabin code P-8417, time of death Sat 20 Feb 15:02, cause UNKNOWN, AGE case status: not a case. Reported to the CDC Quarantine Station, Houston, Sat 20 Feb 15:40 (phone and electronic message).",
+              "highlight": false
+            },
+            {
+              "ts": "2027-02-21 02:10",
+              "level": "NOTICE",
+              "msg": "Count entry 02:00 SIGNED: Dr. Fiona Gallagher, Chief Medical Officer.",
+              "highlight": false
+            },
+            {
+              "ts": "2027-02-21 02:11",
+              "level": "INFO",
+              "msg": "Distribution queued: Hotel Director, Master, shoreside Public Health.",
+              "highlight": false
+            },
+            {
+              "ts": "2027-02-21 02:16",
+              "level": "INFO",
+              "msg": "Template opened: VSP 4-hour update. Reference: 24-hour report transmitted Fri 19 Feb 20:05, PASSENGERS 74, CREW 17. ETA Galveston 07:00 Sun 21 Feb.",
+              "highlight": false
+            },
+            {
+              "ts": "2027-02-21 02:20",
+              "level": "INFO",
+              "msg": "Draft saved by doctor on duty, VSP 4-hour update. Note line: 'Cases since 24-hour report: PASSENGERS 44, CREW 14'. Field 'Cumulative cases': PASSENGERS 44, CREW 14. Field 'On board': 2,980 / 1,120.",
+              "highlight": true
+            },
+            {
+              "ts": "2027-02-21 02:20",
+              "level": "WARN",
+              "msg": "Draft VSP 4-hour update status UNSIGNED. Signature blocks empty: CMO / Master / Shoreside PH confirms receipt. Transmit by 03:00 for 07:00 arrival.",
+              "highlight": true
+            },
+            {
+              "ts": "2027-02-21 02:25",
+              "level": "INFO",
+              "msg": "MSG RELAY inbound. FROM: ops-desk@gulfterminalservices.example TO: fleetops@halcyonreach.example SUBJECT: Halcyon Dawn arrival Sun 21 Feb. 'Please confirm your ETA and whether disembarkation will still run 07:30-10:30. We have 14 buses and 2 security lanes booked for your next-voyage check-in from 13:00, and the port police want your berth-time update by 05:00. Gulf Terminal Services, Galveston terminal operations.'",
+              "highlight": true
+            },
+            {
+              "ts": "2027-02-21 02:26",
+              "level": "INFO",
+              "msg": "MSG RELAY: copy of 02:25 message routed to bridge and Medical Center queue.",
+              "highlight": false
+            }
+          ],
+          "classification": "CONFIDENTIAL - MEDICAL RECORD - SHIP AND SHORESIDE USE ONLY",
+          "pageLabel": "Page 1 of 1"
+        },
+        "instructorNote": "Core inject: the draft puts the increase since the 24-hour report (44 passengers, 14 crew) in the 'Cumulative cases' field. The CMO should correct it to 118 and 31, then the CMO signs, the Master countersigns and PH confirms receipt, all before the 03:00 deadline. Also watch for PH copying the county and state health departments, and for OPS answering the terminal operator and the port with the 07:00 ETA and the disembarkation plan before 05:00.",
+        "deliveryMode": "hand_to_role"
+      }
+    },
+    {
+      "at": "2026-11-13T01:40:29.193Z",
+      "by": "user",
+      "note": "Corrected by hand for the shipped example",
+      "snapshot": {
+        "title": "Medical Log 02:00 Sunday and Draft 4-Hour Update",
+        "type": "system_log",
+        "fields": {
+          "systemName": "MEDLOG_DAWN",
+          "host": "HR-HSP-02",
+          "logSource": "Medical Center count register / VSP report drafts / ship message relay",
+          "exportedBy": "DAWN\\medctr.dod",
+          "exportedAt": "02/21/2027 02:31 AM",
+          "timezone": "CST, ship time (UTC-6)",
+          "lines": [
+            {
+              "ts": "2027-02-21 01:56",
+              "level": "INFO",
+              "msg": "Count entry opened by nurse in charge: pre-arrival count, Sun 21 Feb 02:00. Basis: cumulative reportable AGE cases since embarkation 14 Feb.",
+              "highlight": false
+            },
+            {
+              "ts": "2027-02-21 02:00",
+              "level": "NOTICE",
+              "msg": "COUNT 02:00: CUMULATIVE PASSENGERS 118 (4.0% of 2,980). CUMULATIVE CREW 31 (2.8% of 1,120). New since 24:00: 3 passengers, 1 crew.",
+              "highlight": true
+            },
+            {
+              "ts": "2027-02-21 02:00",
+              "level": "NOTICE",
+              "msg": "Death on board: 1. Guest A, cabin code P-8417, time of death Sat 20 Feb 15:02, cause UNKNOWN, AGE case status: not a case. Reported to the CDC Quarantine Station, Houston, Sat 20 Feb 15:40 (phone and electronic message).",
+              "highlight": false
+            },
+            {
+              "ts": "2027-02-21 02:10",
+              "level": "NOTICE",
+              "msg": "Count entry 02:00 SIGNED: Dr. Fiona Gallagher, Chief Medical Officer.",
+              "highlight": false
+            },
+            {
+              "ts": "2027-02-21 02:11",
+              "level": "INFO",
+              "msg": "Distribution queued: Hotel Director, Master, shoreside Public Health.",
+              "highlight": false
+            },
+            {
+              "ts": "2027-02-21 02:16",
+              "level": "INFO",
+              "msg": "Template opened: VSP 4-hour update. Reference: 24-hour report transmitted Fri 19 Feb 20:05, PASSENGERS 74, CREW 17. ETA Galveston 07:00 Sun 21 Feb.",
+              "highlight": false
+            },
+            {
+              "ts": "2027-02-21 02:20",
+              "level": "INFO",
+              "msg": "Draft saved by doctor on duty, VSP 4-hour update. Note line: 'Cases since 24-hour report: PASSENGERS 44, CREW 14'. Field 'Cumulative cases': PASSENGERS 44, CREW 14. Field 'On board': 2,980 / 1,120.",
+              "highlight": true
+            },
+            {
+              "ts": "2027-02-21 02:20",
+              "level": "WARN",
+              "msg": "Draft VSP 4-hour update status UNSIGNED. Signature blocks empty: CMO / Master / Shoreside PH confirms receipt. Transmit by 03:00 for 07:00 arrival.",
+              "highlight": true
+            },
+            {
+              "ts": "2027-02-21 02:25",
+              "level": "INFO",
+              "msg": "MSG RELAY inbound. FROM: ops-desk@gulfterminalservices.example TO: fleetops@halcyonreach.example SUBJECT: Halcyon Dawn arrival Sun 21 Feb. 'Please confirm your ETA and whether disembarkation will still run 07:30-10:30. We have 14 buses and 2 security lanes booked for your next-voyage check-in from 13:00, and the port police want your berth-time update by 05:00. Gulf Terminal Services, Galveston terminal operations.'",
+              "highlight": true
+            },
+            {
+              "ts": "2027-02-21 02:26",
+              "level": "INFO",
+              "msg": "MSG RELAY: copy of 02:25 message routed to bridge and Medical Center queue.",
+              "highlight": false
+            }
+          ],
+          "classification": "CONFIDENTIAL - MEDICAL RECORD - SHIP AND SHORESIDE USE ONLY",
+          "pageLabel": "Page 1 of 1"
+        },
+        "instructorNote": "Core inject: the draft puts the increase since the first report (44 passengers, 14 crew) in the 'Cumulative cases' field. The CMO should correct it to 118 and 31, then the CMO signs, the Master countersigns and PH confirms receipt, all before the 03:00 deadline. Also watch for PH copying the county and state health departments, and for OPS answering the terminal operator and the port with the 07:00 ETA and the disembarkation plan before 05:00.",
+        "deliveryMode": "hand_to_role"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-11-13T02:35:07.205Z"
+}

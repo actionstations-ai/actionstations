@@ -1,0 +1,197 @@
+{
+  "id": "01M794CAD7TRHTBKP1NSR68JF1",
+  "mselRowId": "I-08",
+  "type": "screenshot_generic",
+  "title": "EHS Portal Clock Board: LI-2026-0142",
+  "deliveryMode": "hand_to_role",
+  "fields": {
+    "appName": "HSU EHS Portal",
+    "windowTitle": "LI-2026-0142 · Clock Board · HSU EHS Portal",
+    "location": "https://ehs.hsu.example/incidents/LI-2026-0142/clock-board",
+    "menuItems": [
+      "Incidents",
+      "Clock Board",
+      "Award Terms",
+      "Corrective Actions",
+      "Reports",
+      "Help"
+    ],
+    "sidebarItems": [
+      {
+        "label": "LI-2026-0142: Lindgren 3rd floor, shared centrifuge room",
+        "meta": "Discovered 13 Oct 2026 09:02 · Centrifuge tube failure, possible exposure · Status: ACTIVE",
+        "selected": false
+      },
+      {
+        "label": "CLOCK BOARD",
+        "meta": "4 rows · 1 complete · 3 open",
+        "selected": true
+      },
+      {
+        "label": "[1] PI reports to BSO",
+        "meta": "Due 14 Oct 2026 09:02 (24 h from discovery) · RECEIVED 13 Oct 2026 09:20 ✔",
+        "selected": false
+      },
+      {
+        "label": "[2] BSO reports to IBC chair",
+        "meta": "Due 16 Oct 2026 09:20 (3 calendar days from receipt of PI report) · OPEN",
+        "selected": false
+      },
+      {
+        "label": "[3] Notice to sponsor",
+        "meta": "Due 20 Oct 2026 09:02 (7 calendar days, HSU default) · OPEN · Sender: not assigned",
+        "selected": false
+      },
+      {
+        "label": "[4] IBC report to NIH OSP",
+        "meta": "Due 12 Nov 2026 (30 days from discovery) · OPEN · Classification: NOT YET SET",
+        "selected": false
+      },
+      {
+        "label": "AWARD TERMS: equipment record",
+        "meta": "Centrifuge, Lindgren 3rd floor shared centrifuge room · Purchased on: Iowa Corn Growers Board award",
+        "selected": false
+      },
+      {
+        "label": "Award term: incident notice",
+        "meta": "Iowa Corn Growers Board: incident notice within 72 hours of discovery to program contact, grants@cornboard.example",
+        "selected": false
+      }
+    ],
+    "statusText": "HSU-EHS-BIO-01 · Clock Board last refreshed 13 Oct 2026 10:34 CDT · Sponsor clock source: HSU default (7 days) · Award term link: none",
+    "imageBrief": "Windows desktop browser window showing a plain institutional web portal with a left navigation list and a table of rows with colored status badges, one green and three amber, no readable text",
+    "clock": "10:35 AM"
+  },
+  "variant": "windows",
+  "instructorNote": "This is a clue inject. The clock board was never linked to the award term, so row 3 still shows 7 days, but the Iowa Corn Growers Board term requires notice within 72 hours, which makes Friday 16 Oct 2026 09:02 the real deadline. Check that the RC fixes the board, writes down that the stricter term governs, and names who sends the notice, how and when. The IO should confirm that rule. Also look for someone to point out that the NIH row depends on the IBC chair's classification and could get shorter, with the clock still running from discovery at 09:02.",
+  "citations": [
+    {
+      "documentId": "01M793CQQD9Z4VK4GS4FSQ6XMY",
+      "documentTitle": "Halvorsen State University — Biosafety Incident Response Plan",
+      "headingPath": "Halvorsen State University — Bio… › 6. Notification clocks",
+      "quote": "| Step | From | Due | |---|---|---| | PI reports to BSO | Discovery | 24 hours (target: within 2 hours for any exposure) | | BSO reports to IBC chair | Receipt of the PI report | 3 calendar days | | N",
+      "chunkId": 7
+    },
+    {
+      "documentId": "01M793CQQFDWYCFNHZMKAZ9RFE",
+      "documentTitle": "Halvorsen State University — Communications and Sponsor Relations During a Biosafety Event",
+      "headingPath": "Halvorsen State University — Com… › 5. Sponsors and program officers",
+      "quote": "The Director of Research Compliance, Joel Whitcomb, is the single contact for sponsors. Typical sponsors are a federal health agency, a federal science agency, the Iowa Corn Growers Board (a fictional",
+      "chunkId": 15
+    },
+    {
+      "documentId": "01M793CQQD9Z4VK4GS4FSQ6XMY",
+      "documentTitle": "Halvorsen State University — Biosafety Incident Response Plan",
+      "headingPath": "Halvorsen State University — Bio… › 5. Classification",
+      "quote": "Within the first few hours the BSO, with the PI and the Director of Research Compliance, classifies the event. The choices are: - **Reportable to NIH through the IBC.** Any significant problem, violat",
+      "chunkId": 6
+    },
+    {
+      "documentId": "01M793CQQHWR23A14RX11KVHE7",
+      "documentTitle": "Halvorsen State University — Exposure Reporting and IBC Referral",
+      "headingPath": "Halvorsen State University — Exp… › 3. Conflicting guidance",
+      "quote": "Different sources give different advice in the first hours, and the SOP expects this. Typical conflicts: - The approved protocol says \"no post-exposure prophylaxis needed\", while the Occupational Heal",
+      "chunkId": 21
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template",
+      "ai_image"
+    ],
+    "imagePrompt": "A monitor photographed at an angle, slight moiré and reflections. A desktop computer monitor photographed at a slight angle on a cluttered biosafety office desk, showing a plain institutional web portal in a browser window: a pale grey left navigation column, a white main panel with a simple table of four horizontal rows, one row marked by a small green status badge and three rows by amber badges, all lines of type too small and soft to read from this distance. Beside the keyboard sit a ceramic coffee mug, a printed binder and a lab coat draped over the chair back. Cool overcast mid-morning daylight from a window mixes with the screen glow, shallow depth of field, focus on the amber badges, quiet and tense.",
+    "negativePrompt": "text, letters, words, captions, subtitles, readable signage, watermark, logo, signature, blurry, low quality, deformed hands, extra limbs, extra fingers, cartoon, illustration, 3d render, cgi, readable words, legible numbers, brand names, browser logos, operating system logos, red alarm screens, hacked screen, glitch effects, people's faces, cartoon interface, distorted monitor",
+    "imageStyle": "screen"
+  },
+  "assets": [
+    {
+      "id": "01M79D8SZ0ZKPJ9TM8PD9R5QZY",
+      "kind": "image",
+      "path": "scenarios/01M793CSR7FHX26X4M2ATS79AH/media/01M794CAD7TRHTBKP1NSR68JF1/01M79D8SZ0ZKPJ9TM8PD9R5QZY.png",
+      "role": "composite",
+      "width": 1280,
+      "height": 800,
+      "sha256": "0fa64f9621b1a8610aa2e51c67c7cd6888ce12b541ef2ff0318469c9489aa8c4",
+      "provenance": {
+        "provider": "template",
+        "templateId": "screenshot_generic",
+        "templateVersion": "1",
+        "createdAt": "2026-11-13T02:54:57.114Z"
+      }
+    }
+  ],
+  "versions": [
+    {
+      "at": "2026-11-13T00:20:04.961Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "EHS Portal Clock Board: LI-2026-0142",
+        "type": "screenshot_generic",
+        "fields": {
+          "appName": "HSU EHS Portal",
+          "windowTitle": "LI-2026-0142 · Clock Board · HSU EHS Portal",
+          "location": "https://ehs.hsu.example/incidents/LI-2026-0142/clock-board",
+          "menuItems": [
+            "Incidents",
+            "Clock Board",
+            "Award Terms",
+            "Corrective Actions",
+            "Reports",
+            "Help"
+          ],
+          "sidebarItems": [
+            {
+              "label": "LI-2026-0142: Lindgren 3rd floor, shared centrifuge room",
+              "meta": "Discovered 13 Oct 2026 09:02 · Centrifuge tube failure, possible exposure · Status: ACTIVE",
+              "selected": false
+            },
+            {
+              "label": "CLOCK BOARD",
+              "meta": "4 rows · 1 complete · 3 open",
+              "selected": true
+            },
+            {
+              "label": "[1] PI reports to BSO",
+              "meta": "Due 14 Oct 2026 09:02 (24 h from discovery) · RECEIVED 13 Oct 2026 09:20 ✔",
+              "selected": false
+            },
+            {
+              "label": "[2] BSO reports to IBC chair",
+              "meta": "Due 16 Oct 2026 09:20 (3 calendar days from receipt of PI report) · OPEN",
+              "selected": false
+            },
+            {
+              "label": "[3] Notice to sponsor",
+              "meta": "Due 20 Oct 2026 09:02 (7 calendar days, HSU default) · OPEN · Sender: not assigned",
+              "selected": false
+            },
+            {
+              "label": "[4] IBC report to NIH OSP",
+              "meta": "Due 12 Nov 2026 (30 days from discovery) · OPEN · Classification: NOT YET SET",
+              "selected": false
+            },
+            {
+              "label": "AWARD TERMS: equipment record",
+              "meta": "Centrifuge, Lindgren 3rd floor shared centrifuge room · Purchased on: Iowa Corn Growers Board award",
+              "selected": false
+            },
+            {
+              "label": "Award term: incident notice",
+              "meta": "Iowa Corn Growers Board: incident notice within 72 hours of discovery to program contact, grants@cornboard.example",
+              "selected": false
+            }
+          ],
+          "statusText": "HSU-EHS-BIO-01 · Clock Board last refreshed 13 Oct 2026 10:34 CDT · Sponsor clock source: HSU default (7 days) · Award term link: none",
+          "imageBrief": "Windows desktop browser window showing a plain institutional web portal with a left navigation list and a table of rows with colored status badges, one green and three amber, no readable text",
+          "clock": "10:35 AM"
+        },
+        "instructorNote": "This is a clue inject. The clock board was never linked to the award term, so row 3 still shows 7 days, but the Iowa Corn Growers Board term requires notice within 72 hours, which makes Friday 16 Oct 2026 09:02 the real deadline. Check that the RC fixes the board, writes down that the stricter term governs, and names who sends the notice, how and when. The IO should confirm that rule. Also look for someone to point out that the NIH row depends on the IBC chair's classification and could get shorter, with the clock still running from discovery at 09:02.",
+        "deliveryMode": "hand_to_role"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-11-13T02:54:58.019Z"
+}

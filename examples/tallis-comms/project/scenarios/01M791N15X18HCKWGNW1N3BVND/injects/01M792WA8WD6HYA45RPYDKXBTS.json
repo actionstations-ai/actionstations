@@ -1,0 +1,155 @@
+{
+  "id": "01M792WA8WD6HYA45RPYDKXBTS",
+  "mselRowId": "I-19",
+  "type": "email_forward",
+  "title": "SOC Update 10:52: New Phishing Wave Copies the Draft Customer Email",
+  "deliveryMode": "hand_to_role",
+  "fields": {
+    "fromName": "Devon Park (SOC On-Call)",
+    "fromEmail": "soc-oncall@tallishome.example",
+    "senderInitials": "SOC",
+    "to": "Lena Hartmann (CISO); Tessa Brandt (Social Media Manager); Priya Natarajan (VP Corporate Communications)",
+    "subject": "FW: Important: Tallis web store security update — INC-27-0309-01 new phishing wave + send preview",
+    "sentAt": "Tue 3/9/2027 10:52 AM",
+    "importance": "high",
+    "external": false,
+    "note": "Two things, both on TLC-COM-03 as of 10:52 ET.\n\n(1) EMAIL SERVICE SEND PREVIEW, campaign INC-0309-CUST-NOTICE-DRAFT-v3\n- Recipients: 412,000\n- Account send limit: 400,000 per hour\n- Estimated completion: 62 minutes after start\n- Status: DRAFT, not scheduled\n- Link check: 1 link, https://www.tallishome.example/security-update (no other domains)\n\n(2) NEW PHISHING WAVE\nThe gateway quarantined a new wave starting 10:47 ET. 2,040 messages so far, still arriving. One sample is forwarded below.\n- FROM: 'Tallis Home Security' <refunds@tallis-refund-center.example>, sent via tallis-account-security.example\n- Domain registered today, 2027-03-09 10:31 ET, 16 minutes before the first message\n- Sending host 203.0.113.88, SPF=none, DKIM=none, DMARC=fail\n- Button 'VERIFY PASSWORD AND CARD' links to tallis-account-security.example/verify\n\nThe first paragraph copies our draft customer email almost word for word. That draft was only on TLC-COM-03 and in the cell chat. Either someone leaked it, or the attacker guessed a very standard wording. I can't tell which from here.\n\ntallis-refund-center.example from this morning is still live too. Nobody has reported either domain yet.\n\nDo we still send ours at 11:45 as planned?",
+    "signature": "Devon Park\nSOC On-Call Analyst, Security Operations Center\nTallis Home Products, Inc. | Dayton, Ohio",
+    "attachments": [
+      {
+        "name": "quarantine_sample_1047ET_headers.txt",
+        "size": "6 KB",
+        "kind": "file"
+      },
+      {
+        "name": "phish_render_tallis-account-security_verify.png",
+        "size": "412 KB",
+        "kind": "img"
+      },
+      {
+        "name": "INC-0309-CUST-NOTICE-DRAFT-v3_send_preview.png",
+        "size": "238 KB",
+        "kind": "img"
+      }
+    ],
+    "printedBy": "Lena Hartmann (CISO)",
+    "original": {
+      "fromName": "Tallis Home Security",
+      "fromEmail": "refunds@tallis-refund-center.example",
+      "sentAt": "Tue 3/9/2027 10:47 AM",
+      "to": "Valued Customer",
+      "cc": "",
+      "subject": "Important: Tallis web store security update",
+      "body": "Dear Valued Tallis Customer,\n\nTallis learned this morning that some web store account information was accessed through a vendor connection. We stopped the activity and are working with outside experts to find out what happened. We are sorry for the worry this may cause.\n\nTo protect your account, you must verify your password and payment card within 12 hours. Accounts that are not verified will be locked and pending orders cancelled.\n\n[ VERIFY PASSWORD AND CARD ]\n(tallis-account-security.example/verify)\n\nThank you for keeping your home tidy with Tallis.\n\nTallis Home Security Team\nCustomer Protection Department, Tallis Home Products Inc.\nThis is an automated message. Please do not reply."
+    }
+  },
+  "variant": "screen",
+  "instructorNote": "Technical hurdle: the attacker has copied the draft customer email right before the planned 11:45 send. Watch for: the CISO looking into a possible leak through counsel and passing the new domain on for the IC3 report; SOCIAL asking the platform, registrar and host to take the domain down, with the URL and a screenshot; and WRITER checking the draft against the fact sheet (412,000 preliminary, tokens and last four yes, no full card numbers, bcrypt), with a \"Tallis will never ask for your password or card by email\" line added. The 62-minute send should not start until Legal and the CISO agree.",
+  "citations": [
+    {
+      "documentId": "01M791MZ5V0HHAJ0J2R7KKEXX6",
+      "documentTitle": "TLC-COM-03: Systems, Customer Data and Media Directory",
+      "headingPath": "TSCDMD › 2. Customer data systems",
+      "quote": "- **Web store.** Built and hosted by the vendor CartBridge Commerce (fictional) on its cloud. Holds 1.9 million registered accounts: name, email address, shipping and billing address, phone number if ",
+      "chunkId": 31
+    },
+    {
+      "documentId": "01M791MZ5TMRENEGVVE344C0E4",
+      "documentTitle": "TLC-COM-02: Message Playbook for a Customer Data Incident",
+      "headingPath": "TMPCDI › 5. Rumor and false claim protocol",
+      "quote": "1. Social listening flags a claim that appears on three or more accounts, or on one account with more than 5,000 followers, or in a reporter's question. 2. Social Media Manager records the claim word ",
+      "chunkId": 25
+    },
+    {
+      "documentId": "01M791MZ5PNQX3GYDBEAX99A9W",
+      "documentTitle": "TLC-COM-01: Crisis Communications Plan",
+      "headingPath": "TCCP › 2. The team",
+      "quote": "| Role | Name | Duty | Office / mobile | |---|---|---|---| | Chief Communications Officer (COMMS) | Marcus Delaney | Owns strategy, approves every external statement, decides when to hold a press conf",
+      "chunkId": 3
+    },
+    {
+      "documentId": "01M791MZ5V0HHAJ0J2R7KKEXX6",
+      "documentTitle": "TLC-COM-03: Systems, Customer Data and Media Directory",
+      "headingPath": "TSCDMD › 3. Publishing and listening systems",
+      "quote": "The newsroom page and the website banner are changed by Corporate Communications in 10 minutes. Company accounts are run from the social tool with two-person approval. Social listening runs 24 hours w",
+      "chunkId": 32
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template"
+    ]
+  },
+  "assets": [
+    {
+      "id": "01M79BRB224JN3DC1EHNRM3BH2",
+      "kind": "image",
+      "path": "scenarios/01M791N15X18HCKWGNW1N3BVND/media/01M792WA8WD6HYA45RPYDKXBTS/01M79BRB224JN3DC1EHNRM3BH2.png",
+      "role": "rendered",
+      "width": 816,
+      "height": 1417,
+      "sha256": "aae0537ae6552cb7a3c0ded117c8a10c83f14e127eab39cb8b3d78a562175efb",
+      "provenance": {
+        "provider": "template",
+        "templateId": "email_forward",
+        "templateVersion": "1",
+        "createdAt": "2026-11-13T02:28:29.707Z"
+      }
+    }
+  ],
+  "versions": [
+    {
+      "at": "2026-11-12T23:53:44.142Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "SOC Update 10:52: New Phishing Wave Copies the Draft Customer Email",
+        "type": "email_forward",
+        "fields": {
+          "fromName": "Devon Park (SOC On-Call)",
+          "fromEmail": "soc-oncall@tallishome.example",
+          "senderInitials": "SOC",
+          "to": "Lena Hartmann (CISO); Tessa Brandt (Social Media Manager); Priya Natarajan (VP Corporate Communications)",
+          "subject": "FW: Important: Tallis web store security update — INC-27-0309-01 new phishing wave + send preview",
+          "sentAt": "Tue 3/9/2027 10:52 AM",
+          "importance": "high",
+          "external": false,
+          "note": "Two things, both on TLC-COM-03 as of 10:52 ET.\n\n(1) EMAIL SERVICE SEND PREVIEW, campaign INC-0309-CUST-NOTICE-DRAFT-v3\n- Recipients: 412,000\n- Account send limit: 400,000 per hour\n- Estimated completion: 62 minutes after start\n- Status: DRAFT, not scheduled\n- Link check: 1 link, https://www.tallishome.example/security-update (no other domains)\n\n(2) NEW PHISHING WAVE\nThe gateway quarantined a new wave starting 10:47 ET. 2,040 messages so far, still arriving. One sample is forwarded below.\n- FROM: 'Tallis Home Security' <refunds@tallis-refund-center.example>, sent via tallis-account-security.example\n- Domain registered today, 2027-03-09 10:31 ET, 16 minutes before the first message\n- Sending host 203.0.113.88, SPF=none, DKIM=none, DMARC=fail\n- Button 'VERIFY PASSWORD AND CARD' links to tallis-account-security.example/verify\n\nThe first paragraph copies our draft customer email almost word for word. That draft was only on TLC-COM-03 and in the cell chat. Either someone leaked it, or the attacker guessed a very standard wording. I can't tell which from here.\n\ntallis-refund-center.example from this morning is still live too. Nobody has reported either domain yet.\n\nDo we still send ours at 11:45 as planned?",
+          "signature": "Devon Park\nSOC On-Call Analyst, Security Operations Center\nTallis Home Products, Inc. | Dayton, Ohio",
+          "attachments": [
+            {
+              "name": "quarantine_sample_1047ET_headers.txt",
+              "size": "6 KB",
+              "kind": "file"
+            },
+            {
+              "name": "phish_render_tallis-account-security_verify.png",
+              "size": "412 KB",
+              "kind": "img"
+            },
+            {
+              "name": "INC-0309-CUST-NOTICE-DRAFT-v3_send_preview.png",
+              "size": "238 KB",
+              "kind": "img"
+            }
+          ],
+          "printedBy": "Lena Hartmann (CISO)",
+          "original": {
+            "fromName": "Tallis Home Security",
+            "fromEmail": "refunds@tallis-refund-center.example",
+            "sentAt": "Tue 3/9/2027 10:47 AM",
+            "to": "Valued Customer",
+            "cc": "",
+            "subject": "Important: Tallis web store security update",
+            "body": "Dear Valued Tallis Customer,\n\nTallis learned this morning that some web store account information was accessed through a vendor connection. We stopped the activity and are working with outside experts to find out what happened. We are sorry for the worry this may cause.\n\nTo protect your account, you must verify your password and payment card within 12 hours. Accounts that are not verified will be locked and pending orders cancelled.\n\n[ VERIFY PASSWORD AND CARD ]\n(tallis-account-security.example/verify)\n\nThank you for keeping your home tidy with Tallis.\n\nTallis Home Security Team\nCustomer Protection Department, Tallis Home Products Inc.\nThis is an automated message. Please do not reply."
+          }
+        },
+        "instructorNote": "Technical hurdle: the attacker has copied the draft customer email right before the planned 11:45 send. Watch for: the CISO looking into a possible leak through counsel and passing the new domain on for the IC3 report; SOCIAL asking the platform, registrar and host to take the domain down, with the URL and a screenshot; and WRITER checking the draft against the fact sheet (412,000 preliminary, tokens and last four yes, no full card numbers, bcrypt), with a \"Tallis will never ask for your password or card by email\" line added. The 62-minute send should not start until Legal and the CISO agree.",
+        "deliveryMode": "hand_to_role"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-11-13T02:28:29.978Z"
+}

@@ -142,3 +142,9 @@ remember for the seated students are listed there.
 **Handout PDF** on a rubric prints the rubric for students. **Score report PDF** on a student prints
 their scores with the evidence quoted and your comments; for a practice run it says the run does
 not count. PDFs are saved where you choose and are not kept in the project.
+
+## Example project
+
+The Campuses pack includes an example project, **EMGT 4320 Exercise Design and Evaluation, Marlowe State University**, with one exercise, _Ninety Minutes_: on a wet spring morning Sugar Camp Run rises 1.5 feet an hour through the Marlowe State campus; the students must close Dairy Lane, order Riverside Hall evacuated before its basement floods, open Kessler Fieldhouse as a shelter and keep every message consistent while rumors spread.
+
+Turn the pack on under **Packs**, then open a copy from **Projects → Examples**. The organization, its people and its businesses are fictional; the exercise comes with its injects, media, Situation Manual, evaluation guides and controller handbook, ready to read or run.

@@ -81,3 +81,9 @@ The toolkit names a catalog of reference documents: the OSHA reporting rule, the
 - Review the toolkit and any example before using it for real training. A structural engineer who has served as a building safety evaluator and a construction safety director should read the placard and rescue material.
 - A rapid evaluation is not a structural analysis, and two qualified evaluators can differ on a borderline building. The placard table shows both over- and under-restriction so the team can discuss why.
 - Regulatory statements are summaries and can change.
+
+## Example project
+
+The Construction and the built environment pack includes an example project, **Larkspur Constructors: Trench Cave-in on the Stillwater Creek Interceptor**, with one exercise, _Unmarked Line_: on a wet April morning a 13-foot trench through saturated sandy fill fails beside a struck gas service, trapping a pipe layer while crack gauges on the adjacent 1924 print shop approach the action level; Larkspur must stop work, evacuate neighbors, support the fire department's rescue and meet the OSHA, owner and insurer clocks.
+
+Turn the pack on under **Packs**, then open a copy from **Projects → Examples**. The organization, its people and its businesses are fictional; the exercise comes with its injects, media, Situation Manual, evaluation guides and controller handbook, ready to read or run.

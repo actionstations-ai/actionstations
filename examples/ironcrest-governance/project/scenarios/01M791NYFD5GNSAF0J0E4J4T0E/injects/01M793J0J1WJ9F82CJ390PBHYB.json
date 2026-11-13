@@ -1,0 +1,116 @@
+{
+  "id": "01M793J0J1WJ9F82CJ390PBHYB",
+  "mselRowId": "END",
+  "type": "endex_card",
+  "title": "ENDEX: One Fact Sheet, Recovery Continues",
+  "deliveryMode": "read_aloud",
+  "fields": {
+    "exerciseTime": "4:00",
+    "endTime": "7:00 PM CT (8:00 PM ET), Thursday, March 25, 2027",
+    "resolution": "ENDEX. It is 19:00 Central Time on Thursday, March 25, 2027, and we have now played the overnight and Friday-morning storyline in compressed form. The General Counsel checks the Disclosure Committee's 19:00 record against everything learned since: Beloit encryption, about 1.2 TB exfiltrated, and the posting of the HD-4400 defense drawings and 3,100 employee records. If the committee recorded 'material', the Item 1.05 filing is due by 5:30 p.m. Eastern (4:30 p.m. Central) on Wednesday, March 31, 2027, the last day of the quarter, with an 8-K/A for open facts within four business days of learning them; if it recorded 'Item 8.01' or 'not yet determined', the new facts require a documented re-determination, and the four business days run from that decision. Recovery will continue over the coming days, play is now stopped, and this concludes the exercise. Exercise aid, not legal advice. Check the current rule and your counsel.",
+    "finalState": [
+      "MES: rebuilt host ICM-MES-01R up from the Wednesday 07:05 snapshot; CISO return NOT SIGNED; lot reconciliation under way; minimum service NOT met; 24-hour MTPD runs out at 14:05 Friday.",
+      "ERP: integration on hold; 12-hour RTO missed at 02:05 Friday; svc_wmsvendor must not return with the restore.",
+      "Joliet: restart waiting on the warehouse software vendor's 13:00 CT change window; 24-hour RTO at 15:30 Friday AT RISK.",
+      "Payroll: April 2 file sent to Northbridge Payroll before the 10:00 CT cut-off, on cycle (ticket NP-451377).",
+      "Board pre-read, 8-K draft, Fieldmark and Granite Peak supply notice and employee message are all held to the Chief Communications Officer's single fact sheet."
+    ],
+    "hotWashTransition": "Thank you, everyone. That is the end of play. Please close the bridge, put down your phones and keep every draft, decision record and tracker printout on the table exactly as it is. We will take ten minutes, then start the hot wash in this room.",
+    "hotWashMethod": "Decision timeline walk-back: rebuild the record minute by minute (what was known, who decided, on what basis), then close with 3-Up, 3-Down from each seat",
+    "hotWashQuestions": [
+      "At 19:00 Thursday, what did the Disclosure Committee record, with what facts and what basis, and when and how did it re-determine after the Beloit, 1.2 TB and leak-site facts arrived? Which 8-K deadline did we compute, in Central and Eastern time?",
+      "When the CIO said 'MES is back up' and the wire reported 'restored', what did we tell the board at 07:00? How did we measure recovery against the RTO, the MTPD and minimum service, not against the system being available?",
+      "Was the ransom decision logged under policy, with the sanctions match, the insurer's consent and the FBI recommendation on the record, and who made it?",
+      "Where did our documents disagree: the 8-K draft, the supply notice, the 22:30 employee note, the 20:00 press deadline? What would have made one fact sheet govern all of them sooner?",
+      "What would have stopped the restore from bringing back svc_wmsvendor with Domain Admins, and who owns vendor remote access from now on?"
+    ],
+    "facilitatorNote": "Before the break, collect the Disclosure Committee worksheet, the ransom decision record, the CHRO all-hands draft, the Fieldmark notice draft and BCM_RecoveryTracker_20270326_0630.xlsx. Hold the materiality record against IDCCI 5 and the single fact sheet against ICMP 7. Close the hot wash by having the BCM state an owner and date for the after-action report to the Audit Committee within 10 working days (ICMP 9).",
+    "scenarioTitle": "Six Days Out: MES Ransomware, Materiality & Disclosure",
+    "injectId": "END"
+  },
+  "variant": "default",
+  "instructorNote": "This card stops play, sets the final state of the exercise and moves the room into the hot wash. Look at whether the materiality record shows a re-determination with its time and basis, whether the team measured recovery against the RTOs or against 'system up', and whether the BCM commits to the 10-working-day after-action report.",
+  "citations": [
+    {
+      "documentId": "01M791NWEX7JTKWMS6TART9E7B",
+      "documentTitle": "ICM-LEG-03: Disclosure Controls for Cybersecurity Incidents",
+      "headingPath": "IDCCI › 5. Form 8-K",
+      "quote": "- **Item 1.05, Material Cybersecurity Incidents.** Describes the material aspects of the nature, scope and timing of the incident and the material or reasonably likely material impact on the company, ",
+      "chunkId": 34
+    },
+    {
+      "documentId": "01M791NWEVAZDEE6NB6D1690HB",
+      "documentTitle": "ICM-CMP-01: Crisis Management Plan",
+      "headingPath": "ICMP › 9. After action",
+      "quote": "Within 10 working days of closing a crisis the BCM prepares a report to the Audit Committee: timeline, decisions with their documentation, recovery against RTO, and corrective actions with owners and ",
+      "chunkId": 28
+    },
+    {
+      "documentId": "01M791NWEX7JTKWMS6TART9E7B",
+      "documentTitle": "ICM-LEG-03: Disclosure Controls for Cybersecurity Incidents",
+      "headingPath": "IDCCI › 1. Purpose",
+      "quote": "This procedure makes sure Ironcrest decides promptly whether a cybersecurity incident is material and, if so, files a Form 8-K Item 1.05 within four business days after the determination. It is part o",
+      "chunkId": 30
+    },
+    {
+      "documentId": "01M791NWEVAZDEE6NB6D1690HB",
+      "documentTitle": "ICM-CMP-01: Crisis Management Plan",
+      "headingPath": "ICMP › 2. Crisis Management Team (CMT)",
+      "quote": "| Seat | Holder | Decides | |---|---|---| | Chair, CEO | Thomas Aldridge | Declares a crisis; approves ransom, regulator contact and public statements; activates succession | | CFO | Priya Raghavan | ",
+      "chunkId": 21
+    },
+    {
+      "documentId": "01M791NWEVAZDEE6NB6D1690HB",
+      "documentTitle": "ICM-CMP-01: Crisis Management Plan",
+      "headingPath": "ICMP › 7. Communications in a crisis",
+      "quote": "Messages to employees, customers, dealers, suppliers, regulators, analysts and the press come from the fact sheet kept by the Chief Communications Officer. The same numbers and dates appear in the boa",
+      "chunkId": 26
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template"
+    ]
+  },
+  "assets": [],
+  "versions": [
+    {
+      "at": "2026-11-13T00:05:34.886Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "ENDEX: One Fact Sheet, Recovery Continues",
+        "type": "endex_card",
+        "fields": {
+          "exerciseTime": "4:00",
+          "endTime": "7:00 PM CT (8:00 PM ET), Thursday, March 25, 2027",
+          "resolution": "ENDEX. It is 19:00 Central Time on Thursday, March 25, 2027, and we have now played the overnight and Friday-morning storyline in compressed form. The General Counsel checks the Disclosure Committee's 19:00 record against everything learned since: Beloit encryption, about 1.2 TB exfiltrated, and the posting of the HD-4400 defense drawings and 3,100 employee records. If the committee recorded 'material', the Item 1.05 filing is due by 5:30 p.m. Eastern (4:30 p.m. Central) on Wednesday, March 31, 2027, the last day of the quarter, with an 8-K/A for open facts within four business days of learning them; if it recorded 'Item 8.01' or 'not yet determined', the new facts require a documented re-determination, and the four business days run from that decision. Recovery will continue over the coming days, play is now stopped, and this concludes the exercise. Exercise aid, not legal advice. Check the current rule and your counsel.",
+          "finalState": [
+            "MES: rebuilt host ICM-MES-01R up from the Wednesday 07:05 snapshot; CISO return NOT SIGNED; lot reconciliation under way; minimum service NOT met; 24-hour MTPD runs out at 14:05 Friday.",
+            "ERP: integration on hold; 12-hour RTO missed at 02:05 Friday; svc_wmsvendor must not return with the restore.",
+            "Joliet: restart waiting on the warehouse software vendor's 13:00 CT change window; 24-hour RTO at 15:30 Friday AT RISK.",
+            "Payroll: April 2 file sent to Northbridge Payroll before the 10:00 CT cut-off, on cycle (ticket NP-451377).",
+            "Board pre-read, 8-K draft, Fieldmark and Granite Peak supply notice and employee message are all held to the Chief Communications Officer's single fact sheet."
+          ],
+          "hotWashTransition": "Thank you, everyone. That is the end of play. Please close the bridge, put down your phones and keep every draft, decision record and tracker printout on the table exactly as it is. We will take ten minutes, then start the hot wash in this room.",
+          "hotWashMethod": "Decision timeline walk-back: rebuild the record minute by minute (what was known, who decided, on what basis), then close with 3-Up, 3-Down from each seat",
+          "hotWashQuestions": [
+            "At 19:00 Thursday, what did the Disclosure Committee record, with what facts and what basis, and when and how did it re-determine after the Beloit, 1.2 TB and leak-site facts arrived? Which 8-K deadline did we compute, in Central and Eastern time?",
+            "When the CIO said 'MES is back up' and the wire reported 'restored', what did we tell the board at 07:00? How did we measure recovery against the RTO, the MTPD and minimum service, not against the system being available?",
+            "Was the ransom decision logged under policy, with the sanctions match, the insurer's consent and the FBI recommendation on the record, and who made it?",
+            "Where did our documents disagree: the 8-K draft, the supply notice, the 22:30 employee note, the 20:00 press deadline? What would have made one fact sheet govern all of them sooner?",
+            "What would have stopped the restore from bringing back svc_wmsvendor with Domain Admins, and who owns vendor remote access from now on?"
+          ],
+          "facilitatorNote": "Before the break, collect the Disclosure Committee worksheet, the ransom decision record, the CHRO all-hands draft, the Fieldmark notice draft and BCM_RecoveryTracker_20270326_0630.xlsx. Hold the materiality record against IDCCI 5 and the single fact sheet against ICMP 7. Close the hot wash by having the BCM state an owner and date for the after-action report to the Audit Committee within 10 working days (ICMP 9).",
+          "scenarioTitle": "Six Days Out: MES Ransomware, Materiality & Disclosure",
+          "injectId": "END"
+        },
+        "instructorNote": "This card stops play, sets the final state of the exercise and moves the room into the hot wash. Look at whether the materiality record shows a re-determination with its time and basis, whether the team measured recovery against the RTOs or against 'system up', and whether the BCM commits to the 10-working-day after-action report.",
+        "deliveryMode": "read_aloud"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-11-13T02:30:24.363Z"
+}

@@ -1,0 +1,264 @@
+{
+  "id": "01M795CZ4THC41YXJ39HTM7D5G",
+  "mselRowId": "I-16",
+  "type": "phone_call",
+  "title": "Phone: StatusGrid: \"This Time It Held,\" Board Partly Back",
+  "deliveryMode": "read_aloud",
+  "fields": {
+    "orgName": "Larkfield Regional Medical Center",
+    "systemName": "Recorded Line - MEDCOM Console 1 (Phone + MED 1)",
+    "callId": "CR-20261112-203502-0270",
+    "direction": "Inbound",
+    "caller": {
+      "name": "StatusGrid On-Call Engineer",
+      "number": "608-555-0147",
+      "label": "StatusGrid Health Systems, Remote Support"
+    },
+    "callee": {
+      "name": "LRMC MEDCOM Nurse",
+      "number": "(920-555-0190",
+      "label": "LRMC MEDCOM Desk"
+    },
+    "startTime": "11/12/2026 20:35:02",
+    "duration": "2:14",
+    "transcript": [
+      {
+        "speaker": "MEDCOM",
+        "offset": "0:00",
+        "text": "LRMC MEDCOM.",
+        "prompt": false
+      },
+      {
+        "speaker": "StatusGrid",
+        "offset": "0:02",
+        "text": "Hey, it's StatusGrid on-call again. OK, this time it held. I purged the 16:55 replay queue before the restart, so you won't see the old values flash up this time. StatusSync came up at 20:33 and it's kept a heartbeat for two minutes now.",
+        "prompt": false
+      },
+      {
+        "speaker": "MEDCOM",
+        "offset": "0:19",
+        "text": "What's on the board right now?",
+        "prompt": false
+      },
+      {
+        "speaker": "StatusGrid",
+        "offset": "0:22",
+        "text": "The rows come back one at a time as each hospital's interface checks in. Row one, LRMC: LIMITED INTAKE, Immediate by voice only, ED 24 of 24 plus surge ward, updated 20:34. And... Lakeshore just checked in. OPEN, Immediate by Air 7, updated 20:36. St. Brendan's and Pinecrest both say 'Pending sync.' Banner across the top reads 'Feed restored, partial.'",
+        "prompt": false
+      },
+      {
+        "speaker": "MEDCOM",
+        "offset": "0:51",
+        "text": "When do St. Brendan's and Pinecrest come back?",
+        "prompt": false
+      },
+      {
+        "speaker": "StatusGrid",
+        "offset": "0:54",
+        "text": "When their interfaces check in. Can't give you a time on those two. Pinecrest's carrier line was down earlier, so that one could take a while. I'm going to keep watching the heartbeat. Your IT on-call asked for a screenshot, so they'll email it over to you in a few minutes.",
+        "prompt": false
+      },
+      {
+        "speaker": "StatusGrid",
+        "offset": "1:12",
+        "text": "Heads up: anybody with the board on a tablet is going to see it refresh now, and the rows are going green. I'll call you back if the service drops again.",
+        "prompt": false
+      },
+      {
+        "speaker": "MED 1: Transportation",
+        "offset": "1:58",
+        "text": "MEDCOM, Transportation. The crews' tablets just turned green again. Are we back on the board, or still on your voice roll?",
+        "prompt": true
+      }
+    ],
+    "voiceStyles": {
+      "MEDCOM": "Woman in her 40s, ED nurse, tired but steady, radio chatter in the room behind her",
+      "StatusGrid": "Man in his 30s, relieved and a little too upbeat, typing heard between sentences, quiet home office",
+      "MED 1: Transportation": "Male paramedic outdoors in the rain, wind on the mic, generator and diesel engines idling nearby"
+    },
+    "injectId": "I-16"
+  },
+  "variant": "default",
+  "instructorNote": "This tests whether MEDCOM goes back to a board that is only partly restored. The expected answer: the board and the voice roll call run side by side, a row counts only after a hospital contact confirms it by voice (SOP-MC-02 section 3), and MED tells Transportation to keep getting destinations from MEDCOM by voice. Watch for HCC logging the 20:33 restart and the order the rows came back in. LRMC IT's 20:41 screenshot email shows the same four rows if you want a follow-up handout.",
+  "citations": [
+    {
+      "documentId": "01M793P6PGDB8Z907EWTDCQPAM",
+      "documentTitle": "SOP-MC-02: Medical Communications, Destinations and the Hospital Capacity Board",
+      "headingPath": "SOP-MC-02: Medical Communication… › 3. Status categories",
+      "quote": "A hospital's status is one of: **Open** (accepting any patient), **Limited intake** (accepting only the categories it lists), **Diversion** (not accepting arrivals unless an unstable patient cannot go",
+      "chunkId": 32
+    },
+    {
+      "documentId": "01M793P6PGDB8Z907EWTDCQPAM",
+      "documentTitle": "SOP-MC-02: Medical Communications, Destinations and the Hospital Capacity Board",
+      "headingPath": "SOP-MC-02: Medical Communication… › 4. Destination rules",
+      "quote": "1. **Immediate (red) patients** go to the closest appropriate trauma center. In Larkfield County this is LRMC for adults and children, up to its trauma bay count: no more than 3 Immediate patients to ",
+      "chunkId": 33
+    },
+    {
+      "documentId": "01M793P6PFQ4PY61W0H9SNTC30",
+      "documentTitle": "Larkfield County EMS: Mass Casualty Incident Plan",
+      "headingPath": "Larkfield County EMS: Mass Casua… › 6. Hospital notification and medical communications",
+      "quote": "The Medical Communications Coordinator calls Larkfield Regional Medical Center (LRMC) MEDCOM (920-555-0190, the dedicated MEDCOM radio channel MED 1) and reads the incident, the method, the counts and",
+      "chunkId": 26
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template",
+      "tts"
+    ],
+    "voiceLines": [
+      {
+        "speaker": "MEDCOM",
+        "voiceStyle": "Woman in her 40s, emergency department nurse, tired but steady, clipped and professional, slightly hoarse after a long shift, low radio chatter in the room behind her",
+        "text": "LRMC MEDCOM."
+      },
+      {
+        "speaker": "StatusGrid",
+        "voiceStyle": "Man in his 30s, software support engineer, relieved and a little too upbeat, quick pace, light keyboard typing between sentences, quiet home office",
+        "text": "Hey, it's StatusGrid on-call again. OK, this time it held. I purged the sixteen fifty-five replay queue before the restart, so you won't see the old values flash up this time. StatusSync came up at twenty thirty-three, and it's kept a heartbeat for two minutes now."
+      },
+      {
+        "speaker": "MEDCOM",
+        "voiceStyle": "Woman in her 40s, emergency department nurse, tired but steady, direct and businesslike, low radio chatter in the room behind her",
+        "text": "What's on the board right now?"
+      },
+      {
+        "speaker": "StatusGrid",
+        "voiceStyle": "Man in his 30s, software support engineer, upbeat, reading off a screen, pausing briefly as a new row appears, light typing, quiet home office",
+        "text": "The rows come back one at a time as each hospital's interface checks in. Row one, LRMC: Limited Intake, Immediate by voice only, E D twenty-four of twenty-four plus surge ward, updated twenty thirty-four. And... Lakeshore just checked in. Open, Immediate by Air Seven, updated twenty thirty-six. St. Brendan's and Pinecrest both say, pending sync. Banner across the top reads, feed restored, partial."
+      },
+      {
+        "speaker": "MEDCOM",
+        "voiceStyle": "Woman in her 40s, emergency department nurse, tired, a little impatient, pressing for an answer, radio chatter behind her",
+        "text": "When do St. Brendan's and Pinecrest come back?"
+      },
+      {
+        "speaker": "StatusGrid",
+        "voiceStyle": "Man in his 30s, software support engineer, slightly less upbeat now, apologetic, measured pace, light typing",
+        "text": "When their interfaces check in. Can't give you a time on those two. Pinecrest's carrier line was down earlier, so that one could take a while. I'm going to keep watching the heartbeat. Your IT on-call asked for a screenshot, so they'll email it over to you in a few minutes."
+      },
+      {
+        "speaker": "StatusGrid",
+        "voiceStyle": "Man in his 30s, software support engineer, upbeat and casual, wrapping up the call",
+        "text": "Heads up: anybody with the board on a tablet is going to see it refresh now, and the rows are going green. I'll call you back if the service drops again."
+      },
+      {
+        "speaker": "MED 1: Transportation",
+        "voiceStyle": "Male paramedic in his 30s or 40s, outdoors in the rain, slightly raised voice over wind on the mic, generator and idling diesel engines nearby, brisk radio cadence, sceptical",
+        "text": "MEDCOM, Transportation. The crews' tablets just turned green again. Are we back on the board, or still on your voice roll?"
+      }
+    ],
+    "postFx": [
+      "phone"
+    ]
+  },
+  "assets": [
+    {
+      "id": "01M799K01BQ8YV2T5VKNW1YF4F",
+      "kind": "image",
+      "path": "scenarios/01M793P8PXF0GDKTPD0H7TVRD5/media/01M795CZ4THC41YXJ39HTM7D5G/01M799K01BQ8YV2T5VKNW1YF4F.png",
+      "role": "rendered",
+      "width": 816,
+      "height": 1056,
+      "sha256": "6fd31b77549440ccf39835dea5a1b1195753170a788e9f88edf6cdb7f3b6030b",
+      "provenance": {
+        "provider": "template",
+        "templateId": "phone_call",
+        "templateVersion": "1",
+        "createdAt": "2026-11-13T01:50:37.467Z"
+      }
+    }
+  ],
+  "versions": [
+    {
+      "at": "2026-11-13T00:38:02.459Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "Phone: StatusGrid: \"This Time It Held,\" Board Partly Back",
+        "type": "phone_call",
+        "fields": {
+          "orgName": "Larkfield Regional Medical Center",
+          "systemName": "Recorded Line - MEDCOM Console 1 (Phone + MED 1)",
+          "callId": "CR-20261112-203502-0270",
+          "direction": "Inbound",
+          "caller": {
+            "name": "StatusGrid On-Call Engineer",
+            "number": "608-555-0147",
+            "label": "StatusGrid Health Systems, Remote Support"
+          },
+          "callee": {
+            "name": "LRMC MEDCOM Nurse",
+            "number": "(920-555-0190",
+            "label": "LRMC MEDCOM Desk"
+          },
+          "startTime": "11/12/2026 20:35:02",
+          "duration": "2:14",
+          "transcript": [
+            {
+              "speaker": "MEDCOM",
+              "offset": "0:00",
+              "text": "LRMC MEDCOM.",
+              "prompt": false
+            },
+            {
+              "speaker": "StatusGrid",
+              "offset": "0:02",
+              "text": "Hey, it's StatusGrid on-call again. OK, this time it held. I purged the 16:55 replay queue before the restart, so you won't see the old values flash up this time. StatusSync came up at 20:33 and it's kept a heartbeat for two minutes now.",
+              "prompt": false
+            },
+            {
+              "speaker": "MEDCOM",
+              "offset": "0:19",
+              "text": "What's on the board right now?",
+              "prompt": false
+            },
+            {
+              "speaker": "StatusGrid",
+              "offset": "0:22",
+              "text": "The rows come back one at a time as each hospital's interface checks in. Row one, LRMC: LIMITED INTAKE, Immediate by voice only, ED 24 of 24 plus surge ward, updated 20:34. And... Lakeshore just checked in. OPEN, Immediate by Air 7, updated 20:36. St. Brendan's and Pinecrest both say 'Pending sync.' Banner across the top reads 'Feed restored, partial.'",
+              "prompt": false
+            },
+            {
+              "speaker": "MEDCOM",
+              "offset": "0:51",
+              "text": "When do St. Brendan's and Pinecrest come back?",
+              "prompt": false
+            },
+            {
+              "speaker": "StatusGrid",
+              "offset": "0:54",
+              "text": "When their interfaces check in. Can't give you a time on those two. Pinecrest's carrier line was down earlier, so that one could take a while. I'm going to keep watching the heartbeat. Your IT on-call asked for a screenshot, so they'll email it over to you in a few minutes.",
+              "prompt": false
+            },
+            {
+              "speaker": "StatusGrid",
+              "offset": "1:12",
+              "text": "Heads up: anybody with the board on a tablet is going to see it refresh now, and the rows are going green. I'll call you back if the service drops again.",
+              "prompt": false
+            },
+            {
+              "speaker": "MED 1: Transportation",
+              "offset": "1:58",
+              "text": "MEDCOM, Transportation. The crews' tablets just turned green again. Are we back on the board, or still on your voice roll?",
+              "prompt": true
+            }
+          ],
+          "voiceStyles": {
+            "MEDCOM": "Woman in her 40s, ED nurse, tired but steady, radio chatter in the room behind her",
+            "StatusGrid": "Man in his 30s, relieved and a little too upbeat, typing heard between sentences, quiet home office",
+            "MED 1: Transportation": "Male paramedic outdoors in the rain, wind on the mic, generator and diesel engines idling nearby"
+          },
+          "injectId": "I-16"
+        },
+        "instructorNote": "This tests whether MEDCOM goes back to a board that is only partly restored. The expected answer: the board and the voice roll call run side by side, a row counts only after a hospital contact confirms it by voice (SOP-MC-02 section 3), and MED tells Transportation to keep getting destinations from MEDCOM by voice. Watch for HCC logging the 20:33 restart and the order the rows came back in. LRMC IT's 20:41 screenshot email shows the same four rows if you want a follow-up handout.",
+        "deliveryMode": "read_aloud"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-11-13T01:50:37.696Z"
+}

@@ -1,0 +1,169 @@
+{
+  "id": "01M7933HBWFDJMQWN05PJAYHGW",
+  "mselRowId": "I-06",
+  "type": "radio_call",
+  "title": "911 Admin Radio: Position 4 at Port Alder — Water at the Generator Room",
+  "deliveryMode": "play_audio",
+  "fields": {
+    "orgName": "Marlow County Communications (911)",
+    "centerName": "Port Alder Primary 911 Center / EOC Backup Center, Kellerton",
+    "channel": "911 ADMIN",
+    "frequency": "County VHF, 911 Admin talkgroup",
+    "callsign": "Position 4",
+    "lines": [
+      {
+        "time": "10:38",
+        "from": "Port Alder tide gauge (automated feed to EOC Warning desk)",
+        "to": "EOC Warning desk",
+        "text": "PORT ALDER TIDE GAUGE 10:38 PDT. RAPID RISE. +2.4 M ABOVE PREDICTED TIDE IN 3 MIN (OBSERVED)."
+      },
+      {
+        "time": "10:39",
+        "from": "Position 4",
+        "to": "911 Supervisor",
+        "text": "Supervisor, this is Position 4 at Port Alder. Six of us are still on positions with 41 calls holding. Water is coming across the back lot and under the generator room door. Phones just dropped to half. Do we keep taking calls or go?"
+      },
+      {
+        "time": "10:40",
+        "from": "Position 4",
+        "to": "911 Supervisor",
+        "text": "Supervisor, Position 4 again. It's over the back step now, and it's still coming. Generator's still running. The queue's still at forty-one. I need an answer."
+      },
+      {
+        "time": "10:41",
+        "from": "Port Alder tide gauge (automated feed to EOC Warning desk)",
+        "to": "EOC Warning desk",
+        "text": "PORT ALDER TIDE GAUGE 10:41 PDT. DATA GAP. NO SIGNAL."
+      },
+      {
+        "time": "10:41",
+        "from": "WebEOC Tsunami Status board (EOC main screen)",
+        "to": "EOC",
+        "text": "TSUNAMI STATUS: AWAITING FIRST ARRIVAL. Last entry 10:19, NTWC Tsunami Warning Number 1, estimated first arrival Port Alder 1036 to 1040 AM PDT."
+      }
+    ],
+    "background": "office",
+    "voiceStyle": "Woman in her thirties, telecommunicator, steady professional radio voice under strain, phones ringing behind her, getting faster and tighter on the second call",
+    "audioFile": "I-06_radio.wav",
+    "duration": "0:32",
+    "injectId": "I-06"
+  },
+  "variant": "default",
+  "instructorNote": "Tests whether the 911 Supervisor orders the last six telecommunicators out at once and rolls calls to the four EOC backup consoles, logging the transfer time and the gap in call-taking, and whether the Warning Coordinator posts the 10:38 gauge arrival as an observation with time and source, notes the gauge outage, gives no height forecast and warns that later waves are often larger. Command should confirm that the evacuation and the NTWC Warning stay in effect and that no field unit works below the line; a decision to stay for the call queue is the main thing to catch.",
+  "citations": [
+    {
+      "documentId": "01M791ZH1Y7DWQX8VPP0RQR1T3",
+      "documentTitle": "Marlow County: Facilities and Systems",
+      "headingPath": "MCFS › 3. Marlow County Communications",
+      "quote": "Primary 911 center: 118 Front Street, Port Alder, inside the XXL zone. Backup center at the EOC with four consoles. Radio: a county VHF system with 9 repeaters; three repeaters run on propane generato",
+      "chunkId": 21
+    },
+    {
+      "documentId": "01M791ZH1WE2D7SKJ2A2K3TGP3",
+      "documentTitle": "Marlow County Emergency Operations Plan, Annex J: Earthquake and Tsunami",
+      "headingPath": "Marlow County Emergency Operatio… › 3. Key facilities and people",
+      "quote": "- **EOC:** Marlow County Emergency Operations Center, 410 Hilltop Road, Kellerton (outside every tsunami zone, elevation 212 feet). Phone 541-555-0120. Alternate EOC: Marlow Coast High School library.",
+      "chunkId": 12
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template",
+      "tts"
+    ],
+    "voiceLines": [
+      {
+        "speaker": "Position 4",
+        "voiceStyle": "Woman in her thirties, experienced 911 telecommunicator, steady professional radio voice under clear strain, clipped and controlled, moderate pace, slight breathiness, keying up over a busy dispatch floor",
+        "text": "Supervisor, this is Position 4 at Port Alder. Six of us are still on positions, with forty-one calls holding. Water is coming across the back lot... and under the generator room door. Phones just dropped to half. Do we keep taking calls, or go?"
+      },
+      {
+        "speaker": "Position 4",
+        "voiceStyle": "Same woman in her thirties, telecommunicator, now faster and tighter, voice pitched slightly higher, urgency breaking through the professional calm, short breaths between phrases",
+        "text": "Supervisor, Position 4 again. It's Over the back step now, and it's still coming. Generator's still running. The queue's still at forty-one. I need an answer."
+      }
+    ],
+    "postFx": [
+      "radio"
+    ]
+  },
+  "assets": [
+    {
+      "id": "01M799AW190FSCMZY875W7VRES",
+      "kind": "audio",
+      "path": "scenarios/01M791ZK2F9VNQ6W0WAA3KX0T8/media/01M7933HBWFDJMQWN05PJAYHGW/01M799AW190FSCMZY875W7VRES.mp3",
+      "role": "generated",
+      "durationSec": 27.31,
+      "sha256": "93aa58284c19d97df264183c8ba4ede85a39049ca38185dfdd5de2c830d109f9",
+      "provenance": {
+        "provider": "local-tts-mlx-audio-82a3",
+        "model": "mlx-community/Qwen3-TTS-12Hz-1.7B-VoiceDesign-bf16",
+        "prompt": "Position 4: Supervisor, this is Position 4 at Port Alder. Six of us are still on positions, with forty-one calls holding. Water is coming across the back lot... and under the generator room door. Phones just dropped to half. Do we keep taking calls, or go?\nPosition 4: Supervisor, Position 4 again. It's Over the back step now, and it's still coming. Generator's still running. The queue's still at forty-one. I need an answer.",
+        "postFx": [
+          "radio"
+        ],
+        "createdAt": "2026-11-13T01:46:11.371Z"
+      }
+    }
+  ],
+  "versions": [
+    {
+      "at": "2026-11-12T23:57:47.398Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "911 Admin Radio: Position 4 at Port Alder — Water at the Generator Room",
+        "type": "radio_call",
+        "fields": {
+          "orgName": "Marlow County Communications (911)",
+          "centerName": "Port Alder Primary 911 Center / EOC Backup Center, Kellerton",
+          "channel": "911 ADMIN",
+          "frequency": "County VHF, 911 Admin talkgroup",
+          "callsign": "Position 4",
+          "lines": [
+            {
+              "time": "10:38",
+              "from": "Port Alder tide gauge (automated feed to EOC Warning desk)",
+              "to": "EOC Warning desk",
+              "text": "PORT ALDER TIDE GAUGE 10:38 PDT. RAPID RISE. +2.4 M ABOVE PREDICTED TIDE IN 3 MIN (OBSERVED)."
+            },
+            {
+              "time": "10:39",
+              "from": "Position 4",
+              "to": "911 Supervisor",
+              "text": "Supervisor, this is Position 4 at Port Alder. Six of us are still on positions with 41 calls holding. Water is coming across the back lot and under the generator room door. Phones just dropped to half. Do we keep taking calls or go?"
+            },
+            {
+              "time": "10:40",
+              "from": "Position 4",
+              "to": "911 Supervisor",
+              "text": "Supervisor, Position 4 again. It's over the back step now, and it's still coming. Generator's still running. The queue's still at forty-one. I need an answer."
+            },
+            {
+              "time": "10:41",
+              "from": "Port Alder tide gauge (automated feed to EOC Warning desk)",
+              "to": "EOC Warning desk",
+              "text": "PORT ALDER TIDE GAUGE 10:41 PDT. DATA GAP. NO SIGNAL."
+            },
+            {
+              "time": "10:41",
+              "from": "WebEOC Tsunami Status board (EOC main screen)",
+              "to": "EOC",
+              "text": "TSUNAMI STATUS: AWAITING FIRST ARRIVAL. Last entry 10:19, NTWC Tsunami Warning Number 1, estimated first arrival Port Alder 1036 to 1040 AM PDT."
+            }
+          ],
+          "background": "office",
+          "voiceStyle": "Woman in her thirties, telecommunicator, steady professional radio voice under strain, phones ringing behind her, getting faster and tighter on the second call",
+          "audioFile": "I-06_radio.wav",
+          "duration": "0:32",
+          "injectId": "I-06"
+        },
+        "instructorNote": "Tests whether the 911 Supervisor orders the last six telecommunicators out at once and rolls calls to the four EOC backup consoles, logging the transfer time and the gap in call-taking, and whether the Warning Coordinator posts the 10:38 gauge arrival as an observation with time and source, notes the gauge outage, gives no height forecast and warns that later waves are often larger. Command should confirm that the evacuation and the NTWC Warning stay in effect and that no field unit works below the line; a decision to stay for the call queue is the main thing to catch.",
+        "deliveryMode": "play_audio"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-11-13T01:46:11.371Z"
+}

@@ -1,0 +1,146 @@
+{
+  "id": "01M792X3W308NG3TAWV35CAQ6D",
+  "mselRowId": "I-07",
+  "type": "helpdesk_ticket",
+  "title": "Ticket PFC-IT-48213: \"Possible Compromise\" of the WMS Interface",
+  "deliveryMode": "hand_to_role",
+  "fields": {
+    "ticketNo": "PFC-IT-48213",
+    "priority": "Critical",
+    "impact": "High",
+    "urgency": "High",
+    "status": "New",
+    "requester": "Ravi S. – WMS Administrator, IT Applications",
+    "requesterContact": "x4127",
+    "contactType": "Self-service",
+    "category": "Security",
+    "subcategory": "Suspected Compromise – Application Interface",
+    "location": "Plant 1 (Salinas) – MES host PFC-OPS-02; Stockton, Phoenix and Dallas DC WMS; Plant 1 dock WMS",
+    "configurationItem": "MES-WMS-INTF (PFC-OPS-02)",
+    "opened": "2027-10-12 07:08:37",
+    "assignmentGroup": "IT Applications – Interfaces",
+    "subject": "P1 – Security? Possible compromise of ERP–WMS interface – recall lots 60 cases short",
+    "description": "Possible compromise of the ERP–WMS interface.\n\nThe MES→WMS queue held 3 messages for over 30 min this morning (last processed 06:01). Now the WMS is 60 cases short of the MES on the exact lots under hold (MES 38,600 cs vs combined WMS export at 06:52, 38,540 cs; lots PF1-27277-L2-B, PF1-27278-L2-A, PF1-27278-L2-B, PF1-27279-L2-A, PF1-27279-L2-B). That's not random. Someone could be tampering with recall data.\n\nI recommend taking the interface offline NOW and escalating to IT security and our cyber carrier before we send anything to FDA.",
+    "activity": [
+      {
+        "author": "Ravi S. (WMS Administrator)",
+        "time": "2027-10-12 07:09:52",
+        "kind": "comment",
+        "text": "I can kill the interface in two minutes if you give the word."
+      },
+      {
+        "author": "System",
+        "time": "2027-10-12 07:09:05",
+        "kind": "system",
+        "text": "Priority set to Critical (P1). Paging notification sent to IT Applications – Interfaces on-call, Traceability and Systems Lead, and Director of Logistics."
+      },
+      {
+        "author": "Ravi S. (WMS Administrator)",
+        "time": "2027-10-12 07:08:58",
+        "kind": "work_note",
+        "text": "Queue history from interface monitor: 06:01 last message processed, 3 PENDING from 06:16. Queue drained 06:46, 0 PENDING since. Stockton, Phoenix and Dallas WMS show HOLD on all five lots as of 06:47. The 60 cs gap is still there after the drain. Attached: MESWMS_queue_20271012_0600-0705.csv"
+      },
+      {
+        "author": "System",
+        "time": "2027-10-12 07:08:37",
+        "kind": "system",
+        "text": "Incident PFC-IT-48213 created via self-service portal. Category: Security / Suspected Compromise – Application Interface. CI: MES-WMS-INTF (PFC-OPS-02)."
+      }
+    ],
+    "systemName": "ServiceDesk",
+    "orgName": "Pinecrest Fresh Cut"
+  },
+  "variant": "default",
+  "instructorNote": "This is a red herring. The interface syncs every 15 minutes, and about 1 percent of cases fail to scan (about 386 of 38,600), so a 60-case gap is an ordinary data-quality gap and not a sign of tampering. Taking the interface offline would stop MES holds from reaching the DC pick faces. Watch whether the Traceability Lead keeps the interface up, recategorizes the ticket and asks for the scan-exception reports, and whether the Director of Logistics keeps the physical holds going no matter what the WMS shows.",
+  "citations": [
+    {
+      "documentId": "01M791PSSB1ZJ85S8M91S49WYH",
+      "documentTitle": "PFC-QA-03: Lot Coding and Traceability Records",
+      "headingPath": "PLCTR › 4. Systems",
+      "quote": "- **Manufacturing execution system (MES):** records transformation, lot genealogy and holds. A hold in the MES blocks a lot from shipping and from being picked in the DCs within 10 minutes through the",
+      "chunkId": 5
+    },
+    {
+      "documentId": "01M791PSSB1ZJ85S8M91S49WYH",
+      "documentTitle": "PFC-QA-03: Lot Coding and Traceability Records",
+      "headingPath": "PLCTR › 5. What the trace produces",
+      "quote": "The Traceability and Systems Lead produces one sortable spreadsheet with these columns: lot code, product, quantity and unit (cases), ship date, ship-from location, ship-to customer, ship-to location ",
+      "chunkId": 6
+    },
+    {
+      "documentId": "01M791PSSHKAJ1RJKR05116S3D",
+      "documentTitle": "PFC-FS-01: Product Hold, Trace and Recall Plan",
+      "headingPath": "PPHTRP › 4. Decisions and who makes them",
+      "quote": "1. **Hold.** The Recall Coordinator or the Plant Manager may place a hold on any lot at any time, without waiting for approval. Target: lots on hold in the MES within 30 minutes of a signal and physic",
+      "chunkId": 32
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template"
+    ]
+  },
+  "assets": [],
+  "versions": [
+    {
+      "at": "2026-11-12T23:54:08.675Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "Ticket PFC-IT-48213: \"Possible Compromise\" of the WMS Interface",
+        "type": "helpdesk_ticket",
+        "fields": {
+          "ticketNo": "PFC-IT-48213",
+          "priority": "Critical",
+          "impact": "High",
+          "urgency": "High",
+          "status": "New",
+          "requester": "Ravi S. – WMS Administrator, IT Applications",
+          "requesterContact": "x4127",
+          "contactType": "Self-service",
+          "category": "Security",
+          "subcategory": "Suspected Compromise – Application Interface",
+          "location": "Plant 1 (Salinas) – MES host PFC-OPS-02; Stockton, Phoenix and Dallas DC WMS; Plant 1 dock WMS",
+          "configurationItem": "MES-WMS-INTF (PFC-OPS-02)",
+          "opened": "2027-10-12 07:08:37",
+          "assignmentGroup": "IT Applications – Interfaces",
+          "subject": "P1 – Security? Possible compromise of ERP–WMS interface – recall lots 60 cases short",
+          "description": "Possible compromise of the ERP–WMS interface.\n\nThe MES→WMS queue held 3 messages for over 30 min this morning (last processed 06:01). Now the WMS is 60 cases short of the MES on the exact lots under hold (MES 38,600 cs vs combined WMS export at 06:52, 38,540 cs; lots PF1-27277-L2-B, PF1-27278-L2-A, PF1-27278-L2-B, PF1-27279-L2-A, PF1-27279-L2-B). That's not random. Someone could be tampering with recall data.\n\nI recommend taking the interface offline NOW and escalating to IT security and our cyber carrier before we send anything to FDA.",
+          "activity": [
+            {
+              "author": "Ravi S. (WMS Administrator)",
+              "time": "2027-10-12 07:09:52",
+              "kind": "comment",
+              "text": "I can kill the interface in two minutes if you give the word."
+            },
+            {
+              "author": "System",
+              "time": "2027-10-12 07:09:05",
+              "kind": "system",
+              "text": "Priority set to Critical (P1). Paging notification sent to IT Applications – Interfaces on-call, Traceability and Systems Lead, and Director of Logistics."
+            },
+            {
+              "author": "Ravi S. (WMS Administrator)",
+              "time": "2027-10-12 07:08:58",
+              "kind": "work_note",
+              "text": "Queue history from interface monitor: 06:01 last message processed, 3 PENDING from 06:16. Queue drained 06:46, 0 PENDING since. Stockton, Phoenix and Dallas WMS show HOLD on all five lots as of 06:47. The 60 cs gap is still there after the drain. Attached: MESWMS_queue_20271012_0600-0705.csv"
+            },
+            {
+              "author": "System",
+              "time": "2027-10-12 07:08:37",
+              "kind": "system",
+              "text": "Incident PFC-IT-48213 created via self-service portal. Category: Security / Suspected Compromise – Application Interface. CI: MES-WMS-INTF (PFC-OPS-02)."
+            }
+          ],
+          "systemName": "ServiceDesk",
+          "orgName": "Pinecrest Fresh Cut"
+        },
+        "instructorNote": "This is a red herring. The interface syncs every 15 minutes, and about 1 percent of cases fail to scan (about 386 of 38,600), so a 60-case gap is an ordinary data-quality gap and not a sign of tampering. Taking the interface offline would stop MES holds from reaching the DC pick faces. Watch whether the Traceability Lead keeps the interface up, recategorizes the ticket and asks for the scan-exception reports, and whether the Director of Logistics keeps the physical holds going no matter what the WMS shows.",
+        "deliveryMode": "hand_to_role"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-11-13T02:31:51.120Z"
+}

@@ -1,0 +1,164 @@
+{
+  "id": "01M794VQ7GWK0Y8MY4JT4R2C2E",
+  "mselRowId": "I-14",
+  "type": "verification_note",
+  "title": "Verification Note VN-2027-0914-01: Escrow Meeting Evidence",
+  "deliveryMode": "hand_to_role",
+  "fields": {
+    "desk": "Tamarack Security Operations, in-house SOC. To: CISO. CC: General Counsel. Subject: Escrow meeting – evidence preserved and first assessment",
+    "item": "[EXERCISE MATERIAL – SYNTHETIC MEDIA DESCRIBED, NOT PLAYED] Meeting MTG-0914-7731, \"Project escrow – confidential\", 10:05–10:35 EDT. Two external guests appeared as \"Marcus Delacroix-Hume (CFO)\" and \"Priscilla Aranguren (General Counsel)\" and told the Treasury Analyst to wire the Bajío \"escrow.\" Text description: a man who looks and sounds like the CFO, sitting in front of an airport-lounge background, gives a verbal approval and says \"skip the callback\". A woman who looks like the General Counsel has her camera on for 41 seconds, then speaks with it off. The file is stored in the incident vault, marked \"flagged synthetic media\" and not to be forwarded.",
+    "receivedAt": "Tuesday, September 14, 2027 · 14:16 ET (recording export downloaded) · Note issued 14:31 ET",
+    "checkedBy": "SOC in-house analyst, Tamarack Security Operations",
+    "checks": [
+      {
+        "check": "Preservation: downloaded the cloud recording export (13 min 02 s) at 14:16, before the external organizer deleted the original at 14:24. Stored on the evidence share with a SHA-256 hash.",
+        "result": "PRESERVED. This is our only copy because the original no longer exists on the platform.",
+        "minutes": "14:16"
+      },
+      {
+        "check": "Preservation: saved invite.ics, the full header of the 09:40 message from escrow-desk@tmrk-advisory.example, the lookalike chat thread from m.cfo@tamarackprecisi0n.example, the Workstation audit log for 10:21–14:12, and the 13:48 email sent in the General Counsel's name. Each file was hashed with SHA-256.",
+        "result": "PRESERVED. The hashes are listed in the evidence share manifest. The analyst's own meeting chat has not been exported yet, and it still exists only in her client.",
+        "minutes": "14:19"
+      },
+      {
+        "check": "Meeting identity: admin console participant records for MTG-0914-7731",
+        "result": "INVALID. Both \"executives\" joined as unauthenticated external guests (web-guest client) from the same address, 203.0.113.84, at 10:04:58 and 10:05:02. The real CFO and GC tenant accounts show no meeting joins today.",
+        "minutes": "14:22"
+      },
+      {
+        "check": "SynthCheck run on the \"CFO\" video segment of the preserved export",
+        "result": "Score 0.71, which points to manipulation. On Tamarack's validation set the detector has a 6% false positive rate and an 11% false negative rate. The score cannot prove the clip fake or real.",
+        "minutes": "14:25"
+      },
+      {
+        "check": "C2PA Content Credentials validation on the export",
+        "result": "ABSENT. This proves nothing. Most meeting platforms don't sign recordings, so authentic calls carry no credentials either.",
+        "minutes": "14:27"
+      },
+      {
+        "check": "Treasury Workstation audit log: the executive approval stamped 11:38:51 on WIRE-0914-002",
+        "result": "CONFIRMED. The approval was entered with WS-TKN-2291, the token registered to the release desk. The CFO's personal token, WS-TKN-0007, was not used today.",
+        "minutes": "14:29"
+      },
+      {
+        "check": "Server-side logs for the organizer account (invitation origin, account creation, any other recordings)",
+        "result": "NOT OBTAINED. The meeting platform vendor will not release them until we open a support ticket and send a preservation request signed by Legal.",
+        "minutes": "14:31"
+      }
+    ],
+    "verdict": "False",
+    "confidence": "High",
+    "reasoning": "The two people in the meeting were not the real CFO and General Counsel. We base this on the CFO's own denial on his directory number, the unauthenticated guest joins from one outside address, and the Workstation record showing the release-desk token instead of the CFO's. The SynthCheck score of 0.71 is consistent with this but is one input only: the detector errs in both directions. The missing credential adds nothing.",
+    "nextStep": "I need two things from the General Counsel: a signed preservation request so the meeting platform vendor will release the organizer-account logs, and guidance on the Treasury Analyst's pending request to clear her meeting chat. Until then I have asked her to leave it untouched. CISO, please confirm that you accept this package into the incident chain of custody and approve opening the vendor support ticket. When you brief, quote the detector as \"0.71, 6% false positive, 11% false negative,\" not as \"confirmed deepfake.\""
+  },
+  "variant": "default",
+  "instructorNote": "This clue inject tests whether the CISO formally accepts the evidence package into chain of custody and whether briefings quote SynthCheck with its error rates rather than as proof. Watch for Legal issuing a legal hold that stops the analyst from clearing the meeting chat and signing the vendor preservation request, and for the CISO opening the vendor ticket.",
+  "citations": [
+    {
+      "documentId": "01M793JZB4ZJNT2ZBRQ5YGP5FS",
+      "documentTitle": "TPC-SEC-02: AI and Synthetic Media Incident Response Plan",
+      "headingPath": "TPC-SEC-02: AI and Synthetic Med… › 5. Detection and provenance",
+      "quote": "Tamarack uses SynthCheck (a vendor deepfake detector) and Content Credentials (C2PA) validation. A detector returns a score between 0 and 1 with a stated uncertainty and both false positive and false ",
+      "chunkId": 6
+    },
+    {
+      "documentId": "01M793JZB4ZJNT2ZBRQ5YGP5FS",
+      "documentTitle": "TPC-SEC-02: AI and Synthetic Media Incident Response Plan",
+      "headingPath": "TPC-SEC-02: AI and Synthetic Med… › 4. First hour",
+      "quote": "1. **Hold:** put every pending payment connected to the request on HOLD. 2. **Verify:** reach the impersonated person on a known number, not through the channel in question. 3. **Preserve:** save the ",
+      "chunkId": 5
+    },
+    {
+      "documentId": "01M793JZB6T2RERPATP9SE15M2",
+      "documentTitle": "TPC-REF-01: Company, Systems and People",
+      "headingPath": "TCSP › 4. Communications and security tools",
+      "quote": "- **Meeting platform:** Tamarack uses a commercial video meeting service. Meetings created inside the Tamarack tenant show authenticated participants; guests join as \"external\". The platform's admin l",
+      "chunkId": 14
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template"
+    ]
+  },
+  "assets": [
+    {
+      "id": "01M79C7RA4RKVFH6MPB50N3HH4",
+      "kind": "image",
+      "path": "scenarios/01M793K1BQ4A90FK0DT2D867QV/media/01M794VQ7GWK0Y8MY4JT4R2C2E/01M79C7RA4RKVFH6MPB50N3HH4.png",
+      "role": "rendered",
+      "width": 816,
+      "height": 1056,
+      "sha256": "a1c2bf5e43ad70155d893a3cd3b8e16ab80b8ed2c8a31f0bc09f8ca90d4fa551",
+      "provenance": {
+        "provider": "template",
+        "templateId": "verification_note",
+        "templateVersion": "1",
+        "createdAt": "2026-11-13T02:36:54.833Z"
+      }
+    }
+  ],
+  "versions": [
+    {
+      "at": "2026-11-13T00:28:25.897Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "Verification Note VN-2027-0914-01: Escrow Meeting Evidence",
+        "type": "verification_note",
+        "fields": {
+          "desk": "Tamarack Security Operations, in-house SOC. To: CISO. CC: General Counsel. Subject: Escrow meeting – evidence preserved and first assessment",
+          "item": "[EXERCISE MATERIAL – SYNTHETIC MEDIA DESCRIBED, NOT PLAYED] Meeting MTG-0914-7731, \"Project escrow – confidential\", 10:05–10:35 EDT. Two external guests appeared as \"Marcus Delacroix-Hume (CFO)\" and \"Priscilla Aranguren (General Counsel)\" and told the Treasury Analyst to wire the Bajío \"escrow.\" Text description: a man who looks and sounds like the CFO, sitting in front of an airport-lounge background, gives a verbal approval and says \"skip the callback\". A woman who looks like the General Counsel has her camera on for 41 seconds, then speaks with it off. The file is stored in the incident vault, marked \"flagged synthetic media\" and not to be forwarded.",
+          "receivedAt": "Tuesday, September 14, 2027 · 14:16 ET (recording export downloaded) · Note issued 14:31 ET",
+          "checkedBy": "SOC in-house analyst, Tamarack Security Operations",
+          "checks": [
+            {
+              "check": "Preservation: downloaded the cloud recording export (13 min 02 s) at 14:16, before the external organizer deleted the original at 14:24. Stored on the evidence share with a SHA-256 hash.",
+              "result": "PRESERVED. This is our only copy because the original no longer exists on the platform.",
+              "minutes": "14:16"
+            },
+            {
+              "check": "Preservation: saved invite.ics, the full header of the 09:40 message from escrow-desk@tmrk-advisory.example, the lookalike chat thread from m.cfo@tamarackprecisi0n.example, the Workstation audit log for 10:21–14:12, and the 13:48 email sent in the General Counsel's name. Each file was hashed with SHA-256.",
+              "result": "PRESERVED. The hashes are listed in the evidence share manifest. The analyst's own meeting chat has not been exported yet, and it still exists only in her client.",
+              "minutes": "14:19"
+            },
+            {
+              "check": "Meeting identity: admin console participant records for MTG-0914-7731",
+              "result": "INVALID. Both \"executives\" joined as unauthenticated external guests (web-guest client) from the same address, 203.0.113.84, at 10:04:58 and 10:05:02. The real CFO and GC tenant accounts show no meeting joins today.",
+              "minutes": "14:22"
+            },
+            {
+              "check": "SynthCheck run on the \"CFO\" video segment of the preserved export",
+              "result": "Score 0.71, which points to manipulation. On Tamarack's validation set the detector has a 6% false positive rate and an 11% false negative rate. The score cannot prove the clip fake or real.",
+              "minutes": "14:25"
+            },
+            {
+              "check": "C2PA Content Credentials validation on the export",
+              "result": "ABSENT. This proves nothing. Most meeting platforms don't sign recordings, so authentic calls carry no credentials either.",
+              "minutes": "14:27"
+            },
+            {
+              "check": "Treasury Workstation audit log: the executive approval stamped 11:38:51 on WIRE-0914-002",
+              "result": "CONFIRMED. The approval was entered with WS-TKN-2291, the token registered to the release desk. The CFO's personal token, WS-TKN-0007, was not used today.",
+              "minutes": "14:29"
+            },
+            {
+              "check": "Server-side logs for the organizer account (invitation origin, account creation, any other recordings)",
+              "result": "NOT OBTAINED. The meeting platform vendor will not release them until we open a support ticket and send a preservation request signed by Legal.",
+              "minutes": "14:31"
+            }
+          ],
+          "verdict": "False",
+          "confidence": "High",
+          "reasoning": "The two people in the meeting were not the real CFO and General Counsel. We base this on the CFO's own denial on his directory number, the unauthenticated guest joins from one outside address, and the Workstation record showing the release-desk token instead of the CFO's. The SynthCheck score of 0.71 is consistent with this but is one input only: the detector errs in both directions. The missing credential adds nothing.",
+          "nextStep": "I need two things from the General Counsel: a signed preservation request so the meeting platform vendor will release the organizer-account logs, and guidance on the Treasury Analyst's pending request to clear her meeting chat. Until then I have asked her to leave it untouched. CISO, please confirm that you accept this package into the incident chain of custody and approve opening the vendor support ticket. When you brief, quote the detector as \"0.71, 6% false positive, 11% false negative,\" not as \"confirmed deepfake.\""
+        },
+        "instructorNote": "This clue inject tests whether the CISO formally accepts the evidence package into chain of custody and whether briefings quote SynthCheck with its error rates rather than as proof. Watch for Legal issuing a legal hold that stops the analyst from clearing the meeting chat and signing the vendor preservation request, and for the CISO opening the vendor ticket.",
+        "deliveryMode": "hand_to_role"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-11-13T02:36:55.069Z"
+}

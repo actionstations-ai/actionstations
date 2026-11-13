@@ -35,3 +35,9 @@ On a scenario's case data you can generate three kinds of simulated data, always
 - **A dispatch call load:** calls per minute with an optional surge, drawn from a mix of call types.
 
 Each also writes the ground truth the evaluation measures compare your players' decisions with.
+
+## Example project
+
+The EMS, fire and hazardous materials pack includes an example project, **Larkfield County EMS and Healthcare Coalition: charter bus crash**, with one exercise, _Open on Paper_: on a rainy Tuesday evening a senior center charter bus and a fuel tanker collide on Highway 21; 28 patients, trapped passengers and a fuel leak overwhelm the first units, command passes from an engine captain to the battalion chief, a firefighter calls a mayday, and the Medical Group must match patients to hospitals while one hospital is on diversion.
+
+Turn the pack on under **Packs**, then open a copy from **Projects → Examples**. The organization, its people and its businesses are fictional; the exercise comes with its injects, media, Situation Manual, evaluation guides and controller handbook, ready to read or run.

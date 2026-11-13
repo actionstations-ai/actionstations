@@ -1,0 +1,168 @@
+{
+  "id": "01M795YXDGSGR5CRFH8TGKJXSN",
+  "mselRowId": "I-14",
+  "type": "service_status_page",
+  "title": "Vendor Status: Inbound SMS Degraded, 15:29",
+  "deliveryMode": "display_main_screen",
+  "fields": {
+    "orgName": "SignalPath Contact Cloud",
+    "serviceName": "SignalPath Text & Chat Platform",
+    "overallStatus": "degraded",
+    "incidentTitle": "Inbound SMS – Degraded performance",
+    "components": [
+      {
+        "name": "Inbound SMS – primary messaging route",
+        "status": "degraded"
+      },
+      {
+        "name": "Inbound SMS – secondary messaging route",
+        "status": "operational"
+      },
+      {
+        "name": "Outbound SMS",
+        "status": "operational"
+      },
+      {
+        "name": "Web chat",
+        "status": "operational"
+      },
+      {
+        "name": "Agent desktop",
+        "status": "operational"
+      },
+      {
+        "name": "Queue reporting and analytics",
+        "status": "degraded"
+      },
+      {
+        "name": "Routing API",
+        "status": "operational"
+      }
+    ],
+    "updates": [
+      {
+        "status": "investigating",
+        "time": "15:29 Central",
+        "text": "Inbound SMS – Degraded performance. Some customers on our primary messaging route are seeing delivery delays of 3 to 8 minutes. Engineers are investigating. Next update 16:00."
+      },
+      {
+        "status": "investigating",
+        "time": "15:14 Central",
+        "text": "We are looking into reports of slow inbound SMS delivery and incomplete queue position data in real-time reports for some customers. Outbound SMS and web chat are not affected."
+      }
+    ],
+    "url": "status.signalpath.example"
+  },
+  "variant": "status_page",
+  "instructorNote": "Decision point: show the status page, then read aloud the GPCN-OPS-02 alert from 15:30:12 (\"TEXT QUEUE: 14 inbound messages flagged DELIVERED_LATE (latency > 180 s). Oldest visible text 24:40. Queue position data may be incomplete.\") and the engineer's offer: fail over to the secondary messaging route, which takes about 20 minutes to settle, has never been done live for texts and may delay or duplicate messages, or hold, with a decision needed within 5 minutes. Watch whether the TM confirms the fault with the vendor and gets the ED's agreement, and sets a review time either way. Check that the TM tells the state backup center supervisor, informs the 988 network desk for information only and confirms in the operations channel, and that the SC logs the decision, the time and the impact by contact type.",
+  "citations": [
+    {
+      "documentId": "01M794NBRMFXPBHW8484PBHJ2H",
+      "documentTitle": "Great Plains Crisis Network — Contact Surge and Continuity Plan",
+      "headingPath": "Great Plains Crisis Network — Co… › 4. Surge levels and triggers",
+      "quote": "**Level 1, watch.** The queue for any contact type exceeds 5 minutes of wait at the oldest contact, or the forecast tool shows volume above 130 percent of the same hour last week. Action: supervisor c",
+      "chunkId": 33
+    },
+    {
+      "documentId": "01M794NBRHSC1W34E4ZBK9G1KC",
+      "documentTitle": "Great Plains Crisis Network — Contact Routing and Backup Requests",
+      "headingPath": "Great Plains Crisis Network — Co… › 4. Requesting backup",
+      "quote": "1. The surge commander chooses the contact type and the share. 2. The commander records the request in the surge log: party, contact type, time requested, time support is to begin. 3. The commander ca",
+      "chunkId": 15
+    },
+    {
+      "documentId": "01M794NBRHSC1W34E4ZBK9G1KC",
+      "documentTitle": "Great Plains Crisis Network — Contact Routing and Backup Requests",
+      "headingPath": "Great Plains Crisis Network — Co… › 7. Failure modes",
+      "quote": "- **Platform lag.** Texts show as delivered late. The Technology Manager contacts the vendor's support line and posts the status. - **Carrier problem.** Calls drop. The secondary carrier route is acti",
+      "chunkId": 18
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template"
+    ]
+  },
+  "assets": [
+    {
+      "id": "01M79DAMK0K0WVAYSM5ZQ3B9QS",
+      "kind": "image",
+      "path": "scenarios/01M794NDS3D6X42AZT7QHSZAZ0/media/01M795YXDGSGR5CRFH8TGKJXSN/01M79DAMK0K0WVAYSM5ZQ3B9QS.png",
+      "role": "rendered",
+      "width": 900,
+      "height": 977,
+      "sha256": "18b459d9d99ae873801b60fd108b64e3d68b4f7e8737e995bfa3781397e8ba67",
+      "provenance": {
+        "provider": "template",
+        "templateId": "service_status_page",
+        "templateVersion": "1",
+        "createdAt": "2026-11-13T02:55:57.931Z"
+      }
+    }
+  ],
+  "versions": [
+    {
+      "at": "2026-11-13T00:47:31.882Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "Vendor Status: Inbound SMS Degraded, 15:29",
+        "type": "service_status_page",
+        "fields": {
+          "orgName": "SignalPath Contact Cloud",
+          "serviceName": "SignalPath Text & Chat Platform",
+          "overallStatus": "degraded",
+          "incidentTitle": "Inbound SMS – Degraded performance",
+          "components": [
+            {
+              "name": "Inbound SMS – primary messaging route",
+              "status": "degraded"
+            },
+            {
+              "name": "Inbound SMS – secondary messaging route",
+              "status": "operational"
+            },
+            {
+              "name": "Outbound SMS",
+              "status": "operational"
+            },
+            {
+              "name": "Web chat",
+              "status": "operational"
+            },
+            {
+              "name": "Agent desktop",
+              "status": "operational"
+            },
+            {
+              "name": "Queue reporting and analytics",
+              "status": "degraded"
+            },
+            {
+              "name": "Routing API",
+              "status": "operational"
+            }
+          ],
+          "updates": [
+            {
+              "status": "investigating",
+              "time": "15:29 Central",
+              "text": "Inbound SMS – Degraded performance. Some customers on our primary messaging route are seeing delivery delays of 3 to 8 minutes. Engineers are investigating. Next update 16:00."
+            },
+            {
+              "status": "investigating",
+              "time": "15:14 Central",
+              "text": "We are looking into reports of slow inbound SMS delivery and incomplete queue position data in real-time reports for some customers. Outbound SMS and web chat are not affected."
+            }
+          ],
+          "url": "status.signalpath.example"
+        },
+        "instructorNote": "Decision point: show the status page, then read aloud the GPCN-OPS-02 alert from 15:30:12 (\"TEXT QUEUE: 14 inbound messages flagged DELIVERED_LATE (latency > 180 s). Oldest visible text 24:40. Queue position data may be incomplete.\") and the engineer's offer: fail over to the secondary messaging route, which takes about 20 minutes to settle, has never been done live for texts and may delay or duplicate messages, or hold, with a decision needed within 5 minutes. Watch whether the TM confirms the fault with the vendor and gets the ED's agreement, and sets a review time either way. Check that the TM tells the state backup center supervisor, informs the 988 network desk for information only and confirms in the operations channel, and that the SC logs the decision, the time and the impact by contact type.",
+        "deliveryMode": "display_main_screen"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-11-13T02:55:58.052Z"
+}

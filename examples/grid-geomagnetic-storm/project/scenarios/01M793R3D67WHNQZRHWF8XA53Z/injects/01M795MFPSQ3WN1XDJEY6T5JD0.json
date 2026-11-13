@@ -1,0 +1,174 @@
+{
+  "id": "01M795MFPSQ3WN1XDJEY6T5JD0",
+  "mselRowId": "I-14",
+  "type": "gnss_timing_status",
+  "title": "GNSS Timing: North Shore Relocked, Iron Range and Cloquet Still Acquiring",
+  "deliveryMode": "hand_to_role",
+  "fields": {
+    "organization": "Northern Lakes Transmission Operations, Fiber and Telecommunications Timing Team (Duluth control center)",
+    "asOf": "2027 Mar 17 0438 UTC (23:38:02 CDT, Tue 16 Mar)",
+    "summary": "NORTH_SHORE GPS clock has been LOCKED since 22:41:15 CDT. IRON_RANGE and CLOQUET are still timed from the backup network time server (Duluth, fiber ring), and their GPS receivers are still ACQUIRING: Iron Range has tracked 9 satellites at nominal C/N0 with no stable lock for 7 h 24 min.",
+    "sites": [
+      {
+        "site": "NORTH_SHORE",
+        "source": "GPS (relocked 22:41:15 CDT; holdover 16:04:12–22:41:15)",
+        "state": "LOCKED",
+        "satellites": "10, C/N0 nominal",
+        "timeError": "< 0.1 µs",
+        "holdoverRemaining": "24 h (holdover not in use)"
+      },
+      {
+        "site": "IRON_RANGE",
+        "source": "NETWORK TIME SERVER (Duluth, fiber ring) since 16:14:20 CDT",
+        "state": "GPS RECEIVER: ACQUIRING, no stable lock in 7 h 24 min",
+        "satellites": "9, C/N0 nominal",
+        "timeError": "0.3 µs vs network reference",
+        "holdoverRemaining": "Not in holdover (on network time)"
+      },
+      {
+        "site": "CLOQUET",
+        "source": "NETWORK TIME SERVER (Duluth, fiber ring) since 16:18:50 CDT",
+        "state": "GPS RECEIVER: ACQUIRING",
+        "satellites": "8, C/N0 −3 dB",
+        "timeError": "0.4 µs vs network reference",
+        "holdoverRemaining": "Not in holdover (on network time)"
+      },
+      {
+        "site": "HARTLEY",
+        "source": "GPS",
+        "state": "LOCKED",
+        "satellites": "10, C/N0 nominal",
+        "timeError": "< 0.1 µs",
+        "holdoverRemaining": "24 h (holdover not in use)"
+      },
+      {
+        "site": "VIRGINIA",
+        "source": "GPS",
+        "state": "LOCKED",
+        "satellites": "11, C/N0 nominal",
+        "timeError": "< 0.1 µs",
+        "holdoverRemaining": "24 h (holdover not in use)"
+      },
+      {
+        "site": "OTHER 9 SUBSTATIONS",
+        "source": "GPS",
+        "state": "LOCKED (all 9)",
+        "satellites": "9–12, C/N0 nominal",
+        "timeError": "< 0.1 µs (all)",
+        "holdoverRemaining": "24 h each (holdover not in use)"
+      }
+    ],
+    "footer": "23:38:02 CDT MONITOR SUMMARY: 13 of 14 clocks on GPS or network time; 1 site pending return to GPS. *** EXERCISE *** Simulated values for exercise use only. They do not predict receiver performance."
+  },
+  "instructorNote": "Hand this page over together with the two transport items, read aloud or handed over at 23:40. First, the Northstar Heavy Haul dispatcher's email says the state oversize/overweight permit for the spare takes three business days (Mon 22 Mar), spring road restrictions start Friday so the route survey must be redone, and the spare cannot move before Tue 23 Mar. Second, the crane contractor's text says the 120-ton crane was released at 20:00, when the AT-1 crew went home, and its next slot is Wed 24 Mar, with a 2-day minimum and standby billed. Watch for: the TOM and RE book the permit and survey, decide on the crane slot, and log the spare as unavailable for at least a week in the T2 risk; TIME notices the '13 of 14 / 1 pending' summary does not match two sites still on network time, keeps Iron Range and Cloquet on the network source until GPS lock is stable, and plans the switch back one site at a time with the CRSS's agreement, never during switching or the Hartley relay review.",
+  "citations": [
+    {
+      "documentId": "01M793R1CKPE6S3EAJK06CD962",
+      "documentTitle": "NLTO-OP-31: Geomagnetic Disturbance Operating Procedure",
+      "headingPath": "NGDOP › 7. Time source",
+      "quote": "Substation clocks and phasor measurement units use GPS time. A geomagnetic storm of G4 or higher can degrade GNSS. NLTO has holdover clocks at 14 substations with 24 hours of holdover and a backup net",
+      "chunkId": 8
+    },
+    {
+      "documentId": "01M793R1CP8FSDJTZMVBXZXCKW",
+      "documentTitle": "Northern Lakes Transmission Operations: System and Control Room Description",
+      "headingPath": "Northern Lakes Transmission Oper… › 4. Time and communications",
+      "quote": "GPS-disciplined clocks serve the substation protection and phasor equipment. Holdover clocks are fitted at 14 substations (24-hour holdover); a backup time source from a network time server over the f",
+      "chunkId": 14
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template"
+    ]
+  },
+  "assets": [
+    {
+      "id": "01M799TEB4MAXSSY3ZC18GKJM5",
+      "kind": "image",
+      "path": "scenarios/01M793R3D67WHNQZRHWF8XA53Z/media/01M795MFPSQ3WN1XDJEY6T5JD0/01M799TEB4MAXSSY3ZC18GKJM5.png",
+      "role": "rendered",
+      "width": 1520,
+      "height": 1560,
+      "sha256": "c10f9f25da5901db05a5d987d09e0c712f0c8f2af7cfd5d83f68def5a68553a3",
+      "provenance": {
+        "provider": "template",
+        "templateId": "gnss_timing_status",
+        "templateVersion": "1",
+        "createdAt": "2026-11-13T01:54:41.518Z"
+      }
+    }
+  ],
+  "versions": [
+    {
+      "at": "2026-11-13T00:42:32.042Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "GNSS Timing: North Shore Relocked, Iron Range and Cloquet Still Acquiring",
+        "type": "gnss_timing_status",
+        "fields": {
+          "organization": "Northern Lakes Transmission Operations, Fiber and Telecommunications Timing Team (Duluth control center)",
+          "asOf": "2027 Mar 17 0438 UTC (23:38:02 CDT, Tue 16 Mar)",
+          "summary": "NORTH_SHORE GPS clock has been LOCKED since 22:41:15 CDT. IRON_RANGE and CLOQUET are still timed from the backup network time server (Duluth, fiber ring), and their GPS receivers are still ACQUIRING: Iron Range has tracked 9 satellites at nominal C/N0 with no stable lock for 7 h 24 min.",
+          "sites": [
+            {
+              "site": "NORTH_SHORE",
+              "source": "GPS (relocked 22:41:15 CDT; holdover 16:04:12–22:41:15)",
+              "state": "LOCKED",
+              "satellites": "10, C/N0 nominal",
+              "timeError": "< 0.1 µs",
+              "holdoverRemaining": "24 h (holdover not in use)"
+            },
+            {
+              "site": "IRON_RANGE",
+              "source": "NETWORK TIME SERVER (Duluth, fiber ring) since 16:14:20 CDT",
+              "state": "GPS RECEIVER: ACQUIRING, no stable lock in 7 h 24 min",
+              "satellites": "9, C/N0 nominal",
+              "timeError": "0.3 µs vs network reference",
+              "holdoverRemaining": "Not in holdover (on network time)"
+            },
+            {
+              "site": "CLOQUET",
+              "source": "NETWORK TIME SERVER (Duluth, fiber ring) since 16:18:50 CDT",
+              "state": "GPS RECEIVER: ACQUIRING",
+              "satellites": "8, C/N0 −3 dB",
+              "timeError": "0.4 µs vs network reference",
+              "holdoverRemaining": "Not in holdover (on network time)"
+            },
+            {
+              "site": "HARTLEY",
+              "source": "GPS",
+              "state": "LOCKED",
+              "satellites": "10, C/N0 nominal",
+              "timeError": "< 0.1 µs",
+              "holdoverRemaining": "24 h (holdover not in use)"
+            },
+            {
+              "site": "VIRGINIA",
+              "source": "GPS",
+              "state": "LOCKED",
+              "satellites": "11, C/N0 nominal",
+              "timeError": "< 0.1 µs",
+              "holdoverRemaining": "24 h (holdover not in use)"
+            },
+            {
+              "site": "OTHER 9 SUBSTATIONS",
+              "source": "GPS",
+              "state": "LOCKED (all 9)",
+              "satellites": "9–12, C/N0 nominal",
+              "timeError": "< 0.1 µs (all)",
+              "holdoverRemaining": "24 h each (holdover not in use)"
+            }
+          ],
+          "footer": "23:38:02 CDT MONITOR SUMMARY: 13 of 14 clocks on GPS or network time; 1 site pending return to GPS. *** EXERCISE *** Simulated values for exercise use only. They do not predict receiver performance."
+        },
+        "instructorNote": "Hand this page over together with the two transport items, read aloud or handed over at 23:40. First, the Northstar Heavy Haul dispatcher's email says the state oversize/overweight permit for the spare takes three business days (Mon 22 Mar), spring road restrictions start Friday so the route survey must be redone, and the spare cannot move before Tue 23 Mar. Second, the crane contractor's text says the 120-ton crane was released at 20:00, when the AT-1 crew went home, and its next slot is Wed 24 Mar, with a 2-day minimum and standby billed. Watch for: the TOM and RE book the permit and survey, decide on the crane slot, and log the spare as unavailable for at least a week in the T2 risk; TIME notices the '13 of 14 / 1 pending' summary does not match two sites still on network time, keeps Iron Range and Cloquet on the network source until GPS lock is stable, and plans the switch back one site at a time with the CRSS's agreement, never during switching or the Hartley relay review.",
+        "deliveryMode": "hand_to_role"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-11-13T01:54:41.637Z"
+}

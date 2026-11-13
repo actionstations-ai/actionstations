@@ -55,3 +55,9 @@ The **Flooding reference library** pack (installed from the catalog) carries the
 - A simulated or modeled extent is an illustration. It is not a hazard map, a flood zone or an insurance determination.
 - Live data is never fetched during a session.
 - Storm surge and coastal flooding belong to the weather and port pack. The dam owner's emergency plan stays with the dam domain.
+
+## Example project
+
+The Flooding and hydrology pack includes an example project, **Tallis County Emergency Management and Levee District No. 3: Cedar River flood**, with one exercise, _Eighteen Hours_: days of rain in the upper Cedar basin push the river toward the county; the forecast crest at Cedar Ford is revised twice, from minor to moderate to major, shrinking the lead time for evacuating Cedar Hollow, while the levee district, a care center, a wastewater plant and a cooperative race to move, bag and pump.
+
+Turn the pack on under **Packs**, then open a copy from **Projects → Examples**. The organization, its people and its businesses are fictional; the exercise comes with its injects, media, Situation Manual, evaluation guides and controller handbook, ready to read or run.

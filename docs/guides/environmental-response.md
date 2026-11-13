@@ -124,3 +124,9 @@ The separate **Environmental response reference library** pack carries the 2016 
 - The simulated spill and plume are illustrations with simple published relations. They are not oil spill or air dispersion models and teach no response tactics.
 - Live data is never fetched during a session.
 - The ICS products are exercise products, not the official forms.
+
+## Example project
+
+The Environmental response pack includes an example project, **Ironbark Pipeline Company and Sterling Bluff Water Department: crude oil release into the Kansas River**, with one exercise, _Ditch to Intake_: a leak alarm and a release of about 3,100 barrels of crude at the Kansas River crossing reaches the river in the morning; Ironbark must report, call out its Qualified Individual and OSRO, form a Unified Command, and get boom in place ahead of the Prairie Bend Rural Water District intake (about 5 hours downstream) and the Sterling Bluff intake (about 15 hours), while the water utility decides when to close its intake.
+
+Turn the pack on under **Packs**, then open a copy from **Projects → Examples**. The organization, its people and its businesses are fictional; the exercise comes with its injects, media, Situation Manual, evaluation guides and controller handbook, ready to read or run.

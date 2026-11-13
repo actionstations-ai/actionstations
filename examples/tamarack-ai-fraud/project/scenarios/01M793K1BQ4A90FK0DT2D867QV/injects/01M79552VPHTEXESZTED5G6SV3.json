@@ -1,0 +1,144 @@
+{
+  "id": "01M79552VPHTEXESZTED5G6SV3",
+  "mselRowId": "I-22",
+  "type": "email",
+  "title": "Email: Broker's Notice of Loss and the Audit Chair's Question",
+  "deliveryMode": "hand_to_role",
+  "fields": {
+    "fromName": "Office of the Corporate Secretary",
+    "fromEmail": "corporatesecretary@tamarackprecision.example",
+    "senderInitials": "CS",
+    "to": "Marcus Delacroix-Hume (CFO); Anjali Whitcombe (Controller)",
+    "cc": "Priscilla Aranguren (General Counsel); Gareth Lindqvist-Boyd (Treasury Manager)",
+    "subject": "RE: Notice of loss – Tamarack – please sign",
+    "sentAt": "Tue 9/14/2027 5:04 PM",
+    "body": "Marcus Delacroix-Hume, Anjali Whitcombe,\n\nThis confirms what I told you both by phone at 17:02.\n\nDirector Hollis Wetherbee-Ng, chair of the Audit Committee, has seen the Clipwave video and the Greenville Commerce Journal's questions. She asked me to put three questions to you:\n\n1. Is it $2.6 million or $1.6 million?\n2. Did we get any money back?\n3. Does the committee need to meet tonight?\n\nShe wants one number she can rely on. She will not repeat a figure to the other directors until Finance has given it to her. She is available by phone until 21:00 tonight.\n\nThe broker's email below copied me. It asks for a signature tonight, and its figures don't match what I heard in the hallway. Please tell me which figures I should give the chair, and who will brief her.\n\nThanks,\n\n-----Original Message-----\nFrom: claims@harbourline-brokers.example\nSent: Tuesday, September 14, 2027 5:00 PM\nTo: Anjali Whitcombe (Controller); Marcus Delacroix-Hume (CFO)\nCc: Office of the Corporate Secretary\nSubject: Notice of loss – Tamarack – please sign\n\nHello,\n\nFollowing up on the loss, and to save you time, we have prefilled the carrier's Notice of Loss from what we've been told so far:\n\nType: social engineering / funds transfer fraud\nAmount of loss claimed: USD 2,640,000\nRecovered: USD 620,000\nDate of discovery: 14 Sept 2027 14:05\n\nPlease countersign and return tonight so the panel counsel can be assigned. Underwriters still need the attestation we asked about at 16:42. The forensic panel firm also cannot start until we have the Workstation audit export.\n\nBest regards,\nAccount Executive, Financial Lines",
+    "signature": "Office of the Corporate Secretary\nTamarack Precision Components, Inc. | Greenville, SC\n864-555-0109",
+    "attachments": [
+      {
+        "name": "Tamarack_Notice_of_Loss_PREFILLED_2027-09-14.pdf",
+        "size": "212 KB",
+        "kind": "pdf"
+      }
+    ],
+    "importance": "high",
+    "external": false,
+    "printedBy": "Anjali Whitcombe (Controller)"
+  },
+  "variant": "print",
+  "instructorNote": "This inject tests whether Finance sends back the broker's prefilled form, which counts the amount requested as the loss and the frozen funds as recovered. The team should instead sign the TPC-FIN-04 Section 7 reconciliation: requested $2,640,000, released $2,250,000, stopped $390,000, frozen $620,000, recovered $0, with the elapsed time from the first release at 10:55 to the bank call at 14:20. Then the CFO should brief the Audit Committee chair with that one figure within 24 hours, and Legal should send the written insurer notice. Decision point: the Controller and CFO decide which figures, discovery date and committee action go out tonight.",
+  "citations": [
+    {
+      "documentId": "01M793JZB96097WHBG0K74HSVJ",
+      "documentTitle": "TPC-FIN-04: Payment Authorization, Callback Verification and Wire Recall",
+      "headingPath": "TPC-FIN-04: Payment Authorizatio… › 7. Reconciliation and metrics",
+      "quote": "At the incident close, Treasury reports: total requested, total released, total stopped before release, total frozen, total recovered, and the time from first release to the bank call. These figures a",
+      "chunkId": 33
+    },
+    {
+      "documentId": "01M793JZB4ZJNT2ZBRQ5YGP5FS",
+      "documentTitle": "TPC-SEC-02: AI and Synthetic Media Incident Response Plan",
+      "headingPath": "TPC-SEC-02: AI and Synthetic Med… › 7. Notifications and clocks",
+      "quote": "| Who | When | By | |---|---|---| | Bank fraud desk | Immediately when a payment was released | Treasury Manager | | General Counsel | Within 30 minutes of declaration | CISO | | Cyber and crime insur",
+      "chunkId": 8
+    },
+    {
+      "documentId": "01M793JZB96097WHBG0K74HSVJ",
+      "documentTitle": "TPC-FIN-04: Payment Authorization, Callback Verification and Wire Recall",
+      "headingPath": "TPC-FIN-04: Payment Authorizatio… › 5. If a payment is suspected to be fraudulent",
+      "quote": "1. Stop the payment if it has not been released: set status to HOLD in the Workstation and tell the Treasury Manager. 2. If it has been released, call the bank's fraud desk (First Meridian Commercial ",
+      "chunkId": 31
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template"
+    ]
+  },
+  "assets": [
+    {
+      "id": "01M79C7TBTWZYZ5WY1K7PYNFRP",
+      "kind": "image",
+      "path": "scenarios/01M793K1BQ4A90FK0DT2D867QV/media/01M79552VPHTEXESZTED5G6SV3/01M79C7TBTWZYZ5WY1K7PYNFRP.png",
+      "role": "rendered",
+      "width": 816,
+      "height": 1246,
+      "sha256": "61b841044296c7908f0a4044df35b1cc8f63f4740a9ff54ecdaf158b1a319b0a",
+      "provenance": {
+        "provider": "template",
+        "templateId": "email",
+        "templateVersion": "1",
+        "createdAt": "2026-11-13T02:36:56.920Z"
+      }
+    }
+  ],
+  "versions": [
+    {
+      "at": "2026-11-13T00:33:37.209Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "Email: Broker's Notice of Loss and the Audit Chair's Question",
+        "type": "email",
+        "fields": {
+          "fromName": "Office of the Corporate Secretary",
+          "fromEmail": "corporatesecretary@tamarackprecision.example",
+          "senderInitials": "CS",
+          "to": "Marcus Delacroix-Hume (CFO); Anjali Whitcombe (Controller)",
+          "cc": "Priscilla Aranguren (General Counsel); Gareth Lindqvist-Boyd (Treasury Manager)",
+          "subject": "RE: Notice of loss – Tamarack – please sign",
+          "sentAt": "Tue 9/14/2027 5:04 PM",
+          "body": "Marcus Delacroix-Hume, Anjali Whitcombe,\n\nThis confirms what I told you both by phone at 17:02.\n\nDirector Hollis Wetherbee-Ng, chair of the Audit Committee, has seen the Clipwave video and the Greenville Commerce Journal's questions. She asked me to put three questions to you:\n\n1. Is it $2.6 million or $1.6 million?\n2. Did we get any money back?\n3. Does the committee need to meet tonight?\n\nShe wants one number she can rely on. She will not repeat a figure to the other directors until Finance has given it to her. She is available by phone until 21:00 tonight.\n\nThe broker's email below copied me. It asks for a signature tonight, and its figures don't match what I heard in the hallway. Please tell me which figures I should give the chair, and who will brief her.\n\nThanks,\n\n-----Original Message-----\nFrom: claims@harbourline-brokers.example\nSent: Tuesday, September 14, 2027 5:00 PM\nTo: Anjali Whitcombe (Controller); Marcus Delacroix-Hume (CFO)\nCc: Office of the Corporate Secretary\nSubject: Notice of loss – Tamarack – please sign\n\nHello,\n\nFollowing up on the loss, and to save you time, we have prefilled the carrier's Notice of Loss from what we've been told so far:\n\nType: social engineering / funds transfer fraud\nAmount of loss claimed: USD 2,640,000\nRecovered: USD 620,000\nDate of discovery: 14 Sept 2027 14:05\n\nPlease countersign and return tonight so the panel counsel can be assigned. Underwriters still need the attestation we asked about at 16:42. The forensic panel firm also cannot start until we have the Workstation audit export.\n\nBest regards,\nAccount Executive, Financial Lines",
+          "signature": "Office of the Corporate Secretary\nTamarack Precision Components, Inc. | Greenville, SC\n864-555-0109",
+          "attachments": [
+            {
+              "name": "Tamarack_Notice_of_Loss_PREFILLED_2027-09-14.pdf",
+              "size": "212 KB",
+              "kind": "pdf"
+            }
+          ],
+          "importance": "high",
+          "external": false,
+          "printedBy": "Anjali Whitcombe (Controller)"
+        },
+        "instructorNote": "This inject tests whether Finance sends back the broker's prefilled form, which counts the amount requested as the loss and the frozen funds as recovered. The team should instead sign the TPC-FIN-04 Section 7 reconciliation: requested $2,640,000, released $2,250,000, stopped $390,000, frozen $620,000, recovered $0, with the elapsed time from the first release at 10:55 to the bank call at 14:20. Then the CFO should brief the Audit Committee chair with that one figure within 24 hours, and Legal should send the written insurer notice.",
+        "deliveryMode": "hand_to_role"
+      }
+    },
+    {
+      "at": "2026-11-13T01:43:46.995Z",
+      "by": "user",
+      "note": "Corrected by hand for the shipped example",
+      "snapshot": {
+        "title": "Email: Broker's Notice of Loss and the Audit Chair's Question",
+        "type": "email",
+        "fields": {
+          "fromName": "Office of the Corporate Secretary",
+          "fromEmail": "corporatesecretary@tamarackprecision.example",
+          "senderInitials": "CS",
+          "to": "Marcus Delacroix-Hume (CFO); Anjali Whitcombe (Controller)",
+          "cc": "Priscilla Aranguren (General Counsel); Gareth Lindqvist-Boyd (Treasury Manager)",
+          "subject": "RE: Notice of loss – Tamarack – please sign",
+          "sentAt": "Tue 9/14/2027 5:04 PM",
+          "body": "Marcus Delacroix-Hume, Anjali Whitcombe,\n\nThis confirms what I told you both by phone at 17:02.\n\nDirector Hollis Wetherbee-Ng, chair of the Audit Committee, has seen the Clipwave video and the Greenville Commerce Journal's questions. She asked me to put three questions to you:\n\n1. Is it $2.6 million or $1.6 million?\n2. Did we get any money back?\n3. Does the committee need to meet tonight?\n\nShe wants one number she can rely on. She will not repeat a figure to the other directors until Finance has given it to her. She is available by phone until 21:00 tonight.\n\nThe broker's email below copied me. It asks for a signature tonight, and its figures don't match what I heard in the hallway. Please tell me which figures I should give the chair, and who will brief her.\n\nThanks,\n\n-----Original Message-----\nFrom: claims@harbourline-brokers.example\nSent: Tuesday, September 14, 2027 5:00 PM\nTo: Anjali Whitcombe (Controller); Marcus Delacroix-Hume (CFO)\nCc: Office of the Corporate Secretary\nSubject: Notice of loss – Tamarack – please sign\n\nHello,\n\nFollowing up on the loss, and to save you time, we have prefilled the carrier's Notice of Loss from what we've been told so far:\n\nType: social engineering / funds transfer fraud\nAmount of loss claimed: USD 2,640,000\nRecovered: USD 620,000\nDate of discovery: 14 Sept 2027 14:05\n\nPlease countersign and return tonight so the panel counsel can be assigned. Underwriters still need the attestation we asked about at 16:42. The forensic panel firm also cannot start until we have the Workstation audit export.\n\nBest regards,\nAccount Executive, Financial Lines",
+          "signature": "Office of the Corporate Secretary\nTamarack Precision Components, Inc. | Greenville, SC\n864-555-0109",
+          "attachments": [
+            {
+              "name": "Tamarack_Notice_of_Loss_PREFILLED_2027-09-14.pdf",
+              "size": "212 KB",
+              "kind": "pdf"
+            }
+          ],
+          "importance": "high",
+          "external": false,
+          "printedBy": "Anjali Whitcombe (Controller)"
+        },
+        "instructorNote": "This inject tests whether Finance sends back the broker's prefilled form, which counts the amount requested as the loss and the frozen funds as recovered. The team should instead sign the TPC-FIN-04 Section 7 reconciliation: requested $2,640,000, released $2,250,000, stopped $390,000, frozen $620,000, recovered $0, with the elapsed time from the first release at 10:55 to the bank call at 14:20. Then the CFO should brief the Audit Committee chair with that one figure within 24 hours, and Legal should send the written insurer notice. Decision point: the Controller and CFO decide which figures, discovery date and committee action go out tonight.",
+        "deliveryMode": "hand_to_role"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-11-13T02:36:57.171Z"
+}

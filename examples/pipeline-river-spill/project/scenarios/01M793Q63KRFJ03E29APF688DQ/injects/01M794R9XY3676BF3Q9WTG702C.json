@@ -1,0 +1,249 @@
+{
+  "id": "01M794R9XY3676BF3Q9WTG702C",
+  "mselRowId": "I-03",
+  "type": "system_log",
+  "title": "Volume Balance Run VB-0620: Prairie Bend Segment",
+  "deliveryMode": "hand_to_role",
+  "fields": {
+    "systemName": "PCC_CPM_VOLUME_BALANCE",
+    "host": "pcc-cpm01.tulsa.ironbarkpipeline.example",
+    "ip": "10.40.12.21",
+    "os": "Red Hat Enterprise Linux 8",
+    "logSource": "/var/log/cpm/volume_balance.log (segment CPM-PB)",
+    "exportedBy": "cpm_analyst (console PLC-2)",
+    "exportedAt": "06:20:51 CDT",
+    "timezone": "CDT (UTC-5)",
+    "lines": [
+      {
+        "ts": "06:04:02",
+        "level": "NOTICE",
+        "msg": "PL-MAINLINE-PUMPS stop command acknowledged. Prairie Line shut in.",
+        "highlight": false
+      },
+      {
+        "ts": "06:07:40",
+        "level": "NOTICE",
+        "msg": "BV-2131 Mill Ridge Station (MP 213.1) position CLOSED. Remote command from PLC-2.",
+        "highlight": false
+      },
+      {
+        "ts": "06:09:05",
+        "level": "NOTICE",
+        "msg": "BV-2156 Sandhill Valve (MP 215.6) position CLOSED. Remote command from PLC-2.",
+        "highlight": false
+      },
+      {
+        "ts": "06:18:30",
+        "level": "INFO",
+        "msg": "VB-0620 started by cpm_analyst. Segment MP 196-231. Window 05:50:00-06:04:00 plus post-shut-in drain-down.",
+        "highlight": false
+      },
+      {
+        "ts": "06:18:31",
+        "level": "INFO",
+        "msg": "Inputs: FT-196 (inlet meter), FT-231 (outlet meter), PT-2131S, PT-2143, PT-2156, line fill table MP 213.1-215.6, product = medium sour crude.",
+        "highlight": false
+      },
+      {
+        "ts": "06:19:12",
+        "level": "WARN",
+        "msg": "PT-2143 (MP 214.3 crossing) reading 41 psi after isolation. Segment between BV-2131 and BV-2156 not holding pressure.",
+        "highlight": false
+      },
+      {
+        "ts": "06:19:58",
+        "level": "INFO",
+        "msg": "Component 1: metered in/out imbalance FT-196 vs FT-231, 05:50-06:04. Computed.",
+        "highlight": false
+      },
+      {
+        "ts": "06:20:03",
+        "level": "INFO",
+        "msg": "Component 2: calculated drain-down between MP 213.1 and MP 215.6 (elevation profile, HDD low point at MP 214.3). Computed.",
+        "highlight": false
+      },
+      {
+        "ts": "06:20:05",
+        "level": "ALERT",
+        "msg": "VB-0620 RESULT: Estimated release 2,700-3,500 bbl medium sour crude. Basis: metered in/out imbalance 05:50-06:04 plus calculated drain-down between MP 213.1 and MP 215.6.",
+        "highlight": true
+      },
+      {
+        "ts": "06:20:05",
+        "level": "ALERT",
+        "msg": "Planning figure 3,100 bbl. STATUS: UNVERIFIED. Not field-confirmed. Release location NOT RESOLVED (model span MP 209-219).",
+        "highlight": true
+      },
+      {
+        "ts": "06:20:06",
+        "level": "INFO",
+        "msg": "VB-0620 complete. Result posted to PLC-2 supervisor console and SOP-IMT-01 distribution.",
+        "highlight": false
+      },
+      {
+        "ts": "06:20:50",
+        "level": "INFO",
+        "msg": "Report printed to PCC Level 2 printer by cpm_analyst.",
+        "highlight": false
+      }
+    ],
+    "classification": "IRONBARK INTERNAL - INCIDENT RECORD - PRESERVE",
+    "pageLabel": "Page 1 of 1"
+  },
+  "variant": "printout",
+  "instructorNote": "Hand this over at 06:20. About two minutes later the SimCell plays the NRC duty officer calling about the Prairie Line release: he asks for the report number and an updated quantity because EPA Region 7 and KDHE want it, and he pushes for a cause (\"third-party damage or corrosion?\"). Look for three things. First, the CCSS gives 2,700–3,500 bbl with the volume-balance basis, says the cause is unknown, does not call it a worst case discharge (the plan's WCD is 8,400 bbl) and logs the update. Second, the QI confirms Level 2 using that same range as the only figure. Third, the ENVL starts the downstream sensitive-areas list and asks for the current river flow.",
+  "citations": [
+    {
+      "documentId": "01M793Q4354YA8XX7SVEK2Z432",
+      "documentTitle": "Ironbark Pipeline Company: Response Plan for the Prairie Bend Segment",
+      "headingPath": "Ironbark Pipeline Company: Respo… › 1. The system",
+      "quote": "Ironbark Pipeline Company operates the Prairie Line, a 12.75-inch crude oil pipeline of 286 miles from the Hollis Gathering Terminal in Oklahoma to the Wabash Junction Terminal in Missouri. The Prairi",
+      "chunkId": 20
+    },
+    {
+      "documentId": "01M793Q4354YA8XX7SVEK2Z432",
+      "documentTitle": "Ironbark Pipeline Company: Response Plan for the Prairie Bend Segment",
+      "headingPath": "Ironbark Pipeline Company: Respo… › 2. Worst case discharge",
+      "quote": "The worst case discharge (WCD) for the Prairie Bend segment is 8,400 barrels (1,336 cubic meters): the volume from a full-bore rupture at the river crossing, with 12 minutes to shut down and close the",
+      "chunkId": 21
+    },
+    {
+      "documentId": "01M793Q432Z8K2VNW3Y13V3937",
+      "documentTitle": "SOP-IMT-01: Notifications and Incident Management Team Activation",
+      "headingPath": "SNIMTA › 3. What to say",
+      "quote": "A notification states: who is calling and the call-back number; the facility and the location (milepost, river mile and latitude and longitude); the product (medium sour crude); the estimated volume r",
+      "chunkId": 4
+    },
+    {
+      "documentId": "01M793Q432Z8K2VNW3Y13V3937",
+      "documentTitle": "SOP-IMT-01: Notifications and Incident Management Team Activation",
+      "headingPath": "SNIMTA › 4. IMT activation",
+      "quote": "The QI declares the IMT activation level: Level 1 (a regional team of 12), Level 2 (a national team of 40 with Ironbark corporate staff), Level 3 (an international or third-party contract team). The Q",
+      "chunkId": 5
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template"
+    ]
+  },
+  "assets": [
+    {
+      "id": "01M799PFGPXYP8TCP7XMYQ4MSC",
+      "kind": "image",
+      "path": "scenarios/01M793Q63KRFJ03E29APF688DQ/media/01M794R9XY3676BF3Q9WTG702C/01M799PFGPXYP8TCP7XMYQ4MSC.png",
+      "role": "rendered",
+      "width": 816,
+      "height": 1056,
+      "sha256": "2779fadb7693dfa1c2c4d634d4f1f5db1427b1e26492b92d6f31593199b08c00",
+      "provenance": {
+        "provider": "template",
+        "templateId": "system_log",
+        "templateVersion": "1",
+        "createdAt": "2026-11-13T01:52:31.609Z"
+      }
+    }
+  ],
+  "versions": [
+    {
+      "at": "2026-11-13T00:26:38.729Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "Volume Balance Run VB-0620: Prairie Bend Segment",
+        "type": "system_log",
+        "fields": {
+          "systemName": "PCC_CPM_VOLUME_BALANCE",
+          "host": "pcc-cpm01.tulsa.ironbarkpipeline.example",
+          "ip": "10.40.12.21",
+          "os": "Red Hat Enterprise Linux 8",
+          "logSource": "/var/log/cpm/volume_balance.log (segment CPM-PB)",
+          "exportedBy": "cpm_analyst (console PLC-2)",
+          "exportedAt": "06:20:51 CDT",
+          "timezone": "CDT (UTC-5)",
+          "lines": [
+            {
+              "ts": "06:04:02",
+              "level": "NOTICE",
+              "msg": "PL-MAINLINE-PUMPS stop command acknowledged. Prairie Line shut in.",
+              "highlight": false
+            },
+            {
+              "ts": "06:07:40",
+              "level": "NOTICE",
+              "msg": "BV-2131 Mill Ridge Station (MP 213.1) position CLOSED. Remote command from PLC-2.",
+              "highlight": false
+            },
+            {
+              "ts": "06:09:05",
+              "level": "NOTICE",
+              "msg": "BV-2156 Sandhill Valve (MP 215.6) position CLOSED. Remote command from PLC-2.",
+              "highlight": false
+            },
+            {
+              "ts": "06:18:30",
+              "level": "INFO",
+              "msg": "VB-0620 started by cpm_analyst. Segment MP 196-231. Window 05:50:00-06:04:00 plus post-shut-in drain-down.",
+              "highlight": false
+            },
+            {
+              "ts": "06:18:31",
+              "level": "INFO",
+              "msg": "Inputs: FT-196 (inlet meter), FT-231 (outlet meter), PT-2131S, PT-2143, PT-2156, line fill table MP 213.1-215.6, product = medium sour crude.",
+              "highlight": false
+            },
+            {
+              "ts": "06:19:12",
+              "level": "WARN",
+              "msg": "PT-2143 (MP 214.3 crossing) reading 41 psi after isolation. Segment between BV-2131 and BV-2156 not holding pressure.",
+              "highlight": false
+            },
+            {
+              "ts": "06:19:58",
+              "level": "INFO",
+              "msg": "Component 1: metered in/out imbalance FT-196 vs FT-231, 05:50-06:04. Computed.",
+              "highlight": false
+            },
+            {
+              "ts": "06:20:03",
+              "level": "INFO",
+              "msg": "Component 2: calculated drain-down between MP 213.1 and MP 215.6 (elevation profile, HDD low point at MP 214.3). Computed.",
+              "highlight": false
+            },
+            {
+              "ts": "06:20:05",
+              "level": "ALERT",
+              "msg": "VB-0620 RESULT: Estimated release 2,700-3,500 bbl medium sour crude. Basis: metered in/out imbalance 05:50-06:04 plus calculated drain-down between MP 213.1 and MP 215.6.",
+              "highlight": true
+            },
+            {
+              "ts": "06:20:05",
+              "level": "ALERT",
+              "msg": "Planning figure 3,100 bbl. STATUS: UNVERIFIED. Not field-confirmed. Release location NOT RESOLVED (model span MP 209-219).",
+              "highlight": true
+            },
+            {
+              "ts": "06:20:06",
+              "level": "INFO",
+              "msg": "VB-0620 complete. Result posted to PLC-2 supervisor console and SOP-IMT-01 distribution.",
+              "highlight": false
+            },
+            {
+              "ts": "06:20:50",
+              "level": "INFO",
+              "msg": "Report printed to PCC Level 2 printer by cpm_analyst.",
+              "highlight": false
+            }
+          ],
+          "classification": "IRONBARK INTERNAL - INCIDENT RECORD - PRESERVE",
+          "pageLabel": "Page 1 of 1"
+        },
+        "instructorNote": "Hand this over at 06:20. About two minutes later the SimCell plays the NRC duty officer calling about the Prairie Line release: he asks for the report number and an updated quantity because EPA Region 7 and KDHE want it, and he pushes for a cause (\"third-party damage or corrosion?\"). Look for three things. First, the CCSS gives 2,700–3,500 bbl with the volume-balance basis, says the cause is unknown, does not call it a worst case discharge (the plan's WCD is 8,400 bbl) and logs the update. Second, the QI confirms Level 2 using that same range as the only figure. Third, the ENVL starts the downstream sensitive-areas list and asks for the current river flow.",
+        "deliveryMode": "hand_to_role"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-11-13T01:52:31.862Z"
+}
