@@ -31,12 +31,14 @@ Each label is a word with an icon in the app's status colours, so colour is neve
 
 **Details** shows each claim sentence, the closest cited passage, how much of the claim's wording is in the cited passages, the terms found and not found, and any passage that says something different.
 
-- **Mark grounded** / **Mark unsupported** set your own label, with an optional note. It stays until the item's text or citations change; then the check runs again.
+- **Mark grounded** / **Mark unsupported** set your own label, with an optional note. It stays until the item's text, its citations or the cited passage's text change; then the check runs again. Rebuilding the index or opening a copy of the project keeps it.
 - **Verify with model** asks the review model whether each claim follows from the passages. Every answer must quote the passage word for word; an answer whose quote is not in the passage is ignored (and logged in the job), so text hidden in a document cannot fake support. The model can lower Grounded to Needs review, or raise a label to Grounded when every claim is supported with a quote. The automatic label stays visible next to the model's.
 
 The **Verify with model** button on the Source check bar checks every labelled row and inject of the scenario (the weakest first, at most 120).
 
 ## How the check works and where it is wrong
+
+A deadline or quantity counts as stated when a cited passage gives it in the sentence that says the same thing, so a row that cites two passages can take one figure from each.
 
 The check compares wording, not meaning. It reads the full text of each cited chunk, not the short quote shown on hover. A plan that says the same thing in other words gives Needs review; a claim that copies plan words without following the plan can come out Grounded. With an embedding model set in **Settings → Embeddings**, similar meaning also counts; the built-in keyword embedder is not used for this.
 

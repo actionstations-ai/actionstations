@@ -62,6 +62,40 @@ describe('grounding labels (FR-4)', () => {
     )
   })
 
+  it('counts a figure as supported when any cited passage states it (#1149)', () => {
+    const warning: Passage = {
+      chunkId: 21,
+      documentId: 'annex',
+      documentTitle: 'Severe Weather Annex',
+      headingPath: 'Annex H › 3.2 Warning sequence',
+      text:
+        'When the National Weather Service issues a tornado warning, the 911 center activates the ' +
+        'sirens of the zones inside the polygon within one minute.',
+    }
+    const sirens: Passage = {
+      chunkId: 22,
+      documentId: 'sop',
+      documentTitle: 'Warning SOP',
+      headingPath: 'SOP-02 › 3 Siren activation',
+      text: 'Siren zone activation | 3-minute steady tone; repeat every 10 minutes while the warning is in effect.',
+    }
+    const r = label(
+      'The 911 center sounds the North zone sirens within one minute, using the 3-minute steady tone and repeating every 10 minutes.',
+      [warning, sirens],
+    )
+    expect(r.claims[0]).toMatchObject({ missing: [], conflicting: [] })
+    expect(r.label).not.toBe('unsupported')
+  })
+
+  it('still reports a conflict when no cited passage states the figure', () => {
+    const r = label(
+      'The Water Quality Manager notifies the Ohio EPA district office within 1 hour of a confirmed exceedance.',
+      [PASSAGE, OTHER],
+    )
+    expect(r.label).toBe('unsupported')
+    expect(r.claims[0]!.conflicting[0]!.term).toBe('1 hour')
+  })
+
   it('is unsupported when nothing is cited, or the cited chunk left the index', () => {
     const none = labelClaims({
       claimText: 'The Director declares a Level 3 condition.',

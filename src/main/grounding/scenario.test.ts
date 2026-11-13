@@ -1,6 +1,7 @@
 // Grounding a scenario (#423, FR-1/FR-6/FR-8/FR-9): results per item, reused while the
 // fingerprint holds, recomputed when the claim, the citations or the cited text change, the
 // user's label kept until then, and the warnings the checks list.
+import { createHash } from 'node:crypto'
 import { describe, expect, it } from 'vitest'
 import { Scenario, type Chunk, type Citation, type Inject, type MselRow } from '@shared/schemas'
 import { GROUNDING_VERSION } from './constants'
@@ -171,6 +172,68 @@ describe('groundScenario', () => {
     changed.grounding = withOverride.grounding
     const fresh = await groundScenario(changed, [], ctx())
     expect(fresh.items['row:I-03']!.override).toBeUndefined()
+  })
+
+  it('keeps the user’s label when the index is rebuilt and chunks are renumbered (#1148)', async () => {
+    const first = await groundScenario(s, [], ctx())
+    const withOverride = { ...s, grounding: { items: { ...first.items } } }
+    withOverride.grounding.items['row:I-02'] = {
+      ...first.items['row:I-02']!,
+      override: { label: 'review', note: 'Check with operations', at: now },
+    }
+    const renumbered = fakeIndex(CHUNKS.map((c) => ({ ...c, id: c.id + 10 })))
+    const after = await groundScenario(withOverride, [], ctx(renumbered))
+    expect(after.items['row:I-02']!.fingerprint).toBe(first.items['row:I-02']!.fingerprint)
+    expect(after.items['row:I-02']!.override?.note).toBe('Check with operations')
+  })
+
+  it('drops the user’s label when the cited passage’s text changes', async () => {
+    const first = await groundScenario(s, [], ctx())
+    const withOverride = { ...s, grounding: { items: { ...first.items } } }
+    withOverride.grounding.items['row:I-02'] = {
+      ...first.items['row:I-02']!,
+      override: { label: 'review', at: now },
+    }
+    const edited = fakeIndex(
+      CHUNKS.map((c) => (c.id === 2 ? { ...c, text: `${c.text} Call the vendor.` } : c)),
+    )
+    const after = await groundScenario(withOverride, [], ctx(edited))
+    expect(after.items['row:I-02']!.override).toBeUndefined()
+  })
+
+  it('carries a label stored under the earlier fingerprint format over to the new one', async () => {
+    const first = await groundScenario(s, [], ctx())
+    const r = s.msel.find((m) => m.id === 'I-02')!
+    const chunk = CHUNKS[1]!
+    const legacy = createHash('sha256')
+      .update(
+        JSON.stringify([
+          'row',
+          r.expectedAction,
+          r.event,
+          false,
+          [
+            [
+              chunk.documentId,
+              chunk.id,
+              [chunk.id, createHash('sha256').update(chunk.text).digest('hex').slice(0, 8)],
+            ],
+          ],
+        ]),
+      )
+      .digest('hex')
+      .slice(0, 16)
+    const stored = { ...s, grounding: { items: { ...first.items } } }
+    stored.grounding.items['row:I-02'] = {
+      ...first.items['row:I-02']!,
+      fingerprint: legacy,
+      version: 1,
+      override: { label: 'review', at: now },
+    }
+    const after = await groundScenario(stored, [], ctx())
+    expect(after.items['row:I-02']!.override?.label).toBe('review')
+    expect(after.items['row:I-02']!.fingerprint).toBe(first.items['row:I-02']!.fingerprint)
+    expect(after.items['row:I-02']!.version).toBe(GROUNDING_VERSION)
   })
 
   it('recomputes a result when its cited chunk leaves the index', async () => {
