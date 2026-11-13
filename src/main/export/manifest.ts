@@ -35,6 +35,9 @@ export interface ProviderSummary {
   stages: number
   inputTokens: number
   outputTokens: number
+  /** Prompt-cache tokens, when the provider reports them (#1144). */
+  cacheReadTokens?: number
+  cacheWriteTokens?: number
   costUsd?: number
 }
 
@@ -50,6 +53,8 @@ export function providerSummary(provenance: StageRun[]): ProviderSummary[] {
     s.stages++
     s.inputTokens += run.inputTokens ?? 0
     s.outputTokens += run.outputTokens ?? 0
+    if (run.cacheReadTokens) s.cacheReadTokens = (s.cacheReadTokens ?? 0) + run.cacheReadTokens
+    if (run.cacheWriteTokens) s.cacheWriteTokens = (s.cacheWriteTokens ?? 0) + run.cacheWriteTokens
     if (run.costUsd !== undefined) s.costUsd = (s.costUsd ?? 0) + run.costUsd
     byKey.set(key, s)
   }

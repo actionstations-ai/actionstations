@@ -53,7 +53,9 @@ import { reverseDeep, reverseText } from './reverse'
 export const PLACEHOLDER_INSTRUCTION =
   'Some names, phone numbers, emails and addresses are replaced with placeholders like ' +
   '[[PERSON_7F3K]]. Use the placeholders exactly as written wherever you refer to them; never ' +
-  'invent new ones.'
+  'invent new ones. They are not a format to copy: when you need a person, phone number, email ' +
+  'or address that is not given, write a realistic fictional one yourself (phone numbers in the ' +
+  '555-01xx range), never a new [[…]] token.'
 
 /** The fixed text embedders send once to learn their vector size; no project content. */
 export const DIMENSION_PROBE = 'dimension probe'
@@ -339,7 +341,7 @@ class GuardedTextProvider implements TextProvider {
   }
 }
 
-/** Put the real values back into the reply (FR-13); report placeholders the project never issued. */
+/** Put the real values back into the reply (FR-13); report placeholders the model invented. */
 function restore(res: ChatResponse, registry: RedactionRegistry, wantsJson: boolean): ChatResponse {
   if (registry.size === 0) return res
   const unknown = new Set<string>()

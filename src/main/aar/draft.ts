@@ -16,7 +16,7 @@ import { citationLabel } from '../generate/docs'
 import { domainContextWithToolkits } from '../toolkits/context'
 import { pipelineDeps, type PipelineDeps, type SearchIndex } from '../generate/deps'
 import { stripKeysDeep } from '../generate/mappers'
-import { runStage, StageFailure, type StageResult } from '../generate/stage'
+import { runStage, StageFailure, sumTokens, type StageResult } from '../generate/stage'
 import { baseVars } from '../generate/vars'
 import type { JobContext } from '../jobs/manager'
 import { AppError } from '../lib/errors'
@@ -175,8 +175,8 @@ async function callWithCondensedRetry(env: DraftEnv): Promise<StageResult<AarOut
     )
     try {
       const r = await callStage(env, 'tight')
-      r.run.inputTokens = (r.run.inputTokens ?? 0) + (err.run.inputTokens ?? 0)
-      r.run.outputTokens = (r.run.outputTokens ?? 0) + (err.run.outputTokens ?? 0)
+      // The failed first attempt was billed too (#1144).
+      sumTokens(r.run, err.run)
       return r
     } catch (again) {
       if (!(again instanceof StageFailure) || !again.noJson) throw again

@@ -31,7 +31,9 @@ describe('recordPlaceholderWarnings', () => {
     recordPlaceholderWarnings(s, 'Overview', [...found, ...found])
     expect(s.warnings).toHaveLength(1)
     expect(s.warnings[0]).toMatchObject({ code: REDACTION_UNKNOWN, severity: 'warning' })
-    expect(s.warnings[0]!.message).toMatch(/^Overview: the reply used placeholders.*PERSON_ZZZZ/)
+    expect(s.warnings[0]!.message).toMatch(
+      /^Overview: the reply invented placeholders.*PERSON_ZZZZ.*stand-in/,
+    )
   })
 
   it('replaces a step earlier warnings when it runs again and clears them when none are found', () => {

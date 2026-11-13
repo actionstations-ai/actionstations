@@ -39,7 +39,7 @@ Each plan excerpt has a **Leave this section out** box. Tick one or more and cho
 
 To keep a document out of every cloud request, tick **Never send** for it under **Cloud and privacy** on the project (the choice is saved in the project file). Local providers still use it. With a cloud embedder, a never-send document is indexed for keyword search only (its text is not embedded, at indexing, re-embedding or in the scenario source check), so it is not found by meaning search. A project's list adds to the app-wide list and cannot shorten it.
 
-If a model writes a placeholder that this project never issued, the scenario gets a warning named `REDACTION_UNKNOWN` on the step that produced it, and the text is left as written.
+Models are told to use the placeholders as written and to make up a fictional value when they need a person, number or address the documents do not give. If a model still writes a placeholder of its own, in the `[[…]]` form, the app replaces it with a neutral stand-in ("a staff member", a `contact-…@example.org` address, a 555-01xx number or "the address on file") and gives the step a `REDACTION_UNKNOWN` warning, so you can write the value the exercise needs. Words that only look like placeholders, such as the inject type `PHONE_CALL`, are left alone.
 
 Your approval covers the exact request you saw. If anything changes before it is sent (a repair round, different settings), the app treats it as a new request.
 
@@ -66,7 +66,7 @@ Redaction is on by default for all four categories. Each value becomes a placeho
 - The same value always gets the same placeholder within a project, so the model sees a consistent cast across stages.
 - The placeholders are computed with a key that belongs to the project. The key is stored with your API keys in the operating system's keychain, never in the project folder.
 - The list of which placeholder stands for which value stays in the app's memory while it runs. It is never written to disk, never logged and never sent.
-- Placeholders in the model's reply are changed back to the real values on your computer before anything is saved. The live log during generation shows the placeholders, because that is what the model saw. A placeholder the model invented is left as written and noted in the job log (`REDACTION_UNKNOWN`).
+- Placeholders in the model's reply are changed back to the real values on your computer before anything is saved. The live log during generation shows the placeholders, because that is what the model saw. A placeholder the model invented becomes a neutral stand-in and is noted in the job log (`REDACTION_UNKNOWN`).
 
 Redaction does not apply to embedding requests: search over placeholders would not work. Image, video and voice prompts are redacted with plain words instead of placeholders (a name becomes "a staff member", a phone number "a phone number"), because images and audio cannot be changed back. A video's input image is shown in the dialog, and the approval covers that exact image.
 
