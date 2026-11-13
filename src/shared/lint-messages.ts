@@ -70,7 +70,7 @@ const PLAIN: Record<string, string> = {
   LOCATION_UNGROUNDED: 'An event names a place your documents do not mention.',
   ROLE_KEY_UNKNOWN: 'An event is addressed to a role that is not in this scenario.',
   REDACTION_UNKNOWN:
-    'The model wrote a redaction placeholder that this project never issued; check the text.',
+    'The model invented a redaction placeholder; it was replaced with a neutral stand-in. Check the text.',
   INJECT_FIELDS_INVALID: 'An inject is missing fields its template needs.',
   INJECT_FIELDS_REPAIRED: 'Some inject fields were filled in automatically.',
   INJECT_CONTENT_ISSUE: 'An inject has a content problem to review.',

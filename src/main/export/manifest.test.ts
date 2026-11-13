@@ -112,6 +112,34 @@ describe('scenario.md manifest', () => {
       { provider: 'lm', model: 'qwen', stages: 2, inputTokens: 11, outputTokens: 7 },
     ])
   })
+  it('adds the prompt-cache tokens a provider reports (#1144)', () => {
+    const at = '2026-01-01T00:00:00.000Z'
+    const run = (cacheReadTokens?: number, cacheWriteTokens?: number) => ({
+      stage: 'rubric' as const,
+      startedAt: at,
+      status: 'ok' as const,
+      providerRef: { providerId: 'claude' },
+      model: 'claude-opus-5-5',
+      inputTokens: 100,
+      outputTokens: 50,
+      ...(cacheReadTokens ? { cacheReadTokens } : {}),
+      ...(cacheWriteTokens ? { cacheWriteTokens } : {}),
+      costUsd: 0.01,
+      repairAttempts: 0,
+    })
+    expect(providerSummary([run(9000, 3000), run(12000)])).toEqual([
+      {
+        provider: 'claude',
+        model: 'claude-opus-5-5',
+        stages: 2,
+        inputTokens: 200,
+        outputTokens: 100,
+        cacheReadTokens: 21000,
+        cacheWriteTokens: 3000,
+        costUsd: 0.02,
+      },
+    ])
+  })
 })
 
 describe('scenario.json', () => {

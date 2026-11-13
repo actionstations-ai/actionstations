@@ -418,6 +418,9 @@ export const StageRun = z.object({
   promptHash: z.string().optional(),
   inputTokens: z.number().int().optional(),
   outputTokens: z.number().int().optional(),
+  /** Prompt-cache tokens, billed apart from inputTokens: read at a discount, written at a premium (#1144). */
+  cacheReadTokens: z.number().int().optional(),
+  cacheWriteTokens: z.number().int().optional(),
   costUsd: z.number().optional(),
   status: z.enum(['running', 'ok', 'error', 'stale', 'skipped']),
   error: z.string().optional(),

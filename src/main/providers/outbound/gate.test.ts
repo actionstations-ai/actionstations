@@ -167,7 +167,7 @@ describe('outbound gate: chat with redaction on', () => {
     const res = await guardText(inner, REMOTE, deps).chat(
       request({ json: { name: 'X', schema: {} } }),
     )
-    expect(res.json).toEqual({ from: 'Dana Ruiz', note: 'cc Dana Ruiz and [[PERSON_ZZZZ]]' })
+    expect(res.json).toEqual({ from: 'Dana Ruiz', note: 'cc Dana Ruiz and a staff member' })
     expect(res.text).toContain('"from":"Dana Ruiz"')
     expect(res.unknownPlaceholders).toEqual(['PERSON_ZZZZ'])
   })

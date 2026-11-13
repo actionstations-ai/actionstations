@@ -219,6 +219,12 @@ function namesFrom(text: string, stem: string): string[] {
   })
 }
 
+/** A name as namesFrom reads it: no possessive "'s", single spaces, lower case. */
+const comparable = (name: string): string =>
+  wordsOf(name.replace(/['’]s\b/g, ''))
+    .join(' ')
+    .toLowerCase()
+
 /** First words the organization's names share with the text that drifts ("North Coast"). */
 const stemOf = (name: string): string => {
   const ws = wordsOf(name)
@@ -238,12 +244,13 @@ export function orgNameIssues(fields: Fields, org: OrgNames): ContentIssue[] {
     ...new Set(org.official.map((n) => n.trim()).filter((n) => wordsOf(n).length >= 2)),
   ]
   if (!official.length) return []
-  const known = [...official, ...(org.other ?? [])].map((n) => n.trim().toLowerCase())
+  // Names in the text lose a possessive "'s" (namesFrom), so compare the project's names the
+  // same way: "Wren County Sheriff's Office" in the text is the official name (#1146).
+  const known = [...official, ...(org.other ?? [])].map(comparable)
   const nouns = new Set(official.map((n) => wordsOf(n).at(-1)!.toLowerCase()))
   const endsInNoun = (name: string): boolean => nouns.has(wordsOf(name).at(-1)!.toLowerCase())
   const drifted = (name: string): boolean => {
-    const lower = name.toLowerCase()
-    if (known.includes(lower)) return false
+    if (known.includes(comparable(name))) return false
     return endsInNoun(name)
   }
   const stems = [...new Set(official.map(stemOf))]

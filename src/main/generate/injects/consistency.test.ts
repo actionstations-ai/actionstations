@@ -276,6 +276,23 @@ describe('orgNameIssues (#221)', () => {
     ).toEqual([])
   })
 
+  it('accepts an official name with an apostrophe, written as the project writes it (#1146)', () => {
+    const sheriff = { official: ["Wren County Sheriff's Office", 'WCSO'] }
+    const names = (fields: Record<string, unknown>) =>
+      orgNameIssues(fields, sheriff).map((i) => i.message.split('"')[1])
+    expect(
+      names({
+        agency: "Wren County Sheriff's Office",
+        curly: 'Wren County Sheriff’s Office',
+        line: "Deputies from the Wren County Sheriff's Office's patrol division responded.",
+      }),
+    ).toEqual([])
+    expect(names({ agency: "Wren County Sheriff's Department" })).toEqual([])
+    expect(names({ agency: "Wren County Sheriff's Regional Office" })).toEqual([
+      'Wren County Sheriff Regional Office',
+    ])
+  })
+
   it('runs in contentIssues when the organization names are given', () => {
     const issues = contentIssues({
       type: 'fids_board',

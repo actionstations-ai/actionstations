@@ -72,6 +72,8 @@ describe('AAR store', () => {
   it('refuses a stale base and a save while a job owns the scenario', async () => {
     const { root, scenarioId } = await setup()
     const first = await writeAar(root, scenarioId, aar(), { by: 'ai' })
+    // Saves are told apart by updatedAt (milliseconds): two in the same millisecond look alike.
+    await new Promise((r) => setTimeout(r, 5))
     await writeAar(root, scenarioId, { ...first, executiveSummaryMd: 'Newer' }, { by: 'user' })
     await expect(
       writeAar(root, scenarioId, first, { by: 'user', baseUpdatedAt: first.updatedAt }),

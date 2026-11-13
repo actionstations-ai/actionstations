@@ -3,7 +3,7 @@ import { describe, expect, it } from 'vitest'
 import { REDACTION_CATEGORIES, type RedactionCategory } from '@shared/schemas'
 import { emptyContext } from './detect'
 import { RedactionRegistry, redactText } from './redact'
-import { reverseDeep, reverseText } from './reverse'
+import { reverseDeep, reverseText, standIn } from './reverse'
 
 const ALL = new Set<RedactionCategory>(REDACTION_CATEGORIES)
 const KEY = Buffer.alloc(32, 7)
@@ -85,10 +85,22 @@ describe('reverse', () => {
     })
   })
 
-  it('leaves placeholders the project never issued and reports them', () => {
-    expect(reverseText('Ask [[PERSON_ZZZZ]] and [[PERSON_ZZZZ]]', r)).toEqual({
-      value: 'Ask [[PERSON_ZZZZ]] and [[PERSON_ZZZZ]]',
-      unknown: ['PERSON_ZZZZ'],
+  it('replaces placeholders the model invented with stand-ins and reports them (#1145)', () => {
+    expect(
+      reverseText('Ask [[PERSON_ZZZZ]] and [[PERSON_ZZZZ]] at [[EMAIL_PQ2D]] or [PHONE_AB7C]', r),
+    ).toEqual({
+      value: `Ask a staff member and a staff member at contact-pq2d@example.org or ${standIn('PHONE_AB7C')}`,
+      unknown: ['PERSON_ZZZZ', 'EMAIL_PQ2D', 'PHONE_AB7C'],
+    })
+    expect(standIn('PHONE_AB7C')).toMatch(/^555-01\d\d$/)
+    expect(standIn('PHONE_AB7C')).toBe(standIn('PHONE_AB7C'))
+    expect(standIn('ADDRESS_LZFO')).toBe('the address on file')
+  })
+
+  it('leaves bare unknown tokens alone: inject type ids are not placeholders (#1145)', () => {
+    expect(reverseText('Format: PHONE_CALL, then EMAIL_FORWARD to the PIO', r)).toEqual({
+      value: 'Format: PHONE_CALL, then EMAIL_FORWARD to the PIO',
+      unknown: [],
     })
   })
 

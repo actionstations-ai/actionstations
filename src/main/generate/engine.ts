@@ -109,7 +109,8 @@ import {
   stripKeysDeep,
 } from './mappers'
 import { focusCapabilities, missingGuides } from './eeg-focus'
-import { runStage, StageFailure, type StageCall, type StageResult } from './stage'
+import { runStage, sumTokens, StageFailure, type StageCall, type StageResult } from './stage'
+export { sumTokens } from './stage'
 import { contextFor, regroundScenario } from '../grounding/project'
 import { applyRuleSuggestions, enabledFrameworks } from './control-suggestions'
 import {
@@ -589,12 +590,6 @@ function rekeyCitations(
       return key ? [key] : []
     }),
   }))
-}
-
-export const sumTokens = (into: StageRun, run: StageRun): void => {
-  into.inputTokens = (into.inputTokens ?? 0) + (run.inputTokens ?? 0)
-  into.outputTokens = (into.outputTokens ?? 0) + (run.outputTokens ?? 0)
-  into.costUsd = (into.costUsd ?? 0) + (run.costUsd ?? 0)
 }
 
 interface MixResult {
