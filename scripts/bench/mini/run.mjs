@@ -26,11 +26,10 @@ import { pathToFileURL } from 'node:url'
 import { importMain } from '../../lib/bundle-main.mjs'
 import { corpusHash, loadExample, loadSuite, ROOT, runFileName, slug } from '../corpus.mjs'
 import { modelInfo, parseModelRef } from '../model-info.mjs'
-import { SCORING_VERSION } from '../score/composite.mjs'
 import { taskSetHash } from '../taskset.mjs'
 import { writeFormatted } from '../write.mjs'
 import { runProbes, streamGuardOptions } from './probes.mjs'
-import { miniResult } from './score.mjs'
+import { MINI_SCORING_VERSION, miniResult } from './score.mjs'
 import { LEVEL_LABEL, summaryMarkdown, verdictOf } from './verdict.mjs'
 
 const log = (msg) => console.log(`[mini ${new Date().toISOString().slice(11, 19)}] ${msg}`)
@@ -130,7 +129,7 @@ export function buildMiniRun({
     kind: 'mini',
     suite: 'mini',
     suiteVersion: suite.suiteVersion,
-    scoringVersion: SCORING_VERSION,
+    scoringVersion: MINI_SCORING_VERSION,
     appVersion,
     appCommit,
     promptHashes: result.promptHashes ?? {},

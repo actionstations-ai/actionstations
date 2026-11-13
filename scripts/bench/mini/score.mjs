@@ -5,9 +5,10 @@
 // taken live from the job (probes.mjs) or, for replay, from a saved scenario (replay.mjs).
 //
 // Mini score = Quality x Completion.
-//   Quality     the share of absolute criteria met, over the replies the model delivered. The
-//               criteria are fixed pass/fail statements against the Scenario 3 reference
-//               (bench/gold/scenario-3.json) and the planted defects; see `criteriaFor*`.
+//   Quality     the share of credit earned over the absolute criteria, over the replies the model
+//               delivered. The criteria are fixed statements against the Scenario 3 reference
+//               (bench/gold/scenario-3.json) and the planted defects. A yes/no item earns 0 or 1;
+//               a continuous measure earns a share between 0 and 1 (see `CREDIT_RULES`, #612).
 //   Completion  the chance that a full scenario drafts with no failed stage: the per-call
 //               success rate after the app's repair policy, over every Mini call, raised to the number of model calls in a
 //               scenario (bench/suites/mini.json, scenarioBudget.modelStages).
@@ -128,9 +129,60 @@ const failed = (obs, what) => {
 export const firstTry = (obs) =>
   !!obs.ok && (obs.repairAttempts ?? 0) === 0 && (obs.lengthRetries ?? 0) === 0
 
-const criterion = (id, label, met) => ({ id, label, met: !!met })
-const pct = (met, total) => (total > 0 ? (met / total) * 100 : 0)
-const scoreOf = (criteria) => round1(pct(criteria.filter((c) => c.met).length, criteria.length))
+/** Bumped when the way quality is scored changes (the task set stays mini-v1). 2: partial credit (#612). */
+export const MINI_SCORING_VERSION = 2
+
+/** A yes/no criterion earns 0 or 1. */
+const criterion = (id, label, met) => ({ id, label, met: !!met, credit: met ? 1 : 0 })
+
+const clamp01 = (n) => Math.min(1, Math.max(0, n))
+
+/**
+ * Linear credit between a zero point and a full-credit point, in whichever direction they run:
+ * `zero` earns 0, `full` earns 1, anything beyond either end earns 0 or 1.
+ */
+export const ramp = (value, zero, full) => {
+  if (!Number.isFinite(value)) return 0
+  if (full === zero) return value >= full ? 1 : 0
+  return clamp01((value - zero) / (full - zero))
+}
+
+/** A continuous criterion: `credit` in 0..1, met only when it earns the full 1. */
+const graded = (id, label, credit) => {
+  const c = Math.round(clamp01(credit) * 1000) / 1000
+  return { id, label, met: c >= 1, credit: c }
+}
+
+/** What a criterion earned: its credit, or 1 / 0 for a criterion saved before partial credit. */
+export const creditOf = (c) => c.credit ?? (c.met ? 1 : 0)
+
+/**
+ * The points where a continuous criterion earns nothing (its full-credit point is a threshold in
+ * bench/suites/mini.json `quality`, so the task-set hash does not move). Documented in
+ * docs/specs/0445-tabletop-mini-benchmark.md and ADR-0072.
+ */
+export const CREDIT_RULES = {
+  rowsZero: 0, // rows in the phase: 0 rows earns 0, `phaseMinRows` earns 1
+  paceLowFactor: 0.5, // rows per hour: the band's low edge x 0.5 earns 0
+  paceHighFactor: 2, // ... and the band's high edge x 2 earns 0; inside the band earns 1
+  tagMixZero: 0, // share of reference tag groups present: none earns 0, all earns 1
+  citationResolutionZero: 50, // percent of citations that resolved: 50 earns 0, the threshold earns 1
+  citationCoverageZero: 0, // percent of rows citing a source: 0 earns 0, the threshold earns 1
+  citationSupportZero: 0, // percent of claims supported: 0 earns 0, the threshold earns 1
+  lintPenaltyZero: 20, // lint penalty per 10 rows: 20 earns 0 (the threshold, 5, earns 1)
+  handbookSectionsZero: 0, // sections present: 0 earns 0, all earn 1
+  handbookWordsZero: 0, // words: 0 earns 0, the minimum earns 1
+  handbookRepetitionZero: 0.5, // repeated 6-word phrases: 50% earns 0, the limit earns 1
+}
+
+const pctOf = (met, total) => (total > 0 ? (met / total) * 100 : 0)
+const scoreOf = (criteria) =>
+  round1(
+    pctOf(
+      criteria.reduce((n, c) => n + creditOf(c), 0),
+      criteria.length,
+    ),
+  )
 
 function attempts(obs) {
   return { repairAttempts: obs.repairAttempts ?? 0, lengthRetries: obs.lengthRetries ?? 0 }
@@ -158,56 +210,102 @@ const GROUPS_WITHOUT_DECISION = (gold) => ({
   groups: gold.groups.filter((g) => !g.includes('DECISION_POINT')),
 })
 
-/** The criteria a drafted phase is judged by (suite.quality), each a fixed pass/fail statement. */
-function phaseCriteria({ view, rubric, cit, lint, hasSupport, q, gold, isLast }) {
-  const rows = view.msel
+/** Content rows per hour and the reference tag groups present in a phase view. */
+export function phaseShape(view, gold, q) {
   const pace = paceOk(view, gold, q.paceBand)
   const mix = tagMixOk(view, GROUPS_WITHOUT_DECISION(gold))
+  const total = GROUPS_WITHOUT_DECISION(gold).groups.length
+  return { rowsPerHour: pace.rate, tagGroups: { present: total - mix.missing.length, total } }
+}
+
+/**
+ * The raw measures behind the long-prompt criteria: what the reply did, before any threshold.
+ * `tagGroups`: how many of the reference's purpose-tag groups (the decision point excepted) the
+ * phase has.
+ */
+export function longContextMeasures({ view, cit, lint, hasSupport, gold, q }) {
+  return {
+    rows: view.msel.length,
+    ...phaseShape(view, gold, q),
+    lintPenaltyPer10Rows: lint.penaltyPer10Rows ?? Infinity,
+    resolved: cit.resolution,
+    covered: cit.coverage,
+    ...(hasSupport ? { supported: cit.support } : {}),
+  }
+}
+
+/**
+ * The credit (0..1) each continuous long-prompt criterion earns for `m` (longContextMeasures):
+ * linear between the zero point in CREDIT_RULES and the full-credit threshold in `q`.
+ */
+export function longContextCredits(m, q, gold) {
+  const R = CREDIT_RULES
+  const lo = gold.rowsPerHour.min * q.paceBand[0]
+  const hi = gold.rowsPerHour.max * q.paceBand[1]
+  return {
+    rows: ramp(m.rows, R.rowsZero, q.phaseMinRows),
+    ...(m.rowsPerHour === undefined
+      ? {}
+      : {
+          pace: Math.min(
+            ramp(m.rowsPerHour, lo * R.paceLowFactor, lo),
+            ramp(m.rowsPerHour, hi * R.paceHighFactor, hi),
+          ),
+        }),
+    ...(m.tagGroups === undefined
+      ? {}
+      : { tagMix: ramp(m.tagGroups.present / m.tagGroups.total, R.tagMixZero, 1) }),
+    resolved: ramp(m.resolved, R.citationResolutionZero, q.citationResolution),
+    covered: ramp(m.covered, R.citationCoverageZero, q.citationCoverage),
+    ...(m.supported === undefined
+      ? {}
+      : { supported: ramp(m.supported, R.citationSupportZero, q.citationSupport) }),
+    lintLow: ramp(m.lintPenaltyPer10Rows, R.lintPenaltyZero, q.lintPenaltyPer10Rows),
+  }
+}
+
+/** Criteria text for the continuous long-prompt criteria; the credit rule is in the spec. */
+export const longLabels = (q) => ({
+  rows: `rows in the phase (full credit at ${q.phaseMinRows})`,
+  pace: 'rows per hour within the reference band',
+  tagMix: 'purpose-tag groups of the reference present',
+  resolved: `citations resolved (full credit at ${q.citationResolution}%)`,
+  covered: `rows citing a source (full credit at ${q.citationCoverage}%)`,
+  supported: `claims supported by the source (full credit at ${q.citationSupport}%)`,
+  lintLow: `lint penalty per 10 rows (full credit at ${q.lintPenaltyPer10Rows} or less)`,
+})
+
+/** The criteria a drafted phase is judged by (suite.quality): yes/no items and graded ones. */
+function phaseCriteria({ view, rubric, cit, lint, hasSupport, q, gold, isLast }) {
+  const rows = view.msel
+  const measures = longContextMeasures({ view, cit, lint, hasSupport, gold, q })
+  const credit = longContextCredits(measures, q, gold)
+  const text = longLabels(q)
+  const grade = (id) => graded(id, text[id], credit[id])
   const opens = rows[0]?.purposeTag === 'TIME_JUMP' || rows[0]?.purposeTag === 'STARTEX'
   const closes = !isLast || rows.at(-1)?.purposeTag === 'ENDEX'
   const errors = lint.findingsList.filter((w) => w.severity === 'error').length
-  return [
-    criterion(
-      'rows',
-      `at least ${q.phaseMinRows} rows in the phase`,
-      rows.length >= q.phaseMinRows,
-    ),
-    criterion('pace', 'rows per hour within the reference band', pace.pass),
-    criterion('tagMix', 'every purpose-tag group of the reference present', mix.pass),
-    criterion(
-      'opensEnds',
-      'opens with its time jump and ends the exercise when last',
-      opens && closes,
-    ),
-    criterion('roles', 'every role receives an inject', rubric.items.rolesEveryPhase),
-    criterion('briefIds', 'the brief ids are used', rubric.items.briefIds),
-    criterion('noLeak', 'no text copied from the reference', rubric.items.noReferenceLeak),
-    criterion(
-      'resolved',
-      `citations resolved >= ${q.citationResolution}%`,
-      cit.resolution >= q.citationResolution,
-    ),
-    criterion(
-      'covered',
-      `rows citing a source >= ${q.citationCoverage}%`,
-      cit.coverage >= q.citationCoverage,
-    ),
-    ...(hasSupport
-      ? [
-          criterion(
-            'supported',
-            `claims supported by the source >= ${q.citationSupport}%`,
-            cit.support >= q.citationSupport,
-          ),
-        ]
-      : []),
-    criterion('noLintErrors', 'no lint errors', errors === 0),
-    criterion(
-      'lintLow',
-      `lint penalty <= ${q.lintPenaltyPer10Rows} per 10 rows`,
-      (lint.penaltyPer10Rows ?? Infinity) <= q.lintPenaltyPer10Rows,
-    ),
-  ]
+  return {
+    measures,
+    criteria: [
+      grade('rows'),
+      grade('pace'),
+      grade('tagMix'),
+      criterion(
+        'opensEnds',
+        'opens with its time jump and ends the exercise when last',
+        opens && closes,
+      ),
+      criterion('roles', 'every role receives an inject', rubric.items.rolesEveryPhase),
+      criterion('briefIds', 'the brief ids are used', rubric.items.briefIds),
+      criterion('noLeak', 'no text copied from the reference', rubric.items.noReferenceLeak),
+      grade('resolved'),
+      grade('covered'),
+      ...(hasSupport ? [grade('supported')] : []),
+      criterion('noLintErrors', 'no lint errors', errors === 0),
+      grade('lintLow'),
+    ],
+  }
 }
 
 /** Probe 2: the phase's rows against the Scenario 3 reference criteria (suite.quality). */
@@ -220,7 +318,7 @@ export function scoreLongContext({ obs, scenario, phaseId, grounding, suite, gol
   const cit = citationScore(view, groundingOfRows(grounding, view.msel))
   const rubric = rubricScore(view, findings, gold, { pace: 1 }, q.paceBand)
   const isLast = view.phases[0].index === Math.max(...scenario.phases.map((p) => p.index))
-  const criteria = phaseCriteria({
+  const { criteria, measures } = phaseCriteria({
     view,
     rubric,
     cit,
@@ -237,8 +335,14 @@ export function scoreLongContext({ obs, scenario, phaseId, grounding, suite, gol
     criteria,
     metrics: {
       rows: view.msel.length,
+      rowsPerHour: round1(measures.rowsPerHour),
+      tagGroupsPresent: measures.tagGroups.present,
+      tagGroupsTotal: measures.tagGroups.total,
       lintFindings: lint.findings,
-      lintPenaltyPer10Rows: round1(lint.penaltyPer10Rows ?? 0),
+      // Left out when unknown (no rows): a saved 0 would read as no penalty on re-scoring.
+      ...(lint.penaltyPer10Rows === undefined
+        ? {}
+        : { lintPenaltyPer10Rows: round1(lint.penaltyPer10Rows) }),
       citationsResolved: round1(cit.resolution),
       citationsCovered: round1(cit.coverage),
       ...((cit.grounding?.claimBearing ?? 0) > 0
@@ -269,6 +373,28 @@ export function repetitionShare(text) {
   return 1 - new Set(all).size / all.length
 }
 
+/** The three handbook criteria, each graded between its zero point (CREDIT_RULES) and its limit. */
+export function handbookCriteria({ sections, words, repetition }, q) {
+  const R = CREDIT_RULES
+  return [
+    graded(
+      'sections',
+      `handbook sections present (full credit at ${q.handbookSections})`,
+      ramp(sections, R.handbookSectionsZero, q.handbookSections),
+    ),
+    graded(
+      'length',
+      `words (full credit at ${q.handbookMinWords})`,
+      ramp(words, R.handbookWordsZero, q.handbookMinWords),
+    ),
+    graded(
+      'noRepeat',
+      `repeated phrases (full credit at ${q.handbookMaxRepetition * 100}% or less)`,
+      ramp(repetition, R.handbookRepetitionZero, q.handbookMaxRepetition),
+    ),
+  ]
+}
+
 /** Probe 3: the handbook has its sections and enough text, and does not repeat itself. */
 export function scoreLongOutput({ obs, handbookMd, simcellScripts, suite }) {
   if (!obs.ok) return failed(obs, 'The long-output call')
@@ -277,19 +403,7 @@ export function scoreLongOutput({ obs, handbookMd, simcellScripts, suite }) {
   const sections = (text.match(/<!-- section:[a-z-]+ -->/g) ?? []).length
   const words = text.split(/\s+/).filter(Boolean).length
   const repetition = repetitionShare(text)
-  const criteria = [
-    criterion(
-      'sections',
-      `all ${q.handbookSections} handbook sections present`,
-      sections >= q.handbookSections,
-    ),
-    criterion('length', `at least ${q.handbookMinWords} words`, words >= q.handbookMinWords),
-    criterion(
-      'noRepeat',
-      `under ${q.handbookMaxRepetition * 100}% repeated phrases`,
-      repetition < q.handbookMaxRepetition,
-    ),
-  ]
+  const criteria = handbookCriteria({ sections, words, repetition }, q)
   return {
     score: scoreOf(criteria),
     ok: true,
@@ -337,13 +451,66 @@ export function scoreReview({ obs, critique, what = 'The review call' }) {
   }
 }
 
+// ---- grading a saved probe again ----------------------------------------------------------------
+
+/**
+ * A saved probe with partial credit applied, from the raw measures it saved (#612): no model call.
+ * `measured` carries what older run files did not save for the long-prompt probe
+ * ({ rowsPerHour, tagGroups }), taken by the caller from the saved work folder. A criterion whose
+ * measure is not known keeps its yes/no result. Yes/no criteria and failed calls are untouched.
+ */
+export function regradeProbe(key, probe, { suite, gold, measured = {} }) {
+  if (!probe.ok || !probe.criteria?.length) return probe
+  const q = suite.quality
+  const m = probe.metrics ?? {}
+  let credit = {}
+  let labels = {}
+  if (key === 'longContext') {
+    credit = longContextCredits(
+      {
+        rows: m.rows,
+        rowsPerHour: m.rowsPerHour ?? measured.rowsPerHour,
+        tagGroups:
+          m.tagGroupsTotal === undefined
+            ? measured.tagGroups
+            : { present: m.tagGroupsPresent, total: m.tagGroupsTotal },
+        // Unknown, or saved as 0 for a phase with no rows by older runs: no credit, as live.
+        lintPenaltyPer10Rows: m.rows ? (m.lintPenaltyPer10Rows ?? Infinity) : Infinity,
+        resolved: m.citationsResolved,
+        covered: m.citationsCovered,
+        supported: m.citationsSupported,
+      },
+      q,
+      gold,
+    )
+    labels = longLabels(q)
+  } else if (key === 'longOutput') {
+    const rows = handbookCriteria(
+      { sections: m.handbookSections, words: m.words, repetition: m.repetition },
+      q,
+    )
+    credit = Object.fromEntries(rows.map((c) => [c.id, c.credit]))
+    labels = Object.fromEntries(rows.map((c) => [c.id, c.label]))
+  }
+  const criteria = probe.criteria.map((c) =>
+    credit[c.id] === undefined
+      ? { ...c, credit: creditOf(c) }
+      : graded(c.id, labels[c.id], credit[c.id]),
+  )
+  return { ...probe, criteria, score: scoreOf(criteria) }
+}
+
 // ---- one repeat and the whole run --------------------------------------------------------------
 
-/** Quality of one repeat: the share of criteria met over the replies that were delivered. */
+/**
+ * Quality of one repeat: the credit earned over the criteria of the replies that were delivered,
+ * as a percentage. `met` is the credit earned (a whole number when every criterion is yes/no),
+ * `total` the number of criteria.
+ */
 export function qualityOf(probes) {
   const all = Object.values(probes).flatMap((p) => p.criteria ?? [])
-  const met = all.filter((c) => c.met).length
-  return { score: round1(pct(met, all.length)), met, total: all.length }
+  const earned = Math.round(all.reduce((n, c) => n + creditOf(c), 0) * 100) / 100
+  return { score: round1(pctOf(earned, all.length)), met: earned, total: all.length }
 }
 
 /** Mean review damage (percent of correct rows changed) over a repeat's review calls. */

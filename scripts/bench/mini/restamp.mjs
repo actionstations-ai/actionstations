@@ -11,10 +11,20 @@ import { join, resolve } from 'node:path'
 import { pathToFileURL } from 'node:url'
 import { loadSuite } from '../corpus.mjs'
 import { taskSetHash } from '../taskset.mjs'
+import { MINI_SCORING_VERSION } from './score.mjs'
 
-/** The run with the current suite name, suite version and task-set hash; nothing else changes. */
+/**
+ * The run with the current suite name, suite version, scoring version and task-set hash; no score
+ * changes (rescore.mjs does that, for the scoring version it stamps).
+ */
 export function restampRun(run, suite = loadSuite('mini'), hash = taskSetHash('mini')) {
-  return { ...run, suite: 'mini', suiteVersion: suite.suiteVersion, taskSetHash: hash }
+  return {
+    ...run,
+    suite: 'mini',
+    suiteVersion: suite.suiteVersion,
+    scoringVersion: MINI_SCORING_VERSION,
+    taskSetHash: hash,
+  }
 }
 
 export function runFilesIn(path) {

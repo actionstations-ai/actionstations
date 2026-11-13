@@ -46,5 +46,7 @@ rows, which every model passed, so it told models apart little.
 - A live Mini takes longer: two runs, and no cap. A slow model finishes and is reported slow.
 - Changing a criterion, band, limit or the exponent changes the task-set hash and needs a new
   suite version (the Mini is at version 1, the first published).
+- Quality gives partial credit on continuous criteria from Mini scoring version 2 (ADR-0173); the
+  task set and its hash are unchanged.
 - The stream guard is a small addition to two adapters (OpenAI-compatible and Ollama); other
   adapters do not have it, and the Mini runs only against local endpoints of those two kinds.

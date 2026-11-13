@@ -29,11 +29,17 @@ import {
   draftMinutes,
   firstTry,
   fitSpeeds,
+  MINI_SCORING_VERSION,
+  creditOf,
+  handbookCriteria,
+  longContextCredits,
   miniResult,
   phaseView,
   qualityOf,
+  ramp,
   rangeOf,
   rateBounds,
+  regradeProbe,
   repetitionShare,
   runObservation,
   scoreFormat,
@@ -47,6 +53,7 @@ import {
 import {
   LEVEL_LABEL,
   bandOf,
+  failureEvidence,
   overBy,
   shortOf,
   summaryMarkdown,
@@ -611,6 +618,93 @@ describe('bands', () => {
     expect(v.uncertain).toEqual(['usable'])
   })
 
+  describe('an uncertain band when the two-run range spans bands (#613)', () => {
+    it('lists every band the range reaches, best first, the reported one included', () => {
+      const v = verdictOf({
+        result: result({ quality: range(70, 54.5, 90) }),
+        bands,
+      })
+      expect(v.level).toBe('usable')
+      expect(v.uncertain).toEqual(expect.arrayContaining(['not_recommended', 'recommended']))
+      expect(v.reaches).toEqual(['recommended', 'usable', 'not_recommended'])
+    })
+
+    it('marks nothing uncertain when the range stays inside one band', () => {
+      const v = verdictOf({ result: result({ quality: range(88, 84, 92) }), bands })
+      expect(v.uncertain).toBeUndefined()
+      expect(v.reaches).toBeUndefined()
+    })
+
+    it('says so in the summary beside the band label and lists the bands', () => {
+      const r = result({ quality: range(70, 54.5, 90) })
+      const md = summaryMarkdown({
+        model: { ref: 'lmstudio:x' },
+        suiteVersion: 1,
+        result: r,
+        verdict: verdictOf({ result: r, bands }),
+      })
+      expect(md).toContain('**Usable with editing (uncertain).**')
+      expect(md).toContain(
+        'reaches Recommended, Usable with editing, Not recommended. Two runs do not settle which applies',
+      )
+    })
+
+    it('does not add an uncertain label to a settled result', () => {
+      const r = result()
+      const md = summaryMarkdown({
+        model: { ref: 'lmstudio:x' },
+        suiteVersion: 1,
+        result: r,
+        verdict: verdictOf({ result: r, bands }),
+      })
+      expect(md).toContain('**Recommended.**')
+      expect(md).not.toContain('uncertain')
+    })
+  })
+
+  describe('failure evidence beside completion (#614)', () => {
+    const oneInTen = () =>
+      result({
+        completion: range(22.9),
+        perCallRate: range(90),
+        quality: range(85),
+        calls: 10,
+        failedCalls: 1,
+      })
+
+    it('words the count with its calls', () => {
+      expect(failureEvidence({ failedCalls: 1, calls: 10 })).toBe('1 failure in 10 calls')
+      expect(failureEvidence({ failedCalls: 0, calls: 10 })).toBe('0 failures in 10 calls')
+      expect(failureEvidence({ failedCalls: 3, calls: 8 })).toBe('3 failures in 8 calls')
+    })
+
+    it('puts it on the score line and in the completion reason', () => {
+      const r = oneInTen()
+      const v = verdictOf({ result: r, bands })
+      expect(v.reasons.join(' ')).toContain('Completion 22.9% (1 failure in 10 calls)')
+      const md = summaryMarkdown({
+        model: { ref: 'lmstudio:x' },
+        suiteVersion: 1,
+        result: r,
+        verdict: v,
+      })
+      expect(md).toContain('Completion 22.9% (1 failure in 10 calls).')
+      expect(md).toContain('Completion rests on 1 failure in 10 calls')
+      expect(md).toContain('A single failure is one call in 10')
+    })
+
+    it('shows the count for a model with no failure too, and takes no extra call', () => {
+      const md = summaryMarkdown({
+        model: { ref: 'lmstudio:x' },
+        suiteVersion: 1,
+        result: result({ calls: 10 }),
+        verdict: verdictOf({ result: result({ calls: 10 }), bands }),
+      })
+      expect(md).toContain('(0 failures in 10 calls)')
+      expect(md).not.toContain('A single failure')
+    })
+  })
+
   it('prints the summary with the band label, the ranges and draft time as reported only', () => {
     const r = result({ quality: range(82, 76, 88) })
     const md = summaryMarkdown({
@@ -839,5 +933,185 @@ describe('the runner', () => {
     expect(() =>
       manageModel({ name: 'x', tool: 'lmstudio' }, 32768, { load: true, exec }).done(),
     ).not.toThrow()
+  })
+})
+
+describe('partial credit for continuous criteria (#612)', () => {
+  const q = mini.quality
+
+  it('maps linearly between a zero point and a full-credit point, in either direction', () => {
+    expect(ramp(0, 0, 15)).toBe(0)
+    expect(ramp(10, 0, 15)).toBeCloseTo(2 / 3)
+    expect(ramp(15, 0, 15)).toBe(1)
+    expect(ramp(40, 0, 15)).toBe(1)
+    expect(ramp(12.5, 20, 5)).toBeCloseTo(0.5)
+    expect(ramp(2, 20, 5)).toBe(1)
+    expect(ramp(30, 20, 5)).toBe(0)
+    expect(ramp(NaN, 0, 1)).toBe(0)
+  })
+
+  it('earns pace credit inside the band, falling to zero at half the low edge and twice the high', () => {
+    const at = (rowsPerHour: number) => longContextCredits({ rows: 18, rowsPerHour }, q, gold).pace
+    const lo = gold.rowsPerHour.min * q.paceBand[0]
+    const hi = gold.rowsPerHour.max * q.paceBand[1]
+    expect(at(lo)).toBe(1)
+    expect(at(hi)).toBe(1)
+    expect(at(lo / 2)).toBe(0)
+    expect(at(hi * 2)).toBe(0)
+    expect(at(lo * 0.75)).toBeCloseTo(0.5)
+    expect(at(hi * 1.5)).toBeCloseTo(0.5)
+  })
+
+  it('credits lint, citations and tag mix by how far they got', () => {
+    const c = longContextCredits(
+      {
+        rows: 10,
+        tagGroups: { present: 4, total: 5 },
+        lintPenaltyPer10Rows: 7.5,
+        resolved: 70,
+        covered: 40,
+        supported: 35,
+      },
+      q,
+      gold,
+    )
+    expect(c.rows).toBeCloseTo(10 / 15)
+    expect(c.tagMix).toBeCloseTo(0.8)
+    expect(c.lintLow).toBeCloseTo(12.5 / 15)
+    expect(c.resolved).toBeCloseTo(0.5)
+    expect(c.covered).toBeCloseTo(0.5)
+    expect(c.supported).toBeCloseTo(0.5)
+  })
+
+  it('keeps yes/no items binary and marks only a full credit as met', () => {
+    const last = chemical.phases.at(-1)
+    const r = scoreLongContext({
+      obs: okCall,
+      scenario: chemical,
+      phaseId: last.id,
+      suite: mini,
+      gold,
+    })
+    for (const id of ['opensEnds', 'roles', 'briefIds', 'noLeak', 'noLintErrors'])
+      expect([0, 1]).toContain(r.criteria.find((c: any) => c.id === id)?.credit)
+    const rows = r.criteria.find((c: any) => c.id === 'rows') as any
+    expect(rows.met).toBe(false)
+    expect(rows.credit).toBeGreaterThan(0)
+    expect(rows.credit).toBeLessThan(1)
+    expect(r.metrics).toHaveProperty('rowsPerHour')
+    expect(r.metrics.tagGroupsTotal).toBe(5)
+  })
+
+  it('grades the handbook by sections, words and repetition', () => {
+    const [sections, length, repeat] = handbookCriteria(
+      { sections: 4, words: 500, repetition: 0.375 },
+      q,
+    )
+    expect(sections?.credit).toBeCloseTo(0.8)
+    expect(length?.credit).toBeCloseTo(0.5)
+    expect(repeat?.credit).toBeCloseTo(0.5)
+    const full = handbookCriteria({ sections: 5, words: 1000, repetition: 0.25 }, q)
+    expect(full.every((c: any) => c.met)).toBe(true)
+  })
+
+  it('adds credit, not only whole criteria, to the share of quality', () => {
+    const probe = (credits: number[]) => ({
+      ok: true,
+      firstTry: true,
+      score: 0,
+      metrics: {},
+      criteria: credits.map((credit, i) => ({ id: `c${i}`, label: 'x', met: credit >= 1, credit })),
+    })
+    expect(qualityOf({ a: probe([1, 0.5, 0, 0.5]) })).toEqual({ score: 50, met: 2, total: 4 })
+    expect(creditOf({ id: 'a', label: 'x', met: true })).toBe(1)
+    expect(creditOf({ id: 'a', label: 'x', met: false })).toBe(0)
+  })
+
+  it('re-grades a saved probe from its saved measures and leaves yes/no results alone', () => {
+    const saved = {
+      ok: true,
+      firstTry: true,
+      score: 54.5,
+      criteria: [
+        { id: 'rows', label: 'x', met: false },
+        { id: 'pace', label: 'x', met: false },
+        { id: 'opensEnds', label: 'x', met: true },
+        { id: 'covered', label: 'x', met: false },
+        { id: 'lintLow', label: 'x', met: false },
+      ],
+      metrics: { rows: 10, lintPenaltyPer10Rows: 7.5, citationsCovered: 75 },
+    }
+    const credit = (p: any, id: string) => p.criteria.find((c: any) => c.id === id)?.credit
+    const noShape = regradeProbe('longContext', saved, { suite: mini, gold })
+    expect(credit(noShape, 'pace')).toBe(0)
+    const withShape = regradeProbe('longContext', saved, {
+      suite: mini,
+      gold,
+      measured: { rowsPerHour: 3.3 },
+    })
+    expect(credit(withShape, 'pace')).toBeCloseTo(0.65)
+    expect(credit(withShape, 'opensEnds')).toBe(1)
+    expect(credit(withShape, 'covered')).toBeCloseTo(0.9375)
+    expect(withShape.score).toBeGreaterThan(saved.score)
+  })
+
+  it('gives no lint credit on re-scoring when the phase had no rows, as a live run does', () => {
+    const saved = (metrics: Record<string, number>) => ({
+      ok: true,
+      firstTry: true,
+      score: 0,
+      criteria: [{ id: 'lintLow', label: 'x', met: false }],
+      metrics,
+    })
+    const credit = (p: any) => p.criteria.find((c: any) => c.id === 'lintLow')?.credit
+    const ctx = { suite: mini, gold }
+    expect(
+      credit(regradeProbe('longContext', saved({ rows: 0, lintPenaltyPer10Rows: 0 }), ctx)),
+    ).toBe(0)
+    expect(credit(regradeProbe('longContext', saved({ rows: 0 }), ctx))).toBe(0)
+    expect(
+      credit(regradeProbe('longContext', saved({ rows: 10, lintPenaltyPer10Rows: 0 }), ctx)),
+    ).toBe(1)
+  })
+
+  it('re-scores saved runs offline with the new scoring version and the same completion', () => {
+    const repeat = (covered: number) => ({
+      seed: 11,
+      completion: 100,
+      probes: {
+        longContext: {
+          ok: true,
+          firstTry: true,
+          score: 0,
+          criteria: [{ id: 'covered', label: 'x', met: false }],
+          metrics: { citationsCovered: covered },
+        },
+      },
+      speed: {},
+      failures: [],
+    })
+    const saved = {
+      suite: 'mini',
+      scoringVersion: 1,
+      repeats: [repeat(40), repeat(80)],
+      result: {
+        quality: { value: 0, min: 0, max: 0 },
+        completion: { value: 100, min: 100, max: 100 },
+        score: { value: 0, min: 0, max: 0 },
+      },
+    }
+    const run = rescoreRun(saved)
+    expect(run.scoringVersion).toBe(MINI_SCORING_VERSION)
+    expect(run.result.quality).toEqual({ value: 75, min: 50, max: 100 })
+    expect(run.result.completion).toEqual(saved.result.completion)
+    expect(run.result.score.value).toBe(75)
+  })
+
+  it('leaves the task-set hash alone: the zero points are scoring code, not suite thresholds', () => {
+    expect(taskSetHash('mini')).toBe(
+      '499a538d4d9cb2fc6560378f2a88da8d6c36f89fa61b577fe1a03392eeadcdbc',
+    )
+    expect(MINI_SCORING_VERSION).toBe(2)
+    expect(mini.suiteVersion).toBe(1)
   })
 })
