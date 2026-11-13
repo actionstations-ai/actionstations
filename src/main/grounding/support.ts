@@ -129,18 +129,23 @@ const clip = (s: string): string => {
 type ValueCheck = { found: true } | { found: false; conflict?: string }
 
 /**
- * A duration or quantity is checked in the passage sentence that states the same thing (the one
- * sharing most of the claim's words among those with a value of that kind): the same value
- * there is support, a different one is a conflict. With no such sentence, the value anywhere in
- * a cited passage counts.
+ * A duration or quantity is checked in the passage sentences that state the same thing (in each
+ * cited passage, the sentence sharing most of the claim's words among those with a value of that
+ * kind): the value in any of them is support (#1149); when none has it, a different value there
+ * is a conflict. With no such sentence in any passage, the value anywhere in a cited passage
+ * counts.
  */
 function checkValue(claim: string, a: Anchor, passages: PreparedPassage[]): ValueCheck {
   const values = (x: string): number[] =>
     a.kind === 'duration' ? durationsIn(x) : quantitiesIn(x, a.unit!)
-  const context = contextSentence(claim, passages, (x) => values(x).length > 0)
-  if (context) {
-    if (values(context).includes(a.value!)) return { found: true }
-    return { found: false, conflict: clip(context) }
+  const stated = (x: string): boolean => values(x).length > 0
+  const contexts = passages
+    .map((p) => contextSentence(claim, [p], stated))
+    .filter((x): x is string => !!x)
+  if (contexts.some((x) => values(x).includes(a.value!))) return { found: true }
+  if (contexts.length) {
+    const closest = contextSentence(claim, passages, stated) ?? contexts[0]!
+    return { found: false, conflict: clip(closest) }
   }
   return passages.some((p) => values(p.passage.text).includes(a.value!))
     ? { found: true }

@@ -49,7 +49,7 @@ export const GroundingResult = z.object({
   label: GroundingLabel,
   /** One plain sentence; rendered as text, never HTML. */
   reason: z.string(),
-  /** Claim text + citation chunk ids + checker version: a change makes the result stale. */
+  /** Claim text + cited passages (document, heading, text hash; not chunk ids): a change makes the result stale. */
   fingerprint: z.string(),
   claims: z.array(ClaimEvidence).default([]),
   /** Model verification (FR-7), when run. */

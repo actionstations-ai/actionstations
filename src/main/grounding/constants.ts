@@ -2,7 +2,7 @@
 // fixtures/calibration.json. A change must keep label.calibration.test.ts green.
 
 /** Checker version: results computed by an older version are recomputed. */
-export const GROUNDING_VERSION = 1
+export const GROUNDING_VERSION = 2
 
 /** A claim sentence is supported when this share of its content words is in the best passage. */
 export const T_SUPPORT = 0.5

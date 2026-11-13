@@ -63,9 +63,9 @@ approvers for public releases), quoting both passages with document, section and
   ("‘within 1 hour’ is not in TIRP 13.6; the passage says ‘within 2 hours’").
 - **FR-6** Grounding runs automatically after `msel_phase`, `inject_text`, `scenario_overview`,
   `ideate` and after any user edit saved through `scenarios:save` / `injects:save`, for the
-  changed items only. A result is keyed by a fingerprint of the claim text and citation chunk ids
-  (as `rowFingerprint` in `src/main/generate/critique-notes.ts` does for critique notes), so a
-  stale result is recomputed, never shown as current.
+  changed items only. A result is keyed by a fingerprint of the claim text and the cited passages
+  (document, heading path and a hash of the passage text; not chunk ids, which a rebuilt index
+  renumbers, #1148), so a stale result is recomputed, never shown as current.
 - **FR-7** An optional **Verify with model** action (per item, per scenario) asks the routed
   `critique` provider to judge support. The model must return, per claim, a verdict and a
   verbatim quote from the cited chunk. A verdict whose quote is not a substring of the chunk
@@ -182,7 +182,7 @@ export const ClaimEvidence = z.object({
 export const GroundingResult = z.object({
   label: GroundingLabel,
   reason: z.string(),
-  fingerprint: z.string(), // claim text + citation chunk ids
+  fingerprint: z.string(), // claim text + cited passages (document, heading, text hash)
   claims: z.array(ClaimEvidence).default([]),
   model: z
     .object({
@@ -400,7 +400,8 @@ took their recommendations):
   known, like facility facts, and its role abbreviations are never anchors.
 - **Overlap** is the share of the claim's content words found in all its cited chunks together
   (the best chunk is still named in the evidence). A duration or quantity is checked in the
-  passage sentence that states the same thing; a different value there is the conflict.
+  passage sentences that state the same thing (one per cited passage): the value in any of them
+  is support (#1149); when none has it, a different value there is the conflict.
 - **Citations whose chunk id moved** (an index rebuilt in another order, as when an example is
   opened) are found again by document and quote before they count as missing.
 - **Overview sections** are labelled by resolution: the cited chunk exists (Grounded), its quote

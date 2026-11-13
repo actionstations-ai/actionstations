@@ -104,20 +104,45 @@ interface Resolved {
   item: GroundingItem
   passages: Passage[]
   fingerprint: string
+  /** The fingerprint as versions before #1148 wrote it, so their overrides carry over. */
+  legacy: string
 }
 
+const hash16 = (value: unknown): string =>
+  createHash('sha256').update(JSON.stringify(value)).digest('hex').slice(0, 16)
+
+const itemParts = (item: GroundingItem): unknown[] => [
+  item.kind,
+  collapseSpace(item.claimText),
+  collapseSpace(item.referenceText ?? ''),
+  !!item.control,
+]
+
+/**
+ * Claim text plus, per citation, the cited passage by document, heading and text hash. Chunk ids
+ * are left out: rebuilding the index renumbers chunks, and an unchanged passage must keep the
+ * user's override (#1148). An unresolved citation counts by its heading and quote.
+ */
 function fingerprintOf(item: GroundingItem, resolved: (Passage | undefined)[]): string {
-  const text = JSON.stringify([
-    item.kind,
-    collapseSpace(item.claimText),
-    collapseSpace(item.referenceText ?? ''),
-    !!item.control,
+  return hash16([
+    ...itemParts(item),
+    item.citations.map((c, i) => {
+      const p = resolved[i]
+      return p
+        ? [p.documentId, collapseSpace(p.headingPath), passageHash(p)]
+        : [c.documentId, collapseSpace(c.headingPath), collapseSpace(c.quote ?? ''), null]
+    }),
+  ])
+}
+
+function legacyFingerprintOf(item: GroundingItem, resolved: (Passage | undefined)[]): string {
+  return hash16([
+    ...itemParts(item),
     item.citations.map((c, i) => {
       const p = resolved[i]
       return [c.documentId, c.chunkId ?? null, p ? [p.chunkId, passageHash(p)] : null]
     }),
   ])
-  return createHash('sha256').update(text).digest('hex').slice(0, 16)
 }
 
 function resolveItem(item: GroundingItem, resolver: PassageResolver): Resolved {
@@ -128,7 +153,12 @@ function resolveItem(item: GroundingItem, resolver: PassageResolver): Resolved {
     seen.add(p.chunkId)
     return true
   })
-  return { item, passages, fingerprint: fingerprintOf(item, each) }
+  return {
+    item,
+    passages,
+    fingerprint: fingerprintOf(item, each),
+    legacy: legacyFingerprintOf(item, each),
+  }
 }
 
 /** An overview "section tested" claims the section exists and says what its quote says. */
@@ -265,7 +295,7 @@ export async function groundItems(
       continue
     }
     const fresh = compute(r, ctx, sims?.get(r.item.key))
-    const same = old?.fingerprint === r.fingerprint
+    const same = !!old && (old.fingerprint === r.fingerprint || old.fingerprint === r.legacy)
     out[r.item.key] = {
       ...fresh,
       fingerprint: r.fingerprint,

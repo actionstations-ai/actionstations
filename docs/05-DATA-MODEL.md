@@ -273,7 +273,7 @@ Before/after editions keep the same questions: saving one copies its sections in
 GroundingResult {
   label: grounded | review | unsupported | none,   // the automatic check
   reason,                                           // one plain sentence
-  fingerprint,                                      // claim text + citations + cited text
+  fingerprint,                                      // claim text + cited passages (document, heading, text hash)
   claims: [{ text, chunkId?, headingPath?, overlap, similarity?, matched[], missing[], conflicting[{ term, passage }] }],
   model?: { label, at, providerId, model, quotes[{ claim, quote }], discarded },
   override?: { label, note?, at },                  // the user's label, until the fingerprint changes
