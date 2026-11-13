@@ -1,0 +1,435 @@
+{
+  "id": "01M792P1ME90PAEQ5WA7JR54W5",
+  "mselRowId": "I-07",
+  "type": "phone_call",
+  "title": "Northstar SOC: svc-rptexport Interactive Logon, 03:30",
+  "deliveryMode": "read_aloud",
+  "fields": {
+    "orgName": "Lakemont Community Hospital",
+    "systemName": "Recorded Line - Boardroom Command Center, ext. 5520 (speaker)",
+    "callId": "CR-20270209-034205-0241",
+    "direction": "Inbound",
+    "caller": {
+      "name": "Marcus Feld",
+      "number": "218-555-0147",
+      "label": "SOC Analyst, Northstar Managed Security (24-hour SOC)"
+    },
+    "callee": {
+      "name": "Gregory Pruitt",
+      "number": "Cell, conferenced to ext. 5520",
+      "label": "Privacy and Security Officer"
+    },
+    "startTime": "02/09/2027 03:42:05",
+    "duration": "2:14",
+    "transcript": [
+      {
+        "speaker": "Northstar SOC",
+        "offset": "0:00",
+        "text": "This is Marcus Feld with Northstar Managed Security. I'm calling about a high-severity alert on your environment. Is this a good number?",
+        "prompt": false
+      },
+      {
+        "speaker": "Security Officer",
+        "offset": "0:07",
+        "text": "Yes. Hold on, I'm putting you on speaker in our command center. Go ahead.",
+        "prompt": false
+      },
+      {
+        "speaker": "Northstar SOC",
+        "offset": "0:13",
+        "text": "Okay. At 03:30 Central, the service account svc-rptexport made an interactive remote logon. We haven't seen that account log on interactively at any point in the last 90 days. The logon came from a host on your Hermantown segment. It failed 14 times, and then it succeeded at 03:30:41.",
+        "prompt": false
+      },
+      {
+        "speaker": "Security Officer",
+        "offset": "0:34",
+        "text": "Is this connected to our outage? Our EHR database has been down since 02:10.",
+        "prompt": false
+      },
+      {
+        "speaker": "Northstar SOC",
+        "offset": "0:39",
+        "text": "I can't tell you that yet. It could be a scheduled job retrying against a dead database, or it could be a person. From here I can't tell which. I'm emailing the event export to gregory.pruitt@lakemonthospital.example now. Your ticket is NSM-27-00562.",
+        "prompt": false
+      },
+      {
+        "speaker": "Night Analyst (in room)",
+        "offset": "0:58",
+        "text": "That's just the report job failing over. svc-rptexport runs the extracts. It's been hammering the database since it went dark.",
+        "prompt": false
+      },
+      {
+        "speaker": "ICU Charge Nurse (on the phone)",
+        "offset": "1:06",
+        "text": "A service account logging in by hand at three-thirty in the morning? This is how a hack starts. We should go Level 4 now.",
+        "prompt": false
+      },
+      {
+        "speaker": "Night Analyst (in room)",
+        "offset": "1:14",
+        "text": "Look at the board. 'Security Officer notified 02:40, 60-minute rule-in/rule-out window ends 03:40.' It's 03:42, and nothing's written next to it.",
+        "prompt": false
+      },
+      {
+        "speaker": "Night Analyst (in room)",
+        "offset": "1:24",
+        "text": "A scheduled job doesn't fail fourteen times and then get in... unless somebody fixed the password. I don't know.",
+        "prompt": false
+      },
+      {
+        "speaker": "Northstar SOC",
+        "offset": "1:33",
+        "text": "For what it's worth, the session is still open on our side. We haven't seen file activity yet, but we only have logon telemetry from that segment.",
+        "prompt": false
+      },
+      {
+        "speaker": "Security Officer",
+        "offset": "1:44",
+        "text": "Understood. Give me a second with the team.",
+        "prompt": false
+      },
+      {
+        "speaker": "Northstar SOC",
+        "offset": "1:48",
+        "text": "Sure. One thing I need from you. Do you want us to disable svc-rptexport, or just keep watching it? If we disable it, any report job that depends on it stops too. I need your decision on the ticket.",
+        "prompt": true
+      }
+    ],
+    "voiceStyles": {
+      "Northstar SOC": "Man in his 30s, calm and even, a professional night-shift analyst reading from a console; light keyboard sounds",
+      "Security Officer": "Woman in her 50s, just woken, focused and careful, slightly hoarse",
+      "Night Analyst (in room)": "Woman in her late 20s, tired, confident at first and then less sure, a little off-mic",
+      "ICU Charge Nurse (on the phone)": "Woman in her 40s, urgent and forceful, a little off-mic, a ringing unit behind her"
+    },
+    "injectId": "I-07"
+  },
+  "variant": "default",
+  "instructorNote": "Red herring: the login is unrelated to the storage failure, but the 60-minute window under first-hour checklist item 6 (from the Security Officer notification at 02:40) ran out at 03:40 with no cause ruled out. Watch whether the IC and Security Officer run this as a suspected security incident and declare or confirm Level 4 while saying plainly that the login is unexplained, not proven malicious. They should also give the SOC a clear disable-or-monitor answer on NSM-27-00562, keep the event export, write a timed decision-log entry, preserve the failed storage as evidence, and keep Level 4 open for review rather than siding with either voice in the room.",
+  "citations": [
+    {
+      "documentId": "01M791H5T4QRTQAQ9XEEV0T7D6",
+      "documentTitle": "Lakemont Community Hospital — Information Systems Downtime and Recovery Plan",
+      "headingPath": "Lakemont Community Hospital — In… › 4. First hour checklist",
+      "quote": "1. The first person to notice loss of the EHR calls the IS Help Desk (ext. 5500). The help desk technician checks the status dashboard and pages the on-call systems analyst. 2. The on-call analyst con",
+      "chunkId": 5
+    },
+    {
+      "documentId": "01M791H5T4QRTQAQ9XEEV0T7D6",
+      "documentTitle": "Lakemont Community Hospital — Information Systems Downtime and Recovery Plan",
+      "headingPath": "Lakemont Community Hospital — In… › 3. Downtime levels",
+      "quote": "| Level | Meaning | Examples | Who declares | |---|---|---|---| | 1 | Degraded; clinicians can still chart | Slow response, one interface delayed | Clinical Systems Lead | | 2 | EHR read-only or inter",
+      "chunkId": 4
+    },
+    {
+      "documentId": "01M791H5T9913NQR8TVBHP3J1Z",
+      "documentTitle": "Lakemont Community Hospital — Clinical Systems, Interfaces and Vendors",
+      "headingPath": "Lakemont Community Hospital — Cl… › 5. Vendors and contacts",
+      "quote": "- **EHR vendor support:** priority-one line answered 24 hours; the contract target is a call back within 30 minutes. The vendor can fail over a hosted component but cannot restore the locally hosted d",
+      "chunkId": 37
+    },
+    {
+      "documentId": "01M791H5T9913NQR8TVBHP3J1Z",
+      "documentTitle": "Lakemont Community Hospital — Clinical Systems, Interfaces and Vendors",
+      "headingPath": "Lakemont Community Hospital — Cl… › 7. People",
+      "quote": "- Clinical Systems Lead: Marcus Ellery, ext. 5502. - On-call systems analysts: Ananya Desai (nights, ext. 5503) and Kyle Brandvold (days, ext. 5504). - Record Integrity Specialist: Elena Moreau, ext. ",
+      "chunkId": 39
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template",
+      "tts"
+    ],
+    "voiceLines": [
+      {
+        "speaker": "Northstar SOC",
+        "voiceStyle": "Calm, even man in his 30s. A professional night-shift SOC analyst reading from a console at a moderate pace. Neutral American accent, slightly flat and procedural.",
+        "text": "This is Marcus Feld with Northstar Managed Security. I'm calling about a high-severity alert on your environment. Is this a good number?"
+      },
+      {
+        "speaker": "Security Officer",
+        "voiceStyle": "Woman in her 50s who was just woken up, slightly hoarse. Focused and careful, speaking a little slowly as she gets her bearings.",
+        "text": "Yes. Hold on, I'm putting you on speaker in our command center. ... Go ahead."
+      },
+      {
+        "speaker": "Northstar SOC",
+        "voiceStyle": "Calm, even man in his 30s. A professional night-shift SOC analyst reading from a console at a moderate pace. Neutral American accent, slightly flat and procedural.",
+        "text": "Okay. At three-thirty Central, the service account S-V-C, R-P-T export, made an interactive remote logon. We haven't seen that account log on interactively at any point in the last ninety days. The logon came from a host on your Hermantown segment. It failed fourteen times, and then it succeeded at three-thirty and forty-one seconds."
+      },
+      {
+        "speaker": "Security Officer",
+        "voiceStyle": "Woman in her 50s who was just woken up, slightly hoarse. Focused and careful, with a touch of worry.",
+        "text": "Is this connected to our outage? Our EHR database has been down since two-ten."
+      },
+      {
+        "speaker": "Northstar SOC",
+        "voiceStyle": "Calm, even man in his 30s. A professional night-shift SOC analyst at a moderate pace, careful and noncommittal.",
+        "text": "I can't tell you that yet. It could be a scheduled job retrying against a dead database, or it could be a person. From here, I can't tell which. I'm emailing the event export to gregory.pruitt@lakemonthospital.example now. Your ticket is N-S-M, two-seven, zero-zero-five-six-two."
+      },
+      {
+        "speaker": "Night Analyst (in room)",
+        "voiceStyle": "Tired woman in her late 20s, a little off-mic in the room. Confident and slightly dismissive.",
+        "text": "That's just the report job failing over. S-V-C R-P-T export runs the extracts. It's been hammering the database since it went dark."
+      },
+      {
+        "speaker": "House Supervisor (in room)",
+        "voiceStyle": "Woman in her 40s, urgent and forceful. Louder than the others, a little off-mic, clipped and insistent.",
+        "text": "A service account logging in by hand at three-thirty in the morning? This is how ransomware starts. We should go Level 4 now."
+      },
+      {
+        "speaker": "House Supervisor (in room)",
+        "voiceStyle": "Woman in her 40s, urgent and forceful. Louder than the others, a little off-mic. Reads the board aloud, then sounds pointed and exasperated.",
+        "text": "And look at the board. Security Officer notified two-forty, sixty-minute rule-in, rule-out window ends three-forty. ... It's three-forty-two, and nothing's written next to it."
+      },
+      {
+        "speaker": "Night Analyst (in room)",
+        "voiceStyle": "Tired woman in her late 20s, a little off-mic. Now hesitant and less sure, slowing down mid-sentence.",
+        "text": "A scheduled job doesn't fail fourteen times and then get in... unless somebody fixed the password. ... I don't know."
+      },
+      {
+        "speaker": "Northstar SOC",
+        "voiceStyle": "Calm, even man in his 30s. A professional night-shift SOC analyst, measured and factual.",
+        "text": "For what it's worth, the session is still open on our side. We haven't seen file activity yet, but we only have logon telemetry from that segment."
+      },
+      {
+        "speaker": "Security Officer",
+        "voiceStyle": "Woman in her 50s, slightly hoarse, careful and controlled under pressure.",
+        "text": "Understood. Give me a second with the team."
+      },
+      {
+        "speaker": "Northstar SOC",
+        "voiceStyle": "Calm, even man in his 30s. A professional night-shift SOC analyst, polite but firm as he asks for a decision.",
+        "text": "Sure. One thing I need from you. Do you want us to disable S-V-C R-P-T export, or just keep watching it? If we disable it, any report job that depends on it stops too. I need your decision on the ticket."
+      }
+    ],
+    "postFx": [
+      "phone"
+    ]
+  },
+  "assets": [],
+  "versions": [
+    {
+      "at": "2026-11-12T23:50:58.090Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "Northstar SOC: svc-rptexport Interactive Logon, 03:30",
+        "type": "phone_call",
+        "fields": {
+          "orgName": "Lakemont Community Hospital",
+          "systemName": "Recorded Line - Boardroom Command Center, ext. 5520 (speaker)",
+          "callId": "CR-20270209-034205-0241",
+          "direction": "Inbound",
+          "caller": {
+            "name": "Marcus Feld",
+            "number": "218-555-0147",
+            "label": "SOC Analyst, Northstar Managed Security (24-hour SOC)"
+          },
+          "callee": {
+            "name": "Gregory Pruitt",
+            "number": "Cell, conferenced to ext. 5520",
+            "label": "Privacy and Security Officer"
+          },
+          "startTime": "02/09/2027 03:42:05",
+          "duration": "2:14",
+          "transcript": [
+            {
+              "speaker": "Northstar SOC",
+              "offset": "0:00",
+              "text": "This is Marcus Feld with Northstar Managed Security. I'm calling about a high-severity alert on your environment. Is this a good number?",
+              "prompt": false
+            },
+            {
+              "speaker": "Security Officer",
+              "offset": "0:07",
+              "text": "Yes. Hold on, I'm putting you on speaker in our command center. Go ahead.",
+              "prompt": false
+            },
+            {
+              "speaker": "Northstar SOC",
+              "offset": "0:13",
+              "text": "Okay. At 03:30 Central, the service account svc-rptexport made an interactive remote logon. We haven't seen that account log on interactively at any point in the last 90 days. The logon came from a host on your Hermantown segment. It failed 14 times, and then it succeeded at 03:30:41.",
+              "prompt": false
+            },
+            {
+              "speaker": "Security Officer",
+              "offset": "0:34",
+              "text": "Is this connected to our outage? Our EHR database has been down since 02:10.",
+              "prompt": false
+            },
+            {
+              "speaker": "Northstar SOC",
+              "offset": "0:39",
+              "text": "I can't tell you that yet. It could be a scheduled job retrying against a dead database, or it could be a person. From here I can't tell which. I'm emailing the event export to gregory.pruitt@lakemonthospital.example now. Your ticket is NSM-27-00562.",
+              "prompt": false
+            },
+            {
+              "speaker": "Night Analyst (in room)",
+              "offset": "0:58",
+              "text": "That's just the report job failing over. svc-rptexport runs the extracts. It's been hammering the database since it went dark.",
+              "prompt": false
+            },
+            {
+              "speaker": "House Supervisor (in room)",
+              "offset": "1:06",
+              "text": "A service account logging in by hand at three-thirty in the morning? This is how ransomware starts. We should go Level 4 now.",
+              "prompt": false
+            },
+            {
+              "speaker": "House Supervisor (in room)",
+              "offset": "1:14",
+              "text": "And look at the board. 'Security Officer notified 02:40, 60-minute rule-in/rule-out window ends 03:40.' It's 03:42, and nothing's written next to it.",
+              "prompt": false
+            },
+            {
+              "speaker": "Night Analyst (in room)",
+              "offset": "1:24",
+              "text": "A scheduled job doesn't fail fourteen times and then get in... unless somebody fixed the password. I don't know.",
+              "prompt": false
+            },
+            {
+              "speaker": "Northstar SOC",
+              "offset": "1:33",
+              "text": "For what it's worth, the session is still open on our side. We haven't seen file activity yet, but we only have logon telemetry from that segment.",
+              "prompt": false
+            },
+            {
+              "speaker": "Security Officer",
+              "offset": "1:44",
+              "text": "Understood. Give me a second with the team.",
+              "prompt": false
+            },
+            {
+              "speaker": "Northstar SOC",
+              "offset": "1:48",
+              "text": "Sure. One thing I need from you. Do you want us to disable svc-rptexport, or just keep watching it? If we disable it, any report job that depends on it stops too. I need your decision on the ticket.",
+              "prompt": true
+            }
+          ],
+          "voiceStyles": {
+            "Northstar SOC": "Man in his 30s, calm and even, a professional night-shift analyst reading from a console; light keyboard sounds",
+            "Security Officer": "Woman in her 50s, just woken, focused and careful, slightly hoarse",
+            "Night Analyst (in room)": "Woman in her late 20s, tired, confident at first and then less sure, a little off-mic",
+            "House Supervisor (in room)": "Woman in her 40s, urgent and forceful, louder than the others, a little off-mic"
+          },
+          "injectId": "I-07"
+        },
+        "instructorNote": "Red herring: the login is unrelated to the storage failure, but the 60-minute window under first-hour checklist item 6 (from the Security Officer notification at 02:40) ran out at 03:40 with no cause ruled out. Watch whether the IC and Security Officer run this as a suspected security incident and declare or confirm Level 4 while saying plainly that the login is unexplained, not proven malicious. They should also give the SOC a clear disable-or-monitor answer on NSM-27-00562, keep the event export, write a timed decision-log entry, preserve the failed storage as evidence, and keep Level 4 open for review rather than siding with either voice in the room.",
+        "deliveryMode": "read_aloud"
+      }
+    },
+    {
+      "at": "2026-11-13T01:34:06.541Z",
+      "by": "user",
+      "note": "Corrected by hand for the shipped example",
+      "snapshot": {
+        "title": "Northstar SOC: svc-rptexport Interactive Logon, 03:30",
+        "type": "phone_call",
+        "fields": {
+          "orgName": "Lakemont Community Hospital",
+          "systemName": "Recorded Line - Boardroom Command Center, ext. 5520 (speaker)",
+          "callId": "CR-20270209-034205-0241",
+          "direction": "Inbound",
+          "caller": {
+            "name": "Marcus Feld",
+            "number": "218-555-0147",
+            "label": "SOC Analyst, Northstar Managed Security (24-hour SOC)"
+          },
+          "callee": {
+            "name": "Gregory Pruitt",
+            "number": "Cell, conferenced to ext. 5520",
+            "label": "Privacy and Security Officer"
+          },
+          "startTime": "02/09/2027 03:42:05",
+          "duration": "2:14",
+          "transcript": [
+            {
+              "speaker": "Northstar SOC",
+              "offset": "0:00",
+              "text": "This is Marcus Feld with Northstar Managed Security. I'm calling about a high-severity alert on your environment. Is this a good number?",
+              "prompt": false
+            },
+            {
+              "speaker": "Security Officer",
+              "offset": "0:07",
+              "text": "Yes. Hold on, I'm putting you on speaker in our command center. Go ahead.",
+              "prompt": false
+            },
+            {
+              "speaker": "Northstar SOC",
+              "offset": "0:13",
+              "text": "Okay. At 03:30 Central, the service account svc-rptexport made an interactive remote logon. We haven't seen that account log on interactively at any point in the last 90 days. The logon came from a host on your Hermantown segment. It failed 14 times, and then it succeeded at 03:30:41.",
+              "prompt": false
+            },
+            {
+              "speaker": "Security Officer",
+              "offset": "0:34",
+              "text": "Is this connected to our outage? Our EHR database has been down since 02:10.",
+              "prompt": false
+            },
+            {
+              "speaker": "Northstar SOC",
+              "offset": "0:39",
+              "text": "I can't tell you that yet. It could be a scheduled job retrying against a dead database, or it could be a person. From here I can't tell which. I'm emailing the event export to gregory.pruitt@lakemonthospital.example now. Your ticket is NSM-27-00562.",
+              "prompt": false
+            },
+            {
+              "speaker": "Night Analyst (in room)",
+              "offset": "0:58",
+              "text": "That's just the report job failing over. svc-rptexport runs the extracts. It's been hammering the database since it went dark.",
+              "prompt": false
+            },
+            {
+              "speaker": "ICU Charge Nurse (on the phone)",
+              "offset": "1:06",
+              "text": "A service account logging in by hand at three-thirty in the morning? This is how a hack starts. We should go Level 4 now.",
+              "prompt": false
+            },
+            {
+              "speaker": "Night Analyst (in room)",
+              "offset": "1:14",
+              "text": "Look at the board. 'Security Officer notified 02:40, 60-minute rule-in/rule-out window ends 03:40.' It's 03:42, and nothing's written next to it.",
+              "prompt": false
+            },
+            {
+              "speaker": "Night Analyst (in room)",
+              "offset": "1:24",
+              "text": "A scheduled job doesn't fail fourteen times and then get in... unless somebody fixed the password. I don't know.",
+              "prompt": false
+            },
+            {
+              "speaker": "Northstar SOC",
+              "offset": "1:33",
+              "text": "For what it's worth, the session is still open on our side. We haven't seen file activity yet, but we only have logon telemetry from that segment.",
+              "prompt": false
+            },
+            {
+              "speaker": "Security Officer",
+              "offset": "1:44",
+              "text": "Understood. Give me a second with the team.",
+              "prompt": false
+            },
+            {
+              "speaker": "Northstar SOC",
+              "offset": "1:48",
+              "text": "Sure. One thing I need from you. Do you want us to disable svc-rptexport, or just keep watching it? If we disable it, any report job that depends on it stops too. I need your decision on the ticket.",
+              "prompt": true
+            }
+          ],
+          "voiceStyles": {
+            "Northstar SOC": "Man in his 30s, calm and even, a professional night-shift analyst reading from a console; light keyboard sounds",
+            "Security Officer": "Woman in her 50s, just woken, focused and careful, slightly hoarse",
+            "Night Analyst (in room)": "Woman in her late 20s, tired, confident at first and then less sure, a little off-mic",
+            "ICU Charge Nurse (on the phone)": "Woman in her 40s, urgent and forceful, a little off-mic, a ringing unit behind her"
+          },
+          "injectId": "I-07"
+        },
+        "instructorNote": "Red herring: the login is unrelated to the storage failure, but the 60-minute window under first-hour checklist item 6 (from the Security Officer notification at 02:40) ran out at 03:40 with no cause ruled out. Watch whether the IC and Security Officer run this as a suspected security incident and declare or confirm Level 4 while saying plainly that the login is unexplained, not proven malicious. They should also give the SOC a clear disable-or-monitor answer on NSM-27-00562, keep the event export, write a timed decision-log entry, preserve the failed storage as evidence, and keep Level 4 open for review rather than siding with either voice in the room.",
+        "deliveryMode": "read_aloud"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-11-13T02:47:43.199Z"
+}

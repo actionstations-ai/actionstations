@@ -1,0 +1,187 @@
+{
+  "id": "01M792QWSQK84AQ6MHJR9R57Q8",
+  "mselRowId": "I-07b",
+  "type": "phone_call",
+  "title": "Biomed from the ICU: \"Who Orders the Pumps Off the Network?\"",
+  "deliveryMode": "read_aloud",
+  "fields": {
+    "orgName": "Lakemont Community Hospital",
+    "systemName": "Recorded Line - Boardroom Command Center, ext. 5520",
+    "callId": "CR-20270209-034805-0244",
+    "direction": "Internal",
+    "caller": {
+      "name": "Rolf Swenson",
+      "number": "ICU nurses' station (transferred to ext. 5520)",
+      "label": "Biomedical Technician, on site in the ICU"
+    },
+    "callee": {
+      "name": "Gregory Pruitt",
+      "number": "ext. 5520",
+      "label": "Security Officer, Boardroom command center (on speaker)"
+    },
+    "startTime": "02/09/2027 03:48:05",
+    "duration": "1:34",
+    "transcript": [
+      {
+        "speaker": "Biomed Tech",
+        "offset": "0:00",
+        "text": "Command center? This is Rolf Swenson, biomed. I'm up in the ICU. Is the Security Officer there? Okay. Good.",
+        "prompt": false
+      },
+      {
+        "speaker": "Biomed Tech",
+        "offset": "0:07",
+        "text": "So, the ICU charge nurse heard somebody say 'hack' in the hallway, and now she wants me to pull the pump and monitor network off the wire. Right now. Here's where we are. All 12 ICU pumps are running standalone on their drug libraries. The dose limits are still on the pumps. The central station still shows every bed. If I isolate, central monitoring at the nurses' station goes dark, and they'll have to chart vitals by hand every 15 minutes. I'm not doing it without an order. Who gives it?",
+        "prompt": true
+      },
+      {
+        "speaker": "ICU Charge Nurse",
+        "offset": "0:41",
+        "text": "This is the ICU charge nurse. Everybody on this floor is saying we got hacked. If somebody's inside the network, I don't want them anywhere near my pumps. Just tell him to unplug it.",
+        "prompt": false
+      },
+      {
+        "speaker": "Biomed Tech",
+        "offset": "0:55",
+        "text": "Look, I'm not saying no. But I need a name, and I'm writing the time of the order on my sheet. And if we go dark, she needs extra hands, because every bed gets hand vitals every 15 minutes, and that starts the second I pull the cable. Disconnect or leave it? I'll hold.",
+        "prompt": true
+      }
+    ],
+    "voiceStyles": {
+      "Biomed Tech": "Man in his 30s, calm and methodical but firm, alarms beeping faintly behind him in an ICU hallway",
+      "ICU Charge Nurse": "Woman in her 40s, tired and anxious, talking fast, stepping in close to the phone"
+    },
+    "injectId": "I-07b"
+  },
+  "variant": "default",
+  "instructorNote": "This inject creates confusion: a hallway rumor turns into a demand to isolate ICU devices. Watch that the Security Officer owns the decision under IS-14-A section 9 and either orders isolation or explicitly declines it, and records the time. If isolation is ordered, the House Supervisor should plan staffing for 15-minute manual ICU vitals. Either way, the House Supervisor should tell the ICU charge nurse that a hallway rumor is not an order.",
+  "citations": [
+    {
+      "documentId": "01M791H5T6P0TB6KXSN6Y8MDY3",
+      "documentTitle": "Lakemont Community Hospital — Downtime Procedures SOP (IS-14-A)",
+      "headingPath": "IS-14-A › 9. Devices and monitors",
+      "quote": "Bedside monitors, infusion pumps and ventilators continue to work standalone. Pump libraries and drug dose limits still apply on the pump. If a security cause is suspected, the Security Officer may or",
+      "chunkId": 20
+    },
+    {
+      "documentId": "01M791H5T4QRTQAQ9XEEV0T7D6",
+      "documentTitle": "Lakemont Community Hospital — Information Systems Downtime and Recovery Plan",
+      "headingPath": "Lakemont Community Hospital — In… › 4. First hour checklist",
+      "quote": "1. The first person to notice loss of the EHR calls the IS Help Desk (ext. 5500). The help desk technician checks the status dashboard and pages the on-call systems analyst. 2. The on-call analyst con",
+      "chunkId": 5
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template",
+      "tts"
+    ],
+    "voiceLines": [
+      {
+        "speaker": "Biomed Tech",
+        "voiceStyle": "Man in his 30s, calm and methodical but firm, slight Upper Midwest accent, steady measured pace, speaking from a hospital hallway with faint monitor alarms beeping behind him",
+        "text": "Command center? This is Rolf Swenson, biomed. I'm up in the ICU. Is the Security Officer there? ... Okay. Good."
+      },
+      {
+        "speaker": "Biomed Tech",
+        "voiceStyle": "Man in his 30s, calm and methodical but firm, slight Upper Midwest accent, steady measured pace, speaking from a hospital hallway with faint monitor alarms beeping behind him",
+        "text": "So, the ICU charge nurse heard somebody say 'hack' in the hallway, and now she wants me to pull the pump and monitor network off the wire. Right now. Here's where we are. All twelve ICU pumps are running standalone on their drug libraries. The dose limits are still on the pumps. The central station still shows every bed. If I isolate, central monitoring at the nurses' station goes dark, and they'll have to chart vitals by hand every fifteen minutes. I'm not doing it without an order. Who gives it?"
+      },
+      {
+        "speaker": "ICU Charge Nurse",
+        "voiceStyle": "Woman in her 40s, tired and anxious, talking fast, slightly breathless, leaning in close to the phone so her voice is louder and a little clipped",
+        "text": "This is the ICU charge nurse. Everybody on this floor is saying we got hacked. If somebody's inside the network, I don't want them anywhere near my pumps. Just tell him to unplug it."
+      },
+      {
+        "speaker": "Biomed Tech",
+        "voiceStyle": "Man in his 30s, calm and methodical but firm, slight Upper Midwest accent, a touch more deliberate now, holding his ground politely",
+        "text": "Look, I'm not saying no. But I need a name, and I'm writing the time of the order on my sheet. And if we go dark, she needs extra hands, because every bed gets hand vitals every fifteen minutes, and that starts the second I pull the cable. ... Disconnect, or leave it? I'll hold."
+      }
+    ],
+    "postFx": [
+      "phone"
+    ]
+  },
+  "assets": [
+    {
+      "id": "01M79CPZB7N2MRT1GD2DX7DQFS",
+      "kind": "image",
+      "path": "scenarios/01M791H7TWWJDZTYVSMEEGYDPP/media/01M792QWSQK84AQ6MHJR9R57Q8/01M79CPZB7N2MRT1GD2DX7DQFS.png",
+      "role": "rendered",
+      "width": 816,
+      "height": 1056,
+      "sha256": "b0c44114c89caafa78e67dcbe343bf22dccb5d876e9a4eb3226f4047c568bdf8",
+      "provenance": {
+        "provider": "template",
+        "templateId": "phone_call",
+        "templateVersion": "1",
+        "createdAt": "2026-11-13T02:45:13.589Z"
+      }
+    }
+  ],
+  "versions": [
+    {
+      "at": "2026-11-12T23:51:29.320Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "Biomed from the ICU: \"Who Orders the Pumps Off the Network?\"",
+        "type": "phone_call",
+        "fields": {
+          "orgName": "Lakemont Community Hospital",
+          "systemName": "Recorded Line - Boardroom Command Center, ext. 5520",
+          "callId": "CR-20270209-034805-0244",
+          "direction": "Internal",
+          "caller": {
+            "name": "Rolf Swenson",
+            "number": "ICU nurses' station (transferred to ext. 5520)",
+            "label": "Biomedical Technician, on site in the ICU"
+          },
+          "callee": {
+            "name": "Gregory Pruitt",
+            "number": "ext. 5520",
+            "label": "Security Officer, Boardroom command center (on speaker)"
+          },
+          "startTime": "02/09/2027 03:48:05",
+          "duration": "1:34",
+          "transcript": [
+            {
+              "speaker": "Biomed Tech",
+              "offset": "0:00",
+              "text": "Command center? This is Rolf Swenson, biomed. I'm up in the ICU. Is the Security Officer there? Okay. Good.",
+              "prompt": false
+            },
+            {
+              "speaker": "Biomed Tech",
+              "offset": "0:07",
+              "text": "So, the ICU charge nurse heard somebody say 'hack' in the hallway, and now she wants me to pull the pump and monitor network off the wire. Right now. Here's where we are. All 12 ICU pumps are running standalone on their drug libraries. The dose limits are still on the pumps. The central station still shows every bed. If I isolate, central monitoring at the nurses' station goes dark, and they'll have to chart vitals by hand every 15 minutes. I'm not doing it without an order. Who gives it?",
+              "prompt": true
+            },
+            {
+              "speaker": "ICU Charge Nurse",
+              "offset": "0:41",
+              "text": "This is the ICU charge nurse. Everybody on this floor is saying we got hacked. If somebody's inside the network, I don't want them anywhere near my pumps. Just tell him to unplug it.",
+              "prompt": false
+            },
+            {
+              "speaker": "Biomed Tech",
+              "offset": "0:55",
+              "text": "Look, I'm not saying no. But I need a name, and I'm writing the time of the order on my sheet. And if we go dark, she needs extra hands, because every bed gets hand vitals every 15 minutes, and that starts the second I pull the cable. Disconnect or leave it? I'll hold.",
+              "prompt": true
+            }
+          ],
+          "voiceStyles": {
+            "Biomed Tech": "Man in his 30s, calm and methodical but firm, alarms beeping faintly behind him in an ICU hallway",
+            "ICU Charge Nurse": "Woman in her 40s, tired and anxious, talking fast, stepping in close to the phone"
+          },
+          "injectId": "I-07b"
+        },
+        "instructorNote": "This inject creates confusion: a hallway rumor turns into a demand to isolate ICU devices. Watch that the Security Officer owns the decision under IS-14-A section 9 and either orders isolation or explicitly declines it, and records the time. If isolation is ordered, the House Supervisor should plan staffing for 15-minute manual ICU vitals. Either way, the House Supervisor should tell the ICU charge nurse that a hallway rumor is not an order.",
+        "deliveryMode": "read_aloud"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-11-13T02:45:13.793Z"
+}

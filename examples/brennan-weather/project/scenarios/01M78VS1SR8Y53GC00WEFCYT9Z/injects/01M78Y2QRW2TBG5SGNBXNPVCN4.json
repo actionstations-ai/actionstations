@@ -1,0 +1,235 @@
+{
+  "id": "01M78Y2QRW2TBG5SGNBXNPVCN4",
+  "mselRowId": "I-15",
+  "type": "system_log",
+  "title": "Comms Log 00:06: North-End SMS Failing, Cell Sites Down, Spotter Relay Lost",
+  "deliveryMode": "hand_to_role",
+  "fields": {
+    "systemName": "BCEMA_EOC_COMMS_EVENTS",
+    "host": "BCEMA-EOC-WO1",
+    "os": "Windows 11 Enterprise (BrennanAlert web console, EOC mail gateway, radio recorder)",
+    "logSource": "BrennanAlert campaign/delivery receipts; EOC inbound mail gateway; SKYWARN 147.315 MHz recorder (speech-to-text)",
+    "exportedBy": "BRENNANCOKY\\wo.duty",
+    "exportedAt": "12/12/2026 00:07 CST",
+    "timezone": "CST (UTC-6)",
+    "classification": "EXERCISE — INTERNAL — EOC WARNING RECORD",
+    "pageLabel": "Page 1 of 1",
+    "lines": [
+      {
+        "ts": "2026-12-11 23:58:40",
+        "level": "INFO",
+        "msg": "BrennanAlert: campaign NORTH-POST-01 launched by wo.duty | channel SMS | group ZONE-N | 4,960 recipients | text: \"EXERCISE - BrennanAlert: Tornado has left Brennan County. Tornado Watch until 4 AM. If trapped or injured call 911. Stay off damaged roads in Corwin and Pine Hollow.\"",
+        "highlight": false
+      },
+      {
+        "ts": "2026-12-11 23:59:55",
+        "level": "INFO",
+        "msg": "BrennanAlert: NORTH-POST-01 progress 1,020 sent | 41 failed | delivery receipts normal",
+        "highlight": false
+      },
+      {
+        "ts": "2026-12-12 00:01:14",
+        "level": "WARN",
+        "msg": "BrennanAlert: carrier gateway returning DESTINATION UNREACHABLE for Corwin exchange numbers (212 in the last 60 s)",
+        "highlight": false
+      },
+      {
+        "ts": "2026-12-12 00:02:37",
+        "level": "WARN",
+        "msg": "BrennanAlert: failure rate 34% and rising | Pine Hollow and Riverbend exchanges added to unreachable list",
+        "highlight": false
+      },
+      {
+        "ts": "2026-12-12 00:03:49",
+        "level": "ERROR",
+        "msg": "BrennanAlert: Shady Acres exchange 100% unreachable | carrier: destination unreachable (no serving cell)",
+        "highlight": false
+      },
+      {
+        "ts": "2026-12-12 00:04:02",
+        "level": "ERROR",
+        "msg": "BrennanAlert: SMS campaign NORTH-POST-01: 2,310 sent | 1,142 FAILED (carrier: destination unreachable) | failures concentrated in Corwin, Pine Hollow, Riverbend, Shady Acres exchanges",
+        "highlight": true
+      },
+      {
+        "ts": "2026-12-12 00:04:10",
+        "level": "NOTICE",
+        "msg": "BrennanAlert: automatic retry scheduled for 1,142 failed recipients | attempt 2 of 3 at 00:19:10",
+        "highlight": false
+      },
+      {
+        "ts": "2026-12-12 00:05:06",
+        "level": "ALERT",
+        "msg": "Mail gateway: inbound from noc-alerts@midsouthwireless.example | Subject: \"Sector outage - Corwin / Clarks River corridor\" | \"Cell sites serving Corwin, Pine Hollow and the Clarks River corridor reached low-voltage disconnect between 00:01 and 00:04. Portable generators can't reach the sites because the roads are blocked. Estimated restoration: after daylight. WEA delivery in the affected sector is not expected.\"",
+        "highlight": true
+      },
+      {
+        "ts": "2026-12-12 00:06:03",
+        "level": "ALERT",
+        "msg": "Radio recorder 147.315 MHz (BCEMA SKYWARN net), net control Lena Brooks: \"Brennan EOC, net control. My cell link to Paducah just died. I can't relay by phone anymore. I've lost Brennan-14 and Brennan-09. Last I heard from 14 was 23:52, on foot near the Clarks River bridge. No answer to three calls. The repeater's still up for everyone else.\"",
+        "highlight": true
+      },
+      {
+        "ts": "2026-12-12 00:06:40",
+        "level": "INFO",
+        "msg": "Radio recorder 147.315 MHz: repeater carrier present | check-ins logged since 23:45: Brennan-03, -06, -11, -17, -22 | Brennan-09, -14 no response",
+        "highlight": false
+      },
+      {
+        "ts": "2026-12-12 00:07:00",
+        "level": "INFO",
+        "msg": "Export requested by wo.duty",
+        "highlight": false
+      }
+    ]
+  },
+  "variant": "printout",
+  "instructorNote": "Technical hurdle: three relay paths fail at once, and the cut-off North zone parks can no longer get messages by text, WEA or cell phone. Watch for the Warning Officer to log each failure with its time, move the spotter relay to NWSChat with the satellite phone as backup, and ask Channel 6, radio partners and NWS Paducah to carry county messages (BWN 7). Also watch for the EM Director to send PA patrols into the parks, the Field IC to send a unit to check on Brennan-14 and Brennan-09, and 911 to report each tower and radio loss.",
+  "citations": [
+    {
+      "documentId": "01M78VRZS9YA4B9N7KSFQ74871",
+      "documentTitle": "Brennan County — Facilities, Populations and Warning Systems",
+      "headingPath": "BCFPWS › 3. Warning systems",
+      "quote": "- **Sirens:** 46 sirens in four zones (North 12, Central 16, South 10, East 8). Encoder at 911 Position 2, backup at the EOC. Polling reports battery and rotation faults; two North zone sirens (N-07 a",
+      "chunkId": 4
+    },
+    {
+      "documentId": "01M78VRZS9YA4B9N7KSFQ74871",
+      "documentTitle": "Brennan County — Facilities, Populations and Warning Systems",
+      "headingPath": "BCFPWS › 4. Emergency operations",
+      "quote": "- **EOC:** Brennan County Public Safety Building, 900 Industrial Parkway, Ashford. Positions for 14; generator; satellite phone; NWSChat, WebEOC (Kentucky's statewide instance) and BrennanAlert consol",
+      "chunkId": 5
+    },
+    {
+      "documentId": "01M78VRZSEQB263A174HAR8J6D",
+      "documentTitle": "BCEMA-SOP-02: Warning and Notification",
+      "headingPath": "BWN › 7. Failures and backups",
+      "quote": "- **Siren encoder failure at Position 2:** use the EOC encoder; if both fail, ask fire districts to sound station sirens and patrol with vehicle PA systems in manufactured home parks. - **BrennanAlert",
+      "chunkId": 33
+    },
+    {
+      "documentId": "01M78VRZSB53VPS15HQ301KR5C",
+      "documentTitle": "Brennan County Emergency Operations Plan — Annex H: Severe Weather and Tornado",
+      "headingPath": "Brennan County Emergency Operati… › 4. Organization and responsibilities",
+      "quote": "- **EM Director (Dana Whitfield):** activates the EOC, decides countywide siren activation outside NWS warnings, requests state assistance, advises the County Judge/Executive on a local emergency decl",
+      "chunkId": 15
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template"
+    ]
+  },
+  "assets": [
+    {
+      "id": "01M79CM3ZGWJBHBTNTG3BWCW0B",
+      "kind": "image",
+      "path": "scenarios/01M78VS1SR8Y53GC00WEFCYT9Z/media/01M78Y2QRW2TBG5SGNBXNPVCN4/01M79CM3ZGWJBHBTNTG3BWCW0B.png",
+      "role": "rendered",
+      "width": 816,
+      "height": 1142,
+      "sha256": "3019743f64b1812d85c529f47f3362cfd7936f43da0b6398c08472310f1c89ba",
+      "provenance": {
+        "provider": "template",
+        "templateId": "system_log",
+        "templateVersion": "1",
+        "createdAt": "2026-11-13T02:43:39.979Z"
+      }
+    }
+  ],
+  "versions": [
+    {
+      "at": "2026-11-12T22:30:41.132Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "Comms Log 00:06: North-End SMS Failing, Cell Sites Down, Spotter Relay Lost",
+        "type": "system_log",
+        "fields": {
+          "systemName": "BCEMA_EOC_COMMS_EVENTS",
+          "host": "BCEMA-EOC-WO1",
+          "os": "Windows 11 Enterprise (BrennanAlert web console, EOC mail gateway, radio recorder)",
+          "logSource": "BrennanAlert campaign/delivery receipts; EOC inbound mail gateway; SKYWARN 147.315 MHz recorder (speech-to-text)",
+          "exportedBy": "BRENNANCOKY\\wo.duty",
+          "exportedAt": "12/12/2026 00:07 CST",
+          "timezone": "CST (UTC-6)",
+          "classification": "EXERCISE — INTERNAL — EOC WARNING RECORD",
+          "pageLabel": "Page 1 of 1",
+          "lines": [
+            {
+              "ts": "2026-12-11 23:58:40",
+              "level": "INFO",
+              "msg": "BrennanAlert: campaign NORTH-POST-01 launched by wo.duty | channel SMS | group ZONE-N | 4,960 recipients | text: \"EXERCISE - BrennanAlert: Tornado has left Brennan County. Tornado Watch until 4 AM. If trapped or injured call 911. Stay off damaged roads in Corwin and Pine Hollow.\"",
+              "highlight": false
+            },
+            {
+              "ts": "2026-12-11 23:59:55",
+              "level": "INFO",
+              "msg": "BrennanAlert: NORTH-POST-01 progress 1,020 sent | 41 failed | delivery receipts normal",
+              "highlight": false
+            },
+            {
+              "ts": "2026-12-12 00:01:14",
+              "level": "WARN",
+              "msg": "BrennanAlert: carrier gateway returning DESTINATION UNREACHABLE for Corwin exchange numbers (212 in the last 60 s)",
+              "highlight": false
+            },
+            {
+              "ts": "2026-12-12 00:02:37",
+              "level": "WARN",
+              "msg": "BrennanAlert: failure rate 34% and rising | Pine Hollow and Riverbend exchanges added to unreachable list",
+              "highlight": false
+            },
+            {
+              "ts": "2026-12-12 00:03:49",
+              "level": "ERROR",
+              "msg": "BrennanAlert: Shady Acres exchange 100% unreachable | carrier: destination unreachable (no serving cell)",
+              "highlight": false
+            },
+            {
+              "ts": "2026-12-12 00:04:02",
+              "level": "ERROR",
+              "msg": "BrennanAlert: SMS campaign NORTH-POST-01: 2,310 sent | 1,142 FAILED (carrier: destination unreachable) | failures concentrated in Corwin, Pine Hollow, Riverbend, Shady Acres exchanges",
+              "highlight": true
+            },
+            {
+              "ts": "2026-12-12 00:04:10",
+              "level": "NOTICE",
+              "msg": "BrennanAlert: automatic retry scheduled for 1,142 failed recipients | attempt 2 of 3 at 00:19:10",
+              "highlight": false
+            },
+            {
+              "ts": "2026-12-12 00:05:06",
+              "level": "ALERT",
+              "msg": "Mail gateway: inbound from noc-alerts@midsouthwireless.example | Subject: \"Sector outage - Corwin / Clarks River corridor\" | \"Cell sites serving Corwin, Pine Hollow and the Clarks River corridor reached low-voltage disconnect between 00:01 and 00:04. Portable generators can't reach the sites because the roads are blocked. Estimated restoration: after daylight. WEA delivery in the affected sector is not expected.\"",
+              "highlight": true
+            },
+            {
+              "ts": "2026-12-12 00:06:03",
+              "level": "ALERT",
+              "msg": "Radio recorder 147.315 MHz (BCEMA SKYWARN net), net control Lena Brooks: \"Brennan EOC, net control. My cell link to Paducah just died. I can't relay by phone anymore. I've lost Brennan-14 and Brennan-09. Last I heard from 14 was 23:52, on foot near the Clarks River bridge. No answer to three calls. The repeater's still up for everyone else.\"",
+              "highlight": true
+            },
+            {
+              "ts": "2026-12-12 00:06:40",
+              "level": "INFO",
+              "msg": "Radio recorder 147.315 MHz: repeater carrier present | check-ins logged since 23:45: Brennan-03, -06, -11, -17, -22 | Brennan-09, -14 no response",
+              "highlight": false
+            },
+            {
+              "ts": "2026-12-12 00:07:00",
+              "level": "INFO",
+              "msg": "Export requested by wo.duty",
+              "highlight": false
+            }
+          ]
+        },
+        "instructorNote": "Technical hurdle: three relay paths fail at once, and the cut-off North zone parks can no longer get messages by text, WEA or cell phone. Watch for the Warning Officer to log each failure with its time, move the spotter relay to NWSChat with the satellite phone as backup, and ask Channel 6, radio partners and NWS Paducah to carry county messages (BWN 7). Also watch for the EM Director to send PA patrols into the parks, the Field IC to send a unit to check on Brennan-14 and Brennan-09, and 911 to report each tower and radio loss.",
+        "deliveryMode": "hand_to_role"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-11-13T02:43:40.247Z"
+}

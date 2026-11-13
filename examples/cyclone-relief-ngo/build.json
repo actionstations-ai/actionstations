@@ -1,0 +1,56 @@
+{
+  "id": "cyclone-relief-ngo",
+  "title": "Harbourlight Relief International, Mozambique: the first 72 hours after a cyclone",
+  "domainProfile": "humanitarian",
+  "summary": "A fictional international NGO's Mozambique country office (WASH, health and shelter in Sofala and Zambezia provinces, a Beira warehouse) and an exercise generated from its simulated plans: the first 72 hours after a fictional cyclone hits the Beira coast, with cluster coordination, 3W reporting, a gap list, a customs hold, a cut road and a crowd-pressure security decision.",
+  "notice": "EXERCISE MATERIAL — for training use. Harbourlight Relief International, its staff, sites, partners' contact people and the cyclone are simulated; Mozambique and the United Nations system are real; the public sources consulted for realism are listed in reference/cyclone-relief-ngo/SOURCES.md. No real victim, staff member or beneficiary is depicted.",
+  "project": {
+    "name": "Harbourlight Relief International, Mozambique",
+    "orgName": "Harbourlight Relief International",
+    "orgType": "humanitarian",
+    "toolkits": [
+      "humanitarian"
+    ],
+    "brand": {
+      "city": "Beira",
+      "region": "Sofala Province, Mozambique",
+      "aliases": {
+        "org": "Harbourlight Relief International",
+        "orgShort": "HRI",
+        "orgDomain": "harbourlightrelief.example"
+      }
+    }
+  },
+  "documents": {
+    "dir": "reference/cyclone-relief-ngo",
+    "exclude": [
+      "SOURCES.md"
+    ]
+  },
+  "media": {
+    "aiImagesPerScenario": 2,
+    "ttsPerScenario": 2
+  },
+  "scenarios": [
+    {
+      "key": "cyclone-72h",
+      "startWallClock": "06:00",
+      "threatFamily": "natural_hazard",
+      "summary": "A fictional Category 4 cyclone makes landfall near Beira late on Thursday; over the next 72 hours the NGO's country office must account for staff, stand up coordination with the Humanitarian Country Team and the clusters, report its 3W and close assigned gaps, handle a customs hold and a cut road to Buzi district, and keep its numbers consistent with headquarters, the cluster and OCHA.",
+      "userPrompt": "Fictional Tropical Cyclone Tevra makes landfall near Beira, Mozambique, on Thursday 11 February 2027 at about 22:00 with winds around 190 km/h and a storm surge; the Global Disaster Alert and Coordination System shows a red alert. The exercise begins at 06:00 on Friday 12 February (Central Africa Time) in the Harbourlight Relief International (HRI) country office in Beira, with Country Director Alberto Matsinhe, Emergency Coordinator Mariam Sesay (arriving from Nairobi at noon), Information Management Officer Naledi Dube, Logistics Manager Joaquim Tembe and Security Focal Point Rui Cossa; headquarters in Geneva is led by Emergency Operations Director Camille Laurent (Crisis Management Team chair). The exercise covers about 72 hours. Timeline and pressure points: by 06:00 61 of 64 staff are accounted for, and the three missing are in Buzi district where communications are down and are found at 11:20; the Beira warehouse roof is damaged and about 20 percent of the stock (3,000 shelter kits, 2,800 jerrycans, 4,000 hygiene kits, 12 portable water treatment units) is wet or missing, so the stock balance and the stock reported to clusters must be corrected; the EN6 crossing at Dondo is cut and Buzi district is reachable only by boat or helicopter; at 08:30 the UN Humanitarian Coordinator holds the first Humanitarian Country Team meeting and requests the activation of clusters for Sofala and Zambezia, with the WASH, health, shelter, food security, protection and logistics clusters meeting daily and the national disaster management agency INGD reporting 412,000 people affected against OCHA's 385,000 (an earlier cut-off); HRI submits its first 3W entries to the clusters by 17:00 and must keep its totals consistent with its situation message and flash update; the WASH cluster gap list shows no partner in Buzi district and shelter uncovered in Nhamatanda, with 12 hours to assign and 48 hours to cover, and HRI decides which gap it can take against its stock, staff, access and funds; the HCT launches a flash appeal of US$ 96 million (WASH 21, health 14, shelter 18, food security 27, protection 6, logistics 7, nutrition 3) and HRI's internal fund releases US$ 350,000; on Friday at 15:00 a container of 6,000 tarpaulins (an emergency shipment through Beira port) is held by customs and demurrage starts on day 5, needing an INGD waiver letter, while the pipeline projects a break for shelter kits within 30 days if no reroute is made; on Saturday a crowd surge at the distribution at the Nhamissa displacement site leads the Security Focal Point to stop movements in the area, share a security alert and decide the level; a WhatsApp rumor says HRI will give cash on Sunday and charge a registration fee; the safeguarding focal point receives a complaint; reports of acute watery diarrhea rise at Nhamissa; the Saving Lives Together framework means the UN security officer receives HRI's alert but is not responsible for HRI staff. Decisions the exercise should record: request for cluster activation, gap assignment, gap covered, escalation of a gap to the HCT, launching or revising the HRI appeal, stopping movements, hibernation or relocation, security alerts shared, family notification, rerouting a shipment, a customs waiver request, public statements. The SimCell plays the UN Humanitarian Coordinator, OCHA, the cluster coordinators, INGD, customs and port officials, donor representatives, other agencies' security focal points, the shipping agent, the community committee at Nhamissa, reporters and the HRI headquarters crisis management team members not played by players.",
+      "audience": [
+        "Country Director",
+        "Emergency Coordinator",
+        "Information Management Officer",
+        "Logistics Manager",
+        "Security Focal Point",
+        "Headquarters Crisis Management Team Chair"
+      ],
+      "constraints": [
+        "Every HRI email address uses the exercise domain harbourlightrelief.example; UN, government and partner contacts use fictional domains on .example; never a real agency, company or media domain.",
+        "Humanitarian products follow the formats in the plans: flash updates with the sections situation, needs, response, gaps and constraints, contacts; 3W entries with organization, activity, location at administrative post level, people, dates and funding status; gap lists with the 12-hour assignment and 48-hour coverage targets; every number agrees across the flash update, the 3W and headquarters messages or the difference is explained; security content stays at the decision and communications level (no tactics); times are Central Africa Time.",
+        "Player roles are only those in the audience list; the Humanitarian Coordinator, OCHA, cluster coordinators, INGD, customs and port staff, donors, other agencies' security focal points, the community committee, reporters and residents are played by the SimCell."
+      ]
+    }
+  ]
+}

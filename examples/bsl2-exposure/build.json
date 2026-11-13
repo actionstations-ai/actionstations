@@ -1,0 +1,48 @@
+{
+  "id": "bsl2-exposure",
+  "title": "Halvorsen State University Biosafety Program",
+  "domainProfile": "research_labs",
+  "summary": "A fictional Iowa public research university (78 BSL-2 laboratories, an Institutional Biosafety Committee, no select agents) and an exercise generated from its simulated plans: a possible exposure in a shared BSL-2 suite, conflicting guidance from the protocol, the clinic and a sponsor, and the question of whether the IBC must report to the NIH.",
+  "notice": "EXERCISE MATERIAL — for training use. Halvorsen State University, its people, sponsors and sites are simulated; the public sources consulted for realism are listed in reference/bsl2-exposure/SOURCES.md. No agent technique is described.",
+  "project": {
+    "name": "Halvorsen State University Biosafety Program",
+    "orgName": "Halvorsen State University Office of Environmental Health and Safety",
+    "orgType": "research_labs",
+    "toolkits": ["lab_safety", "media_environment"],
+    "brand": {
+      "city": "Marlow Falls",
+      "region": "Iowa",
+      "aliases": {
+        "org": "Halvorsen State University",
+        "orgShort": "HSU",
+        "orgDomain": "hsu.example",
+        "studentPaper": "the campus student newspaper"
+      }
+    }
+  },
+  "documents": { "dir": "reference/bsl2-exposure", "exclude": ["SOURCES.md"] },
+  "media": { "aiImagesPerScenario": 2, "ttsPerScenario": 2 },
+  "scenarios": [
+    {
+      "key": "shared-suite-exposure",
+      "startWallClock": "09:15",
+      "threatFamily": "infrastructure_failure",
+      "summary": "On a Tuesday morning in October a centrifuge tube cracks in the shared third-floor BSL-2 suite in the Lindgren Life Sciences Building and a graduate student reports a possible exposure; the protocol, the clinic physician and a sponsor give conflicting advice, and the IBC chair must decide whether the event goes to the NIH.",
+      "userPrompt": "Tuesday, 13 October 2026, a mild autumn morning at Halvorsen State University in Marlow Falls, Iowa. The exercise starts at 09:15. At 09:02 graduate student Lena Park in Dr. Anika Rao's bacterial genetics laboratory (Lindgren third floor, shared centrifuge room with Dr. Tomas Eklund's cell biology laboratory) hears a tube crack in a rotor and may have had a splash to the face and a small cut to her glove hand; the material is a Risk Group 2 culture covered by the laboratory's approved protocol (never describe technique or the organism beyond that). Dr. Rao calls the BSO Marcus Tran at 09:20 (the PI's target is within 2 hours; the form is due within 24 hours). Pressure points the exercise must cover: the BSO orders stop-work in the centrifuge room (target within 30 minutes of the report) and sends Lena for medical evaluation (target within 60 minutes), but the approved protocol says no post-exposure prophylaxis is needed while Occupational Health physician Dr. Helen Mbeki wants to evaluate; the Occupational Health Clinic is open until 17:00 and the after-hours route is Marlow Falls Regional Medical Center; a program officer at a federal sponsor says informally that it does not need NIH reporting, while the Iowa Corn Growers Board award (fictional, domain cornboard.example) requires notice in 72 hours, shorter than the HSU 7-day target; the IBC chair Prof. Dennis Okafor must classify the event (reportable to NIH through the IBC, internal incident, records discrepancy) and record the basis, with the IBC report to the NIH Office of Science Policy due in 30 days and the chair erring toward reporting if uncertain; the clock board kept by Joel Whitcomb shows PI to BSO in 24 hours, BSO to IBC chair in 3 days, sponsor in 7 days; a second laboratory discovers a freezer inventory mismatch the same morning, which is a records discrepancy and not an incident, and someone raises select agents although HSU holds none, so the team must classify it and not file a select agent report; at 11:30 a student in the campus forum claims a lab leak and the student newspaper calls, while University Communications (Renata Delgado) holds a statement that names no worker, laboratory or organism. The SimCell plays the worker's advisor and lab mates, a sponsor program officer, NIH OSP, the Iowa Department of Health and Human Services, Marlow Falls Fire Department, the Occupational Health Clinic physician Dr. Mbeki and reporters. The BSO advisor explains deadlines and never gives agent handling detail.",
+      "audience": [
+        "Institutional Official (Vice President for Research)",
+        "Biosafety Officer",
+        "IBC Chair",
+        "Principal Investigator",
+        "Director of Research Compliance",
+        "University Communications Director"
+      ],
+      "constraints": [
+        "Every email address of the university uses the exercise domain hsu.example; sponsors and outside parties use fictional domains such as cornboard.example; never a real institution, company or newspaper domain.",
+        "No agent technique, culture method or handling detail appears anywhere; the organism is only a Risk Group 2 culture under an approved protocol, and the worker is never named in public statements.",
+        "Notification clocks are the plan's: PI to biosafety officer 24 hours, IBC chair 3 days, sponsor 7 days (or the award term), NIH 30 days; HSU holds no select agents.",
+        "Player roles are only those in the audience list; NIH OSP, the sponsor, public health, the fire department, the clinic physician, the student worker's lab mates, reporters and the public are played by the SimCell."
+      ]
+    }
+  ]
+}

@@ -1,0 +1,309 @@
+{
+  "id": "01M78XJEFKCQ45J17HEB6X5PWY",
+  "mselRowId": "I-04",
+  "type": "alarm_summary",
+  "title": "Siren Poll 21:54: N-07 and N-11 Faulted, 44/46 Ready",
+  "deliveryMode": "display_main_screen",
+  "fields": {
+    "systemName": "BRENNAN COUNTY OUTDOOR WARNING SIRENS — ALARM SUMMARY (EXERCISE)",
+    "site": "Brennan County Communications (911) — Siren Encoder, Position 2",
+    "clock": "21:55:04",
+    "date": "11-Dec-2026",
+    "operator": "POS-2 TELECOMMUNICATOR",
+    "filter": "All zones (North · Central · South · East) · Active + Acked + RTN · Last 60 min",
+    "counts": {
+      "critical": 0,
+      "high": 7,
+      "medium": 1,
+      "low": 3
+    },
+    "alarms": [
+      {
+        "time": "21:54:31",
+        "priority": "high",
+        "tag": "ZONE-N COVERAGE",
+        "source": "NORTH ZONE (Corwin / Clarks River bottoms)",
+        "description": "Zone coverage degraded: 2 of 12 sirens not ready",
+        "value": "10/12 READY",
+        "state": "active"
+      },
+      {
+        "time": "21:54:30",
+        "priority": "high",
+        "tag": "N-11 BATT LOW",
+        "source": "N-11 CLARKS RIVER BRIDGE",
+        "description": "Battery low. Fault open since 11/2026 test",
+        "value": "18.2 VDC",
+        "state": "active"
+      },
+      {
+        "time": "21:54:30",
+        "priority": "high",
+        "tag": "N-11 NO ROT",
+        "source": "N-11 CLARKS RIVER BRIDGE",
+        "description": "No rotation detected on poll. Fault open since 11/2026 test",
+        "value": "ROT: NONE",
+        "state": "active"
+      },
+      {
+        "time": "21:54:30",
+        "priority": "high",
+        "tag": "N-07 COMM",
+        "source": "N-07 PINE HOLLOW",
+        "description": "No response to poll (3 retries). Fault open since 11/2026 test, parts on order",
+        "value": "NO RESP",
+        "state": "active"
+      },
+      {
+        "time": "21:54:30",
+        "priority": "high",
+        "tag": "N-07 ROT FAULT",
+        "source": "N-07 PINE HOLLOW",
+        "description": "Rotation fault. Parts on order",
+        "value": "ROT FAULT",
+        "state": "active"
+      },
+      {
+        "time": "21:54:30",
+        "priority": "low",
+        "tag": "POLL CYCLE",
+        "source": "ENCODER POS-2",
+        "description": "Scheduled poll complete: NORTH 10/12 OK | CENTRAL 16/16 OK | SOUTH 10/10 OK | EAST 8/8 OK",
+        "value": "44/46 READY",
+        "state": "active"
+      },
+      {
+        "time": "21:43:50",
+        "priority": "low",
+        "tag": "E-05 AC PWR",
+        "source": "E-05 LAKE AREA",
+        "description": "AC power restored",
+        "value": "120 VAC",
+        "state": "rtn"
+      },
+      {
+        "time": "21:41:12",
+        "priority": "medium",
+        "tag": "E-05 AC PWR",
+        "source": "E-05 LAKE AREA",
+        "description": "AC power fail. Siren running on battery",
+        "value": "26.4 VDC",
+        "state": "acked"
+      },
+      {
+        "time": "21:24:30",
+        "priority": "high",
+        "tag": "N-11 BATT LOW",
+        "source": "N-11 CLARKS RIVER BRIDGE",
+        "description": "Battery low / no rotation. Fault open since 11/2026 test",
+        "value": "18.3 VDC",
+        "state": "acked"
+      },
+      {
+        "time": "21:24:30",
+        "priority": "high",
+        "tag": "N-07 COMM",
+        "source": "N-07 PINE HOLLOW",
+        "description": "No response / rotation fault. Parts on order",
+        "value": "NO RESP",
+        "state": "acked"
+      },
+      {
+        "time": "21:24:30",
+        "priority": "low",
+        "tag": "POLL CYCLE",
+        "source": "ENCODER POS-2",
+        "description": "Scheduled poll complete: NORTH 10/12 OK | CENTRAL 16/16 OK | SOUTH 10/10 OK | EAST 8/8 OK",
+        "value": "44/46 READY",
+        "state": "rtn"
+      }
+    ],
+    "footer": "44/46 READY · 6 unacknowledged · Next scheduled poll 22:24:30 · Backup encoder: EOC · EXERCISE: SIMULATED DATA"
+  },
+  "variant": "dark",
+  "instructorNote": "When the screen comes up, read this line aloud as the 911 Supervisor on the EOC line: \"Those two cover all three Clarks River parks. If a polygon drops on the North zone, nobody in Pine Hollow hears anything outdoors.\" Watch for three things. The Warning Officer should log both faults with their times and get the North zone BrennanAlert 'WX' messages ready, including safe room status. The 911 Supervisor should confirm the EOC backup encoder works. The Field IC should send sheriff and fire district vehicles with PA systems to Pine Hollow, Riverbend and Shady Acres to go door to door before 22:40, as BWN section 7 says to do.",
+  "citations": [
+    {
+      "documentId": "01M78VRZSEQB263A174HAR8J6D",
+      "documentTitle": "BCEMA-SOP-02: Warning and Notification",
+      "headingPath": "BWN › 3. Outdoor warning sirens",
+      "quote": "The county's 46 sirens are in four zones: North (Corwin and the Clarks River bottoms, 12 sirens), Central (Ashford, 16), South (Hollis and the state line, 10) and East (Lake area, 8). Activation is fr",
+      "chunkId": 29
+    },
+    {
+      "documentId": "01M78VRZSEQB263A174HAR8J6D",
+      "documentTitle": "BCEMA-SOP-02: Warning and Notification",
+      "headingPath": "BWN › 7. Failures and backups",
+      "quote": "- **Siren encoder failure at Position 2:** use the EOC encoder; if both fail, ask fire districts to sound station sirens and patrol with vehicle PA systems in manufactured home parks. - **BrennanAlert",
+      "chunkId": 33
+    },
+    {
+      "documentId": "01M78VRZS9YA4B9N7KSFQ74871",
+      "documentTitle": "Brennan County — Facilities, Populations and Warning Systems",
+      "headingPath": "BCFPWS › 3. Warning systems",
+      "quote": "- **Sirens:** 46 sirens in four zones (North 12, Central 16, South 10, East 8). Encoder at 911 Position 2, backup at the EOC. Polling reports battery and rotation faults; two North zone sirens (N-07 a",
+      "chunkId": 4
+    },
+    {
+      "documentId": "01M78VRZSEQB263A174HAR8J6D",
+      "documentTitle": "BCEMA-SOP-02: Warning and Notification",
+      "headingPath": "BWN › 4. BrennanAlert (mass notification)",
+      "quote": "BrennanAlert reaches about 14,200 subscribers by text, voice call and email; voice calls take up to 12 minutes to complete for the whole county. The Warning Officer sends: 1. When a tornado warning in",
+      "chunkId": 30
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template"
+    ]
+  },
+  "assets": [
+    {
+      "id": "01M79CM1274PKS3ZDNPKDJ30B5",
+      "kind": "image",
+      "path": "scenarios/01M78VS1SR8Y53GC00WEFCYT9Z/media/01M78XJEFKCQ45J17HEB6X5PWY/01M79CM1274PKS3ZDNPKDJ30B5.png",
+      "role": "rendered",
+      "width": 1280,
+      "height": 761,
+      "sha256": "4271dd320e88858be35cf33fbaf474fd40e113393ec555ecc80eeca7936fc8b2",
+      "provenance": {
+        "provider": "template",
+        "templateId": "alarm_summary",
+        "templateVersion": "1",
+        "createdAt": "2026-11-13T02:43:36.998Z"
+      }
+    }
+  ],
+  "versions": [
+    {
+      "at": "2026-11-12T22:21:49.212Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "Siren Poll 21:54: N-07 and N-11 Faulted, 44/46 Ready",
+        "type": "alarm_summary",
+        "fields": {
+          "systemName": "BRENNAN COUNTY OUTDOOR WARNING SIRENS — ALARM SUMMARY (EXERCISE)",
+          "site": "Brennan County Communications (911) — Siren Encoder, Position 2",
+          "clock": "21:55:04",
+          "date": "11-Dec-2026",
+          "operator": "POS-2 TELECOMMUNICATOR",
+          "filter": "All zones (North · Central · South · East) · Active + Acked + RTN · Last 60 min",
+          "counts": {
+            "critical": 0,
+            "high": 7,
+            "medium": 1,
+            "low": 3
+          },
+          "alarms": [
+            {
+              "time": "21:54:31",
+              "priority": "high",
+              "tag": "ZONE-N COVERAGE",
+              "source": "NORTH ZONE (Corwin / Clarks River bottoms)",
+              "description": "Zone coverage degraded: 2 of 12 sirens not ready",
+              "value": "10/12 READY",
+              "state": "active"
+            },
+            {
+              "time": "21:54:30",
+              "priority": "high",
+              "tag": "N-11 BATT LOW",
+              "source": "N-11 CLARKS RIVER BRIDGE",
+              "description": "Battery low. Fault open since 11/2026 test",
+              "value": "18.2 VDC",
+              "state": "active"
+            },
+            {
+              "time": "21:54:30",
+              "priority": "high",
+              "tag": "N-11 NO ROT",
+              "source": "N-11 CLARKS RIVER BRIDGE",
+              "description": "No rotation detected on poll. Fault open since 11/2026 test",
+              "value": "ROT: NONE",
+              "state": "active"
+            },
+            {
+              "time": "21:54:30",
+              "priority": "high",
+              "tag": "N-07 COMM",
+              "source": "N-07 PINE HOLLOW",
+              "description": "No response to poll (3 retries). Fault open since 11/2026 test, parts on order",
+              "value": "NO RESP",
+              "state": "active"
+            },
+            {
+              "time": "21:54:30",
+              "priority": "high",
+              "tag": "N-07 ROT FAULT",
+              "source": "N-07 PINE HOLLOW",
+              "description": "Rotation fault. Parts on order",
+              "value": "ROT FAULT",
+              "state": "active"
+            },
+            {
+              "time": "21:54:30",
+              "priority": "low",
+              "tag": "POLL CYCLE",
+              "source": "ENCODER POS-2",
+              "description": "Scheduled poll complete: NORTH 10/12 OK | CENTRAL 16/16 OK | SOUTH 10/10 OK | EAST 8/8 OK",
+              "value": "44/46 READY",
+              "state": "active"
+            },
+            {
+              "time": "21:43:50",
+              "priority": "low",
+              "tag": "E-05 AC PWR",
+              "source": "E-05 LAKE AREA",
+              "description": "AC power restored",
+              "value": "120 VAC",
+              "state": "rtn"
+            },
+            {
+              "time": "21:41:12",
+              "priority": "medium",
+              "tag": "E-05 AC PWR",
+              "source": "E-05 LAKE AREA",
+              "description": "AC power fail. Siren running on battery",
+              "value": "26.4 VDC",
+              "state": "acked"
+            },
+            {
+              "time": "21:24:30",
+              "priority": "high",
+              "tag": "N-11 BATT LOW",
+              "source": "N-11 CLARKS RIVER BRIDGE",
+              "description": "Battery low / no rotation. Fault open since 11/2026 test",
+              "value": "18.3 VDC",
+              "state": "acked"
+            },
+            {
+              "time": "21:24:30",
+              "priority": "high",
+              "tag": "N-07 COMM",
+              "source": "N-07 PINE HOLLOW",
+              "description": "No response / rotation fault. Parts on order",
+              "value": "NO RESP",
+              "state": "acked"
+            },
+            {
+              "time": "21:24:30",
+              "priority": "low",
+              "tag": "POLL CYCLE",
+              "source": "ENCODER POS-2",
+              "description": "Scheduled poll complete: NORTH 10/12 OK | CENTRAL 16/16 OK | SOUTH 10/10 OK | EAST 8/8 OK",
+              "value": "44/46 READY",
+              "state": "rtn"
+            }
+          ],
+          "footer": "44/46 READY · 6 unacknowledged · Next scheduled poll 22:24:30 · Backup encoder: EOC · EXERCISE: SIMULATED DATA"
+        },
+        "instructorNote": "When the screen comes up, read this line aloud as the 911 Supervisor on the EOC line: \"Those two cover all three Clarks River parks. If a polygon drops on the North zone, nobody in Pine Hollow hears anything outdoors.\" Watch for three things. The Warning Officer should log both faults with their times and get the North zone BrennanAlert 'WX' messages ready, including safe room status. The 911 Supervisor should confirm the EOC backup encoder works. The Field IC should send sheriff and fire district vehicles with PA systems to Pine Hollow, Riverbend and Shady Acres to go door to door before 22:40, as BWN section 7 says to do.",
+        "deliveryMode": "display_main_screen"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-11-13T02:43:37.164Z"
+}

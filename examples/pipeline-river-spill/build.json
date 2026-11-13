@@ -1,0 +1,58 @@
+{
+  "id": "pipeline-river-spill",
+  "title": "Ironbark Pipeline Company and Sterling Bluff Water Department: crude oil release into the Kansas River",
+  "domainProfile": "environmental_response",
+  "summary": "A fictional crude oil pipeline operator, its oil spill removal cooperative and a downstream city water utility, with an exercise generated from their simulated plans: a morning release at a Kansas River crossing, notifications and Qualified Individual call-out, a Unified Command with EPA and the state, boom ahead of two water intakes, and a PREP exercise record.",
+  "notice": "EXERCISE MATERIAL — for training use. Ironbark Pipeline Company, the response cooperative, Sterling Bluff, the water districts, people and sites are simulated; the public sources consulted for realism are listed in reference/pipeline-river-spill/SOURCES.md.",
+  "project": {
+    "name": "Ironbark Pipeline Company",
+    "orgName": "Ironbark Pipeline Company",
+    "orgType": "environmental_response",
+    "toolkits": [
+      "spill_plume"
+    ],
+    "brand": {
+      "city": "Tulsa",
+      "region": "Prairie Bend County, Kansas",
+      "aliases": {
+        "org": "Ironbark Pipeline Company",
+        "orgShort": "Ironbark",
+        "orgDomain": "ironbarkpipeline.example",
+        "osro": "Prairie Spill Response Cooperative",
+        "waterUtility": "Sterling Bluff Water Department"
+      }
+    }
+  },
+  "documents": {
+    "dir": "reference/pipeline-river-spill",
+    "exclude": [
+      "SOURCES.md"
+    ]
+  },
+  "media": {
+    "aiImagesPerScenario": 2,
+    "ttsPerScenario": 2
+  },
+  "scenarios": [
+    {
+      "key": "river-crossing-release",
+      "startWallClock": "05:45",
+      "threatFamily": "infrastructure_failure",
+      "summary": "A leak alarm and a release of about 3,100 barrels of crude at the Kansas River crossing reaches the river in the morning; Ironbark must report, call out its Qualified Individual and OSRO, form a Unified Command, and get boom in place ahead of the Prairie Bend Rural Water District intake (about 5 hours downstream) and the Sterling Bluff intake (about 15 hours), while the water utility decides when to close its intake.",
+      "userPrompt": "Tuesday 8 June 2027, clear and warm, the Kansas River at about 8,500 cfs with a surface velocity near 2.3 miles per hour (2 knots). The exercise starts at 05:45 in the Ironbark Pipeline Control Center in Tulsa (shift supervisor Nadia Kowalczyk). At 05:52 the Prairie Line shows a 46 psi pressure drop in 2 minutes and a 1.8 percent flow imbalance at the Prairie Bend segment (milepost 214.3, Kansas River crossing); at 06:02 a leak cannot be ruled out, at 06:04 the line is shut down and at 06:09 block valves at Mill Ridge Station (milepost 213.1) and Sandhill Valve (milepost 215.6) are closed. Volume balance suggests 2,700 to 3,500 barrels of medium sour crude released (the medium case of 3,100 is the planning figure; the worst case is 8,400 barrels). Crude reaches the river through a drainage ditch at about 06:40, first reported by a fisherman to the county 911 before Ironbark's own report to the National Response Center. Pressure points: the shift supervisor as person in charge calls the NRC without waiting for the Qualified Individual (Director of Operations Teresa Holloway), then the QI calls the OSRO (Prairie Spill Response Cooperative, Duty Manager Alicia Brandt, first boom at the nearest ramp 3.5 hours after notification), the Kansas Department of Health and Environment, county emergency management and the water intakes in the plan's order; a notification to a utility's general line must not count until the operator is reached; Ironbark estimates are given as ranges with their basis and in barrels only; EPA Region 7 is the Federal On-Scene Coordinator and forms a Unified Command with the state; the Incident Management Team activates at Level 2 for a release over 1,000 barrels with Gordon Iwata as Incident Commander and Cole Whitfield in the Environmental Unit; the trajectory gives windows (the Prairie Bend Rural Water District intake at mile 11 serving 6,200 customers in about 4.8 hours, nesting piping plover sandbars at miles 6 to 9, the Cottonwood Slough mussel bed at mile 22, the Sterling Bluff Water Department intake at mile 34 serving 41,000 people in about 14.8 hours); the river current is 2 knots so boom must be angled to deflect rather than set square; the cooperative has 9,500 feet of river boom across its depots and limited boats; the Prairie Bend Rural Water District has no wells and 1.1 million gallons of storage and must decide whether to close its intake and buy from Sterling Bluff; the Sterling Bluff Director (Odell Prescott) has about 36 hours of supply without the river and must close the intake himself, with the closure complete an hour before the earliest arrival; a request for in-situ burning or dispersant would not be preauthorized on the Kansas River and only the FOSC can authorize it; the Joint Information Center must use one volume figure and never say that the water is safe; a claims line opens; wildlife and the US Fish and Wildlife Service direct work near the sandbars; recreational fishing and the Mill Ridge ramp are closed by the state. Decisions the exercise should record: notifications with who and time, OSRO activation and equipment, protection priorities and strategy, boom deployed with the time it will be in place against arrival, the water intake closure, fishery or shoreline closure, countermeasure request, escalation of the IMT, public statements. Produce a PREP exercise record at the end (core components exercised, not a worst case discharge). The SimCell plays the National Response Center, EPA Region 7, the Kansas Department of Health and Environment, the Kansas Department of Wildlife and Parks, the US Fish and Wildlife Service, county emergency management, the Prairie Bend Rural Water District manager, PHMSA, reporters and residents.",
+      "audience": [
+        "Qualified Individual / Incident Commander (Ironbark)",
+        "Control Center Shift Supervisor",
+        "Environmental Unit Leader",
+        "Public Information Officer / Joint Information Center",
+        "OSRO Duty Manager (Prairie Spill Response Cooperative)",
+        "Water Department Director (Sterling Bluff)"
+      ],
+      "constraints": [
+        "Every Ironbark email address uses the exercise domain ironbarkpipeline.example; the cooperative uses prairiespill.example; the water department uses sterlingbluffwater.example; outside parties use fictional domains; never a real company, utility or newspaper domain.",
+        "Volumes are in barrels only and shown as ranges with their basis; trajectory results give time windows with the model run time; ICS forms follow the standard numbering (202, 204, 232, 233, 234); only the FOSC authorizes dispersant or burning; a utility, not the responsible party, closes its intake; times are Central Daylight Time.",
+        "Player roles are only those in the audience list; the National Response Center, EPA Region 7, the Kansas agencies, the US Fish and Wildlife Service, county emergency management, the rural water district, PHMSA, reporters and residents are played by the SimCell."
+      ]
+    }
+  ]
+}

@@ -1,0 +1,47 @@
+{
+  "id": "ironcrest-governance",
+  "title": "Ironcrest Machinery Corporation: executive team and board",
+  "domainProfile": "governance",
+  "summary": "The executive crisis team and board of a Rockford, Illinois machinery maker (three plants, a parts distribution center, a Form 8-K clock and a recovery plan with stated RTOs), with an exercise generated from its simulated plans: ransomware discovered on a Thursday afternoon at quarter end, a ransom demand and a data leak threat, a materiality call and the filing.",
+  "notice": "EXERCISE MATERIAL — for training use. Ironcrest Machinery Corporation, its customers, lenders, insurer, auditor, advisers and people are simulated; the public sources consulted for realism are listed in reference/ironcrest-governance/SOURCES.md. Exercise aid, not legal advice.",
+  "project": {
+    "name": "Ironcrest Machinery Corporation Crisis Management Team and Board",
+    "orgName": "Ironcrest Machinery Corporation",
+    "orgType": "governance",
+    "toolkits": ["governance", "media_environment"],
+    "brand": {
+      "city": "Rockford",
+      "region": "Illinois",
+      "aliases": {
+        "org": "Ironcrest Machinery Corporation",
+        "orgShort": "Ironcrest",
+        "orgDomain": "ironcrestmachinery.example",
+        "localPaper": "Rock River Gazette"
+      }
+    }
+  },
+  "documents": { "dir": "reference/ironcrest-governance", "exclude": ["SOURCES.md"] },
+  "media": { "aiImagesPerScenario": 2, "ttsPerScenario": 2 },
+  "scenarios": [
+    {
+      "key": "quarter-end-ransomware",
+      "startWallClock": "15:00",
+      "threatFamily": "cyber",
+      "summary": "On the last Thursday of the quarter, ransomware encrypts the Rockford data center and the MES, stops shipping at the Joliet distribution center and threatens to publish stolen drawings and employee data; the executive team and board must declare the crisis, decide on the ransom, determine materiality and file, and recover against the stated RTOs.",
+      "userPrompt": "Thursday, March 25, 2027, Central Time, six days before quarter end. At 13:40 the Dubuque plant reports a hung manufacturing execution system; at 14:05 the SOC (Security Operations Center) finds ransomware encrypting file servers and the MES at the Rockford data center; at 14:25 CISO Anil Deshmukh isolates the network; at 14:50 CEO Thomas Aldridge declares Level 3 and the CMT convenes at 15:00 with the bridge at (815) 555-0121. The ransom note demands 18 million dollars in cryptocurrency within 72 hours and says 1.2 TB of stolen data will be published. The plants run controllers in manual mode but lot tracking is down at all three plants, the Joliet warehouse system is offline and shipping stops at 15:30, and the ERP integration is locked. The recovery tracker (Business Continuity Manager Ravi Menon) compares recovery with the RTOs at the 4, 8, 12, 24, 48 and 72 hour checkpoints: plant control networks 4 h, MES 8 h, ERP 12 h, shipping 24 h, payroll 48 h; the forensic firm Blackwater Cyber says the last clean MES backup is 31 hours old (the RPO is 15 minutes) and the Dubuque replica is partly encrypted. Pressure points: the Audit Committee Chair Dr. Samuel Obuya must be told within hours and the board within 24 hours; the Disclosure Committee led by General Counsel Marguerite Daley meets by 19:00 and must record a materiality determination (material, not material or not yet determined, with factors, facts known, who decided and the basis) against a planning threshold of 60 million dollars of impact and a day of lost production worth about 8.5 million dollars of sales; CFO Priya Raghavan must give an impact estimate; the ransom decision requires sanctions screening (the group's name partly matches a sanctioned affiliate), the insurer Blue Heron Mutual's consent, notice to the FBI and the consultation of the Audit Committee Chair, and the company policy is not to pay; at 22:10 the attackers post a sample that includes engineering drawings of a drive component for a defense contractor and 3,100 employee records, which raises Department of Defense and state attorney general notices; Fieldmark Equipment's 72-hour supply notice and a penalty after 5 days; payroll must be filed with Northbridge Payroll by 10:00 on Friday; the trading window must close; a local reporter from the Rock River Gazette calls at 18:30 and the story breaks at 20:40; the Form 8-K choice (Item 1.05, Item 8.01 or no filing yet) and its timing with the four business day rule; the board meeting by video at 07:00 on Friday; and employee, dealer and press messages that must match the filing. The SimCell plays the COO, the Chief Communications Officer, Investor Relations, the CIO, the insurer and broker, outside counsel, the forensic negotiator, the FBI Chicago field office, Fieldmark Equipment and Granite Peak Machinery, the external auditor, the agent bank, the plants, reporters, analysts and the attackers.",
+      "audience": [
+        "CEO",
+        "CFO",
+        "General Counsel",
+        "CISO",
+        "Business Continuity Manager",
+        "Audit Committee Chair"
+      ],
+      "constraints": [
+        "Every Ironcrest email address uses the exercise domain ironcrestmachinery.example; customers, vendors, advisers and outlets use fictional .example domains; never a real company, auditor, bank, outlet or person.",
+        "SEC filings follow the real Form 8-K format (Item 1.05 content, Item 8.01 without a claim of materiality), are marked as exercise products and carry no real EDGAR accession numbers; all material is an exercise aid and not legal advice; times are Central Time with Eastern Time stated for EDGAR.",
+        "Player roles are only those in the audience list; the COO, the Chief Communications Officer, Investor Relations, advisers, regulators, customers, the press and the attackers are played by the SimCell."
+      ]
+    }
+  ]
+}

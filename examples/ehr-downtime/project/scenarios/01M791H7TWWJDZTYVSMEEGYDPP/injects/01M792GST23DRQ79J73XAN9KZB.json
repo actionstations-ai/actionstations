@@ -1,0 +1,200 @@
+{
+  "id": "01M792GST23DRQ79J73XAN9KZB",
+  "mselRowId": "I-01",
+  "type": "chat_transcript",
+  "title": "Teams: Ananya Desai Scope Check, 02:49",
+  "deliveryMode": "hand_to_role",
+  "fields": {
+    "channelName": "Lakechart Downtime — Command Board",
+    "workspace": "Lakemont IS",
+    "topic": "Unplanned Lakechart and interface engine outage since 02:10. Help Desk ext. 5500 · On-call analyst ext. 5503 · Command center ext. 5520",
+    "participants": [
+      "Ananya Desai",
+      "Marcus Lindqvist",
+      "Marcus Ellery",
+      "House Supervisor"
+    ],
+    "dateLabel": "Tuesday, February 9, 2027",
+    "messages": [
+      {
+        "sender": "Marcus Lindqvist",
+        "senderTitle": "IS Help Desk Technician",
+        "time": "02:46",
+        "text": "Call count since 02:14: 19 calls. ICU 5, Med-Surg 6, ED 4, L&D 2, Pharmacy 2. Same complaint from all of them: charts won't open and med scanning hangs. Status dashboard hasn't changed: LAKECHART PROD — RED — DOWN, INTERFACE ENGINE — RED — DOWN.",
+        "important": false,
+        "reactions": [
+          {
+            "kind": "eyes",
+            "count": 2
+          }
+        ]
+      },
+      {
+        "sender": "Ananya Desai",
+        "senderTitle": "On-call Systems Analyst (Nights)",
+        "time": "02:49",
+        "text": "02:49: Scope check.\n(1) Storage array at the primary data center: controller A reports FAULT. Controller B is not taking over the volume for the Lakechart database.\n(2) Replication to the Hermantown secondary was 40 minutes behind when it stopped, so it only holds data up to about 01:30. Failing over would lose about 40 minutes of charting, and I don't trust it to come up clean.\n(3) The downtime viewer IS up on the separate virtual network. The banner on every downtime workstation reads 'READ-ONLY — Data current as of 23:20'. Every census and MAR printed from it is 3 hr 20 min old: no 00:00 or 02:00 med passes, and nothing admitted after 23:20.",
+        "important": true,
+        "reactions": [
+          {
+            "kind": "eyes",
+            "count": 3
+          },
+          {
+            "kind": "alert",
+            "count": 1
+          }
+        ]
+      },
+      {
+        "sender": "Ananya Desai",
+        "senderTitle": "On-call Systems Analyst (Nights)",
+        "time": "02:50",
+        "text": "Interface engine: all traffic in and out is stopped. That means ADT, orders, results, medication administration, charges, and the outbound public health and HIE feeds. The source systems are holding their messages for now. Lab and pharmacy should expect nothing to cross into Lakechart until the engine is back.",
+        "important": false,
+        "reactions": [
+          {
+            "kind": "eyes",
+            "count": 2
+          }
+        ]
+      },
+      {
+        "sender": "Ananya Desai",
+        "senderTitle": "On-call Systems Analyst (Nights)",
+        "time": "02:51",
+        "text": "I haven't touched the array or started a failover. I need a decision on Hermantown and on who calls the storage vendor. I still haven't seen anything that tells me what caused this.",
+        "important": true,
+        "reactions": []
+      }
+    ]
+  },
+  "variant": "teams",
+  "instructorNote": "This clue confirms the scope inside the 15-minute window and shows that the viewer's 23:20 as-of time is the trap. Watch whether the CSL logs the scope, holds off on the Hermantown failover and leaves the failed storage alone until the Security Officer releases it. Also watch whether the House Supervisor tells charge nurses to print from the viewer but trust the armband and the patient over a printout that is 3 hr 20 min old.",
+  "citations": [
+    {
+      "documentId": "01M791H5T4QRTQAQ9XEEV0T7D6",
+      "documentTitle": "Lakemont Community Hospital — Information Systems Downtime and Recovery Plan",
+      "headingPath": "Lakemont Community Hospital — In… › 4. First hour checklist",
+      "quote": "1. The first person to notice loss of the EHR calls the IS Help Desk (ext. 5500). The help desk technician checks the status dashboard and pages the on-call systems analyst. 2. The on-call analyst con",
+      "chunkId": 5
+    },
+    {
+      "documentId": "01M791H5T9913NQR8TVBHP3J1Z",
+      "documentTitle": "Lakemont Community Hospital — Clinical Systems, Interfaces and Vendors",
+      "headingPath": "Lakemont Community Hospital — Cl… › 7. People",
+      "quote": "- Clinical Systems Lead: Marcus Ellery, ext. 5502. - On-call systems analysts: Ananya Desai (nights, ext. 5503) and Kyle Brandvold (days, ext. 5504). - Record Integrity Specialist: Elena Moreau, ext. ",
+      "chunkId": 39
+    },
+    {
+      "documentId": "01M791H5T4QRTQAQ9XEEV0T7D6",
+      "documentTitle": "Lakemont Community Hospital — Information Systems Downtime and Recovery Plan",
+      "headingPath": "Lakemont Community Hospital — In… › 3. Downtime levels",
+      "quote": "| Level | Meaning | Examples | Who declares | |---|---|---|---| | 1 | Degraded; clinicians can still chart | Slow response, one interface delayed | Clinical Systems Lead | | 2 | EHR read-only or inter",
+      "chunkId": 4
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template"
+    ]
+  },
+  "assets": [
+    {
+      "id": "01M79CPXP34R7Y0Q4G1422E1RY",
+      "kind": "image",
+      "path": "scenarios/01M791H7TWWJDZTYVSMEEGYDPP/media/01M792GST23DRQ79J73XAN9KZB/01M79CPXP34R7Y0Q4G1422E1RY.png",
+      "role": "rendered",
+      "width": 1520,
+      "height": 1874,
+      "sha256": "b596750c05b3ce4615343f7201303cb3a3dbc29c4b71c634c191b8d2140859a9",
+      "provenance": {
+        "provider": "template",
+        "templateId": "chat_transcript",
+        "templateVersion": "1",
+        "createdAt": "2026-11-13T02:45:11.849Z"
+      }
+    }
+  ],
+  "versions": [
+    {
+      "at": "2026-11-12T23:47:26.687Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "Teams: Ananya Desai Scope Check, 02:49",
+        "type": "chat_transcript",
+        "fields": {
+          "channelName": "Lakechart Downtime — Command Board",
+          "workspace": "Lakemont IS",
+          "topic": "Unplanned Lakechart and interface engine outage since 02:10. Help Desk ext. 5500 · On-call analyst ext. 5503 · Command center ext. 5520",
+          "participants": [
+            "Ananya Desai",
+            "Marcus Lindqvist",
+            "Marcus Ellery",
+            "House Supervisor"
+          ],
+          "dateLabel": "Tuesday, February 9, 2027",
+          "messages": [
+            {
+              "sender": "Marcus Lindqvist",
+              "senderTitle": "IS Help Desk Technician",
+              "time": "02:46",
+              "text": "Call count since 02:14: 19 calls. ICU 5, Med-Surg 6, ED 4, L&D 2, Pharmacy 2. Same complaint from all of them: charts won't open and med scanning hangs. Status dashboard hasn't changed: LAKECHART PROD — RED — DOWN, INTERFACE ENGINE — RED — DOWN.",
+              "important": false,
+              "reactions": [
+                {
+                  "kind": "eyes",
+                  "count": 2
+                }
+              ]
+            },
+            {
+              "sender": "Ananya Desai",
+              "senderTitle": "On-call Systems Analyst (Nights)",
+              "time": "02:49",
+              "text": "02:49: Scope check.\n(1) Storage array at the primary data center: controller A reports FAULT. Controller B is not taking over the volume for the Lakechart database.\n(2) Replication to the Hermantown secondary was 40 minutes behind when it stopped, so it only holds data up to about 01:30. Failing over would lose about 40 minutes of charting, and I don't trust it to come up clean.\n(3) The downtime viewer IS up on the separate virtual network. The banner on every downtime workstation reads 'READ-ONLY — Data current as of 23:20'. Every census and MAR printed from it is 3 hr 20 min old: no 00:00 or 02:00 med passes, and nothing admitted after 23:20.",
+              "important": true,
+              "reactions": [
+                {
+                  "kind": "eyes",
+                  "count": 3
+                },
+                {
+                  "kind": "alert",
+                  "count": 1
+                }
+              ]
+            },
+            {
+              "sender": "Ananya Desai",
+              "senderTitle": "On-call Systems Analyst (Nights)",
+              "time": "02:50",
+              "text": "Interface engine: all traffic in and out is stopped. That means ADT, orders, results, medication administration, charges, and the outbound public health and HIE feeds. The source systems are holding their messages for now. Lab and pharmacy should expect nothing to cross into Lakechart until the engine is back.",
+              "important": false,
+              "reactions": [
+                {
+                  "kind": "eyes",
+                  "count": 2
+                }
+              ]
+            },
+            {
+              "sender": "Ananya Desai",
+              "senderTitle": "On-call Systems Analyst (Nights)",
+              "time": "02:51",
+              "text": "I haven't touched the array or started a failover. I need a decision on Hermantown and on who calls the storage vendor. I still haven't seen anything that tells me what caused this.",
+              "important": true,
+              "reactions": []
+            }
+          ]
+        },
+        "instructorNote": "This clue confirms the scope inside the 15-minute window and shows that the viewer's 23:20 as-of time is the trap. Watch whether the CSL logs the scope, holds off on the Hermantown failover and leaves the failed storage alone until the Security Officer releases it. Also watch whether the House Supervisor tells charge nurses to print from the viewer but trust the armband and the patient over a printout that is 3 hr 20 min old.",
+        "deliveryMode": "hand_to_role"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-11-13T02:45:12.004Z"
+}

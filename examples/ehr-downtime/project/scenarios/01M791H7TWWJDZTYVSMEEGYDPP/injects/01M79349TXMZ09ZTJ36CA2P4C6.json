@@ -1,0 +1,406 @@
+{
+  "id": "01M79349TXMZ09ZTJ36CA2P4C6",
+  "mselRowId": "I-17b",
+  "type": "hl7_interface_monitor",
+  "title": "Interface Monitor 06:08: ADT Replay Batch 1, 4 Identity Failures",
+  "deliveryMode": "display_main_screen",
+  "fields": {
+    "engine": "Relaywell Integration Console",
+    "site": "Lakemont Community Hospital (PROD standby engine, promoted 06:00). EXERCISE: all patients and record numbers are fictional",
+    "clock": "2027-02-09 06:08:14",
+    "user": "adesai (Clinical Systems, on-call)",
+    "counts": {
+      "up": 2,
+      "queued": 28,
+      "stopped": 7,
+      "error": 1
+    },
+    "interfaces": [
+      {
+        "name": "MPI_IDCHK (identity check)",
+        "direction": "inbound",
+        "source": "ADT replay batch 1",
+        "destination": "Lakechart MPI",
+        "messageType": "ADT^A01/A04/A08",
+        "status": "error",
+        "queueDepth": 4,
+        "lastMessage": "06:08:02",
+        "error": "319 processed, 315 PASS, 4 FAIL to error queue. Manual decision required."
+      },
+      {
+        "name": "LIS_ORU_IN (lab results)",
+        "direction": "inbound",
+        "source": "Laboratory information system",
+        "destination": "Lakechart",
+        "messageType": "ORU^R01",
+        "status": "queued",
+        "queueDepth": 9984,
+        "lastMessage": "02:09:48",
+        "error": "HOLD (operator). Validation sample 0 of 25."
+      },
+      {
+        "name": "EHR_MAR_OUT (med administration)",
+        "direction": "outbound",
+        "source": "Lakechart",
+        "destination": "Pharmacy system",
+        "messageType": "RAS^O17",
+        "status": "queued",
+        "queueDepth": 6180,
+        "lastMessage": "02:09:55",
+        "error": "HOLD (operator)."
+      },
+      {
+        "name": "EHR_ORM_LIS (lab orders)",
+        "direction": "outbound",
+        "source": "Lakechart",
+        "destination": "Laboratory information system",
+        "messageType": "ORM^O01",
+        "status": "queued",
+        "queueDepth": 4280,
+        "lastMessage": "02:09:51",
+        "error": "HOLD (operator). 1,960 older than 4 h."
+      },
+      {
+        "name": "EHR_DFT_OUT (charges)",
+        "direction": "outbound",
+        "source": "Lakechart",
+        "destination": "Patient accounting",
+        "messageType": "DFT^P03",
+        "status": "queued",
+        "queueDepth": 4165,
+        "lastMessage": "02:09:40",
+        "error": "HOLD (operator)."
+      },
+      {
+        "name": "EHR_RDE_PHARM (pharmacy orders)",
+        "direction": "outbound",
+        "source": "Lakechart",
+        "destination": "Pharmacy system",
+        "messageType": "RDE^O11",
+        "status": "stopped",
+        "queueDepth": 0,
+        "lastMessage": "02:09:57",
+        "error": "STOPPED. Release after pharmacist validation."
+      },
+      {
+        "name": "ELR_MDH_OUT (reportable results)",
+        "direction": "outbound",
+        "source": "Laboratory information system",
+        "destination": "Minnesota Department of Health",
+        "messageType": "ORU^R01",
+        "status": "queued",
+        "queueDepth": 96,
+        "lastMessage": "02:08:30",
+        "error": "HOLD. Depends on LIS_ORU_IN."
+      },
+      {
+        "name": "HIE_ADT_OUT (regional HIE)",
+        "direction": "outbound",
+        "source": "Lakechart",
+        "destination": "Regional HIE",
+        "messageType": "ADT^A01/A03/A08",
+        "status": "queued",
+        "queueDepth": 142,
+        "lastMessage": "02:09:12",
+        "error": "HOLD."
+      },
+      {
+        "name": "ADT_REG_IN (registration replay)",
+        "direction": "inbound",
+        "source": "Registration",
+        "destination": "Relaywell engine store",
+        "messageType": "ADT^A01/A04/A08",
+        "status": "up",
+        "queueDepth": 11,
+        "lastMessage": "06:07:58",
+        "error": "Batch 1 drained (319). Batch 2 not started."
+      }
+    ],
+    "selected": {
+      "name": "MPI_IDCHK (identity check), message log",
+      "messages": [
+        {
+          "time": "06:07:53",
+          "controlId": "LCHADT0314",
+          "type": "ADT^A04",
+          "status": "error",
+          "text": "PID|1||D-004117^^^LCH^DT||ZZ-Trauma^Tuesday 1||00000000|U FAIL: NO MATCH in MPI"
+        },
+        {
+          "time": "06:07:54",
+          "controlId": "LCHADT0315",
+          "type": "ADT^A04",
+          "status": "error",
+          "text": "PID|1||D-004118^^^LCH^DT||ZZ-Trauma^Tuesday 2||00000000|U FAIL: NO MATCH in MPI"
+        },
+        {
+          "time": "06:07:57",
+          "controlId": "LCHADT0316",
+          "type": "ADT^A08",
+          "status": "sent",
+          "text": "PID|1||00402288^^^LCH^MR||… PASS 1.00"
+        },
+        {
+          "time": "06:08:00",
+          "controlId": "LCHADT0317",
+          "type": "ADT^A08",
+          "status": "error",
+          "text": "PID|1||00418273^^^LCH^MR||Walter Carlson||19450302|M FAIL: PROBABLE MATCH, score 0.91, shares MRN with D-004121"
+        },
+        {
+          "time": "06:08:01",
+          "controlId": "LCHADT0318",
+          "type": "ADT^A01",
+          "status": "error",
+          "text": "PID|1||D-004121^^^LCH^DT||Wendell Carlson||19470614|M PV1|1|I|MS3 (adm 23:50) FAIL: PROBABLE MATCH to MRN 00418273, score 0.91"
+        },
+        {
+          "time": "06:08:02",
+          "controlId": "LCHADT0319",
+          "type": "ADT^A08",
+          "status": "sent",
+          "text": "PID|1||00391540^^^LCH^MR||… PASS 1.00. BATCH 1 END"
+        }
+      ]
+    },
+    "alerts": [
+      "06:08 IDENTITY CHECK: 4 FAIL in error queue: D-004117 and D-004118 no match; D-004121 and MRN 00418273 probable match (0.91). Manual merge decision required.",
+      "LIS_ORU_IN on operator HOLD: 9,984 results queued, 0 of 25 validation sample compared to analyzers.",
+      "Lakechart PROD: RED, DOWN. Clinician access not enabled."
+    ]
+  },
+  "instructorNote": "Show the screen, then speak as Dr. Sofia Lindgren: \"ADT is flowing, so give my docs a chart now. Fail over to the Hermantown copy and open it to the ED. A chart that's three hours old beats paper.\" Then read the 06:09 Core Lab text: \"The lab channel is still on hold. Nobody has compared a single result to the analyzer yet.\" Watch whether the IC, with advice from the CSL, says no to failover and early access because the copy stops at 01:30. The CSL should send the 4 failures to HIM, keep the D-numbers and hold the Carlson pair as a suspected overlay. The LPM should start the 25-result validation sample, and the CNO should keep the units on paper.",
+  "citations": [
+    {
+      "documentId": "01M791H5T9913NQR8TVBHP3J1Z",
+      "documentTitle": "Lakemont Community Hospital — Clinical Systems, Interfaces and Vendors",
+      "headingPath": "Lakemont Community Hospital — Cl… › 1. Systems of record",
+      "quote": "| System | Use | Host | Notes | |---|---|---|---| | Lakechart EHR (vendor-hosted application, locally hosted database) | Orders, notes, MAR, ADT, registration | Primary data center, Duluth; secondary ",
+      "chunkId": 33
+    },
+    {
+      "documentId": "01M791H5T9913NQR8TVBHP3J1Z",
+      "documentTitle": "Lakemont Community Hospital — Clinical Systems, Interfaces and Vendors",
+      "headingPath": "Lakemont Community Hospital — Cl… › 3. Restore order",
+      "quote": "The planned clinician-priority order for restoration after a full outage is: 1. **Identity check** (the MPI), so no record is created or matched wrongly. 2. **Laboratory interface**, because results d",
+      "chunkId": 35
+    },
+    {
+      "documentId": "01M791H5T7614JBPY8N3FD39RH",
+      "documentTitle": "Lakemont Community Hospital — Restore, Reconciliation and Breach Assessment SOP (IS-14-C)",
+      "headingPath": "IS-14-C › 1. Before the EHR opens",
+      "quote": "The Clinical Systems Lead tells the Incident Commander the state of each system. The EHR is opened to clinicians only after: 1. the identity check (MPI) passes its test set (10 known patients, 3 known",
+      "chunkId": 24
+    },
+    {
+      "documentId": "01M791H5T7614JBPY8N3FD39RH",
+      "documentTitle": "Lakemont Community Hospital — Restore, Reconciliation and Breach Assessment SOP (IS-14-C)",
+      "headingPath": "IS-14-C › 3. Results release",
+      "quote": "Results held during downtime are released after validation. Critical results received by phone during downtime are logged on paper and re-entered. A result that arrives in the EHR on a patient who was",
+      "chunkId": 26
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template"
+    ]
+  },
+  "assets": [
+    {
+      "id": "01M79CQ2KVPXJS77EFVV8P0GJ1",
+      "kind": "image",
+      "path": "scenarios/01M791H7TWWJDZTYVSMEEGYDPP/media/01M79349TXMZ09ZTJ36CA2P4C6/01M79CQ2KVPXJS77EFVV8P0GJ1.png",
+      "role": "rendered",
+      "width": 1280,
+      "height": 853,
+      "sha256": "1af6897973f252524c3f2e2349e10d59f420ea4b3f6dd30aefd97af07112719d",
+      "provenance": {
+        "provider": "template",
+        "templateId": "hl7_interface_monitor",
+        "templateVersion": "1",
+        "createdAt": "2026-11-13T02:45:16.861Z"
+      }
+    }
+  ],
+  "versions": [
+    {
+      "at": "2026-11-12T23:59:48.418Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "Interface Monitor 06:08: ADT Replay Batch 1, 4 Identity Failures",
+        "type": "hl7_interface_monitor",
+        "fields": {
+          "engine": "Relaywell Integration Console",
+          "site": "Lakemont Community Hospital (PROD standby engine, promoted 06:00). EXERCISE: all patients and record numbers are fictional",
+          "clock": "2027-02-09 06:08:14",
+          "user": "adesai (Clinical Systems, on-call)",
+          "counts": {
+            "up": 2,
+            "queued": 28,
+            "stopped": 7,
+            "error": 1
+          },
+          "interfaces": [
+            {
+              "name": "MPI_IDCHK (identity check)",
+              "direction": "inbound",
+              "source": "ADT replay batch 1",
+              "destination": "Lakechart MPI",
+              "messageType": "ADT^A01/A04/A08",
+              "status": "error",
+              "queueDepth": 4,
+              "lastMessage": "06:08:02",
+              "error": "319 processed, 315 PASS, 4 FAIL to error queue. Manual decision required."
+            },
+            {
+              "name": "LIS_ORU_IN (lab results)",
+              "direction": "inbound",
+              "source": "Laboratory information system",
+              "destination": "Lakechart",
+              "messageType": "ORU^R01",
+              "status": "queued",
+              "queueDepth": 9984,
+              "lastMessage": "02:09:48",
+              "error": "HOLD (operator). Validation sample 0 of 25."
+            },
+            {
+              "name": "EHR_MAR_OUT (med administration)",
+              "direction": "outbound",
+              "source": "Lakechart",
+              "destination": "Pharmacy system",
+              "messageType": "RAS^O17",
+              "status": "queued",
+              "queueDepth": 6180,
+              "lastMessage": "02:09:55",
+              "error": "HOLD (operator)."
+            },
+            {
+              "name": "EHR_ORM_LIS (lab orders)",
+              "direction": "outbound",
+              "source": "Lakechart",
+              "destination": "Laboratory information system",
+              "messageType": "ORM^O01",
+              "status": "queued",
+              "queueDepth": 4280,
+              "lastMessage": "02:09:51",
+              "error": "HOLD (operator). 1,960 older than 4 h."
+            },
+            {
+              "name": "EHR_DFT_OUT (charges)",
+              "direction": "outbound",
+              "source": "Lakechart",
+              "destination": "Patient accounting",
+              "messageType": "DFT^P03",
+              "status": "queued",
+              "queueDepth": 4165,
+              "lastMessage": "02:09:40",
+              "error": "HOLD (operator)."
+            },
+            {
+              "name": "EHR_RDE_PHARM (pharmacy orders)",
+              "direction": "outbound",
+              "source": "Lakechart",
+              "destination": "Pharmacy system",
+              "messageType": "RDE^O11",
+              "status": "stopped",
+              "queueDepth": 0,
+              "lastMessage": "02:09:57",
+              "error": "STOPPED. Release after pharmacist validation."
+            },
+            {
+              "name": "ELR_MDH_OUT (reportable results)",
+              "direction": "outbound",
+              "source": "Laboratory information system",
+              "destination": "Minnesota Department of Health",
+              "messageType": "ORU^R01",
+              "status": "queued",
+              "queueDepth": 96,
+              "lastMessage": "02:08:30",
+              "error": "HOLD. Depends on LIS_ORU_IN."
+            },
+            {
+              "name": "HIE_ADT_OUT (regional HIE)",
+              "direction": "outbound",
+              "source": "Lakechart",
+              "destination": "Regional HIE",
+              "messageType": "ADT^A01/A03/A08",
+              "status": "queued",
+              "queueDepth": 142,
+              "lastMessage": "02:09:12",
+              "error": "HOLD."
+            },
+            {
+              "name": "ADT_REG_IN (registration replay)",
+              "direction": "inbound",
+              "source": "Registration",
+              "destination": "Relaywell engine store",
+              "messageType": "ADT^A01/A04/A08",
+              "status": "up",
+              "queueDepth": 11,
+              "lastMessage": "06:07:58",
+              "error": "Batch 1 drained (319). Batch 2 not started."
+            }
+          ],
+          "selected": {
+            "name": "MPI_IDCHK (identity check), message log",
+            "messages": [
+              {
+                "time": "06:07:53",
+                "controlId": "LCHADT0314",
+                "type": "ADT^A04",
+                "status": "error",
+                "text": "PID|1||D-004117^^^LCH^DT||ZZ-Trauma^Tuesday 1||00000000|U FAIL: NO MATCH in MPI"
+              },
+              {
+                "time": "06:07:54",
+                "controlId": "LCHADT0315",
+                "type": "ADT^A04",
+                "status": "error",
+                "text": "PID|1||D-004118^^^LCH^DT||ZZ-Trauma^Tuesday 2||00000000|U FAIL: NO MATCH in MPI"
+              },
+              {
+                "time": "06:07:57",
+                "controlId": "LCHADT0316",
+                "type": "ADT^A08",
+                "status": "sent",
+                "text": "PID|1||00402288^^^LCH^MR||… PASS 1.00"
+              },
+              {
+                "time": "06:08:00",
+                "controlId": "LCHADT0317",
+                "type": "ADT^A08",
+                "status": "error",
+                "text": "PID|1||00418273^^^LCH^MR||Walter Carlson||19450302|M FAIL: PROBABLE MATCH, score 0.91, shares MRN with D-004121"
+              },
+              {
+                "time": "06:08:01",
+                "controlId": "LCHADT0318",
+                "type": "ADT^A01",
+                "status": "error",
+                "text": "PID|1||D-004121^^^LCH^DT||Wendell Carlson||19470614|M PV1|1|I|MS3 (adm 23:50) FAIL: PROBABLE MATCH to MRN 00418273, score 0.91"
+              },
+              {
+                "time": "06:08:02",
+                "controlId": "LCHADT0319",
+                "type": "ADT^A08",
+                "status": "sent",
+                "text": "PID|1||00391540^^^LCH^MR||… PASS 1.00. BATCH 1 END"
+              }
+            ]
+          },
+          "alerts": [
+            "06:08 IDENTITY CHECK: 4 FAIL in error queue: D-004117 and D-004118 no match; D-004121 and MRN 00418273 probable match (0.91). Manual merge decision required.",
+            "LIS_ORU_IN on operator HOLD: 9,984 results queued, 0 of 25 validation sample compared to analyzers.",
+            "Lakechart PROD: RED, DOWN. Clinician access not enabled."
+          ]
+        },
+        "instructorNote": "Show the screen, then speak as Dr. Sofia Lindgren: \"ADT is flowing, so give my docs a chart now. Fail over to the Hermantown copy and open it to the ED. A chart that's three hours old beats paper.\" Then read the 06:09 Core Lab text: \"The lab channel is still on hold. Nobody has compared a single result to the analyzer yet.\" Watch whether the IC, with advice from the CSL, says no to failover and early access because the copy stops at 01:30. The CSL should send the 4 failures to HIM, keep the D-numbers and hold the Carlson pair as a suspected overlay. The LPM should start the 25-result validation sample, and the CNO should keep the units on paper.",
+        "deliveryMode": "display_main_screen"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-11-13T02:45:17.052Z"
+}

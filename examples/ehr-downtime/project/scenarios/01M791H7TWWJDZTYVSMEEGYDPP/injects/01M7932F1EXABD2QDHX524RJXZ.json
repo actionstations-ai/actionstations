@@ -1,0 +1,112 @@
+{
+  "id": "01M7932F1EXABD2QDHX524RJXZ",
+  "mselRowId": "I-16",
+  "type": "time_jump_card",
+  "title": "Time Jump: 05:40, Three and a Half Hours Down",
+  "deliveryMode": "read_aloud",
+  "fields": {
+    "exerciseTime": "3:00",
+    "newTime": "05:40",
+    "jumpLabel": "+60 minutes",
+    "narration": "EXERCISE: all patients and record numbers are fictional. It is now 05:40 on Tuesday, February 9, 2027. It is still -21°F in Duluth, and the day shift is fighting icy roads to get in by 07:00. Lakechart has been RED, DOWN, for 3 hours 30 minutes. The ambulance decision made at the 04:45 table stands. The Relaywell on-call engineer called back at 05:10, two hours after the page. He is working remotely and plans to promote the standby interface engine at 06:00. Northpine's hardware partner says a replacement controller module is 'on the road from the Twin Cities', with no arrival time. The interface monitor now shows about 22,240 messages held at source, and the 8-hour source hold runs out at about 10:10. HIM Director Janelle Brandt has opened a paper reconciliation tracker. The Northstar SOC's explanation of the svc-rptexport login is on the command board, but nobody has yet said whether a security cause is ruled out. The downtime level is still provisional. The question in this room is no longer only how to keep going on paper. It is how and in what order Lakemont comes back.",
+    "worldState": [
+      "Clock: 05:40, Tuesday, February 9, 2027. Outside -21°F with glazed roads. Day shift is due at 07:00 and some staff will be late.",
+      "Lakechart PROD: RED — DOWN since 02:10 (3 hr 30 min). Interface engine: RED — DOWN. The downtime viewer is still READ-ONLY, with data current as of 23:20.",
+      "Interface monitor, 05:40, held at source: ADT 291 | ORM orders 3,780 | ORU results 8,820 | medication administration 5,460 | charges 3,680 | ELR, immunizations and HIE outbound 210. Total about 22,240.",
+      "The source hold limit runs out at about 10:10. After that, source queues begin to drop messages.",
+      "Relaywell (ticket RW-88213): the on-call engineer called back at 05:10 and plans to promote the standby interface engine at about 06:00, working remotely.",
+      "Northpine (case P1-20270209-0417): the replacement storage controller module is 'on the road from the Twin Cities'. No confirmed arrival time.",
+      "The ambulance and diversion decision made at the 04:45 table stays in effect.",
+      "HIM has opened a paper reconciliation tracker. Reserved downtime record numbers D-004112 through D-004124 (13 numbers) have been issued, including D-004117 and D-004118 for the Highway 53 traumas.",
+      "Paper orders waiting for back-entry: ED 212 | ICU 168 | Med-Surg Level 3 141 | L&D 37 | Pediatrics 22 | Behavioral Health 15. Total 595.",
+      "Northstar SOC ticket NSM-27-00562: the 03:30 svc-rptexport logon is attributed to the job RPTEXPORT-NIGHTLY-BKP and its script rptexport_retry.ps1. The account is still enabled. No one has formally ruled a security cause in or out.",
+      "The downtime level is still provisional."
+    ],
+    "facilitatorNote": "Pause after reading and ask who owns the restore order. Under the Restore and Reconciliation SOP (IS-14-C), the Incident Commander sets it on the advice of the Clinical Systems Lead, the CMIO, the Laboratory Manager and the Pharmacy Operations Manager. If nobody writes the 10:10 queue-drop deadline on the command board within a few minutes, prompt the CSL. Remind players that replay of queued messages must pass the identity check first, given the D-numbers and the Carlson MRN problem.",
+    "scenarioTitle": "Cold Storage — EHR Storage Failure & Downtime Continuity",
+    "injectId": "I-16"
+  },
+  "variant": "default",
+  "instructorNote": "This card moves the room from keeping going on paper to planning the restore. Watch whether the IC confirms who advises on the restore sequence (CSL, CMIO, Lab and Pharmacy Managers) and whether the CSL puts the 10:10 queue-drop deadline on the board. Also watch whether anyone finally closes out the open security rule-in/rule-out question.",
+  "citations": [
+    {
+      "documentId": "01M791H5T9913NQR8TVBHP3J1Z",
+      "documentTitle": "Lakemont Community Hospital — Clinical Systems, Interfaces and Vendors",
+      "headingPath": "Lakemont Community Hospital — Cl… › 2. Interface classes",
+      "quote": "Messages are grouped for downtime decisions into classes: - **ADT** (admit, discharge, transfer, registration): about 2,400 per day. - **Orders** (to lab, radiology, pharmacy): about 22,000 per day. -",
+      "chunkId": 34
+    },
+    {
+      "documentId": "01M791H5T4QRTQAQ9XEEV0T7D6",
+      "documentTitle": "Lakemont Community Hospital — Information Systems Downtime and Recovery Plan",
+      "headingPath": "Lakemont Community Hospital — In… › 7. Restore and return to normal",
+      "quote": "Restore follows the priority order in the Restore and Reconciliation SOP (IS-14-C), set by the Incident Commander on the advice of the Clinical Systems Lead, the CMIO, the Laboratory Manager and the P",
+      "chunkId": 8
+    },
+    {
+      "documentId": "01M791H5T4QRTQAQ9XEEV0T7D6",
+      "documentTitle": "Lakemont Community Hospital — Information Systems Downtime and Recovery Plan",
+      "headingPath": "Lakemont Community Hospital — In… › 4. First hour checklist",
+      "quote": "1. The first person to notice loss of the EHR calls the IS Help Desk (ext. 5500). The help desk technician checks the status dashboard and pages the on-call systems analyst. 2. The on-call analyst con",
+      "chunkId": 5
+    },
+    {
+      "documentId": "01M791H5T4QRTQAQ9XEEV0T7D6",
+      "documentTitle": "Lakemont Community Hospital — Information Systems Downtime and Recovery Plan",
+      "headingPath": "Lakemont Community Hospital — In… › 2. Roles",
+      "quote": "- **Downtime Incident Commander:** the Administrator on Call until the Chief Medical Information Officer (CMIO, Dr. Priya Raman) arrives; then Dr. Raman. Declares and ends downtime. - **Clinical Syste",
+      "chunkId": 3
+    },
+    {
+      "documentId": "01M791H5T7614JBPY8N3FD39RH",
+      "documentTitle": "Lakemont Community Hospital — Restore, Reconciliation and Breach Assessment SOP (IS-14-C)",
+      "headingPath": "IS-14-C › 3. Results release",
+      "quote": "Results held during downtime are released after validation. Critical results received by phone during downtime are logged on paper and re-entered. A result that arrives in the EHR on a patient who was",
+      "chunkId": 26
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template"
+    ]
+  },
+  "assets": [],
+  "versions": [
+    {
+      "at": "2026-11-12T23:57:03.044Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "Time Jump: 05:40, Three and a Half Hours Down",
+        "type": "time_jump_card",
+        "fields": {
+          "exerciseTime": "3:00",
+          "newTime": "05:40",
+          "jumpLabel": "+60 minutes",
+          "narration": "EXERCISE: all patients and record numbers are fictional. It is now 05:40 on Tuesday, February 9, 2027. It is still -21°F in Duluth, and the day shift is fighting icy roads to get in by 07:00. Lakechart has been RED, DOWN, for 3 hours 30 minutes. The ambulance decision made at the 04:45 table stands. The Relaywell on-call engineer called back at 05:10, two hours after the page. He is working remotely and plans to promote the standby interface engine at 06:00. Northpine's hardware partner says a replacement controller module is 'on the road from the Twin Cities', with no arrival time. The interface monitor now shows about 22,240 messages held at source, and the 8-hour source hold runs out at about 10:10. HIM Director Janelle Brandt has opened a paper reconciliation tracker. The Northstar SOC's explanation of the svc-rptexport login is on the command board, but nobody has yet said whether a security cause is ruled out. The downtime level is still provisional. The question in this room is no longer only how to keep going on paper. It is how and in what order Lakemont comes back.",
+          "worldState": [
+            "Clock: 05:40, Tuesday, February 9, 2027. Outside -21°F with glazed roads. Day shift is due at 07:00 and some staff will be late.",
+            "Lakechart PROD: RED — DOWN since 02:10 (3 hr 30 min). Interface engine: RED — DOWN. The downtime viewer is still READ-ONLY, with data current as of 23:20.",
+            "Interface monitor, 05:40, held at source: ADT 291 | ORM orders 3,780 | ORU results 8,820 | medication administration 5,460 | charges 3,680 | ELR, immunizations and HIE outbound 210. Total about 22,240.",
+            "The source hold limit runs out at about 10:10. After that, source queues begin to drop messages.",
+            "Relaywell (ticket RW-88213): the on-call engineer called back at 05:10 and plans to promote the standby interface engine at about 06:00, working remotely.",
+            "Northpine (case P1-20270209-0417): the replacement storage controller module is 'on the road from the Twin Cities'. No confirmed arrival time.",
+            "The ambulance and diversion decision made at the 04:45 table stays in effect.",
+            "HIM has opened a paper reconciliation tracker. Reserved downtime record numbers D-004112 through D-004124 (13 numbers) have been issued, including D-004117 and D-004118 for the Highway 53 traumas.",
+            "Paper orders waiting for back-entry: ED 212 | ICU 168 | Med-Surg Level 3 141 | L&D 37 | Pediatrics 22 | Behavioral Health 15. Total 595.",
+            "Northstar SOC ticket NSM-27-00562: the 03:30 svc-rptexport logon is attributed to the job RPTEXPORT-NIGHTLY-BKP and its script rptexport_retry.ps1. The account is still enabled. No one has formally ruled a security cause in or out.",
+            "The downtime level is still provisional."
+          ],
+          "facilitatorNote": "Pause after reading and ask who owns the restore order. Under the Restore and Reconciliation SOP (IS-14-C), the Incident Commander sets it on the advice of the Clinical Systems Lead, the CMIO, the Laboratory Manager and the Pharmacy Operations Manager. If nobody writes the 10:10 queue-drop deadline on the command board within a few minutes, prompt the CSL. Remind players that replay of queued messages must pass the identity check first, given the D-numbers and the Carlson MRN problem.",
+          "scenarioTitle": "Cold Storage — EHR Storage Failure & Downtime Continuity",
+          "injectId": "I-16"
+        },
+        "instructorNote": "This card moves the room from keeping going on paper to planning the restore. Watch whether the IC confirms who advises on the restore sequence (CSL, CMIO, Lab and Pharmacy Managers) and whether the CSL puts the 10:10 queue-drop deadline on the board. Also watch whether anyone finally closes out the open security rule-in/rule-out question.",
+        "deliveryMode": "read_aloud"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-11-13T02:45:16.610Z"
+}

@@ -1,0 +1,48 @@
+{
+  "id": "tallis-comms",
+  "title": "Tallis Home Products: communications team and a customer data incident",
+  "domainProfile": "crisis_comms",
+  "summary": "The corporate communications team of a Dayton, Ohio home products manufacturer (1.9 million web store accounts, a vendor-hosted store, a Form 8-K clock and a hostile news cycle), with an exercise generated from its simulated plans: a hacker forum claim, a trade reporter's deadline, a false viral post, a wrong first statement that must be corrected, and customer, retailer and investor messages that must agree with the filing.",
+  "notice": "EXERCISE MATERIAL — for training use. Tallis Home Products, its web store vendor, retailers, outlets, reporters, advisers and people are simulated; the public sources consulted for realism are listed in reference/tallis-comms/SOURCES.md.",
+  "project": {
+    "name": "Tallis Home Products Corporate Communications",
+    "orgName": "Tallis Home Products, Inc.",
+    "orgType": "crisis_comms",
+    "toolkits": ["media_environment", "governance"],
+    "brand": {
+      "city": "Dayton",
+      "region": "Ohio",
+      "aliases": {
+        "org": "Tallis Home Products, Inc.",
+        "orgShort": "Tallis",
+        "orgDomain": "tallishome.example",
+        "regionalPaper": "The Valley Courier",
+        "tradeSite": "TechSignal Daily"
+      }
+    }
+  },
+  "documents": { "dir": "reference/tallis-comms", "exclude": ["SOURCES.md"] },
+  "media": { "aiImagesPerScenario": 2, "ttsPerScenario": 2 },
+  "scenarios": [
+    {
+      "key": "forum-claim",
+      "startWallClock": "07:30",
+      "threatFamily": "cyber",
+      "summary": "On a Tuesday morning a hacker forum post claims to sell 1.9 million Tallis customer accounts; the team must issue a holding statement within the hour, answer a trade reporter and a false viral claim, correct its own first statement, and keep the customer email, the press line and the Form 8-K consistent while the stock falls.",
+      "userPrompt": "Tuesday, March 9, 2027, Eastern Time. At 06:40 the Tallis SOC saw a bulk export from the web store using CartBridge Commerce's API credentials; at 07:05 the CISO, Lena Hartmann, suspended the key. At 07:15 a post on a breach forum claims 1.9 million Tallis customer accounts with passwords and cards for sale and shows 200 sample rows. The exercise starts at 07:30 as Chief Communications Officer Marcus Delaney opens the Communications Cell in Conference Room 3B. Pressure points: the holding statement is due within 60 minutes and must say what is known, not known and being done; at 07:52 TechSignal Daily reporter Ines Okonkwo emails with a 10:30 deadline; at 08:10 the CISO verifies 38 of 40 sample rows as real accounts but cannot yet say how many were taken; the 08:20 holding statement says no payment information was involved, which is wrong because the export included payment tokens (full card numbers are not stored; Lakeview Payments holds them), so a correction naming what was wrong and what is right is needed by about 11:40; at 08:40 a viral social post claims passwords were stored in plain text (they are bcrypt hashes) and phishing emails from a look-alike domain offer a refund; at 09:00 the market opens and the stock falls 6 percent by 09:45; the Midwest Business Wire desk sends a bulletin at 09:20; Brightwater Markets' category manager Fiona Ledesma calls at 09:30; the customer care queue reaches 240 waiting calls; at 10:15 forensics shows 412,000 accounts, not 1.9 million, were exported between March 2 and March 8; the Disclosure Committee led by General Counsel Gerald Okafor meets at 11:00 and must decide whether the incident is material or not yet determined and whether to file Item 1.05, Item 8.01 or nothing yet with the 5:30 p.m. Eastern EDGAR cut-off in mind; Miami Valley 9 News asks for a live interview at noon; the Open Ledger Check fact-checkers ask about the plain-text claim; the customer email to 412,000 people can go out at 400,000 per hour; the team must decide on a press conference by 14:00 and meet The Valley Courier's 16:00 deadline. Decisions the toolkit forms cover: holding statement, release approval, reporter responses (on the record, background, decline), correction, press conference, platform takedown requests, escalation, materiality determination, disclosure and regulator notice. The SimCell plays reporters, the wire desk, the fact-checkers, the platform trust and safety team, Brightwater Markets, retail partners, customers and social media, state attorney general staff and investors. Spokesperson Dana Whitcombe speaks for the company; the numbers and wording must match across the statement, the customer email and the filing.",
+      "audience": [
+        "Chief Communications Officer",
+        "VP Corporate Communications (Writer)",
+        "Media Relations Manager",
+        "Social Media Manager",
+        "General Counsel",
+        "CISO"
+      ],
+      "constraints": [
+        "Every Tallis email address uses the exercise domain tallishome.example; reporters, outlets, the retailer and vendors use fictional .example domains; never a real outlet, platform handle, company or person.",
+        "Wire items follow the style of the fictional Midwest Business Wire (bulletin, update) and are marked as exercise products; statements follow the holding-statement structure (known, not known, being done, next update); a correction names what was wrong and what is right; times are Eastern Time.",
+        "Player roles are only those in the audience list; the CEO, Investor Relations, Customer Care, the retailer, reporters, fact-checkers, platforms, regulators and the public are played by the SimCell."
+      ]
+    }
+  ]
+}

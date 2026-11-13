@@ -1,0 +1,58 @@
+{
+  "id": "county-ems-mci",
+  "title": "Larkfield County EMS and Healthcare Coalition: charter bus crash",
+  "domainProfile": "ems_fire",
+  "summary": "A fictional Wisconsin county EMS agency, fire department and hospital coalition (one Level II trauma center, a capacity board, START with a move to SALT), with an exercise generated from their simulated plans: a wet-evening crash between a senior charter bus and a fuel tanker with 28 patients, a command transfer, a firefighter in distress and a hospital already near capacity.",
+  "notice": "EXERCISE MATERIAL — for training use. Larkfield County, its EMS, fire department, hospitals, people, businesses and sites are simulated; all patients are synthetic; the public sources consulted for realism are listed in reference/county-ems-mci/SOURCES.md.",
+  "project": {
+    "name": "Larkfield County Emergency Medical Services",
+    "orgName": "Larkfield County Emergency Medical Services",
+    "orgType": "ems_fire",
+    "toolkits": [
+      "mci_triage",
+      "dispatch"
+    ],
+    "brand": {
+      "city": "Brandt Lake",
+      "region": "Larkfield County, Wisconsin",
+      "aliases": {
+        "org": "Larkfield County Emergency Medical Services",
+        "orgShort": "LCEMS",
+        "orgDomain": "larkfieldcountywi.example",
+        "hospital": "Larkfield Regional Medical Center"
+      }
+    }
+  },
+  "documents": {
+    "dir": "reference/county-ems-mci",
+    "exclude": [
+      "SOURCES.md"
+    ]
+  },
+  "media": {
+    "aiImagesPerScenario": 2,
+    "ttsPerScenario": 2
+  },
+  "scenarios": [
+    {
+      "key": "bus-crash",
+      "startWallClock": "17:30",
+      "threatFamily": "infrastructure_failure",
+      "summary": "On a rainy Tuesday evening a senior center charter bus and a fuel tanker collide on Highway 21; 28 patients, trapped passengers and a fuel leak overwhelm the first units, command passes from an engine captain to the battalion chief, a firefighter calls a mayday, and the Medical Group must match patients to hospitals while one hospital is on diversion.",
+      "userPrompt": "Tuesday 20 October 2026, dusk and steady rain. The exercise starts at 17:30 in the Larkfield County Communications Center (Supervisor Keiko Tanaka) with the evening commute on Highway 21 and Larkfield Regional Medical Center (LRMC) already at 21 of 24 ED beds because of a respiratory surge; St. Brendan's Community Hospital has its CT scanner down and is on Limited intake. At 17:42 a charter bus (Tri-County Coach Lines, 31 passengers and a driver returning from a casino trip) and a fuel tanker collide near the Highway 21 and County Road K intersection; the bus is on its side against the ditch, the tanker is leaking diesel, and a small car is also involved. About 28 patients across the bus and the car are reported in the first 10 minutes; seven are trapped. Engine 3's captain takes command, declares an MCI at Level 2 and later transfers command to Battalion Chief Tom Aldrich (Battalion 1); LCEMS Deputy Chief Luis Navarro becomes Medical Group Supervisor. Pressure points: the county uses START and JumpSTART while the coalition is moving to SALT and the Medical Director may order SALT, so the method must be stated on the radio; the triage pass should finish in 15 to 20 minutes and the counts of Immediate, Delayed, Minor and Expectant patients must agree between command, the PIO and the hospitals; LRMC has 3 trauma bays and takes at most 3 Immediate patients in the first 30 minutes, so further Immediate patients go to St. Brendan's, or by Air 7 to Lakeshore University Medical Center (Level I, burn center) for head and burn injuries; Minor patients go by Larkfield County Transit bus to the Brandt Lake High School minor injury site, not to hospitals; walking wounded leave in private cars and arrive at Pinecrest Memorial unannounced; the hospital capacity board shows a hospital opened to arrivals that is actually on Diversion; at 18:20 a firefighter is hurt when the bus shifts during extrication and calls a mayday, the RIT is committed and a personnel accountability report is taken; the tank leak requires diking and the state natural resources agency; the dispatcher must manage three radio channels plus MED 1 and mutual aid ambulances from two neighboring counties; the Medical Examiner is notified when the first patient is tagged deceased; the reunification center at Brandt Lake High School opens with the Red Cross and a call-in line; social media posts give a casualty count of 40 that differs from command's 28; families call the hospitals. Decisions the exercise should record: MCI declaration, triage method, triage complete report with counts, patient destination assignments with reasons and mode, hospital open or diversion status changes, mutual aid requests, command transfer, accountability reports, and public statements with the casualty count stated. The SimCell plays the hospitals' MEDCOM nurses, the coalition coordinator, the air medical crews, neighboring EMS agencies, the State Patrol, the Medical Examiner, the Red Cross, the bus company, the fuel company, families and reporters.",
+      "audience": [
+        "Incident Commander / Fire Battalion Chief",
+        "Medical Group Supervisor / Triage and Transportation Leaders",
+        "Dispatch Supervisor",
+        "Hospital Medical Communications (MEDCOM) Nurse",
+        "Healthcare Coalition Coordinator",
+        "Public Information Officer"
+      ],
+      "constraints": [
+        "Every county email address uses the exercise domain larkfieldcountywi.example; hospitals use lrmc-exercise.example and similar; outside parties use fictional domains; never a real agency, company, hospital or newspaper domain.",
+        "All patients are synthetic with no real names or real medical record numbers; triage tags use START or SALT categories (Immediate, Delayed, Minor, Expectant, Deceased) consistent with the vitals on the patient list; the patient list and the transport log have monotonic times; times are Central Daylight Time.",
+        "Player roles are only those in the audience list; the air medical crews, neighboring EMS, the State Patrol, the Medical Examiner, the Red Cross, the bus company, the fuel company, other hospitals' staff, families and reporters are played by the SimCell."
+      ]
+    }
+  ]
+}

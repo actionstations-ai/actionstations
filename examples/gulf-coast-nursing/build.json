@@ -1,0 +1,46 @@
+{
+  "id": "gulf-coast-nursing",
+  "title": "Mariner Bay Medical Center: Hurricane Vertical Evacuation of NICU and ICU",
+  "domainProfile": "nursing",
+  "summary": "A 310-bed hospital in Corpus Christi, Texas, and its hurricane and critical care evacuation plans, with an exercise generated from them: a Category 3 hurricane forecast to bring 34-knot winds at 18:00 Wednesday, a 12-hour clearance time, a late horizontal evacuation decision and the vertical movement of the NICU and ICU with short staffing.",
+  "notice": "EXERCISE MATERIAL — for training use. Mariner Bay Medical Center, its people, units, vendors and sites are simulated; the storm is fictional; the public sources consulted for realism are listed in reference/gulf-coast-nursing/SOURCES.md.",
+  "project": {
+    "name": "Mariner Bay Medical Center",
+    "orgName": "Mariner Bay Medical Center",
+    "orgType": "nursing",
+    "toolkits": ["clinical_care", "weather"],
+    "brand": {
+      "city": "Corpus Christi",
+      "region": "Nueces County, Texas",
+      "aliases": {
+        "org": "Mariner Bay Medical Center",
+        "orgShort": "Mariner Bay",
+        "orgDomain": "marinerbaymc.example"
+      }
+    }
+  },
+  "documents": { "dir": "reference/gulf-coast-nursing", "exclude": ["SOURCES.md"] },
+  "media": { "aiImagesPerScenario": 2, "ttsPerScenario": 2 },
+  "scenarios": [
+    {
+      "key": "category-3-vertical-evacuation",
+      "startWallClock": "06:00",
+      "threatFamily": "natural_hazard",
+      "summary": "A Category 3 hurricane is forecast to bring tropical-storm-force winds to Corpus Christi at 18:00 the next day; the horizontal evacuation deadline is 12 hours before that, the hospital's elevators and staffing are marginal, and the nurses must move 12 NICU infants and 19 ICU patients upward in priority order while keeping handoffs, ratios and family communication intact.",
+      "userPrompt": "Tuesday, September 15, 2026, a fictional hurricane, Quinlan, in the western Gulf. At 06:00 the National Hurricane Center advisory has Quinlan a Category 3 forecast to make landfall near Corpus Christi on Wednesday evening, with 34-knot winds forecast to reach the city at 18:00 Wednesday (H); the Nueces County Judge ordered Zone A evacuated at 04:00 and has not yet ordered Zone B, where Mariner Bay Medical Center sits, 1.4 miles from the bay with a storm surge forecast of 4 to 6 feet. The hospital's clearance time is 12 hours, so the horizontal evacuation decision is due by 06:00 Wednesday. The exercise starts at 06:00 Tuesday with the Hospital Incident Commander (COO Dennis Falcone) and CNO Dr. Marguerite Delacroix at the command center (ext. 4520), 12 NICU infants (3 on ventilators) and 19 ICU patients (6 ventilated) in house, 120 ride-out staff scheduled, and the fuel tanks filling. Pressure points: the shelter-or-evacuate decision against the NHC wind speed probabilities and the 12-hour clearance rule; the Transfer Center Liaison (Samira Haddad, ext. 4700) can find only 5 critical care ground ambulances and a helicopter that will stop flying at 34 knots, and the San Antonio hospitals are filling; a forecast shift at 17:00 Tuesday brings H forward by 6 hours; setting the evacuation priority order (ventilated infants and ventilated ICU patients first) when the Medical Director for Critical Care (Dr. Anil Chaudhary) and a family disagree about two infants; the staffing roster with 14 nurses short (the Staffing Coordinator, Rosalind Aguirre, has agency nurses who cannot cross the bridge) and a night with the NICU at 1:3 and ICU at 1:3 instead of 1:2; vertical evacuation Phase 1 at H minus 6 hours moving the NICU to 7 West and the ICU to 6 West in 90 minutes and 3 hours, with only 2 of 6 elevators on generator and a drill that last time took 74 minutes for 8 patients; an NICU infant on a ventilator whose early warning score jumps during the move; an ICU patient on 3 infusions whose pump battery fails on the stairs; two patients on contact isolation; a handoff to 7 West that leaves out an allergy and a pending culture; surge water on the ground floor at 20:00; the ED moved to the second floor; a disclosure conversation with a family within 60 minutes of a medication delay; a family member who refuses to leave the NICU; a post on social media that the hospital is evacuating all babies to Houston, which the PIO (Colin Reyes) must correct; staff who ask to leave to protect their own families. The SimCell plays the National Hurricane Center and NWS Corpus Christi, the Nueces County Office of Emergency Management and Judge, the Coastal Bend Regional Advisory Council, receiving hospitals in San Antonio and Victoria, the staffing agency, EMS and air transport, the electric utility, families and reporters.",
+      "audience": [
+        "Hospital Incident Commander / COO",
+        "Chief Nursing Officer",
+        "House Supervisor",
+        "NICU Charge Nurse",
+        "ICU Charge Nurse",
+        "Transfer Center Liaison"
+      ],
+      "constraints": [
+        "Every email address of the hospital uses the exercise domain marinerbaymc.example; outside parties use fictional *.example domains; never a real hospital, staffing company or newspaper domain; phone numbers are 361-555-01xx.",
+        "Hurricane products follow the real National Hurricane Center format (advisory number, cone, wind speed probabilities, storm surge) and are marked as exercise products with the fictional storm name Quinlan; times are Central Daylight Time; no real storm's victims are depicted.",
+        "Patients are synthetic (bed and tag numbers or invented names); use the plan's ratios, 12-hour clearance rule and the 90-minute NICU and 3-hour ICU targets as written; player roles are only those in the audience list; the SimCell plays everyone else."
+      ]
+    }
+  ]
+}

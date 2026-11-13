@@ -1,0 +1,94 @@
+{
+  "id": "01M792HEB8YVQ56CF1RQX9RP5P",
+  "mselRowId": "I-02",
+  "type": "email",
+  "title": "Northpine Auto-Reply: Case P1-20270209-0417 Opened",
+  "deliveryMode": "hand_to_role",
+  "fields": {
+    "fromName": "Northpine Support (Priority 1 Desk)",
+    "fromEmail": "p1support@northpine-health.example",
+    "senderInitials": "NP",
+    "to": "clinical.informatics@lakemonthospital.example",
+    "subject": "Case P1-20270209-0417 OPENED — Priority 1 — Lakechart production database unavailable",
+    "sentAt": "Tue 2/9/2027 3:00 AM",
+    "importance": "high",
+    "external": true,
+    "body": "This is an automated message. Please do not reply to this email.\n\nYour Priority 1 case has been logged at 03:00 CST. A senior engineer will call back within 30 minutes.\n\nNote: Northpine can fail over hosted components only. Restoring the locally hosted database is the customer's responsibility.\n\nCase number: P1-20270209-0417\nPriority: 1 (Production down)\nCustomer: Lakemont Community Hospital, Duluth, MN\nProduct: Lakechart, production environment\nCallback target: by 03:30 CST\n\n---------- Case description as submitted ----------\n\nLakechart PROD unavailable since 02:10 CST. Storage array at primary data center: controller A FAULT, controller B not taking over the database volume. Replication to Hermantown secondary stopped about 40 min behind (data to about 01:30). Downtime viewer up, data current as of 23:20.\n\nInterface engine also down. Relaywell Integration after-hours ticket RW-88213 opened. Their after-hours line says: \"Your ticket RW-88213 has been paged to the on-call engineer. Expect a callback in approximately two hours.\"\n\nInterface monitor at 03:00: ALL inbound and outbound channels STOPPED (red). Messages held at source since 02:10:\nADT: 70\nORM orders: 900\nORU results: 2,100\nMedication administration: 1,300\nCharges: 880\nELR, immunizations and HIE outbound: 50\nTotal held: 5,300\nSource hold limit: 8 hours (until about 10:10 CST).\n\n---------- End of description ----------\n\nTo add information to this case, call the Priority 1 line and quote the case number. Please keep a phone available at the callback number on file.",
+    "signature": "Northpine Customer Support\nPriority 1 Desk | Answered 24 hours a day\nThis mailbox is not monitored."
+  },
+  "variant": "screen",
+  "instructorNote": "Technical hurdle: neither vendor will be on the phone in time to help, and the database restore is Lakemont's job. Watch for the CSL to put both case numbers, the callback times (Northpine 03:30, Relaywell about 05:00) and the 10:10 hold deadline on the command board, set an escalation for when the 03:30 callback is missed, and tell the AOC that local infrastructure owns the restore (IS-14 section 4 step 4).",
+  "citations": [
+    {
+      "documentId": "01M791H5T9913NQR8TVBHP3J1Z",
+      "documentTitle": "Lakemont Community Hospital — Clinical Systems, Interfaces and Vendors",
+      "headingPath": "Lakemont Community Hospital — Cl… › 5. Vendors and contacts",
+      "quote": "- **EHR vendor support:** priority-one line answered 24 hours; the contract target is a call back within 30 minutes. The vendor can fail over a hosted component but cannot restore the locally hosted d",
+      "chunkId": 37
+    },
+    {
+      "documentId": "01M791H5T4QRTQAQ9XEEV0T7D6",
+      "documentTitle": "Lakemont Community Hospital — Information Systems Downtime and Recovery Plan",
+      "headingPath": "Lakemont Community Hospital — In… › 4. First hour checklist",
+      "quote": "1. The first person to notice loss of the EHR calls the IS Help Desk (ext. 5500). The help desk technician checks the status dashboard and pages the on-call systems analyst. 2. The on-call analyst con",
+      "chunkId": 5
+    },
+    {
+      "documentId": "01M791H5T9913NQR8TVBHP3J1Z",
+      "documentTitle": "Lakemont Community Hospital — Clinical Systems, Interfaces and Vendors",
+      "headingPath": "Lakemont Community Hospital — Cl… › 1. Systems of record",
+      "quote": "| System | Use | Host | Notes | |---|---|---|---| | Lakechart EHR (vendor-hosted application, locally hosted database) | Orders, notes, MAR, ADT, registration | Primary data center, Duluth; secondary ",
+      "chunkId": 33
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template"
+    ]
+  },
+  "assets": [
+    {
+      "id": "01M79CPXVN3Z00SCP59YX4WQSM",
+      "kind": "image",
+      "path": "scenarios/01M791H7TWWJDZTYVSMEEGYDPP/media/01M792HEB8YVQ56CF1RQX9RP5P/01M79CPXVN3Z00SCP59YX4WQSM.png",
+      "role": "rendered",
+      "width": 816,
+      "height": 1197,
+      "sha256": "14c8c3ac95ee0a9d4268846f0793eb6ac480ee19722eb0ec7352d04a6dd1483b",
+      "provenance": {
+        "provider": "template",
+        "templateId": "email",
+        "templateVersion": "1",
+        "createdAt": "2026-11-13T02:45:12.016Z"
+      }
+    }
+  ],
+  "versions": [
+    {
+      "at": "2026-11-12T23:47:56.101Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "Northpine Auto-Reply: Case P1-20270209-0417 Opened",
+        "type": "email",
+        "fields": {
+          "fromName": "Northpine Support (Priority 1 Desk)",
+          "fromEmail": "p1support@northpine-health.example",
+          "senderInitials": "NP",
+          "to": "clinical.informatics@lakemonthospital.example",
+          "subject": "Case P1-20270209-0417 OPENED — Priority 1 — Lakechart production database unavailable",
+          "sentAt": "Tue 2/9/2027 3:00 AM",
+          "importance": "high",
+          "external": true,
+          "body": "This is an automated message. Please do not reply to this email.\n\nYour Priority 1 case has been logged at 03:00 CST. A senior engineer will call back within 30 minutes.\n\nNote: Northpine can fail over hosted components only. Restoring the locally hosted database is the customer's responsibility.\n\nCase number: P1-20270209-0417\nPriority: 1 (Production down)\nCustomer: Lakemont Community Hospital, Duluth, MN\nProduct: Lakechart, production environment\nCallback target: by 03:30 CST\n\n---------- Case description as submitted ----------\n\nLakechart PROD unavailable since 02:10 CST. Storage array at primary data center: controller A FAULT, controller B not taking over the database volume. Replication to Hermantown secondary stopped about 40 min behind (data to about 01:30). Downtime viewer up, data current as of 23:20.\n\nInterface engine also down. Relaywell Integration after-hours ticket RW-88213 opened. Their after-hours line says: \"Your ticket RW-88213 has been paged to the on-call engineer. Expect a callback in approximately two hours.\"\n\nInterface monitor at 03:00: ALL inbound and outbound channels STOPPED (red). Messages held at source since 02:10:\nADT: 70\nORM orders: 900\nORU results: 2,100\nMedication administration: 1,300\nCharges: 880\nELR, immunizations and HIE outbound: 50\nTotal held: 5,300\nSource hold limit: 8 hours (until about 10:10 CST).\n\n---------- End of description ----------\n\nTo add information to this case, call the Priority 1 line and quote the case number. Please keep a phone available at the callback number on file.",
+          "signature": "Northpine Customer Support\nPriority 1 Desk | Answered 24 hours a day\nThis mailbox is not monitored."
+        },
+        "instructorNote": "Technical hurdle: neither vendor will be on the phone in time to help, and the database restore is Lakemont's job. Watch for the CSL to put both case numbers, the callback times (Northpine 03:30, Relaywell about 05:00) and the 10:10 hold deadline on the command board, set an escalation for when the 03:30 callback is missed, and tell the AOC that local infrastructure owns the restore (IS-14 section 4 step 4).",
+        "deliveryMode": "hand_to_role"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-11-13T02:45:12.267Z"
+}

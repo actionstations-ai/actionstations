@@ -1,0 +1,221 @@
+{
+  "id": "01M792XTWFEEZ95X9VY42S3XFG",
+  "mselRowId": "I-14",
+  "type": "field_report",
+  "title": "Dock Report: 720 Loaned NS Bags, Product Not Found",
+  "deliveryMode": "hand_to_role",
+  "fields": {
+    "organization": "Prairie Ridge Health — Department of Pharmacy, Central Stockroom & Receiving",
+    "formTitle": "Receiving Discrepancy / Field Report",
+    "reportNo": "RCV-2026-1005-03",
+    "date": "10/05/2026",
+    "time": "09:35-09:45",
+    "location": "Receiving dock (inbound bay) and central pharmacy stockroom entrance",
+    "inspector": "Tyler Bergstrom, CPhT, Storeroom Technician",
+    "unit": "Central Pharmacy Stockroom, day shift",
+    "reportType": "incident",
+    "weather": "Clearing, cool, 51°F, light NW wind",
+    "summary": "At 09:35 a Webster Valley Medical Center courier dropped 60 cases of sodium chloride 1000 mL bags at our dock and left. At 09:40 the Webster Valley pharmacy buyer (515-555-0164) called Purchasing to say their director approved the loan: 60 cases × 12 = 720 bags, to be returned one for one within 30 days, and that the loan form was emailed for us to sign and send back. I counted the shipment and checked it against the packing slip. The cases are not our usual product: the labeler and label layout are different. The bag reads '0.9% Sodium Chloride Injection USP 1000 mL', NDC 0000-5678-10 (fictional), lot WV-88213, exp 03/2027. I scanned a test bag and the pharmacy system returned PRODUCT NOT FOUND, so it will not scan at the bedside or load into a cabinet pocket as is. The courier left a packing slip only. No signed loan agreement came with the shipment. At 09:41 the ICU called the stockroom asking to come pick up two cases now.",
+    "findings": [
+      {
+        "item": "Case count vs. packing slip",
+        "condition": "ok",
+        "notes": "60 cases counted, 12 bags per case, 720 bags. Matches the Webster Valley packing slip."
+      },
+      {
+        "item": "Case and overwrap condition",
+        "condition": "ok",
+        "notes": "No crushed, wet or torn cases. Spot check of 6 bags: overwraps intact, no visible leaks."
+      },
+      {
+        "item": "Lot and expiration",
+        "condition": "ok",
+        "notes": "Single lot WV-88213, exp 03/2027 on every case checked. Not the quarantined lot NS-26-0917A."
+      },
+      {
+        "item": "Labeler / label layout vs. Prairie Ridge stock",
+        "condition": "deficient",
+        "notes": "Different manufacturer and label design from our NS 1000 mL. Wording reads '0.9% Sodium Chloride Injection USP' and the strength is placed differently on the face of the bag."
+      },
+      {
+        "item": "NDC in pharmacy system",
+        "condition": "failed",
+        "notes": "NDC 0000-5678-10 scanned at 09:38: PRODUCT NOT FOUND. No item record, no cabinet pocket mapping, no bedside barcode match."
+      },
+      {
+        "item": "Loan agreement",
+        "condition": "deficient",
+        "notes": "Not received with the shipment. Buyer says the form was emailed to Purchasing. No Prairie Ridge signature on file at time of report."
+      },
+      {
+        "item": "Transfer paperwork",
+        "condition": "deficient",
+        "notes": "Packing slip only. Lists quantity, NDC and lot. Nothing showing whose license covers the transfer."
+      },
+      {
+        "item": "Bag port / pump set compatibility",
+        "condition": "not_inspected",
+        "notes": "Outside storeroom scope. The port design looks different from ours; a pharmacist needs to look at it."
+      }
+    ],
+    "actionsTaken": [
+      "Counted all 60 cases against the packing slip at 09:36",
+      "Scanned one bag at 09:38: PRODUCT NOT FOUND",
+      "Left all 60 cases shrink-wrapped on the inbound bay, not put away and not received into inventory",
+      "Taped a 'HOLD — DO NOT DISTRIBUTE' sign on the pallet",
+      "Told the ICU caller at 09:41 that nothing ships until Purchasing releases it, and to call Purchasing at ext. 3612",
+      "Called Purchasing (ext. 3612) at 09:43 to report the shipment and the scan failure"
+    ],
+    "recommendations": [
+      "Purchasing / Director of Pharmacy: tell the stockroom whether these 720 bags go to a hold location or into stock, and when",
+      "Clinical pharmacy: look at the label, volume and bag port before anything goes to a unit",
+      "Pharmacy system: build an item record for NDC 0000-5678-10 before anyone tries to load cabinets",
+      "Do not count these 720 bags in the days-on-hand figure until someone signs for them"
+    ],
+    "photosNote": "5 photos attached: IMG_1005_01–05 (pallet on dock, case label, front of bag next to a Prairie Ridge NS 1000 mL bag, scanner screen showing PRODUCT NOT FOUND, packing slip)",
+    "signature": "Tyler Bergstrom, CPhT, Storeroom Technician",
+    "marking": "EXERCISE · EXERCISE · EXERCISE"
+  },
+  "variant": "default",
+  "instructorNote": "This tests whether players hold the 720 loaned bags until the Director of Pharmacy has signed the loan agreement and the CPM/Medication Safety Officer has run the substitution checklist and built the NDC, instead of sending cases to the ICU. Watch whether the PIM leaves the bags out of days on hand until they are accepted, and then briefs the IC on whether they change the Wednesday deferral projection.",
+  "citations": [
+    {
+      "documentId": "01M791K0FQAARCHMQM3PSF8X51",
+      "documentTitle": "Prairie Ridge Health — Pharmacy Department, Supply Chain and Systems",
+      "headingPath": "Prairie Ridge Health — Pharmacy… › 3. Supply chain",
+      "quote": "- **Primary wholesaler:** a large national distributor; deliveries Monday to Saturday at 05:30; emergency delivery in 4 hours for a fee. Its allocation desk (800-555-0111) sets weekly allocations of p",
+      "chunkId": 33
+    },
+    {
+      "documentId": "01M791K0FN66K0AB69KB05WG0D",
+      "documentTitle": "Prairie Ridge Health — IV Fluid Conservation and Substitution SOP (PH-22-A)",
+      "headingPath": "PH-22-A › 3. Substitution",
+      "quote": "- Lactated Ringer's and sodium chloride 0.9% are substituted for each other only by an order from the prescriber, because they differ in electrolytes; the pharmacist checks hyperkalemia risk, kidney f",
+      "chunkId": 23
+    },
+    {
+      "documentId": "01M791K0FQAARCHMQM3PSF8X51",
+      "documentTitle": "Prairie Ridge Health — Pharmacy Department, Supply Chain and Systems",
+      "headingPath": "Prairie Ridge Health — Pharmacy… › 6. Key people and phone numbers (exercise numbers 515-555-01xx)",
+      "quote": "- Director of Pharmacy, Dr. Naomi Kessler: ext. 3600. - Purchasing and Inventory Manager, Brent Halvorsen: ext. 3612. - Clinical Pharmacy Manager, Priya Venkataraman: ext. 3605. - Medication Safety Of",
+      "chunkId": 36
+    },
+    {
+      "documentId": "01M791K0FH6WH4KN82Q7V2W5RP",
+      "documentTitle": "Prairie Ridge Health — Drug Shortage Management Plan",
+      "headingPath": "Prairie Ridge Health — Drug Shor… › 5. Response by level",
+      "quote": "**Level 2.** Purchasing calls both wholesalers and manufacturers; the Clinical Pharmacy Manager issues a conservation notice (use oral or enteral routes when possible, use smaller bag sizes, minimize ",
+      "chunkId": 15
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template"
+    ]
+  },
+  "assets": [
+    {
+      "id": "01M79CZ98MAJBE8J34TD2W5N1R",
+      "kind": "image",
+      "path": "scenarios/01M791K2G2FETV4KF8VTN028M1/media/01M792XTWFEEZ95X9VY42S3XFG/01M79CZ98MAJBE8J34TD2W5N1R.png",
+      "role": "rendered",
+      "width": 816,
+      "height": 1056,
+      "sha256": "db423d1ec234e6a7c59be0ff90e3c787e453fc72184144430842be2c047e3f09",
+      "provenance": {
+        "provider": "template",
+        "templateId": "field_report",
+        "templateVersion": "1",
+        "createdAt": "2026-11-13T02:49:45.857Z"
+      }
+    }
+  ],
+  "versions": [
+    {
+      "at": "2026-11-12T23:54:39.552Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "Dock Report: 720 Loaned NS Bags, Product Not Found",
+        "type": "field_report",
+        "fields": {
+          "organization": "Prairie Ridge Health — Department of Pharmacy, Central Stockroom & Receiving",
+          "formTitle": "Receiving Discrepancy / Field Report",
+          "reportNo": "RCV-2026-1005-03",
+          "date": "10/05/2026",
+          "time": "09:35-09:45",
+          "location": "Receiving dock (inbound bay) and central pharmacy stockroom entrance",
+          "inspector": "Tyler Bergstrom, CPhT, Storeroom Technician",
+          "unit": "Central Pharmacy Stockroom, day shift",
+          "reportType": "incident",
+          "weather": "Clearing, cool, 51°F, light NW wind",
+          "summary": "At 09:35 a Webster Valley Medical Center courier dropped 60 cases of sodium chloride 1000 mL bags at our dock and left. At 09:40 the Webster Valley pharmacy buyer (515-555-0164) called Purchasing to say their director approved the loan: 60 cases × 12 = 720 bags, to be returned one for one within 30 days, and that the loan form was emailed for us to sign and send back. I counted the shipment and checked it against the packing slip. The cases are not our usual product: the labeler and label layout are different. The bag reads '0.9% Sodium Chloride Injection USP 1000 mL', NDC 0000-5678-10 (fictional), lot WV-88213, exp 03/2027. I scanned a test bag and the pharmacy system returned PRODUCT NOT FOUND, so it will not scan at the bedside or load into a cabinet pocket as is. The courier left a packing slip only. No signed loan agreement came with the shipment. At 09:41 the ICU called the stockroom asking to come pick up two cases now.",
+          "findings": [
+            {
+              "item": "Case count vs. packing slip",
+              "condition": "ok",
+              "notes": "60 cases counted, 12 bags per case, 720 bags. Matches the Webster Valley packing slip."
+            },
+            {
+              "item": "Case and overwrap condition",
+              "condition": "ok",
+              "notes": "No crushed, wet or torn cases. Spot check of 6 bags: overwraps intact, no visible leaks."
+            },
+            {
+              "item": "Lot and expiration",
+              "condition": "ok",
+              "notes": "Single lot WV-88213, exp 03/2027 on every case checked. Not the quarantined lot NS-26-0917A."
+            },
+            {
+              "item": "Labeler / label layout vs. Prairie Ridge stock",
+              "condition": "deficient",
+              "notes": "Different manufacturer and label design from our NS 1000 mL. Wording reads '0.9% Sodium Chloride Injection USP' and the strength is placed differently on the face of the bag."
+            },
+            {
+              "item": "NDC in pharmacy system",
+              "condition": "failed",
+              "notes": "NDC 0000-5678-10 scanned at 09:38: PRODUCT NOT FOUND. No item record, no cabinet pocket mapping, no bedside barcode match."
+            },
+            {
+              "item": "Loan agreement",
+              "condition": "deficient",
+              "notes": "Not received with the shipment. Buyer says the form was emailed to Purchasing. No Prairie Ridge signature on file at time of report."
+            },
+            {
+              "item": "Transfer paperwork",
+              "condition": "deficient",
+              "notes": "Packing slip only. Lists quantity, NDC and lot. Nothing showing whose license covers the transfer."
+            },
+            {
+              "item": "Bag port / pump set compatibility",
+              "condition": "not_inspected",
+              "notes": "Outside storeroom scope. The port design looks different from ours; a pharmacist needs to look at it."
+            }
+          ],
+          "actionsTaken": [
+            "Counted all 60 cases against the packing slip at 09:36",
+            "Scanned one bag at 09:38: PRODUCT NOT FOUND",
+            "Left all 60 cases shrink-wrapped on the inbound bay, not put away and not received into inventory",
+            "Taped a 'HOLD — DO NOT DISTRIBUTE' sign on the pallet",
+            "Told the ICU caller at 09:41 that nothing ships until Purchasing releases it, and to call Purchasing at ext. 3612",
+            "Called Purchasing (ext. 3612) at 09:43 to report the shipment and the scan failure"
+          ],
+          "recommendations": [
+            "Purchasing / Director of Pharmacy: tell the stockroom whether these 720 bags go to a hold location or into stock, and when",
+            "Clinical pharmacy: look at the label, volume and bag port before anything goes to a unit",
+            "Pharmacy system: build an item record for NDC 0000-5678-10 before anyone tries to load cabinets",
+            "Do not count these 720 bags in the days-on-hand figure until someone signs for them"
+          ],
+          "photosNote": "5 photos attached: IMG_1005_01–05 (pallet on dock, case label, front of bag next to a Prairie Ridge NS 1000 mL bag, scanner screen showing PRODUCT NOT FOUND, packing slip)",
+          "signature": "Tyler Bergstrom, CPhT, Storeroom Technician",
+          "marking": "EXERCISE · EXERCISE · EXERCISE"
+        },
+        "instructorNote": "This tests whether players hold the 720 loaned bags until the Director of Pharmacy has signed the loan agreement and the CPM/Medication Safety Officer has run the substitution checklist and built the NDC, instead of sending cases to the ICU. Watch whether the PIM leaves the bags out of days on hand until they are accepted, and then briefs the IC on whether they change the Wednesday deferral projection.",
+        "deliveryMode": "hand_to_role"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-11-13T02:49:46.090Z"
+}

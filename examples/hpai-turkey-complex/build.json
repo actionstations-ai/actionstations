@@ -1,0 +1,47 @@
+{
+  "id": "hpai-turkey-complex",
+  "title": "Calder County Emergency Management: First HPAI Detection in a Turkey Complex",
+  "domainProfile": "animal_health",
+  "summary": "A fictional west-central Minnesota county (48 commercial turkey premises, a turkey cooperative with a processing plant) and an exercise generated from its simulated plans: the first presumptive positive HPAI in a 62,000-bird turkey complex, with quarantine, a 10 km control area, checkpoints, movement permits, depopulation, disposal capacity and continuity of business for unaffected farms.",
+  "notice": "EXERCISE MATERIAL — for training use. Calder County, its emergency management office, the Prairie Gold Turkey Cooperative, farms, people and sites are simulated; the public sources consulted for realism are listed in reference/hpai-turkey-complex/SOURCES.md.",
+  "project": {
+    "name": "Calder County Emergency Management",
+    "orgName": "Calder County Emergency Management",
+    "orgType": "animal_health",
+    "toolkits": ["animal_disease", "media_environment"],
+    "brand": {
+      "city": "Larkin",
+      "region": "Calder County, Minnesota",
+      "aliases": {
+        "org": "Calder County Emergency Management",
+        "orgShort": "CCEM",
+        "orgDomain": "caldercountymn.example",
+        "cooperative": "Prairie Gold Turkey Cooperative"
+      }
+    }
+  },
+  "documents": { "dir": "reference/hpai-turkey-complex", "exclude": ["SOURCES.md"] },
+  "media": { "aiImagesPerScenario": 2, "ttsPerScenario": 2 },
+  "scenarios": [
+    {
+      "key": "first-detection",
+      "startWallClock": "07:50",
+      "threatFamily": "natural_hazard",
+      "summary": "During fall migration the Minnesota Veterinary Diagnostic Laboratory reports an H5 presumptive positive from the Larkin Ridge Turkey Complex (four barns, 62,000 toms); the county must support the state and USDA, staff 11 checkpoints, keep 36 unaffected contract premises working under permit, find a disposal site and keep producer, state and public messages identical.",
+      "userPrompt": "Tuesday October 20, 2026, a cold clear morning during fall waterfowl migration. Prairie Gold Turkey Cooperative's company veterinarian Dr. Anders Whitfield sampled the Larkin Ridge Turkey Complex (four barns, 62,000 tom turkeys, complex manager Brett Sandoval) on Monday after two days of rising mortality and a drop in water consumption. The exercise starts at 07:50 when the Minnesota Veterinary Diagnostic Laboratory reports an H5 presumptive positive and the Minnesota Board of Animal Health calls Calder County Emergency Management Director Marcus Lindqvist. Plan clocks start at the presumptive result. Players: the Director, Deputy Director Alina Petrova (Operations), Sheriff Dale Rademacher, County Public Health Director Naomi Eshleman, PIO Colette Marsh, Extension Educator Jonah Kettering, the Prairie Gold biosecurity manager Gretchen Oyelaran. Timeline and pressure points: quarantine of the infected premises within 4 hours; control area (3 km infected zone, 7 km buffer, 10 km control area, 10 km surveillance zone, to be confirmed against the Minnesota plan) set within 8 hours, and the team must decide whether the epidemiology section should widen it because two other Prairie Gold premises share the same catch crew; the first four of 11 checkpoints staffed by hour 3 and all 11 by hour 8, with the Sheriff short of deputies and mutual aid from Pell and Ritter counties; 24-hour depopulation goal for four barns with limited crews, foam or carbon dioxide chosen by the incident management team, and a power failure at barn 3; disposal: on-farm composting is not possible at the site, the Calder County Regional Landfill (Rhys Tolliver, 120 tons per day) would take the carcasses if the Minnesota Pollution Control Agency approves, and a queue of trucks builds past 12 hours, pushing loads to Pell County Landfill; 11 premises hold market-age toms that must move within 14 days, the Dunmore processing plant (410 employees) is outside the control area, and the Larkin feed mill inside it needs a permit; a premises that is at-risk must not be moved to monitored until the Board says so; permit requests pile up (feed to barns with 4 to 6 days of feed left, a load of finished birds, a rendering truck, egg carriers) and the service target is 24 hours; the 4-H and county fair board ask about a poultry swap meet on Saturday and 190 small flock owners need messages; 37 barn workers entered the infected barns and County Public Health must arrange 10 days of monitoring and antiviral prophylaxis through the Minnesota Department of Health, with a language barrier among catch crews; a grocery distributor and an export broker call the cooperative before the state has published anything; social media claims that eggs and turkey are unsafe; the producer notice, the state release and the consumer message must carry identical counts and distances; the county Board of Commissioners considers a county emergency declaration and the Director considers asking the state for National Guard support at checkpoints; the farm family loses a flock and needs same-day contact. Decisions the exercise should record: order a quarantine, establish the control area, change a premises designation, issue or deny movement permits, set the depopulation order and method, choose a disposal site, request federal resources, request an emergency declaration, publish a producer and consumer notice, record depopulation complete and samples taken. Measures: time from presumptive positive to quarantine and to control area; depopulation within 24 hours; premises sampled by their due date; permits decided in time and unaffected premises able to move; disposal sites chosen without a backlog; message consistency across the state, industry and public health. The SimCell plays the Minnesota Board of Animal Health (state veterinarian and permit coordinator), USDA APHIS Veterinary Services (area veterinarian in charge), the Minnesota Veterinary Diagnostic Laboratory, the Minnesota Pollution Control Agency, the Minnesota Department of Health, state emergency management, the cooperative's growers and plant manager, the landfill, neighboring counties, a grocery distributor, reporters and residents.",
+      "audience": [
+        "County Emergency Management Director",
+        "Deputy Director / Operations",
+        "Sheriff / Checkpoint Commander",
+        "County Public Health Director",
+        "Public Information Officer",
+        "Cooperative Biosecurity Manager"
+      ],
+      "constraints": [
+        "Every email address of the county uses the exercise domain caldercountymn.example; the cooperative uses prairiegoldturkey.example; outside parties use fictional domains; never a real agency, company or newspaper domain.",
+        "Distances, intervals and zone names are labeled as the federal plan's planning values with the Minnesota plan governing; premises are a code plus a fictional farm name; counts, distances and times agree across every order, permit, letter and press release; presumptive results come from the network laboratory before the national reference laboratory confirms.",
+        "Player roles are only those in the audience list; the Minnesota Board of Animal Health, USDA APHIS, the diagnostic laboratory, the Pollution Control Agency, the state health department, state emergency management, growers, the landfill, neighboring counties, buyers, reporters and residents are played by the SimCell."
+      ]
+    }
+  ]
+}

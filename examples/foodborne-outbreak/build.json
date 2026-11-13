@@ -1,0 +1,48 @@
+{
+  "id": "foodborne-outbreak",
+  "title": "Marlow County Health Department: Heritage Days Supper Outbreak",
+  "domainProfile": "epidemiology",
+  "summary": "A fictional central Iowa county health department (31 staff, no standing outbreak team, a 62-bed hospital, a four-school district) and an exercise generated from its simulated plans: a gastrointestinal illness cluster traced to a 412-person community supper, with a line list, an epidemic curve, a companion-dish distractor and notices that must agree across the health department, the hospital and the school district.",
+  "notice": "EXERCISE MATERIAL — for training use. Marlow County, its health department, hospital, school district, caterer, people and events are simulated; the public sources consulted for realism are listed in reference/foodborne-outbreak/SOURCES.md.",
+  "project": {
+    "name": "Marlow County Health Department",
+    "orgName": "Marlow County Health Department",
+    "orgType": "epidemiology",
+    "toolkits": ["epidemiology", "media_environment"],
+    "brand": {
+      "city": "Fenwick",
+      "region": "Marlow County, Iowa",
+      "aliases": {
+        "org": "Marlow County Health Department",
+        "orgShort": "MCHD",
+        "orgDomain": "marlowcountyia.example",
+        "hospital": "Marlow Regional Medical Center",
+        "school": "Fenwick Community School District"
+      }
+    }
+  },
+  "documents": { "dir": "reference/foodborne-outbreak", "exclude": ["SOURCES.md"] },
+  "media": { "aiImagesPerScenario": 2, "ttsPerScenario": 2 },
+  "scenarios": [
+    {
+      "key": "heritage-supper",
+      "startWallClock": "08:40",
+      "threatFamily": "mass_gathering",
+      "summary": "On the Monday after the Marlow Heritage Days Community Supper (412 attendees), the hospital infection preventionist reports a surge of vomiting and diarrhea; the health department has to adopt a case definition, declare an outbreak, find the food vehicle among plausible companion dishes, decide on a public notice and keep the hospital and school district numbers identical.",
+      "userPrompt": "Monday October 12, 2026. The Heritage Days Community Supper was held on Saturday October 10 at the Fenwick Fairgrounds Exhibition Hall (service 17:00 to 19:30, about 412 attendees; roast pork loin, chicken thighs, mashed potatoes, coleslaw with a house dressing, pasta salad, green beans, rolls, fruit cobbler, sheet cake; cooked by Prairie Table Catering, the cake from a Dunmore baker, the coleslaw and pasta salad from a Kessler produce vendor). The exercise starts at 08:40 when Marlow Regional Medical Center infection preventionist Sunita Reddy phones the Marlow County Health Department (MCHD) epidemiology line: 11 emergency department patients since Sunday 20:00 with vomiting, diarrhea, fever, and several said they ate at the supper. By 10:30 the school district nurse coordinator Margo Teller reports 23 absent students and 6 staff whose families attended. Players: Public Health Director Renata Okafor, Epidemiology Lead Tomas Brandvold, Environmental Health Supervisor Gwen Halloran, Nurse Manager Imani Whitcomb, PIO Davin Soto, Medical Advisor Dr. Priya Raman. Timeline and pressure points: first report 08:40; a working three-tier case definition (confirmed, probable, suspect by onset date, not report date) is needed within 8 hours; the line list reaches 38 cases by noon and about 90 by evening with onset clustered between 06:00 and 30:00 after the meal (a point-source curve with a tail); a hospital admission of an 81-year-old with dehydration and a positive blood culture raises severity; the first stool culture at the hospital grows Salmonella at 15:20; the State Hygienic Laboratory courier takes specimens only on the Tuesday-through-Friday run unless the Director authorizes a special courier; Prairie Table Catering owner Delphine Okonkwo is still serving a Tuesday senior meal and the Environmental Health Supervisor must decide between a voluntary hold, an embargo and a closure order; the attack-rate table shows the coleslaw with the highest odds ratio but the pasta salad (made by the same vendor, served beside it) nearly as strong and the chicken thighs a plausible distractor, so the team must not name a vehicle publicly before stratified analysis and the state epidemiologist's input; a Facebook post blames the caterer by name and the hospital's own statement uses a count (14) that differs from the MCHD line list (17); the school district wants to cancel Tuesday's homecoming game and send a letter that MCHD has not approved; 11 percent of Fenwick students live in Spanish-speaking households and translation takes four hours; Dr. Raman asks whether to request CDC Epi-Aid via Iowa HHS as sequencing shows isolates in two neighboring counties and the Kessler vendor sold to two other communities; the Board of Health chair calls the Director. Decisions the exercise should record: adopt a case definition, declare an outbreak, set laboratory test priority, recommend exclusion of ill food handlers and closure of the implicated caterer, request Epi-Aid, issue an exposure notice, release data publicly, hold or approve a media statement. Measures: time from first report to case definition, outbreak declaration, first control measure and public notice; message consistency across the health department, hospital and school; the epidemic curve the team draws against the line list. The SimCell plays the Iowa HHS state epidemiologist, the State Hygienic Laboratory, CDC, FDA and USDA FSIS, neighboring county health departments in Garrison and Pell, the Heritage Days Committee chair Hollis Bagley, Delphine Okonkwo, reporters from the weekly paper and the radio station, parents and residents.",
+      "audience": [
+        "Public Health Director",
+        "Epidemiology Lead",
+        "Environmental Health Supervisor",
+        "Nurse Manager",
+        "Public Information Officer",
+        "Hospital Infection Preventionist"
+      ],
+      "constraints": [
+        "Every email address of the county uses the exercise domain marlowcountyia.example; the hospital uses marlowregionalmc.example, the school district fenwickschools.example, the caterer prairietablecatering.example; outside parties use fictional domains; never a real agency, company or newspaper domain.",
+        "Notices use onset dates and hours, never report dates; every count carries an as-of time and matches the line list; cases are coded, never named; products are marked as exercise material.",
+        "Player roles are only those in the audience list; the state epidemiologist, the State Hygienic Laboratory, CDC, FDA, USDA FSIS, neighboring health departments, the caterer, the event committee, the school superintendent, reporters and residents are played by the SimCell."
+      ]
+    }
+  ]
+}

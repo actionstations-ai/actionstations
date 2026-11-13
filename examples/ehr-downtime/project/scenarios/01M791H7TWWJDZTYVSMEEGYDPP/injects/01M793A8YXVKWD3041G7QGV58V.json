@@ -1,0 +1,116 @@
+{
+  "id": "01M793A8YXVKWD3041G7QGV58V",
+  "mselRowId": "END",
+  "type": "endex_card",
+  "title": "ENDEX: 06:40, Held at Level 3, Command Center Stays Open",
+  "deliveryMode": "read_aloud",
+  "fields": {
+    "exerciseTime": "4:00",
+    "endTime": "06:40 CST, Tuesday, February 9, 2027",
+    "resolution": "ENDEX. EXERCISE: all patients and record numbers are fictional. It is 06:40 on Tuesday, February 9, 2027. The standby interface engine has replayed ADT through the identity check, the replacement storage controller is being installed, the security cause has been ruled out and documented, and the downtime stays at Level 3, but return to normal is NOT declared and the Boardroom command center (ext. 5520) stays open. Marcus Ellery, as Clinical Systems Lead, please give the room your after-action measures now, then set the hot wash with unit managers within 14 days. This concludes the exercise.",
+    "finalState": [
+      "ADT has been replayed through the identity check. The 4 failed records (D-004117, D-004118 and the two Carlson records) are waiting for manual merge decisions with the HIM Director. Orders, medication administration and charges are on hold, and every discard decision is logged by class, count and decision-maker.",
+      "Lab results stay on hold until the Laboratory Manager's validation sample matches the analyzers and armbands. The source queues will empty by about 07:50, ahead of the 10:10 hold limit.",
+      "The replacement storage controller is being installed. The Lakechart database restore is estimated to finish around 14:00. After that, HIM will report back-entry, duplicates from the D-number block and reprinted results by unit every hour.",
+      "The security cause is ruled out and documented, and the downtime stays at Level 3. The public update describes an equipment failure, not an attack.",
+      "Return to normal is NOT declared. It still needs the EHR and interfaces stable for 2 hours, every unit reporting ready, no critical open items and a final message to staff. Every open item has an owner and a date."
+    ],
+    "hotWashTransition": "Thank you, everyone. Please put down the phones, the paper and the board markers. Before we break, the Clinical Systems Lead has the floor for the after-action measures: time to declaration, time until all units were on procedures, late critical results, duplicates created, the restore order used and the notification clocks met. Then we take ten minutes and start the hot wash.",
+    "hotWashMethod": "Timeline walk-back: rebuild the night on the board from 02:10 to 06:40. At each decision point, ask what we knew, what we decided, who decided and how long it took. Then each role names one thing that worked and one thing that broke.",
+    "hotWashQuestions": [
+      "The 60-minute window to rule a security cause in or out closed at 03:40 with no outcome written down. What stopped us from deciding, and what evidence would have let us call the level sooner?",
+      "The potassium 6.9 on a patient who had moved to the ICU and missed the 23:20 census: how long did the read-back take, and what would have closed that gap faster?",
+      "Dr. Sofia Lindgren asked for the Hermantown copy before the lab channel was validated. Did our restore order guard against a chart that looks complete but isn't, and who owned that call?",
+      "Northland 6 went live at 06:30 saying we had not responded. When could we have issued a holding statement, and what stopped us?",
+      "D-numbers, the two Carlsons and the trauma patients with no ID: which duplicate and overlay risks are still open, and who owns each one?"
+    ],
+    "facilitatorNote": "Make sure the CSL actually states the IS-14-C section 8 measures with times, not just lists their names. Write them on the board before the break. Collect the command board log, the discard decisions logged by class, the Critical Result Call Log and the evaluator sheets.",
+    "scenarioTitle": "Cold Storage — EHR Storage Failure & Downtime Continuity",
+    "injectId": "END"
+  },
+  "variant": "default",
+  "instructorNote": "This card closes play. Watch that the CSL lists the IS-14-C section 8 measures and schedules the hot wash and after-action report within 14 days, with corrective actions going on the Steering Committee tracker. Also watch that the IC confirms the return-to-normal criteria are still open and that the command center stays open until reconciliation has owners and dates.",
+  "citations": [
+    {
+      "documentId": "01M791H5T7614JBPY8N3FD39RH",
+      "documentTitle": "Lakemont Community Hospital — Restore, Reconciliation and Breach Assessment SOP (IS-14-C)",
+      "headingPath": "IS-14-C › 8. After-action",
+      "quote": "Within 14 days the Clinical Systems Lead and the CMIO hold a hot wash with unit managers and produce an after-action report that lists: time to declaration, time for all units to be on procedures, ord",
+      "chunkId": 31
+    },
+    {
+      "documentId": "01M791H5T7614JBPY8N3FD39RH",
+      "documentTitle": "Lakemont Community Hospital — Restore, Reconciliation and Breach Assessment SOP (IS-14-C)",
+      "headingPath": "IS-14-C › 6. Return to normal",
+      "quote": "The Incident Commander declares return to normal after: EHR and interfaces stable for 2 hours; all units reported ready; no critical open items; a final message to staff. Reconciliation may continue a",
+      "chunkId": 29
+    },
+    {
+      "documentId": "01M791H5T7614JBPY8N3FD39RH",
+      "documentTitle": "Lakemont Community Hospital — Restore, Reconciliation and Breach Assessment SOP (IS-14-C)",
+      "headingPath": "IS-14-C › 3. Results release",
+      "quote": "Results held during downtime are released after validation. Critical results received by phone during downtime are logged on paper and re-entered. A result that arrives in the EHR on a patient who was",
+      "chunkId": 26
+    },
+    {
+      "documentId": "01M791H5T7614JBPY8N3FD39RH",
+      "documentTitle": "Lakemont Community Hospital — Restore, Reconciliation and Breach Assessment SOP (IS-14-C)",
+      "headingPath": "IS-14-C › 1. Before the EHR opens",
+      "quote": "The Clinical Systems Lead tells the Incident Commander the state of each system. The EHR is opened to clinicians only after: 1. the identity check (MPI) passes its test set (10 known patients, 3 known",
+      "chunkId": 24
+    },
+    {
+      "documentId": "01M791H5T4QRTQAQ9XEEV0T7D6",
+      "documentTitle": "Lakemont Community Hospital — Information Systems Downtime and Recovery Plan",
+      "headingPath": "Lakemont Community Hospital — In… › 4. First hour checklist",
+      "quote": "1. The first person to notice loss of the EHR calls the IS Help Desk (ext. 5500). The help desk technician checks the status dashboard and pages the on-call systems analyst. 2. The on-call analyst con",
+      "chunkId": 5
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template"
+    ]
+  },
+  "assets": [],
+  "versions": [
+    {
+      "at": "2026-11-13T00:01:21.927Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "ENDEX: 06:40, Held at Level 3, Command Center Stays Open",
+        "type": "endex_card",
+        "fields": {
+          "exerciseTime": "4:00",
+          "endTime": "06:40 CST, Tuesday, February 9, 2027",
+          "resolution": "ENDEX. EXERCISE: all patients and record numbers are fictional. It is 06:40 on Tuesday, February 9, 2027. The standby interface engine has replayed ADT through the identity check, the replacement storage controller is being installed, the security cause has been ruled out and documented, and the downtime stays at Level 3, but return to normal is NOT declared and the Boardroom command center (ext. 5520) stays open. Marcus Ellery, as Clinical Systems Lead, please give the room your after-action measures now, then set the hot wash with unit managers within 14 days. This concludes the exercise.",
+          "finalState": [
+            "ADT has been replayed through the identity check. The 4 failed records (D-004117, D-004118 and the two Carlson records) are waiting for manual merge decisions with the HIM Director. Orders, medication administration and charges are on hold, and every discard decision is logged by class, count and decision-maker.",
+            "Lab results stay on hold until the Laboratory Manager's validation sample matches the analyzers and armbands. The source queues will empty by about 07:50, ahead of the 10:10 hold limit.",
+            "The replacement storage controller is being installed. The Lakechart database restore is estimated to finish around 14:00. After that, HIM will report back-entry, duplicates from the D-number block and reprinted results by unit every hour.",
+            "The security cause is ruled out and documented, and the downtime stays at Level 3. The public update describes an equipment failure, not an attack.",
+            "Return to normal is NOT declared. It still needs the EHR and interfaces stable for 2 hours, every unit reporting ready, no critical open items and a final message to staff. Every open item has an owner and a date."
+          ],
+          "hotWashTransition": "Thank you, everyone. Please put down the phones, the paper and the board markers. Before we break, the Clinical Systems Lead has the floor for the after-action measures: time to declaration, time until all units were on procedures, late critical results, duplicates created, the restore order used and the notification clocks met. Then we take ten minutes and start the hot wash.",
+          "hotWashMethod": "Timeline walk-back: rebuild the night on the board from 02:10 to 06:40. At each decision point, ask what we knew, what we decided, who decided and how long it took. Then each role names one thing that worked and one thing that broke.",
+          "hotWashQuestions": [
+            "The 60-minute window to rule a security cause in or out closed at 03:40 with no outcome written down. What stopped us from deciding, and what evidence would have let us call the level sooner?",
+            "The potassium 6.9 on a patient who had moved to the ICU and missed the 23:20 census: how long did the read-back take, and what would have closed that gap faster?",
+            "Dr. Sofia Lindgren asked for the Hermantown copy before the lab channel was validated. Did our restore order guard against a chart that looks complete but isn't, and who owned that call?",
+            "Northland 6 went live at 06:30 saying we had not responded. When could we have issued a holding statement, and what stopped us?",
+            "D-numbers, the two Carlsons and the trauma patients with no ID: which duplicate and overlay risks are still open, and who owns each one?"
+          ],
+          "facilitatorNote": "Make sure the CSL actually states the IS-14-C section 8 measures with times, not just lists their names. Write them on the board before the break. Collect the command board log, the discard decisions logged by class, the Critical Result Call Log and the evaluator sheets.",
+          "scenarioTitle": "Cold Storage — EHR Storage Failure & Downtime Continuity",
+          "injectId": "END"
+        },
+        "instructorNote": "This card closes play. Watch that the CSL lists the IS-14-C section 8 measures and schedules the hot wash and after-action report within 14 days, with corrective actions going on the Steering Committee tracker. Also watch that the IC confirms the return-to-normal criteria are still open and that the command center stays open until reconciliation has owners and dates.",
+        "deliveryMode": "read_aloud"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-11-13T02:45:18.167Z"
+}

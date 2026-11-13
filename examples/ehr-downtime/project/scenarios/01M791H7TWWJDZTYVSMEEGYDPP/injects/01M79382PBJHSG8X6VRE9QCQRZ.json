@@ -1,0 +1,269 @@
+{
+  "id": "01M79382PBJHSG8X6VRE9QCQRZ",
+  "mselRowId": "I-18",
+  "type": "phone_call",
+  "title": "Breach Coach on the Line: \"Yes or No, and on What Evidence?\"",
+  "deliveryMode": "play_audio",
+  "fields": {
+    "orgName": "Lakemont Community Hospital",
+    "systemName": "Recorded Line - Boardroom Command Center, ext. 5520",
+    "callId": "CR-20270209-061508-0268",
+    "direction": "Inbound",
+    "caller": {
+      "name": "Ellen Varga",
+      "number": "218-555-0163",
+      "label": "Breach coach, Harborline Cyber Risk counsel panel"
+    },
+    "callee": {
+      "name": "Gregory Pruitt",
+      "number": "ext. 5520 (Boardroom speaker)",
+      "label": "Privacy and Security Officer"
+    },
+    "startTime": "02/09/2027 06:15:08",
+    "duration": "2:04",
+    "transcript": [
+      {
+        "speaker": "Breach Coach",
+        "offset": "0:00",
+        "text": "Good morning, this is Ellen Varga with the Harborline Cyber Risk counsel panel. I'm looking for Gregory Pruitt. Your broker called us about an overnight outage at Lakemont.",
+        "prompt": false
+      },
+      {
+        "speaker": "Breach Coach",
+        "offset": "0:14",
+        "text": "Thanks. I'll be quick. I know your systems are still down and you've got a lot going on. I'm not calling to run your recovery. I'm calling because I keep hearing the word 'hack', from your broker and now from a Facebook post somebody forwarded me.",
+        "prompt": false
+      },
+      {
+        "speaker": "Breach Coach",
+        "offset": "0:31",
+        "text": "Before anyone at Lakemont says 'breach' or 'no breach' out loud, to staff, to families, or to that TV station, I need your determination in writing. Was there unauthorized access to protected health information, yes or no? And what evidence is it based on?",
+        "prompt": true
+      },
+      {
+        "speaker": "Breach Coach",
+        "offset": "0:52",
+        "text": "Here's why it matters. If the answer is yes, then discovery was overnight, and your notification clocks are already running from that point, not from when you finish investigating. If the answer is no, that's fine too. But write down why, write down the time you decided, and write down who decided. A 'no' with nothing behind it won't hold up later.",
+        "prompt": false
+      },
+      {
+        "speaker": "Breach Coach",
+        "offset": "1:14",
+        "text": "And if you can't answer either way yet, tell me that, and tell me what you're still waiting on. I'd like the decision log entry by email when it's written. Can you give me a time?",
+        "prompt": true
+      },
+      {
+        "speaker": "Infrastructure Lead",
+        "offset": "1:29",
+        "text": "Sorry to break in, I'm on the bridge from the data center. I just emailed the command center, subject 'controller swap'. The Northpine partner tech is here with the replacement controller module. We want to pull the failed controller A now and start the volume rebuild.",
+        "prompt": false
+      },
+      {
+        "speaker": "Infrastructure Lead",
+        "offset": "1:44",
+        "text": "Consistency check and database restore, we're estimating around fourteen hundred. But nobody touches that part until security says so. Do we have the go-ahead to remove it and ship it back?",
+        "prompt": true
+      },
+      {
+        "speaker": "Breach Coach",
+        "offset": "1:57",
+        "text": "I'll stay on the line while you decide that.",
+        "prompt": false
+      }
+    ],
+    "voiceStyles": {
+      "Breach Coach": "Man in his 50s, calm, precise attorney's cadence, quiet office, unhurried but firm",
+      "Infrastructure Lead": "Man in his 40s, tired, slightly out of breath, loud server-room fans behind him"
+    },
+    "injectId": "I-18"
+  },
+  "variant": "default",
+  "instructorNote": "Decision point: the PSEC should combine the SOC correlation (scheduled job RPTEXPORT-NIGHTLY-BKP, no other hosts, no data transfer) with the array log (controller A failed at 02:09:52, 80 minutes before the login), then rule out a security cause and record \"incident, not a reportable breach\" in the decision log with the time and the reasoning, under IS-14-C section 7. After that, the IC should confirm Level 3 rather than Level 4, the PSEC should release the failed controller only after its fault logs are saved, and the CSL should log 14:00 as an estimated restore, not a promise. Watch for players who promise the coach a written 'no' without listing their evidence, or who approve pulling the part before its logs are saved.",
+  "citations": [
+    {
+      "documentId": "01M791H5T9913NQR8TVBHP3J1Z",
+      "documentTitle": "Lakemont Community Hospital — Clinical Systems, Interfaces and Vendors",
+      "headingPath": "Lakemont Community Hospital — Cl… › 5. Vendors and contacts",
+      "quote": "- **EHR vendor support:** priority-one line answered 24 hours; the contract target is a call back within 30 minutes. The vendor can fail over a hosted component but cannot restore the locally hosted d",
+      "chunkId": 37
+    },
+    {
+      "documentId": "01M791H5T7614JBPY8N3FD39RH",
+      "documentTitle": "Lakemont Community Hospital — Restore, Reconciliation and Breach Assessment SOP (IS-14-C)",
+      "headingPath": "IS-14-C › 7. Breach risk assessment",
+      "quote": "If the cause was a security event, or if downtime left patient information exposed, the Privacy and Security Officer: 1. determines whether protected health information (PHI) was acquired, accessed, u",
+      "chunkId": 30
+    },
+    {
+      "documentId": "01M791H5T4QRTQAQ9XEEV0T7D6",
+      "documentTitle": "Lakemont Community Hospital — Information Systems Downtime and Recovery Plan",
+      "headingPath": "Lakemont Community Hospital — In… › 4. First hour checklist",
+      "quote": "1. The first person to notice loss of the EHR calls the IS Help Desk (ext. 5500). The help desk technician checks the status dashboard and pages the on-call systems analyst. 2. The on-call analyst con",
+      "chunkId": 5
+    },
+    {
+      "documentId": "01M791H5T4QRTQAQ9XEEV0T7D6",
+      "documentTitle": "Lakemont Community Hospital — Information Systems Downtime and Recovery Plan",
+      "headingPath": "Lakemont Community Hospital — In… › 2. Roles",
+      "quote": "- **Downtime Incident Commander:** the Administrator on Call until the Chief Medical Information Officer (CMIO, Dr. Priya Raman) arrives; then Dr. Raman. Declares and ends downtime. - **Clinical Syste",
+      "chunkId": 3
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template",
+      "tts"
+    ],
+    "voiceLines": [
+      {
+        "speaker": "Breach Coach",
+        "voiceStyle": "Calm man in his 50s with a precise attorney's cadence. He speaks from a quiet office and is unhurried but firm, with a neutral American accent.",
+        "text": "Good morning, this is Ellen Varga with the Harborline Cyber Risk counsel panel. I'm looking for Gregory Pruitt. Your broker called us about an overnight outage at Lakemont."
+      },
+      {
+        "speaker": "Breach Coach",
+        "voiceStyle": "Calm man in his 50s with a precise attorney's cadence. He speaks from a quiet office and is unhurried but firm, with a neutral American accent.",
+        "text": "Thanks. I'll be quick. I know your systems are still down, and you've got a lot going on. I'm not calling to run your recovery. I'm calling because I keep hearing the word 'hack'... from your broker, and now from a Facebook post somebody forwarded me."
+      },
+      {
+        "speaker": "Breach Coach",
+        "voiceStyle": "Calm man in his 50s with a precise attorney's cadence. He speaks from a quiet office and is unhurried but firm, with a neutral American accent. He slows down to stress the key question.",
+        "text": "Before anyone at Lakemont says 'breach' or 'no breach' out loud... to staff, to families, or to that TV station... I need your determination in writing. Was there unauthorized access to protected health information, yes or no? And what evidence is it based on?"
+      },
+      {
+        "speaker": "Breach Coach",
+        "voiceStyle": "Calm man in his 50s with a precise attorney's cadence. He speaks from a quiet office and is unhurried but firm, with a neutral American accent.",
+        "text": "Here's why it matters. If the answer is yes, then discovery was overnight, and your notification clocks are already running from that point, not from when you finish investigating. If the answer is no, that's fine too. But write down why, write down the time you decided, and write down who decided. A 'no' with nothing behind it won't hold up later."
+      },
+      {
+        "speaker": "Breach Coach",
+        "voiceStyle": "Calm man in his 50s with a precise attorney's cadence. He speaks from a quiet office and is unhurried but firm, with a neutral American accent.",
+        "text": "And if you can't answer either way yet, tell me that, and tell me what you're still waiting on. I'd like the decision log entry by email when it's written. Can you give me a time?"
+      },
+      {
+        "speaker": "Infrastructure Lead",
+        "voiceStyle": "Tired man in his 40s with an Upper Midwest accent. He is slightly out of breath and speaks quickly and apologetically, raising his voice over loud server-room fans.",
+        "text": "Sorry to break in, I'm on the bridge from the data center. I just emailed the command center, subject 'controller swap'. The Northpine partner tech is here with the replacement controller module. We want to pull the failed controller A now and start the volume rebuild."
+      },
+      {
+        "speaker": "Infrastructure Lead",
+        "voiceStyle": "Tired man in his 40s with an Upper Midwest accent. He is slightly out of breath and speaks quickly, raising his voice over loud server-room fans. He sounds careful and deferential when he asks for the go-ahead.",
+        "text": "Consistency check and database restore, we're estimating around fourteen hundred. But nobody touches that part until security says so. Do we have the go-ahead to remove it and ship it back?"
+      },
+      {
+        "speaker": "Breach Coach",
+        "voiceStyle": "Calm man in his 50s with a precise attorney's cadence. He speaks from a quiet office and is unhurried, patient and firm, with a neutral American accent.",
+        "text": "I'll stay on the line while you decide that."
+      }
+    ],
+    "postFx": [
+      "phone"
+    ]
+  },
+  "assets": [
+    {
+      "id": "01M79CQ2RKHXJRFV5BS85N3GNX",
+      "kind": "image",
+      "path": "scenarios/01M791H7TWWJDZTYVSMEEGYDPP/media/01M79382PBJHSG8X6VRE9QCQRZ/01M79CQ2RKHXJRFV5BS85N3GNX.png",
+      "role": "rendered",
+      "width": 816,
+      "height": 1056,
+      "sha256": "8c6eb09c51cd2bd471971f3c533f645c5babfe2230c670ceebd806685d105a32",
+      "provenance": {
+        "provider": "template",
+        "templateId": "phone_call",
+        "templateVersion": "1",
+        "createdAt": "2026-11-13T02:45:17.060Z"
+      }
+    }
+  ],
+  "versions": [
+    {
+      "at": "2026-11-13T00:00:24.851Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "Breach Coach on the Line: \"Yes or No, and on What Evidence?\"",
+        "type": "phone_call",
+        "fields": {
+          "orgName": "Lakemont Community Hospital",
+          "systemName": "Recorded Line - Boardroom Command Center, ext. 5520",
+          "callId": "CR-20270209-061508-0268",
+          "direction": "Inbound",
+          "caller": {
+            "name": "Ellen Varga",
+            "number": "218-555-0163",
+            "label": "Breach coach, Harborline Cyber Risk counsel panel"
+          },
+          "callee": {
+            "name": "Gregory Pruitt",
+            "number": "ext. 5520 (Boardroom speaker)",
+            "label": "Privacy and Security Officer"
+          },
+          "startTime": "02/09/2027 06:15:08",
+          "duration": "2:04",
+          "transcript": [
+            {
+              "speaker": "Breach Coach",
+              "offset": "0:00",
+              "text": "Good morning, this is Ellen Varga with the Harborline Cyber Risk counsel panel. I'm looking for Gregory Pruitt. Your broker called us about an overnight outage at Lakemont.",
+              "prompt": false
+            },
+            {
+              "speaker": "Breach Coach",
+              "offset": "0:14",
+              "text": "Thanks. I'll be quick. I know your systems are still down and you've got a lot going on. I'm not calling to run your recovery. I'm calling because I keep hearing the word 'hack', from your broker and now from a Facebook post somebody forwarded me.",
+              "prompt": false
+            },
+            {
+              "speaker": "Breach Coach",
+              "offset": "0:31",
+              "text": "Before anyone at Lakemont says 'breach' or 'no breach' out loud, to staff, to families, or to that TV station, I need your determination in writing. Was there unauthorized access to protected health information, yes or no? And what evidence is it based on?",
+              "prompt": true
+            },
+            {
+              "speaker": "Breach Coach",
+              "offset": "0:52",
+              "text": "Here's why it matters. If the answer is yes, then discovery was overnight, and your notification clocks are already running from that point, not from when you finish investigating. If the answer is no, that's fine too. But write down why, write down the time you decided, and write down who decided. A 'no' with nothing behind it won't hold up later.",
+              "prompt": false
+            },
+            {
+              "speaker": "Breach Coach",
+              "offset": "1:14",
+              "text": "And if you can't answer either way yet, tell me that, and tell me what you're still waiting on. I'd like the decision log entry by email when it's written. Can you give me a time?",
+              "prompt": true
+            },
+            {
+              "speaker": "Infrastructure Lead",
+              "offset": "1:29",
+              "text": "Sorry to break in, I'm on the bridge from the data center. I just emailed the command center, subject 'controller swap'. The Northpine partner tech is here with the replacement controller module. We want to pull the failed controller A now and start the volume rebuild.",
+              "prompt": false
+            },
+            {
+              "speaker": "Infrastructure Lead",
+              "offset": "1:44",
+              "text": "Consistency check and database restore, we're estimating around fourteen hundred. But nobody touches that part until security says so. Do we have the go-ahead to remove it and ship it back?",
+              "prompt": true
+            },
+            {
+              "speaker": "Breach Coach",
+              "offset": "1:57",
+              "text": "I'll stay on the line while you decide that.",
+              "prompt": false
+            }
+          ],
+          "voiceStyles": {
+            "Breach Coach": "Man in his 50s, calm, precise attorney's cadence, quiet office, unhurried but firm",
+            "Infrastructure Lead": "Man in his 40s, tired, slightly out of breath, loud server-room fans behind him"
+          },
+          "injectId": "I-18"
+        },
+        "instructorNote": "Decision point: the PSEC should combine the SOC correlation (scheduled job RPTEXPORT-NIGHTLY-BKP, no other hosts, no data transfer) with the array log (controller A failed at 02:09:52, 80 minutes before the login), then rule out a security cause and record \"incident, not a reportable breach\" in the decision log with the time and the reasoning, under IS-14-C section 7. After that, the IC should confirm Level 3 rather than Level 4, the PSEC should release the failed controller only after its fault logs are saved, and the CSL should log 14:00 as an estimated restore, not a promise. Watch for players who promise the coach a written 'no' without listing their evidence, or who approve pulling the part before its logs are saved.",
+        "deliveryMode": "play_audio"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-11-13T02:45:17.292Z"
+}

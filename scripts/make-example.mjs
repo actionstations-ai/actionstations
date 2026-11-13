@@ -9,9 +9,22 @@
 //   node scripts/make-example.mjs refresh  --spec examples/<id>/build.json --out .tmp/examples-release/<id> [--only key,…] [--voices]
 //   node scripts/make-example.mjs stages   --spec examples/<id>/build.json --out .tmp/examples-release/<id> [--only key,…] [--stages eeg,sitman]
 //   node scripts/make-example.mjs aar      --spec examples/<id>/build.json --out .tmp/examples-release/<id> [--only key,…] [--confirm-only]
+//   node scripts/make-example.mjs media    --spec examples/<id>/build.json --out .tmp/examples-release/<id> [--only key,…]
 //   node scripts/make-example.mjs package  --spec examples/<id>/build.json --out .tmp/examples-release/<id>
 //   node scripts/make-example.mjs verify   --spec examples/<id>/build.json
 //
+// --text anthropic (generate, repair, stages, aar): text goes to Claude Opus on the Anthropic API
+//   instead of LM Studio; images and voice stay local. The key is ANTHROPIC_API_KEY from the
+//   environment or ~/.actionstations/secrets.env, stored in the throwaway profile only. Review of
+//   outbound requests is turned off for the example project, whose documents are simulated.
+// --effort low|medium|high|xhigh|max (with --text anthropic): Claude's effort; the adapter's
+//   default is high. Lower effort spends fewer thinking tokens.
+// --no-media (generate): skips the template renders, AI stills and voice clips (render them
+//   later with repair or refresh); used to price a text-only run.
+//
+// media: renders every scenario's template media, AI stills and voice clips (the spec's media
+//   budget) with ComfyUI and the local TTS; text is routed to nobody, so no model is called.
+//   For examples generated with --no-media, after any hand corrections and refresh.
 // export: the PDF set, the DOCX documents and the distribution ZIP of every scenario again,
 //   into <out>/exports/<key>/ (repair and generate export too).
 // generate: creates (or reopens) <out>/project, imports the spec's documents, routes every
@@ -100,6 +113,13 @@ const TEXT_PROVIDER = {
   options: {},
   enabled: true,
 }
+const ANTHROPIC_PROVIDER = {
+  kind: 'anthropic',
+  label: 'Claude (Anthropic API)',
+  defaultModel: 'claude-opus-5-5',
+  options: {},
+  enabled: true,
+}
 const IMAGE_PROVIDER = {
   kind: 'comfyui',
   label: 'ComfyUI',
@@ -142,7 +162,15 @@ const TAG_PRIORITY = [
 
 function parseArgs(argv) {
   const [command, ...rest] = argv
-  const args = { command, only: [], replace: false, voices: false, stages: ['eeg', 'sitman'] }
+  const args = {
+    command,
+    only: [],
+    replace: false,
+    voices: false,
+    stages: ['eeg', 'sitman'],
+    text: 'local',
+    media: true,
+  }
   for (let i = 0; i < rest.length; i++) {
     const a = rest[i]
     if (a === '--spec') args.spec = rest[++i]
@@ -151,7 +179,16 @@ function parseArgs(argv) {
     else if (a === '--replace') args.replace = true
     else if (a === '--voices') args.voices = true
     else if (a === '--confirm-only') args.confirmOnly = true
-    else if (a === '--stages')
+    else if (a === '--no-media') args.media = false
+    else if (a === '--effort') {
+      args.effort = rest[++i]
+      if (!['low', 'medium', 'high', 'xhigh', 'max'].includes(args.effort))
+        throw new Error('--effort is low, medium, high, xhigh or max')
+    } else if (a === '--text') {
+      args.text = rest[++i]
+      if (!['local', 'anthropic'].includes(args.text))
+        throw new Error('--text is local or anthropic')
+    } else if (a === '--stages')
       args.stages = rest[++i]
         .split(',')
         .map((s) => s.trim())
@@ -159,9 +196,17 @@ function parseArgs(argv) {
     else throw new Error(`Unknown argument ${a}`)
   }
   if (
-    !['generate', 'repair', 'refresh', 'export', 'stages', 'aar', 'package', 'verify'].includes(
-      command ?? '',
-    )
+    ![
+      'generate',
+      'repair',
+      'refresh',
+      'export',
+      'media',
+      'stages',
+      'aar',
+      'package',
+      'verify',
+    ].includes(command ?? '')
   )
     throw new Error(
       'Usage: make-example.mjs generate|repair|refresh|export|stages|aar|package|verify --spec <build.json> [--out <dir>]',
@@ -256,8 +301,38 @@ async function openOrCreateProject(invoke, spec, out, state) {
   return path
 }
 
-async function routeToLocalStack(invoke) {
-  const lm = await invoke('providers:upsert', { config: TEXT_PROVIDER })
+/** ANTHROPIC_API_KEY from the environment, else from ~/.actionstations/secrets.env. */
+function anthropicKey() {
+  if (process.env.ANTHROPIC_API_KEY) return process.env.ANTHROPIC_API_KEY
+  const file = join(homedir(), '.actionstations', 'secrets.env')
+  const line = existsSync(file)
+    ? readFileSync(file, 'utf8')
+        .split('\n')
+        .find((l) => l.startsWith('ANTHROPIC_API_KEY='))
+    : undefined
+  const key = line?.slice('ANTHROPIC_API_KEY='.length).trim()
+  if (!key)
+    throw new Error(
+      '--text anthropic needs ANTHROPIC_API_KEY (environment or ~/.actionstations/secrets.env)',
+    )
+  return key
+}
+
+/** The text provider for this run: LM Studio, or Claude with the key from secrets.env. */
+async function textProvider(invoke, text, projectPath, effort) {
+  if (text !== 'anthropic') return invoke('providers:upsert', { config: TEXT_PROVIDER })
+  const claude = await invoke('providers:upsert', {
+    config: { ...ANTHROPIC_PROVIDER, options: effort ? { effort } : {} },
+    apiKey: anthropicKey(),
+  })
+  // The example's documents are simulated; nothing in them needs a person to approve a send.
+  if (projectPath)
+    await invoke('privacy:set', { projectPath, settings: { review: 'off' }, confirmOff: true })
+  return claude
+}
+
+async function routeToLocalStack(invoke, { text = 'local', projectPath, effort } = {}) {
+  const lm = await textProvider(invoke, text, projectPath, effort)
   const comfy = await invoke('providers:upsert', { config: IMAGE_PROVIDER })
   const tts = await invoke('providers:upsert', { config: TTS_PROVIDER })
   await invoke('routing:set', {
@@ -291,6 +366,7 @@ async function renderMedia(invoke, projectPath, scenarioId, injects, media) {
     const { jobId } = await invoke('generate:media', { projectPath, scenarioId, injectIds, paths })
     await waitForJob(invoke, jobId, label, 40 * 60_000)
   }
+  if (media.skip) return log('media skipped (--no-media)')
   await run(all, ['template'], 'templates')
   await run(images, ['template', 'ai_image'], 'AI stills')
   await run(voices, ['template', 'tts'], 'voice clips')
@@ -433,7 +509,10 @@ async function generateOne(invoke, spec, out, projectPath, entry, state) {
   const injectSecs = Math.round((Date.now() - t1) / 1000)
   let injects = await invoke('injects:list', { projectPath, scenarioId })
   const t2 = Date.now()
-  await renderMedia(invoke, projectPath, scenarioId, injects, entry.media ?? spec.media ?? {})
+  await renderMedia(invoke, projectPath, scenarioId, injects, {
+    ...(entry.media ?? spec.media ?? {}),
+    skip: spec.noMedia === true,
+  })
   injects = await invoke('injects:list', { projectPath, scenarioId })
   const mediaSecs = Math.round((Date.now() - t2) / 1000)
   const lints = await invoke('scenarios:lint', { projectPath, scenarioId })
@@ -472,7 +551,10 @@ async function generate(args) {
   try {
     const state = readState(out)
     const projectPath = await openOrCreateProject(invoke, spec, out, state)
-    await routeToLocalStack(invoke)
+    await routeToLocalStack(invoke, { text: args.text, projectPath, effort: args.effort })
+    if (spec.project.toolkits?.length)
+      await invoke('toolkits:set-project', { projectPath, toolkits: spec.project.toolkits })
+    if (!args.media) spec.noMedia = true
     const wanted = spec.scenarios.filter((s) => !args.only.length || args.only.includes(s.key))
     for (const entry of wanted) {
       if (state.scenarios[entry.key] && !args.replace) {
@@ -579,7 +661,7 @@ async function forEachGenerated(args, label, each, route = routeToLocalStack) {
   try {
     const projectPath = join(out, state.projectPath)
     await invoke('project:open', { path: projectPath })
-    await route(invoke)
+    await route(invoke, { text: args.text, projectPath, effort: args.effort })
     const wanted = spec.scenarios.filter((s) => !args.only.length || args.only.includes(s.key))
     for (const entry of wanted) {
       if (!state.scenarios[entry.key])
@@ -594,6 +676,44 @@ async function forEachGenerated(args, label, each, route = routeToLocalStack) {
 const repair = (args) =>
   forEachGenerated(args, 'repair', (c) =>
     repairOne(c.invoke, c.spec, c.out, c.projectPath, c.entry, c.state),
+  )
+
+/** Images and voices from the local stack; every text task goes to a port nobody listens on. */
+async function routeMediaOnly(invoke) {
+  await routeOffline(invoke)
+  const comfy = await invoke('providers:upsert', { config: IMAGE_PROVIDER })
+  const tts = await invoke('providers:upsert', { config: TTS_PROVIDER })
+  const { global } = await invoke('routing:get', {})
+  await invoke('routing:set', {
+    scope: 'global',
+    routing: {
+      ...global,
+      image: { providerId: comfy.id },
+      video: { providerId: comfy.id },
+      audio: { providerId: tts.id },
+    },
+  })
+}
+
+const media = (args) =>
+  forEachGenerated(
+    args,
+    'media',
+    async (c) => {
+      const { scenarioId } = c.state.scenarios[c.entry.key]
+      const injects = await c.invoke('injects:list', { projectPath: c.projectPath, scenarioId })
+      const t0 = Date.now()
+      await renderMedia(
+        c.invoke,
+        c.projectPath,
+        scenarioId,
+        injects,
+        c.entry.media ?? c.spec.media ?? {},
+      )
+      await exportScenario(c.invoke, c.projectPath, scenarioId, join(c.out, 'exports', c.entry.key))
+      log(`${c.entry.key}: media rendered in ${Math.round((Date.now() - t0) / 1000)}s`)
+    },
+    routeMediaOnly,
   )
 
 /** The PDF set, DOCX and distribution ZIP of every scenario again, into <out>/exports/<key>/. */
@@ -1362,6 +1482,10 @@ async function verify(args) {
   const parentDir = mkdtempSync(join(tmpdir(), 'ttx-example-verify-'))
   const { app, invoke } = await launchApp()
   try {
+    // Field packs are off until the user turns them on: turn on the one that ships this example.
+    for (const pack of await invoke('packs:list'))
+      if (!pack.enabled && pack.items.some((i) => i.kind === 'example' && i.id === spec.id))
+        await invoke('packs:setEnabled', { id: pack.id, enabled: true })
     // The app's own gallery path (#172): examples:list must show it, examples:open copies it.
     const listed = await invoke('examples:list')
     if (!listed.some((e) => e.slug === spec.id))
@@ -1425,6 +1549,7 @@ if (isMain) {
         repair,
         refresh,
         export: exportAll,
+        media,
         stages,
         aar,
         package: packageExample,
