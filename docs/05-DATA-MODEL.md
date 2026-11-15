@@ -10,13 +10,13 @@ Project {
          |'stadium_venue'|'port_maritime'|'municipal'|'industrial'|'unmanned_systems'|'k12_schools'
          |'commercial_facilities'|'food_agriculture'|'telecom'|'data_center_it'|'financial_services'
          |'generic'|string,
-         // selects the domain profile (src/shared/domains, ADR-0014); 'hospital', 'utility' and other
+         // selects the domain profile (src/shared/domains); 'hospital', 'utility' and other
          // aliases resolve to a profile; unknown values are the generic profile
   domainProfileOverrides?: Partial<DomainProfile>,   // per-project edits; a field replaces the built-in one
-         // (factCategories is written whole by the facts editor, #180; project:update refuses unsafe
+         // (factCategories is written whole by the facts editor; project:update refuses unsafe
          // noun / genericNoun / context regexes and re-extracts facility facts when it changes)
   domainProfileSnapshot?: { profile: DomainProfile, packId, version, packName? },
-         // a pack domain copied in when chosen (ADR-0018, #263); resolveProfile uses it before
+         // a pack domain copied in when chosen; resolveProfile uses it before
          // the registry, then applies the overrides; refreshed only by "Update profile from pack"
   createdAt, updatedAt, appVersion,
   brand: { logoPath?, primaryColor?, city?, region?, aliases: Record<string,string> }, // e.g. airlineNames
@@ -25,10 +25,10 @@ Project {
   promptOverrides: string[],                            // filenames in prompts/
   documents: DocumentMeta[],                            // denormalized index
   scenarios: ScenarioMeta[],
-  privacy?: { review?, redact?, alwaysRedact?, neverRedact? } // overrides of AppSettings.privacy (#433)
+  privacy?: { review?, redact?, alwaysRedact?, neverRedact? } // overrides of AppSettings.privacy
 }
 
-// packs.json (ADR-0018): pack items this project copied into its own layer on first use
+// packs.json: pack items this project copied into its own layer on first use
 ProjectPacks { copies: [{ kind: 'templates'|'workflows'|'documents'|'domains'|'examples', id,
   packId, version, packName?, copiedAt, files: [{ path /* project-relative */, sha256 }] }] }
   // a file whose sha256 differs shows the copy as "edited"; updating a copy is explicit
@@ -36,18 +36,18 @@ ProjectPacks { copies: [{ kind: 'templates'|'workflows'|'documents'|'domains'|'e
 DocumentMeta { id, title, filename, kind: 'plan'|'policy'|'map'|'form'|'course'|'prior_exercise'|'other',
   pages, ingestedAt, status: 'pending'|'parsing'|'embedding'|'ok'|'error', tags[], headingsPreview[] }
   // A busy status with no live ingest job (app exit mid-import) becomes 'error' with
-  // "Import interrupted — retry" when the project opens or documents are listed (#309).
+  // "Import interrupted — retry" when the project opens or documents are listed.
 
 Role { id, name, abbreviation, team, description, standingOrders: string[] }   // "Ops Director (IC)" …
 
-// .example.json (#169) — only in a project opened from an example (examples:open writes it):
+// .example.json — only in a project opened from an example (examples:open writes it):
 ExampleMarker { slug, title, notice, domainProfile,
-  packId?, packVersion?, packName? }   // the app shows `notice` as a banner; pack* set for a pack example (#266)
+  packId?, packVersion?, packName? }   // the app shows `notice` as a banner; pack* set for a pack example
 // examples/<slug>/example.json (shipped, read-only) — ExampleManifest in src/shared/ipc/examples.ts:
 ExampleManifest { id, title, domainProfile, summary, fictional: true, notice,
   scenarios: [{ id, title, threatFamily, summary }] }   // examples/<slug>/project/ is the project
 
-// facility-facts.md (#143) — Markdown, not JSON: the identifiers generation treats as real.
+// facility-facts.md — Markdown, not JSON: the identifiers generation treats as real.
 // Written after every ingest / re-index / document removal (and on first use) from
 // documents/*/text.md. One "## <Label>" section per category with a
 // "<!-- category: <id> -->" line, then one "- <entry>" bullet per identifier (gate ranges
@@ -64,8 +64,8 @@ ExampleManifest { id, title, domainProfile, summary, fictional: true, notice,
 // the marker keeps the extraction's hash, so saved facts read as edited unless they equal
 // it), project:facility-facts-reset. Save and reset first copy the previous file to
 // .cache/facility-facts-history/<timestamp>.md (last 20 kept). scenarios:lint includes
-// FACILITY_UNKNOWN_ID against this file (#155).
-// Category ids (#350): the id in "<!-- category: <id> -->" is the key a definition in
+// FACILITY_UNKNOWN_ID against this file.
+// Category ids: the id in "<!-- category: <id> -->" is the key a definition in
 // domainProfileOverrides.factCategories is matched by, exactly. Profile ids use underscores
 // ("pump_stations"); a section added in the editor (or a heading without an id line) gets a
 // hyphenated slug of its label ("pump-stations"). FactCategory.id accepts both shapes
@@ -80,29 +80,29 @@ Scenario {
   id, projectId, title, subtitle?, version, status: 'draft'|'ready'|'archived',
   brief: { userPrompt, audience, durationHours, learningObjectives[], constraints[],
            threatFamily?: 'cyber'|'physical_security'|'cyber_physical'|'uas_drone'|'insider'
-                         |'natural_hazard'|'infrastructure_failure'|'mass_gathering' },  // settled at creation (ADR-0014)
+                         |'natural_hazard'|'infrastructure_failure'|'mass_gathering' },  // settled at creation
   overview: { theme, threat, operationalImpact, coreSectionsTested: Citation[] },
   objectives: Objective[],                 // { id, text, metricRef? }
   roles: Role[],
   phases: Phase[],
   msel: MselRow[],                          // ordered
   documents: { handbook: MdRef, briefing: MdRef, rubric: Rubric, hotwash: HotWash },
-  evaluation: Evaluation,                   // #421: objectives → Core Capabilities, EEGs; empty before the eeg stage ran
+  evaluation: Evaluation,                   // objectives → Core Capabilities, EEGs; empty before the eeg stage ran
   simcellScripts: SimcellScript[],
-  conduct?: ConductDetails,                 // exercise details for the HSEEP documents (#420); read via conductOf()
-  sitman?: SitMan,                          // Situation Manual modules (stage `sitman`, #420)
+  conduct?: ConductDetails,                 // exercise details for the HSEEP documents; read via conductOf()
+  sitman?: SitMan,                          // Situation Manual modules (stage `sitman`)
   provenance: StageRun[],                   // what provider/prompt produced each part
-  grounding?: ScenarioGrounding             // source-check labels per item (#423)
-  seams: ScenarioSeam[]                     // plan seams tested (#427); [] when none
+  grounding?: ScenarioGrounding             // source-check labels per item
+  seams: ScenarioSeam[]                     // plan seams tested; [] when none
 }
 
-// Plan seams (#427): brief.seamIds (max 3, PlanFinding ids) are snapshotted into Scenario.seams
+// Plan seams: brief.seamIds (max 3, PlanFinding ids) are snapshotted into Scenario.seams
 // when the phase plan runs: { id, slot, slotLabel, kind, confirmed, a, b?, values?, missingTarget?,
 // phaseId? }. MselRow.seamId names the seam a row tests; a row an older build saved without it is
 // re-linked when it cites both passages. ScenarioIdea.seamIds lists the seams an idea targets;
 // HotWash questions built for a seam carry seamId and rowIds.
 
-// Exercise evaluation (#421; src/shared/schemas/evaluation.ts, src/shared/core-capabilities.ts).
+// Exercise evaluation (src/shared/schemas/evaluation.ts, src/shared/core-capabilities.ts).
 // The 32 FEMA Core Capabilities ship as static data (id, name, mission areas, definition).
 Evaluation {
   objectiveCapabilities: { objectiveId, capability: CoreCapabilityId, why }[],
@@ -115,26 +115,26 @@ CriticalTask {
   expectedBy?: roleId, timing?,              // "within 30 minutes", as the plan states it
   rowIds[], objectiveRefs[], locked          // rows where an evaluator should look for it
 }
-// The live evaluator form (#416) consumes { id, capability, task, citation, expectedBy? }; later
+// The live evaluator form consumes { id, capability, task, citation, expectedBy? }; later
 // specs add fields and never rename or remove those.
 RowCriterion { id /* taskId or "<rowId>:expected" */, rowId, text, taskId?, capability?, citation? }
 // derived by src/main/generate/eeg-criteria.ts (evaluation:criteria), never stored: a row's linked
 // tasks, else its expected action as one criterion (control cards excepted)
 
 // scenarios/<id>/evaluation.json — observations recorded outside live play (Facilitate screen,
-// paper EEGs typed up). Live-play observations (#416) arrive in the session log; #419 reads both.
-EvaluationRecord { formatVersion: 1, observations: Observation[], updatedAt }   // loose (ADR-0016)
+// paper EEGs typed up). Live-play observations arrive in the session log reads both.
+EvaluationRecord { formatVersion: 1, observations: Observation[], updatedAt }   // loose
 Observation {
   id, at, exerciseTime?, rowId?, taskId?, criterionId?,
   rating: 'met'|'partial'|'not_met'|'not_observed',    // HSEEP's four values; counts, never a score
   note, evaluator? /* free label, "Evaluator 2"; never a person's name by default */,
   source: 'facilitate'|'paper'|'live'
-  // 'live' (#416): id live-<clientRef>-<observationId>, evaluator "Evaluator N"; kind 'note' + capability for general observations (rating not_observed unless chosen). Latest revision only; the log keeps each.
+  // 'live': id live-<clientRef>-<observationId>, evaluator "Evaluator N"; kind 'note' + capability for general observations (rating not_observed unless chosen). Latest revision only; the log keeps each.
 }
 
 Phase { id, index, title, goal, startTime, endTime }
 
-ConductDetails {                             // never generated, never sent to a provider (#420)
+ConductDetails {                             // never generated, never sent to a provider
   exerciseName, exerciseType: 'tabletop', dates: ISODate[], startTime?, endTime?, sponsor,
   participatingOrganizations[], director: { name?, organization?, phone?, email? },
   site, room, observersAllowed, marking,     // default "EXERCISE — FOR TRAINING USE"
@@ -149,7 +149,7 @@ SitMan {
 }
 
 MselRow {
-  // Branching (#430): branchId? names the lane the row is on (absent = trunk); decision? is the
+  // Branching: branchId? names the lane the row is on (absent = trunk); decision? is the
   // fork a DECISION_POINT row opens: { id, question, options[2..8]{ id, label, branchId? },
   // rule (plurality | majority | threshold{optionId,minShare} | controller | unanimous),
   // defaultOptionId, timeoutMin?, mode, votingRoleIds[] }.
@@ -158,8 +158,8 @@ MselRow {
   // facilitator.json branching?: { seed?, decisions: DecisionRecord[], proposals[] }.
   id,                                        // "I-07", "I-07b"
   phaseId, time, wallClock?, from, toRoleIds[], event, expectedAction,
-  toTeams?: string[],                       // Role.team names; recipients = toRoleIds + every role on a listed team (#428)
-  expectsResponse?: boolean,                // flag silence on this row; absent = by purpose tag (#428)
+  toTeams?: string[],                       // Role.team names; recipients = toRoleIds + every role on a listed team
+  expectsResponse?: boolean,                // flag silence on this row; absent = by purpose tag
   responseWindowMin?: number,               // exercise minutes to wait before flagging; absent = 10
   purposeTag: PurposeTag, injectId?,        // null for STARTEX/ENDEX/TIME_JUMP rows without a deck page
   locked: boolean
@@ -172,10 +172,10 @@ MselRow {
 // scenarios/<id>/facilitator.json — facilitator mode session state
 FacilitatorState {
   elapsedMin, runningSince?,                 // exercise clock: minutes when last paused/started + wall-clock anchor
-  delivered: Record<rowId, { at, exerciseTime, recipients?: roleId[] }>,  // recipients: set when "Deliver to…" changed the plan (#428)
-  rate?: number,                             // clock speed 0.25..60, absent = 1 (#428)
-  clockLog?: { at, kind: 'start'|'pause'|'set'|'nudge'|'rate'|'reset'|'jump', fromMin, toMin, rate, note? }[],  // newest 5000 (#428)
-  tracker?: {                                // unanswered injects and commitments (#428)
+  delivered: Record<rowId, { at, exerciseTime, recipients?: roleId[] }>,  // recipients: set when "Deliver to…" changed the plan
+  rate?: number,                             // clock speed 0.25..60, absent = 1
+  clockLog?: { at, kind: 'start'|'pause'|'set'|'nudge'|'rate'|'reset'|'jump', fromMin, toMin, rate, note? }[],  // newest 5000
+  tracker?: {                                // unanswered injects and commitments
     responses: Record<rowId, { at, exerciseMin, by?, note, source: 'manual'|'message'|'vote'|'note', ref? }>,
     commitments: { id, text, owner, madeAtMin, dueAtMin?, rowId?, source, sourceRef?, status: 'open'|'kept'|'missed'|'dropped', closedAtMin? }[],
     suggestions: { id, text, dueAtMin?, rowId?, source, sourceRef? }[],   // found by the rules, waiting for the facilitator
@@ -183,9 +183,9 @@ FacilitatorState {
   },
   notes: Record<rowId, string>,              // per-inject hot wash notes
   generalNotes,
-  hotwash: { id, kind: 'strength'|'improvement'|'other', text, objectiveRef?, rowId?, at }[],  // 3-Up / 3-Down items (#419)
-  decisions: { id, at, exerciseTime?, rowId?, text, byRole? /* role id, never a name */ }[],     // decision log (#419)
-  live?: {                                    // live play connection (#410); absent = not chosen, nothing listens or connects
+  hotwash: { id, kind: 'strength'|'improvement'|'other', text, objectiveRef?, rowId?, at }[],  // 3-Up / 3-Down items
+  decisions: { id, at, exerciseTime?, rowId?, text, byRole? /* role id, never a name */ }[],     // decision log
+  live?: {                                    // live play connection; absent = not chosen, nothing listens or connects
     connection?: { kind: 'lan', address?, tls: 'self-signed'|'none', port? }
                | { kind: 'relay' }
                | { kind: 'self-hosted', url, fingerprintSha256?, insecureHttp },
@@ -203,7 +203,7 @@ Inject {
   fields: Record<string, unknown>,          // validated by templates/injects/<type>/schema.json
   variant?: string,                         // template variant; the template's first when absent
   instructorNote?, citations: Citation[],
-  engagement?: {                            // simulated likes and replies for a social post (#428)
+  engagement?: {                            // simulated likes and replies for a social post
     curve: 'surge'|'steady'|'fade', start: Record<metric, int>, peak: Record<metric, int>,
     peakAtMin, replies: { id, atMin, author, handle?, text }[]
   },
@@ -226,12 +226,11 @@ SimcellScript { rolePlayed, trigger, hardQuestions[], concessions[] }
 StageRun { stage, startedAt, finishedAt, providerRef, promptRef, promptHash, inputTokens?, outputTokens?, costUsd?, status, error? }
 ```
 
-## Live sessions (`scenarios/<id>/live/<sessionId>/`, #407, #417)
+## Live sessions (`scenarios/<id>/live/<sessionId>/`)
 
-The folder name is the protocol's 128-bit `SessionId` (validated before it becomes a path segment). `session.json` is `LiveSession` (`src/shared/schemas/live.ts`): `id, scenarioId, name, startedAt, endedAt?, connection { kind: 'lan', address, tls, port? } | { kind: 'relay' } | { kind: 'self-hosted', url }, joinUrlPublic` (never the key fragment), `attribution: 'role' | 'named', protocolVersion, lastIndex`. `log.jsonl` is one `SessionLogEntry` per line in spec 0417's format (`i, at, ex?, kind, actor { kind, clientRef?, seat?, evaluator?, displayName? }, ref?, data, env? { from, seq, index? }`), append-only, at most 64 KiB per line. Messages are `message` (text, `blobIds`, `replyTo?`, `preExercise?`; the actor is the seat's `clientRef` and role, or the controller with its `persona`), `message.handled`, `message.star` (`on`) and `message.pinned` (who, text); hot wash (#415): `hotwash.open { review }`, `hotwash.close`, `hotwash.item { kind, text, anonymous, questionId?, mselRowId?, objectiveId? }` (the actor carries the seat and name only when not anonymous), `hotwash.plus` (actor: `clientRef` only), `hotwash.retract`, `hotwash.update { action, itemIds, before?, after?, label?, tags? }`, `hotwash.promoted { id, text, memberItemIds }` and `hotwash.unpromoted`; promoted findings are written to `facilitator.json` `hotwash` with ids starting `dev-`; attachments are saved under `live/<sessionId>/attachments/<blobId>.<ext>` and referenced by id. The writer refuses entries that carry `clientId`, `joinToken`, `resumeToken`, `key`, roots, private keys, invite URLs or addresses anywhere, strips `displayName` in a `role` session, and writes `env.from` as the salted `clientRef`, never the raw client id. Keys are never in this folder (they are in `userData/live/sessions/`). Inject delivery (#412) writes `inject.release { releaseId, mselRowId, injectId, targets, deliveryMode, blobIds, textSha256, expectsResponse }`, `inject.receipt { releaseId, status, deviceAt }` with the seat in `actor` (`delivered`, `read`, `actioned`) and `inject.retract { releaseId }`; a receipt from a seat the release was not for is an `anomaly`. Votes (#414) write `vote.open { question, options[{id,label}], anonymous, targets, allowChange, closesAt?, mselRowId?, k }`, `vote.cast { voteId, optionId, changedFrom?, role? }` (no `clientRef`; `role` only in a by-role vote, folded to `other` under `k` devices), `vote.rationale { voteId, optionId, text }`, `vote.close { voteId, status: closed | interrupted, reason, results[{optionId,count}], voted, eligible, byRole? }`, `vote.reopen` and `vote.recorded { voteId, mselRowId? }`; a ballot that is out of scope, for an unknown option or after close is an `anomaly` (`vote out of scope`, `vote bad option`, `vote late`) with no device reference. #417 adds `attachments/`, `staged/`, `blobs.json` and the `summary` (counts of clients, releases, receipts, messages, votes, hot wash items, observations and surveys) in `session.json`, written when the session ends. `inject.answered { note? }` (ref `rowId`, `releaseId`) records the facilitator's **Mark answered**. Readers parse a line loosely (`src/main/live/log-read.ts`): `readSlice(root, scenarioId, sessionId, { kinds?, after? })` returns rows with `i, kind, at, ex?, rowId?, releaseId?, inReplyTo?, fromRoleId?, text?`, the actor without `displayName` and `clientRef`, `ref` and `data`. Exports: JSON `{ format: 'actionstations/live-session', formatVersion: 1, session, entries }`, and CSV with the columns `index, at, exercise_time, kind, actor_kind, role, team, evaluator, display_name, ref_row, ref_id, summary, data_json` (UTF-8 with byte order mark, CRLF, cells starting with `=`, `+`, `-` or `@` prefixed with `'`).
-The folder name is the protocol's 128-bit `SessionId` (validated before it becomes a path segment). `session.json` is `LiveSession` (`src/shared/schemas/live.ts`): `id, scenarioId, name, startedAt, endedAt?, connection { kind: 'lan', address, tls, port? } | { kind: 'relay' } | { kind: 'self-hosted', url }, joinUrlPublic` (never the key fragment), `attribution: 'role' | 'named', protocolVersion, lastIndex`. `log.jsonl` is one `SessionLogEntry` per line in spec 0417's format (`i, at, ex?, kind, actor { kind, clientRef?, seat?, evaluator?, displayName? }, ref?, data, env? { from, seq, index? }`), append-only, at most 64 KiB per line. Messages are `message` (text, `blobIds`, `replyTo?`, `preExercise?`; the actor is the seat's `clientRef` and role, or the controller with its `persona`), `message.handled`, `message.star` (`on`) and `message.pinned` (who, text); attachments are saved under `live/<sessionId>/attachments/<blobId>.<ext>` and referenced by id. The writer refuses entries that carry `clientId`, `joinToken`, `resumeToken`, `key`, roots, private keys, invite URLs or addresses anywhere, strips `displayName` in a `role` session, and writes `env.from` as the salted `clientRef`, never the raw client id. Keys are never in this folder (they are in `userData/live/sessions/`). Inject delivery (#412) writes `inject.release { releaseId, mselRowId, injectId, targets, deliveryMode, blobIds, textSha256, expectsResponse }`, `inject.receipt { releaseId, status, deviceAt }` with the seat in `actor` (`delivered`, `read`, `actioned`) and `inject.retract { releaseId }`; evaluator observations (#416) write `eval.assign { clientRef, label, revision, taskCount, watch }`, `eval.observation` (every revision: `revision, kind, rating?, notes, exerciseTime, observedAt, criterionId?, capability?`, ref `observationId`, `taskId`, `rowId`; actor `evaluator` label), `eval.watch { clientRef, watch }` and `eval.ask { clientRef, text }`; a receipt from a seat the release was not for is an `anomaly`. #417 adds `attachments/`, `staged/`, `blobs.json` and the `summary` in `session.json`.
+The folder name is the protocol's 128-bit `SessionId` (validated before it becomes a path segment). `session.json` is `LiveSession` (`src/shared/schemas/live.ts`): `id, scenarioId, name, startedAt, endedAt?, connection { kind: 'lan', address, tls, port? } | { kind: 'relay' } | { kind: 'self-hosted', url }, joinUrlPublic` (never the key fragment), `attribution: 'role' | 'named', protocolVersion, lastIndex`. `log.jsonl` is one `SessionLogEntry` per line in this format (`i, at, ex?, kind, actor { kind, clientRef?, seat?, evaluator?, displayName? }, ref?, data, env? { from, seq, index? }`), append-only, at most 64 KiB per line. Messages are `message` (text, `blobIds`, `replyTo?`, `preExercise?`; the actor is the seat's `clientRef` and role, or the controller with its `persona`), `message.handled`, `message.star` (`on`) and `message.pinned` (who, text); hot wash: `hotwash.open { review }`, `hotwash.close`, `hotwash.item { kind, text, anonymous, questionId?, mselRowId?, objectiveId? }` (the actor carries the seat and name only when not anonymous), `hotwash.plus` (actor: `clientRef` only), `hotwash.retract`, `hotwash.update { action, itemIds, before?, after?, label?, tags? }`, `hotwash.promoted { id, text, memberItemIds }` and `hotwash.unpromoted`; promoted findings are written to `facilitator.json` `hotwash` with ids starting `dev-`; attachments are saved under `live/<sessionId>/attachments/<blobId>.<ext>` and referenced by id. The writer refuses entries that carry `clientId`, `joinToken`, `resumeToken`, `key`, roots, private keys, invite URLs or addresses anywhere, strips `displayName` in a `role` session, and writes `env.from` as the salted `clientRef`, never the raw client id. Keys are never in this folder (they are in `userData/live/sessions/`). Inject delivery writes `inject.release { releaseId, mselRowId, injectId, targets, deliveryMode, blobIds, textSha256, expectsResponse }`, `inject.receipt { releaseId, status, deviceAt }` with the seat in `actor` (`delivered`, `read`, `actioned`) and `inject.retract { releaseId }`; evaluator observations write `eval.assign { clientRef, label, revision, taskCount, watch }`, `eval.observation` (every revision: `revision, kind, rating?, notes, exerciseTime, observedAt, criterionId?, capability?`, ref `observationId`, `taskId`, `rowId`; actor `evaluator` label), `eval.watch { clientRef, watch }` and `eval.ask { clientRef, text }`; a receipt from a seat the release was not for is an `anomaly`. Votes write `vote.open { question, options[{id,label}], anonymous, targets, allowChange, closesAt?, mselRowId?, k }`, `vote.cast { voteId, optionId, changedFrom?, role? }` (no `clientRef`; `role` only in a by-role vote, folded to `other` under `k` devices), `vote.rationale { voteId, optionId, text }`, `vote.close { voteId, status: closed | interrupted, reason, results[{optionId,count}], voted, eligible, byRole? }`, `vote.reopen` and `vote.recorded { voteId, mselRowId? }`; a ballot that is out of scope, for an unknown option or after close is an `anomaly` (`vote out of scope`, `vote bad option`, `vote late`) with no device reference. A session also has `attachments/`, `staged/`, `blobs.json` and the `summary` (counts of clients, releases, receipts, messages, votes, hot wash items, observations and surveys) in `session.json`, written when the session ends. `inject.answered { note? }` (ref `rowId`, `releaseId`) records the facilitator's **Mark answered**. Readers parse a line loosely (`src/main/live/log-read.ts`): `readSlice(root, scenarioId, sessionId, { kinds?, after? })` returns rows with `i, kind, at, ex?, rowId?, releaseId?, inReplyTo?, fromRoleId?, text?`, the actor without `displayName` and `clientRef`, `ref` and `data`. Exports: JSON `{ format: 'actionstations/live-session', formatVersion: 1, session, entries }`, and CSV with the columns `index, at, exercise_time, kind, actor_kind, role, team, evaluator, display_name, ref_row, ref_id, summary, data_json` (UTF-8 with byte order mark, CRLF, cells starting with `=`, `+`, `-` or `@` prefixed with `'`).
 
-## Surveys (`scenarios/<id>/surveys/`, #422)
+## Surveys (`scenarios/<id>/surveys/`)
 
 Schemas in `src/shared/schemas/survey.ts`. Each survey is `<surveyId>.json`; its responses are `<surveyId>.responses.jsonl`, one `SurveyResponse` per line, append-only (a line with an id already stored replaces the earlier one when read; a line cut short by a crash is skipped). Duplicating a scenario copies the definitions, never the responses. `scenario.json` exports carry the definitions only. Older builds ignore the folder.
 
@@ -263,9 +262,9 @@ SurveySummary {                            // summarizeSurvey(), src/main/survey
 }
 ```
 
-Before/after editions keep the same questions: saving one copies its sections into the other. Templates ship in `surveys/templates/<templateId>.json` (app resources). `AppSettings.surveys.minResponses` (default 3) is the anonymity threshold: below it, results show counts only. The AAR draft (#419) reads `scenarioSurveySummaries()` from `src/main/surveys/results.ts` and cites survey evidence as `survey:<surveyId>:<questionId>`.
+Before/after editions keep the same questions: saving one copies its sections into the other. Templates ship in `surveys/templates/<templateId>.json` (app resources). `AppSettings.surveys.minResponses` (default 3) is the anonymity threshold: below it, results show counts only. The AAR draft reads `scenarioSurveySummaries()` from `src/main/surveys/results.ts` and cites survey evidence as `survey:<surveyId>:<questionId>`.
 
-## Source check and plan conflicts (#423)
+## Source check and plan conflicts
 
 `Scenario.grounding.items` maps an item key (`row:I-07`, `inject:<id>`, `overview:<n>`) to a `GroundingResult` (`src/shared/schemas/grounding.ts`):
 
@@ -284,12 +283,12 @@ GroundingResult {
 The label shown is `override ?? model ?? label`. Results are kept at scenario level, not on `MselRow` or `Inject`, so an older build that strips unknown row keys loses nothing. Idea labels are in `ideas.json` under `grounding` (keys `idea:<id>`).
 
 `<project>/plan-conflicts.json` (`src/shared/schemas/plan-conflicts.ts`): `{ formatVersion: 1, checkedAt, documents[{ id, sha256 }], stats?{ candidates, sent, skipped }, findings: PlanFinding[] }`. A finding is a `contradiction` (slot, slot label, subject, passages `a` and `b` with document, heading path, page, chunk id and the statement's text, the two values, the model verdict and its quotes) or a `dangling_reference` (passage `a` and the missing target), with `status` open / dismissed / confirmed / outdated and an optional note. Its id is sha256 of the slot and both spans (16 hex), so a re-run keeps decisions for unchanged passages.
-## After-Action Report / Improvement Plan (`scenarios/<id>/aar.json`, #419)
+## After-Action Report / Improvement Plan (`scenarios/<id>/aar.json`)
 
-Schemas in `src/shared/schemas/aar.ts` (ADR-0035). `aar.json` is the structured report; `documents/aar.md` is rendered from it in the HSEEP 2020 layout with `<!-- section:name -->` markers (`overview`, `summary`, `ratings`, `findings`, `ip`, `participants`, `feedback`, `acronyms`). The structured editor re-renders the table sections on save and leaves the prose sections (`summary`, `findings`, `feedback`) as a person edited them. History: `history/aar-json.jsonl` for the data, `history/aar.jsonl` for the document.
+Schemas in `src/shared/schemas/aar.ts`. `aar.json` is the structured report; `documents/aar.md` is rendered from it in the HSEEP 2020 layout with `<!-- section:name -->` markers (`overview`, `summary`, `ratings`, `findings`, `ip`, `participants`, `feedback`, `acronyms`). The structured editor re-renders the table sections on save and leaves the prose sections (`summary`, `findings`, `feedback`) as a person edited them. History: `history/aar-json.jsonl` for the data, `history/aar.jsonl` for the document.
 
 ```ts
-Aar {                                       // loose (ADR-0016)
+Aar {                                       // loose
   formatVersion: 1, createdAt, updatedAt, exerciseDate?,
   executiveSummaryMd, participantFeedbackMd,
   sourcesUsed: ('facilitator'|'evaluation'|'live'|'surveys')[],   // what the record held when drafted
@@ -320,9 +319,9 @@ ExerciseRecord { sources: { facilitator, evaluation, live, surveys }, liveSessio
   surveys: SurveySummary[], warnings[] }   // every item carries its EvidenceRef; role labels, no names
 ```
 
-Sources: `facilitator.json`, `evaluation.json`, `live/<sessionId>/log.jsonl` (spec 0417; read by `src/main/aar/sources/live-log.ts`, the most recent ended session unless one is chosen; `displayName` is never read) and the survey store. A missing source is a gap the report states, not an error.
+Sources: `facilitator.json`, `evaluation.json`, `live/<sessionId>/log.jsonl` (read by `src/main/aar/sources/live-log.ts`, the most recent ended session unless one is chosen; `displayName` is never read) and the survey store. A missing source is a gap the report states, not an error.
 
-## Plan redlines and regression drills (`redlines/`, `drills/`, #431, ADR-0048)
+## Plan redlines and regression drills (`redlines/`, `drills/`)
 
 Folders created on first use; one loose JSON file per record, validated on read. Schemas in
 `src/shared/schemas/redline.ts` and `drill.ts`.
@@ -330,7 +329,7 @@ Folders created on first use; one loose JSON file per record, validated on read.
 - `redlines/<id>.json`: a proposed edit of one plan section. `source` (scenario, AAR finding,
   corrective action ids, criteria), `target` (document, heading path, page, `sourceKind`),
   `originalExcerpt` (verbatim from the ingested text), `proposedText`, `rationale`, `grounding`
-  (#423), `status` (`proposed`, `accepted`, `rejected`, `exported`, `applied`, `not_applied`,
+, `status` (`proposed`, `accepted`, `rejected`, `exported`, `applied`, `not_applied`,
   `needs_review`), `history`, `export` (file, mode, sha256 of the original) and `appliedCheck`.
 - `drills/<id>.json`: a drill plan: source scenario and session, `rowIds`, `criterionIds`,
   `correctiveActionIds` with `actionCriteria` (the `rowId|criterionId` keys each action's verdict
@@ -340,7 +339,7 @@ Folders created on first use; one loose JSON file per record, validated on read.
 - `DocumentMeta.supersedesDocumentId`: the earlier plan a document replaces.
   `ScenarioBrief.drillOf { drillId, sourceScenarioId }`: set on a drill's scenario.
 
-## Micro-drills (`micro-drills/`, `micro-drill-runs/`, `micro-drill-hints.json`, #437, ADR-0057)
+## Micro-drills (`micro-drills/`, `micro-drill-runs/`, `micro-drill-hints.json`)
 
 Created on first use; loose JSON validated on read; older versions ignore them. Schemas in
 `src/shared/schemas/micro-drill.ts`. Not the regression `drills/` above.
@@ -360,7 +359,7 @@ Created on first use; loose JSON validated on read; older versions ignore them. 
 - `ProjectSnapshot.drills` (in the program folder): one summary per finished run (section, Core
   Capabilities, participants, minutes, coverage, hints used); no answers, no names.
 
-## Exercise program (`<Name>.asprogram/`, #424, ADR-0043)
+## Exercise program (`<Name>.asprogram/`)
 
 A folder the user chooses, outside every project, for corrective actions across exercises and
 the multi-year IPP schedule. Schemas in `src/shared/schemas/program.ts`; every file is validated
@@ -395,7 +394,7 @@ from; a stale one fails with `CONFLICT` and `details.theirs`. `project.json` gai
 `program: { id, path }` and `ScenarioBrief` an optional `programProposal`; the AAR
 `CorrectiveAction` gains `programActionId`. `settings.json` gains `program: { activePath, recent }`.
 
-## Cloud privacy (#433, ADR-0031)
+## Cloud privacy
 
 ```ts
 // AppSettings.privacy (global defaults) and Project.privacy (per-field overrides)
@@ -455,22 +454,22 @@ Front matter with scenario id, version, generated-at, provider summary, and a ch
 | File | Contents |
 |---|---|
 | `settings.json` | `AppSettings`: recent projects, provider configs (no keys), default routing, embedding mode, UI theme, pack catalog URLs (`packs.catalogs`), live play defaults and remembered servers (`live.defaultConnectionKind`, `live.servers`: address, name, pinned certificate fingerprint, last test; the server key is never here) |
-| `secrets.json` | `{ [providerId]: base64(safeStorage.encryptString(apiKey)) }` — ciphertext only, mode 0600. Also `redaction:<key>` entries: each project's 32-byte redaction key, filed under a hash of the project id and folder path (#433) |
-| `cloud-sends.jsonl` | Send log for cloud requests made outside a project (#433); same lines as the project file |
-| `redaction/<key>.bin` | Values each project has redacted (#433), AES-256-GCM with a key derived from the project's redaction key; `<key>` hashes the project id and folder path |
+| `secrets.json` | `{ [providerId]: base64(safeStorage.encryptString(apiKey)) }` — ciphertext only, mode 0600. Also `redaction:<key>` entries: each project's 32-byte redaction key, filed under a hash of the project id and folder path |
+| `cloud-sends.jsonl` | Send log for cloud requests made outside a project; same lines as the project file |
+| `redaction/<key>.bin` | Values each project has redacted, AES-256-GCM with a key derived from the project's redaction key; `<key>` hashes the project id and folder path |
 | `prompts/<name>.md` | Global prompt overrides (project overrides live in `<project>/prompts/`) |
 | `models/` | Downloaded local embedding models (only via the explicit download action) |
 | `provider-calls.jsonl` | One line per model call: provider, model, tokens, cost, duration — no prompt text, no keys |
 | `jobs.json` | Persisted job records so interrupted generation shows as resumable |
-| `packs/<id>/<version>/` | Installed packs, verified against their `pack.json` hashes, read-only (ADR-0018) |
-| `settings.json` `regional.orgs` | Organization identities for regional exercises (#440): name, prefix, public signing key, fingerprint, live key. Private keys are in `secrets.json` as `org-key-<orgId>` |
+| `packs/<id>/<version>/` | Installed packs, verified against their `pack.json` hashes, read-only |
+| `settings.json` `regional.orgs` | Organization identities for regional exercises: name, prefix, public signing key, fingerprint, live key. Private keys are in `secrets.json` as `org-key-<orgId>` |
 | `packs/registry.json` | `PackRegistry`: installed packs with version, enabled, source (file / url / catalog), archive and content sha256, item list (see docs/packs-format.md "Installed packs") |
 | `packs/.staging/` | Downloads and extractions in progress; emptied at every startup |
-| `templates/injects/<type>/` | User inject templates, the layer between project and pack templates (ADR-0018) |
-| `live/sessions/<sessionId>.json` | A running live session's secrets (ADR-0027; written by #407–#410): staff root per epoch, controller signing and ECDH keys as JWK, last `seq`; `safeStorage` ciphertext only, deleted at `session.end`. Never in a project folder |
-| `live/lan.log` (+ `.1`–`.3`) | The LAN session server's connection log (#407, ADR-0032): time, event, remote address, client id, close code; fixed fields, never a frame, a query string or a key. Rotated at 5 MB × 3 |
+| `templates/injects/<type>/` | User inject templates, the layer between project and pack templates |
+| `live/sessions/<sessionId>.json` | A running live session's secrets: staff root per epoch, controller signing and ECDH keys as JWK, last `seq`; `safeStorage` ciphertext only, deleted at `session.end`. Never in a project folder |
+| `live/lan.log` (+ `.1`–`.3`) | The LAN session server's connection log: time, event, remote address, client id, close code; fixed fields, never a frame, a query string or a key. Rotated at 5 MB × 3 |
 
-## SimCell personas and drafts (#429)
+## SimCell personas and drafts
 
 | File | Contents |
 |---|---|
@@ -483,11 +482,11 @@ Front matter with scenario id, version, generated-at, provider summary, and a ch
 
 The session log (`log.jsonl`) gains `simcell.draft` (draft text, final text, checks, whether edited), `call.ring`, `call.answer` (text or transcript, audio size, never the audio) and `call.end`.
 
-## Regional exercises (`scenarios/<id>/regional.json`, #440)
+## Regional exercises (`scenarios/<id>/regional.json`)
 
 `RegionalState` (`src/shared/schemas/regional.ts`): exercise id, role (host or participant), this organization, the organizations with their pinned keys, frame version, received slice revisions, sharing settings, cross-organization channels, proposals and the revisions this computer last exported. `MselRow`, `Inject` and `Role` gain optional `owner`, `revision`, `visibility`, `publicSummary`, `dependsOn`; `Scenario.regional` points at the file. Single-organization scenarios are unchanged. Bundle format: [exercise-bundle-format.md](exercise-bundle-format.md).
 
-## Hazard snapshots (`hazards/`, `project.json` `location`, #439, ADR-0061)
+## Hazard snapshots (`hazards/`, `project.json` `location`)
 
 `src/shared/schemas/hazards.ts`.
 

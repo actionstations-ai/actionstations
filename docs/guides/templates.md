@@ -2,7 +2,7 @@
 
 Inject templates turn the structured fields of an inject (a tweet's handle and text, a ticket's number and description, a FIDS board's rows) into a PNG and, for paper injects, a PDF page. Every text-bearing inject is rendered from a template so its text is exact and legible; AI image models are only used for photographic scenes, which a template can then frame ([CONTRIBUTING.md, Project rules 5](../../CONTRIBUTING.md#project-rules)).
 
-This guide covers the folder contract, the day-to-day loop, golden images, and adding a new inject type end to end. The reference implementation is [`templates/injects/time_jump_card/`](../../templates/injects/time_jump_card/) (simple, paper) and [`templates/injects/tweet/`](../../templates/injects/tweet/) (variants, image slots). The design decisions are in [ADR-0008](../adr/0008-template-rendering.md); the inject types are listed in [docs/03-INJECT-TAXONOMY.md](../03-INJECT-TAXONOMY.md).
+This guide covers the folder contract, the day-to-day loop, golden images, and adding a new inject type end to end. The reference implementation is [`templates/injects/time_jump_card/`](../../templates/injects/time_jump_card/) (simple, paper) and [`templates/injects/tweet/`](../../templates/injects/tweet/) (variants, image slots). The inject types are listed in [docs/03-INJECT-TAXONOMY.md](../03-INJECT-TAXONOMY.md).
 
 ## Folder contract
 
@@ -140,7 +140,7 @@ Some strings must be exact and are computed, not written: a SAME header, VTEC an
 
 ### Figures
 
-A figure is an image the app draws from data: a chart, an instrument display, a board. It is exact (the numbers are drawn, never generated as pixels) and reproducible, so it follows project rule 5 like any template. Figure kinds live in `src/main/render/figures/<kind>.ts` as pure functions `(data, options) => { svg, summary, table? }`; the registry (`registry.ts`) is keyed by kind id. Packs and toolkits supply data, never kinds ([ADR-0075](../adr/0075-figures.md)).
+A figure is an image the app draws from data: a chart, an instrument display, a board. It is exact (the numbers are drawn, never generated as pixels) and reproducible, so it follows project rule 5 like any template. Figure kinds live in `src/main/render/figures/<kind>.ts` as pure functions `(data, options) => { svg, summary, table? }`; the registry (`registry.ts`) is keyed by kind id. Packs and toolkits supply data, never kinds.
 
 Generic kinds, with the `data` each takes (zod schemas sit beside each kind and reject bad data with the path):
 
