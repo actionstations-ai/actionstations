@@ -8,6 +8,8 @@ as `#NN`. Releasing: rename `[Unreleased]` to the new version with the release d
 
 ## [Unreleased]
 
+## [0.8.0] - 2026-11-14
+
 ### Added
 
 - **The Packs screen is a store** (#1152): **Discover** shows every pack, included and from your catalogs, in one place: search, categories (Transportation, Health and medicine, Natural hazards and science…) and kinds (fields, toolkits, reference libraries, templates), a featured row, and a shelf per category with compact tiles marked On, Off, Get or Update. Each pack has its own page with the main action (Get, Review update, On, Uninstall), a stats strip, what's inside by kind, its description, the other packs of the same field (its toolkit and reference library), and the details. **Your packs** is a compact list with an On switch per pack, updates and problems first, and a filter. The website's pack catalog uses the same categories.
