@@ -36,6 +36,11 @@ describe('check-user-docs', () => {
     ['an ADR number', 'See ADR-0018 for the design.', 'ADR number'],
     ['a spec number', 'Described in spec 0423.', 'spec number'],
     ['an issue number', 'Fixed in (#123) last week.', 'issue or PR number'],
+    [
+      'an issue link',
+      'It can fail ([#81](https://github.com/o/r/issues/81)).',
+      'issue or PR number',
+    ],
     ['a test file', 'Covered by tests/scripts/foo.test.ts today.', 'test file'],
     ['a source path', 'Lives in src/main/packs/reader.ts.', 'source path'],
     ['a developer command', 'Run pnpm test before you ask.', 'developer command'],
@@ -58,13 +63,13 @@ describe('check-user-docs', () => {
     const dir = tree({
       'docs/guides/providers/x.md': 'Uses ADR-0010.\n',
       'docs/accessibility/ACR-508.md': 'Evidence: e2e/a11y.spec.ts\n',
-      'docs/02-ARCHITECTURE.md': 'ADR-0001 and src/main/ are fine here.\n',
+      'docs/01-PRD.md': 'ADR-0001 is fine in a document the site does not publish.\n',
     })
     const r = check(dir)
     expect(r.status).toBe(1)
     expect(r.out).toContain('docs/guides/providers/x.md:1')
     expect(r.out).toContain('docs/accessibility/ACR-508.md:1')
-    expect(r.out).not.toContain('02-ARCHITECTURE')
+    expect(r.out).not.toContain('01-PRD')
   })
 
   it('does not flag hex colors, headings or ordinary words', () => {
@@ -79,13 +84,30 @@ describe('check-user-docs', () => {
   })
 })
 
-describe('contributor guides', () => {
-  it('keep their commands and decision records: the template authoring guide is not scanned', () => {
+describe('developer pages', () => {
+  it('may name source paths and commands', () => {
     const dir = tree({
       'docs/guides/templates.md':
-        '# Templates\n\nSee ADR-0008, then run `pnpm test:templates` (#123).\n',
-      'docs/guides/start.md': '# Start\n\nOpen **Projects**.\n',
+        '# Templates\n\nEdit src/main/render/x.ts, then run `pnpm test`.\n',
+      'docs/02-ARCHITECTURE.md': 'The hub is src/shared/live/hub.ts; run pnpm e2e.\n',
+      'CONTRIBUTING.md': 'Run `pnpm ci:local` before a pull request.\n',
     })
     expect(check(dir).status).toBe(0)
+  })
+
+  it.each([
+    ['docs/02-ARCHITECTURE.md', 'Bundled packs (ADR-0020).', 'ADR number'],
+    ['docs/05-DATA-MODEL.md', 'In the format of spec 0417.', 'spec number'],
+    ['CONTRIBUTING.md', 'Badges, added in (#388).', 'issue or PR number'],
+    [
+      'docs/guides/templates.md',
+      'See [the decision](adr/0008-template-rendering.md).',
+      'ADR or spec file',
+    ],
+  ])('fail on process records: %s', (file, line, name) => {
+    const r = check(tree({ [file]: `${line}\n` }))
+    expect(r.status).toBe(1)
+    expect(r.out).toContain(`${file}:1:`)
+    expect(r.out).toContain(name)
   })
 })
