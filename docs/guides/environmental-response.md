@@ -99,7 +99,7 @@ The timing measures need a simulated or imported spill in the scenario's case da
 
 ## Rules and their caveats
 
-Facts were checked in November 2026. Rules change, so check the current text before you rely on a deadline.
+Rules change, so check the current text before you rely on a deadline.
 
 - The PREP Guidelines (2016, version 2016.1) are voluntary, not regulations. They describe an annual incident management team tabletop, quarterly qualified individual notification exercises, a worst case discharge scenario once in each three-year cycle, each countermeasure in the plan exercised during the cycle, and Area exercises on a four-year cycle.
 - Facility response plans carry an exercise program (33 CFR 154.1055 for marine transportation-related facilities, 40 CFR 112.21 for facilities under EPA), and following PREP satisfies those sections. How long records are kept depends on the plan type; see [PREP exercises](prep-exercises.md).

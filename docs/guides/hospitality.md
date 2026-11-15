@@ -24,7 +24,7 @@ Turn on **Outbreak at sea** for a ship, or for any place where many people stay 
 
 ### What the toolkit assumes about reporting
 
-These points come from the federal rule for ships bound for a US port and from the CDC Vessel Sanitation Program standards, read on 2026-11-05. Check the current documents before you rely on a number.
+These points come from the federal rule for ships bound for a US port and from the CDC Vessel Sanitation Program standards. Check the current documents before you rely on a number.
 
 - A ship carrying 13 or more passengers reports its cumulative count of acute gastroenteritis cases (zero included) 24 to 36 hours before arrival, and again at least 4 hours before arrival if the count changed.
 - Within 15 days of a US port, a special report goes to the CDC when the cumulative reportable cases reach 2 percent of the passengers or of the crew, with a telephone call, and a second at 3 percent. Three percent, or an unusual pattern below it, is an outbreak.

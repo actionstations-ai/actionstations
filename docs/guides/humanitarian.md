@@ -56,7 +56,7 @@ Most humanitarian doctrine is not public domain, so the toolkit links rather tha
 
 ## Before you use it for real
 
-The rules the toolkit follows were checked against IASC and UNHCR pages and the IASC cluster simplification proposal on 11 November 2026. The cluster system is changing country by country, so confirm the current structure where your scenario is set. Have a humanitarian operations lead who has run cluster or NGO coordination review a scenario, and a security manager review any staff security scenario, before you use it with participants. Every product is marked as an exercise product.
+The rules the toolkit follows come from IASC and UNHCR guidance and the IASC cluster simplification proposal. The cluster system is changing country by country, so confirm the current structure where your scenario is set. Have a humanitarian operations lead who has run cluster or NGO coordination review a scenario, and a security manager review any staff security scenario, before you use it with participants. Every product is marked as an exercise product.
 
 ## Example project
 

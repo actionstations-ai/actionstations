@@ -61,7 +61,7 @@ A field's pieces map to these files. The mapping is checked at build time, so a 
 
 ### 3.3 The bundled pack entry
 
-Add an entry to `packs/bundled.json` (schema `BundledMap`; see [packs-format.md](../packs-format.md#packsbundledjson)). The id is `ai.actionstations.<name>`.
+Add an entry to `packs/bundled.json` (schema `BundledMap`; see [Included packs and reference libraries](bundled-packs.md#packsbundledjson)). The id is `ai.actionstations.<name>`.
 
 - Flooding is one pack, `ai.actionstations.flooding`, with `contents.domains`, `contents.toolkits` and the six `contents.templates` it adds.
 - Epidemiology is two packs: `ai.actionstations.toolkit-epidemiology` (the toolkit and its seven templates) and `ai.actionstations.epidemiology` (the domain). Split them when the toolkit should be used and updated apart from the domain.
@@ -71,7 +71,7 @@ Put the README at `packs/readmes/<name>.md` (`packs/readmes/flooding.md`, `packs
 
 ### 3.4 Reference documents and the library pack
 
-Documents live in a catalog-only library pack, `ai.actionstations.<id>-library`, defined in `packs/documents/manifest.json` (schema `DocumentsManifest`; field table in [packs-format.md](../packs-format.md#reference-documents-and-library-packs)).
+Documents live in a catalog-only library pack, `ai.actionstations.<id>-library`, defined in `packs/documents/manifest.json` (schema `DocumentsManifest`; field table in [Included packs and reference libraries](bundled-packs.md#reference-libraries)).
 
 1. Add `libraries.<id>-library` with `name`, `summary`, `domain` and `version`.
 2. Add one `documents[]` entry per document with `pack`, `slug`, `file`, `title`, `publisher`, `edition`, `url`, `landing`, `license` and `basis`. Only public-domain documents go in: `license` is `LicenseRef-US-Government-Work` (US federal works, 17 U.S.C. section 105) or `CC0-1.0`, and `basis` says why. Verify the licence yourself on the publisher's page: a file on an agency site can still be a contractor's copyrighted work or carry a third-party notice. Copyrighted references go in `links[]` with a `reason`, and are never bundled.

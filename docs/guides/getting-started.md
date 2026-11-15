@@ -2,24 +2,13 @@
 
 This walk-through takes you from a fresh install to a generated exercise: create a project, import an organization's plans, search them, connect a local model, ask for scenario ideas, generate a full scenario (overview, roles, phases, MSEL, controller handbook, rubric, player briefing and hot wash), write the inject deck with its media, edit everything, export the exercise package, and run it in facilitator mode.
 
-It uses the fictional North Coast International Airport (NCIA) plans that ship in [`reference/ncia/`](../../reference/ncia/), and LM Studio with `qwen3-30b-a3b-2507`. The timings come from that setup in the built app: ideas took 13 seconds, and the scenario took 5 minutes 40 seconds (39 MSEL rows, every stage `ok`). The screenshots were taken offline with the built-in mock provider, so the stages show `mock-large` instead of a real model; the MSEL, inject, facilitator and export screens show **Flight to Nowhere** from the bundled airport example (see [Example projects](#example-projects)).
+Use your own organization's plans, or follow along with the airport example that ships with the app: open **Projects → Examples**, choose **North Coast International Airport** (a fictional airport) and click **Open a copy**. The copy already holds the airport's six plans and forms, so you can skip the import in step 3 and go straight to checking them. The timings below come from that example with LM Studio and `qwen3-30b-a3b-2507`: ideas took 13 seconds, and a full scenario took 5 minutes 40 seconds (39 MSEL rows). The MSEL, inject, facilitator and export screenshots show **Flight to Nowhere**, one of the example's finished scenarios.
 
 Background reading: [How a good tabletop exercise is built](methodology.md).
 
 ## 1. Install and launch
 
-Download the installer for your system from the [latest release](https://github.com/actionstations-ai/actionstations/releases/latest) (see [Updates](#updates) for checking the download and the warnings unsigned installers get), or run the app from source as below.
-
-Prerequisites: [Git LFS](https://git-lfs.com) (run `git lfs install` once before cloning), Node.js 22.12 or later, pnpm 10 (`corepack enable && corepack prepare pnpm@10 --activate`), and on macOS the Xcode Command Line Tools (`xcode-select --install`) in case a native module has to be compiled. See the [README](../../README.md#prerequisites) for Windows and Linux.
-
-```bash
-git clone https://github.com/actionstations-ai/actionstations.git
-cd actionstations
-pnpm install
-pnpm dev
-```
-
-`pnpm install` also rebuilds the native modules (SQLite and its vector extension) for Electron. `pnpm dev` opens the app with hot reload; `pnpm build:app && pnpm start` runs the production build instead.
+Download the installer for your system from the [download page](https://actionstations.ai/download/) or the [latest release](https://github.com/actionstations-ai/actionstations/releases/latest), and run it. [Updates](#updates) explains how to check the download and what to do about the warnings macOS and Windows show for an app that is not yet signed. Developers who want to run the app from source will find the steps in the [README](../../README.md#building-from-source).
 
 On first launch the **setup wizard** opens. It has six steps, each of which can be skipped and changed later:
 
@@ -66,7 +55,7 @@ Click **New project** and fill in:
 
 - **Project name**: also used for the folder name (`<name>.asproj`). Projects made before the app was renamed are named `<name>.ttxproj`; they open, list and duplicate the same way. On macOS, double-clicking a project folder in Finder opens it in the app.
 - **Organization**: the name as it should appear in briefings and injects.
-- **Domain**: the kind of organization (a domain profile): Airport, Transit (bus / rail), Dam / water authority, Water utility, Energy utility, Healthcare, Campus, Stadium / venue, Port / maritime, Municipal government, Industrial / manufacturing, Unmanned systems operator, K-12 school district, Commercial facilities (retail, lodging, casino), Food and agriculture, Telecommunications carrier / ISP, Data center / IT service provider, Community bank / credit union or Generic organization. Type in the search box (`bus`, `dam`, `hospital`, `drone`, `school`, `bank`) to narrow the list, then click a profile or move with the arrow keys. The profile sets the vocabulary, the facility-fact categories, typical roles and outside parties, and the threat families the generator offers. Projects created before profiles existed keep their stored value; the picker says which profile it resolves to (for example _Saved as “hospital”, which uses the Healthcare profile_).
+- **Domain**: the kind of organization (a domain profile). The list holds every field of your enabled packs, from airports, transit and water utilities to hospitals, nursing, public health, 911 centers, schools, elections, wildfire, cruise lines and AI incidents, plus **Generic organization** for anything else; [Packs](packs.md) turns fields on and off. Type in the search box (`bus`, `dam`, `hospital`, `drone`, `school`, `bank`) to narrow the list, then click a profile or move with the arrow keys. The profile sets the vocabulary, the facility-fact categories, typical roles and outside parties, and the threat families the generator offers. Projects created before profiles existed keep their stored value; the picker says which profile it resolves to (for example _Saved as “hospital”, which uses the Healthcare profile_).
 - **Location**: the parent folder (**Choose…** opens a folder picker). Set a default under **Settings → Default projects folder**.
 
 ![New project dialog](images/new-project.png)
@@ -85,11 +74,11 @@ The project folder contains `project.json`, `documents/`, `scenarios/`, `prompts
 
 ## 3. Import documents
 
-Open **Documents** and click **Import documents…**, or drop files anywhere on the window. PDF, Word, PowerPoint, Excel, Markdown, HTML, plain text and images (with OCR) are supported. Each file is copied into the project's `documents/` folder, parsed into heading-aware sections and indexed. For this walk-through, import the six Markdown files in `reference/ncia/` and `reference/ics-forms/`.
+Open **Documents** and click **Import documents…**, or drop files anywhere on the window. PDF, Word, PowerPoint, Excel, Markdown, HTML, plain text and images (with OCR) are supported. Each file is copied into the project's `documents/` folder, parsed into heading-aware sections and indexed. Import your own plans here. If you opened the airport example, its six documents (the airport emergency plan, security program, terminal incident response plan, a terminal map and two ICS forms) are already imported.
 
 ![Documents after import](images/documents.png)
 
-Measured: the six NCIA documents imported and indexed in 0.4 seconds (142 sections).
+Importing and indexing the airport example's six documents takes under half a second (142 sections).
 
 For each document, check:
 
