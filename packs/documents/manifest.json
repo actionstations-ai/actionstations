@@ -6,7 +6,7 @@
       "name": "Airport reference library",
       "summary": "FAA advisory circulars, Part 139 and UAS guidance for commercial-service airports.",
       "domain": "airport",
-      "version": "1.1.0"
+      "version": "1.1.1"
     },
     "campus-library": {
       "name": "Campus reference library",
@@ -66,7 +66,7 @@
       "name": "Financial services reference library",
       "summary": "FFIEC handbooks, incident notification rules, FinCEN and OFAC advisories and the FDIC Cyber Challenge.",
       "domain": "financial_services",
-      "version": "1.1.2"
+      "version": "1.1.3"
     },
     "food-agriculture-library": {
       "name": "Food and agriculture reference library",
@@ -78,13 +78,13 @@
       "name": "Freight rail reference library",
       "summary": "TSA rail security directives, CFR parts, the train consist rule and an NTSB report.",
       "domain": "freight_rail",
-      "version": "1.1.0"
+      "version": "1.1.1"
     },
     "gas-pipeline-library": {
       "name": "Gas pipeline reference library",
       "summary": "TSA pipeline guidelines and directives, 49 CFR 192.615, an NTSB report and the DarkSide advisory.",
       "domain": "gas_pipeline",
-      "version": "1.1.0"
+      "version": "1.1.1"
     },
     "healthcare-library": {
       "name": "Healthcare reference library",
@@ -114,7 +114,7 @@
       "name": "Port and maritime reference library",
       "summary": "USCG NVICs and cyber alerts, the MTS cybersecurity rule and FAQs, 33 CFR parts, the BIMCO onboard guidelines and the IMO cyber risk circular.",
       "domain": "port_maritime",
-      "version": "1.1.0"
+      "version": "1.1.1"
     },
     "public-health-library": {
       "name": "Public health reference library",
@@ -138,13 +138,13 @@
       "name": "Transit reference library",
       "summary": "TSA transit security directive, FTA safety and cyber references, APTA control system security practices, TCRP security guides and CFR parts.",
       "domain": "transit",
-      "version": "1.1.0"
+      "version": "1.1.1"
     },
     "unmanned-systems-library": {
       "name": "Unmanned systems reference library",
       "summary": "Part 107 and Part 89, FAA advisory material, C-UAS legal advisory and CISA UAS guidance.",
       "domain": "unmanned_systems",
-      "version": "1.0.1"
+      "version": "1.0.2"
     },
     "water-dam-library": {
       "name": "Dams reference library",
@@ -192,7 +192,7 @@
       "name": "Research laboratories reference library",
       "summary": "The select agent regulations (42 CFR part 73), the select agent incident response guidance, BMBL 6th edition and the NIH Guidelines.",
       "domain": "research_labs",
-      "version": "1.1.0"
+      "version": "1.1.1"
     },
     "animal-health-library": {
       "name": "Animal health reference library",
@@ -204,13 +204,13 @@
       "name": "Pharmacy reference library",
       "summary": "CFR text for pharmaceutical services and controlled substance loss, CMS Appendix Z, the CDC vaccine storage toolkit and drug shortage guidance.",
       "domain": "pharmacy",
-      "version": "1.1.0"
+      "version": "1.1.1"
     },
     "logistics-library": {
       "name": "Supply chain and logistics reference library",
       "summary": "The FSMA 204 food traceability final rule, the FDA recall regulations (21 CFR part 7) and the FEMA Community Lifelines toolkit.",
       "domain": "supply_chain",
-      "version": "1.1.0"
+      "version": "1.1.1"
     },
     "space-weather-library": {
       "name": "Space weather and satellite operations reference library",
@@ -240,7 +240,7 @@
       "name": "Governance and business continuity reference library",
       "summary": "SEC cyber disclosure rule and fact sheet, ransomware and insider threat exercise manuals, NIST incident response and contingency planning, FFIEC continuity, OFAC advisory and Ready.gov BIA tools.",
       "domain": "governance",
-      "version": "1.1.0"
+      "version": "1.1.1"
     },
     "structures-library": {
       "name": "Structures and building safety reference library",
@@ -258,7 +258,7 @@
       "name": "Hospitality, tourism and cruise reference library",
       "summary": "The CDC Vessel Sanitation Program standards, 42 CFR 71.21 and the cruise vessel security statute, with links to guidance that cannot be bundled.",
       "domain": "hospitality",
-      "version": "1.1.0"
+      "version": "1.1.1"
     }
   },
   "documents": [
@@ -688,11 +688,14 @@
       "edition": "CFR annual edition, 1 January 2026",
       "url": "https://www.govinfo.gov/content/pkg/CFR-2026-title14-vol3/pdf/CFR-2026-title14-vol3-part139.pdf",
       "landing": "https://www.ecfr.gov/current/title-14/chapter-I/subchapter-G/part-139",
-      "sha256": "d874186f215051a260b6e79ed8afa91ed7b0eca2f8cbc912eda220925f795e26",
-      "size": 266403,
+      "sha256": "5a9f30b4220438ca337b4057d0de79afbefb98181f5fb86b53e75501760974b1",
+      "size": 266683,
       "license": "LicenseRef-US-Government-Work",
       "basis": "US federal government work (17 U.S.C. §105): regulation text, Office of the Federal Register / GPO",
-      "pinned": "2026-10-24"
+      "pinned": "2026-11-15",
+      "mirrors": [
+        "https://web.archive.org/web/20261115205242id_/https://www.govinfo.gov/content/pkg/CFR-2026-title14-vol3/pdf/CFR-2026-title14-vol3-part139.pdf"
+      ]
     },
     {
       "pack": "airport-library",
@@ -2499,11 +2502,8 @@
       "file": "ffiec-bcm-booklet.pdf",
       "title": "FFIEC IT Examination Handbook: Business Continuity Management",
       "publisher": "FFIEC",
-      "edition": "November 2019",
+      "edition": "November 2019 (file re-issued March 2026)",
       "url": "https://ithandbook.ffiec.gov/media/2nifgh2b/ffiec_itbooklet_businesscontinuitymanagement_v3.pdf",
-      "mirrors": [
-        "https://web.archive.org/web/20250605180833id_/https://ithandbook.ffiec.gov/media/2nifgh2b/ffiec_itbooklet_businesscontinuitymanagement_v3.pdf"
-      ],
       "landing": "https://ithandbook.ffiec.gov/it-booklets/business-continuity-management/",
       "sha256": "568774e26b844a1a08efd19d59bc79bc50b73b6e35791827271559f8bf89dbad",
       "size": 1287147,
@@ -2517,11 +2517,8 @@
       "file": "ffiec-infosec-booklet.pdf",
       "title": "FFIEC IT Examination Handbook: Information Security",
       "publisher": "FFIEC",
-      "edition": "September 2016",
+      "edition": "September 2016 (file re-issued February 2026)",
       "url": "https://ithandbook.ffiec.gov/media/swzjlcxk/ffiec_itbooklet_informationsecurity.pdf",
-      "mirrors": [
-        "https://web.archive.org/web/20250527231109id_/https://ithandbook.ffiec.gov/media/swzjlcxk/ffiec_itbooklet_informationsecurity.pdf"
-      ],
       "sha256": "64c4726ae64c3ef7a34f5d60d31097f030417eae8dd36dcf19aff095eec7c050",
       "size": 655114,
       "license": "LicenseRef-US-Government-Work",
@@ -2619,16 +2616,13 @@
       "file": "ffiec-aio-booklet.pdf",
       "title": "FFIEC IT Examination Handbook: Architecture, Infrastructure, and Operations",
       "publisher": "FFIEC",
-      "edition": "June 2021",
+      "edition": "June 2021 (file re-issued March 2026)",
       "url": "https://ithandbook.ffiec.gov/media/ywfm2ftz/ffiec_itbooklet_aio.pdf",
-      "mirrors": [
-        "https://web.archive.org/web/20250605180840id_/https://ithandbook.ffiec.gov/media/ywfm2ftz/ffiec_itbooklet_aio.pdf"
-      ],
-      "sha256": "9f33e1a9a52054eb5ec4c5313c47198064d169f8cc315fdcbce27619aebfccb4",
-      "size": 2002567,
+      "sha256": "2eca52eacb7a949267df1babb06e5892dd661641790fa6024129405655fe2aa0",
+      "size": 1688839,
       "license": "LicenseRef-US-Government-Work",
       "basis": "US federal government work (17 U.S.C. §105): FFIEC, a federal interagency council",
-      "pinned": "2026-10-24"
+      "pinned": "2026-11-15"
     },
     {
       "pack": "financial-services-library",
@@ -2670,11 +2664,8 @@
       "file": "ffiec-wps-booklet.pdf",
       "title": "FFIEC IT Examination Handbook: Wholesale Payment Systems",
       "publisher": "FFIEC",
-      "edition": "July 2004",
+      "edition": "July 2004 (file re-issued March 2026)",
       "url": "https://ithandbook.ffiec.gov/media/zdobvcx5/ffiec_itbooklet_wholesalepaymentsystems.pdf",
-      "mirrors": [
-        "https://web.archive.org/web/2026id_/https://ithandbook.ffiec.gov/media/zdobvcx5/ffiec_itbooklet_wholesalepaymentsystems.pdf"
-      ],
       "sha256": "e8b82d6786811576f57cc8546cdca383e459d47fdefa19e951eeedca27d8e0ed",
       "size": 892015,
       "license": "LicenseRef-US-Government-Work",
@@ -2687,11 +2678,8 @@
       "file": "ffiec-ots-booklet.pdf",
       "title": "FFIEC IT Examination Handbook: Outsourcing Technology Services",
       "publisher": "FFIEC",
-      "edition": "June 2004",
+      "edition": "June 2004 (file re-issued March 2026)",
       "url": "https://ithandbook.ffiec.gov/media/pqtfvxxq/ffiec_itbooklet_outsourcingtechnologyservices.pdf",
-      "mirrors": [
-        "https://web.archive.org/web/2026id_/https://ithandbook.ffiec.gov/media/pqtfvxxq/ffiec_itbooklet_outsourcingtechnologyservices.pdf"
-      ],
       "sha256": "51d46293d081a32b80f89d37bd3cbed9770f1075b09ba524c570b9b771e8fef0",
       "size": 1080854,
       "license": "LicenseRef-US-Government-Work",
@@ -3274,11 +3262,14 @@
       "publisher": "Office of the Federal Register / GPO",
       "edition": "CFR edition 1 October 2025",
       "url": "https://www.govinfo.gov/content/pkg/CFR-2025-title49-vol9/pdf/CFR-2025-title49-vol9-part1580.pdf",
-      "sha256": "297bb7e52aaae24a3cf632229e0fe8f06e242233f05a02ad40e74fb1da316e1d",
-      "size": 233552,
+      "sha256": "82ea9b57225479f4a7175e9f67bbcd3750ce87141a12bfba2918d7c213215099",
+      "size": 233762,
       "license": "LicenseRef-US-Government-Work",
       "basis": "US federal government work (17 U.S.C. §105): regulation text, Office of the Federal Register / GPO",
-      "pinned": "2026-10-24"
+      "pinned": "2026-11-15",
+      "mirrors": [
+        "https://web.archive.org/web/20261115210455id_/https://www.govinfo.gov/content/pkg/CFR-2025-title49-vol9/pdf/CFR-2025-title49-vol9-part1580.pdf"
+      ]
     },
     {
       "pack": "freight-rail-library",
@@ -3289,11 +3280,14 @@
       "publisher": "Office of the Federal Register / GPO",
       "edition": "CFR edition 1 October 2025",
       "url": "https://www.govinfo.gov/content/pkg/CFR-2025-title49-vol9/pdf/CFR-2025-title49-vol9-part1570.pdf",
-      "sha256": "b79afa4e3e6f69c89539a4efd714ad948861bc060e1d91be18df3fcd960593d9",
-      "size": 227257,
+      "sha256": "2d570e72f3d099a1f69140dcf0eb452f921c7cd6cd258ed5fe4be4a13b8aae37",
+      "size": 227467,
       "license": "LicenseRef-US-Government-Work",
       "basis": "US federal government work (17 U.S.C. §105): regulation text, Office of the Federal Register / GPO",
-      "pinned": "2026-10-24"
+      "pinned": "2026-11-15",
+      "mirrors": [
+        "https://web.archive.org/web/20261115210429id_/https://www.govinfo.gov/content/pkg/CFR-2025-title49-vol9/pdf/CFR-2025-title49-vol9-part1570.pdf"
+      ]
     },
     {
       "pack": "freight-rail-library",
@@ -3303,11 +3297,14 @@
       "publisher": "Office of the Federal Register / GPO",
       "edition": "CFR edition 1 October 2025",
       "url": "https://www.govinfo.gov/content/pkg/CFR-2025-title49-vol2/pdf/CFR-2025-title49-vol2-sec172-820.pdf",
-      "sha256": "9f94d86c84f05dc65e75ba09b92a0088258da0c03a1ca16d76488d3a282dad04",
-      "size": 203108,
+      "sha256": "fd61a815cb7a9eba865e497727df1b70503ea7865e363fb291673ed7396b4c27",
+      "size": 203388,
       "license": "LicenseRef-US-Government-Work",
       "basis": "US federal government work (17 U.S.C. §105): regulation text, Office of the Federal Register / GPO",
-      "pinned": "2026-10-24"
+      "pinned": "2026-11-15",
+      "mirrors": [
+        "https://web.archive.org/web/20261115210317id_/https://www.govinfo.gov/content/pkg/CFR-2025-title49-vol2/pdf/CFR-2025-title49-vol2-sec172-820.pdf"
+      ]
     },
     {
       "pack": "freight-rail-library",
@@ -3331,11 +3328,14 @@
       "publisher": "Office of the Federal Register / GPO",
       "edition": "CFR edition 1 October 2025",
       "url": "https://www.govinfo.gov/content/pkg/CFR-2025-title49-vol4/pdf/CFR-2025-title49-vol4-part225.pdf",
-      "sha256": "4b314f0dbe327d80f7fd1a38bf3ff757b68d6e970be9038a512012c3fed02995",
-      "size": 313422,
+      "sha256": "7be2361fefd4033b0e93e89b45561aecc957884a76f37c1151f7ba761c1792e6",
+      "size": 313702,
       "license": "LicenseRef-US-Government-Work",
       "basis": "US federal government work (17 U.S.C. §105): regulation text, Office of the Federal Register / GPO",
-      "pinned": "2026-10-24"
+      "pinned": "2026-11-15",
+      "mirrors": [
+        "https://web.archive.org/web/20261115210521id_/https://www.govinfo.gov/content/pkg/CFR-2025-title49-vol4/pdf/CFR-2025-title49-vol4-part225.pdf"
+      ]
     },
     {
       "pack": "freight-rail-library",
@@ -3475,11 +3475,14 @@
       "publisher": "Office of the Federal Register / GPO",
       "edition": "CFR edition 1 October 2025",
       "url": "https://www.govinfo.gov/content/pkg/CFR-2025-title49-vol3/pdf/CFR-2025-title49-vol3-sec192-615.pdf",
-      "sha256": "ea291e6538140a1410028266e8c874e52892b963b2d985be2e763cff2946b65d",
-      "size": 199843,
+      "sha256": "662320aeed8fa9f73258148b41ecffaf4eaab3e6e70443bbc6ab769d06541a1b",
+      "size": 199913,
       "license": "LicenseRef-US-Government-Work",
       "basis": "US federal government work (17 U.S.C. §105): regulation text, Office of the Federal Register / GPO",
-      "pinned": "2026-10-24"
+      "pinned": "2026-11-15",
+      "mirrors": [
+        "https://web.archive.org/web/20261115210330id_/https://www.govinfo.gov/content/pkg/CFR-2025-title49-vol3/pdf/CFR-2025-title49-vol3-sec192-615.pdf"
+      ]
     },
     {
       "pack": "gas-pipeline-library",
@@ -4419,11 +4422,14 @@
       "publisher": "Office of the Federal Register / GPO",
       "edition": "CFR edition 1 July 2025",
       "url": "https://www.govinfo.gov/content/pkg/CFR-2025-title33-vol1/pdf/CFR-2025-title33-vol1-part101.pdf",
-      "sha256": "dd62e68d26949700698997c8ab48d4f1485984bb8680b3b69a2101d9ef83a960",
-      "size": 234730,
+      "sha256": "7c92d579e6a010ae8ef7019149bc41278af0dfeb6acc849cf2c6f76a67ed84a5",
+      "size": 234800,
       "license": "LicenseRef-US-Government-Work",
       "basis": "US federal government work (17 U.S.C. §105): regulation text, Office of the Federal Register / GPO",
-      "pinned": "2026-10-24"
+      "pinned": "2026-11-15",
+      "mirrors": [
+        "https://web.archive.org/web/20261115210157id_/https://www.govinfo.gov/content/pkg/CFR-2025-title33-vol1/pdf/CFR-2025-title33-vol1-part101.pdf"
+      ]
     },
     {
       "pack": "port-maritime-library",
@@ -4433,11 +4439,14 @@
       "publisher": "Office of the Federal Register / GPO",
       "edition": "CFR edition 1 July 2025",
       "url": "https://www.govinfo.gov/content/pkg/CFR-2025-title33-vol1/pdf/CFR-2025-title33-vol1-part105.pdf",
-      "sha256": "6e2de3ab75acb362fd870775bbef26327b7bb5b883917d9570d659eb0ca782a7",
-      "size": 228580,
+      "sha256": "3d13960f4a9ae7a7b29da63e8f2802b40c7fb4242956d36a0f686a38c5e2651a",
+      "size": 228650,
       "license": "LicenseRef-US-Government-Work",
       "basis": "US federal government work (17 U.S.C. §105): regulation text, Office of the Federal Register / GPO",
-      "pinned": "2026-10-24"
+      "pinned": "2026-11-15",
+      "mirrors": [
+        "https://web.archive.org/web/20261115210211id_/https://www.govinfo.gov/content/pkg/CFR-2025-title33-vol1/pdf/CFR-2025-title33-vol1-part105.pdf"
+      ]
     },
     {
       "pack": "port-maritime-library",
@@ -5137,11 +5146,14 @@
       "publisher": "Office of the Federal Register / GPO",
       "edition": "CFR edition 1 October 2025",
       "url": "https://www.govinfo.gov/content/pkg/CFR-2025-title49-vol9/pdf/CFR-2025-title49-vol9-part1582.pdf",
-      "sha256": "aac70c9e0c226d8b12473fc9f13d130cfc90547cca8bec8f9fde0ea4f23d8dd0",
-      "size": 243541,
+      "sha256": "ca72bb1e09e9f6a0bbaff92e9dee918855ccfe28b3c9068dd4a95ba3cb64e6c6",
+      "size": 243751,
       "license": "LicenseRef-US-Government-Work",
       "basis": "US federal government work (17 U.S.C. §105): regulation text, Office of the Federal Register / GPO",
-      "pinned": "2026-10-24"
+      "pinned": "2026-11-15",
+      "mirrors": [
+        "https://web.archive.org/web/20261115210507id_/https://www.govinfo.gov/content/pkg/CFR-2025-title49-vol9/pdf/CFR-2025-title49-vol9-part1582.pdf"
+      ]
     },
     {
       "pack": "transit-library",
@@ -5151,11 +5163,14 @@
       "publisher": "Office of the Federal Register / GPO",
       "edition": "CFR edition 1 October 2025",
       "url": "https://www.govinfo.gov/content/pkg/CFR-2025-title49-vol7/pdf/CFR-2025-title49-vol7-part673.pdf",
-      "sha256": "a33e49536846277fcdd966038329a561bfc983cc9a3c18307302f026025cc17a",
-      "size": 222559,
+      "sha256": "42b5f99de539037939bf6072de71cc208d761c431bf25414046529b1b61792d4",
+      "size": 222769,
       "license": "LicenseRef-US-Government-Work",
       "basis": "US federal government work (17 U.S.C. §105): regulation text, Office of the Federal Register / GPO",
-      "pinned": "2026-10-24"
+      "pinned": "2026-11-15",
+      "mirrors": [
+        "https://web.archive.org/web/20261115210535id_/https://www.govinfo.gov/content/pkg/CFR-2025-title49-vol7/pdf/CFR-2025-title49-vol7-part673.pdf"
+      ]
     },
     {
       "pack": "transit-library",
@@ -5165,11 +5180,14 @@
       "publisher": "Office of the Federal Register / GPO",
       "edition": "CFR edition 1 October 2025",
       "url": "https://www.govinfo.gov/content/pkg/CFR-2025-title49-vol7/pdf/CFR-2025-title49-vol7-part674.pdf",
-      "sha256": "89a205c0872ec770041541748d40dd445ddbd43a05724b06d27a033852a27fc0",
-      "size": 224751,
+      "sha256": "e5007905bd4b503fbc1572e2cbfe970ecffb3fbd4340ae74cbffc7d8eff1939f",
+      "size": 224961,
       "license": "LicenseRef-US-Government-Work",
       "basis": "US federal government work (17 U.S.C. §105): regulation text, Office of the Federal Register / GPO",
-      "pinned": "2026-10-24"
+      "pinned": "2026-11-15",
+      "mirrors": [
+        "https://web.archive.org/web/20261115210714id_/https://www.govinfo.gov/content/pkg/CFR-2025-title49-vol7/pdf/CFR-2025-title49-vol7-part674.pdf"
+      ]
     },
     {
       "pack": "transit-library",
@@ -5365,11 +5383,14 @@
       "publisher": "Office of the Federal Register / GPO",
       "edition": "CFR edition 1 January 2025",
       "url": "https://www.govinfo.gov/content/pkg/CFR-2025-title14-vol2/pdf/CFR-2025-title14-vol2-part107.pdf",
-      "sha256": "910e8b58bb110e88ccdaeb579f401848b22e1c3832980a6f53fbd04e04eeeaa1",
-      "size": 193076,
+      "sha256": "de022ccd308adc4d17ada8e368091158cd078194d7ba821d17ac8519659d64bf",
+      "size": 193409,
       "license": "LicenseRef-US-Government-Work",
       "basis": "US federal government work (17 U.S.C. §105): regulation text, Office of the Federal Register / GPO",
-      "pinned": "2026-10-24"
+      "pinned": "2026-11-15",
+      "mirrors": [
+        "https://web.archive.org/web/20261115205931id_/https://www.govinfo.gov/content/pkg/CFR-2025-title14-vol2/pdf/CFR-2025-title14-vol2-part107.pdf"
+      ]
     },
     {
       "pack": "unmanned-systems-library",
@@ -5379,11 +5400,14 @@
       "publisher": "Office of the Federal Register / GPO",
       "edition": "CFR edition 1 January 2025",
       "url": "https://www.govinfo.gov/content/pkg/CFR-2025-title14-vol2/pdf/CFR-2025-title14-vol2-part89.pdf",
-      "sha256": "063579c7d837e55846e99549d7e3ace32ee797f39c37405be7049a1107cbdad3",
-      "size": 183606,
+      "sha256": "a350dda45d4d7f507d43c4183e8f8f60527a6a50cdab865e3c58c1387c4e6a3e",
+      "size": 183939,
       "license": "LicenseRef-US-Government-Work",
       "basis": "US federal government work (17 U.S.C. §105): regulation text, Office of the Federal Register / GPO",
-      "pinned": "2026-10-24"
+      "pinned": "2026-11-15",
+      "mirrors": [
+        "https://web.archive.org/web/20261115210115id_/https://www.govinfo.gov/content/pkg/CFR-2025-title14-vol2/pdf/CFR-2025-title14-vol2-part89.pdf"
+      ]
     },
     {
       "pack": "unmanned-systems-library",
@@ -6716,12 +6740,15 @@
       "edition": "CFR 2025 edition (Title 42, volume 1)",
       "url": "https://www.govinfo.gov/content/pkg/CFR-2025-title42-vol1/pdf/CFR-2025-title42-vol1-part73.pdf",
       "landing": "https://www.govinfo.gov/app/details/CFR-2025-title42-vol1/CFR-2025-title42-vol1-part73",
-      "sha256": "7dd5ef2366ebfd2f79b897ade0fc6e4a3e9f2f494135e77a1b710f1665fecdd2",
-      "size": 297140,
+      "sha256": "8baa5d96616945b16e2d88892fc8ba23996e75e479b667ed6463f5c5cf42388b",
+      "size": 297420,
       "license": "LicenseRef-US-Government-Work",
       "basis": "US federal government work (17 U.S.C. section 105): the Code of Federal Regulations is published by the Office of the Federal Register and the Government Publishing Office, and govinfo.gov states that it is in the public domain",
       "note": "Sections 73.14 (incident response and annual drills) and 73.19 (notification of theft, loss or release; Form 3 within seven calendar days) are the clocks and the drill record the lab safety toolkit uses. The eCFR carries the current text; check it for changes after this edition.",
-      "pinned": "2026-11-05"
+      "pinned": "2026-11-15",
+      "mirrors": [
+        "https://web.archive.org/web/20261115210303id_/https://www.govinfo.gov/content/pkg/CFR-2025-title42-vol1/pdf/CFR-2025-title42-vol1-part73.pdf"
+      ]
     },
     {
       "pack": "research-labs-library",
@@ -6869,11 +6896,14 @@
       "publisher": "Office of the Federal Register / GPO",
       "edition": "CFR edition 1 October 2025",
       "url": "https://www.govinfo.gov/content/pkg/CFR-2025-title42-vol5/pdf/CFR-2025-title42-vol5-sec482-25.pdf",
-      "sha256": "381a95d009fa540cab956f3a1da327dd862ca89811718edd59a5923ba7faa197",
-      "size": 199367,
+      "sha256": "1592eed7aa1dff9eb6686523c2814f0d362c7f023603fd9b7c437eff70ccf98c",
+      "size": 199647,
       "license": "LicenseRef-US-Government-Work",
       "basis": "US federal government work (17 U.S.C. §105): regulation text, Office of the Federal Register / GPO",
-      "pinned": "2026-11-05"
+      "pinned": "2026-11-15",
+      "mirrors": [
+        "https://web.archive.org/web/20261115210225id_/https://www.govinfo.gov/content/pkg/CFR-2025-title42-vol5/pdf/CFR-2025-title42-vol5-sec482-25.pdf"
+      ]
     },
     {
       "pack": "pharmacy-library",
@@ -6883,11 +6913,14 @@
       "publisher": "Office of the Federal Register / GPO",
       "edition": "CFR edition 1 October 2025",
       "url": "https://www.govinfo.gov/content/pkg/CFR-2025-title21-vol9/pdf/CFR-2025-title21-vol9-sec1301-76.pdf",
-      "sha256": "f92410102a69eb4c32c98456f3eb1dada74b91b07d8867b1fe1e574816525998",
-      "size": 199596,
+      "sha256": "4dce3e35e1c00ec878ecf1b1205cd8fb9f6dbf11e6d14c62ae2714e2d0eb7618",
+      "size": 200027,
       "license": "LicenseRef-US-Government-Work",
       "basis": "US federal government work (17 U.S.C. §105): regulation text, Office of the Federal Register / GPO",
-      "pinned": "2026-11-05"
+      "pinned": "2026-11-15",
+      "mirrors": [
+        "https://web.archive.org/web/20261115210146id_/https://www.govinfo.gov/content/pkg/CFR-2025-title21-vol9/pdf/CFR-2025-title21-vol9-sec1301-76.pdf"
+      ]
     },
     {
       "pack": "pharmacy-library",
@@ -6960,11 +6993,14 @@
       "edition": "Code of Federal Regulations, Title 21, Volume 1, revised as of April 1, 2025",
       "url": "https://www.govinfo.gov/content/pkg/CFR-2025-title21-vol1/pdf/CFR-2025-title21-vol1-part7.pdf",
       "landing": "https://www.govinfo.gov/app/details/CFR-2025-title21-vol1/CFR-2025-title21-vol1-part7",
-      "sha256": "f9fc9af3f8eaf15e6a36bf72a740aef8b51f28f778ec4305dc1cb40661379b99",
-      "size": 226901,
+      "sha256": "f8e7459e8c9e7530227ff2eb7fede460f1cd30ce77c4d659de08d5e92ad82224",
+      "size": 227332,
       "license": "LicenseRef-US-Government-Work",
       "basis": "US federal government work (17 U.S.C. §105): the Code of Federal Regulations as published by the Government Publishing Office; no third-party copyright notice. Recall classes, strategy, notification and status reports are in subpart C.",
-      "pinned": "2026-11-05"
+      "pinned": "2026-11-15",
+      "mirrors": [
+        "https://web.archive.org/web/20261115210834id_/https://www.govinfo.gov/content/pkg/CFR-2025-title21-vol1/pdf/CFR-2025-title21-vol1-part7.pdf"
+      ]
     },
     {
       "pack": "logistics-library",
@@ -7756,11 +7792,14 @@
       "edition": "CFR 2024",
       "url": "https://www.govinfo.gov/content/pkg/CFR-2024-title42-vol1/pdf/CFR-2024-title42-vol1-sec71-21.pdf",
       "landing": "https://www.govinfo.gov/app/details/CFR-2024-title42-vol1/CFR-2024-title42-vol1-sec71-21",
-      "sha256": "6d5082b6011f61cc907d516b016246c603e6fc76309e69afd27e1e674f38d6e8",
-      "size": 178129,
+      "sha256": "5404bf8164100da774c16e6bd47a0b8ee96a3c5534ff059f8c6af7b3bd504f69",
+      "size": 178462,
       "license": "LicenseRef-US-Government-Work",
       "basis": "US federal government work (17 U.S.C. §105): the Code of Federal Regulations as published by GovInfo.",
-      "pinned": "2026-11-05"
+      "pinned": "2026-11-15",
+      "mirrors": [
+        "https://web.archive.org/web/20261115210253id_/https://www.govinfo.gov/content/pkg/CFR-2024-title42-vol1/pdf/CFR-2024-title42-vol1-sec71-21.pdf"
+      ]
     },
     {
       "pack": "hospitality-library",

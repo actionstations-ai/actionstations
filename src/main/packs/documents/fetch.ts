@@ -207,6 +207,10 @@ async function fetchOne(
   if (isUserSupplied(doc)) return { slug: doc.slug, status: 'user', errors: [] }
   if (opts.offline) return { slug: doc.slug, status: 'failed', errors: ['offline'] }
   const errors: string[] = []
+  // A source that re-renders a file (govinfo regenerates CFR PDFs) serves new bytes for the same
+  // edition; a mirror captured when the file was pinned still serves the pinned bytes, so a
+  // mismatch moves on to the mirrors and is reported only when none of them has the pinned file.
+  let refused: FetchResult | undefined
   for (const url of [doc.url, ...doc.mirrors]) {
     const got = await download(url, doc, opts)
     if ('error' in got) {
@@ -222,10 +226,15 @@ async function fetchOne(
       from: url,
       errors,
     }
+    if (status === 'mismatch') {
+      refused ??= result
+      errors.push(`${url}: sha256 ${result.sha256} differs from the pin`)
+      continue
+    }
     if (write) await writeAtomic(target, got.bytes)
     return result
   }
-  return { slug: doc.slug, status: 'failed', errors }
+  return refused ?? { slug: doc.slug, status: 'failed', errors }
 }
 
 /** Fetch the manifest's documents; returns one result per document, in manifest order. */
