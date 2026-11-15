@@ -3,7 +3,7 @@
   "label": "EU AI Act Article 73 serious incident reporting",
   "jurisdiction": "EU",
   "authority": "Market surveillance authority of the member state where the incident occurred",
-  "citation": "Regulation (EU) 2024/1689, Article 73 (definitions in Article 3(49) and 3(61)); application dates in Article 113 as amended by Regulation (EU) 2026/1744",
+  "citation": "Regulation (EU) 2024/1689, Article 73(1) to (5) (definitions in Article 3(49) and 3(61)); application dates in Article 113, as amended by Regulation (EU) 2026/1744, Article 1(40)",
   "sources": [
     {
       "title": "Regulation (EU) 2024/1689 (AI Act), Official Journal, EUR-Lex",
@@ -14,13 +14,13 @@
       "url": "https://eur-lex.europa.eu/eli/reg/2026/1744/oj"
     },
     {
-      "title": "AI Act Article 73 text, AI Act Service Desk and Future of Life Institute explorer",
-      "url": "https://artificialintelligenceact.eu/article/73/"
+      "title": "Regulation (EU) 2024/1689, consolidated text as amended by Regulation (EU) 2026/1744, 27.7.2026, EUR-Lex",
+      "url": "https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:02024R1689-20260727"
     }
   ],
   "status": "in_force",
-  "statusNote": "Binds providers of high-risk AI systems placed on the Union market; deployers give the provider the information. A company defrauded by a deepfake, with no AI system of its own involved, has a fraud and cyber incident, not an Article 73 incident. This is not legal advice: check which of your own plans and which role (provider, deployer or victim) applies. Article 73 (Chapter IX) applies from 2 August 2026 under Article 113, second paragraph, and Regulation (EU) 2026/1744 did not change it. That amending regulation (OJ L, 24.7.2026, in force 27 July 2026) moved Chapter III, Sections 1 to 3 (classification as high-risk, requirements and provider obligations, except Article 6(5)) to 2 December 2027 for Annex III systems and 2 August 2028 for Annex I systems, so a system is a high-risk system with these duties from those dates.",
-  "verifiedOn": "2026-11-05",
+  "statusNote": "Binds providers of high-risk AI systems placed on the Union market; deployers give the provider the information. A company defrauded by a deepfake, with no AI system of its own involved, has a fraud and cyber incident, not an Article 73 incident. This is not legal advice: check which of your own plans and which role (provider, deployer or victim) applies. Article 73 (Chapter IX) applies from 2 August 2026 under Article 113, second paragraph, and Regulation (EU) 2026/1744 did not change it. That amending regulation (OJ L, 24.7.2026; in force 27 July 2026, the third day after publication, under its Article 4), in its Article 1(40)(b), replaced Article 113, third paragraph, point (c) and moved Chapter III, Sections 1 to 3 (classification as high-risk, requirements and provider obligations, except Article 6(5)) to 2 December 2027 for Annex III systems and 2 August 2028 for Annex I systems, so a system is a high-risk system with these duties from those dates.",
+  "verifiedOn": "2026-11-15",
   "calendar": "none",
   "triggers": [
     {
@@ -51,7 +51,7 @@
           "unit": "calendar_days"
         }
       ],
-      "rule": "Immediately after the causal link is established or reasonably likely, and in any event not later than 15 days after the provider becomes aware. An incomplete initial report is allowed, followed by a complete one.",
+      "rule": "Immediately after the causal link is established or reasonably likely, and in any event not later than 15 days after the provider becomes aware (Article 73(2)). An incomplete initial report is allowed, followed by a complete one (Article 73(5)).",
       "injectTypes": ["serious_incident_notice", "regulatory_report_form"]
     },
     {
@@ -65,7 +65,7 @@
           "unit": "calendar_days"
         }
       ],
-      "rule": "Immediately, and not later than two days after the provider becomes aware. An incomplete initial report is allowed.",
+      "rule": "Immediately, and not later than two days after the provider becomes aware (Article 73(3)). An incomplete initial report is allowed (Article 73(5)).",
       "injectTypes": ["serious_incident_notice", "regulatory_report_form"]
     },
     {
@@ -79,7 +79,7 @@
           "unit": "calendar_days"
         }
       ],
-      "rule": "Immediately once a causal relationship is established or suspected, and not later than 10 days after the provider becomes aware of the death.",
+      "rule": "Immediately once a causal relationship is established or suspected, and not later than 10 days after the provider becomes aware of the death (Article 73(4)).",
       "injectTypes": ["serious_incident_notice", "regulatory_report_form"]
     }
   ],
@@ -87,17 +87,17 @@
     {
       "label": "General date of application, including Article 73 (Chapter IX)",
       "date": "2026-08-02",
-      "note": "Article 113, second paragraph, of Regulation (EU) 2024/1689 (OJ L, 12.7.2024); not amended by Regulation (EU) 2026/1744. Checked against the Official Journal text on 2026-11-05."
+      "note": "Article 113, second paragraph, of Regulation (EU) 2024/1689 (OJ L, 12.7.2024); not amended by Regulation (EU) 2026/1744. Checked against the Official Journal text and the EUR-Lex consolidated text of 27.7.2026 on 2026-11-15."
     },
     {
       "label": "Chapter III, Sections 1 to 3 apply to Annex III (Article 6(2)) high-risk systems",
       "date": "2027-12-02",
-      "note": "Article 113, third paragraph, point (c), as replaced by Regulation (EU) 2026/1744, Article 1(40)(b) (OJ L, 24.7.2026). Checked against the Official Journal text on 2026-11-05."
+      "note": "Article 113, third paragraph, point (c), as replaced by Regulation (EU) 2026/1744, Article 1(40)(b) (OJ L, 24.7.2026). Checked against the Official Journal text and the EUR-Lex consolidated text of 27.7.2026 on 2026-11-15."
     },
     {
       "label": "Chapter III, Sections 1 to 3 apply to Annex I (Article 6(1)) high-risk systems",
       "date": "2028-08-02",
-      "note": "Article 113, third paragraph, point (c), as replaced by Regulation (EU) 2026/1744, Article 1(40)(b) (OJ L, 24.7.2026). Checked against the Official Journal text on 2026-11-05."
+      "note": "Article 113, third paragraph, point (c), as replaced by Regulation (EU) 2026/1744, Article 1(40)(b) (OJ L, 24.7.2026). Checked against the Official Journal text and the EUR-Lex consolidated text of 27.7.2026 on 2026-11-15."
     }
   ],
   "controls": [],

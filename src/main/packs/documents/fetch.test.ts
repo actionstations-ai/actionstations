@@ -103,6 +103,26 @@ describe('fetchDocuments', () => {
     })
   })
 
+  it('tries the mirrors when the source serves different bytes, and takes the pinned file from one', async () => {
+    const dir = cache()
+    const m = manifestOf([entry('a', '/new.pdf', { mirrors: [server.url('/doc.pdf')] })])
+    const [r] = await fetchDocuments(m, { cacheDir: dir, ...quick })
+    expect(r?.status).toBe('fetched')
+    expect(r?.from).toBe(server.url('/doc.pdf'))
+    expect(r?.errors[0]).toMatch(/differs from the pin/)
+    expect(readFileSync(join(dir, 'a', 'a.pdf'))).toEqual(PDF)
+  })
+
+  it('reports the source mismatch when no mirror has the pinned file', async () => {
+    const dir = cache()
+    const m = manifestOf([entry('a', '/new.pdf', { mirrors: [server.url('/bot.pdf')] })])
+    const [r] = await fetchDocuments(m, { cacheDir: dir, ...quick })
+    expect(r?.status).toBe('mismatch')
+    expect(r?.from).toBe(server.url('/new.pdf'))
+    expect(r?.sha256).toBe(sha256(NEW_EDITION))
+    expect(existsSync(join(dir, 'a', 'a.pdf'))).toBe(false)
+  })
+
   it('rejects an HTML bot page served in place of the file and tries the mirrors', async () => {
     const dir = cache()
     const m = manifestOf([entry('a', '/bot.pdf', { mirrors: [server.url('/doc.pdf')] })])

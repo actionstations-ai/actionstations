@@ -91,6 +91,23 @@ describe('EU AI Act Article 73 clocks', () => {
     expect(ai.sources.map((s) => s.url)).toContain('https://eur-lex.europa.eu/eli/reg/2026/1744/oj')
   })
 
+  it('cites only EUR-Lex, with the article and paragraph behind each value', () => {
+    // Re-checked on 2026-11-15 against the OJ text of Regulation (EU) 2026/1744 (Article 1(40),
+    // Article 4) and the EUR-Lex consolidated text of Regulation (EU) 2024/1689 of 27.7.2026.
+    for (const s of ai.sources) expect(s.url).toMatch(/^https:\/\/eur-lex\.europa\.eu\//)
+    expect(ai.sources.map((s) => s.url)).toContain(
+      'https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:02024R1689-20260727',
+    )
+    expect(ai.citation).toMatch(/Article 73\(1\) to \(5\)/)
+    expect(ai.citation).toMatch(/2026\/1744, Article 1\(40\)/)
+    expect(ai.statusNote).toMatch(/in force 27 July 2026/)
+    expect(ai.statusNote).toMatch(/Article 1\(40\)\(b\)/)
+    expect(ai.clocks.map((c) => c.rule.match(/Article 73\((\d)\)/)?.[1])).toEqual(['2', '3', '4'])
+    expect(ai.verifiedOn).toBe('2026-11-15')
+    for (const d of ai.dates)
+      expect(d.note).toMatch(/consolidated text of 27\.7\.2026 on 2026-11-15/)
+  })
+
   it('cites the law and carries a checked-on date', () => {
     expect(ai.sources.some((s) => s.url.startsWith('https://eur-lex.europa.eu/'))).toBe(true)
     expect(ai.verifiedOn).toMatch(/^\d{4}-\d{2}-\d{2}$/)
