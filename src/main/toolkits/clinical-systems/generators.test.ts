@@ -30,6 +30,15 @@ describe('clinical downtime generator', () => {
       durationHours: 6,
       failedFeeds: ['lab_results', 'orders', 'adt', 'pharmacy'],
       units: ['4 West', '5 East', 'Intensive care unit', 'Emergency department'],
+      fullBackEntryHours: 8,
     })
+  })
+
+  it('carries the full back-entry limit in the case, so play reads the same scope', () => {
+    const start = (out[1]!.data as GroundTruthEvent[]).find((e) => e.kind === 'downtime_start')!
+    expect(start.attrs.setup).toMatchObject({ fullBackEntryHours: 8 })
+    const custom = ClinicalDowntimeParams.parse({ start: params.start, fullBackEntryHours: 4 })
+    const event = (clinicalDowntimeDatasets(custom)[1]!.data as GroundTruthEvent[])[0]!
+    expect(event.attrs.setup).toMatchObject({ fullBackEntryHours: 4 })
   })
 })

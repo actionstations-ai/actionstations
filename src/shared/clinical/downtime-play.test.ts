@@ -92,6 +92,24 @@ describe('reading the forms', () => {
     expect(
       ['Identity check', 'MPI', 'Lab interface', 'EHR', 'Pharmacy interface'].map(systemOf),
     ).toEqual(['identity_check', 'identity_check', 'lab_interface', 'ehr', 'pharmacy_interface'])
+    expect(
+      ['ADT', 'Registration', 'Radiology results', 'PACS', 'CPOE', 'eMAR', 'Barcode scanning'].map(
+        systemOf,
+      ),
+    ).toEqual([
+      'identity_check',
+      'identity_check',
+      'radiology_interface',
+      'radiology_interface',
+      'ehr',
+      'emar',
+      'emar',
+    ])
+    expect(['radiology_interface', 'emar', 'pharmacy_interface'].map(systemOf)).toEqual([
+      'radiology_interface',
+      'emar',
+      'pharmacy_interface',
+    ])
     expect(feedOf('Lab results ORU')).toBe('lab_results')
     expect(feedOf('Pharmacy orders')).toBe('pharmacy')
     expect(feedOf('ADT')).toBe('adt')
@@ -234,5 +252,40 @@ describe('events for the measures', () => {
     ])
     expect(out.filter((e) => e.kind === 'duplicate_record_created')).toHaveLength(1)
     expect(out.find((e) => e.kind === 'duplicate_records_expected')?.attrs.count).toBe(1 + 2)
+  })
+})
+
+describe('back-entry scope in play', () => {
+  const startEvent = (setup: Record<string, unknown>) => [
+    {
+      id: 'downtime-start',
+      time: START,
+      kind: 'downtime_start',
+      attrs: { simulated: true, setup },
+    },
+  ]
+
+  it('enters a 4-hour downtime in full under the default 8-hour limit', () => {
+    const s = downtimeSetupFrom(downtimeCaseEvents(params))!
+    const scope = downtimePlayStatus(s, []).backEntryScope
+    expect(scope).toMatchObject({ durationHours: 4, fullBackEntryHours: 8, full: true, scan: [] })
+  })
+
+  it('reads a case generated before the limit existed with the default', () => {
+    expect('fullBackEntryHours' in params).toBe(false)
+    const s = downtimeSetupFrom(startEvent({ ...params, durationHours: 30 }))!
+    expect(s.params.fullBackEntryHours).toBe(8)
+    const scope = downtimePlayStatus(s, []).backEntryScope
+    expect(scope.full).toBe(false)
+    expect(scope.scan.join(' ')).toMatch(/scanned/)
+  })
+
+  it('follows the limit the scenario author set', () => {
+    const s = downtimeSetupFrom(startEvent({ ...params, fullBackEntryHours: 3 }))!
+    expect(downtimePlayStatus(s, []).backEntryScope).toMatchObject({
+      durationHours: 4,
+      fullBackEntryHours: 3,
+      full: false,
+    })
   })
 })

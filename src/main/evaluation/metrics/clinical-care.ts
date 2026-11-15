@@ -1,8 +1,10 @@
 // The clinical care metrics (spec 0452 FR-14): handoff quality, time to escalation, triage
-// accuracy, evacuation order, staffing ratio exceedances, infection control decisions, disclosure
-// timing and the time from an outage to the downtime declaration. Each reads ground-truth events the scenario scripted and
-// the decisions of the clinical_care forms, shows its inputs and says what it cannot tell.
-// The clinical judgment profile reads case study answers (clinical-judgment.ts).
+// accuracy, evacuation order, staffing ratio exceedances, infection control decisions and
+// disclosure timing: the bedside care measures. Each reads ground-truth events the scenario
+// scripted and the decisions of the clinical_care forms, shows its inputs and says what it cannot
+// tell. The clinical judgment profile reads case study answers (clinical-judgment.ts). The
+// downtime measures, including the outage to the downtime declaration, belong to the clinical
+// systems toolkit (clinical.ts, downtime-declaration.ts).
 import { z } from 'zod'
 import type { GroundTruthEvent, MetricDecision } from '@shared/schemas/metrics'
 import {
@@ -592,77 +594,4 @@ export const disclosureTiming: Metric<DisclosureTimingConfig, ClinicalInputs> = 
   title: 'Disclosure timing',
   configSchema: DisclosureTimingConfig,
   compute: computeDisclosure,
-}
-
-// ---- outage to downtime declaration --------------------------------------------------------
-// The first link of the downtime chain: from the scripted outage to the decision that starts
-// downtime procedures. The clinical systems toolkit measures the second link (declaration to
-// every unit on downtime procedures, time_to_downtime_procedures); the two are kept apart so an
-// after-action report can say whether the delay was in recognizing the outage or in spreading the
-// procedures to the units.
-
-export const DowntimeWorkflowConfig = z.object({
-  /** The decision form that declares downtime (from the clinical systems toolkit). */
-  decisionKind: z.string().default('declare_downtime'),
-  targetMinutes: z.number().positive().default(30),
-})
-type DowntimeWorkflowConfig = z.infer<typeof DowntimeWorkflowConfig>
-
-function computeDowntime(i: ClinicalInputs, config: DowntimeWorkflowConfig): MetricOutput {
-  const starts = eventsOfKind(i.events, E.downtimeStart)
-  const calls = decisionsOfKind(i.decisions, config.decisionKind)
-  const rows = starts.map((e) => {
-    const call = calls.find((c) => ms(c.time) >= ms(e.time))
-    return { e, call, minutes: call ? minutesBetween(e.time, call.time) : null }
-  })
-  const done = rows.filter((r) => r.minutes !== null)
-  return {
-    metricId: 'downtime_workflow_time',
-    title: 'Outage to downtime declaration',
-    config,
-    inputs: [
-      { label: 'Downtime periods scripted', value: String(starts.length) },
-      { label: `Decisions of kind "${config.decisionKind}"`, value: String(calls.length) },
-    ],
-    summary: [
-      { label: 'Outages with downtime declared', value: count(done.length, starts.length) },
-      {
-        label: 'Mean minutes, outage to declaration',
-        value: minutesText(mean(done.map((r) => r.minutes!))),
-      },
-      {
-        label: `Declared within ${config.targetMinutes} minutes`,
-        value: starts.length
-          ? count(done.filter((r) => r.minutes! <= config.targetMinutes).length, starts.length)
-          : NOT_AVAILABLE,
-      },
-    ],
-    tables: [
-      {
-        title: 'Downtime periods',
-        columns: ['Outage', 'Declared', 'Minutes'],
-        rows: rows.map((r) => [
-          attr(r.e, 'system') || r.e.id,
-          r.call?.time ?? 'Not declared',
-          minutesText(r.minutes),
-        ]),
-      },
-    ],
-    caveats: [
-      'This measures the outage to the downtime declaration only. The time from the declaration to every unit working on downtime procedures is a separate measure in the clinical systems toolkit.',
-      'The declaration form belongs to the clinical systems toolkit; set decisionKind to its form id if the scenario uses another.',
-    ],
-    data: {
-      periods: starts.length,
-      started: done.length,
-      meanMinutes: mean(done.map((r) => r.minutes!)),
-    },
-  }
-}
-
-export const downtimeWorkflowTime: Metric<DowntimeWorkflowConfig, ClinicalInputs> = {
-  id: 'downtime_workflow_time',
-  title: 'Outage to downtime declaration',
-  configSchema: DowntimeWorkflowConfig,
-  compute: computeDowntime,
 }

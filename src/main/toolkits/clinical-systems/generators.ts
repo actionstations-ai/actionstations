@@ -14,6 +14,7 @@ import {
   queueSeries,
 } from '@shared/clinical/downtime-play'
 import type { FeedId } from '@shared/clinical/downtime'
+import { FULL_BACK_ENTRY_HOURS } from '@shared/clinical/reconciliation'
 
 export const ClinicalDowntimeParams = z.object({
   seed: z.number().int().default(1),
@@ -35,6 +36,7 @@ export const ClinicalDowntimeParams = z.object({
   patientCount: z.number().int().min(2).max(60).default(12),
   extraDiscrepancies: z.number().int().min(0).max(6).default(0),
   criticalResults: z.number().int().min(0).max(12).default(3),
+  fullBackEntryHours: z.number().int().min(1).max(72).default(FULL_BACK_ENTRY_HOURS),
 })
 type Params = z.infer<typeof ClinicalDowntimeParams>
 
@@ -82,6 +84,7 @@ export const clinicalDowntimeGenerator: SimulatedGenerator<Params> = {
     patientCount: 12,
     extraDiscrepancies: 0,
     criticalResults: 3,
+    fullBackEntryHours: 8,
   } satisfies z.input<typeof ClinicalDowntimeParams>,
   fields: {
     seed: {
@@ -111,6 +114,10 @@ export const clinicalDowntimeGenerator: SimulatedGenerator<Params> = {
     criticalResults: {
       label: 'Critical results during downtime',
       help: 'Critical lab results that arrive while systems are down and must be phoned, 0 to 12.',
+    },
+    fullBackEntryHours: {
+      label: 'Full back-entry limit (hours)',
+      help: 'A downtime this long or shorter is back-entered in full; a longer one enters active orders, allergies, the last dose of each medication and the latest vital signs, and scans the rest. Default 8, the hours of paper care the SAFER Contingency Planning guide asks each unit to hold; use your hospital policy.',
     },
   },
   generate: clinicalDowntimeDatasets,

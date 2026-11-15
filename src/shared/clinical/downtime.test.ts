@@ -1,7 +1,11 @@
 // Simulated downtime model and consequence rules (spec 0451 FR-7, FR-11): worked examples.
 import { describe, expect, it } from 'vitest'
+import { readFileSync } from 'node:fs'
+import { resolve } from 'node:path'
 import {
   CONSEQUENCE_RULES,
+  DEFAULT_RESTORE_ORDER,
+  DEFAULT_RESTORE_PRIORITY,
   DRAIN_MULTIPLE,
   SIMULATED_LABEL,
   applyDecisions,
@@ -104,12 +108,9 @@ describe('consequence rules', () => {
     expect(fired.map((f) => f.ruleId)).toEqual(['lab_interface_before_identity_check'])
   })
 
-  it('the default clinician priority fires nothing', () => {
+  it('the default restore order fires nothing', () => {
     const { state, fired } = applyDecisions(start, [
-      {
-        kind: 'restore_order',
-        order: ['identity_check', 'lab_interface', 'ehr', 'pharmacy_interface'],
-      },
+      { kind: 'restore_order', order: [...DEFAULT_RESTORE_ORDER] },
     ])
     expect(state).toEqual(start)
     expect(fired).toEqual([])
@@ -152,5 +153,34 @@ describe('consequence rules', () => {
     const ids = CONSEQUENCE_RULES.map((r) => r.id)
     expect(new Set(ids).size).toBe(ids.length)
     for (const r of CONSEQUENCE_RULES) expect(r.explanation.length).toBeGreaterThan(40)
+  })
+})
+
+describe('default restore order', () => {
+  it('runs identity, results, the chart, pharmacy and the eMAR last', () => {
+    expect(DEFAULT_RESTORE_ORDER).toEqual([
+      'identity_check',
+      'lab_interface',
+      'radiology_interface',
+      'ehr',
+      'pharmacy_interface',
+      'emar',
+    ])
+  })
+
+  it('gives every place a label and a reason, and cites SAFER where a practice applies', () => {
+    for (const p of DEFAULT_RESTORE_PRIORITY) {
+      expect(p.label.length, p.system).toBeGreaterThan(0)
+      expect(p.reason.length, p.system).toBeGreaterThan(40)
+    }
+    expect(DEFAULT_RESTORE_PRIORITY[0]!.reason).toMatch(/SAFER 1\.5, 2\.5/)
+  })
+
+  it('is the priority the clinical systems toolkit scores against', () => {
+    const toolkit = JSON.parse(
+      readFileSync(resolve('packs/toolkits/clinical_systems.json'), 'utf8'),
+    ) as { metrics: { id: string; config: { priority?: string } }[] }
+    const ref = toolkit.metrics.find((m) => m.id === 'restore_order_score')!
+    expect(ref.config.priority!.split(',').map((x) => x.trim())).toEqual([...DEFAULT_RESTORE_ORDER])
   })
 })

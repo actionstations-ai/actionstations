@@ -9,7 +9,6 @@ import { listRuns } from '../../casestudy/store'
 import { registerMetric } from '../../evaluation/metrics/registry'
 import {
   disclosureTiming,
-  downtimeWorkflowTime,
   evacuationOrder,
   handoffQuality,
   infectionControlDecisions,
@@ -64,7 +63,6 @@ export const CLINICAL_METRIC_IDS = [
   'staffing_ratio_exceedances',
   'infection_control_decisions',
   'disclosure_timing',
-  'downtime_workflow_time',
 ] as const
 
 /** The clinical care measures that compare decisions with events. */
@@ -74,7 +72,6 @@ export const CLINICAL_EVENT_METRIC_IDS = [
   'evacuation_order',
   'infection_control_decisions',
   'disclosure_timing',
-  'downtime_workflow_time',
 ] as const
 
 export function registerClinicalToolkit(): void {
@@ -86,7 +83,6 @@ export function registerClinicalToolkit(): void {
   registerMetric(staffingRatioExceedances, eventsAndDecisions)
   registerMetric(infectionControlDecisions, eventsAndDecisions)
   registerMetric(disclosureTiming, eventsAndDecisions)
-  registerMetric(downtimeWorkflowTime, eventsAndDecisions)
   registerMetricInputProvider('clinical_judgment_profile', judgmentRunsProvider)
   // The measures that compare decisions with events read the simulated patients, the downtime
   // model and the controller's log, on the case clock (issue #1131).

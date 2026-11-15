@@ -169,13 +169,71 @@ export interface ClinicalState {
   resultHoldHours: number
 }
 
+export interface RestorePriorityItem {
+  system: string
+  label: string
+  reason: string
+}
+
+/**
+ * The default restore order, first to last, with the reason for each place. No published source
+ * sets one order for every hospital: the ASTP/ONC SAFER Contingency Planning guide (2025), the
+ * ASPR TRACIE cybersecurity readiness and response considerations, the HSCC operational
+ * continuity checklist and the HIPAA criticality analysis (45 CFR 164.308(a)(7)(ii)(E)) ask each
+ * organization to rank its systems by patient-safety impact and dependency. This order follows
+ * the dependencies those sources name; a scenario author replaces it with the hospital's own in
+ * the restore order measure's `priority`.
+ */
+export const DEFAULT_RESTORE_PRIORITY: readonly RestorePriorityItem[] = [
+  {
+    system: 'identity_check',
+    label: 'Registration (ADT) and patient identity',
+    reason:
+      'Registration messages restart first so later orders and results find their patient, and downtime registrations are matched to the master patient index (SAFER 1.5, 2.5).',
+  },
+  {
+    system: 'lab_interface',
+    label: 'Laboratory results interface',
+    reason:
+      'Queued laboratory results file next, critical results first, so the chart is complete before clinicians rely on it.',
+  },
+  {
+    system: 'radiology_interface',
+    label: 'Radiology and imaging results',
+    reason:
+      'Imaging reports and images follow the laboratory: reads were phoned during the downtime and fewer messages are queued.',
+  },
+  {
+    system: 'ehr',
+    label: 'EHR open to clinicians, with order entry',
+    reason:
+      'Clinicians return to a chart whose results have caught up, and active paper orders are entered as coded data (SAFER 1.3).',
+  },
+  {
+    system: 'pharmacy_interface',
+    label: 'Pharmacy orders and dispensing cabinet profiles',
+    reason:
+      'Medication orders flow to pharmacy and the cabinets once active paper orders are back-entered and verified by a pharmacist; until then cabinets stay on override with paper checks.',
+  },
+  {
+    system: 'emar',
+    label: 'eMAR and barcode medication administration',
+    reason:
+      'Units leave the paper MAR last, once the pharmacy profile is complete and the last paper dose of each medication is entered, so no dose is missed or given twice.',
+  },
+]
+
+/** The default restore order as system ids, first to last. */
+export const DEFAULT_RESTORE_ORDER: readonly string[] = DEFAULT_RESTORE_PRIORITY.map(
+  (p) => p.system,
+)
+
 export interface RestoreDecision {
   kind: 'restore_order'
   /**
-   * Systems first to last, using 'identity_check', 'lab_interface', 'ehr', 'pharmacy_interface'.
-   * The toolkit's default clinician priority is that order: match downtime registrations to the
-   * master patient index, let results catch up, open the chart to clinicians, then send
-   * medication orders to pharmacy and the cabinets once active orders are back-entered.
+   * Systems first to last, using the ids of DEFAULT_RESTORE_PRIORITY ('identity_check',
+   * 'lab_interface', 'radiology_interface', 'ehr', 'pharmacy_interface', 'emar'). The
+   * consequence rules read identity_check, lab_interface and ehr.
    */
   order: string[]
 }

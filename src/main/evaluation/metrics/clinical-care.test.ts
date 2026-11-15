@@ -61,11 +61,11 @@ const summary = (r: ReturnType<typeof run>, label: string) =>
   r.summary.find((s) => s.label === label)?.value
 
 describe('registration', () => {
-  it('registers all nine metrics and the toolkit names no id the app lacks', () => {
+  it('registers all eight bedside care metrics and the toolkit names no id the app lacks', () => {
     for (const id of CLINICAL_METRIC_IDS) expect(isMetricId(id), id).toBe(true)
     expect(
       metricIds().filter((id) => (CLINICAL_METRIC_IDS as readonly string[]).includes(id)),
-    ).toHaveLength(9)
+    ).toHaveLength(8)
     const toolkit = ToolkitSchema.parse(
       JSON.parse(readFileSync(resolve('packs/toolkits/clinical_care.json'), 'utf8')),
     )
@@ -301,7 +301,7 @@ describe('disclosure_timing', () => {
   })
 })
 
-describe('downtime_workflow_time', () => {
+describe('downtime_workflow_time (owned by the clinical systems toolkit)', () => {
   it('measures the outage to the downtime declaration of the configured kind', () => {
     const r = run('downtime_workflow_time', {
       events: [ev('o', 'downtime_start', 0, { system: 'EHR' })],
@@ -310,7 +310,7 @@ describe('downtime_workflow_time', () => {
     expect(summary(r, 'Mean minutes, outage to declaration')).toBe('20 min')
     expect(summary(r, 'Declared within 30 minutes')).toBe('1 of 1')
     expect(r.title).toBe('Outage to downtime declaration')
-    expect(r.caveats.join(' ')).toMatch(/separate measure in the clinical systems toolkit/)
+    expect(r.caveats.join(' ')).toMatch(/Declaration to all units on downtime procedures/)
   })
 
   it('is distinct from the clinical systems measure of declaration to all units', () => {
@@ -442,15 +442,20 @@ describe('decisions as the session log records them', () => {
 })
 
 describe('the downtime metric and the clinical systems toolkit', () => {
-  it('defaults to a decision form that exists in the clinical systems toolkit', () => {
+  it('is listed once, by the clinical systems toolkit, and reads a form that toolkit has', () => {
     const systems = ToolkitSchema.parse(
       JSON.parse(readFileSync(resolve('packs/toolkits/clinical_systems.json'), 'utf8')),
     )
     const care = ToolkitSchema.parse(
       JSON.parse(readFileSync(resolve('packs/toolkits/clinical_care.json'), 'utf8')),
     )
-    const configured = care.metrics.find((m) => m.id === 'downtime_workflow_time')!.config
-      .decisionKind as string
+    expect(care.metrics.map((m) => m.id)).not.toContain('downtime_workflow_time')
+    expect(care.metrics.map((m) => m.id)).not.toContain('time_to_downtime_procedures')
+    const systemIds = new Set(systems.metrics.map((m) => m.id))
+    expect(care.metrics.filter((m) => systemIds.has(m.id))).toEqual([])
+    const ref = systems.metrics.find((m) => m.id === 'downtime_workflow_time')!
+    expect(ref.label).toBe('Outage to downtime declaration')
+    const configured = ref.config.decisionKind as string
     expect(systems.decisionForms.map((f) => f.id)).toContain(configured)
     expect(configured).toBe('declare_downtime')
     const r = run('downtime_workflow_time', {

@@ -3,6 +3,8 @@
 // restore order against a clinician-defined priority list. Pure functions over plain inputs;
 // every result shows its inputs, and a number that cannot be computed reads "n/a".
 import { z } from 'zod'
+import { DEFAULT_RESTORE_ORDER } from '@shared/clinical/downtime'
+import { systemOf } from '@shared/clinical/downtime-play'
 import { NOT_AVAILABLE, minutesText, ms, type Metric } from './types'
 
 const Config = z.object({}).passthrough()
@@ -268,12 +270,15 @@ export interface RestoreOrderInputs {
   priority: string[]
 }
 
-/** A system name as a comparison key: lower case, words joined by underscores. */
-export const systemKey = (s: string): string =>
-  s
-    .toLowerCase()
-    .replace(/[^a-z0-9]+/g, '_')
-    .replace(/^_+|_+$/g, '')
+/**
+ * A system name as a comparison key: the default restore order's id when the words name one of
+ * its systems ("ADT" and "Registration" are identity_check, "eMAR" is emar), otherwise lower
+ * case with words joined by underscores.
+ */
+export const systemKey = (s: string): string => systemOf(s)
+
+/** Keys in order, each once. */
+const keysOnce = (list: readonly string[]): string[] => [...new Set(list.map(systemKey))]
 
 /** Spearman rank correlation of the order against the priority list (items in both). */
 export function rankCorrelation(order: string[], priority: string[]): number | null {
@@ -303,18 +308,23 @@ export const restoreOrderScore: Metric<AnyConfig, RestoreOrderInputs> = {
   title: 'Restore order against the clinician priority list',
   configSchema: Config,
   compute(given, config) {
-    // The priority list is the clinicians' judgment for the scenario: a comma-separated
-    // `priority` in the toolkit's metric config when the inputs carry none.
+    // The priority list: the inputs', else the comma-separated `priority` in the toolkit's metric
+    // config (the hospital's own order), else the default restore order.
+    const configured = listOf(config.priority)
     const inputs = {
       ...given,
-      priority: given.priority.length ? given.priority : listOf(config.priority),
+      priority: given.priority.length
+        ? given.priority
+        : configured.length
+          ? configured
+          : [...DEFAULT_RESTORE_ORDER],
     }
     // "Lab interface", "lab-interface" and "lab_interface" name the same system.
-    const order = inputs.order.map(systemKey)
-    const priority = inputs.priority.map(systemKey)
+    const order = keysOnce(inputs.order)
+    const priority = keysOnce(inputs.priority)
     const rho = rankCorrelation(order, priority)
     const agree = pairAgreement(order, priority)
-    const missing = inputs.priority.filter((_p, i) => !order.includes(priority[i]!))
+    const missing = priority.filter((p) => !order.includes(p))
     return {
       metricId: 'restore_order_score',
       title: this.title,
@@ -336,7 +346,7 @@ export const restoreOrderScore: Metric<AnyConfig, RestoreOrderInputs> = {
       ],
       tables: [],
       caveats: [
-        "The priority list is the clinicians' judgment for this scenario, not a standard; read the score with the reasons players gave.",
+        'The default priority follows the dependencies in the SAFER Contingency Planning guide and ASPR TRACIE: identity first, results before clinicians return, the eMAR last. Published guidance asks each hospital to set its own order from its criticality analysis, so set the priority to yours and read the score with the reasons players gave.',
         ...(missing.length ? [`Left out of the players' order: ${missing.join(', ')}.`] : []),
       ],
       data: { rho, agreement: agree, missing },

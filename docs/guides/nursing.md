@@ -14,7 +14,7 @@ The pack is included with the app and has two parts, and you can use either one.
 - The **Nursing** domain is the unit-level and classroom view of a hospital. It repeats what a hospital exercise inherits from the healthcare domain, so a project can run on either, and adds three role sets: a **hospital nursing unit** (chief nursing officer, nurse manager, charge nurse, house supervisor, staff nurse, LPN and nursing assistant, rapid response nurse, infection prevention nurse, nurse informaticist), a **long-term care facility** (administrator, director of nursing, wing charge nurse, maintenance director) and a **simulation lab** (clinical instructor, simulation operator, learner team lead, program director, clinical placement coordinator). Choose it when the people you are exercising are nurses or nursing students.
 - The **Clinical care** toolkit adds bedside care to any other organization. A hospital command center exercise, a health informatics downtime, a pharmacy, a health department, a campus or school health office, a stadium's first aid station or a commercial facility can turn it on without choosing the nursing domain. See [Toolkits](toolkits.md). The app proposes it when the brief mentions a nursing unit, a charge nurse, rapid response, a deteriorating patient, triage, a mass casualty incident, an early warning score, SBAR, a medication error, isolation, an evacuation, long-term care or a case study.
 
-The nursing domain also suggests the **Media environment** and **Pharmacy and drug supply** toolkits. For a downtime shift, turn on the **Clinical systems** toolkit as well (see [Health informatics and clinical IT](health-informatics.md)): it brings the downtime declaration, the paper forms and the restore decisions. For triage in the field rather than on the unit, the **Mass casualty and triage** toolkit (see [EMS, fire and hazardous materials](ems-fire.md)) uses the same START and SALT tags.
+The nursing domain also suggests the **Clinical systems**, **Media environment** and **Pharmacy and drug supply** toolkits. For a downtime shift, turn on the clinical systems toolkit (see [Health informatics and clinical IT](health-informatics.md)): it brings the downtime declaration, the paper forms, the restore decisions and the downtime measures. For triage in the field rather than on the unit, the **Mass casualty and triage** toolkit (see [EMS, fire and hazardous materials](ems-fire.md)) uses the same START and SALT tags.
 
 ## Scenario families
 
@@ -107,15 +107,15 @@ Open the scenario's Evaluation tab and choose **Compute field metrics** after a 
 - **Staffing ratio exceedances:** assignments over the target ratio (5 patients per nurse by default, a medical-surgical figure) and the minutes to an escalation. Set your own number for an ICU, step-down unit or long-term care.
 - **Infection control decisions:** the action and precautions against the scripted organism, and the minutes from recognition to the decision.
 - **Disclosure timing:** minutes from a harm event to the disclosure conversation, against 60 minutes. The AHRQ CANDOR toolkit describes an initial conversation within an hour as a goal, not a rule.
-- **Outage to downtime declaration:** minutes from the outage to the declaration, against 30 minutes. It covers recognition and escalation only; the time from the declaration to every unit on paper is a separate measure in the clinical systems toolkit.
 
 Where the events the measures compare with come from:
 
 - **Abnormal score and critical lab:** from a simulated patient trajectory, or the controller's log.
-- **Outage:** from the simulated downtime of the clinical systems toolkit (see [Health informatics and clinical IT](health-informatics.md)), or the controller's log.
 - **Triage victims, the evacuation priority list, infection cases and harm events:** from the controller's log, each when it happens in the exercise.
 
 Times are read on the case clock: the time typed on a form, or the exercise time it was recorded at. With simulated data the exercise clock's 0:00 is the start of the simulated case unless you set your own case clock. Decisions recorded in Facilitate without devices count as well as those sent from devices. Patients are matched by the name typed on the form, so use the names as they appear on the scenario's lists and in the controller's log.
+
+The downtime measures (outage to downtime declaration, declaration to all units on downtime procedures, reconciliation, duplicate records and restore order) belong to the clinical systems toolkit and are described in [Health informatics and clinical IT](health-informatics.md). With both toolkits on, the Evaluation tab lists each measure once: the downtime measures from clinical systems and the bedside care measures above from clinical care.
 
 For evaluation guides, the toolkit names critical tasks a nurse can be observed doing, grouped under core capabilities: assign beds, nurses and supplies and keep ratios within the plan; triage and reassess casualties; isolate and cohort and notify public health; escalate a staffing shortage with a number and a request; give an SBAR report with read-back and notify the provider of a critical result; reassess vital signs and the score at the stated interval and keep the census current.
 
@@ -130,7 +130,7 @@ The separate **Nursing reference library** pack carries the AHRQ TeamSTEPPS pock
 ## Tips
 
 - Plan the prebrief and the debrief as parts of the session, not extras. The prebrief sets objectives, ground rules and a psychologically safe room; the debrief is where the learning is.
-- For a downtime exercise, run both downtime measures. The after-action report can then say whether the delay was in recognizing the outage or in getting the procedures to the units.
+- For a downtime exercise, turn on the clinical systems toolkit for its two downtime timing measures. The after-action report can then say whether the delay was in recognizing the outage or in getting the procedures to the units.
 - Give the evacuation priority list reasons, not only an order. Ventilators, infusions, bariatric patients and infants change what goes with each patient and how many staff it takes.
 - Hand hygiene for C. difficile is soap and water; alcohol rub does not kill the spores. Small realism details like this are what nurses notice first.
 - Have a nurse educator or a nurse leader read the scenario and any case study before learners use it.

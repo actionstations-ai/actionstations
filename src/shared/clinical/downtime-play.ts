@@ -22,7 +22,13 @@ import {
   type FiredRule,
   CONSEQUENCE_RULES,
 } from './downtime'
-import { discrepancyText, releaseThreshold } from './reconciliation'
+import {
+  FULL_BACK_ENTRY_HOURS,
+  backEntryScope,
+  discrepancyText,
+  releaseThreshold,
+  type BackEntryScope,
+} from './reconciliation'
 import { LAB_RANGES } from './reference'
 import { generatePatients, makeRng, type SyntheticPatient } from './synthetic'
 
@@ -52,6 +58,11 @@ export interface DowntimeSetupParams {
   patientCount: number
   extraDiscrepancies: number
   criticalResults: number
+  /**
+   * Downtimes up to this many hours are back-entered in full; longer ones enter the essentials
+   * and scan the rest. Absent in cases generated before it existed: FULL_BACK_ENTRY_HOURS.
+   */
+  fullBackEntryHours?: number
 }
 
 export interface DowntimeSetup {
@@ -192,6 +203,8 @@ export function downtimeSetupFrom(events: readonly GroundTruthEvent[]): Downtime
     dataLost: !!p.dataLost,
     extraDiscrepancies: Number(p.extraDiscrepancies) || 0,
     criticalResults: Number(p.criticalResults) || 0,
+    fullBackEntryHours:
+      Number(p.fullBackEntryHours) > 0 ? Number(p.fullBackEntryHours) : FULL_BACK_ENTRY_HOURS,
   })
 }
 
@@ -219,13 +232,19 @@ const key = (s: string): string =>
     .replace(/[^a-z0-9]+/g, '_')
     .replace(/^_+|_+$/g, '')
 
-/** A system as the consequence rules name it: "Lab interface" and "results" are lab_interface. */
+/**
+ * A system as the default restore order names it: "Lab interface" and "results" are
+ * lab_interface, "ADT" is identity_check, "eMAR" is emar. Other names keep their own key.
+ */
 export function systemOf(text: string): string {
-  const t = words(text)
-  if (/identity|master patient|\bmpi\b|empi|registration match/.test(t)) return 'identity_check'
+  const t = words(text).replace(/_/g, ' ')
+  if (/identity|master patient|\bmpi\b|empi|registration|\badt\b/.test(t)) return 'identity_check'
+  if (/\be-?mar\b|\bmar\b|barcode|\bbcma\b|medication administration/.test(t)) return 'emar'
   if (/pharm|cabinet|medication/.test(t)) return 'pharmacy_interface'
+  if (/radiol|imaging|\bpacs\b|\bris\b/.test(t)) return 'radiology_interface'
   if (/\blab|result/.test(t)) return 'lab_interface'
-  if (/\behr\b|chart|electronic health record|clinical documentation/.test(t)) return 'ehr'
+  if (/\behr\b|chart|electronic health record|clinical documentation|\bcpoe\b|order entry/.test(t))
+    return 'ehr'
   return key(t)
 }
 
@@ -338,6 +357,8 @@ export interface DowntimePlayStatus {
   percent: number
   closedAt?: string
   discrepancies: DiscrepancyStatus[]
+  /** What is entered and what is scanned for this downtime's length. */
+  backEntryScope: BackEntryScope
 }
 
 const num = (v: unknown): number => {
@@ -431,6 +452,10 @@ export function downtimePlayStatus(
       text: discrepancyText(d, s.patients),
       ...(due.has(d.id) ? { dueAt: due.get(d.id)! } : {}),
     })),
+    backEntryScope: backEntryScope(
+      s.params.durationHours,
+      s.params.fullBackEntryHours ?? FULL_BACK_ENTRY_HOURS,
+    ),
   }
 }
 

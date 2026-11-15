@@ -52,6 +52,18 @@ export const ClinicalDowntimeView = z.object({
   discrepancies: z.array(
     z.object({ id: z.string(), threshold: z.number(), text: z.string(), due: z.boolean() }),
   ),
+  /** What is entered and what is scanned for this downtime's length, and the checks after it. */
+  backEntryScope: z
+    .object({
+      durationHours: z.number(),
+      fullBackEntryHours: z.number(),
+      full: z.boolean(),
+      always: z.array(z.string()),
+      enter: z.array(z.string()),
+      scan: z.array(z.string()),
+      reconcile: z.array(z.string()),
+    })
+    .optional(),
 })
 export type ClinicalDowntimeView = z.infer<typeof ClinicalDowntimeView>
 

@@ -15,6 +15,14 @@ export const CD = {
     'To stop a rule changing the case, record “Override a consequence rule (facilitator)”.',
   backEntryHeading: (percent: number) => `Back-entry: ${percent}% complete`,
   simulatedCount: 'simulated paper count',
+  scopeFull: (hours: number, limit: number) =>
+    `A ${hours}-hour downtime is back-entered in full (the default limit is ${limit} hours).`,
+  scopePartial: (hours: number, limit: number) =>
+    `A ${hours}-hour downtime is longer than the ${limit}-hour full back-entry limit: enter the essentials and scan the rest.`,
+  alwaysEntered: 'Always entered',
+  alsoEntered: 'Also entered',
+  scanned: 'Scanned, not re-entered',
+  checks: 'Before units leave paper',
   discrepanciesHeading: 'Discrepancies',
   dueSent: 'Due: sent to the players',
   dueReadOut: 'Due: read it out',
