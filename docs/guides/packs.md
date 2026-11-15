@@ -22,15 +22,38 @@ The app's own content is packs too: see [Included with the app](#included-with-t
 
 ## The Packs screen
 
-Open **Packs** in the sidebar. **Installed** lists the packs that come with the app (**Included with the app**) and the ones you installed; **Browse** lists the packs in the catalogs you added. **Install from file…**, **Install from URL…** and **Export as pack…** are at the top right.
+Open **Packs** in the sidebar. It works like a small app store with two tabs:
 
-![The Packs screen with nothing installed](images/packs/packs-installed-empty.png)
+- **Discover** shows every pack in one place: the packs included with the app and, once you add a catalog, the packs it lists. Search by name, field, document, author or contributor, or narrow the list by category (Transportation, Health and medicine, Natural hazards and science…) and by kind:
+  - **Fields**: a domain profile with its templates, toolkits and example.
+  - **Toolkits**: expertise any scenario can turn on.
+  - **Reference libraries**: public plans and guidance for one field.
+  - **Templates and media**.
 
-Nothing is contacted until you add a catalog. The app ships with no catalog, never checks for packs at startup or in the background, and fetches a catalog only when you open **Browse** or press **Refresh**. An archive is downloaded only when you choose to review it for installing.
+  With no search or filter, Discover opens with a featured row and then one shelf per category. **See all** shows the whole category.
+
+- **Your packs** is a compact list of what is on this computer: updates first, then packs that need attention, the packs you installed, and the packs included with the app. Each has an **On** switch. Filter the list by name, or show only the packs that are on or off. **Check files** compares every installed file with its hash.
+
+Every tile and row opens the pack's own page. The page has:
+
+- the main action: **Get** for a catalog pack, **Review update to…**, the **On** switch, **Uninstall**;
+- a strip with the kind, category, version, download size or item count, license and source;
+- **What's inside**, by kind, with each list folded until you open it;
+- the pack's description;
+- **More for <field>**: the other packs of the same field, such as its toolkit and reference library;
+- **Details**: id, author, contributors, catalog, where it was installed from and the archive sha256.
+
+**Install from file…**, **Install from URL…** and **Export as pack…** are at the top right.
+
+![Discover: featured packs and a shelf per category](images/packs/packs-discover.png)
+
+![Your packs with nothing installed yet](images/packs/packs-yours-empty.png)
+
+Nothing is contacted until you add a catalog. The app ships with no catalog, never checks for packs at startup or in the background, and fetches a catalog only when you open **Discover** or press **Refresh**. An archive is downloaded only when you choose to review it for installing.
 
 ## Included with the app
 
-Everything the app ships is a pack, listed at the top of **Installed** under **Included with the app**:
+Everything the app ships is a pack. Each one has a tile in **Discover** and a row under **Included with the app** in **Your packs**:
 
 | Pack                                                                                                                                                                                                         | What it holds                                                                                                                                                                                                                                                                                                                                                                                                                                                             |
 | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -57,15 +80,15 @@ Everything the app ships is a pack, listed at the top of **Installed** under **I
 
 Items from these packs show **Included: <pack name>**, for example **Included: Action Stations Core** on a template, prompt or workflow, and **Included: Airports** on the airport example. They update with the app, so there is no Uninstall and no update badge.
 
-Turn a domain off with its **Enabled** switch if your organization never runs that kind of exercise. Its domain leaves the domain picker, its templates leave the Templates screen and the inject type lists, its example leaves **Projects → Examples**, and its reference documents leave **Add from pack**. Projects you already made on that domain keep working: they keep their domain profile, still render its templates and lint the same way. Turn it back on at any time. **Action Stations Core** cannot be turned off.
+Turn a field off with its **On** switch (in **Your packs** or on its page) if your organization never runs that kind of exercise. Its domain leaves the domain picker, its templates leave the Templates screen and the inject type lists, its example leaves **Projects → Examples**, and its reference documents leave **Add from pack**. Projects you already made on that domain keep working: they keep their domain profile, still render its templates and lint the same way. Turn it back on at any time. **Action Stations Core** cannot be turned off.
 
 An installed pack can replace an included template, prompt or workflow (the review says, for example, **Replaces Action Stations Core: tweet**), but it cannot reuse an included domain's id or name, or an included pack's id.
 
 ## Credit and community packs
 
-Each pack names its author and anyone else credited (templates, prompts, documents, translation, review). Browse shows "By Ann and 2 contributors"; the review screen and an installed pack's details list everyone with their roles, and the search box matches contributor names. A pack whose id starts with `ai.actionstations.` shows **Official**; every other pack shows **Community**. A community pack is reviewed by a maintainer before it is listed, but check the review screen as you would for any pack. When you export a pack, the Metadata step has a **Contributors** list where you credit translators, reviewers and others with a name, an optional link and GitHub user, and their roles.
+Each pack names its author and anyone else credited (templates, prompts, documents, translation, review). A pack's page shows "By Ann and 2 contributors"; its **Details**, and the review screen, list everyone with their roles, and the search box matches contributor names. A pack whose id starts with `ai.actionstations.` shows **Official**; every other pack shows **Community**. A community pack is reviewed by a maintainer before it is listed, but check the review screen as you would for any pack. When you export a pack, the Metadata step has a **Contributors** list where you credit translators, reviewers and others with a name, an optional link and GitHub user, and their roles.
 
-When the catalog lists them, Browse also shows how many people endorsed a pack with a thumbs-up on GitHub and how many organizations confirmed using it, with the date the counts were read. The app does not fetch these itself and does not sort by them. To share a pack, open the issue form linked from actionstations.ai/packs/share.
+When the catalog lists them, a pack's page also shows how many people endorsed a pack with a thumbs-up on GitHub and how many organizations confirmed using it, with the date the counts were read. The app does not fetch these itself and does not sort by them. To share a pack, open the issue form linked from actionstations.ai/packs/share.
 
 ## Install a pack
 
@@ -75,13 +98,10 @@ Every way of installing ends on the same review page, and the **Install** button
 
 A catalog is a list of packs published on a web site. To add the official one:
 
-1. **Packs → Browse**. With no catalogs, Browse shows the **Pack catalogs** settings (also in **Settings**).
-2. Press **Add the official catalog (actionstations.ai)**, or paste another catalog's address into **Catalog URL** and press **Add catalog**. Addresses must use `https`.
-
-   ![Browse with no catalogs](images/packs/packs-browse-official.png)
-
-3. Browse fetches the catalog and lists the newest version of each pack, with filters for search text, kind, domain and tag. **Refresh** fetches again; **Manage catalogs** opens Settings, where you can remove a catalog. A catalog that fails to load is listed with its error, and the last copy that loaded is still shown.
-4. Press **Review and install** on a pack. The archive downloads as a background job, its sha256 is checked against the catalog, and the review opens.
+1. **Packs → Discover**. With no catalog, Discover starts with **More packs from a catalog**.
+2. Press **Add the official catalog (actionstations.ai)**. For another catalog, choose **Other catalogs…** (the **Pack catalogs** section of **Settings**), paste its address into **Catalog URL** and press **Add catalog**. Addresses must use `https`.
+3. Discover fetches the catalog and adds the newest version of each pack to the shelves, marked **Get**; a newer version of a pack you installed is marked **Update**. **Refresh** fetches again; **Manage catalogs** opens Settings, where you can remove a catalog. A catalog that fails to load is listed with its error, and the last copy that loaded is still shown.
+4. Open a pack and press **Get**. The archive downloads as a background job, its sha256 is checked against the catalog, and the review opens. After you install, the pack's page shows it installed and turned on.
 
 ### From a file
 
@@ -125,13 +145,13 @@ That proves the files are the ones the pack's manifest (and the catalog, if you 
 
 ![Freight Rail Operations installed](images/packs/packs-installed.png)
 
-Each installed pack shows its version, counts by kind and source, a status (**Enabled**, **Disabled**, **Conflict** or **Broken**) and:
+**Your packs** lists each installed pack with its kind, category and version, and its **On** switch; a pack with a problem shows **Conflict** (with the sentence naming the other pack) or **Needs repair**. Open a pack for its page:
 
-- **Enabled**: turn the pack on or off. A disabled pack keeps its files but adds nothing to the app.
-- **Details**: the id, author, license, install time, archive sha256 and every item.
+- **On**: turn the pack on or off. A pack that is off keeps its files but adds nothing to the app.
+- **What's inside** and **Details**: every item, the id, author, license, install time and archive sha256.
 - **Uninstall**: removes the pack after a confirmation.
-- **Update available: 1.1.0** and **Review update to 1.1.0** appear when a catalog you added lists a newer version. Updates are worked out from the last catalog fetch, without going online. The update goes through the same review.
-- **Check files** re-hashes every installed file. At startup the app also checks each pack, and a pack whose files changed on disk is shown as **Broken** and not loaded; reinstall it to repair it.
+- **Review update to 1.1.0** appears, on the pack's page and under **Updates** in **Your packs**, when a catalog you added lists a newer version. Updates are worked out from the last catalog fetch, without going online. The update goes through the same review.
+- **Check files** (in **Your packs**) re-hashes every installed file. At startup the app also checks each pack, and a pack whose files changed on disk is shown as **Broken** and not loaded; reinstall it to repair it.
 
 Installed packs live in the app's data folder, `userData/packs/<id>/<version>/`, with the files read-only. One version of each pack is kept.
 
@@ -227,7 +247,7 @@ What a pack cannot do:
 - **No programs.** A pack can only hold the file types its six kinds need (templates, Markdown prompts, JSON, documents, images, fonts and media). Scripts, executables, plugins, SVG images and any HTML other than a template's `template.html` are refused.
 - **No files outside its folder.** Paths that could leave the pack's install folder, links, encrypted entries and archives over the size limits are refused before anything is written.
 - **No changed files.** Every file must match the hash in `pack.json`, installed files are read-only, and the app re-checks them at startup.
-- **No silent install or update.** Every install, update and downgrade goes through the review, and nothing is fetched except when you open Browse, press Refresh or start a download.
+- **No silent install or update.** Every install, update and downgrade goes through the review, and nothing is fetched except when you open Discover, press Refresh or start a download.
 
 Templates get extra checks. A pack template is checked when it is installed and again every time it is loaded (so are your own and project templates, since projects are shared too): scripts, event handlers, remote addresses and similar constructs are refused, not cleaned up. Templates then render in a locked-down window without scripts or network access.
 

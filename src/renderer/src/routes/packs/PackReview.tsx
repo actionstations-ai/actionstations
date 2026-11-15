@@ -224,7 +224,7 @@ function Problems({ problems, onBack }: { problems: PackProblem[]; onBack: () =>
 function InstallBar(props: {
   r: PackReview
   request: PackInspectRequest
-  onDone: () => void
+  onDone: (packId: string) => void
   onBack: () => void
 }) {
   const { r } = props
@@ -241,9 +241,9 @@ function InstallBar(props: {
             r.action === 'update'
               ? `${pack.name} updated to ${pack.version}`
               : `${pack.name} installed`,
-            pack.enabled ? undefined : 'Installed disabled; see the conflict on the Installed tab.',
+            pack.enabled ? undefined : 'Installed turned off; its page names the conflict.',
           )
-          props.onDone()
+          props.onDone(pack.id)
         },
         onError: (err) => toast.error('Could not install the pack', err),
       },
@@ -286,7 +286,7 @@ function InstallBar(props: {
 /** Review an archive (picked file, dropped file, opened file or staged download). */
 export function PackReviewView(props: {
   request: PackInspectRequest
-  onDone: () => void
+  onDone: (packId: string) => void
   onBack: () => void
 }) {
   const inspect = useIpcQuery('packs:inspect', props.request, { staleTime: 0, gcTime: 0 })

@@ -236,15 +236,15 @@ test('install from a file: review shows contents and licenses, the template gets
   const p = await launchPacks('install')
   try {
     await openPacks(p.page)
-    await expect(p.page.getByText('No packs installed')).toBeVisible()
-    await shot(p.page, 'packs-installed-empty')
-
-    await p.page.getByRole('tab', { name: 'Browse' }).click()
     await expect(
       p.page.getByRole('button', { name: 'Add the official catalog (actionstations.ai)' }),
     ).toBeVisible()
-    await shot(p.page, 'packs-browse-official')
-    await p.page.getByRole('tab', { name: 'Installed' }).click()
+    await expect(p.page.getByRole('list', { name: 'Transportation' })).toBeVisible()
+    await shot(p.page, 'packs-discover')
+
+    await p.page.getByRole('tab', { name: 'Your packs' }).click()
+    await expect(p.page.getByText('No packs installed yet.')).toBeVisible()
+    await shot(p.page, 'packs-yours-empty')
 
     await stubOpenDialog(p.app, [file])
     await p.page.getByRole('button', { name: 'Install from file…' }).first().click()
@@ -274,9 +274,9 @@ test('install from a file: review shows contents and licenses, the template gets
     await shot(p.page, 'packs-review')
 
     await review.getByRole('button', { name: 'Install', exact: true }).click()
-    const row = p.page.getByRole('listitem', { name: new RegExp(PACK_NAME) })
-    await expect(row).toContainText('1.0.0')
-    await expect(row).toContainText('Enabled')
+    const page = p.page.getByRole('article', { name: PACK_NAME })
+    await expect(page.getByLabel('At a glance')).toContainText('1.0.0')
+    await expect(page.getByRole('switch', { name: 'On' })).toBeChecked()
     await shot(p.page, 'packs-installed')
 
     await goTo(p.page, '#/templates')
@@ -415,11 +415,15 @@ test('a project uses the pack template and still renders it after the pack is un
       )
       .toBe('ok')
 
-    await openPacks(p.page)
-    await p.page.getByRole('button', { name: `Uninstall ${PACK_NAME}` }).click()
+    await goTo(p.page, `#/packs?pack=${PACK_ID}`)
+    await p.page
+      .getByRole('article', { name: PACK_NAME })
+      .getByRole('button', { name: `Uninstall ${PACK_NAME}` })
+      .click()
     const confirm = p.page.getByRole('dialog', { name: `Uninstall ${PACK_NAME}?` })
     await confirm.getByRole('button', { name: 'Uninstall', exact: true }).click()
-    await expect(p.page.getByText('No packs installed')).toBeVisible()
+    await p.page.getByRole('tab', { name: 'Your packs' }).click()
+    await expect(p.page.getByText('No packs installed yet.')).toBeVisible()
     expect(await installedPacks(p.invoke)).toEqual([])
 
     const after = await render()
@@ -483,27 +487,36 @@ test('a local catalog: add, refresh, install, update; no request leaves 127.0.0.
   const p = await launchPacks('catalog')
   let records: NetRecord[]
   try {
-    await openPacks(p.page)
-    await p.page.getByRole('tab', { name: 'Browse' }).click()
+    await goTo(p.page, '#/settings')
     await p.page.getByLabel('Catalog URL').fill(server.url('/index.json'))
     await p.page.getByRole('button', { name: 'Add catalog' }).click()
+    await openPacks(p.page)
 
-    const card = p.page.getByRole('listitem').filter({ hasText: PACK_NAME })
-    await expect(card).toContainText('From Rail Yard Catalog', { timeout: 15_000 })
-    await expect(card).toContainText('Official')
-    const communityCard = p.page.getByRole('listitem').filter({ hasText: 'County Flood Kit' })
-    await expect(communityCard).toContainText('By J. Doe and 2 contributors')
-    await expect(communityCard).toContainText('Community')
-    await expect(communityCard).not.toContainText('Official')
-    await expect(communityCard).toContainText('7 endorsements on GitHub · used by 2 organizations')
-    await card.getByRole('button', { name: /^Review and install/ }).click()
+    // The catalog's packs are tiles in the store; each opens its own page.
+    const tile = p.page.getByRole('button', { name: new RegExp(`^${PACK_NAME}`) }).first()
+    await expect(tile).toContainText('Get', { timeout: 15_000 })
+    await p.page
+      .getByRole('button', { name: /^County Flood Kit/ })
+      .first()
+      .click()
+    const kit = p.page.getByRole('article', { name: 'County Flood Kit' })
+    await expect(kit).toContainText('By J. Doe and 2 contributors')
+    await expect(kit.getByLabel('At a glance')).toContainText('Community')
+    await expect(kit.getByLabel('At a glance')).not.toContainText('Official')
+    await expect(kit).toContainText('7 endorsements on GitHub · used by 2 organizations')
+    await kit.getByRole('button', { name: '← Packs' }).click()
+
+    await tile.click()
+    const page = p.page.getByRole('article', { name: PACK_NAME })
+    await expect(page).toContainText('Rail Yard Catalog')
+    await expect(page.getByLabel('At a glance')).toContainText('Official')
+    await page.getByRole('button', { name: `Get ${PACK_NAME}` }).click()
     const review = p.page.getByRole('region', { name: new RegExp(PACK_NAME) })
     await expect(review.getByText('Matches the sha256 the catalog lists.')).toBeVisible({
       timeout: 15_000,
     })
     await review.getByRole('button', { name: 'Install', exact: true }).click()
-    const row = p.page.getByRole('listitem', { name: new RegExp(PACK_NAME) })
-    await expect(row).toContainText('1.0.0')
+    await expect(page.getByLabel('At a glance')).toContainText('1.0.0')
     // A project copies the pack's dispatch board when an inject of that type is created.
     const project = await projectWithBoardInject(p.invoke)
 
@@ -512,12 +525,13 @@ test('a local catalog: add, refresh, install, update; no request leaves 127.0.0.
       '/index.json',
       json(catalogBody([entry('1.1.0', v2)], { name: 'Rail Yard Catalog' })),
     )
-    await p.page.getByRole('tab', { name: 'Browse' }).click()
+    await openPacks(p.page)
     await p.page.getByRole('button', { name: 'Refresh' }).click()
-    await expect(card).toContainText('Update available (have 1.0.0)', { timeout: 15_000 })
-    await card.getByRole('button', { name: /^Review update to 1\.1\.0/ }).click()
+    await expect(tile).toContainText('Update', { timeout: 15_000 })
+    await tile.click()
+    await page.getByRole('button', { name: 'Review update to 1.1.0' }).click()
     await review.getByRole('button', { name: 'Update to 1.1.0' }).click({ timeout: 15_000 })
-    await expect(row).toContainText('1.1.0')
+    await expect(page.getByLabel('At a glance')).toContainText('1.1.0')
     const list = await installedPacks<{ id: string; version: string }>(p.invoke)
     expect(list.map((x) => `${x.id}@${x.version}`)).toEqual([`${PACK_ID}@1.1.0`])
 
@@ -573,7 +587,8 @@ for (const name of ['zip-slip', 'template-script'] as const) {
       await expect(refused.getByRole('listitem').first()).toHaveText(PACK_FIXTURES[name]!.expect)
       await expect(p.page.getByRole('button', { name: 'Install', exact: true })).toHaveCount(0)
       await refused.getByRole('button', { name: 'Back' }).click()
-      await expect(p.page.getByText('No packs installed')).toBeVisible()
+      await p.page.getByRole('tab', { name: 'Your packs' }).click()
+      await expect(p.page.getByText('No packs installed yet.')).toBeVisible()
       expect(await installedPacks(p.invoke)).toEqual([])
       const packsDir = join(p.userData, 'packs')
       const left = existsSync(packsDir) ? readdirSync(packsDir) : []
@@ -592,15 +607,15 @@ test('included packs: the airport pack turns off, the core cannot; an airport pr
     // A project on the airport domain, created while the Airports pack is on.
     const airport = await newProject(p.invoke, 'North Coast International Airport', 'airport')
     await openPacks(p.page)
-    const included = p.page.getByRole('region', { name: 'Included with the app' })
-    const core = included.getByRole('listitem', { name: /Action Stations Core/ })
-    await expect(core.getByRole('switch', { name: 'Enabled' })).toBeDisabled()
+    await p.page.getByRole('tab', { name: 'Your packs' }).click()
+    const included = p.page.getByRole('list', { name: 'Included with the app' })
+    const core = included.getByRole('listitem', { name: 'Action Stations Core' })
+    await expect(core.getByRole('switch', { name: /^On/ })).toBeDisabled()
     await expect(core).toContainText('Always on')
     await expect(core.getByRole('button', { name: /Uninstall/ })).toHaveCount(0)
-    const row = included.getByRole('listitem', { name: /^Airports/ })
-    await expect(row).toContainText('Included with the app')
-    await row.getByRole('switch', { name: 'Enabled' }).click()
-    await expect(row).toContainText('Disabled')
+    const row = included.getByRole('listitem', { name: 'Airports' })
+    await row.getByRole('switch', { name: 'On Airports' }).click()
+    await expect(row.getByRole('switch', { name: 'On Airports' })).not.toBeChecked()
     await shot(p.page, 'packs-included')
 
     // Gone from the domain picker of a new project…
@@ -746,9 +761,11 @@ test('export as pack: the wizard builds a pack that installs back', async () => 
     const review = p.page.getByRole('region', { name: /Lakeshore Ferry Starter/ })
     await expect(review.getByText('Review before installing')).toBeVisible()
     await review.getByRole('button', { name: 'Install', exact: true }).click()
-    await expect(p.page.getByRole('listitem', { name: /Lakeshore Ferry Starter/ })).toContainText(
-      'Enabled',
-    )
+    await expect(
+      p.page
+        .getByRole('article', { name: /Lakeshore Ferry Starter/ })
+        .getByRole('switch', { name: 'On' }),
+    ).toBeChecked()
     const list = await installedPacks<{
       id: string
       license?: string

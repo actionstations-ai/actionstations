@@ -1,16 +1,21 @@
-// Packs screen (#268, ADR-0018): Installed and Browse tabs, and the review every install goes
-// through (catalog, URL, file picker, drag and drop, or an .aspack opened from the OS).
-import { useEffect, useState } from 'react'
+// Packs screen (#268, ADR-0018; store layout #1152): Discover and Your packs tabs, a page per
+// pack, and the review every install goes through (catalog, URL, file picker, drag and drop, or
+// an .aspack opened from the OS). Tab, open pack and filters live in the URL.
+import { useEffect, useMemo, useState } from 'react'
 import { useNavigate, useSearchParams } from 'react-router'
 import { Tabs } from 'radix-ui'
 import type { PackUpdateView } from '@shared/ipc'
 import { Button, PageHeader, ProgressBar } from '../../components/ui'
 import { CancelJobButton } from '../../components/CancelJobButton'
 import { call, subscribe } from '../../lib/api'
-import { queryClient } from '../../lib/query'
+import { queryClient, useIpcQuery } from '../../lib/query'
+import { errorText } from '../../lib/errors'
+import { STORE_KINDS, type StoreKind } from '@shared/packs/store'
 import { toast } from '../../components/toast-store'
-import { BrowseTab } from './BrowseTab'
-import { InstalledTab } from './InstalledTab'
+import { DiscoverTab } from './DiscoverTab'
+import { PackPage } from './PackPage'
+import { YourPacksTab } from './YourPacksTab'
+import { buildStore, type StoreFilter } from './store-model'
 import { InstallFromUrlDialog } from './InstallFromUrlDialog'
 import { PackReviewView } from './PackReview'
 import { reviewFile, usePackReview } from './review-store'
@@ -20,7 +25,12 @@ import { PACK_EXPORT_PATH } from '../pack-export'
 import '../scenarios/scenarios.css'
 import './packs.css'
 
-type Tab = 'installed' | 'browse'
+type Tab = 'discover' | 'yours'
+
+/** `?tab=` values, including the older ones (installed, browse). */
+function tabOf(value: string | null): Tab {
+  return value === 'yours' || value === 'installed' ? 'yours' : 'discover'
+}
 
 /** Refetch installed packs when main reports a change (install, enable, uninstall…). */
 function usePacksChanged() {
@@ -65,10 +75,57 @@ function DownloadStatus({
   )
 }
 
-export default function PacksPage() {
+function useStoreParams() {
   const [params, setParams] = useSearchParams()
-  const tab: Tab = params.get('tab') === 'browse' ? 'browse' : 'installed'
-  const setTab = (t: Tab) => setParams(t === 'installed' ? {} : { tab: t }, { replace: true })
+  const tab = tabOf(params.get('tab'))
+  const packId = params.get('pack')
+  const kind = params.get('kind') ?? ''
+  const filter: StoreFilter = {
+    query: params.get('q') ?? '',
+    category: params.get('category') ?? '',
+    kind: (STORE_KINDS as readonly string[]).includes(kind) ? (kind as StoreKind) : '',
+  }
+  const write = (next: { tab: Tab; pack?: string | null; filter?: StoreFilter }, push = false) => {
+    const f = next.filter ?? filter
+    const out: Record<string, string> = {}
+    if (next.tab === 'yours') out.tab = 'yours'
+    if (next.pack) out.pack = next.pack
+    if (f.query) out.q = f.query
+    if (f.category) out.category = f.category
+    if (f.kind) out.kind = f.kind
+    setParams(out, { replace: !push })
+  }
+  return {
+    tab,
+    packId,
+    filter,
+    setTab: (t: Tab) => write({ tab: t, pack: null }),
+    setFilter: (f: StoreFilter) => write({ tab, pack: null, filter: f }),
+    openPack: (id: string) => write({ tab, pack: id }, true),
+    closePack: () => write({ tab, pack: null }),
+  }
+}
+
+function useStorePacks() {
+  const list = useIpcQuery('packs:list', undefined)
+  const updates = useIpcQuery('packs:updates', undefined)
+  const catalogs = useIpcQuery('packs:catalogs', undefined)
+  const cached = useIpcQuery('packs:catalogEntries', undefined)
+  const packs = useMemo(
+    () => buildStore(list.data ?? [], cached.data ?? [], updates.data),
+    [list.data, cached.data, updates.data],
+  )
+  return {
+    packs,
+    loading: list.isPending || catalogs.isPending,
+    error: list.error ?? catalogs.error,
+    hasCatalogs: (catalogs.data?.length ?? 0) > 0,
+  }
+}
+
+export default function PacksPage() {
+  const store = useStoreParams()
+  const { packs, loading, error, hasCatalogs } = useStorePacks()
   const request = usePackReview((s) => s.request)
   const closeReview = usePackReview((s) => s.closeReview)
   const { download, job, start } = usePackDownload()
@@ -86,12 +143,78 @@ export default function PacksPage() {
       { source: 'catalog', catalogUrl: u.catalogUrl, id: u.id, version: u.latest.version },
       `${name} ${u.latest.version}`,
     )
+  const open = store.packId ? packs.find((p) => p.id === store.packId) : undefined
+
+  const body = () => {
+    if (request)
+      return (
+        <PackReviewView
+          key={JSON.stringify(request)}
+          request={request}
+          onBack={closeReview}
+          onDone={(id) => {
+            closeReview()
+            store.openPack(id)
+          }}
+        />
+      )
+    if (loading) return <p className="muted">Loading packs…</p>
+    if (error)
+      return (
+        <p className="field__error" role="alert">
+          {errorText(error)}
+        </p>
+      )
+    if (open)
+      return (
+        <PackPage
+          pack={open}
+          packs={packs}
+          onOpen={store.openPack}
+          onBack={store.closePack}
+          onGet={reviewEntry}
+          onUpdate={reviewUpdate}
+          busy={!!download}
+        />
+      )
+    return (
+      <Tabs.Root value={store.tab} onValueChange={(v) => store.setTab(v as Tab)} className="tabs">
+        <Tabs.List className="tabs__list" aria-label="Packs">
+          <Tabs.Trigger value="discover" className="tabs__trigger">
+            Discover
+          </Tabs.Trigger>
+          <Tabs.Trigger value="yours" className="tabs__trigger">
+            Your packs
+          </Tabs.Trigger>
+        </Tabs.List>
+        <Tabs.Content value="discover" className="tabs__panel">
+          <DiscoverTab
+            packs={packs}
+            hasCatalogs={hasCatalogs}
+            filter={store.filter}
+            onFilter={store.setFilter}
+            onOpen={store.openPack}
+          />
+        </Tabs.Content>
+        <Tabs.Content value="yours" className="tabs__panel">
+          <YourPacksTab
+            packs={packs}
+            onOpen={store.openPack}
+            onUpdate={reviewUpdate}
+            onDiscover={() => store.setTab('discover')}
+            onInstallFile={() => void pickFile()}
+            updating={!!download}
+          />
+        </Tabs.Content>
+      </Tabs.Root>
+    )
+  }
 
   return (
     <div className="page packs-page">
       <PageHeader
         title="Packs"
-        description="Add templates, prompts, domain profiles, workflows, reference documents and example projects. Every pack is reviewed before it installs; drop an .aspack file anywhere on the window to review it."
+        description="Fields, toolkits, reference libraries and templates. Every pack you add is reviewed before it installs; drop an .aspack file anywhere on the window to review it."
         actions={
           <>
             <Button onClick={() => void pickFile()}>Install from file…</Button>
@@ -101,39 +224,7 @@ export default function PacksPage() {
         }
       />
       <DownloadStatus download={download} job={job} />
-      {request ? (
-        <PackReviewView
-          key={JSON.stringify(request)}
-          request={request}
-          onBack={closeReview}
-          onDone={() => {
-            closeReview()
-            setTab('installed')
-          }}
-        />
-      ) : (
-        <Tabs.Root value={tab} onValueChange={(v) => setTab(v as Tab)} className="tabs">
-          <Tabs.List className="tabs__list" aria-label="Packs">
-            <Tabs.Trigger value="installed" className="tabs__trigger">
-              Installed
-            </Tabs.Trigger>
-            <Tabs.Trigger value="browse" className="tabs__trigger">
-              Browse
-            </Tabs.Trigger>
-          </Tabs.List>
-          <Tabs.Content value="installed" className="tabs__panel">
-            <InstalledTab
-              onUpdate={reviewUpdate}
-              onBrowse={() => setTab('browse')}
-              onInstallFile={() => void pickFile()}
-              updating={!!download}
-            />
-          </Tabs.Content>
-          <Tabs.Content value="browse" className="tabs__panel">
-            <BrowseTab onReview={reviewEntry} busy={!!download} />
-          </Tabs.Content>
-        </Tabs.Root>
-      )}
+      {body()}
       <InstallFromUrlDialog
         open={urlOpen}
         onOpenChange={setUrlOpen}
