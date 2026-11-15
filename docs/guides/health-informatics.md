@@ -64,7 +64,7 @@ The downtime then follows the players' decisions:
 - **The facilitator sees why.** The Live tab in Facilitate shows a **Simulated downtime** section whenever the scenario has this data: each figure before and after the decisions, every rule that fired with its reason, back-entry by unit and the discrepancies. To overrule a rule, record **Override a consequence rule**; the rule stays listed as overridden and stops changing the case.
 - **Discrepancies arrive on their own.** Each scenario seeds at least a duplicate registration, a result filed to the wrong patient and an order sent twice. As units report reconciliation progress, each falls due at its point of the back-entry, from 10 to 80 percent complete. In a session with devices it arrives on every team's messages from Health information management, once; without devices Facilitate marks it due for you to read out. Nothing more falls due once reconciliation is closed. A unit that has not reported counts with its simulated paper, so the discrepancies come as the whole hospital's back-entry advances.
 
-The case clock starts at the outage unless you set your own in Case data, so the exercise clock's 0:00 is the moment the systems fail. Times entered on the forms are read on that clock.
+The case clock starts at the outage unless you set your own on the **Case data** tab, so the exercise clock's 0:00 is the moment the systems fail. Times entered on the forms are read on that clock.
 
 ## Decisions in live play
 
@@ -85,7 +85,7 @@ Players record structured decisions, each with a time:
 Two forms are for the people running the exercise rather than the players:
 
 - **Log a systems event (controller):** record something that happened in the simulated hospital that no form covers, so the measures count it: a unit on downtime procedures, a critical result, an order or result lost, delayed or duplicated (with the message class and how many), or a duplicate record.
-- **Override a consequence rule (facilitator):** stop one of the downtime model's rules from changing the case, or let it apply again (see below).
+- **Override a consequence rule (facilitator):** stop one of the downtime model's rules from changing the case, or let it apply again (see Simulated downtime above).
 
 Record them from the Decisions section of the Live tab in Facilitate, with or without devices.
 
@@ -115,7 +115,7 @@ The clinical care measures for the same exercise (see [Nursing and clinical care
 
 ## Clocks and requirements
 
-Switch on the **HIPAA Breach Notification Rule** in Project settings, Compliance, to show its clocks under the exercise clock (see [Getting started](getting-started.md)). From the day a breach is discovered: notice to individuals without unreasonable delay and no later than 60 calendar days; notice to HHS within 60 days when 500 or more people are affected (for fewer, within 60 days after the end of the calendar year; the clock shows the 500-or-more case); and notice to prominent media within 60 days when more than 500 residents of a state or jurisdiction are affected. Fire **Breach discovered** in Facilitate when players determine a breach occurred, and record each notice as filed (or missed, or waived when it does not apply, such as the media notice for 500 or fewer residents) so the **Notification clocks met** measure can score it. State breach laws can be shorter and are not modeled. A proposed update to the HIPAA Security Rule was published in January 2025 and is not final; the exercises treat it as pending.
+Switch on the **HIPAA Breach Notification Rule** in **Project settings → Compliance** to show its clocks under the exercise clock (see [Getting started](getting-started.md)). From the day a breach is discovered: notice to individuals without unreasonable delay and no later than 60 calendar days; notice to HHS within 60 days when 500 or more people are affected (for fewer, within 60 days after the end of the calendar year; the clock shows the 500-or-more case); and notice to prominent media within 60 days when more than 500 residents of a state or jurisdiction are affected. Fire **Breach discovered** in Facilitate when players determine a breach occurred, and record each notice as filed (or missed, or waived when it does not apply, such as the media notice for 500 or fewer residents) so the **Notification clocks met** measure can score it. State breach laws can be shorter and are not modeled. A proposed update to the HIPAA Security Rule was published in January 2025 and is not final; the exercises treat it as pending.
 
 The domain assumes these plans, checked in November 2026. Rules change, so check the current text.
 
@@ -147,4 +147,4 @@ The pack's README lists dated seeds from past incidents (a health system's weeks
 
 The Health informatics and clinical IT pack includes an example project, **Lakemont Community Hospital: 24-Hour Unplanned EHR Downtime**, with one exercise, _Cold Storage_: on a cold February night a storage failure at the primary data center takes Lakechart and the interface engine down; the standby engine is stale, labs and orders are queuing, the cause cannot yet be ruled out as malicious, and the hospital must get 14 units onto paper, decide the restore order, handle duplicate records and reconcile for up to 24 hours.
 
-Turn the pack on under **Packs**, then open a copy from **Projects → Examples**. The organization, its people and its businesses are fictional; the exercise comes with its injects, media, Situation Manual, evaluation guides and controller handbook, ready to read or run.
+Turn the pack on in **Packs → Your packs**, then open a copy from **Projects → Examples**. The organization, its people and its businesses are fictional; the exercise comes with its injects, media, Situation Manual, evaluation guides and controller handbook, ready to read or run.

@@ -86,4 +86,4 @@ The toolkit names a catalog of reference documents: the OSHA reporting rule, the
 
 The Construction and the built environment pack includes an example project, **Larkspur Constructors: Trench Cave-in on the Stillwater Creek Interceptor**, with one exercise, _Unmarked Line_: on a wet April morning a 13-foot trench through saturated sandy fill fails beside a struck gas service, trapping a pipe layer while crack gauges on the adjacent 1924 print shop approach the action level; Larkspur must stop work, evacuate neighbors, support the fire department's rescue and meet the OSHA, owner and insurer clocks.
 
-Turn the pack on under **Packs**, then open a copy from **Projects → Examples**. The organization, its people and its businesses are fictional; the exercise comes with its injects, media, Situation Manual, evaluation guides and controller handbook, ready to read or run.
+Turn the pack on in **Packs → Your packs**, then open a copy from **Projects → Examples**. The organization, its people and its businesses are fictional; the exercise comes with its injects, media, Situation Manual, evaluation guides and controller handbook, ready to read or run.

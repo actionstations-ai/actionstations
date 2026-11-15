@@ -1,27 +1,27 @@
-# 04 — How the CSAAP Tabletops Were Built
+# Exercise design method
 
-This is the design method the generator must reproduce. It was derived from the hand-built Scenario 3 ("Flight to Nowhere") package in `reference/scenario-3/` and the fictional-airport doctrine in `reference/ncia/`. It follows HSEEP (DHS Homeland Security Exercise and Evaluation Program) conventions for discussion-based exercises, adapted for a classroom.
+This is the exercise design method Action Stations follows. It was derived from hand-built classroom tabletop exercises on airport cybersecurity. One of them, "Flight to Nowhere", ships with the app as a scenario of the airport example project (North Coast International Airport), together with the fictional airport's plans, and serves as the worked example on this page. The method follows HSEEP (DHS Homeland Security Exercise and Evaluation Program) conventions for discussion-based exercises, adapted for a classroom. [How a good tabletop exercise is built](guides/methodology.md) is a shorter guide to the same method.
 
-## 1. The project came first, then scenarios
+## The project comes first, then scenarios
 
-The CSAAP project was set up as a **knowledge base**, and scenarios were authored *against* it:
+The original exercises were built for an airport-management course whose material was set up as a **knowledge base**; scenarios were authored *against* it:
 
-1. **Course material** — the AAAE Certified Member body-of-knowledge modules (Finance & Administration; Planning, Construction & Environmental; Operations, Security & Maintenance; Communications & Community Relations) and six course slide decks that map each module to cybersecurity concerns (CIA triad, NIST CSF, TSA directives, OT systems like FIDS/BHS/PACS/airfield lighting). These define *what students are supposed to know* and therefore what an exercise should test.
-2. **A fictional airport with real-looking doctrine** — North Coast International Airport (NCIA), Summit County, Ohio: a Part 139 Class I airport near Akron. Three plans were written for it so students have something to open and cite:
+1. **Course material**: the AAAE Certified Member body-of-knowledge modules (Finance & Administration; Planning, Construction & Environmental; Operations, Security & Maintenance; Communications & Community Relations) and six course slide decks that map each module to cybersecurity concerns (CIA triad, NIST CSF, TSA directives, OT systems like FIDS/BHS/PACS/airfield lighting). These define *what students are supposed to know* and therefore what an exercise should test.
+2. **A fictional airport with real-looking doctrine**: North Coast International Airport (NCIA) in Summit County, Ohio, a Part 139 Class I airport near Akron. Three plans were written for it so students have something to open and cite (all three ship with the airport example):
    - **Airport Emergency Plan (AEP)** — 14 CFR 139.325 structure, NIMS/ICS, EOC activation levels, hazard appendices including **Appendix 6: Cyber-Physical Incidents** (ALCS, PACS, AODB/FIDS, Fuel SCADA with response actions).
    - **Airport Security Program (ASP)** — 49 CFR 1542 structure, marked SSI (fictional), security areas, PACS architecture with VLANs and IP schema (`10.66.x.x`), failure-mode matrix, "Code Black" cyber protocol, vendor remote-access policy with an explicit *scenario hook*.
    - **Terminal Incident Response Plan (TIRP)** — 13 hazard sections with checklists; **Section 13** is cyber/IT failure with sub-scenarios for ransomware, access-control failure, and FIDS/BHS failure.
    - Plus a terminal map, and FEMA **ICS-201** and **ICS-203** forms (link: https://training.fema.gov/icsresource/icsforms.aspx).
-3. The plans were seeded with **deliberate hooks** the scenarios later pull on: specific section numbers (TIRP 13.6, ASP 6.4), named systems and hostnames, generator gaps, the 15-minute PACS cache window, the no-24/7-vendor-VPN rule. **The generator should do the same in reverse: find hooks in the user's documents and build injects that force players to open the plan.**
+3. The plans were seeded with **deliberate hooks** the scenarios later pull on: specific section numbers (TIRP 13.6, ASP 6.4), named systems and hostnames, backup generator gaps, the 15-minute PACS cache window, the no-24/7-vendor-VPN rule. **The app does the same in reverse: it finds hooks in your documents and builds injects that force players to open the plan.**
 
-## 2. Scenario package = five documents, plus the evaluation guides
+## The scenario package: five documents, plus the evaluation guides
 
-Every scenario ships as a set. The generator's output schema mirrors these exactly. The set also carries the **Exercise Evaluation Guides**: every objective maps to FEMA Core Capabilities, and each capability gets an EEG whose critical tasks are the actions the organization's own plans require, cited by section. Scenario 3 was written before EEGs existed; its guides are the hand-written reference (Public Information and Warning, Operational Coordination, Infrastructure Systems, Cybersecurity; tasks from TIRP 1.4.5, 4.5, 13.6, 13.7 and ASP 6.4).
+Every scenario is produced as a set, and the app writes each of these documents. The set also carries the **Exercise Evaluation Guides**: every objective maps to FEMA Core Capabilities, and each capability gets an EEG whose critical tasks are the actions the organization's own plans require, cited by section. In Flight to Nowhere the guides cover Public Information and Warning, Operational Coordination, Infrastructure Systems and Cybersecurity, with tasks from TIRP 1.4.5, 4.5, 13.6, 13.7 and ASP 6.4.
 
-| Document | Audience | Contents (from Scenario 3) |
+| Document | Audience | Contents |
 |---|---|---|
 | **Master Scenario Events List (MSEL)** | Facilitator | Header (title, location, duration, target audience); Scenario Overview (theme, threat, operational impact, *core plan sections tested*); Roles & Responsibilities; **Phases**, each with a goal and a table: Time · Inject ID · From · To · Event/Message · Expected Action |
-| **Master Inject Deck** | Facilitator (printed, one per page) | Facilitator instructions (print, timing, target, "don't explain — just say 'this just came in'"); per inject: ID, hand-to role, time, **purpose tag**, format, full content, optional instructor note |
+| **Master Inject Deck** | Facilitator (printed, one per page) | Facilitator instructions (print, timing, target, "don't explain — just say 'this just came in'"); per inject: ID, hand-to role, time, **purpose tag**, format, full content, optional instructor note. Every MSEL row gets a deck page by default; you turn off the ones you do not need |
 | **Controller/Evaluator Handbook** | Instructor | Exercise overview & objectives; room setup (U-shape, isolated PIO table, projector, whiteboard for ICS-201); Rules of Play (SimCell role, time jumps, handling artificialities); **Grading rubric** (4 metrics × Fail/Pass/Excellence with points); Hot Wash guide ("3-Up, 3-Down" + scenario-specific questions) |
 | **Player Briefing Packet** | Students | Situation brief (time, weather, load, status board); the anomaly as players first see it; mission statement; **Team assignments & standing orders** (one table per team); Rules of engagement ("This is an exercise", "REAL WORLD" stop phrase, time jumps, artifacts are intelligence); blank ICS-201 with map sketch, situation summary, objectives, critical resource status table |
 | **Inject media** | Players (handed/displayed) | PNG screenshots of tweets/posts, printed tickets/memos/logs, FIDS board image, photos for the main screen, audio for PA/radio |
@@ -36,9 +36,9 @@ The **HSEEP set** gives the same content the shape HSEEP 2020 reviewers expect:
 | **C/E Handbook (HSEEP layout)** | Controllers and evaluators | Exercise Overview; General Information (roles, structure, conduct, "REAL WORLD"); Controller Instructions (with the room setup, rules of play and SimCell scripts from the classroom handbook); Evaluator Instructions (EEGs, rating scale, rubric, hot wash and debrief, feeding the AAR/IP); appendices: schedule, MSEL summary, EEGs, communications directory, acronyms. |
 | **MSEL workbook (Excel)** | Controllers | One row per MSEL row in the common HSEEP columns, plus Overview, Objectives, Roles and Legend sheets. |
 
-## 2a. The method is domain-neutral
+## The method is domain-neutral
 
-Scenario 3 is an airport cyber incident, but the method is not airport-specific and not cyber-specific. The generator reads the organization through a **domain profile** (airport, transit, dam, water utility, energy utility, healthcare, campus, stadium/venue, port, municipal government, industrial plant, unmanned-systems operator, generic) that says what its facility, public and front line are called, which identifier categories its documents state, which systems and outside parties it has, what its places look like in a photo, and which inject types fit it. It reads the incident through a **threat family** (cyber, physical security, cyber-physical, UAS/drone, insider, natural hazard, infrastructure failure, mass gathering) that supplies the phase arc, the decision-point vocabulary, what a clue and a recovery hurdle are, and the outside party players must coordinate with. Everything below still holds; the four-phase arc named in §3 is the cyber family's. The other families keep four phases and one decision point but change what the phases are:
+Flight to Nowhere is an airport cyber incident, but the method is not airport-specific and not cyber-specific. The app reads the organization through a **domain profile** (airport, transit, dam, water utility, energy utility, healthcare, campus, stadium/venue, port, municipal government, industrial plant, unmanned-systems operator, generic) that says what its facility, public and front line are called, which identifier categories its documents state, which systems and outside parties it has, what its places look like in a photo, and which inject types fit it. It reads the incident through a **threat family** (cyber, physical security, cyber-physical, UAS/drone, insider, natural hazard, infrastructure failure, mass gathering) that supplies the phase arc, the decision-point vocabulary, what a clue and a recovery hurdle are, and the outside party players must coordinate with. Everything below still holds; the four-phase arc in [Scenario design pattern](#scenario-design-pattern) is the cyber family's. The other families keep four phases and one decision point but change what the phases are:
 
 | Family | Phases (default) | The decision point | A clue is… |
 |---|---|---|---|
@@ -51,13 +51,13 @@ Scenario 3 is an airport cyber incident, but the method is not airport-specific 
 | infrastructure_failure | Degradation · Cascade · Continuity Decision · Restoration | curtail service or run degraded; switch to backup now | a status screen, a maintenance log, an alarm history |
 | mass_gathering | Build-up · The Surge · Control Decision · Dispersal & Recovery | stop admission / pause / evacuate an area | a CCTV still, a density count, a medical-call cluster |
 
-The inject mix per phase (§3) keeps CORE_NARRATIVE, NOISE/RED_HERRING and PIO PRESSURE/MISINFORMATION for every family; the CLUE/TECH_HURDLE-to-the-technical-role rule applies to the cyber, cyber-physical and insider families (the others place clues with security or operations as the beats call for them). Noise and pressure injects come from the domain (a farebox jam, a boater's photo of the spillway, a nurse's anonymous post), never from the airport.
+The inject mix per phase (see [Scenario design pattern](#scenario-design-pattern)) keeps CORE_NARRATIVE, NOISE/RED_HERRING and PIO PRESSURE/MISINFORMATION for every family; the CLUE/TECH_HURDLE-to-the-technical-role rule applies to the cyber, cyber-physical and insider families (the others place clues with security or operations as the beats call for them). Noise and pressure injects come from the domain (a farebox jam, a boater's photo of the spillway, a nurse's anonymous post), never from the airport.
 
-## 3. Scenario design pattern
+## Scenario design pattern
 
-Scenario 3 is a template for a good classroom TTX. Reproduce the pattern:
+Flight to Nowhere is a template for a good classroom TTX. The app follows its pattern:
 
-**Duration & tempo.** 4 exercise hours in 4 phases; real time compressed with Time Jumps. ~15 core injects + ~10 side injects (`b` suffix) ≈ one every 10 minutes of exercise time. The `msel_phase` prompt asks for about six rows an hour, at most seven (20–28 rows over 4 hours, scaled by phase length); code keeps at most one row more per phase, and the `DENSITY_DENSE` lint (info) notes a phase above the steer.
+**Duration & tempo.** 4 exercise hours in 4 phases; real time compressed with Time Jumps. ~15 core injects + ~10 side injects (`b` suffix) ≈ one every 10 minutes of exercise time. The `msel_phase` prompt asks for about six rows an hour, at most seven (20–28 rows over 4 hours, scaled by phase length); the app keeps at most one row more per phase, and the `DENSITY_DENSE` lint (info) notes a phase above the steer.
 
 **Four-phase arc:**
 1. **The Glitch** — ambiguity; tests reluctance to declare an incident. Small anomaly reported through a mundane channel (gate agent phone call). Includes one *noise* inject so IT practices triage.
@@ -69,15 +69,17 @@ Scenario 3 is a template for a good classroom TTX. Reproduce the pattern:
 
 **Inject mix per phase.** At least: one CORE_NARRATIVE, one PRESSURE or MISINFORMATION for PIO, one NOISE or RED_HERRING, one CLUE/TECH item for IT; one DECISION_POINT somewhere in phases 2–3. A decision point can carry a vote (its `decision`: a question and two to eight options): in live play the facilitator puts it to the room so that every seat is counted, not just the loudest, and the tally (anonymous, or by role with small groups folded into Other) becomes part of the decision record the hot wash and the AAR read.
 
-**Realism devices.** Concrete artifacts: ticket numbers, hostnames and IPs consistent with the ASP's schema, actual flight numbers, named local references (Browns tickets, Channel 5, Cleveland Moms Group), a script name (`random_gate_generator.ps1`), a SQL statement. Humor in the fake data ("Flight 666 to Purgatory") is fine and memorable; it is the *players'* data that must stay plausible.
+**Realism devices.** Concrete artifacts: ticket numbers, hostnames and IPs consistent with the plans' addressing scheme, actual flight numbers, named local references (in Flight to Nowhere: Browns tickets, Channel 5, Cleveland Moms Group), a script name (`random_gate_generator.ps1`), a SQL statement. Humor in the fake data ("Flight 666 to Purgatory") is fine and memorable; it is the *players'* data that must stay plausible.
 
-**Doctrine citations.** The MSEL header lists the plan sections tested; expected actions reference them ("Activate Section 13.6"); the rubric's *Use of Doctrine* metric rewards students who cite sections. The generator must only cite sections that exist in the project documents — retrieve, don't invent.
+**Doctrine citations.** The MSEL header lists the plan sections tested; expected actions reference them ("Activate Section 13.6"); the rubric's *Use of Doctrine* metric rewards students who cite sections. The app cites only sections that exist in the project documents: it retrieves them and never invents them.
 
-**SimCell guidance.** The handbook tells the instructor how to play the outside world and to "not make it easy" (FBI asks for PCAP evidence). Generate 3–5 such mini-scripts per scenario.
+**SimCell guidance.** The handbook tells the instructor how to play the outside world and to "not make it easy" (FBI asks for PCAP evidence). The app writes 3–5 such mini-scripts per scenario.
 
 **Grading rubric.** Four metrics (e.g., Operational Coordination 30, Technical Competence 30, Public Communication 20, Use of Doctrine 20), each with concrete Fail / Pass / Excellence behaviors tied to specific injects.
 
 **Hot wash.** "3-Up, 3-Down" plus 3 scenario-specific discussion questions that hit the learning objectives (trust in data, Ops↔IT communication gap, insider as crime scene vs. tech ticket).
+
+**Collecting the hot wash from devices.** When the exercise runs on devices, the facilitator can open the hot wash so participants add strengths and areas for improvement from their phones, anonymously if they prefer. This keeps the loudest voice from setting the record. The facilitator groups near-duplicates, promotes the findings the room agrees on, and keeps the discussion spoken; the board collects, it does not replace the conversation.
 
 ### Branches
 
@@ -85,7 +87,7 @@ A decision-point inject can fork the MSEL: each option of the decision leads to 
 
 Keep branches short (three to six rows), give every role something to do in each, and rejoin as soon as the paths can share a story again.
 
-## 4. Authoring workflow that worked (and what the app should automate)
+## How the app automates the authoring workflow
 
 | Manual step | App equivalent |
 |---|---|
@@ -95,23 +97,23 @@ Keep branches short (three to six rows), give every role something to do in each
 | Draft 4 phases with a goal each | `phase_plan` stage |
 | Write the MSEL table phase by phase | `msel_phase` × 4 with the inject-mix constraints enforced by schema + critique |
 | Expand ~60% of MSEL rows into full-page injects with a format | `inject_text` stage; the user picks which rows get media |
-| Make tweet/FB/FIDS images by hand | template renderer + ComfyUI for photos |
+| Make tweet/FB/FIDS images by hand | template renderer for text-bearing media; image and voice providers for photos and audio |
 | Write handbook, rubric, briefing | dedicated stages that read the MSEL so rubric behaviors reference actual inject IDs |
 | Proofread for consistency (times, gates, IDs) | `critique` stage + deterministic lints |
 
-## 4a. How the pipeline keeps the MSEL structurally sound
+## How the pipeline keeps the MSEL structurally sound
 
 Prompts alone do not stop a local model from overfilling a phase, writing a player's decision as an inject or leaving rows after ENDEX. The pipeline checks and repairs these itself:
 
-- **Mix completion stays within the phase size.** When a phase lacks part of the inject mix (§3) or a role receives nothing, one extra `msel_phase` call asks for what is missing, but the phase never grows past its max row count (one row per 12 minutes, at least 4, plus 3). Spare NOISE / PRESSURE-type rows (ones whose removal opens no new gap) are rewritten first, keeping their id and time; new rows are added only while the phase has room. Gaps are asked as row-sized needs: a role covered by the PIO-pressure or technical-clue ask needs no separate row, and the remaining uncovered roles share one inject. When the first call itself writes more than the max, the lowest-value unlocked rows are dropped until the phase fits: spare NOISE / PRESSURE-type rows first, then other rows, latest first. A row is dropped only when another row keeps its tag and every role it addresses covered and the phase's mix gaps do not grow. Control cards (STARTEX, TIME_JUMP, ENDEX) and the DECISION_POINT are never dropped, and a TIME_JUMP that ends a phase stays where it is as the transition card.
+- **Mix completion stays within the phase size.** When a phase lacks part of the inject mix (see [Scenario design pattern](#scenario-design-pattern)) or a role receives nothing, one extra `msel_phase` call asks for what is missing, but the phase never grows past its max row count (one row per 12 minutes, at least 4, plus 3). Spare NOISE / PRESSURE-type rows (ones whose removal opens no new gap) are rewritten first, keeping their id and time; new rows are added only while the phase has room. Gaps are asked as row-sized needs: a role covered by the PIO-pressure or technical-clue ask needs no separate row, and the remaining uncovered roles share one inject. When the first call itself writes more than the max, the lowest-value unlocked rows are dropped until the phase fits: spare NOISE / PRESSURE-type rows first, then other rows, latest first. A row is dropped only when another row keeps its tag and every role it addresses covered and the phase's mix gaps do not grow. Control cards (STARTEX, TIME_JUMP, ENDEX) and the DECISION_POINT are never dropped, and a TIME_JUMP that ends a phase stays where it is as the transition card.
 - **Deterministic repairs, after every `msel_phase` step and around the critique.** Exact repeats are dropped (same text once channel label, quotes and punctuation are removed, or the same quoted call word for word). One ENDEX row is kept. Rows outside their phase window are re-timed into it, spread between the last in-window row and the phase end. ENDEX moves to the latest row of its phase so nothing comes after it, and on equal times STARTEX and TIME_JUMP open and ENDEX closes. Locked rows are never moved or dropped. Player roles are capped at the number of entries in the brief's audience list; the operational, technical, public-information and security roles are kept first.
 - **Structural lints feed the revision pass.** Besides the critique's error issues, the MSEL revision pass receives the rows that are outside their phase, after ENDEX, near-duplicates of an earlier row (`DUPLICATE_EVENT`), written in a player's voice (`INJECT_PLAYER_VOICE`: "This is the DOM…", a named player announcing "I have made the decision", "I'm declaring CODE …", whatever `from` says) or naming identifiers the facility facts do not list (`FACILITY_UNKNOWN_ID`, with the known list). After the repairs, any structural problem still left gets one more revision round before the scenario is marked ready; a row still in a player's voice then becomes a facilitator prompt with the player's words moved to the expected action.
 
-## 4a-bis. Injects aimed at the seams between plans
+## Injects aimed at the seams between plans
 
 When the designer picks plan seams (contradictions or missing documents from the plan check), each one is placed in a phase and that phase must contain a row that puts players exactly in the seam: a release that needs approval while both named approvers are reachable, a notification deadline one plan sets and the other does not. The inject creates the situation and never says the plans disagree; only the controller note, built by code, quotes both passages. Seam rows cite both passages, carry CORE_NARRATIVE, PRESSURE, OPERATIONAL_FRICTION or DECISION_POINT (never NOISE or RED_HERRING), are never rewritten as spare rows or trimmed, and the hot wash asks which plan players followed and which the plans should say. At most three seams per scenario: more turns the exercise into a plan audit.
 
-## 4a-ter. Micro-drills between exercises
+## Micro-drills between exercises
 
 HSEEP uses "drill" for an operations-based exercise that tests one function with real equipment.
 A micro-drill in Action Stations is something else: fifteen minutes of discussion-based practice
@@ -122,26 +124,26 @@ coverage. The evidence for graded, fading hints is a small pilot (four students,
 use); the hints are therefore prewritten, reviewable and visible, and the debrief records hint
 use.
 
-## 4b. Repairing a finished scenario in place
+## Repairing a finished scenario in place
 
-A scenario generated before a generator fix does not have to be regenerated to get it. `generate:repair` (job `repair-scenario`) runs the current checks on what is saved and changes only what they flag:
+A scenario generated by an older version of the app does not have to be regenerated to get the current checks. **Repair this scenario** runs them on what is saved and changes only what they flag:
 
-1. **MSEL, in code.** The deterministic repairs of §4a (exact repeats, one ENDEX kept last, rows re-timed into their phase). Recipient labels are re-resolved with the current matcher (a truncated "as" is ASO; one- and two-letter keys that match nothing are dropped). A phase over the density limit (more than one inject every 5 minutes, `DENSITY_HIGH`) is trimmed the §4a way, and rows the rubric links are never the ones dropped. The role cap is not applied: on a finished scenario the handbook, briefing and rubric already use every role.
-2. **MSEL, with the model.** A phase that lacks an inject-mix tag (`MIX_*`) gets one mix call: spare rows rewritten first, a new row only below the density limit. Then the revision pass runs for the rows still flagged (§4a structural lints and unknown facility identifiers), once more for what is left, and a row still in a player's voice becomes a facilitator prompt. Unflagged rows are never sent for rewriting. The lints are recomputed; critique notes and inject warnings of live rows are kept.
-3. **Injects.** Injects of rows the repair removed are deleted. Every other inject is re-checked with the current field and content checks: warnings that no longer apply are dropped without touching the inject file. `generate:injects` runs only for rows whose source, event, expected action or format changed, rows with no inject, and injects whose content still fails the checks.
+1. **MSEL, in code.** The deterministic repairs described in [How the pipeline keeps the MSEL structurally sound](#how-the-pipeline-keeps-the-msel-structurally-sound) (exact repeats, one ENDEX kept last, rows re-timed into their phase). Recipient labels are re-resolved with the current matcher (a truncated "as" is ASO; one- and two-letter keys that match nothing are dropped). A phase over the density limit (more than one inject every 5 minutes, `DENSITY_HIGH`) is trimmed the same way, and rows the rubric links are never the ones dropped. The role cap is not applied: on a finished scenario the handbook, briefing and rubric already use every role.
+2. **MSEL, with the model.** A phase that lacks an inject-mix tag (`MIX_*`) gets one mix call: spare rows rewritten first, a new row only below the density limit. Then the revision pass runs for the rows still flagged (structural lints and unknown facility identifiers), once more for what is left, and a row still in a player's voice becomes a facilitator prompt. Unflagged rows are never sent for rewriting. The lints are recomputed; critique notes and inject warnings of live rows are kept.
+3. **Injects.** Injects of rows the repair removed are deleted. Every other inject is re-checked with the current field and content checks: warnings that no longer apply are dropped without touching the inject file. New injects are written only for rows whose source, event, expected action or format changed, rows with no inject, and injects whose content still fails the checks.
 4. **Media.** Rewritten injects render their card and voice again. Injects whose card is missing, failed (`INJECT_MEDIA_FAILED`, `INJECT_RENDER_INVALID`) or was drawn from fields that broke the template re-render the card; the media job repairs the fields first. Up to `aiStills` injects whose brief plans an AI still and that have none get one; a brief written by an older version has its setting anchor moved behind the scene first.
 
-Everything else stays byte-identical, and the job's result lists each row and inject it changed. `scripts/make-example.mjs repair` drives the job for the bundled examples and writes the before/after warning counts and the file diff to `review/<key>/repair.json`.
+Everything else stays byte-identical, and the job's result lists each row and inject it changed.
 
-## 4c. Brief, clock and realism checks
+## Brief, clock and realism checks
 
-Building the examples with a local model showed defects that passed every structural lint. The Scenario check now flags them, each warning with a fix hint, and the prompts state the same rules:
+Some defects pass every structural lint. The Scenario check flags them, each warning with a fix hint, and the prompts state the same rules:
 
 - **Structure and clock.** Every row after an ENDEX in the middle (`ENDEX_LAST` per row); a second TIME_JUMP in a phase, at the same time or with the same text (`TIME_JUMP_REPEATED`); a STARTEX card whose clock is not the brief's start time (`START_TIME_MISMATCH`); a TIME_JUMP or ENDEX card whose clock is not the start time plus its row time, within five minutes (`CLOCK_MISMATCH`); a row that states another day or date than the STARTEX card without a time jump moving it, or a weekday that does not match its calendar date (`DATE_DRIFT`). A request whose times of day all fall outside the exercise window (or the three hours before STARTEX) gets an info tip, `BRIEF_TIME_OUTSIDE`: the brief's start time most likely ignores it.
 - **Authority, pace and physics.** An outside agency or regulator that closes the incident, approves restoration or gives the all-clear (`OUTSIDE_AGENCY_DECIDES`; a sentence with a negation, such as "no regulator approves the restart", is not flagged); a full restore of encrypted or compromised systems within 60 minutes of the row that broke them (`RESTORE_TOO_FAST`); a quantity above a bound in the facility facts' `## Limits` section (`QUANTITY_OVER_LIMIT`).
 - **Contact details and roles.** Email and web domains other than reserved `.example` ones, real federal and state agency domains and public mail services; 555 numbers outside 555-0100–0199; geographic numbers with a real-looking exchange (toll-free hotlines are allowed) (`CONTACT_REAL_LOOKING`). More player roles than the brief's audience plus one (`ROLES_EXCEED_AUDIENCE`), and a role that is one of the outside parties the brief says the SimCell plays (`OUTSIDE_PARTY_ROLE`).
 
-The row-level ones (clock, date, authority, pace, contact details) go to the revision pass with the structural lints. Identifiers close to a real one are left to the prompts and the critique: `msel_phase` now receives the designer's request and constraints as binding.
+The row-level ones (clock, date, authority, pace, contact details) go to the revision pass with the structural lints. Identifiers close to a real one are left to the prompts and the critique: `msel_phase` receives the designer's request and constraints as binding.
 
 ### Further realism checks
 
@@ -151,17 +153,8 @@ Some defects pass the checks above and still force a near-full rewrite of a draf
 - **ENDEX by content.** A row before the last that ends the exercise by what it says ("ENDEX:", "the exercise is concluded", "this concludes the exercise", "the hot wash begins") or by its `endex_card` format, under any tag but ENDEX and STARTEX (`ENDEX_EARLY`). "Before ENDEX" or "by the end of the exercise" is not flagged.
 - **Agencies that order, forbid or take over.** `OUTSIDE_AGENCY_DECIDES` also covers a gate the agency holds ("no return to service until the FBI issues a formal release"), an order or requirement to take a response step (issue, shut, keep, stay, stand down, restart, ground …: "Ohio EPA orders the city to issue a Do Not Drink notice", "DDAGW here. You must issue the advisory within 30 minutes", with the agency named in the sentence, a short lead sentence or the row's source), a prohibition ("the FAA prohibits further flights"), and taking command or jurisdiction of the incident (not of the criminal investigation). More agencies count: FBI, FAA and FSDO, USCG and the Captain of the Port, FERC, NERC, FCC, CSB, state drinking-water, health, environmental and education offices, primacy agencies, DDAGW. Advice and requests (recommend, ask, request, should, please), reporting duties (report, notify, submit) and negations are not flagged; "Do Not Drink" is a notice name, not a negation.
 - **The weekday on the cards.** `DATE_DRIFT` also flags a STARTEX, TIME_JUMP or ENDEX card whose weekday and date disagree when they are apart ("It is Wednesday, 09:00, April 2, 2026"), reads "April 2nd, 2026", "2 April 2026", "2026-04-02" and "April 2, 2026 (Wednesday)", and flags a STARTEX day other than the one full date the request names.
-- **Drift from the brief**, kept conservative: `BRIEF_IDS_MISSING` when the request names four or more identifiers (plan steps, systems, places: CIRP-4, V-2418, HUSD-VPN01) and the MSEL's events, expected actions and citations use fewer than half of them; `BRIEF_THREAT_ADDED` when a row other than noise, a red herring, misinformation or a distraction brings ransomware into a story whose title and request never mention it (a main break turned into a cyber attack). Contradictions of the organization's own plans (a step used for the wrong purpose, a facility in the wrong zone) are a critique rule: the critique now receives the request, the audience and the constraints, and flags each drifting row as an error.
+- **Drift from the brief**, kept conservative: `BRIEF_IDS_MISSING` when the request names four or more identifiers (plan steps, systems, places: CIRP-4, V-2418, HUSD-VPN01) and the MSEL's events, expected actions and citations use fewer than half of them; `BRIEF_THREAT_ADDED` when a row other than noise, a red herring, misinformation or a distraction brings ransomware into a story whose title and request never mention it (a main break turned into a cyber attack). Contradictions of the organization's own plans (a step used for the wrong purpose, a facility in the wrong zone) are a critique rule: the critique receives the request, the audience and the constraints, and flags each drifting row as an error.
 
-`ENDEX_EARLY` and `BRIEF_THREAT_ADDED` go to the revision pass with the other row-level codes. Every shipped example and Scenario 3 stay free of them; four example briefs whose audience named a seat the scenario never plays were corrected to name the seat it does.
+`ENDEX_EARLY` and `BRIEF_THREAT_ADDED` go to the revision pass with the other row-level codes.
 
 When the critique gets no JSON from the model (a 32k context the full request overflows), it retries once with a shorter request: every row kept but its event and expected action cut short, the 20 most severe lints and three plan sections. If that also has no JSON the step fails with an error that says the context is likely too small and how to load the model with a larger one.
-
-## 5. Known gaps in Scenario 3 (so the generator does better)
-
-- Some MSEL rows (I-01, I-02, I-03, I-05, I-08, I-10, I-11, I-13, I-14) have no deck page — the generator should default to a deck page for every row and let the user turn some off.
-- Media was produced manually for only a handful of injects (I-02a, I-04, I-06, I-06b, I-10b). The app should make media cheap enough to produce for all social/visual/audio injects.
-- Hand-off/role assignment uses the Player Briefing's team table; an ICS-203 pre-fill would be a nice addition.
-- No facilitator timeline tool; the app's Facilitator Mode covers this.
-
-**Collecting the hot wash from devices.** When the exercise runs on devices, the facilitator can open the hot wash so participants add strengths and areas for improvement from their phones, anonymously if they prefer. This keeps the loudest voice from setting the record. The facilitator groups near-duplicates, promotes the findings the room agrees on, and keeps the discussion spoken; the board collects, it does not replace the conversation.

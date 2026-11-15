@@ -1,8 +1,10 @@
-# 03 — Inject Taxonomy
+# Inject taxonomy
 
-Every inject carries the common envelope (see `05-DATA-MODEL.md`): `id` (`I-07`, `I-07b` for side injects), `time` (exercise clock `H:MM`), `phase`, `from`, `to` (target role), `purposeTag`, `expectedAction`, `instructorNote`, `deliveryMode` (hand-to-role, display-on-main-screen, play-audio, read-aloud), and 0..n `assets`.
+Every inject carries the common envelope (see [Data model](05-DATA-MODEL.md)): `id` (`I-07`, `I-07b` for side injects), `time` (exercise clock `H:MM`), `phase`, `from`, `to` (target role), `purposeTag`, `expectedAction`, `instructorNote`, `deliveryMode` (hand-to-role, display-on-main-screen, play-audio, read-aloud), and 0..n `assets`.
 
-## Purpose tags (from Scenario 3)
+## Purpose tags
+
+The examples come from "Flight to Nowhere", the scenario of the airport example project (North Coast International Airport) that ships with the app.
 
 | Tag | Meaning | Example |
 |---|---|---|
@@ -16,12 +18,14 @@ Every inject carries the common envelope (see `05-DATA-MODEL.md`): `id` (`I-07`,
 | `DECISION_POINT` | Forces a high-consequence call | I-09 authorize FIDS shutdown ("Go Dark") |
 | `OPERATIONAL_FRICTION` | Tenant/partner conflict | I-13b airline threatens to pull staff |
 | `CONFUSION` | Physical-security side effect | I-10b TSA stops screening |
+| `DISTRACTION` | Public-sentiment noise aimed at the PIO | — |
+| `END_GAME` | Resolution inject leading to ENDEX | — |
 | `TIME_JUMP` | Facilitator control card | "It is now 10:00. 20% of flights wrong." |
 | `STARTEX` / `ENDEX` | Exercise boundaries | — |
 
 ## Inject types
 
-Each type = fields + default render (template vs. AI vs. audio) + export behavior. `T` = HTML template → PNG/PDF. `AI` = ComfyUI image/video. `TTS` = ComfyUI/other voice. Composite types combine (AI photo dropped into a tweet template).
+Each type = fields + default render (template vs. AI vs. audio) + export behavior. `T` = HTML template → PNG/PDF. `AI` = ComfyUI image/video. `TTS` = ComfyUI/other voice. Composite types combine (AI photo dropped into a tweet template). Inject ids in the Notes column (I-06, I-08b) are examples from the Flight to Nowhere scenario.
 
 ### Social media
 | Type | Key fields | Render | Notes |
@@ -148,11 +152,7 @@ The tables above are the built-in list. A template in your own templates folder 
 
 1. Text that players must read exactly (handles, flight numbers, IPs, timestamps) is **always** template-rendered. AI imagery is backgrounds, people, places, screens-from-a-distance.
 2. Every template ships `schema.json` (zod-compatible), `preview.json`, and renders in `templates/injects/<type>/` at 2× scale; export to PNG and, for paper types, PDF.
-3. Templates accept project branding (org name, logo, airline names, city) via a `brand` object so NCIA/Akron/Cleveland references aren't hard-coded.
+3. Templates accept project branding (org name, logo, airline names, city) via a `brand` object, so names from the airport example (NCIA, Akron, Cleveland) are never hard-coded.
 4. Audio: 44.1 kHz WAV master + MP3; optional post-FX chain (radio band-pass, phone compression, terminal ambience bed) defined in the type.
 5. Video: ≤ 15 s default, 720p, H.264 MP4; always also produce a poster PNG for the deck.
 6. Each asset records provenance: provider, model, workflow hash, prompt, seed — so it can be regenerated.
-
-## Minimum viable set for M2
-
-`tweet`, `facebook_post`, `helpdesk_ticket`, `email_forward`, `memo`, `radio_call` (transcript only), `media_inquiry_phone_slip`, `system_log`, `error_dialog`, `fids_board`, `startex_card`, `time_jump_card`, `endex_card`, `ics_201_prefill`. These reproduce every inject in `reference/scenario-3/master-inject-deck.md` except the AI photos.

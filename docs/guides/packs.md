@@ -2,7 +2,7 @@
 
 A pack is a single `.aspack` file that adds content to Action Stations: inject templates, prompts, domain profiles, ComfyUI workflows, reference documents and example projects. This guide covers installing packs, reading the review before you install, what happens to your projects when a pack is updated, disabled or removed, exporting your own work as a pack, and validating a pack from the command line.
 
-The file format is specified in [docs/packs-format.md](../packs-format.md). The screenshots were taken with mock providers, an isolated data folder and the sample pack **Freight Rail Operations**.
+The file format is specified in [Pack and catalog formats](../packs-format.md). The screenshots use the sample pack **Freight Rail Operations**.
 
 ## What a pack contains
 
@@ -232,10 +232,10 @@ node scripts/pack-validate.mjs my-pack-1.0.0.aspack
 
 A valid pack prints `my-pack-1.0.0.aspack: ok (<id> <version>, <n> files, sha256 <hash>)`. Otherwise each problem prints on its own line with the file inside the pack it concerns, and the exit code is 1. Several files can be checked at once.
 
-The `minAppVersion` check compares with the version in the checkout's `package.json`. Until that is 0.3.0, add `--app-version 0.3.0`, or packs that need 0.3.0 are refused:
+The `minAppVersion` check compares with the version in the checkout's `package.json`. To check against another app version, add `--app-version`:
 
 ```bash
-node scripts/pack-validate.mjs my-pack-1.0.0.aspack --app-version 0.3.0
+node scripts/pack-validate.mjs my-pack-1.0.0.aspack --app-version 0.8.0
 ```
 
 The script also prints a pack's catalog entry (`--catalog-entry --url <base-url>`) and checks a whole catalog (`--catalog index.json`); see [Publishing to the official catalog](../packs-format.md#publishing-to-the-official-catalog). Template authors can also check a pack's template previews against golden images (see [Template authoring](templates.md#sharing-a-template-in-a-pack)).

@@ -1,7 +1,8 @@
-# Facilitate: recording the hot wash
+# Facilitate: hot wash, decisions and controller tools
 
 Facilitate runs the exercise: the clock, the MSEL timeline, the presentation window, ratings
-and notes. This page covers recording the hot wash and turning it into quotes for the AAR.
+and notes. This page covers recording the hot wash and turning it into quotes for the AAR, branching
+decisions, decision forms and the controller tools.
 
 ## Before the first recording
 
@@ -99,4 +100,4 @@ The **Tracker** tab lists what needs a look:
 - a commitment whose due time has passed, or that has been open 30 minutes with no time;
 - at the end of a phase, an expected action nobody recorded (shown as a note).
 
-**Mark answered** (`A`) records who and a line on the answer. **Add a commitment** (`C`) takes what was promised, who promised it and a time such as `10:30` (scenario time) or `+20`. Notes you type are read on this computer for promises ("we'll notify the FAA by 10:30"); matches appear under **Suggestions** and nothing is added until you press **Add**. **Prompt the table** shows a line for you to say aloud; the tracker never sends anything to players. New items are announced once to screen readers. The report of response times and commitment outcomes (`tracker:report`) feeds the after-action draft.
+**Mark answered** (`A`) records who and a line on the answer. **Add a commitment** (`C`) takes what was promised, who promised it and a time such as `10:30` (scenario time) or `+20`. Notes you type are read on this computer for promises ("we'll notify the FAA by 10:30"); matches appear under **Suggestions** and nothing is added until you press **Add**. **Prompt the table** shows a line for you to say aloud; the tracker never sends anything to players. New items are announced once to screen readers. The report of response times and commitment outcomes feeds the after-action draft.

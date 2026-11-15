@@ -40,7 +40,7 @@ The evaluation measures compare them with the clocks: the operating procedure ap
 
 ## Reference library
 
-The **Space weather reference library** pack (installed from the catalog) carries the NOAA Space Weather Scales, the National Space Weather Strategy and Action Plan (2015), the Phase 1 Benchmarks report, three USGS fact sheets on geomagnetic hazards, the DHS Resilient PNT Conformance Framework, the report on the 2024 national space weather tabletop exercise, and the NERC geomagnetic disturbance standards EOP-010-1 and TPL-007-4. The NERC standards and the exercise report carry their publishers' terms, which each entry states. The ICAO space weather documents are sold, so they are linked in the pack's README.
+The **Space weather reference library** pack (get it from a catalog in **Packs → Discover**) carries the NOAA Space Weather Scales, the National Space Weather Strategy and Action Plan (2015), the Phase 1 Benchmarks report, three USGS fact sheets on geomagnetic hazards, the DHS Resilient PNT Conformance Framework, the report on the 2024 national space weather tabletop exercise, and the NERC geomagnetic disturbance standards EOP-010-1 and TPL-007-4. The NERC standards and the exercise report carry their publishers' terms, which each entry states. The ICAO space weather documents are sold, so they are linked in the pack's README.
 
 ## Limits
 
@@ -52,4 +52,4 @@ The **Space weather reference library** pack (installed from the catalog) carrie
 
 The Space weather and satellite operations pack includes an example project, **Northern Lakes Transmission Operations and the Upper Midwest Reliability Coordinator: severe geomagnetic storm**, with one exercise, _Aurora Over Texas_: after an X-class flare and a fast CME, a geomagnetic storm reaches G5 over about 18 hours; NLTO must apply its GMD procedure ahead of the Kp conditions, watch neutral currents and a transformer gas alarm, handle GNSS time degradation, and keep its messages and the reliability coordinator's consistent.
 
-Turn the pack on under **Packs**, then open a copy from **Projects → Examples**. The organization, its people and its businesses are fictional; the exercise comes with its injects, media, Situation Manual, evaluation guides and controller handbook, ready to read or run.
+Turn the pack on in **Packs → Your packs**, then open a copy from **Projects → Examples**. The organization, its people and its businesses are fictional; the exercise comes with its injects, media, Situation Manual, evaluation guides and controller handbook, ready to read or run.

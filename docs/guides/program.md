@@ -2,7 +2,7 @@
 
 An exercise program keeps the corrective actions from every exercise in one list, with an
 owner, a due date and a status, and holds the multi-year schedule (the Integrated Preparedness
-Plan, IPP). It is optional: a project works exactly as before without one.
+Plan, IPP). It is optional: a project works the same without one.
 
 ## Create or open a program
 

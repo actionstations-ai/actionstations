@@ -38,7 +38,7 @@ A prompt can exist in four places. The most specific one wins, and it replaces t
 
 An enabled [pack](packs.md) can replace a shipped prompt. Its version applies only to projects whose domain profile is one the pack lists in `domains` (matched by id or alias, and through the profile copy a project keeps of a pack domain); a pack that lists no domains applies to every project and to the application **Prompts** screen. The list and the editor name the pack ("Pack: Freight Rail Operations"). Disabling or uninstalling the pack brings back the default. Pack prompts are not copied into projects; the hash of the prompt text recorded with each output identifies what was used. Like every layer, pack prompts must use YAML frontmatter.
 
-`<userData>` is the app's data folder (Electron's `userData` directory; tests and scripts can point it elsewhere with `TTX_USER_DATA`). Project overrides live inside the project folder, so they travel with it when you copy or version the project.
+`<userData>` is the app's data folder (Electron's `userData` directory). Project overrides live inside the project folder, so they travel with it when you copy or version the project.
 
 ![The prompt editor with the help panel](images/prompts.png)
 

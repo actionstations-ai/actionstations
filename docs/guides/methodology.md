@@ -1,6 +1,6 @@
 # How a good tabletop exercise is built
 
-This page explains the exercise design the generator follows, so you can judge its output and steer it. It condenses [docs/04-TABLETOP-METHODOLOGY.md](../04-TABLETOP-METHODOLOGY.md), which was derived from the hand-built CSAAP airport-cybersecurity exercises in [`reference/scenario-3/`](../../reference/scenario-3/). The method follows HSEEP (the DHS Homeland Security Exercise and Evaluation Program) conventions for discussion-based exercises.
+This page explains the exercise design the generator follows, so you can judge its output and steer it. It condenses the [Exercise design method](../04-TABLETOP-METHODOLOGY.md) reference, which was derived from hand-built classroom exercises on airport cybersecurity; one of them, "Flight to Nowhere", ships with the app in the airport example project (North Coast International Airport). The method follows HSEEP (the DHS Homeland Security Exercise and Evaluation Program) conventions for discussion-based exercises.
 
 ## Start from your own plans
 
@@ -130,6 +130,6 @@ The model drafts and a person decides. The AAR/IP page shows the proposed rating
 | Proofread for consistency                                            | Deterministic lints (tag mix, roles without injects, unknown rubric links) plus a **critique** stage; the MSEL phases are then revised from the critique.                   |
 | Expand MSEL rows into full injects and make the media                | The inject stages (**Write all injects**, **Render all media** on the Injects tab) write each inject's content into its template and produce photos, clips and voice lines. |
 
-The app also improves on the hand-built reference: every MSEL row gets an inject page by default (you turn off the ones you do not need), media is cheap enough to make for every social, visual and audio inject, and facilitator mode (exercise clock, timeline, delivery to a second display, hot wash notes) replaces the paper timeline.
+The app also goes further than the hand-built exercises: every MSEL row gets an inject page by default (you turn off the ones you do not need), media is cheap enough to make for every social, visual and audio inject, and facilitator mode (exercise clock, timeline, delivery to a second display, hot wash notes) replaces the paper timeline.
 
 See [Prompts](prompts.md) to change how any of these stages writes, and [Getting started](getting-started.md) to run them.

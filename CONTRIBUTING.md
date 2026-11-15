@@ -1,13 +1,13 @@
 # Contributing
 
-Thanks for helping build Action Stations. This page covers the project rules, the workflow, the local CI, the tests and where the design documents are. The longer version of the workflow is [`docs/06-GITHUB-WORKFLOW.md`](docs/06-GITHUB-WORKFLOW.md); how the code is wired (handlers, routes, adapters, templates) is in [`docs/09-CODE-CONVENTIONS.md`](docs/09-CODE-CONVENTIONS.md).
+Thanks for helping build Action Stations. This page covers the project rules, the workflow, the local CI, the tests and where the design documents are. The longer version of the workflow is [Contributor workflow](docs/06-GITHUB-WORKFLOW.md); how the code is wired (handlers, routes, adapters, templates) is in [Code conventions and extension points](docs/09-CODE-CONVENTIONS.md).
 
 ## Project rules
 
 Every change follows these rules, and a pull request that breaks one is not merged. Code comments and documents refer to them by number, for example "CONTRIBUTING.md, Project rules 5".
 
 1. **GitHub costs nothing.** GitHub Actions runs only where it is free: workflows in this public repository, on standard GitHub-hosted runners, storing no artifacts or caches (`scripts/check-workflows.mjs` enforces it). CI is `scripts/local-ci.sh` (`pnpm ci:local`) plus the Husky hooks; Actions only builds the release installers. If a new check is needed, add it to `local-ci.sh`.
-2. **GitHub Issues are the task tracker.** Every piece of work has an issue, created from a template in `.github/ISSUE_TEMPLATE/` with the labels and milestone described in [`docs/06-GITHUB-WORKFLOW.md`](docs/06-GITHUB-WORKFLOW.md). Every commit message references its issue (`#NN`). When the work ships, close the issue with a comment that says what shipped.
+2. **GitHub Issues are the task tracker.** Every piece of work has an issue, created from a template in `.github/ISSUE_TEMPLATE/` with the labels and milestone described in [Contributor workflow](docs/06-GITHUB-WORKFLOW.md). Every commit message references its issue (`#NN`). When the work ships, close the issue with a comment that says what shipped.
 3. **Local-first and private.** No telemetry, and no network calls except to providers the user configured or downloads the user started. API keys are encrypted by the OS keychain through Electron `safeStorage`; they never go into project files or logs.
 4. **Providers only through adapters.** Every model and media call goes through the interfaces in `src/main/providers/`. No vendor SDK or direct vendor call outside an adapter; ESLint enforces the import rule.
 5. **Templates for text, AI for scenes.** Tweets, posts, tickets, emails, logs and information boards such as FIDS render from HTML templates, so their text is exact and legible. Image and video generation is for photographic content. An inject whose critical text is AI-rendered pixels does not ship.
@@ -43,7 +43,7 @@ pnpm bench:report             # merge docs/benchmarks/runs/ into docs/benchmarks
 pnpm build                    # electron-builder installers (dmg / nsis / AppImage)
 ```
 
-The live generation tests are listed under [Live tests](#live-tests). Releasing is described in [`docs/RELEASING.md`](docs/RELEASING.md).
+The live generation tests are listed under [Live tests](#live-tests). Releasing is described in the [release guide](docs/RELEASING.md).
 
 ### Repository layout
 
@@ -55,14 +55,14 @@ templates/injects/   HTML/CSS templates per inject type
 prompts/             Default prompt files (markdown with frontmatter)
 comfy/workflows/     Default ComfyUI workflow JSON per media type
 docs/                architecture, data model, taxonomy, methodology, guides
-reference/           Sample plans per domain + the CSAAP scenario 1–8 gold-standard outputs
+reference/           Sample plans per domain + eight hand-written airport exercises (scenario-1 … scenario-8)
 examples/            Example projects that ship with the app (Projects → Examples)
 packs/               bundled.json (repo folders → bundled packs), domains/<id>.json profiles, documents/
 scripts/             local-ci.sh, release, pack and example builders, dev helpers
 e2e/                 Playwright tests
 ```
 
-[`reference/`](reference/README.md) holds the sample plans a user would import and the eight hand-written CSAAP airport exercises the output is measured against; `reference/scenario-3/` is the primary benchmark. [`examples/`](examples/README.md) holds the example projects built from those plans, with the manifest format and the rules for adding one.
+[`reference/`](reference/README.md) holds the sample plans a user would import and eight airport cybersecurity tabletops written by hand for a training course before the app existed. Generated output is measured against them; `reference/scenario-3/` ("Flight to Nowhere") is the main benchmark. [`examples/`](examples/README.md) holds the example projects built from those plans, with the manifest format and the rules for adding one.
 
 ## License and contributor agreement
 
@@ -155,7 +155,7 @@ Live tests call real local services. They are skipped unless `LIVE=1` is set, ne
 | `LIVE=1 pnpm test -- src/main/providers/media/comfyui/live.test.ts`  | ComfyUI with the SDXL and LTX-Video models                                             | The default image and video workflows. `LIVE_COMFY_VIDEO=0` skips the slower video test.        |
 | `LIVE=1 pnpm test -- src/main/retrieve`                              | Network once (downloads the local embedding model, about 130 MB)                       | Retrieval quality and indexing speed with the local `bge-small` model.                          |
 | `LIVE=1 pnpm test -- tests/live/pipeline.live.test.ts`               | LM Studio with the chat and embedding models                                           | Full scenario from the NCIA plans; writes `tests/fixtures/generate/sample-run/`. Takes minutes. |
-| `LIVE=1 pnpm test -- tests/live/injects.live.test.ts`                | LM Studio, ComfyUI, mlx-audio                                                          | Scenario 3 inject deck and media; writes `tests/fixtures/injects/sample-run/`.                  |
+| `LIVE=1 pnpm test -- tests/live/injects.live.test.ts`                | LM Studio, ComfyUI, mlx-audio                                                          | The `reference/scenario-3/` inject deck and media; writes `tests/fixtures/injects/sample-run/`. |
 | `LIVE=1 pnpm exec playwright test e2e/m2-exit.spec.ts`               | LM Studio; the built app (`pnpm build:app`)                                            | Ideas → full MSEL through the real app; outputs in `.tmp/m2-exit/`.                             |
 
 Common overrides: `LIVE_LMSTUDIO_URL`, `LIVE_LMSTUDIO_MODEL`, `LIVE_OLLAMA_URL`, `LIVE_OLLAMA_MODEL`, `LIVE_TTS_URL`, `LIVE_TTS_MODELS`, `LIVE_COMFY_URL`, `LIVE_EMBED=hash|provider`, `LIVE_OUT`. Each live test file lists its own variables in its header comment.
@@ -170,18 +170,18 @@ Adapter contract tests run on every `pnpm test` against recorded fixtures under 
 
 ## Design documents
 
-| Doc                                                                      | Purpose                                                   |
-| ------------------------------------------------------------------------ | --------------------------------------------------------- |
-| [`docs/02-ARCHITECTURE.md`](docs/02-ARCHITECTURE.md)                     | Processes, storage, providers, rendering, export          |
-| [`docs/03-INJECT-TAXONOMY.md`](docs/03-INJECT-TAXONOMY.md)               | Supported inject types, fields and render targets         |
-| [`docs/04-TABLETOP-METHODOLOGY.md`](docs/04-TABLETOP-METHODOLOGY.md)     | HSEEP-style exercise structure the generator reproduces   |
-| [`docs/05-DATA-MODEL.md`](docs/05-DATA-MODEL.md)                         | Project / Scenario / Inject / Asset schema                |
-| [`docs/06-GITHUB-WORKFLOW.md`](docs/06-GITHUB-WORKFLOW.md)               | Issues, labels, milestones, branching, local CI           |
-| [`docs/09-CODE-CONVENTIONS.md`](docs/09-CODE-CONVENTIONS.md)             | How handlers, routes, adapters and templates are wired    |
-| [`docs/packs-format.md`](docs/packs-format.md)                           | The `.aspack` format, `pack.json` and catalogs            |
-| [`docs/RELEASING.md`](docs/RELEASING.md)                                 | Building installers and cutting a release                 |
-| [`docs/developers/adding-a-field.md`](docs/developers/adding-a-field.md) | Adding a professional field: domain, toolkit, code, tests |
-| [`docs/research/domains/`](docs/research/domains/README.md)              | Research notes behind each domain profile and pack        |
+| Document                                                             | Purpose                                                   |
+| -------------------------------------------------------------------- | --------------------------------------------------------- |
+| [Architecture](docs/02-ARCHITECTURE.md)                              | Processes, storage, providers, rendering, export          |
+| [Inject taxonomy](docs/03-INJECT-TAXONOMY.md)                        | Supported inject types, fields and render targets         |
+| [Exercise design method](docs/04-TABLETOP-METHODOLOGY.md)            | HSEEP-style exercise structure the app follows            |
+| [Data model](docs/05-DATA-MODEL.md)                                  | Project / Scenario / Inject / Asset schema                |
+| [Contributor workflow](docs/06-GITHUB-WORKFLOW.md)                   | Issues, labels, milestones, branching, local CI           |
+| [Code conventions and extension points](docs/09-CODE-CONVENTIONS.md) | How handlers, routes, adapters and templates are wired    |
+| [Pack and catalog formats](docs/packs-format.md)                     | The `.aspack` format, `pack.json` and catalogs            |
+| [Releasing](docs/RELEASING.md)                                       | Building installers and cutting a release                 |
+| [Adding a professional field](docs/developers/adding-a-field.md)     | Adding a professional field: domain, toolkit, code, tests |
+| [Domain research dossiers](docs/research/domains/README.md)          | Research notes behind each domain profile and pack        |
 
 ## Code conventions
 

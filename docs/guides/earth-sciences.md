@@ -75,7 +75,7 @@ Field metrics then compare what players did with the clocks that matter: a prote
 
 ## Reference library
 
-An **Earth sciences reference library** pack carries USGS fact sheets on early warning, PAGER, aftershock forecasts, lahars and post-fire debris flows. Install it from the catalog and use **Add from pack** to bring a fact sheet into a project. It also carries the USGS fact sheets on volcano alert levels and the HayWired scenario and the Cascadia Rising 2016 after-action report. Documents that are sold, such as the international aviation documents on volcanic ash, are linked, not copied.
+An **Earth sciences reference library** pack carries USGS fact sheets on early warning, PAGER, aftershock forecasts, lahars and post-fire debris flows. Get it from a catalog in **Packs → Discover** and use **Add from pack** to bring a fact sheet into a project. It also carries the USGS fact sheets on volcano alert levels and the HayWired scenario and the Cascadia Rising 2016 after-action report. Documents that are sold, such as the international aviation documents on volcanic ash, are linked, not copied.
 
 ## Accuracy
 
@@ -85,4 +85,4 @@ Exercise products follow the real formats closely, but they are teaching materia
 
 The Earth sciences pack includes an example project, **Marlow County Emergency Management: Cascadia earthquake and local tsunami**, with one exercise, _The Second Wave_: a magnitude 9 Cascadia earthquake strikes 80 km off Marlow County on a Tuesday in April; shaking lasts more than four minutes, the Alder River bridge is damaged, the hospital and the elementary school are inside the zone, and the county must order evacuation, keep messages consistent and manage a damaging aftershock while the tsunami warning stays in effect.
 
-Turn the pack on under **Packs**, then open a copy from **Projects → Examples**. The organization, its people and its businesses are fictional; the exercise comes with its injects, media, Situation Manual, evaluation guides and controller handbook, ready to read or run.
+Turn the pack on in **Packs → Your packs**, then open a copy from **Projects → Examples**. The organization, its people and its businesses are fictional; the exercise comes with its injects, media, Situation Manual, evaluation guides and controller handbook, ready to read or run.

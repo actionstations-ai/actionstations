@@ -11,7 +11,7 @@ Turn the toolkits on in the scenario's **Toolkits** tab (see [Toolkits](toolkits
 | Mass care and shelter           | Opening and running a general population shelter, with functional needs support.                         |
 | Reunification and child welfare | A school or venue reunification, children in care displaced by a disaster, a crisis counseling request.  |
 
-This is an exercise aid. It is not clinical guidance, it records no real caller, resident or child, and it has not been reviewed by a clinician; have a crisis line director and a mass care lead read your exercise before you run it.
+This is an exercise aid. It is not clinical guidance and it records no real caller, resident or child. Have a crisis line director and a mass care lead read your exercise before you run it.
 
 ## Safeguards for sensitive material
 
@@ -66,4 +66,4 @@ It makes no real-time connection to a crisis platform, a shelter database or a s
 
 The Behavioral health and human services pack includes an example project, **Great Plains Crisis Network 988 Center**, with one exercise, _Two Intervals Behind_: on a Thursday afternoon in March a fictional school bus and truck crash near the small town of Ellery Ridge, Nebraska, kills several students; over the next hours calls, texts and chats to GPCN more than double, the queues pass the plan's thresholds, and the center must surge, request backup, communicate safely and protect its counselors.
 
-Turn the pack on under **Packs**, then open a copy from **Projects → Examples**. The organization, its people and its businesses are fictional; the exercise comes with its injects, media, Situation Manual, evaluation guides and controller handbook, ready to read or run.
+Turn the pack on in **Packs → Your packs**, then open a copy from **Projects → Examples**. The organization, its people and its businesses are fictional; the exercise comes with its injects, media, Situation Manual, evaluation guides and controller handbook, ready to read or run.

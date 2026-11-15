@@ -2,7 +2,7 @@
 
 Voice injects (radio calls, phone calls, voicemails, PA announcements) are spoken by a text-to-speech model, then given radio, phone or PA post-processing by the app. On Apple Silicon the recommended voices run locally under MLX through [mlx-audio](https://github.com/Blaizzy/mlx-audio), whose server speaks the OpenAI `POST /v1/audio/speech` API. The app's **OpenAI-compatible** provider type talks to it directly.
 
-Verified with mlx-audio 0.6.1 on macOS (Apple Silicon). mlx-audio does not run on Windows or Linux; there, use the [system voice](#system-voice-any-platform), a ComfyUI TTS workflow ([ComfyUI guide](comfyui.md) and [`comfy/workflows/README.md`](../../../comfy/workflows/README.md#adding-a-comfyui-tts-workflow-optional)) or a remote OpenAI-compatible speech endpoint.
+Verified with mlx-audio 0.6.1 on macOS (Apple Silicon). mlx-audio does not run on Windows or Linux; there, use the [system voice](#system-voice-any-platform), a ComfyUI TTS workflow ([ComfyUI guide](comfyui.md) and [Adding a ComfyUI TTS workflow](../../../comfy/workflows/README.md#adding-a-comfyui-tts-workflow-optional)) or a remote OpenAI-compatible speech endpoint.
 
 ## Models
 
@@ -71,7 +71,7 @@ By hand:
    ![Adding the local TTS provider](../images/add-provider-tts.png)
 
 2. The card shows **Reachable** and "2 models available". Do not use the card's **Test** button for a speech server: it sends a chat request, which mlx-audio does not serve (404).
-3. Route the **Audio** task to it: in **Providers → Routing**, pick the provider in the **Audio** row and press **Save routing**. The Audio row offers every OpenAI-compatible provider, ComfyUI, and the mock provider; only the one serving `/v1/audio/speech` can speak, and a provider routed to a task it cannot do (an OpenAI-compatible server on the Image row, for example) fails with a message naming the task.
+3. Route the **Audio** task to it: in **Providers → Routing**, pick the provider in the **Audio** row and press **Save routing**. The Audio row offers every OpenAI-compatible provider as well as the voice providers; of the OpenAI-compatible ones, only a server offering `/v1/audio/speech` can speak, and a provider routed to a task it cannot do (an OpenAI-compatible server on the Image row, for example) fails with a message naming the task.
 
 Voice lines are produced by the inject media stage: **Render all media** on a scenario's **Injects** tab, or **Regenerate media…** in the inject editor, for radio calls, phone calls, voicemails and PA announcements.
 

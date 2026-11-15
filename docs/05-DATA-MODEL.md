@@ -1,4 +1,4 @@
-# 05 — Data Model
+# Data model
 
 Zod schemas in `src/shared/schemas/` are canonical; this is the human-readable sketch. All IDs are ULIDs unless noted. Times inside a scenario are exercise-clock strings `"H:MM"` plus an optional wall-clock `"09:15"` for narrative.
 
@@ -92,7 +92,7 @@ Scenario {
   conduct?: ConductDetails,                 // exercise details for the HSEEP documents; read via conductOf()
   sitman?: SitMan,                          // Situation Manual modules (stage `sitman`)
   provenance: StageRun[],                   // what provider/prompt produced each part
-  grounding?: ScenarioGrounding             // source-check labels per item
+  grounding?: ScenarioGrounding,            // source-check labels per item
   seams: ScenarioSeam[]                     // plan seams tested; [] when none
 }
 
@@ -116,13 +116,13 @@ CriticalTask {
   rowIds[], objectiveRefs[], locked          // rows where an evaluator should look for it
 }
 // The live evaluator form consumes { id, capability, task, citation, expectedBy? }; later
-// specs add fields and never rename or remove those.
+// versions add fields and never rename or remove those.
 RowCriterion { id /* taskId or "<rowId>:expected" */, rowId, text, taskId?, capability?, citation? }
 // derived by src/main/generate/eeg-criteria.ts (evaluation:criteria), never stored: a row's linked
 // tasks, else its expected action as one criterion (control cards excepted)
 
 // scenarios/<id>/evaluation.json — observations recorded outside live play (Facilitate screen,
-// paper EEGs typed up). Live-play observations arrive in the session log reads both.
+// paper EEGs typed up). Live-play observations arrive in the session log; the AAR reads both.
 EvaluationRecord { formatVersion: 1, observations: Observation[], updatedAt }   // loose
 Observation {
   id, at, exerciseTime?, rowId?, taskId?, criterionId?,
@@ -283,6 +283,7 @@ GroundingResult {
 The label shown is `override ?? model ?? label`. Results are kept at scenario level, not on `MselRow` or `Inject`, so an older build that strips unknown row keys loses nothing. Idea labels are in `ideas.json` under `grounding` (keys `idea:<id>`).
 
 `<project>/plan-conflicts.json` (`src/shared/schemas/plan-conflicts.ts`): `{ formatVersion: 1, checkedAt, documents[{ id, sha256 }], stats?{ candidates, sent, skipped }, findings: PlanFinding[] }`. A finding is a `contradiction` (slot, slot label, subject, passages `a` and `b` with document, heading path, page, chunk id and the statement's text, the two values, the model verdict and its quotes) or a `dangling_reference` (passage `a` and the missing target), with `status` open / dismissed / confirmed / outdated and an optional note. Its id is sha256 of the slot and both spans (16 hex), so a re-run keeps decisions for unchanged passages.
+
 ## After-Action Report / Improvement Plan (`scenarios/<id>/aar.json`)
 
 Schemas in `src/shared/schemas/aar.ts`. `aar.json` is the structured report; `documents/aar.md` is rendered from it in the HSEEP 2020 layout with `<!-- section:name -->` markers (`overview`, `summary`, `ratings`, `findings`, `ip`, `participants`, `feedback`, `acronyms`). The structured editor re-renders the table sections on save and leaves the prose sections (`summary`, `findings`, `feedback`) as a person edited them. History: `history/aar-json.jsonl` for the data, `history/aar.jsonl` for the document.
@@ -328,8 +329,8 @@ Folders created on first use; one loose JSON file per record, validated on read.
 
 - `redlines/<id>.json`: a proposed edit of one plan section. `source` (scenario, AAR finding,
   corrective action ids, criteria), `target` (document, heading path, page, `sourceKind`),
-  `originalExcerpt` (verbatim from the ingested text), `proposedText`, `rationale`, `grounding`
-, `status` (`proposed`, `accepted`, `rejected`, `exported`, `applied`, `not_applied`,
+  `originalExcerpt` (verbatim from the ingested text), `proposedText`, `rationale`, `grounding`,
+  `status` (`proposed`, `accepted`, `rejected`, `exported`, `applied`, `not_applied`,
   `needs_review`), `history`, `export` (file, mode, sha256 of the original) and `appliedCheck`.
 - `drills/<id>.json`: a drill plan: source scenario and session, `rowIds`, `criterionIds`,
   `correctiveActionIds` with `actionCriteria` (the `rowId|criterionId` keys each action's verdict
@@ -463,7 +464,7 @@ Front matter with scenario id, version, generated-at, provider summary, and a ch
 | `jobs.json` | Persisted job records so interrupted generation shows as resumable |
 | `packs/<id>/<version>/` | Installed packs, verified against their `pack.json` hashes, read-only |
 | `settings.json` `regional.orgs` | Organization identities for regional exercises: name, prefix, public signing key, fingerprint, live key. Private keys are in `secrets.json` as `org-key-<orgId>` |
-| `packs/registry.json` | `PackRegistry`: installed packs with version, enabled, source (file / url / catalog), archive and content sha256, item list (see docs/packs-format.md "Installed packs") |
+| `packs/registry.json` | `PackRegistry`: installed packs with version, enabled, source (file / url / catalog), archive and content sha256, item list (see [Installed packs](packs-format.md#installed-packs)) |
 | `packs/.staging/` | Downloads and extractions in progress; emptied at every startup |
 | `templates/injects/<type>/` | User inject templates, the layer between project and pack templates |
 | `live/sessions/<sessionId>.json` | A running live session's secrets: staff root per epoch, controller signing and ECDH keys as JWK, last `seq`; `safeStorage` ciphertext only, deleted at `session.end`. Never in a project folder |
