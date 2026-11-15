@@ -13,7 +13,7 @@ const REPO_ROOT = resolve(dirname(new URL(import.meta.url).pathname), '..')
 export const PATTERNS = [
   { name: 'ADR number', re: /\bADR-?\d{3,4}\b/ },
   { name: 'spec number', re: /\b[Ss]pecs? \d{4}\b/ },
-  { name: 'issue or PR number', re: /(^|[\s(,])#\d{2,4}\b/ },
+  { name: 'issue or PR number', re: /(^|[\s([,])#\d{2,4}\b|\/(issues|pull)\/\d+/ },
   { name: 'test file', re: /\b[\w/-]+\.(test|spec|live\.test)\.tsx?\b/ },
   { name: 'source path', re: /\bsrc\/(main|renderer|shared|player)\// },
   { name: 'developer command', re: /\bpnpm (exec|test|e2e|build:check|ci:local)\b/ },

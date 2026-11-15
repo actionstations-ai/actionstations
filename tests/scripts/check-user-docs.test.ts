@@ -36,6 +36,11 @@ describe('check-user-docs', () => {
     ['an ADR number', 'See ADR-0018 for the design.', 'ADR number'],
     ['a spec number', 'Described in spec 0423.', 'spec number'],
     ['an issue number', 'Fixed in (#123) last week.', 'issue or PR number'],
+    [
+      'an issue link',
+      'It can fail ([#81](https://github.com/o/r/issues/81)).',
+      'issue or PR number',
+    ],
     ['a test file', 'Covered by tests/scripts/foo.test.ts today.', 'test file'],
     ['a source path', 'Lives in src/main/packs/reader.ts.', 'source path'],
     ['a developer command', 'Run pnpm test before you ask.', 'developer command'],
