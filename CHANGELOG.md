@@ -8,6 +8,11 @@ as `#NN`. Releasing: rename `[Unreleased]` to the new version with the release d
 
 ## [Unreleased]
 
+### Changed
+
+- **Clinical systems restore order and back-entry defaults rest on published practice** (#1165): the default restore order is now registration (ADT) and patient identity, laboratory results, radiology, the EHR with order entry, pharmacy and cabinet profiles, and the eMAR last, following the dependencies in the ASTP/ONC SAFER Contingency Planning guide (2025), ASPR TRACIE and the HSCC operational continuity checklist; none of them sets one order for every hospital, so it stays editable. The restore order measure matches more plain names ("ADT", "Registration", "PACS", "CPOE", "eMAR"). A new back-entry policy says what is entered and what is scanned: registrations, active orders and allergies always; everything after a downtime of 8 hours or less (the paper-care period SAFER asks for); after a longer one, the last dose of each medication and the latest vital signs, with the rest scanned; and identity, medication and results reconciliation after every downtime. The limit is a new **Full back-entry limit** input of the simulated downtime (default 8 hours; cases made before it read as 8), and Facilitate's simulated downtime section shows the policy for the case's length.
+- **One owner for each downtime measure** (#1166): **Outage to downtime declaration** moves from the clinical care toolkit to the clinical systems toolkit, which owns the declaration form, the downtime events and the other downtime measures. The id and title are unchanged, so saved evaluations still read. The nursing domain now suggests the clinical systems toolkit, and a scenario with both toolkits on lists each measure once.
+
 ## [0.8.0] - 2026-11-14
 
 ### Added

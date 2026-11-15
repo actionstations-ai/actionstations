@@ -44,6 +44,35 @@ describe('ClinicalDowntimeCard', () => {
     expect(screen.getByText(CD.notYet(45))).toBeTruthy()
   })
 
+  it('shows what the back-entry policy enters and scans for the downtime length', () => {
+    render(
+      <ClinicalDowntimeCard
+        view={{
+          ...view,
+          backEntryScope: {
+            durationHours: 24,
+            fullBackEntryHours: 8,
+            full: false,
+            always: ['Active orders, entered as coded orders'],
+            enter: ['The last administration of each active medication'],
+            scan: ['The rest of the paper record'],
+            reconcile: ['Medications: a pharmacist verifies every active paper order'],
+          },
+        }}
+        live={false}
+      />,
+    )
+    expect(screen.getByText(CD.scopePartial(24, 8))).toBeTruthy()
+    expect(screen.getByText(CD.scanned)).toBeTruthy()
+    expect(screen.getByText('The rest of the paper record')).toBeTruthy()
+    expect(screen.getByText(CD.checks)).toBeTruthy()
+  })
+
+  it('leaves the back-entry policy out for a view without one', () => {
+    render(<ClinicalDowntimeCard view={view} live={false} />)
+    expect(screen.queryByText(CD.alwaysEntered)).toBeNull()
+  })
+
   it('says a due discrepancy went to the players when devices are connected', () => {
     render(<ClinicalDowntimeCard view={{ ...view, closed: true }} live />)
     expect(screen.getByText(CD.dueSent)).toBeTruthy()

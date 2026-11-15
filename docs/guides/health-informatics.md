@@ -56,13 +56,35 @@ Figures are drawn from data, never from AI images, each with a text summary and 
 
 ## Simulated downtime
 
-The app can generate a downtime for a fictional hospital: choose the time the systems fail, how long they stay down, the number of beds, which feeds stop (laboratory results, orders, registration, pharmacy, radiology), whether the messages queued in the interface engine are lost, the units, how many synthetic patients and how many critical results arrive while the systems are down. It writes the hourly message queue by feed (for the message queue figure) and the events of the downtime: the outage, the units, each critical result, the recovery with its backlog by feed, and the paper each unit has to enter. Everything is labeled **simulated** and repeats exactly with the same seed. It is a teaching table, not a model of real systems.
+The app can generate a downtime for a fictional hospital: choose the time the systems fail, how long they stay down, the number of beds, which feeds stop (laboratory results, orders, registration, pharmacy, radiology), whether the messages queued in the interface engine are lost, the units, how many synthetic patients, how many critical results arrive while the systems are down and the full back-entry limit (see below). It writes the hourly message queue by feed (for the message queue figure) and the events of the downtime: the outage, the units, each critical result, the recovery with its backlog by feed, and the paper each unit has to enter. Everything is labeled **simulated** and repeats exactly with the same seed. It is a teaching table, not a model of real systems.
 
 The downtime then follows the players' decisions:
 
 - **Restore order, message dispositions and result release change the case.** Opening the EHR to clinicians before the lab interface makes the results backlog larger (results are missed and tests ordered again); letting results flow before the identity check raises the chance a result files to the wrong patient; replaying messages adds the duplicate records back-entry is expected to create; discarding a message class puts its orders and results at risk; holding results until they are validated delays them but lowers the wrong-patient chance. The latest decision of each kind counts, so a revised restore order replaces the first.
-- **The facilitator sees why.** The Live tab in Facilitate shows a **Simulated downtime** section whenever the scenario has this data: each figure before and after the decisions, every rule that fired with its reason, back-entry by unit and the discrepancies. To overrule a rule, record **Override a consequence rule**; the rule stays listed as overridden and stops changing the case.
+- **The facilitator sees why.** The Live tab in Facilitate shows a **Simulated downtime** section whenever the scenario has this data: each figure before and after the decisions, every rule that fired with its reason, back-entry by unit with what the back-entry policy enters and scans for this downtime's length, and the discrepancies. To overrule a rule, record **Override a consequence rule**; the rule stays listed as overridden and stops changing the case.
 - **Discrepancies arrive on their own.** Each scenario seeds at least a duplicate registration, a result filed to the wrong patient and an order sent twice. As units report reconciliation progress, each falls due at its point of the back-entry, from 10 to 80 percent complete. In a session with devices it arrives on every team's messages from Health information management, once; without devices Facilitate marks it due for you to read out. Nothing more falls due once reconciliation is closed. A unit that has not reported counts with its simulated paper, so the discrepancies come as the whole hospital's back-entry advances.
+
+## Restore order and back-entry defaults
+
+No published source sets one restore order or one back-entry policy for every hospital. The SAFER Guide on contingency planning (2025 edition), ASPR TRACIE's healthcare cybersecurity readiness and response considerations, the Health Sector Coordinating Council's operational continuity checklist and the HIPAA Security Rule's applications and data criticality analysis all ask each hospital to rank its own systems by patient-safety impact and dependency, and to decide in advance what paper is entered after recovery. The toolkit's defaults follow the dependencies those sources name. Replace them with your hospital's own.
+
+The default restore order, first to last:
+
+1. **Registration (ADT) and patient identity.** Registration messages restart first so later orders and results find their patient, and downtime registrations are matched to the master patient index (SAFER: patient identification during and after downtime; orderly interface restart).
+2. **Laboratory results interface.** Queued results file next, critical results first, so the chart is complete before clinicians rely on it.
+3. **Radiology and imaging results.** Reads were phoned during the downtime, and fewer messages are queued.
+4. **EHR open to clinicians, with order entry.** Clinicians return to a chart whose results have caught up; active paper orders are entered as coded orders.
+5. **Pharmacy orders and dispensing cabinet profiles.** Medication orders flow once active paper orders are back-entered and verified by a pharmacist; until then cabinets stay on override with paper checks.
+6. **eMAR and barcode medication administration.** Units leave the paper MAR last, once the pharmacy profile is complete and the last paper dose of each medication is entered, so no dose is missed or given twice.
+
+Back-entry after recovery:
+
+- **Always, whatever the length:** every downtime registration (matched to the master patient index), active orders as coded orders, and allergies recorded or changed on paper.
+- **A downtime of 8 hours or less:** all paper documentation is entered as discrete data (medication administrations, vital signs, intake and output, assessments, notes).
+- **A longer downtime:** the last administration of each active medication (so the next dose is timed from it) and the latest vital signs and assessment are entered; the rest of the paper record is scanned and indexed to the patient. ASPR TRACIE notes that some paper will not be re-entered and asks hospitals to say which.
+- **Before units leave paper, after every downtime:** temporary record numbers merged or confirmed, every active paper medication order verified by a pharmacist before the pharmacy profile and the eMAR go live, and each result phoned or printed during the downtime checked against the result filed in the chart, critical results first.
+
+The 8-hour limit is the length of paper care the SAFER guide asks every unit to be ready for. Change it with the simulation's **Full back-entry limit** to match your downtime policy, and change the restore order in the **Restore order against the clinician priority list** measure's priority. The 10 to 80 percent points at which the seeded discrepancies fall due pace the exercise; they are not clinical thresholds.
 
 The case clock starts at the outage unless you set your own on the **Case data** tab, so the exercise clock's 0:00 is the moment the systems fail. Times entered on the forms are read on that clock.
 
@@ -71,7 +93,7 @@ The case clock starts at the outage unless you set your own on the **Case data**
 Players record structured decisions, each with a time:
 
 - **Declare downtime** for one or more systems, planned or unplanned, with the expected duration and who is told.
-- **Set restore order:** the systems and interfaces from first to last (for example identity check, lab interface, EHR, pharmacy interface), with the reason.
+- **Set restore order:** the systems and interfaces from first to last (for example identity check, lab interface, radiology, EHR, pharmacy interface, eMAR), with the reason.
 - **Hold, replay or discard a message class** on one interface, with the orders or results at risk.
 - **Release or hold results** until they are validated.
 - **Open a duplicate or overlay merge**, or freeze two records.
@@ -95,23 +117,25 @@ Three advisor roles can sit with the players: a clinical informatics liaison (wh
 
 Open the scenario's Evaluation tab and choose **Compute field metrics** after a live session (see [Evaluation metrics](evaluation-metrics.md)). Each measure shows its inputs and caveats and says n/a when nothing was recorded.
 
-- **Declaration to all units on downtime procedures:** minutes from the downtime declaration to each unit working on paper, against a 60-minute target. It measures how fast the procedures reached the units. The time from the outage to the declaration is a separate measure in the clinical care toolkit, so an after-action report can say which link was slow.
+- **Outage to downtime declaration:** minutes from the outage to the declaration, against 30 minutes. It covers recognition and escalation, where the charge nurses and the house supervisor matter.
+- **Declaration to all units on downtime procedures:** minutes from the downtime declaration to each unit working on paper, against a 60-minute target. It measures how fast the procedures reached the units. With the measure above, an after-action report can say which link of the downtime chain was slow.
 - **Orders and results lost, delayed or duplicated**, by message class.
 - **Critical results communicated within target:** 60 minutes by default. Organizations set their own target; tighten it to match your policy.
 - **Reconciliation time and percent complete**, by unit, from the progress players reported, until reconciliation is closed.
 - **Duplicate records created.**
-- **Restore order against the clinician priority list:** a rank correlation and the share of pairs in the same order. The default list is identity check, lab interface, EHR, pharmacy interface: downtime registrations are matched first, results catch up next so the chart is complete when clinicians return, and the pharmacy interface and cabinet profiles follow once paper orders are back-entered and verified. The list is the clinicians' judgment for the scenario, not a standard; change it for your hospital and read the score with the reasons players gave. Names are compared loosely, so "Lab interface" matches lab_interface.
+- **Restore order against the clinician priority list:** a rank correlation and the share of pairs in the same order, against the default restore order above unless you set your hospital's own priority. Read the score with the reasons players gave. Names are compared loosely: "Lab interface" matches lab_interface, "ADT" and "Registration" match the identity check, and "eMAR" and "Barcode scanning" match the eMAR.
 - **Notification clocks met** for the HIPAA breach notification rule: each clock (individuals, HHS, media) met, missed, open at the end, waived or not started, from what the facilitator records in Facilitate (see Clocks and requirements below).
 
 Where each measure's events come from:
 
+- **Outage:** from the simulated downtime, or the controller's log; the declaration is the **Declare downtime** decision.
 - **Units on procedures:** the units come from the simulated downtime (or from the controller's log); a unit is on procedures when someone records **Report a unit on downtime procedures** for it. Use the unit names the scenario lists.
 - **Orders and results:** at recovery the simulated downtime counts each failed feed's queued messages: lost when the queue was lost or the class was discarded, delayed when it was held or no one decided, on time when it was replayed, and re-ordered tests as duplicated when the EHR opened before the lab interface. The controller's log adds any others.
 - **Critical results:** the simulated critical results (or ones the controller logs) are answered by **Communicate a critical result**; each call answers the earliest unanswered result before it for the patient it names, by name or record number.
 - **Reconciliation:** the simulated paper per unit, replaced by each unit's own progress report, from recovery to the close.
 - **Duplicate records:** the duplicate registrations that surfaced during back-entry and any the controller logs, shown beside the number the downtime model expected.
 
-The clinical care measures for the same exercise (see [Nursing and clinical care](nursing.md)) read the same simulated outage.
+The clinical systems toolkit owns the downtime measures. When the clinical care toolkit is on as well (see [Nursing and clinical care](nursing.md)), it adds the bedside care measures, and each measure appears once on the Evaluation tab.
 
 ## Clocks and requirements
 
@@ -119,8 +143,8 @@ Switch on the **HIPAA Breach Notification Rule** in **Project settings → Compl
 
 The domain assumes these plans. Rules change, so check the current text.
 
-- Hospitals must exercise the emergency plan at least twice a year: an annual full-scale community-based exercise (or a facility-based functional exercise when that is not possible) and a second exercise that may be a facilitator-led tabletop (42 CFR 482.15(d)(2)). The plan must include a system of medical documentation that preserves patient information (42 CFR 482.15(b)).
-- The HIPAA Security Rule contingency plan (45 CFR 164.308(a)(7)) requires a data backup plan, a disaster recovery plan and an emergency mode operation plan; testing and revision is an addressable specification, which does not mean optional.
+- Hospitals must exercise the emergency plan at least twice a year: an annual full-scale community-based exercise (or a facility-based functional exercise when that is not possible) and a second exercise that may be a facilitator-led tabletop (42 CFR 482.15(d)(2)). The plan must include a system of medical documentation that preserves patient information and keeps records available (42 CFR 482.15(b)(5)).
+- The HIPAA Security Rule contingency plan (45 CFR 164.308(a)(7)) requires a data backup plan, a disaster recovery plan and an emergency mode operation plan; testing and revision, and an assessment of the relative criticality of applications and data, are addressable specifications, which does not mean optional. That criticality assessment is where a hospital's own restore order comes from.
 - The Joint Commission's exercise standard asks for two exercises a year as well; its text is copyrighted and is named, not carried.
 
 ## Reference library
@@ -135,7 +159,7 @@ The pack's README lists dated seeds from past incidents (a health system's weeks
 - Script the paper. A downtime census printed at 02:00 that a unit is still using at 09:00, a label sheet that runs out, or a phoned critical result with no read-back makes the paper period concrete.
 - Give recovery its own phase and ask each unit to report its back-entry progress regularly. Reconciliation is where duplicates, wrong-patient results and orders sent twice surface, and they arrive as the reports come in, while part of the back-entry is still open, so players can act on them.
 - The SAFER Guide on contingency planning recommends paper forms on each unit for at least 8 hours of care, a communication method that does not depend on the EHR, and unannounced downtime drills at least once a year. These make good objectives.
-- Ask a CMIO or CNIO to set the restore priority and read the scenario before you run it.
+- Put your hospital's restore order and back-entry limit in the scenario if they differ from the defaults, and ask a CMIO or CNIO to read the scenario before you run it.
 
 ## Limits
 

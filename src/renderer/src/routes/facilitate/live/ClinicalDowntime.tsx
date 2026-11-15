@@ -62,6 +62,7 @@ export function ClinicalDowntimeCard(props: { view: ClinicalDowntimeView; live: 
       )}
       <p className="muted">{CD.overrideHint}</p>
       <h3 className="fac-panel__subtitle">{CD.backEntryHeading(view.percent)}</h3>
+      {view.backEntryScope && <BackEntryScope scope={view.backEntryScope} />}
       <ul>
         {view.units.map((u) => (
           <li key={u.unit}>
@@ -85,6 +86,44 @@ export function ClinicalDowntimeCard(props: { view: ClinicalDowntimeView; live: 
         ))}
       </ul>
     </section>
+  )
+}
+
+type Scope = NonNullable<ClinicalDowntimeView['backEntryScope']>
+
+/** What the default back-entry policy enters and scans for this downtime's length. */
+function BackEntryScope(props: { scope: Scope }) {
+  const s = props.scope
+  const lists: [string, string[]][] = [
+    [CD.alwaysEntered, s.always],
+    [CD.alsoEntered, s.enter],
+    [CD.scanned, s.scan],
+    [CD.checks, s.reconcile],
+  ]
+  return (
+    <div>
+      <p className="muted">
+        {s.full
+          ? CD.scopeFull(s.durationHours, s.fullBackEntryHours)
+          : CD.scopePartial(s.durationHours, s.fullBackEntryHours)}
+      </p>
+      <dl>
+        {lists
+          .filter(([, items]) => items.length > 0)
+          .map(([term, items]) => (
+            <div key={term}>
+              <dt>{term}</dt>
+              <dd>
+                <ul>
+                  {items.map((item) => (
+                    <li key={item}>{item}</li>
+                  ))}
+                </ul>
+              </dd>
+            </div>
+          ))}
+      </dl>
+    </div>
   )
 }
 

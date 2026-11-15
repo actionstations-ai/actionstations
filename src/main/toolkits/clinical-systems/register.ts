@@ -14,6 +14,7 @@ export const CLINICAL_SYSTEMS_EVENT_METRICS = [
   'critical_result_communication',
   'reconciliation_progress',
   'duplicate_records_created',
+  'downtime_workflow_time',
 ] as const
 
 export function registerClinicalSystemsToolkit(): void {

@@ -18,6 +18,7 @@ import {
   safeCareLosses,
   timeToDowntimeProcedures,
 } from './clinical'
+import { downtimeWorkflowTime } from './downtime-declaration'
 import {
   pickCriticalResults,
   pickDowntime,
@@ -128,6 +129,7 @@ registerMetric(criticalResultCommunication, pickCriticalResults)
 registerMetric(reconciliationProgress, pickReconciliation)
 registerMetric(duplicateRecordsCreated, pickDuplicates)
 registerMetric(restoreOrderScore, pickRestoreOrder)
+registerMetric(downtimeWorkflowTime, eventsAndDecisions)
 // EMS, fire and hazmat metrics (events from the simulated incident, decisions of the toolkit forms).
 registerMetric(triageCompletion, eventsAndDecisions)
 registerMetric(destinationFit, eventsAndDecisions)

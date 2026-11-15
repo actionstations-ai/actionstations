@@ -3,6 +3,8 @@
 import { describe, expect, it } from 'vitest'
 import { seedDiscrepancies } from './downtime'
 import {
+  FULL_BACK_ENTRY_HOURS,
+  backEntryScope,
   discrepancyRows,
   discrepancyText,
   dueDiscrepancies,
@@ -110,5 +112,39 @@ describe('discrepancy release', () => {
     const rows = discrepancyRows(discrepancies, new Set(['D2']), patients)
     expect(rows.map((r) => r[3])).toEqual(['not yet due', 'delivered', 'not yet due'])
     expect(rows[1]![1]).toBe('wrong patient result')
+  })
+})
+
+describe('backEntryScope', () => {
+  it('defaults to full back-entry up to 8 hours, the paper supply SAFER asks for', () => {
+    expect(FULL_BACK_ENTRY_HOURS).toBe(8)
+    const scope = backEntryScope(8)
+    expect(scope.full).toBe(true)
+    expect(scope.enter.join(' ')).toMatch(/All paper documentation/)
+    expect(scope.scan).toEqual([])
+  })
+
+  it('enters the essentials and scans the rest after a longer downtime', () => {
+    const scope = backEntryScope(9)
+    expect(scope.full).toBe(false)
+    expect(scope.enter.join(' ')).toMatch(/last administration of each active medication/)
+    expect(scope.scan.join(' ')).toMatch(/scanned and indexed/)
+  })
+
+  it('always enters registrations, active orders and allergies, and always reconciles', () => {
+    for (const hours of [1, 8, 72]) {
+      const scope = backEntryScope(hours)
+      expect(scope.always.join(' ')).toMatch(/registration.*Active orders.*Allergies/s)
+      expect(scope.reconcile.map((r) => r.split(':')[0])).toEqual([
+        'Patient identity',
+        'Medications',
+        'Results',
+      ])
+    }
+  })
+
+  it('takes the limit from the scenario', () => {
+    expect(backEntryScope(6, 4).full).toBe(false)
+    expect(backEntryScope(6, 12).full).toBe(true)
   })
 })

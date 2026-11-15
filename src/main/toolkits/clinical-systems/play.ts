@@ -138,5 +138,6 @@ export function downtimeView(s: DowntimePlayStatus): ClinicalDowntimeView {
       text: d.text,
       due: !!d.dueAt,
     })),
+    backEntryScope: s.backEntryScope,
   }
 }

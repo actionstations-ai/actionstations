@@ -107,6 +107,14 @@
   ],
   "metrics": [
     {
+      "id": "downtime_workflow_time",
+      "label": "Outage to downtime declaration",
+      "config": {
+        "decisionKind": "declare_downtime",
+        "targetMinutes": 30
+      }
+    },
+    {
       "id": "time_to_downtime_procedures",
       "label": "Declaration to all units on downtime procedures",
       "config": {
@@ -145,7 +153,7 @@
       "label": "Restore order against the clinician priority list",
       "config": {
         "method": "rank_correlation",
-        "priority": "identity_check, lab_interface, ehr, pharmacy_interface"
+        "priority": "identity_check, lab_interface, radiology_interface, ehr, pharmacy_interface, emar"
       }
     },
     {
@@ -225,7 +233,7 @@
       "fields": [
         {
           "id": "ranking",
-          "label": "Systems and interfaces, first to last (for example: identity check, lab interface, EHR, pharmacy interface)",
+          "label": "Systems and interfaces, first to last (for example: identity check, lab interface, radiology, EHR, pharmacy interface, eMAR)",
           "kind": "text",
           "required": true
         },
@@ -622,7 +630,7 @@
       },
       {
         "term": "Interface engine",
-        "definition": "Software routing HL7 v2 and FHIR messages between the EHR, lab, radiology, pharmacy and devices, with queues and an error queue."
+        "definition": "Routes HL7 v2 and FHIR messages between clinical systems, with queues."
       },
       {
         "term": "ADT, ORM, ORU",
@@ -651,9 +659,10 @@
       "Never use a real person's data; follow the record number format in the scenario facts.",
       "A downtime report cannot show anything newer than its as-of time.",
       "An interface queue grows at arrival rate minus drain rate.",
-      "Interfaces restart in order: registration (ADT) first so later orders and results find their patient, then orders and results; queues are emptied or held before an interface is stopped or restarted.",
-      "Opening the EHR to clinicians before the results interfaces have caught up leaves a chart that looks complete but is missing results; releasing results before downtime registrations are matched to the master patient index risks wrong-patient results.",
+      "Default restore order unless the scenario sets its own: ADT and identity check, lab results, radiology, EHR with order entry, pharmacy and cabinets, eMAR last. Empty or hold queues before an interface stops or restarts.",
+      "Opening the EHR before results catch up leaves a chart that looks complete but is not; releasing results before registrations are matched risks wrong-patient results.",
       "Downtime registration uses a reserved record number block; duplicates after recovery are expected.",
+      "Back-entry: registrations, active orders and allergies always; all paper if down 8 hours or less, else last doses and latest vitals, the rest scanned.",
       "Clinical content is plausible exercise content, not a clinical reference; no dosing or treatment advice.",
       "The hospital's compliance office decides what satisfies a requirement; say \"may support\".",
       "Name no real hospital, health system or EHR product."

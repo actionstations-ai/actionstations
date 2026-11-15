@@ -431,3 +431,26 @@ describe('clinical care (nursing) measures', () => {
     expect(data(results, 'downtime_workflow_time')).toMatchObject({ periods: 1, meanMinutes: 15 })
   })
 })
+
+describe('both clinical toolkits on one scenario', () => {
+  it('plans each measure once, with the downtime measures owned by the clinical systems toolkit', async () => {
+    const { metricsPlan } = await import('../metrics')
+    const ctx = await scenarioWithCase()
+    const plan = await metricsPlan(ctx.root, ctx.scenarioId)
+    const ids = plan.metrics.map((m) => m.id)
+    expect(new Set(ids).size).toBe(ids.length)
+    const owner = (id: string) => plan.metrics.filter((m) => m.id === id).map((m) => m.toolkitId)
+    for (const id of [
+      'downtime_workflow_time',
+      'time_to_downtime_procedures',
+      'reconciliation_progress',
+      'restore_order_score',
+    ])
+      expect(owner(id), id).toEqual(['clinical_systems'])
+    for (const id of ['handoff_quality', 'time_to_escalation', 'staffing_ratio_exceedances'])
+      expect(owner(id), id).toEqual(['clinical_care'])
+    expect(plan.metrics.find((m) => m.id === 'downtime_workflow_time')?.title).toBe(
+      'Outage to downtime declaration',
+    )
+  })
+})

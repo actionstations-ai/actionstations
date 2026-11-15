@@ -209,6 +209,23 @@ describe('restore_order_score', () => {
     expect(get(r, 'Rank correlation (1 = same order)')).toBe('1.00')
     expect(get(r, 'Priority items left out')).toBe('0')
   })
+
+  it('scores against the default restore order when no priority is configured', () => {
+    const r = runMetric(
+      { id: 'restore_order_score', config: {} },
+      {
+        decisions: [
+          dec('set_restore_order', at('09:30'), {
+            ranking: 'ADT > Lab results > Radiology > EHR > Pharmacy > eMAR',
+          }),
+        ],
+      },
+    )
+    expect(get(r, 'Rank correlation (1 = same order)')).toBe('1.00')
+    expect(get(r, 'Priority items left out')).toBe('0')
+    expect(r.caveats.join(' ')).toMatch(/SAFER Contingency Planning guide/)
+    expect(r.caveats.join(' ')).not.toMatch(/not a standard/)
+  })
 })
 
 describe('duplicate_records_created', () => {

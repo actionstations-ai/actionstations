@@ -162,3 +162,44 @@ A model-led expert review written from the perspective of a CMIO/CNIO with hospi
 - The "messages replayed before the identity check" rule fires on any replay, whether or not an identity check was decided first; read it as "replay adds expected duplicates".
 - There is no health informatics user guide yet; the toolkit is described only in the toolkits guide and the profile.
 - SAFER attestation years and the Joint Commission chapter text were not read in their primary form this session.
+
+## Owner decisions: restore order and back-entry thresholds (2026-11-15, #1165)
+
+The review above set the defaults on clinical judgment and called the restore order "not a standard". The owner asked for both to rest on published practice. Sources read in primary form this session (fetched with the app's User-Agent):
+
+- **[V] ASTP/ONC SAFER Guides, Contingency Planning, 2025 set** (healthit.gov PDF, footer "August 2024"). 1.3: paper forms on each unit for at least 8 hours of care, covering orders, medication administration, laboratory and radiology; "a process in place to ensure that the information recorded on paper during the downtime gets entered and reconciled into the EHR following its reactivation (e.g., entering information, such as orders, as coded data along with scanning of paper documents whose contents are not otherwise entered into the EHR)". 1.5: unique temporary record numbers during downtime and "a process for reconciling these new patient IDs once the EHR comes back online". 2.3: a written downtime and recovery policy. 2.5: stop and restart interfaces in an orderly manner, buffers emptied before a stop or restart. 2.2: notify clinicians when the EHR is back. 3.3: in-depth review of unexpected downtimes over 24 hours.
+- **[V] ASPR TRACIE, Healthcare System Cybersecurity: Readiness and Response Considerations** (February 2021, updated October 2022). Restoration order comes from a business impact analysis, recovery time and point objectives and an application dependency map; it lists the elements to rank an application by (patient safety and quality of care first, then staff, patients and dependent systems affected, and others). Recovery: "Systems will NOT be restored at once"; plan the migration of manual documentation back to electronic format; "A determination may be made that some manually recorded data will not be reconciled with the EHR; instructions on what type of information this is and how it will be stored should be documented and shared."
+- **[V] ASPR TRACIE, Hospital Readiness and Response guidebook, chapter on IT failures and cyber incidents.** Each system gets a downtime risk and "a restoration priority so that life-safety systems are a focus", set jointly by IT and clinical staff from a systems map; recovery is staged; decide early what is entered into the chart and by what method (manual entry, scanning or dictation).
+- **[V] HSCC Operational Continuity – Cyber Incident checklist, version 1.1 (May 2022).** "Establish or implement back charting criteria"; "Validate application recovery priority"; "Assess critical application dependencies for recovery".
+- **[V] 45 CFR 164.308(a)(7)(ii)(E)** (eCFR): "Assess the relative criticality of specific applications and data in support of other contingency plan components" (addressable).
+- **[V] 42 CFR 482.15(b)(5)** (eCFR): the emergency plan's policies include "a system of medical documentation that preserves patient information, protects confidentiality of patient information, and secures and maintains the availability of records."
+- **[U] HHS 405(d) HICP 2023** and the Joint Commission EM chapter were not reachable in primary form this session (the 405d site returned an HTML shell; Joint Commission text is copyrighted). Neither is known to set a restore order or a back-entry cut-off.
+- **[U] Hospital downtime policies** found through search summaries only use cut-offs of 4 and 8 hours for full back-entry of medication administrations; the policy pages themselves did not load. They are not relied on.
+
+**Finding.** No published source sets one restore order or one back-entry cut-off for every hospital. Every source asks the hospital to rank its own systems by patient-safety impact and dependency and to decide in advance what is re-entered and what is scanned. The defaults below are built from the dependencies and practices the sources name, and are editable.
+
+**Default restore order** (`DEFAULT_RESTORE_PRIORITY` in `src/shared/clinical/downtime.ts`, and the `priority` of `restore_order_score` in the clinical systems toolkit): `identity_check, lab_interface, radiology_interface, ehr, pharmacy_interface, emar`.
+
+1. Registration (ADT) and patient identity: ADT restarts first so later messages find their patient (SAFER 2.5), and temporary IDs are reconciled (SAFER 1.5).
+2. Laboratory results interface: queued results, critical first, before clinicians rely on the chart (results are the largest share of downtime safety reports: Larsen et al., JAMIA 2017, via search summary **[U]**).
+3. Radiology and imaging results: lower volume; reads were phoned.
+4. EHR open to clinicians with order entry: active paper orders entered as coded data (SAFER 1.3).
+5. Pharmacy order interface and dispensing cabinet profiles: after paper medication orders are back-entered and verified.
+6. eMAR and barcode medication administration last: units leave the paper MAR once the profile is complete and the last paper dose of each medication is entered, so a dose is neither missed nor repeated.
+
+The consequence rules still read only `identity_check`, `lab_interface` and `ehr`; the default order fires none of them. The measure maps plain words onto the ids ("ADT", "Registration" → identity check; "PACS", "Radiology" → radiology; "CPOE" → EHR; "eMAR", "Barcode scanning" → eMAR).
+
+**Default back-entry thresholds** (`backEntryScope` in `src/shared/clinical/reconciliation.ts`; the simulation's `fullBackEntryHours`, default 8):
+
+- Always, at any length: downtime registrations matched to the master patient index; active orders as coded orders; allergies recorded or changed on paper (SAFER 1.3, 1.5).
+- Downtime of 8 hours or less: all paper documentation entered as discrete data. 8 hours is the paper-care period SAFER 1.3 asks every unit to hold; it is the only federal figure on downtime length found.
+- Longer: the last administration of each active medication and the latest vital signs and assessment entered; the rest scanned and indexed to the patient (SAFER 1.3's scanning example; TRACIE's "some manually recorded data will not be reconciled").
+- Reconciliation, after every downtime (no length threshold): identity (temporary record numbers merged or confirmed), medications (pharmacist verification of every active paper medication order before the pharmacy profile and eMAR go live), results (each phoned or printed result checked against the chart, critical first).
+
+The 10 to 80 percent release points of the seeded discrepancies are exercise pacing, not clinical thresholds, and stay. The 60-minute targets for unit procedures and critical results stay, as organization-set targets.
+
+Removed: the "clinicians' judgment, not a standard" wording in the measure caveat, the guide and the toolkit. Shown in Facilitate: the back-entry scope for the case's downtime length.
+
+## Owner decision: one owner for the downtime measures (2026-11-15, #1166)
+
+The nursing review kept two downtime timing measures in two toolkits. The owner asked for one owner per measure. The clinical systems toolkit now lists `downtime_workflow_time` (Outage to downtime declaration, 30 minutes) beside `time_to_downtime_procedures` (Declaration to all units, 60 minutes); the clinical care toolkit no longer lists it. Both links stay as separate measures, for the reason the nursing review gave. The id and title are unchanged, so saved evaluations still read and a re-run replaces the stored result (results are keyed by id, session and title). Scenarios store toolkit ids, not metric lists, so no migration is needed. A nursing project without the clinical systems toolkit no longer lists the declaration measure; it could not be computed there anyway, since the form it reads (`declare_downtime`) belongs to the clinical systems toolkit. The nursing domain now suggests the clinical systems toolkit.
