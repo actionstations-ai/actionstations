@@ -88,6 +88,7 @@ export function monogram(name: string): string {
     .replace(/^(Toolkit:|Action Stations)\s*/i, '')
     .split(/[^A-Za-z0-9]+/)
     .filter((w) => w && !/^(and|the|of|for|to|a)$/i.test(w))
-  const letters = words.length > 1 ? words[0]![0]! + words[1]![0]! : (words[0] ?? '?').slice(0, 2)
+  // One word: its first letter only ("Airports" is "A", not "AI", which reads as the AI field).
+  const letters = words.length > 1 ? words[0]![0]! + words[1]![0]! : (words[0] ?? '?').slice(0, 1)
   return letters.toUpperCase()
 }

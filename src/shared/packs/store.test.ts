@@ -51,7 +51,7 @@ describe('pack store groups', () => {
   it('makes a two-letter icon from the significant words', () => {
     expect(monogram('Nursing and clinical care')).toBe('NC')
     expect(monogram('Toolkit: spill and plume')).toBe('SP')
-    expect(monogram('Airports')).toBe('AI')
+    expect(monogram('Airports')).toBe('A')
     expect(monogram('911 and emergency communications')).toBe('9E')
   })
 })
