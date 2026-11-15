@@ -12,7 +12,7 @@
 // The builder is TypeScript with `@shared` aliases and an `electron` import in its module
 // graph, so like scripts/pack-validate.mjs this bundles src/main/packs/bundled-build.ts with
 // Vite (electron stubbed) into node_modules/.cache/bundled-packs/ whenever a source is newer.
-import { existsSync, readFileSync, readdirSync, statSync } from 'node:fs'
+import { copyFileSync, existsSync, readFileSync, readdirSync, statSync } from 'node:fs'
 import { dirname, join, resolve } from 'node:path'
 import { fileURLToPath, pathToFileURL } from 'node:url'
 
@@ -86,6 +86,8 @@ async function main() {
       .join(', ')
     console.log(`  ${p.id}${p.core ? ' (core)' : ''}: ${what}; ${p.files} files, ${kb(p.bytes)}`)
   }
+  // The store's groups, for the website's catalog (its import-bundled copies it with the packs).
+  copyFileSync(join(root, 'src', 'shared', 'packs', 'store.json'), join(outDir, 'store.json'))
   console.log(`build-bundled-packs: ${result.packs.length} packs, ${kb(total)} → ${outDir}`)
   return 0
 }

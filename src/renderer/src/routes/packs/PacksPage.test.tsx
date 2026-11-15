@@ -128,11 +128,11 @@ afterEach(() => {
 })
 
 describe('PacksPage empty states', () => {
-  it('suggests browsing or a file when nothing is installed', async () => {
+  it('suggests discovering or a file when nothing is installed', async () => {
     mockTtx(base)
-    renderAt('/packs', '/packs', PacksPage)
+    renderAt('/packs?tab=yours', '/packs', PacksPage)
     const empty = await screen.findByRole('region', { name: 'No packs installed' })
-    expect(within(empty).getByRole('button', { name: 'Browse catalogs' })).toBeTruthy()
+    expect(within(empty).getByRole('button', { name: 'Discover packs' })).toBeTruthy()
     expect(within(empty).getByRole('button', { name: 'Install from file…' })).toBeTruthy()
   })
 
@@ -142,22 +142,22 @@ describe('PacksPage empty states', () => {
     expect(await screen.findByRole('button', { name: 'Export as pack…' })).toBeTruthy()
   })
 
-  it('offers the official catalog on Browse with no catalogs, and fetches nothing', async () => {
+  it('offers the official catalog on Discover with no catalogs, and fetches nothing', async () => {
     const ttx = mockTtx(base)
-    renderAt('/packs?tab=browse', '/packs', PacksPage)
-    expect(
-      await screen.findByRole('region', { name: 'Add a catalog to browse packs' }),
-    ).toBeTruthy()
-    expect(
-      screen.getByRole('button', { name: 'Add the official catalog (actionstations.ai)' }),
-    ).toBeTruthy()
-    expect(screen.getByLabelText('Catalog URL')).toBeTruthy()
+    renderAt('/packs', '/packs', PacksPage)
+    const offer = await screen.findByRole('region', { name: 'More packs from a catalog' })
+    await userEvent
+      .setup()
+      .click(
+        within(offer).getByRole('button', { name: 'Add the official catalog (actionstations.ai)' }),
+      )
+    await waitFor(() => expect(ttx.calls('packs:catalogAdd')).toEqual([{ url: CATALOG }]))
     expect(ttx.calls('packs:catalogRefresh')).toEqual([])
   })
 })
 
-describe('PacksPage browse', () => {
-  it('refreshes once on open, lists entries with install state and filters by kind', async () => {
+describe('PacksPage discover', () => {
+  it('refreshes once on open, shelves every pack with its state and filters by kind', async () => {
     const catalogs: CachedCatalogView[] = [
       {
         url: CATALOG,
@@ -184,18 +184,58 @@ describe('PacksPage browse', () => {
       'packs:catalogRefresh': () => [{ url: CATALOG, ok: true, entries: 3, skipped: 0 }],
       'packs:list': () => [installed()],
     })
-    renderAt('/packs?tab=browse', '/packs', PacksPage)
-    const grid = await screen.findByRole('list', { name: '2 packs' })
+    renderAt('/packs', '/packs', PacksPage)
+    const shelf = await screen.findByRole('list', { name: 'General' })
     await waitFor(() => expect(ttx.calls('packs:catalogRefresh')).toEqual([{}]))
-    const rail = within(grid)
-      .getByRole('heading', { name: /Freight Rail Operations/ })
-      .closest('li')!
-    expect(within(rail).getByText('Update available (have 1.0.0)')).toBeTruthy()
-    expect(within(rail).getByText('20 KB')).toBeTruthy()
+    expect(within(shelf).getAllByRole('listitem')).toHaveLength(2)
+    const rail = within(shelf).getByRole('button', { name: /Freight Rail Operations/ })
+    expect(within(rail).getByText('Update')).toBeTruthy()
+    expect(within(shelf).getByRole('button', { name: /Transit/ })).toBeTruthy()
     const user = userEvent.setup()
-    await user.selectOptions(screen.getByLabelText('Kind'), 'prompts')
+    await user.type(screen.getByLabelText('Search packs'), 'bus')
     const filtered = await screen.findByRole('list', { name: '1 packs' })
-    expect(within(filtered).getByRole('heading', { name: /Transit/ })).toBeTruthy()
+    expect(within(filtered).getByRole('button', { name: /Transit/ })).toBeTruthy()
+    await user.click(
+      within(screen.getByRole('group', { name: 'Kind' })).getByRole('button', { name: 'Fields' }),
+    )
+    expect(await screen.findByRole('region', { name: 'No packs match' })).toBeTruthy()
+  })
+})
+
+describe('PacksPage pack page', () => {
+  it('opens a catalog pack’s page with its size, kinds and the Get button', async () => {
+    const ttx = mockTtx({
+      ...base,
+      'packs:catalogs': () => [{ url: CATALOG, addedAt: '2026-10-24T00:00:00Z' }],
+      'packs:catalogEntries': () => [
+        {
+          url: CATALOG,
+          name: 'Action Stations',
+          fetchedAt: '2026-10-24T00:00:00Z',
+          skipped: 0,
+          entries: [entry()],
+        },
+      ],
+      'packs:catalogRefresh': () => [{ url: CATALOG, ok: true, entries: 1, skipped: 0 }],
+      'packs:download': () => ({ jobId: 'job1' }),
+      'jobs:get': () => {
+        throw new Error('unknown')
+      },
+    })
+    renderAt(`/packs?pack=${RAIL}`, '/packs', PacksPage)
+    const page = await screen.findByRole('article', { name: 'Freight Rail Operations' })
+    const stats = within(page).getByLabelText('At a glance')
+    expect(within(stats).getByText('20 KB')).toBeTruthy()
+    expect(within(page).getByText('Templates · Domain profiles')).toBeTruthy()
+    expect(within(page).getByText(SHA)).toBeTruthy()
+    await userEvent
+      .setup()
+      .click(within(page).getByRole('button', { name: 'Get Freight Rail Operations' }))
+    await waitFor(() =>
+      expect(ttx.calls('packs:download')).toEqual([
+        { source: 'catalog', catalogUrl: CATALOG, id: RAIL, version: '1.2.0' },
+      ]),
+    )
   })
 })
 
@@ -290,8 +330,8 @@ describe('PacksPage conflicts', () => {
         }),
       ],
     })
-    renderAt('/packs', '/packs', PacksPage)
-    const list = await screen.findByRole('list', { name: 'Installed packs' })
+    renderAt('/packs?tab=yours', '/packs', PacksPage)
+    const list = await screen.findByRole('list', { name: 'Needs attention' })
     const twin = within(list).getByRole('listitem', { name: /Rail Twin/ })
     expect(within(twin).getByText('Conflict')).toBeTruthy()
     expect(within(twin).getByText(sentence)).toBeTruthy()
@@ -323,8 +363,8 @@ describe('PacksPage conflicts', () => {
         throw new Error('Disable Rail Twin to enable this pack.')
       },
     })
-    renderAt('/packs', '/packs', PacksPage)
-    const toggle = await screen.findByRole('switch', { name: 'Enabled' })
+    renderAt('/packs?tab=yours', '/packs', PacksPage)
+    const toggle = await screen.findByRole('switch', { name: 'On Freight Rail Operations' })
     await userEvent.setup().click(toggle)
     await waitFor(() =>
       expect(ttx.calls('packs:setEnabled')).toEqual([{ id: RAIL, enabled: true }]),
@@ -359,11 +399,15 @@ describe('PacksPage updates', () => {
       }),
       'packs:install': () => ({ pack: installed({ version: '1.2.0' }), action: 'update' }),
     })
-    renderAt('/packs', '/packs', PacksPage)
-    const row = await screen.findByRole('listitem', { name: /Freight Rail Operations/ })
-    expect(within(row).getByText('Update available: 1.2.0')).toBeTruthy()
+    renderAt('/packs?tab=yours', '/packs', PacksPage)
+    const list = await screen.findByRole('list', { name: 'Updates' })
+    const row = within(list).getByRole('listitem', { name: /Freight Rail Operations/ })
     const user = userEvent.setup()
-    await user.click(within(row).getByRole('button', { name: 'Review update to 1.2.0' }))
+    await user.click(
+      within(row).getByRole('button', {
+        name: 'Review update to 1.2.0 of Freight Rail Operations',
+      }),
+    )
     await waitFor(() =>
       expect(ttx.calls('packs:download')).toEqual([
         { source: 'catalog', catalogUrl: CATALOG, id: RAIL, version: '1.2.0' },
@@ -396,11 +440,10 @@ describe('PacksPage updates', () => {
       ...base,
       'packs:list': () => [installed({ source: { kind: 'unknown' }, archiveSha256: 'unknown' })],
     })
-    renderAt('/packs', '/packs', PacksPage)
-    const row = await screen.findByRole('listitem', { name: /Freight Rail Operations/ })
-    expect(within(row).getByText(/^Not recorded \(the pack list was rebuilt/)).toBeTruthy()
-    await userEvent.setup().click(within(row).getByRole('button', { name: /Details/ }))
-    expect(within(row).getByText(/^Not recorded \(the original archive/)).toBeTruthy()
-    expect(within(row).queryByText('unknown')).toBeNull()
+    renderAt(`/packs?pack=${RAIL}`, '/packs', PacksPage)
+    const page = await screen.findByRole('article', { name: 'Freight Rail Operations' })
+    expect(within(page).getByText(/^Not recorded \(the pack list was rebuilt/)).toBeTruthy()
+    expect(within(page).getByText(/^Not recorded \(the original archive/)).toBeTruthy()
+    expect(within(page).queryByText('unknown')).toBeNull()
   })
 })

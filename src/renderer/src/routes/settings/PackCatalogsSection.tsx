@@ -1,5 +1,5 @@
 // Pack catalog URLs (#267). None by default; the app fetches a catalog only when the user opens
-// Browse or presses Refresh on the Packs screen. This section only edits the list.
+// Discover or presses Refresh on the Packs screen. This section only edits the list.
 import { useState } from 'react'
 import type { AppSettings } from '@shared/schemas'
 import { PackFetchUrl } from '@shared/schemas/pack'
@@ -50,7 +50,7 @@ export function PackCatalogsSection({ settings }: { settings: AppSettings }) {
         <h2 id="catalogs-heading">Pack catalogs</h2>
         <p className="muted">
           Catalogs list packs you can install. None is added by default. A catalog is fetched only
-          when you open Browse or press Refresh on the Packs screen, never in the background.
+          when you open Discover or press Refresh on the Packs screen, never in the background.
         </p>
       </div>
       {catalogs.length === 0 ? (

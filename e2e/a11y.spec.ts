@@ -169,18 +169,25 @@ const SCREENS: Screen[] = [
   },
   {
     name: 'packs-installed',
-    hash: () => '#/packs',
+    hash: () => '#/packs?tab=yours',
     prepare: async (page) => {
       await packsHome(page)
       await page.getByRole('listitem', { name: /Rail Twin/ }).waitFor()
     },
   },
   {
-    name: 'packs-browse',
-    hash: () => '#/packs?tab=browse',
+    name: 'packs-discover',
+    hash: () => '#/packs',
     prepare: async (page) => {
       await packsHome(page)
-      await page.getByRole('region', { name: 'Add a catalog to browse packs' }).waitFor()
+      await page.getByRole('region', { name: 'More packs from a catalog' }).waitFor()
+    },
+  },
+  {
+    name: 'packs-page',
+    hash: () => '#/packs?pack=ai.actionstations.wildfire',
+    prepare: async (page) => {
+      await page.getByRole('article', { name: 'Wildfire and power shutoff' }).waitFor()
     },
   },
   {

@@ -1,0 +1,113 @@
+{
+  "$comment": "How the pack store groups packs, shared by the app's Packs screen and the website's pack catalog (copied there by the site's import-bundled script). A pack belongs to the field of its first domain; packs with no domain (toolkits) name their field in packFields. A field belongs to the category that lists its domain.",
+  "categories": [
+    {
+      "id": "transportation",
+      "label": "Transportation",
+      "blurb": "Airports, transit, ports, freight rail and drones.",
+      "domains": ["airport", "transit", "port_maritime", "freight_rail", "unmanned_systems"]
+    },
+    {
+      "id": "infrastructure",
+      "label": "Utilities and infrastructure",
+      "blurb": "Water, dams, power, gas, telecommunications and data centers.",
+      "domains": [
+        "water_utility",
+        "water_dam",
+        "energy_utility",
+        "gas_pipeline",
+        "telecom",
+        "data_center_it"
+      ]
+    },
+    {
+      "id": "health",
+      "label": "Health and medicine",
+      "blurb": "Hospitals, nursing, pharmacy, clinical IT, public health, labs and animal health.",
+      "domains": [
+        "healthcare",
+        "nursing",
+        "pharmacy",
+        "health_informatics",
+        "public_health",
+        "epidemiology",
+        "research_labs",
+        "animal_health"
+      ]
+    },
+    {
+      "id": "public-safety",
+      "label": "Emergency services and public safety",
+      "blurb": "EMS and fire, 911, justice, spills, humanitarian response and human services.",
+      "domains": [
+        "ems_fire",
+        "emergency_communications",
+        "justice",
+        "environmental_response",
+        "humanitarian",
+        "human_services"
+      ]
+    },
+    {
+      "id": "hazards",
+      "label": "Natural hazards and science",
+      "blurb": "Weather, floods, wildfire, earthquakes and volcanoes, and space weather.",
+      "domains": ["meteorology", "flooding", "wildfire", "geoscience", "space_weather"]
+    },
+    {
+      "id": "government",
+      "label": "Government and education",
+      "blurb": "Cities and counties, elections, federal continuity, schools and campuses.",
+      "domains": ["municipal", "elections", "federal_continuity", "k12_schools", "campus"]
+    },
+    {
+      "id": "business",
+      "label": "Business and industry",
+      "blurb": "Plants, chemicals, food, finance, supply chains, construction, hospitality and venues.",
+      "domains": [
+        "industrial",
+        "chemical",
+        "food_agriculture",
+        "financial_services",
+        "commercial_facilities",
+        "supply_chain",
+        "construction",
+        "hospitality",
+        "stadium_venue",
+        "governance"
+      ]
+    },
+    {
+      "id": "information",
+      "label": "Information and media",
+      "blurb": "Crisis communications, newsrooms and AI incidents.",
+      "domains": ["crisis_comms", "ai_incidents"]
+    }
+  ],
+  "packFields": {
+    "ai.actionstations.toolkit-epidemiology": "epidemiology",
+    "ai.actionstations.weather": "meteorology",
+    "ai.actionstations.clinical-systems": "health_informatics",
+    "ai.actionstations.media-environment": "crisis_comms",
+    "ai.actionstations.toolkit-spill-plume": "environmental_response",
+    "ai.actionstations.earth-science-toolkits": "geoscience",
+    "ai.actionstations.toolkit-ai-incidents": "ai_incidents",
+    "ai.actionstations.toolkit-lab-safety": "research_labs",
+    "ai.actionstations.toolkit-animal-disease": "animal_health",
+    "ai.actionstations.toolkit-logistics": "supply_chain",
+    "ai.actionstations.toolkit-governance": "governance",
+    "ai.actionstations.toolkit-structures": "construction"
+  },
+  "featured": [
+    {
+      "title": "An example for every field",
+      "text": "Each field pack now opens with a complete example project: plans, an exercise, injects with media and the handouts.",
+      "packIds": [
+        "ai.actionstations.meteorology",
+        "ai.actionstations.wildfire",
+        "ai.actionstations.ems-fire",
+        "ai.actionstations.health-informatics"
+      ]
+    }
+  ]
+}
