@@ -35,11 +35,11 @@ These points come from the federal rule for ships bound for a US port and from t
 
 Separately, the master of a ship bound for a US port reports any death, or any ill person as the federal rule defines one, at once to the CDC quarantine station at or nearest the arrival port. This covers the 15 days before arrival, or the time since leaving a US port if that is shorter.
 
-The standards give no time limit for the special reports, so the clocks use a short allowance that you can change. See **Compliance** in Settings for the clocks and how to place the arrival time.
+The standards give no time limit for the special reports, so the clocks use a short allowance that you can change. See **Project settings → Compliance** for the clocks and how to place the arrival time.
 
 ### Simulated outbreaks
 
-Choose the simulated outbreak in the case data tab. You set the ship's size, persons on board, how many fall ill, the peak day, and when isolation takes effect. The same seed gives the same outbreak. It writes the daily cases, a medical log with role codes, the 2 and 3 percent crossings, the reports a ship would send, and the report points before arrival. Everything is labeled **simulated**.
+Choose the simulated outbreak on the scenario's **Case data** tab. You set the ship's size, persons on board, how many fall ill, the peak day, and when isolation takes effect. The same seed gives the same outbreak. It writes the daily cases, a medical log with role codes, the 2 and 3 percent crossings, the reports a ship would send, and the report points before arrival. Everything is labeled **simulated**.
 
 ## Guest emergency
 
@@ -78,4 +78,4 @@ Ask a cruise or hotel safety manager and a public health professional with marit
 
 The Hospitality, tourism and cruise pack includes an example project, **Halcyon Reach Cruises: Norovirus on MV Halcyon Dawn**, with one exercise, _Same Count, Every Channel_: a norovirus outbreak spreads through MV Halcyon Dawn on the last four days of a seven-night voyage back to Galveston; the ship must hit the 2 and 3 percent special reports and the 24-hour and 4-hour reports on time, keep guest, family and media counts identical, handle a death on board, and decide whether the next 2,980 guests can board after a 3.5-hour turnaround.
 
-Turn the pack on under **Packs**, then open a copy from **Projects → Examples**. The organization, its people and its businesses are fictional; the exercise comes with its injects, media, Situation Manual, evaluation guides and controller handbook, ready to read or run.
+Turn the pack on in **Packs → Your packs**, then open a copy from **Projects → Examples**. The organization, its people and its businesses are fictional; the exercise comes with its injects, media, Situation Manual, evaluation guides and controller handbook, ready to read or run.

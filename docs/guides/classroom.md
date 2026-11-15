@@ -93,8 +93,6 @@ your computer; nothing is sent anywhere. Cells that a spreadsheet could read as 
 safe. Upload the file through your gradebook's import screen and map the columns there. Automatic
 grade passback from the learning management system is not available.
 
-Grades are education records held by your institution, so exporting them is your decision.
-
 ## Dashboard
 
 The dashboard shows, for each section: how many students reached your attainment threshold for

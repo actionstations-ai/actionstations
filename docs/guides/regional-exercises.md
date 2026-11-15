@@ -53,7 +53,7 @@ another organization's role, a dependency that is missing or now comes later.
 
 ## Live session
 
-The app builds the controller roster from the pinned keys (`regional:roster`): each partner is listed with its row prefix and the roles it owns, so a partner's controller can release only its own rows. Connecting partner controllers to a session from the Facilitate page is not in this release. At the end the host writes one **log slice per organization**: exercise-wide events,
+The app builds the controller roster from the pinned keys: each partner is listed with its row prefix and the roles it owns, so a partner's controller can release only its own rows. At the end the host writes one **log slice per organization**: exercise-wide events,
 that organization's rows and roles, and the cross-organization channels it takes part in. The full
 log goes to everyone only if the host turns on **Share the full session log** after all agree.
 

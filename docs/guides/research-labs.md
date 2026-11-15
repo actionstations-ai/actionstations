@@ -80,4 +80,4 @@ A reference library carries the select agent regulations (42 CFR part 73, 2025 e
 
 The Research laboratories and biosafety pack includes an example project, **Halvorsen State University Biosafety Program**, with one exercise, _Hairline Crack_: on a Tuesday morning in October a centrifuge tube cracks in the shared third-floor BSL-2 suite in the Lindgren Life Sciences Building and a graduate student reports a possible exposure; the protocol, the clinic physician and a sponsor give conflicting advice, and the IBC chair must decide whether the event goes to the NIH.
 
-Turn the pack on under **Packs**, then open a copy from **Projects → Examples**. The organization, its people and its businesses are fictional; the exercise comes with its injects, media, Situation Manual, evaluation guides and controller handbook, ready to read or run.
+Turn the pack on in **Packs → Your packs**, then open a copy from **Projects → Examples**. The organization, its people and its businesses are fictional; the exercise comes with its injects, media, Situation Manual, evaluation guides and controller handbook, ready to read or run.

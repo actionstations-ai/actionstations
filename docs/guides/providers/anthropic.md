@@ -1,6 +1,6 @@
 # Anthropic (Claude)
 
-The Anthropic provider sends generation requests to Claude models through the Anthropic Messages API. It is the only provider in this list that leaves your computer: **prompts, retrieved excerpts of your documents and the scenario so far are sent to Anthropic** for every stage routed to it. Use project routing to keep sensitive projects on local models. Before anything is sent, the app shows the request and asks for your approval, and it replaces names, phone numbers, emails and addresses with placeholders by default: see [What goes to cloud models](../privacy.md).
+The Anthropic provider sends generation requests to Claude models through the Anthropic Messages API. It is a cloud service, so requests leave your computer: **prompts, retrieved excerpts of your documents and the scenario so far are sent to Anthropic** for every stage routed to it. Use project routing to keep sensitive projects on local models. Before anything is sent, the app shows the request and asks for your approval, and it replaces names, phone numbers, emails and addresses with placeholders by default: see [What goes to cloud models](../privacy.md).
 
 ## 1. Get an API key
 
@@ -26,7 +26,7 @@ Create a key in the [Anthropic Console](https://console.anthropic.com) under **A
 
 Every Claude call is metered in `provider-calls.jsonl` in the app's data folder: model, input, output and cache tokens, duration, and an **estimated** cost from list prices built into the app (as of 2026-10-06; prices change, so treat the figure as an estimate, not a bill). The retrieved document context is sent as a cacheable block, so repeated calls within a few minutes are billed at the cache-read rate.
 
-For scale: the reference scenario generated on a local model used about 127,000 input and 21,500 output tokens across its stages (ideation and inject generation not included). At the built-in list prices that volume is roughly:
+For scale: a sample scenario generated with the reference local model ([LM Studio](lm-studio.md)) used about 127,000 input and 21,500 output tokens across its stages (ideation and inject generation not included). At the built-in list prices that volume is roughly:
 
 | Model               | Input / output per million tokens | One scenario (estimate, before caching) |
 | ------------------- | --------------------------------- | --------------------------------------- |

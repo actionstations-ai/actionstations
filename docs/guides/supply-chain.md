@@ -59,9 +59,9 @@ Three public sources can make a scenario realistic. For each, you choose what to
 
 ## Regulations
 
-Two regulation entries give the recall scenarios real clocks in Settings, under Compliance:
+Two regulation entries give the recall scenarios real clocks in **Project settings → Compliance**:
 
-- **Records request under the food traceability rule**: records available to the FDA within 24 hours, or a reasonable time the FDA agrees, with an electronic sortable spreadsheet when needed during an outbreak or recall. The compliance date has changed: it was January 20, 2026, and the FDA says Congress directed it not to enforce the rule before July 20, 2028. The entry states both and its status, and is re-checked with each release.
+- **Records request under the food traceability rule**: records available to the FDA within 24 hours, or a reasonable time the FDA agrees, with an electronic sortable spreadsheet when needed during an outbreak or recall. The compliance date has changed: it was January 20, 2026, and the FDA says Congress directed it not to enforce the rule before July 20, 2028. The entry states both and its status.
 - **Recall notices and status reports**: notify each direct account, mark Class I and II communications urgent, and send status reports at intervals the FDA sets, generally 2 to 4 weeks. These recall regulations are guidance, and a firm can recall on its own.
 
 ## Reference library
@@ -79,4 +79,4 @@ An optional library pack holds the final rule on traceability records, the recal
 
 The Supply chain and logistics pack includes an example project, **Pinecrest Fresh Cut: a leafy greens hold, trace and recall**, with one exercise, _Presumptive_: a lab reports a presumptive E. coli O157:H7 positive on a retained sample of romaine from one packing line; the team has hours to hold five lots, trace 38,600 cases across three distribution centers, a co-packer with paper records and a distributor, decide on a Class I recall and send letters and a press release whose counts agree.
 
-Turn the pack on under **Packs**, then open a copy from **Projects → Examples**. The organization, its people and its businesses are fictional; the exercise comes with its injects, media, Situation Manual, evaluation guides and controller handbook, ready to read or run.
+Turn the pack on in **Packs → Your packs**, then open a copy from **Projects → Examples**. The organization, its people and its businesses are fictional; the exercise comes with its injects, media, Situation Manual, evaluation guides and controller handbook, ready to read or run.

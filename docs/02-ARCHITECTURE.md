@@ -1,4 +1,4 @@
-# 02 — Architecture
+# Architecture
 
 ## Overview
 
@@ -39,6 +39,7 @@ One versioned message protocol carries a live exercise between the facilitator's
 ### Player page (`src/player/`)
 
 The page participants open on their own devices is a second, small Vite bundle (`vite.player.config.ts` → `out/player/`, packaged as `app-resources/player/`) that the live-play servers serve at `/s/<sessionId>` with its assets under `/assets/`. It shares the renderer's design tokens (CSS) and the protocol library, and nothing else: no router, no query cache, no Zustand, no Radix, no fonts; about 130 KB gzipped on first load against a 250 KB budget (`scripts/check-player-bundle.mjs`). The build writes `manifest.json` (served path → file, type, sizes, sha256) for the servers' fixed route maps and the packaged smoke check. Its CSP has no `unsafe-inline` (the theme bootstrap is hashed at build time); connections are bounded by the server's header. `app/session.ts` runs one `LiveClient` per connection over a WebSocket transport or the SSE + POST fallback (`src/shared/live/connect-url.ts` fixes the URLs), reconnects with backoff and wake events, re-joins with `resume` and catches up through the client's replay-guarded path; `app/items.ts` turns opened frames into inbox and feed items, filtered by seat at render time. A development harness (`src/player/harness/`: the built bundle served on loopback over `MemoryServer` with a scripted controller) backs the unit tests, the Playwright tests and `pnpm dev:player`. User guide: [The player page](guides/live-play.md).
+
 ### Live play servers (`relay/`)
 
 Every server runs the one `SessionHub` in `src/shared/live/hub.ts`: the LAN server in memory, the relay in a Cloudflare Durable Object, the self-hosted server on `node:sqlite`. The hub persists through a `HubStore` (frames with arrival indexes, per-sender seqs, client identities, blob chunks, running counts), re-registers sockets after a hibernation with `restore()`, applies store and row-write budgets to every sender, pages catch-up by entries and bytes, and records a sender's seq only after a frame passed every check. `relay/core` holds what two adapters share and the hub does not: the HTTP shapes, the connection contract (`?client=` plus the `as-live.v1`, `j.`, `r.` subprotocols; `X-AS-Join`/`X-AS-Resume` for SSE; never a token in a URL), tokens, edge rate windows. `relay/cloudflare` adds the Worker, the session and quota objects, alarms and the free-plan error mapping. `src/shared/live/server-conformance.ts` and `hub-store-conformance.ts` run against every server and store; the root Vitest run includes `relay/*/test`.
@@ -97,7 +98,7 @@ On Linux the app unpacks Ollama per user, outside userData: `$XDG_DATA_HOME/acti
 
 ### Bundled packs
 
-The app's own content ships as packs: `ai.actionstations.core` (the cross-domain inject templates, every prompt, the default ComfyUI workflows, the `generic` domain) and one `ai.actionstations.<domain>` pack per domain (its profile, the templates whose taxonomy tags limit them to that domain, its example and, later, public-domain documents). The sources stay where they are; `packs/bundled.json` maps them to packs:
+The app's own content ships as packs: `ai.actionstations.core` (the cross-domain inject templates, every prompt, the default ComfyUI workflows, the `generic` domain) and one `ai.actionstations.<domain>` pack per domain (its profile, the templates whose taxonomy tags limit them to that domain, its example and any public-domain reference documents). The sources stay where they are; `packs/bundled.json` maps them to packs:
 
 ```
 packs/
@@ -124,7 +125,7 @@ Hybrid: FTS5 BM25 + vector cosine → reciprocal rank fusion → optional LLM re
 
 ## Generation pipeline
 
-`generate/pipeline.ts` is a directed graph of stages with persisted checkpoints:
+`generate/engine.ts` runs a fixed order of stages with persisted checkpoints:
 
 ```
 ideate ─┐
@@ -180,14 +181,14 @@ Secrets: `safeStorage.encryptString` → app `userData/secrets.json`; never in p
 
 - Vitest unit tests for parsers, chunker, retrieval fusion, schema validation, provider adapters (recorded fixtures via `msw`/nock).
 - Golden tests: render each inject template with `preview.json` → PNG snapshot compare (threshold).
-- Playwright Electron e2e: create project → import `reference/ncia/*.md` → generate ideas with a mock provider → pick → generate → export ZIP → assert files.
+- Playwright Electron e2e: create project → import the sample airport plans (`reference/ncia/*.md`) → generate ideas with a mock provider → pick → generate → export ZIP → assert files.
 - Mock providers (`providers/mock/*`) return canned, schema-valid outputs so the whole pipeline is testable offline and in `local-ci.sh`.
 
 ## Security
 
 - `contextIsolation`, no `remote`, CSP on renderer, sandboxed hidden render window with no network (templates are local).
-- Hazard data adds a third kind, made only when the user turns it on in Settings and presses Fetch: GETs to `api.weather.gov`, `earthquake.usgs.gov`, `firms.modaps.eosdis.nasa.gov` and `www.fema.gov` (`src/main/hazards/http.ts`: https, same-host redirects only, 30 s, 5 MB, rounded coordinates). Results are saved as a snapshot in the project and generation reads only that.
 - The app makes two kinds of network call on its own, both only after the user turns them on: pack catalogs the user added, and the update check, one GET to `api.github.com/repos/actionstations-ai/actionstations/releases/latest` at most once a day with the setting on, or on **Check now**. It sends only the fixed URL and a `User-Agent: AS/<version>`, follows no redirects, reads at most 1 MB and never downloads an installer.
+- Hazard data adds a third kind, made only when the user turns it on in Settings and presses Fetch: GETs to `api.weather.gov`, `earthquake.usgs.gov`, `firms.modaps.eosdis.nasa.gov` and `www.fema.gov` (`src/main/hazards/http.ts`: https, same-host redirects only, 30 s, 5 MB, rounded coordinates). Results are saved as a snapshot in the project and generation reads only that.
 - Cloud requests pass the outbound gate (see Providers): preview, approval bound to the request hash, optional redaction with placeholders whose mapping never leaves main-process memory, and a content-free send log.
 - Validate every IPC payload with zod. Path-join guards so a malicious `scenario.json` can't escape the project folder.
 - Treat parsed document text as data, never as prompt instructions (wrap retrieved chunks in delimiters and say so in system prompts).

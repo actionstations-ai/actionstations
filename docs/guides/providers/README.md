@@ -1,18 +1,21 @@
 # Providers and routing
 
-A **provider** is a model or media service the app may call: a local LLM server, a cloud API, ComfyUI, or a local text-to-speech server. The app never contacts a provider you have not added, and nothing leaves your computer unless you add a remote one (Anthropic, ElevenLabs, or an OpenAI-compatible server on another machine).
+A **provider** is a model or media service the app may call: a local LLM server, a cloud API, ComfyUI, or a local text-to-speech server. The app never contacts a provider you have not added, and nothing leaves your computer unless you add a remote one (a cloud service such as Anthropic, OpenAI, Google Gemini, fal.ai or ElevenLabs, or an OpenAI-compatible server on another machine).
 
-| Guide                                                  | Provider type in the app | Used for                                      | Runs on                           |
-| ------------------------------------------------------ | ------------------------ | --------------------------------------------- | --------------------------------- |
-| [LM Studio](lm-studio.md)                              | OpenAI-compatible        | Ideation, drafting, critique, embeddings      | macOS, Windows, Linux             |
-| [Ollama](ollama.md)                                    | Ollama                   | Ideation, drafting, critique, embeddings      | macOS, Windows, Linux             |
-| [Anthropic](anthropic.md)                              | Anthropic                | Ideation, drafting, critique                  | Cloud (API key, paid per token)   |
-| [ComfyUI](comfyui.md)                                  | ComfyUI                  | Scene photos, short video clips, optional TTS | macOS (MPS), Windows/Linux (CUDA) |
-| [fal.ai](cloud-video.md)                               | fal.ai                   | Scene images, short video clips               | Cloud (API key, paid per call)    |
-| [ElevenLabs](elevenlabs.md)                            | ElevenLabs               | Voice: radio calls, voicemails, PA            | Cloud (API key, paid per credit)  |
-| [Replicate](cloud-video.md#replicate)                  | Replicate                | Scene images, short video clips               | Cloud (API token, paid per call)  |
-| [Local TTS](local-tts.md)                              | OpenAI-compatible        | Voice: radio calls, voicemails, PA            | Apple Silicon (mlx-audio)         |
-| [System voice](local-tts.md#system-voice-any-platform) | System voice             | Offline voice fallback                        | macOS, Windows, Linux (espeak-ng) |
+| Guide                                                  | Provider type in the app                                            | Used for                                                      | Runs on                           |
+| ------------------------------------------------------ | ------------------------------------------------------------------- | ------------------------------------------------------------- | --------------------------------- |
+| [LM Studio](lm-studio.md)                              | OpenAI-compatible                                                   | Ideation, drafting, critique, embeddings                      | macOS, Windows, Linux             |
+| [Ollama](ollama.md)                                    | Ollama                                                              | Ideation, drafting, critique, embeddings                      | macOS, Windows, Linux             |
+| [Anthropic](anthropic.md)                              | Anthropic                                                           | Ideation, drafting, critique                                  | Cloud (API key, paid per token)   |
+| [OpenAI](openai.md)                                    | OpenAI                                                              | Ideation, drafting, critique, embeddings, scene images, voice | Cloud (API key, paid per token)   |
+| [Google Gemini](gemini.md)                             | Google Gemini                                                       | Ideation, drafting, critique, embeddings, scene images        | Cloud (API key, paid per token)   |
+| [Other hosted services](hosted-services.md)            | OpenRouter, Mistral, Groq, DeepSeek, xAI, Together AI, Azure OpenAI | Ideation, drafting, critique                                  | Cloud (API key, paid per token)   |
+| [ComfyUI](comfyui.md)                                  | ComfyUI                                                             | Scene photos, short video clips, optional TTS                 | macOS (MPS), Windows/Linux (CUDA) |
+| [fal.ai](cloud-video.md)                               | fal.ai                                                              | Scene images, short video clips                               | Cloud (API key, paid per call)    |
+| [ElevenLabs](elevenlabs.md)                            | ElevenLabs                                                          | Voice: radio calls, voicemails, PA                            | Cloud (API key, paid per credit)  |
+| [Replicate](cloud-video.md#replicate)                  | Replicate                                                           | Scene images, short video clips                               | Cloud (API token, paid per call)  |
+| [Local TTS](local-tts.md)                              | OpenAI-compatible                                                   | Voice: radio calls, voicemails, PA                            | Apple Silicon (mlx-audio)         |
+| [System voice](local-tts.md#system-voice-any-platform) | System voice                                                        | Offline voice fallback                                        | macOS, Windows, Linux (espeak-ng) |
 
 You need at least one text provider to generate scenarios. Everything else is optional: importing and searching documents works with no provider at all.
 
@@ -21,7 +24,7 @@ You need at least one text provider to generate scenarios. Everything else is op
 Open **Providers** in the sidebar.
 
 - **Detect local services** probes LM Studio (`127.0.0.1:1234`), Ollama (`127.0.0.1:11434`) and ComfyUI (`127.0.0.1:8188`, then ComfyUI Desktop's `127.0.0.1:8000`) on this computer only, with an 800 ms budget each, checks whether the operating system has a voice engine ([System voice](local-tts.md#system-voice-any-platform)), and offers **Add** for each one it finds.
-- **Add provider** opens a form: **Type** (LM Studio, Ollama, Anthropic, OpenAI-compatible, ComfyUI, fal.ai, Replicate, ElevenLabs, System voice), **Name**, **Base URL** (none for the system voice), **Default model** (**Default voice** for the system voice), **API key** (Anthropic, fal.ai, ElevenLabs and OpenAI-compatible only) and **Enabled**.
+- **Add provider** opens a form: **Type** (LM Studio, Ollama, Anthropic, OpenAI-compatible, ComfyUI, fal.ai, ElevenLabs, Replicate, System voice, and the hosted services: OpenAI, Google Gemini, OpenRouter, Mistral, Groq, DeepSeek, xAI, Together AI, Azure OpenAI), **Name**, **Base URL** (none for the system voice), **Default model** (**Default voice** for the system voice), **API key** (cloud services and OpenAI-compatible servers only) and **Enabled**.
 
 ![Detect local services](../images/detect-local.png)
 
@@ -52,15 +55,18 @@ The app never elevates silently and never downloads in the background. For LM St
 
 The **Routing** table decides which provider and model each task uses:
 
-| Task           | What it does                                                                  | Provider types offered                                               |
-| -------------- | ----------------------------------------------------------------------------- | -------------------------------------------------------------------- |
-| **Ideation**   | "Give me ideas": scenario concepts from your documents.                       | Anthropic, OpenAI-compatible, Ollama                                 |
-| **Drafting**   | Overview, roles, phases, MSEL, handbook, rubric, briefing, hot wash, injects. | Anthropic, OpenAI-compatible, Ollama                                 |
-| **Critique**   | Reviews the draft; the MSEL is then revised from the findings.                | Anthropic, OpenAI-compatible, Ollama                                 |
-| **Embeddings** | Document embeddings when Settings → Embeddings is "Configured provider".      | OpenAI-compatible, Ollama                                            |
-| **Image**      | Photographic scene images (text-bearing media always use templates).          | ComfyUI, OpenAI or Gemini ([OpenAI](openai.md), [Gemini](gemini.md)) |
-| **Video**      | Short clips animated from a scene image.                                      | ComfyUI                                                              |
-| **Audio**      | Voice lines for radio calls, voicemails and PA announcements.                 | OpenAI-compatible ([Local TTS](local-tts.md)), System voice, ComfyUI |
+| Task                | What it does                                                                                                          | Provider types offered                                                                                                        |
+| ------------------- | --------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------- |
+| **Ideation**        | "Give me ideas": scenario concepts from your documents.                                                               | Anthropic, OpenAI-compatible, Ollama                                                                                          |
+| **Drafting**        | Overview, roles, phases, MSEL, handbook, rubric, briefing, hot wash, injects.                                         | Anthropic, OpenAI-compatible, Ollama                                                                                          |
+| **Critique**        | Reviews the draft; the MSEL is then revised from the findings.                                                        | Anthropic, OpenAI-compatible, Ollama                                                                                          |
+| **Translation**     | Translates player material into Spanish for a person to review. Uses the Drafting route when not set.                 | Anthropic, OpenAI-compatible, Ollama                                                                                          |
+| **SimCell replies** | Drafts replies from outside parties during play; a person approves every draft. Uses the Drafting route when not set. | Anthropic, OpenAI-compatible, Ollama                                                                                          |
+| **Embeddings**      | Document embeddings when Settings → Embeddings is "Configured provider".                                              | OpenAI-compatible, Ollama                                                                                                     |
+| **Image**           | Photographic scene images (text-bearing media always use templates).                                                  | ComfyUI, [OpenAI](openai.md), [Gemini](gemini.md), [fal.ai, Replicate](cloud-video.md)                                        |
+| **Video**           | Short clips animated from a scene image.                                                                              | ComfyUI, [fal.ai, Replicate](cloud-video.md)                                                                                  |
+| **Audio**           | Voice lines for radio calls, voicemails and PA announcements.                                                         | OpenAI-compatible ([Local TTS](local-tts.md)), [OpenAI](openai.md#voices), [ElevenLabs](elevenlabs.md), System voice, ComfyUI |
+| **Transcription**   | Turns hot wash recordings into text on this computer.                                                                 | Local providers only; without one, the built-in Whisper model is used                                                         |
 
 The **Model** column overrides the provider's default model for that task; leave it empty to use the default. A common setup is a strong model for drafting and critique and a faster one for ideation, or a cloud model only for critique.
 
@@ -74,9 +80,9 @@ The **Model** column overrides the provider's default model for that task; leave
 
 Search and retrieval for generation use embeddings, chosen under **Settings → Embeddings**:
 
-| Mode                               | Status in this build                                                                                                                                                                                                                                                                                                   |
+| Mode                               | What it does                                                                                                                                                                                                                                                                                                           |
 | ---------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **Keyword hashing** (default)      | Works offline, no download, about half a second to index the six NCIA reference documents. Use this.                                                                                                                                                                                                                   |
+| **Keyword hashing** (default)      | Works offline, no download, about half a second to index the airport example's six documents. Use this.                                                                                                                                                                                                                |
 | **Local model (on this computer)** | Better on paraphrase. The model (`Xenova/bge-small-en-v1.5`, 133 MB) is downloaded once by the setup wizard's **Search quality** step (**Settings → Run setup again**); choosing this mode in Settings alone does not download it, and Documents then shows "Not ready".                                               |
 | **Configured provider**            | Uses the provider and model on the **Embeddings** row of **Providers → Routing** (a project's own routing overrides it). Tested with LM Studio `text-embedding-nomic-embed-text-v1.5` and Ollama `nomic-embed-text` (768 dimensions each). The Embeddings row shows whether this mode is active and links to Settings. |
 
@@ -86,11 +92,11 @@ After changing the mode or the Embeddings routing, press **Rebuild index** on th
 
 - Providers, routing and other preferences: `settings.json` in the app's data folder (Electron's `userData`), never in project folders.
 - API keys: encrypted with the operating system's keychain through Electron `safeStorage` into `secrets.json` in the same folder (ciphertext only, owner-only permissions). Keys are never written to `settings.json`, project folders or logs, and never sent to the window. If the OS cannot encrypt (for example Linux without a keyring), the app refuses to store keys.
-- Metering: one line per call in `provider-calls.jsonl` (model, tokens, duration, estimated cost for Anthropic). Never prompt text, never keys.
+- Metering: one line per call in `provider-calls.jsonl` (model, tokens, duration, and an estimated cost where the price is known). Never prompt text, never keys.
 
 ### Advanced provider options
 
-A few per-provider options have no form field yet. Quit the app, edit the provider's `options` object in `settings.json`, and start the app again:
+A few per-provider options have no form field. Quit the app, edit the provider's `options` object in `settings.json`, and start the app again:
 
 | Option                                         | Providers                 | Meaning                                                                                                       |
 | ---------------------------------------------- | ------------------------- | ------------------------------------------------------------------------------------------------------------- |
@@ -105,7 +111,7 @@ A few per-provider options have no form field yet. Quit the app, edit the provid
 | `seed`                                         | OpenAI-compatible, Ollama | Fixed sampling seed (an integer) for repeatable output, as the [model benchmark](../model-benchmark.md) uses. |
 | `anthropicVersion`, `effort`, `fallbacks`      | Anthropic                 | API version header, effort level (default `high`), server-side model fallbacks.                               |
 
-## Offline development
+## Offline testing
 
 Launch with `TTX_MOCK_PROVIDERS=1` to add a built-in mock provider and route every task to it when routing is empty. It returns schema-valid output instantly.
 

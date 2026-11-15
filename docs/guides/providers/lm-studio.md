@@ -1,6 +1,6 @@
 # LM Studio
 
-[LM Studio](https://lmstudio.ai) runs open-weight models locally and serves them through an OpenAI-compatible API. It is the reference text provider for this app: the sample scenario in `tests/fixtures/generate/sample-run/` was generated with it, and nothing leaves your computer.
+[LM Studio](https://lmstudio.ai) runs open-weight models locally and serves them through an OpenAI-compatible API. It is the reference text provider for this app: the measurements in these guides were made with it, and nothing leaves your computer.
 
 Verified with LM Studio 0.4.26 on macOS (Apple Silicon, 128 GB) and the `lms` command-line tool it installs.
 

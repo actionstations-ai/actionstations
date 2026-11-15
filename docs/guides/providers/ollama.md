@@ -32,7 +32,7 @@ ollama pull nomic-embed-text                      # embedding model (274 MB)
 ollama list
 ```
 
-Any chat model Ollama serves can be used. The suggested tag is the Ollama build of the model the LM Studio reference runs use (Qwen3-30B-A3B Instruct 2507); it was not run through a full scenario on Ollama for this guide. Mixture-of-experts models like it give the best speed for their quality on a laptop; very small models (1B to 3B) answer the connection test and short stages but are not good enough to write a full MSEL.
+Any chat model Ollama serves can be used. The suggested tag is the Ollama build of the reference model in the [LM Studio guide](lm-studio.md) (Qwen3-30B-A3B Instruct 2507); it was not run through a full scenario on Ollama for this guide. Mixture-of-experts models like it give the best speed for their quality on a laptop; very small models (1B to 3B) answer the connection test and short stages but are not good enough to write a full MSEL.
 
 ## 4. Connect it in the app
 

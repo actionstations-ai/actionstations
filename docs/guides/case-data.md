@@ -2,8 +2,8 @@
 
 Case data is information about an event that a scenario carries with it: readings over time,
 areas on a map, images, text products such as advisories, and reports. Injects can show it, so an
-inject at 1:15 into the exercise shows what the data said at the matching moment. It is optional.
-A scenario without case data works as before.
+inject at 1:15 into the exercise shows what the data said at the matching moment. It is optional:
+a scenario without case data works without it.
 
 ## Historical and simulated
 
@@ -63,7 +63,7 @@ Most sources need no account. The FBI Crime Data Explorer, used by the justice t
 
 One scenario may hold up to 500 MB of case data by default. Change the limit under **Settings,
 Case data**. A fetch that would not fit is refused before anything is requested, and the size
-shown in step 2 tells you in advance. Images are cropped to your area and times.
+shown in step 3 tells you in advance. Images are cropped to your area and times.
 
 ## Exercise clock and case clock
 

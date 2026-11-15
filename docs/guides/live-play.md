@@ -17,12 +17,12 @@ The header shows the exercise clock (it ticks on the device while the facilitato
 
 - **Inbox** holds what was addressed to your role, your team or this device, newest exercise time on top, with an unread marker and a count on the tab. A new inbox item is announced to screen readers; the device vibrates if it can and you left that on, and plays a short sound only if you turned sound on in Settings (off by default: rooms are loud enough).
 - **Feed** holds what everyone saw: items sent to the whole room, controller notices (dismissible unless the facilitator marked them otherwise), clock changes ("Time jump to 2:00") and announcements that a vote, survey or the hot wash opened or closed.
-- **Messages** (to the SimCell) comes with a later update. The tab is shown disabled rather than hidden so the layout does not change when it opens.
-- **More** holds Votes, Hot wash, Surveys and Evaluate (each shown disabled with a one-line reason when the exercise does not use it), **Settings** (theme: system, light or dark; text size; sound; vibration) and **About** (versions, which connection the page uses, what is and is not recorded, and **Forget this device**).
+- **Messages** holds your conversations with the SimCell (see [Messages with the SimCell](#messages-with-the-simcell)).
+- **More** holds Votes, Decisions, Hot wash, Surveys and Evaluate (each shown disabled with a one-line reason when the exercise does not use it), **Settings** (theme: system, light or dark; text size; sound; vibration) and **About** (versions, which connection the page uses, what is and is not recorded, and **Forget this device**).
 
 On phones the tabs are at the bottom; on wide screens they become a left rail.
 
-Every inject's exact text is on the card, including the image description, so nothing depends on reading pixels. Media and receipts for injects, and the other features, are added by their own updates.
+Every inject's exact text is on the card, including the image description, so nothing depends on reading pixels.
 
 ## Losing and regaining the connection
 
@@ -168,8 +168,8 @@ latest.
 
 **What the relay sees:** session ids, device ids, connection times and IP addresses, the size
 and timing of messages, and opaque destinations. **What it cannot see:** any content: inject text
-or media, messages, votes, notes, names, or the keys. Its source is in this repository under
-[`relay/`](../../relay/README.md).
+or media, messages, votes, notes, names, or the keys. Its source is published with the app's source code
+([`relay/`](../../relay/README.md)).
 
 ### Limits, in plain numbers
 
@@ -321,11 +321,11 @@ Evaluators join with the **staff link** (Live tab, **Show staff link**) and choo
 
 **Offline.** Keep rating with no signal. Observations are kept on the device and sent, once each and in order, when it reconnects. Editing a rating sends a new revision; the controller keeps the latest and logs every one.
 
-**Fixing a note.** Under **Other observations**, **Edit** reopens a general observation you saved; saving sends it as a new revision of the same observation, so the controller keeps one entry. Task ratings are changed the same way as before, by rating again.
+**Fixing a note.** Under **Other observations**, **Edit** reopens a general observation you saved; saving sends it as a new revision of the same observation, so the controller keeps one entry. Task ratings are changed by rating again.
 
 **After the exercise.** The page shows your observations, read-only. Copy what you need: a later visit to the link does not keep them. Without a device, use the printed EEG packet and type the results into the Evaluation tab afterwards.
 
-**For the facilitator.** In the Live tab, **Evaluators** lists who has joined, lets you set each one's watch list (empty means everything) and turns **Show expected actions to evaluators** on or off. In the Facilitate Evaluation tab, **Live observations** shows a coverage matrix (task by evaluator), the latest observations with filters, **Ask to watch** (a notice to one evaluator's device) and every recorded observation with its source. Live observations are saved in `scenarios/<id>/evaluation.json` as `source: 'live'`, labelled "Evaluator 1", "Evaluator 2" in join order.
+**For the facilitator.** In the Live tab, **Evaluators** lists who has joined, lets you set each one's watch list (empty means everything) and turns **Show expected actions to evaluators** on or off. In the Facilitate Evaluation tab, **Live observations** shows a coverage matrix (task by evaluator), the latest observations with filters, **Ask to watch** (a notice to one evaluator's device) and every recorded observation with its source. Live observations are saved in `scenarios/<id>/evaluation.json`, labelled "Evaluator 1", "Evaluator 2" in join order.
 
 ## Hot wash from devices
 

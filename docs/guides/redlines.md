@@ -39,7 +39,8 @@ section the way the plan has them.
   quotes the current text and the proposed text, shows the marked-up difference, and gives the
   reason, the corrective actions and the exercise that found it.
 
-The result lists which proposals went where. Exported proposals show the file and cannot be
+The exporter writes insertions and deletions only; it does not write Word comments. The result
+lists which proposals went where. Exported proposals show the file and cannot be
 edited; make a new one instead.
 
 Each heading in a plan's **Headings** tab on the Documents page shows how many proposed changes (not counting rejected ones) sit at or under it. When a regression drill has tested a proposal, its card shows the verdict of the latest run (Passed, Partly passed or Failed), judged from the criteria the proposal was meant to fix.
@@ -47,12 +48,11 @@ Each heading in a plan's **Headings** tab on the Documents page shows how many p
 ### Checking the file in your word processor
 
 The exported Word file opens in Word 2016 and later, LibreOffice 7 and later, and Pages without a
-repair prompt. After a change to the export code, check this by hand:
+repair prompt. To check a file before you send it:
 
 1. Open `<Plan>-redline.docx`; the review pane lists the revisions with author "Action Stations".
 2. Accept All: the text reads as the proposals say. Reject All: the text is the original.
 3. The headings, numbering and fonts outside the marked words are unchanged.
-4. Record the program and version you used in the pull request.
 
 ## When the plan is updated
 
@@ -85,18 +85,3 @@ again.
 
 The runs table shows every run over time, with a line for the share of criteria met and the same
 numbers in words. **Export results** writes `drill-results.csv` and a one-page PDF.
-
-### Fidelity check log
-
-Sample: the `samplePlan` fixture with one accepted proposal (the PIO sentence), exported through
-`applyTrackedChanges`, author "Action Stations".
-
-| Date       | Program and version                                       | Insertions and deletions                                                             | Author and date                                      | Result                 |
-| ---------- | --------------------------------------------------------- | ------------------------------------------------------------------------------------ | ---------------------------------------------------- | ---------------------- |
-| 2026-10-30 | Word for Mac (16.x)                                       | Shown as tracked changes: "may", "release", "consulting" deleted, new words inserted | Margin balloons read "Action Stations, Deleted: ..." | Pass, no repair prompt |
-| 2026-10-30 | LibreOffice 26.8.2                                        | Shown as tracked changes (strike-through and underline, coloured by author)          | Author is Action Stations                            | Pass                   |
-| 2026-10-30 | Pages (macOS)                                             | Tracked changes recognised: the review bar reads "6 Changes" with Accept and Reject  | Author kept                                          | Pass                   |
-| 2026-10-30 | LibreOffice 26.8.2, `soffice --headless --convert-to pdf` | The PDF shows deleted and inserted words side by side with the unchanged text intact | Not shown in PDF                                     | Pass                   |
-
-The exporter writes insertions and deletions only; it does not write Word comments, so none are
-expected in the file.

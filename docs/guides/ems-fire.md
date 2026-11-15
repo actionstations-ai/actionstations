@@ -28,7 +28,7 @@ Everything here is exercise material. It is not clinical guidance, hazmat guidan
 
 ## Simulated incidents
 
-On a scenario's case data you can generate three kinds of simulated data, always labeled simulated:
+On a scenario's **Case data** tab you can generate three kinds of simulated data, always labeled simulated:
 
 - **A mass casualty incident:** patients whose findings your chosen triage method sorts into the mix you ask for (for example 28 patients: 4 Immediate, 9 Delayed, 12 Minor, 3 Expectant), when each is reached, triaged, treated and transported, and the best hospital for each within what the hospitals said they can take.
 - **A hazmat release:** the zones for each stretch of wind, so a wind shift moves the protective action square, and when the plume front would reach each place (distance divided by wind speed; not a dispersion model).
@@ -40,4 +40,4 @@ Each also writes the ground truth the evaluation measures compare your players' 
 
 The EMS, fire and hazardous materials pack includes an example project, **Larkfield County EMS and Healthcare Coalition: charter bus crash**, with one exercise, _Open on Paper_: on a rainy Tuesday evening a senior center charter bus and a fuel tanker collide on Highway 21; 28 patients, trapped passengers and a fuel leak overwhelm the first units, command passes from an engine captain to the battalion chief, a firefighter calls a mayday, and the Medical Group must match patients to hospitals while one hospital is on diversion.
 
-Turn the pack on under **Packs**, then open a copy from **Projects → Examples**. The organization, its people and its businesses are fictional; the exercise comes with its injects, media, Situation Manual, evaluation guides and controller handbook, ready to read or run.
+Turn the pack on in **Packs → Your packs**, then open a copy from **Projects → Examples**. The organization, its people and its businesses are fictional; the exercise comes with its injects, media, Situation Manual, evaluation guides and controller handbook, ready to read or run.

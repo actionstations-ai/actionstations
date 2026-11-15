@@ -48,16 +48,16 @@ The evaluation measures compare those decisions with the water: closure before t
 
 ## Reference library
 
-The **Flooding reference library** pack (installed from the catalog) carries the National Weather Service definitions and water resources products documents, two USGS streamgage fact sheets, the FEMA guidance on dam emergency action plans and inundation mapping, and the Tri-State Integrated Warning Team tabletop situation manual (2018). Some useful material could not be carried: the FEMA flood tabletop package, the FEMA substantial damage desk reference, the FEMA evacuation planning considerations and county after-action reports are listed with links in the pack's README instead.
+The **Flooding reference library** pack (get it from a catalog in **Packs → Discover**) carries the National Weather Service definitions and water resources products documents, two USGS streamgage fact sheets, the FEMA guidance on dam emergency action plans and inundation mapping, and the Tri-State Integrated Warning Team tabletop situation manual (2018). Some useful material could not be carried: the FEMA flood tabletop package, the FEMA substantial damage desk reference, the FEMA evacuation planning considerations and county after-action reports are listed with links in the pack's README instead.
 
 ## Limits
 
 - A simulated or modeled extent is an illustration. It is not a hazard map, a flood zone or an insurance determination.
 - Live data is never fetched during a session.
-- Storm surge and coastal flooding belong to the weather and port pack. The dam owner's emergency plan stays with the dam domain.
+- Storm surge and coastal flooding belong to the Weather toolkit and the Ports and maritime domain. The dam owner's emergency plan stays with the dam domain.
 
 ## Example project
 
 The Flooding and hydrology pack includes an example project, **Tallis County Emergency Management and Levee District No. 3: Cedar River flood**, with one exercise, _Eighteen Hours_: days of rain in the upper Cedar basin push the river toward the county; the forecast crest at Cedar Ford is revised twice, from minor to moderate to major, shrinking the lead time for evacuating Cedar Hollow, while the levee district, a care center, a wastewater plant and a cooperative race to move, bag and pump.
 
-Turn the pack on under **Packs**, then open a copy from **Projects → Examples**. The organization, its people and its businesses are fictional; the exercise comes with its injects, media, Situation Manual, evaluation guides and controller handbook, ready to read or run.
+Turn the pack on in **Packs → Your packs**, then open a copy from **Projects → Examples**. The organization, its people and its businesses are fictional; the exercise comes with its injects, media, Situation Manual, evaluation guides and controller handbook, ready to read or run.

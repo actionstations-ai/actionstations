@@ -24,7 +24,7 @@ Choose the period and the area. For a storm, give its name and year. The app sho
 - **Soundings** from the same archive, for the skew-T and hodograph.
 - **Hurricane tracks** from the hurricane center's best-track file.
 
-Model guidance and satellite imagery are not fetched yet; use a simulated event for those figures.
+Model guidance and satellite imagery are not fetched; use a simulated event for those figures.
 
 A figure inject points at a fetched dataset and shows the radar scan or sounding for the moment of the exercise. Dates, places and products follow the real event; the exercising organization, its people and its businesses stay fictional.
 
@@ -69,4 +69,4 @@ The templates, figures and examples follow the National Weather Service's publis
 
 The Meteorology pack includes an example project, **Brennan County Emergency Management and Channel 6 StormTeam**, with one exercise, _Rain-Wrapped_: on a warm December night a fast line of storms with embedded, rain-wrapped tornadoes crosses Brennan County at 60 mph; two North zone sirens are out of service, the overnight shifts at a warehouse and a candle plant are at work, and the county and Channel 6 must warn people who are asleep, open the safe rooms in time and keep their messages consistent.
 
-Turn the pack on under **Packs**, then open a copy from **Projects → Examples**. The organization, its people and its businesses are fictional; the exercise comes with its injects, media, Situation Manual, evaluation guides and controller handbook, ready to read or run.
+Turn the pack on in **Packs → Your packs**, then open a copy from **Projects → Examples**. The organization, its people and its businesses are fictional; the exercise comes with its injects, media, Situation Manual, evaluation guides and controller handbook, ready to read or run.

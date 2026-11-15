@@ -1,8 +1,8 @@
-# Template authoring guide
+# Writing inject templates
 
-Inject templates turn the structured fields of an inject (a tweet's handle and text, a ticket's number and description, a FIDS board's rows) into a PNG and, for paper injects, a PDF page. Every text-bearing inject is rendered from a template so its text is exact and legible; AI image models are only used for photographic scenes, which a template can then frame ([CONTRIBUTING.md, Project rules 5](../../CONTRIBUTING.md#project-rules)).
+Inject templates turn the structured fields of an inject (a tweet's handle and text, a ticket's number and description, a FIDS board's rows) into a PNG and, for paper injects, a PDF page. Every text-bearing inject is rendered from a template so its text is exact and legible; AI image models are only used for photographic scenes, which a template can then frame (see [project rule 5](../../CONTRIBUTING.md#project-rules)).
 
-This guide covers the folder contract, the day-to-day loop, golden images, and adding a new inject type end to end. The reference implementation is [`templates/injects/time_jump_card/`](../../templates/injects/time_jump_card/) (simple, paper) and [`templates/injects/tweet/`](../../templates/injects/tweet/) (variants, image slots). The inject types are listed in [docs/03-INJECT-TAXONOMY.md](../03-INJECT-TAXONOMY.md).
+This guide covers the folder contract, the day-to-day loop, golden images, and adding a new inject type end to end. The reference implementations are [`templates/injects/time_jump_card/`](../../templates/injects/time_jump_card/) (simple, paper) and [`templates/injects/tweet/`](../../templates/injects/tweet/) (variants, image slots). The inject types are listed in the [inject taxonomy](../03-INJECT-TAXONOMY.md).
 
 ## Folder contract
 
@@ -67,7 +67,7 @@ That line is built from the property name, type, `required`, `description` and t
 }
 ```
 
-`fields` must validate against `schema.json`. Use realistic, specific sample data (the Scenario 3 material in `reference/scenario-3/` is a good source); the preview is what reviewers see on the Templates page and what the golden image is made from. `assets` maps image slots to files inside the template folder.
+`fields` must validate against `schema.json`. Use realistic, specific sample data (the hand-written airport exercise "Flight to Nowhere" in `reference/scenario-3/` is a good source); the preview is what reviewers see on the Templates page and what the golden image is made from. `assets` maps image slots to files inside the template folder.
 
 A template with variants can give a variant its own sample data, so each golden shows content that fits it (a vendor advisory from a vendor, a planned downtime notice with a scheduled window). `variants.<name>.fields` replaces those top-level fields of `fields` when that variant is previewed; the merged fields must validate too, and the variant must be listed in `meta.json`:
 
@@ -106,23 +106,23 @@ The context has these keys (`derived` is empty for most types, see [Derived valu
 
 ### Helpers
 
-| Helper             | Usage                                        | Result                                                                                       |
-| ------------------ | -------------------------------------------- | -------------------------------------------------------------------------------------------- |
-| `eq`, `ne`         | `{{#if (eq fields.avatarStyle 'initials')}}` | Strict equality / inequality.                                                                |
-| `and`, `or`, `not` | `{{#if (and fields.a fields.b)}}`            | Boolean logic over any number of values.                                                     |
-| `gt`               | `{{#if (gt fields.metrics.likes 1000)}}`     | Numeric greater-than.                                                                        |
-| `inc`              | `{{inc @index}}`                             | Adds one (1-based numbering in `{{#each}}`).                                                 |
-| `default`          | `{{default fields.workspace 'Team'}}`        | Fallback when the value is missing, `null` or empty text.                                    |
-| `upper`, `lower`   | `{{upper fields.status}}`                    | Case conversion.                                                                             |
-| `compact`          | `{{compact fields.metrics.views}}`           | `12400` → `12.4K`. Strings pass through.                                                     |
-| `clock`            | `{{clock fields.durationSec}}`               | `83` → `1:23`. Strings pass through.                                                         |
-| `initials`         | `{{initials fields.displayName}}`            | `Karen Smith` → `KS` (skips words starting with punctuation).                                |
-| `nl2br`            | `{{nl2br fields.narration}}`                 | Escapes, then turns newlines into `<br>`.                                                    |
-| `social`           | `{{social fields.text}}`                     | Escapes, highlights `#hashtags` and `@mentions` as `<span class="link">`, keeps line breaks. |
-| `join`             | `{{join fields.tags ', '}}`                  | Joins a list.                                                                                |
-| `json`             | `{{json fields}}`                            | JSON text (debugging).                                                                       |
-| `times`            | `{{#times 5}}…{{/times}}`                    | Repeats a block, with `@index`.                                                              |
-| `t`                | `{{t 'what_to_do' 'What should I do?'}}`     | Template chrome in the document language (see Translation); the English text when no label.  |
+| Helper             | Usage                                        | Result                                                                                                      |
+| ------------------ | -------------------------------------------- | ----------------------------------------------------------------------------------------------------------- |
+| `eq`, `ne`         | `{{#if (eq fields.avatarStyle 'initials')}}` | Strict equality / inequality.                                                                               |
+| `and`, `or`, `not` | `{{#if (and fields.a fields.b)}}`            | Boolean logic over any number of values.                                                                    |
+| `gt`               | `{{#if (gt fields.metrics.likes 1000)}}`     | Numeric greater-than.                                                                                       |
+| `inc`              | `{{inc @index}}`                             | Adds one (1-based numbering in `{{#each}}`).                                                                |
+| `default`          | `{{default fields.workspace 'Team'}}`        | Fallback when the value is missing, `null` or empty text.                                                   |
+| `upper`, `lower`   | `{{upper fields.status}}`                    | Case conversion.                                                                                            |
+| `compact`          | `{{compact fields.metrics.views}}`           | `12400` → `12.4K`. Strings pass through.                                                                    |
+| `clock`            | `{{clock fields.durationSec}}`               | `83` → `1:23`. Strings pass through.                                                                        |
+| `initials`         | `{{initials fields.displayName}}`            | `Karen Smith` → `KS` (skips words starting with punctuation).                                               |
+| `nl2br`            | `{{nl2br fields.narration}}`                 | Escapes, then turns newlines into `<br>`.                                                                   |
+| `social`           | `{{social fields.text}}`                     | Escapes, highlights `#hashtags` and `@mentions` as `<span class="link">`, keeps line breaks.                |
+| `join`             | `{{join fields.tags ', '}}`                  | Joins a list.                                                                                               |
+| `json`             | `{{json fields}}`                            | JSON text (debugging).                                                                                      |
+| `times`            | `{{#times 5}}…{{/times}}`                    | Repeats a block, with `@index`.                                                                             |
+| `t`                | `{{t 'what_to_do' 'What should I do?'}}`     | Template chrome in the document language (see [Translation](#translation)); the English text when no label. |
 
 Built-in Handlebars blocks (`{{#if}}`, `{{#unless}}`, `{{#each}}`, `{{#with}}`, `{{else if}}`) work as usual.
 
@@ -136,7 +136,7 @@ Players can get an inject in Spanish ([guide](translation-and-accessibility.md))
 
 ### Derived values
 
-Some strings must be exact and are computed, not written: a SAME header, VTEC and UGC lines, CAP times and XML, an ICAO Q line. Templates cannot compute them, so the app does it in main before rendering (`src/main/render/derived/`, one module per inject type) and gives the template a fifth context key, `derived`, beside `fields` (it never replaces a field). Write `{{derived.sameHeader}}`, not your own formatting. Types with derived values: `cap_alert`, `eas_broadcast`, `nws_weather_warning`, `notam`. A pack template of the same type gets the same data; packs cannot add derivation code.
+Some strings must be exact and are computed, not written: a SAME header, VTEC and UGC lines, CAP times and XML, an ICAO Q line. Templates cannot compute them, so the app does it in main before rendering (`src/main/render/derived/`, one module per inject type) and gives the template a fifth context key, `derived`, beside `fields` (it never replaces a field). Write `{{derived.sameHeader}}`, not your own formatting. Types with derived values: `cap_alert`, `eas_broadcast`, `nws_weather_warning`, `notam`, `staffing_grid`. A pack template of the same type gets the same data; packs cannot add derivation code.
 
 ### Figures
 
@@ -192,7 +192,7 @@ Every kind also takes `title`. `x` is a number (minutes from STARTEX, hours) or 
 
 The format checks the toolkits name in `lintRules` (magnitude and intensity labels, alert level and color code pairs, early warning timing limits, tsunami message levels and local or distant timing, aftershock wording, debris-flow rainfall wording) are pure functions in `src/shared/toolkits/geo-lint.ts`; `runGeoLint(text, ruleIds)` runs the ones a toolkit lists.
 
-**In an inject's fields.** Put each figure under `fields.figures.<name>` as `{ kind, data, options? }`. The `figure` inject type (a heading, the figure `main`, its data table) renders a figure as the whole inject: PNG for decks, and a PDF page because it is a paper type, so it embeds in packets like any template. Its seven preview variants are one sample per kind, which is how the goldens cover every kind; the variant does not change how your data is drawn.
+**In an inject's fields.** Put each figure under `fields.figures.<name>` as `{ kind, data, options? }`. The `figure` inject type (a heading, the figure `main`, its data table) renders a figure as the whole inject: PNG for decks, and a PDF page because it is a paper type, so it embeds in packets like any template. Each of its preview variants is one sample of one kind, which is how the goldens cover the kinds; the variant does not change how your data is drawn.
 
 **In a template.** The context gains `figures`, computed in main beside `derived` (`computeFigures` in `figures/index.ts`):
 
@@ -206,7 +206,7 @@ The format checks the toolkits name in `lintRules` (magnitude and intensity labe
 
 `{{{figures.name}}}` prints the SVG (triple braces: it is markup the app made, not field text). `figures.name.summary` is the plain-text summary, `figures.name.table` the rows and `figures.name.tableHtml` the same table as an accessible HTML table (`.fig-table`, styled in `_shared/base.css`; `.sr-only` hides text from the page but not from a screen reader). A bad spec fails the render with a `VALIDATION` error naming `figures.<name>`; nothing half drawn is shipped.
 
-**Accessibility (FR-5 of the toolkits spec).** Each SVG has `role="img"` with the title and the summary as its accessible name and description. The summary names the kind, the key values, the peaks, the threshold crossings and the notes, so it can stand in for the picture: it is the alt text, and the text rendition of a `figure` inject (`export/text-rendition.ts`) is the heading plus each figure's summary, which is what the screen-reader packet reads. Charts carry a data table beside them. Color is never the only cue: series differ by dash and marker, stacked segments and gauge bands by fill pattern, states by symbol and word. Colors come from the design tokens (`figures/theme.ts` mirrors them; the window has no CSS variables).
+**Accessibility.** Each SVG has `role="img"` with the title and the summary as its accessible name and description. The summary names the kind, the key values, the peaks, the threshold crossings and the notes, so it can stand in for the picture: it is the alt text, and the text rendition of a `figure` inject (`export/text-rendition.ts`) is the heading plus each figure's summary, which is what the screen-reader packet reads. Charts carry a data table beside them. Color is never the only cue: series differ by dash and marker, stacked segments and gauge bands by fill pattern, states by symbol and word. Colors come from the design tokens (`figures/theme.ts` mirrors them; the window has no CSS variables).
 
 **Adding a kind.** Write `figures/<kind>.ts` exporting a `FigureKind` (`kind`, a zod `schema`, a pure `render`), call `registerFigureKind` from the module that owns it (the generic kinds register in `figures/index.ts`), add a sample to a preview variant and a unit test that checks the SVG structure, the summary text and the table. Rendering must be deterministic: no random ids, dates or locale-dependent formatting (use the helpers in `figures/svg.ts`). Add a golden by listing a variant in `meta.json` and running `UPDATE_GOLDENS=1 pnpm test:templates`.
 
@@ -338,20 +338,20 @@ Goldens are macOS baselines. Never regenerate one to turn a red test green witho
 
 ## Adding a new inject type end to end
 
-The example below adds a hypothetical `notam` (Notice to Air Missions) type.
+The example below adds a hypothetical `visitor_log` type (a paper sign-in sheet for a site's visitors).
 
 1. **Open an issue** with the **New inject type** template (`.github/ISSUE_TEMPLATE/inject-type.yml`): type id, fields with examples, render path, a real example, export behaviour.
 2. **Taxonomy entry.** Add the type to `INJECT_TYPES` in `src/shared/taxonomy.ts` with its category, render paths, `paper`, and default delivery:
 
    ```ts
-   t('notam', 'NOTAM', 'documents', ['template'], { paper: true }),
+   t('visitor_log', 'Visitor log', 'documents', ['template'], { paper: true }),
    ```
 
-   Add the row to the matching table in [docs/03-INJECT-TAXONOMY.md](../03-INJECT-TAXONOMY.md).
+   Add the row to the matching table in the [inject taxonomy](../03-INJECT-TAXONOMY.md).
 
-3. **Fallbacks.** In `src/main/generate/injects/type-map.ts`, add `notam` to `TYPE_FALLBACKS` (the closest template-backed types, best first, used when a template is missing) and, if other types should fall back to it, add it to their lists. If the type might ship without a template, add a `KEY_FIELDS` entry so the model knows which fields to write.
-4. **Template folder.** Create `templates/injects/notam/` with `meta.json` (`"type": "notam"`, `"paper": true`, 816 × 1056), `schema.json` (descriptions and examples on every field, `additionalProperties: false`), `preview.json` (realistic data that validates), `template.html` and `style.css`.
-5. **Look at it:** `pnpm dev` → **Templates**, then `pnpm build:app && pnpm test:templates`. The golden test fails with a missing golden; inspect `.tmp/golden-diff/notam--default.actual.png` and copy it to `templates/injects/notam/__golden__/default.png`.
+3. **Fallbacks.** In `src/main/generate/injects/type-map.ts`, add `visitor_log` to `TYPE_FALLBACKS` (the closest template-backed types, best first, used when a template is missing) and, if other types should fall back to it, add it to their lists. If the type might ship without a template, add a `KEY_FIELDS` entry so the model knows which fields to write.
+4. **Template folder.** Create `templates/injects/visitor_log/` with `meta.json` (`"type": "visitor_log"`, `"paper": true`, 816 × 1056), `schema.json` (descriptions and examples on every field, `additionalProperties: false`), `preview.json` (realistic data that validates), `template.html` and `style.css`.
+5. **Look at it:** `pnpm dev` → **Templates**, then `pnpm build:app && pnpm test:templates`. The golden test fails with a missing golden; inspect `.tmp/golden-diff/visitor_log--default.actual.png` and copy it to `templates/injects/visitor_log/__golden__/default.png`.
 6. **Run local CI** (`pnpm ci:local`), which lints, type-checks, runs the unit tests (including the taxonomy schema tests) and the template goldens, then open a PR with the rendered PNG attached.
 
 ### Checklist
@@ -366,10 +366,10 @@ The example below adds a hypothetical `notam` (Notice to Air Missions) type.
 
 ## Sharing a template in a pack
 
-A template can be shared with other users in a pack (`.aspack`; installing and exporting packs is covered in the [Packs guide](packs.md), the format in [docs/packs-format.md](../packs-format.md)). The app refuses a pack template that fails the checks above: no scripts, no event handler attributes, no remote URLs, no CSS `@import`, no triple-stash and no partials. Its `schema.json` may only use simple `pattern`s (anchored with `^`, single characters or classes with at most one repeat, like every built-in schema) and no `patternProperties` or `format`; the same rule applies to your own and project templates when they load. A type that is not in the built-in taxonomy also needs a `taxonomy` block in `meta.json`. Before publishing, validate the archive with the same reader the app uses:
+A template can be shared with other users in a pack (`.aspack`; installing and exporting packs is covered in the [Packs guide](packs.md), the format in [Pack and catalog formats](../packs-format.md)). The app refuses a pack template that fails the checks above: no scripts, no event handler attributes, no remote URLs, no CSS `@import`, no triple-stash and no partials. Its `schema.json` may only use simple `pattern`s (anchored with `^`, single characters or classes with at most one repeat, like every built-in schema) and no `patternProperties` or `format`; the same rule applies to your own and project templates when they load. A type that is not in the built-in taxonomy also needs a `taxonomy` block in `meta.json`. Before publishing, validate the archive with the same reader the app uses:
 
 ```
 node scripts/pack-validate.mjs my-pack-1.0.0.aspack
 ```
 
-It prints `ok`, or one line per problem naming the file inside the pack, and exits 1 when anything is wrong. While the checkout's `package.json` version is older than 0.3.0, add `--app-version 0.3.0` so a pack that needs 0.3.0 is not refused for that alone.
+It prints `ok`, or one line per problem naming the file inside the pack, and exits 1 when anything is wrong.

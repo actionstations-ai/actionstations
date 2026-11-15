@@ -23,13 +23,6 @@ The **Map** tab beside the timeline draws delivered rows (filled), due rows (fil
 a number. Selecting a pin selects the row, and the **Locations** list under the map gives the same
 information as text for keyboard and screen reader use.
 
-### Map on devices
-
-While a live session runs, the Map tab has a **Map on devices** checkbox. Each phone then gets the map
-with only the places of messages that reached that seat, sent to that device alone. A site plan arrives
-as a sealed picture; a geographic map arrives as a schematic with coordinates, with no tiles fetched by
-the phone. See [Live play](live-play.md).
-
 ## Geographic maps and map data
 
 **Add map** makes a map pinned by latitude and longitude. Its map data is one of:
@@ -97,17 +90,17 @@ carries copied map data is distributing a Produced Work and must keep its attrib
 ## Map on devices
 
 During a live session, tick **Map on devices** on the Facilitate Map tab. Each phone gets the map
-with only the places of messages that reached its seat; places appear as you send messages and
-disappear if you withdraw one. A site plan shows its picture with numbered places. A geographic
-map shows the places as a schematic with coordinates (the phone page has no street map). Untick
-the box to take the map off the phones.
+with only the places of messages that reached its seat, sent to that device alone; places appear as
+you send messages and disappear if you withdraw one. A site plan arrives as a sealed picture with
+numbered places. A geographic map shows the places as a schematic with coordinates: the phone page
+has no street map and fetches no tiles. Untick the box to take the map off the phones. See
+[Live play](live-play.md).
 
 ## Place names on offline maps
 
 Offline vector maps name places, roads and water in Latin script. The font is Noto Sans (Latin
 ranges only), bundled in the app under the SIL Open Font License; the licence text is
-included with the app. Names in other scripts are left out until
-more font ranges are bundled.
+included with the app. Names in other scripts are not shown.
 
 ## Locations pages for geographic maps
 
@@ -115,11 +108,6 @@ The MSEL and handbook exports add a Locations page for each geographic map the M
 are numbered and plotted by latitude and longitude on a plain frame, with the coordinates in the
 legend. The page has no street map; print the map from the Maps page if you need one. A map with
 overlays also gets a page when no place is used (see Overlays above).
-
-## Not yet
-
-The WebGL check on packaged Linux and Windows builds, and a street map picture on exported
-Locations pages for geographic maps.
 
 ## Map updates
 

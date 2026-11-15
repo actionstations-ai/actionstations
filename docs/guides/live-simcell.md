@@ -23,7 +23,7 @@ An attacker speaks only through the channels the MSEL gives it and never explain
 
 ## Checking the model
 
-Open **Settings > Providers** or the **SimCell** tab in Facilitate. **Check now** runs eight short probes against the model routed to **SimCell replies** (it uses **Drafting** when you have not set one). The result is saved for that provider and model.
+Open **Providers** or the **SimCell** tab in Facilitate. **Check now** runs eight short probes against the model routed to **SimCell replies** (it uses **Drafting** when you have not set one). The result is saved for that provider and model.
 
 | Result                 | What it means                                                                                        |
 | ---------------------- | ---------------------------------------------------------------------------------------------------- |

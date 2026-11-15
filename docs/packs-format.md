@@ -1,6 +1,6 @@
 # Pack and catalog formats
 
-Status: format versions 1, 2 and 3 (format 2 adds regulations and frameworks; format 3 adds toolkits)
+Format versions: 1, 2 and 3 (format 2 adds regulations and frameworks; format 3 adds toolkits).
 
 A **pack** is a zip archive named `<id>-<version>.aspack` with a `pack.json` manifest at its root. It carries content for Action Stations: inject templates, prompts, domain profiles, ComfyUI workflows, reference documents, example projects, (format 2) regulatory reporting rules and control frameworks, and (format 3) toolkits of field expertise. A **catalog** is a JSON index (`index.json`) listing packs and where to download them. The official catalog is `https://actionstations.ai/packs/index.json`; anyone can publish another one. Installing and exporting packs in the app is covered in the [Packs guide](guides/packs.md).
 
@@ -204,7 +204,7 @@ Pack authors can check their templates' goldens with the app's renderer: it rend
 }
 ```
 
-A complete pack with every kind is in [`tests/fixtures/packs/freight-rail.pack.json`](../tests/fixtures/packs/freight-rail.pack.json).
+A complete manifest with every kind is [freight-rail.pack.json](https://github.com/actionstations-ai/actionstations/blob/main/tests/fixtures/packs/freight-rail.pack.json) in the app repository.
 
 ## Regulations and frameworks (format 2)
 
@@ -420,7 +420,7 @@ For developers adding a field, the app has three registries, each keyed by id: m
 
 ## Credit and endorsements
 
-`contributors` credits everyone who made a pack, including translators and reviewers; `author` stays required and is the credited owner. The Packs screen shows the author, "and N contributors" and the full list with roles in the details, and Browse search matches contributor names. `author.email` is for the maintainer's use: the catalog builder drops it and the site never prints it.
+`contributors` credits everyone who made a pack, including translators and reviewers; `author` stays required and is the credited owner. The Packs screen shows the author, "and N contributors" and the full list with roles in the details, and search on **Discover** matches contributor names. `author.email` is for the maintainer's use: the catalog builder drops it and the site never prints it.
 
 Catalog entries may also carry `contributors`, `source` (`official` or `community`, informational), `review` (`reviewedAt`, `appVersion`) and `endorsements` (`thumbsUp`, `usedBy`, `url`, `asOf`). Endorsements are GitHub thumbs-up reactions on the pack's issue in `actionstations-ai/packs`, read by the maintainer when the catalog is built, plus a curated count of organizations that confirmed using the pack. The app never fetches counts itself and never sorts by them. The app derives the **Official** label from the id prefix `ai.actionstations.`; every other id shows **Community**, whatever a catalog says. Older apps ignore all of these fields, so `formatVersion` and `catalogVersion` stay 1.
 
@@ -428,7 +428,7 @@ Community packs are shared through the issue form at https://github.com/actionst
 
 ## Catalog index.json
 
-Served as static JSON (GitHub Pages for the official one). The app fetches it only for catalog URLs the user added, and only when the user opens Browse or presses Refresh.
+Served as static JSON (GitHub Pages for the official one). The app fetches it only for catalog URLs the user added, and only when the user opens **Discover** or presses Refresh.
 
 | Field                                              | Type     | Required                                | Rules                                                                |
 | -------------------------------------------------- | -------- | --------------------------------------- | -------------------------------------------------------------------- |
@@ -456,7 +456,7 @@ Several versions of one pack may be listed; the app offers, among the versions w
 
 An entry whose `url` is on this computer or the local network (loopback, `localhost` and `*.localhost`, `0.0.0.0`, private and link-local IPv4 and IPv6 addresses, written as literals) is skipped unless the catalog itself was served from such an address (after redirects): a catalog on the internet cannot make Install send a request to a local service such as ComfyUI, LM Studio or Ollama.
 
-How the app fetches: catalog URLs live in `settings.json` (`packs.catalogs`, empty by default; added in Settings → Pack catalogs). `index.json` is fetched only on an explicit Refresh or when Browse opens, with a 5 MB cap counted on the received bytes, a 30 s idle timeout and at most 5 redirects, each of which must pass the same https rule (and may not move from a remote host to this computer or the local network). The last good copy is kept in `userData/packs/catalogs/<sha256 of the URL>.json` for offline display, and each catalog records `lastFetchedAt` / `lastError`. An archive download streams into `userData/packs/.staging/`, capped at the entry's `size` (200 MB for Install from URL), hashed while streaming, and removed on a sha256 mismatch, timeout or cancel.
+How the app fetches: catalog URLs live in `settings.json` (`packs.catalogs`, empty by default; added in Settings → Pack catalogs). `index.json` is fetched only on an explicit Refresh or when **Discover** opens, with a 5 MB cap counted on the received bytes, a 30 s idle timeout and at most 5 redirects, each of which must pass the same https rule (and may not move from a remote host to this computer or the local network). The last good copy is kept in `userData/packs/catalogs/<sha256 of the URL>.json` for offline display, and each catalog records `lastFetchedAt` / `lastError`. An archive download streams into `userData/packs/.staging/`, capped at the entry's `size` (200 MB for Install from URL), hashed while streaming, and removed on a sha256 mismatch, timeout or cancel.
 
 <!-- example:catalog -->
 
@@ -505,12 +505,13 @@ How the app installs. Nothing here uses the network: a URL or catalog install ta
 
 ## Bundled packs
 
-The app's own content is packs too, built from the repo at build time and shipped with the app. They use this format, are validated by the same reader, and are listed on the Packs screen under **Included with the app** with source `{ "kind": "bundled" }`.
+The app's own content is packs too, built from the repo at build time and shipped with the app. They use this format, are validated by the same reader, and are listed on the Packs screen (**Your packs**, under **Included with the app**) with source `{ "kind": "bundled" }`.
 
-| Pack                                  | Contents                                                                                                                          |
-| ------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------- |
-| `ai.actionstations.core`              | the inject templates no domain owns, every prompt, the default ComfyUI workflows, the `generic` domain, cross-sector documents    |
-| `ai.actionstations.<domain>` (12 now) | the domain profile, the templates whose taxonomy `domains` name only that domain, domain prompts, the domain's example, documents |
+| Pack                                                                                  | Contents                                                                                                                                                                                  |
+| ------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `ai.actionstations.core`                                                              | the inject templates no domain owns, every prompt, the default ComfyUI workflows, the `generic` domain, cross-sector documents                                                            |
+| `ai.actionstations.<domain>`                                                          | the domain profile, the templates whose taxonomy `domains` name only that domain, domain prompts, the domain's example, documents; some also carry their field's toolkits and regulations |
+| toolkit packs (`ai.actionstations.weather`, `ai.actionstations.toolkit-logistics`, …) | toolkits and the inject templates they add, for any domain                                                                                                                                |
 
 ### packs/bundled.json
 
@@ -552,7 +553,7 @@ out/bundled-packs/                 → app-resources/packs/ in a release (electr
 
 ## Reference documents and library packs
 
-Reference documents are pinned in `packs/documents/manifest.json` (schema `DocumentsManifest`), transcribed from section 9 of each research dossier (`docs/research/domains/`). The core pack carries the cross-sector set (HSEEP doctrine and templates, NIMS, CPG 101, the ICS forms and similar) inside the installer. Every domain's documents go into a catalog-only `ai.actionstations.<domain>-library` pack that is never bundled. The repository commits the core documents under `packs/documents/core/` and nothing of the libraries.
+Reference documents are pinned in `packs/documents/manifest.json` (schema `DocumentsManifest`). The core pack carries the cross-sector set (HSEEP doctrine and templates, NIMS, CPG 101, the ICS forms and similar) inside the installer. Every domain's documents go into a catalog-only `ai.actionstations.<domain>-library` pack that is never bundled. The repository commits the core documents under `packs/documents/core/` and nothing of the libraries.
 
 | Manifest field                  | Rules                                                                                                                                                                                                                                                                                                                                                                      |
 | ------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -626,25 +627,10 @@ The example copy uses the `examples:open` filter (no `index.sqlite*`, no `.cache
 
    This uses `PackCatalog`: any invalid or duplicate entry fails, unlike the app, which skips bad entries.
 
-4. Open a pull request to the site repository adding `packs/files/<id>-<version>.aspack`. The maintainer runs the site's local build from a checkout of this repository (after `pnpm install`). The build validates every archive with step 1, regenerates `packs/index.json` from step 2 and checks the result with step 3. There is no CI service.
+4. Open a pull request to the site repository adding `packs/files/<id>-<version>.aspack`. The maintainer runs the site's local build from a checkout of this repository (after `pnpm install`). The build validates every archive with step 1, regenerates `packs/index.json` from step 2 and checks the result with step 3.
 
 5. Reference documents must be redistributable: each `documents[]` entry names its license, and the reviewer checks it before merging.
 
 The script needs Node 20 or later and the repository's dev dependencies, not Electron. On first use, and whenever a source under `src/` changes, it bundles the reader with Vite into `node_modules/.cache/pack-validate/`, with a stub in place of `electron`.
 
-## Compatibility with the draft of 2026-10-23
-
-The website was started against a draft of this format. Differences:
-
-- `id`: at least two dot-separated labels; labels start and end with a letter or digit (`a..b`, `-a.b` and single labels are refused).
-- `version`, `minAppVersion`: no build metadata (`1.0.0+5`).
-- `contents`: every key optional (defaults to empty); unknown keys are refused; at least one item.
-- `documents[]`: `license` and `title` are required; every file under `documents/` needs an entry.
-- `files[]`: lists every archive file except `pack.json`, `size` required; no extra or missing archive entries.
-- `homepage` added to `pack.json` (optional).
-- Catalog entry: `formatVersion` added (optional, default 1); `url` must be https; `kinds` non-empty; `id`+`version` unique, several versions allowed. Catalog `homepage` added (optional).
-- Folders: workflows need their `<id>.bindings.json`; examples need `project/project.json`; no SVG anywhere; the only template HTML file is `template.html`.
-- Format 2: `formatVersion` may be `2`; `contents` gains `regulations` and `frameworks`; folders `regulations/` and `frameworks/` (flat `<id>.json`). See [Regulations and frameworks](#regulations-and-frameworks-format-2).
-- Format 3: `formatVersion` may be `3`; `contents` gains `toolkits`; folder `toolkits/` (flat `<id>.json`). See [Toolkits](#toolkits-format-3).
-
-Exercise bundles for regional exercises (`.asexercise`) reuse these archive rules and add a signature; see [exercise-bundle-format.md](exercise-bundle-format.md).
+Exercise bundles for regional exercises (`.asexercise`) reuse these archive rules and add a signature; see [Exercise bundle format](exercise-bundle-format.md).
