@@ -178,8 +178,6 @@ ul.pack-callout {
 /* ---- Store layout (#1152) ---------------------------------------------------------------- */
 
 .pack-icon {
-  --icon-bg: var(--store-general-bg);
-  --icon-fg: var(--store-general-fg);
   display: inline-grid;
   place-items: center;
   flex: none;
@@ -187,8 +185,8 @@ ul.pack-callout {
   height: 3rem;
   border-radius: var(--radius-lg);
   border: var(--border-width) solid var(--color-border-strong);
-  background: var(--icon-bg);
-  color: var(--icon-fg);
+  background: var(--store-general-bg);
+  color: var(--store-general-fg);
   font-weight: var(--weight-semibold);
   font-size: var(--text-lg);
   letter-spacing: 0.02em;
@@ -199,36 +197,36 @@ ul.pack-callout {
   font-size: var(--text-2xl);
 }
 .pack-icon[data-category='transportation'] {
-  --icon-bg: var(--store-transportation-bg);
-  --icon-fg: var(--store-transportation-fg);
+  background: var(--store-transportation-bg);
+  color: var(--store-transportation-fg);
 }
 .pack-icon[data-category='infrastructure'] {
-  --icon-bg: var(--store-infrastructure-bg);
-  --icon-fg: var(--store-infrastructure-fg);
+  background: var(--store-infrastructure-bg);
+  color: var(--store-infrastructure-fg);
 }
 .pack-icon[data-category='health'] {
-  --icon-bg: var(--store-health-bg);
-  --icon-fg: var(--store-health-fg);
+  background: var(--store-health-bg);
+  color: var(--store-health-fg);
 }
 .pack-icon[data-category='public-safety'] {
-  --icon-bg: var(--store-public-safety-bg);
-  --icon-fg: var(--store-public-safety-fg);
+  background: var(--store-public-safety-bg);
+  color: var(--store-public-safety-fg);
 }
 .pack-icon[data-category='hazards'] {
-  --icon-bg: var(--store-hazards-bg);
-  --icon-fg: var(--store-hazards-fg);
+  background: var(--store-hazards-bg);
+  color: var(--store-hazards-fg);
 }
 .pack-icon[data-category='government'] {
-  --icon-bg: var(--store-government-bg);
-  --icon-fg: var(--store-government-fg);
+  background: var(--store-government-bg);
+  color: var(--store-government-fg);
 }
 .pack-icon[data-category='business'] {
-  --icon-bg: var(--store-business-bg);
-  --icon-fg: var(--store-business-fg);
+  background: var(--store-business-bg);
+  color: var(--store-business-fg);
 }
 .pack-icon[data-category='information'] {
-  --icon-bg: var(--store-information-bg);
-  --icon-fg: var(--store-information-fg);
+  background: var(--store-information-bg);
+  color: var(--store-information-fg);
 }
 
 .pack-pill {
