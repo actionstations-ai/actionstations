@@ -235,7 +235,7 @@ A valid pack prints `my-pack-1.0.0.aspack: ok (<id> <version>, <n> files, sha256
 The `minAppVersion` check compares with the version in the checkout's `package.json`. To check against another app version, add `--app-version`:
 
 ```bash
-node scripts/pack-validate.mjs my-pack-1.0.0.aspack --app-version 0.8.0
+node scripts/pack-validate.mjs my-pack-1.0.0.aspack --app-version 0.8.1
 ```
 
 The script also prints a pack's catalog entry (`--catalog-entry --url <base-url>`) and checks a whole catalog (`--catalog index.json`); see [Publishing to the official catalog](../packs-format.md#publishing-to-the-official-catalog). Template authors can also check a pack's template previews against golden images (see [Template authoring](templates.md#sharing-a-template-in-a-pack)).
